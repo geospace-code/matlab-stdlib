@@ -1,7 +1,7 @@
 % test our custom high-level NetCDF4 interface
 
 A0 = 42.;
-A1 = [42., 43.];
+A1 = [42.; 43.];
 A2 = magic(4);
 A3 = A2(:,1:3,1);
 A3(:,:,2) = 2*A3;
@@ -40,6 +40,21 @@ assert(isvector(s) && isequal(s, [4,3,2]), 'A3 shape')
 
 s = ncsize(basic, 'A4');
 assert(isvector(s) && isequal(s, [4,3,2,5]), 'A4 shape')
+%% test_read
+s = ncread(basic, '/A0');
+assert(isscalar(s) && s==42, 'A0 read')
+
+s = ncread(basic, '/A1');
+assert(isvector(s) && isequal(s, A1), 'A1 read')
+
+s = ncread(basic, '/A2');
+assert(ismatrix(s) && isequal(s, A2), 'A2 read')
+
+s = ncread(basic, '/A3');
+assert(ndims(s)==3 && isequal(s, A3), 'A3 read')
+
+s = ncread(basic, '/A4');
+assert(ndims(s)==4 && isequal(s, A4), 'A4 read')
 %% test_coerce
 ncsave(basic, 'int32', A0, [], 'int32')
 ncsave(basic, 'int64', A0, [], 'int64')
