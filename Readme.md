@@ -56,3 +56,23 @@ The NetCDF4 functions also work with GNU Octave when octave-netcdf is installed.
     ```matlab
     ncvariables(filename)
     ```
+
+## General utilities
+
+* check if a file exists, and is a file (not a folder). Works with very old Matlab and Octave using fallback.
+
+    ```matlab
+    is_file(filename)
+    ```
+
+* Check if running on GNU Octave
+
+    ```matlab
+    isoctave()
+    ```
+
+* expand a leading tilde to the current user home directory
+
+    ```matlab
+    expanduser(path)
+    ```
