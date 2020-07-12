@@ -2,6 +2,9 @@ function h5save(filename, varname, A, sizeA, dtype)
 
 narginchk(3, 5)
 
+% Matlab can't cope with tilde in many cases, especially on Windows
+filename = expanduser(filename);
+
 if nargin < 4 || isempty(sizeA)
   if isvector(A)
     sizeA = length(A);
@@ -17,8 +20,6 @@ if ischar(A)
   A = string(A);
   sizeA = size(A);
 end
-
-
 
 if h5exists(filename, varname)
   exist_file(filename, varname, A, sizeA)
@@ -54,24 +55,18 @@ end % function
 
 function new_file(filename, varname, A, sizeA)
 
-if ~ismatrix(A)
+if isvector(A)
+  h5create(filename, varname, sizeA, 'DataType', class(A))
+else
   % enable Gzip compression--remember Matlab's dim order is flipped from
   % C / Python
-  switch length(sizeA)
-    case 4, chunksize = [sizeA(1), sizeA(2), 1, sizeA(4)];
-    case 3, chunksize = [sizeA(1), sizeA(2), 1];
-    otherwise, error('h5save:fixme', '%s is bigger than 4 dims', varname)
-  end
   h5create(filename, varname, sizeA, 'DataType', class(A), ...
-    'Deflate', 1, 'Fletcher32', true, 'Shuffle', true, 'ChunkSize', chunksize)
-else
-  h5create(filename, varname, sizeA, 'DataType', class(A))
+    'Deflate', 1, 'Fletcher32', true, 'Shuffle', true, 'ChunkSize', auto_chunk_size(sizeA))
 end % if
 
 h5write(filename, varname, A)
 
 end % function
-
 
 
 % Copyright 2020 Michael Hirsch, Ph.D.

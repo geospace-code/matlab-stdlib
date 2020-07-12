@@ -9,7 +9,10 @@ A4(:,:,:,5) = A3;
 
 basic = fullfile(tempdir, 'basic.h5');
 if is_file(basic), delete(basic), end
-
+%% test_auto_chunk_size
+assert(isequal(auto_chunk_size([1500,2500,1000,500,100]), [12,20,8,8,2]), '5D chunk fail')
+assert(isequal(auto_chunk_size([15,250,100]), [2,32,25]), '3D chunk fail')
+assert(isequal(auto_chunk_size([15,250]), [15,250]), '2D small chunk fail')
 %% test_write_basic
 h5save(basic, '/A0', A0)
 h5save(basic, '/A1', A1)

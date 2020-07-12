@@ -9,6 +9,8 @@ function fsize = ncsize(filename, varname)
 narginchk(2,2)
 validateattributes(varname, {'char'}, {'vector'}, 2)
 
+filename = expanduser(filename);
+
 vinf = ncinfo(filename, varname);
 fsize = vinf.Size;
 

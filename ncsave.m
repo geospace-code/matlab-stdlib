@@ -2,6 +2,8 @@ function ncsave(filename, varname, A, ncdims, dtype)
 
 narginchk(3, 5)
 
+filename = expanduser(filename);
+
 if nargin >= 4 && ~isempty(ncdims)
   for i = 2:2:length(ncdims)
     sizeA(i/2) = ncdims{i};
@@ -37,22 +39,11 @@ end
 
 if any(strcmp(vars, varname))
   exist_file(filename, varname, A, sizeA)
-% catch excp
-%   if any(strcmp(excp.identifier, {'MATLAB:imagesci:netcdf:unableToOpenFileforRead', 'MATLAB:imagesci:netcdf:unknownLocation'}))
-%     % pass Matlab
-%   elseif any(strcmp(excp.message, {'No such file or directory', 'NetCDF: Variable not found'}))
-%     % pass Octave
-%   else
-%     disp(['failed create ', varname])
-%     rethrow(excp)
-%   end
 else
   new_file(filename, varname, A, sizeA, ncdims)
 end
 
 end % function
-
-
 
 
 function exist_file(filename, varname, A, sizeA)
@@ -76,20 +67,15 @@ narginchk(5,5)
 
 if isscalar(A)
   nccreate(filename, varname, 'Datatype', class(A), 'Format', 'netcdf4')
-elseif isvector(A) || ismatrix(A)
+elseif isvector(A)
   nccreate(filename, varname, 'Dimensions', ncdims, 'Datatype', class(A), 'Format', 'netcdf4')
 else
   % enable Gzip compression--remember Matlab's dim order is flipped from
   % C / Python
-  switch length(sizeA)
-    case 4, chunksize = [sizeA(1), sizeA(2), 1, sizeA(4)];
-    case 3, chunksize = [sizeA(1), sizeA(2), 1];
-    otherwise, error('ncsave:fixme', '%s is bigger than 4 dims', varname)
-  end
   % "Datatype" to be Octave case-sensitive keyword compatible
   nccreate(filename, varname, 'Dimensions', ncdims, ...
     'Datatype', class(A), ...
-    'DeflateLevel', 1, 'Shuffle', true, 'ChunkSize', chunksize, 'Format', 'netcdf4')
+    'DeflateLevel', 1, 'Shuffle', true, 'ChunkSize', auto_chunk_size(sizeA), 'Format', 'netcdf4')
 end
 
 ncwrite(filename, varname, A)

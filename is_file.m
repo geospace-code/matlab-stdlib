@@ -12,11 +12,10 @@ path = expanduser(path);
 try
   ret = isfile(path);
 catch excp
-  if any(strcmp(excp.identifier, {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}))
-    ret = exist(path, 'file') == 2;
-  else
+  if ~any(strcmp(excp.identifier, {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}))
     rethrow(excp)
   end
+  ret = exist(path, 'file') == 2;
 end
 
 end % function
