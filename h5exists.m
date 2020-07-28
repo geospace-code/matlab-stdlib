@@ -7,15 +7,9 @@ function exists = h5exists(filename, varname)
 % exists: boolean
 
 narginchk(2,2)
+validateattributes(filename, {'char'}, {'vector'}, 1)
 validateattributes(varname, {'char'}, {'vector'}, 2)
 
-filename = expanduser(filename);
-
-vars = {};
-if is_file(filename)
-  vars = h5variables(filename);
-end
-
-exists = any(strcmp(vars, varname(2:end)));
+exists = any(strcmp(h5variables(filename), varname(2:end)));
 
 end % function

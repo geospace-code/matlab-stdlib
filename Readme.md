@@ -2,8 +2,10 @@
 
 ![ci](https://github.com/scivision/matlab-hdf5/workflows/ci/badge.svg)
 
-These functions are sorely needed in Matlab itself.
-The NetCDF4 functions also work with GNU Octave when octave-netcdf is installed.
+These HDF5 and NetCDF4 functions should be built into Matlab itself, but since they're not yet, we provide them.
+The NetCDF4 functions also work with GNU Octave when
+[octave-netcdf](https://octave.sourceforge.io/netcdf/index.html)
+is installed.
 
 ## hdf5
 
@@ -58,12 +60,6 @@ The NetCDF4 functions also work with GNU Octave when octave-netcdf is installed.
     ```
 
 ## General utilities
-
-* check if a file exists, and is a file (not a folder). Works with very old Matlab and Octave using fallback.
-
-    ```matlab
-    is_file(filename)
-    ```
 
 * Check if running on GNU Octave
 

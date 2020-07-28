@@ -7,8 +7,7 @@ A3 = A2(:,1:3,1);
 A3(:,:,2) = 2*A3;
 A4(:,:,:,5) = A3;
 
-basic = fullfile(tempdir, 'basic.h5');
-if is_file(basic), delete(basic), end
+basic = [tempname, '.h5'];
 %% test_auto_chunk_size
 assert(isequal(auto_chunk_size([1500,2500,1000,500,100]), [12,20,8,8,2]), '5D chunk fail')
 assert(isequal(auto_chunk_size([15,250,100]), [2,32,25]), '3D chunk fail')

@@ -7,15 +7,9 @@ function exists = ncexists(filename, varname)
 % exists: boolean
 
 narginchk(2,2)
+validateattributes(filename, {'char'}, {'vector'}, 1)
 validateattributes(varname, {'char'}, {'vector'}, 2)
 
-filename = expanduser(filename);
-
-vars = {};
-if is_file(filename)
-  vars = ncvariables(filename);
-end
-
-exists = any(strcmp(vars, varname));
+exists = any(strcmp(ncvariables(filename), varname));
 
 end % function

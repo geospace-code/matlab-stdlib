@@ -32,12 +32,8 @@ if nargin >= 5 && ~isempty(dtype)
   A = coerce_ds(A, dtype);
 end
 
-vars = {};
-if is_file(filename)
-  vars = ncvariables(filename);
-end
 
-if any(strcmp(vars, varname))
+if isfile(filename) && ncexists(filename, varname)
   exist_file(filename, varname, A, sizeA)
 else
   new_file(filename, varname, A, sizeA, ncdims)

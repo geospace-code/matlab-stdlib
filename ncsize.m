@@ -7,11 +7,10 @@ function fsize = ncsize(filename, varname)
 % fsize: vector of variable size per dimension
 
 narginchk(2,2)
+validateattributes(filename, {'char'}, {'vector'}, 1)
 validateattributes(varname, {'char'}, {'vector'}, 2)
 
-filename = expanduser(filename);
-
-vinf = ncinfo(filename, varname);
+vinf = ncinfo(expanduser(filename), varname);
 fsize = vinf.Size;
 
 % Octave compatibility

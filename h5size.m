@@ -7,6 +7,7 @@ function fsize = h5size(filename, variable)
 % fsize: vector of variable size per dimension
 
 narginchk(2,2)
+validateattributes(filename, {'char'}, {'vector'}, 1)
 validateattributes(variable, {'char'}, {'vector'}, 2)
 
 finf = h5info(expanduser(filename), variable);

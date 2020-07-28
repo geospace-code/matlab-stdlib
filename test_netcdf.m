@@ -7,8 +7,7 @@ A3 = A2(:,1:3,1);
 A3(:,:,2) = 2*A3;
 A4(:,:,:,5) = A3;
 
-basic = fullfile(tempdir, 'basic.nc');
-if is_file(basic), delete(basic), end
+basic = [tempname, '.nc'];
 
 if isoctave
   pkg('load','netcdf')

@@ -21,7 +21,7 @@ if ischar(A)
   sizeA = size(A);
 end
 
-if h5exists(filename, varname)
+if isfile(filename) && h5exists(filename, varname)
   exist_file(filename, varname, A, sizeA)
 else
   new_file(filename, varname, A, sizeA)
