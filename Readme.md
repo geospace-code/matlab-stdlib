@@ -7,7 +7,7 @@ The NetCDF4 functions also work with GNU Octave when
 [octave-netcdf](https://octave.sourceforge.io/netcdf/index.html)
 is installed.
 
-## hdf5
+## HDF5
 
 * Check that a dataset exists in file:
 
@@ -15,7 +15,7 @@ is installed.
     h5exists(filename, dataset_name)
     ```
 
-* Save a varable to a dataset. If dataset exists, the existing dataset shape must match the variable.
+* Save a variable to a dataset. If dataset exists, the existing dataset shape must match the variable.
 
     ```matlab
     h5save(filename, dataset_name, dataset)
@@ -33,7 +33,7 @@ is installed.
     h5variables(filename)
     ```
 
-### netcdf
+## NetCDF4
 
 * Check that a variable exists in file:
 
@@ -41,7 +41,7 @@ is installed.
     ncexists(filename, variable_name)
     ```
 
-* Save a varable to a dataset. If dataset exists, the existing dataset shape must match the variable.
+* Save a variable to a dataset. If dataset exists, the existing dataset shape must match the variable.
 
     ```matlab
     ncsave(filename, variable_name, variable)
@@ -72,3 +72,15 @@ is installed.
     ```matlab
     expanduser(path)
     ```
+
+## unit tests
+
+The files
+[test_hdf5.m](./test_hdf5.m)
+and
+[test_netcdf.m](./test_netcdf.m)
+are meant to be each run serially.
+That is, if using Matlab
+[runtests](https://www.mathworks.com/help/matlab/ref/runtests.html)
+don't use
+['UseParallel', true](https://www.mathworks.com/help/parallel-computing/run-matlab-functions-with-automatic-parallel-support.html).
