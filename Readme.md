@@ -1,6 +1,8 @@
 # Matlab HDF5 and NetCDF4 high-level functions
 
 ![ci](https://github.com/scivision/matlab-hdf5/workflows/ci/badge.svg)
+[![DOI](https://zenodo.org/badge/273830124.svg)](https://zenodo.org/badge/latestdoi/273830124)
+[![View matlab-hdf5 on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/78673-matlab-hdf5)
 
 These HDF5 and NetCDF4 functions should be built into Matlab itself, but since they're not yet, we provide them.
 The NetCDF4 functions also work with GNU Octave when
