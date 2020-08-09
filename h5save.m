@@ -1,4 +1,7 @@
 function h5save(filename, varname, A, sizeA, dtype)
+% H5SAVE
+% create or append to HDF5 file
+% parent folder (file directory) must already exist
 
 narginchk(3, 5)
 
@@ -31,6 +34,7 @@ end % function
 
 
 function exist_file(filename, varname, A, sizeA)
+narginchk(4,4)
 
 diskshape = h5size(filename, varname);
 if length(diskshape) >= 2
@@ -54,6 +58,10 @@ end % function
 
 
 function new_file(filename, varname, A, sizeA)
+narginchk(4,4)
+
+folder = fileparts(filename);
+assert(isfolder(folder), '%s is not a folder, cannot create %s', folder, filename)
 
 if isvector(A)
   h5create(filename, varname, sizeA, 'DataType', class(A))

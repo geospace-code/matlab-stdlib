@@ -61,6 +61,10 @@ end % function
 function new_file(filename, varname, A, sizeA, ncdims)
 narginchk(5,5)
 
+folder = fileparts(filename);
+assert(isfolder(folder), '%s is not a folder, cannot create %s', folder, filename)
+
+
 if isscalar(A)
   nccreate(filename, varname, 'Datatype', class(A), 'Format', 'netcdf4')
 elseif isvector(A)
