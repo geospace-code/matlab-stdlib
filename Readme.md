@@ -11,6 +11,14 @@ is installed.
 
 ## HDF5
 
+This package is setup as a Matlab package, so we assume you have either:
+
+```matlab
+import hdf5nc.*
+```
+
+or append `hdf5nc.` to each function call.
+
 * Check that a dataset exists in file:
 
     ```matlab
