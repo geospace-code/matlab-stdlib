@@ -17,4 +17,4 @@ jobs:
         sudo apt -yq update
         sudo apt install -yq --no-install-recommends octave octave-netcdf
 
-    - run: octave-cli --eval test_netcdf
+    - run: octave-cli --eval hdf5nc.tests.test_netcdf
