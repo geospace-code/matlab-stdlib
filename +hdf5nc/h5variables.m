@@ -1,12 +1,13 @@
 function [names, groups] = h5variables(filename, group)
 % get dataset names and groups in an HDF5 file
+
 narginchk(1,2)
 
 names = [];
 groups = [];
 
 % use temporary variable to be R2017b OK
-finf = h5info(expanduser(filename));
+finf = h5info(hdf5nc.expanduser(filename));
 ds = finf.Datasets;
 if isempty(ds)
   return

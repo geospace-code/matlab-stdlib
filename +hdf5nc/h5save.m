@@ -5,8 +5,7 @@ function h5save(filename, varname, A, sizeA, dtype)
 
 narginchk(3, 5)
 
-% Matlab can't cope with tilde in many cases, especially on Windows
-filename = expanduser(filename);
+filename = hdf5nc.expanduser(filename);
 
 if nargin < 4 || isempty(sizeA)
   if isvector(A)
@@ -17,14 +16,14 @@ if nargin < 4 || isempty(sizeA)
 end
 
 if nargin >= 5 && ~isempty(dtype)
-  A = coerce_ds(A, dtype);
+  A = hdf5nc.coerce_ds(A, dtype);
 end
 if ischar(A)
   A = string(A);
   sizeA = size(A);
 end
 
-if isfile(filename) && h5exists(filename, varname)
+if isfile(filename) && hdf5nc.h5exists(filename, varname)
   exist_file(filename, varname, A, sizeA)
 else
   new_file(filename, varname, A, sizeA)
@@ -34,9 +33,10 @@ end % function
 
 
 function exist_file(filename, varname, A, sizeA)
+
 narginchk(4,4)
 
-diskshape = h5size(filename, varname);
+diskshape = hdf5nc.h5size(filename, varname);
 if length(diskshape) >= 2
   % start is always a row vector, regardless of shape of array
   start = ones(1,ndims(A));
@@ -69,7 +69,8 @@ else
   % enable Gzip compression--remember Matlab's dim order is flipped from
   % C / Python
   h5create(filename, varname, sizeA, 'DataType', class(A), ...
-    'Deflate', 1, 'Fletcher32', true, 'Shuffle', true, 'ChunkSize', auto_chunk_size(sizeA))
+    'Deflate', 1, 'Fletcher32', true, 'Shuffle', true, ...
+    'ChunkSize', hdf5nc.auto_chunk_size(sizeA))
 end % if
 
 h5write(filename, varname, A)

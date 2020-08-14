@@ -10,7 +10,7 @@ narginchk(2,2)
 validateattributes(filename, {'char'}, {'vector'}, 1)
 validateattributes(variable, {'char'}, {'vector'}, 2)
 
-finf = h5info(expanduser(filename), variable);
+finf = h5info(hdf5nc.expanduser(filename), variable);
 fsize = finf.Dataspace.Size;
 
 end % function

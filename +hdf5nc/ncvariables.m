@@ -3,7 +3,7 @@ function names = ncvariables(filename)
 narginchk(1,1)
 
 % use temporary variable to be R2017b OK
-finf = ncinfo(expanduser(filename));
+finf = ncinfo(hdf5nc.expanduser(filename));
 ds = finf.Variables(:);
 names = {ds(:).Name};
 

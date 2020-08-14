@@ -10,6 +10,6 @@ narginchk(2,2)
 validateattributes(filename, {'char'}, {'vector'}, 1)
 validateattributes(varname, {'char'}, {'vector'}, 2)
 
-exists = any(strcmp(ncvariables(filename), varname));
+exists = any(strcmp(hdf5nc.ncvariables(filename), varname));
 
 end % function

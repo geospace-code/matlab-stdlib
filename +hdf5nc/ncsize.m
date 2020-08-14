@@ -10,7 +10,7 @@ narginchk(2,2)
 validateattributes(filename, {'char'}, {'vector'}, 1)
 validateattributes(varname, {'char'}, {'vector'}, 2)
 
-vinf = ncinfo(expanduser(filename), varname);
+vinf = ncinfo(hdf5nc.expanduser(filename), varname);
 fsize = vinf.Size;
 
 % Octave compatibility

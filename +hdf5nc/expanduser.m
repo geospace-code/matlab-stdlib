@@ -1,4 +1,3 @@
-%!assert(ischar(expanduser('~')))
 function expanded = expanduser(p)
 % expanded = expanduser(path)
 %
@@ -27,14 +26,8 @@ if isempty(p)
   return
 end
 
-validateattributes(p, {'char'}, {'vector'})
-%% GNU Octave
-if isoctave
-  expanded = tilde_expand(p);
-  return
-end
+validateattributes(p, {'char'}, {'vector'}, 1)
 
-%% Matlab
 expanded = p;
 
 if strcmp(expanded(1), '~')
