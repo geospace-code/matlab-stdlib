@@ -5,10 +5,10 @@ function fsize = h5size(filename, variable)
 % variable: name of variable inside HDF5 file
 %
 % fsize: vector of variable size per dimension
-
-narginchk(2,2)
-validateattributes(filename, {'char'}, {'vector'}, 1)
-validateattributes(variable, {'char'}, {'vector'}, 2)
+arguments
+  filename (1,1) string
+  variable (1,1) string
+end
 
 finf = h5info(hdf5nc.expanduser(filename), variable);
 fsize = finf.Dataspace.Size;

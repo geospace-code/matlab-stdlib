@@ -5,10 +5,10 @@ function fsize = ncsize(filename, varname)
 % variable: name of variable inside file
 %
 % fsize: vector of variable size per dimension
-
-narginchk(2,2)
-validateattributes(filename, {'char'}, {'vector'}, 1)
-validateattributes(varname, {'char'}, {'vector'}, 2)
+arguments
+  filename (1,1) string
+  varname (1,1) string
+end
 
 vinf = ncinfo(hdf5nc.expanduser(filename), varname);
 fsize = vinf.Size;

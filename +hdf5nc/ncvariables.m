@@ -1,10 +1,11 @@
 function names = ncvariables(filename)
 % get dataset names and groups in an NetCDF4 file
-narginchk(1,1)
+arguments
+  filename (1,1) string
+end
 
-% use temporary variable to be R2017b OK
 finf = ncinfo(hdf5nc.expanduser(filename));
 ds = finf.Variables(:);
-names = {ds(:).Name};
+names = string({ds(:).Name});
 
 end % function

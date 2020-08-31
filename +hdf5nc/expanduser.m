@@ -1,7 +1,7 @@
 function expanded = expanduser(p)
 % expanded = expanduser(path)
 %
-%   expands tilde ~ into user home directory for Matlab and GNU Octave.
+%   expands tilde ~ into user home directory
 %
 %   Useful for Matlab functions like h5read() and some Computer Vision toolbox functions
 %   that can't handle ~ and Matlab does not consider it a bug per conversations with
@@ -18,38 +18,24 @@ function expanded = expanduser(p)
 %   timeit(f)
 %
 %   See also absolute_path
-
-narginchk(1,1)
-
-if isempty(p)
-  expanded = '';
-  return
+arguments
+  p (1,1) string
 end
-
-validateattributes(p, {'char'}, {'vector'}, 1)
 
 expanded = p;
 
-if strcmp(expanded(1), '~')
+if ~startsWith(expanded, "~")
+  return
+end
 
-  home = [];
-  if isunix
-    home = getenv('HOME');
-  elseif ispc
-    home = getenv('USERPROFILE');
-  end
+if ispc
+  home = getenv('USERPROFILE');
+else
+  home = getenv('HOME');
+end
 
-  if isempty(home)
-    if usejava('jvm')
-      % this is 100x slower than getenv() on Matlab R2020a
-      home = char(java.lang.System.getProperty("user.home"));
-    else
-      % return unmodified
-      return
-    end
-  end
-
-  expanded = fullfile(home, expanded(2:end));
+if ~isempty(home)
+  expanded = fullfile(home, extractAfter(expanded, 1));
 end
 
 end %function

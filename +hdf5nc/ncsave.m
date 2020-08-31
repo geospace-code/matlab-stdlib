@@ -1,10 +1,18 @@
 function ncsave(filename, varname, A, ncdims, dtype)
-
-narginchk(3, 5)
+% NCSAVE
+% create or append to NetCDF4 file
+% parent folder (file directory) must already exist
+arguments
+  filename (1,1) string
+  varname (1,1) string
+  A {mustBeNumeric,mustBeNonempty}
+  ncdims cell = {}
+  dtype (1,1) string = ""
+end
 
 filename = hdf5nc.expanduser(filename);
 
-if nargin >= 4 && ~isempty(ncdims)
+if ~isempty(ncdims)
   for i = 2:2:length(ncdims)
     sizeA(i/2) = ncdims{i};
   end
@@ -28,7 +36,7 @@ else
   end % if
 end
 % coerce if needed
-if nargin >= 5 && ~isempty(dtype)
+if dtype ~= ""
   A = hdf5nc.coerce_ds(A, dtype);
 end
 
@@ -44,8 +52,6 @@ end % function
 
 function exist_file(filename, varname, A, sizeA)
 
-narginchk(4,4)
-
 diskshape = hdf5nc.ncsize(filename, varname);
 
 if all(diskshape == sizeA)
@@ -60,8 +66,6 @@ end % function
 
 
 function new_file(filename, varname, A, sizeA, ncdims)
-
-narginchk(5,5)
 
 folder = fileparts(filename);
 assert(isfolder(folder), '%s is not a folder, cannot create %s', folder, filename)

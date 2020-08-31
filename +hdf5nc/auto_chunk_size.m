@@ -2,8 +2,9 @@ function csize = auto_chunk_size(dims)
 % automatically determine HDF5 / NetCDF4 chunk size.
 % based on https://github.com/h5py/h5py/blob/master/h5py/_hl/filters.py
 % refer to https://support.hdfgroup.org/HDF5/Tutor/layout.html
-narginchk(1,1)
-validateattributes(dims, {'numeric'}, {'vector', 'integer', 'positive'})
+arguments
+  dims (1,:) {mustBeInteger,mustBePositive}
+end
 
 CHUNK_BASE = 16000;  % Multiplier by which chunks are adjusted
 CHUNK_MIN = 8000;    % lower limit: 8 kbyte

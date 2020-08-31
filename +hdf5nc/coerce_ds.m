@@ -1,8 +1,9 @@
 function A = coerce_ds(A, dtype)
 % used by h5save and ncsave
-narginchk(2,2)
-validateattributes(A, {'numeric'}, {'nonempty'},1)
-validateattributes(dtype, {'char'}, {'vector'},2)
+arguments
+  A {mustBeNumeric,mustBeNonempty}
+  dtype (1,1) string
+end
 
 switch dtype
   case {'float64', 'double'}

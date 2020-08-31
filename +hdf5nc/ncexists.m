@@ -1,15 +1,20 @@
-function exists = ncexists(filename, varname)
-% check if variable exists in NetCDF4 file
+function exists = ncexists(filename, varnames)
+% check if variable(s) exists in NetCDF4 file
 %
 % filename: NetCDF4 filename
 % varname: name of variable inside file
 %
 % exists: boolean
+arguments
+  filename (1,1) string
+  varnames (1,:) string
+end
 
-narginchk(2,2)
-validateattributes(filename, {'char'}, {'vector'}, 1)
-validateattributes(varname, {'char'}, {'vector'}, 2)
+vars = hdf5nc.ncvariables(filename);
 
-exists = any(strcmp(hdf5nc.ncvariables(filename), varname));
+exists = false(size(varnames));
+for i = 1:length(varnames)
+  exists(i) = any(vars == varnames(i));
+end
 
 end % function
