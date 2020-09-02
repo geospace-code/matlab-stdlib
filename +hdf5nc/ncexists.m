@@ -10,11 +10,6 @@ arguments
   varnames (1,:) string
 end
 
-vars = hdf5nc.ncvariables(filename);
-
-exists = false(size(varnames));
-for i = 1:length(varnames)
-  exists(i) = any(vars == varnames(i));
-end
+exists = contains(varnames, hdf5nc.ncvariables(filename));
 
 end % function
