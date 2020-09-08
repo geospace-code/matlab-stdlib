@@ -13,7 +13,7 @@ basic = tempname + ".h5";
 h5save(basic, '/A0', A0)
 h5save(basic, '/A1', A1)
 h5save(basic, '/A2', A2)
-h5save(basic, '/A3', A3)
+h5save(basic, '/A3', A3, "size", size(A3))
 h5save(basic, '/A4', A4)
 %% test_auto_chunk_size
 assert(isequal(auto_chunk_size([1500,2500,1000,500,100]), [12,20,8,8,2]), '5D chunk fail')
@@ -21,7 +21,7 @@ assert(isequal(auto_chunk_size([15,250,100]), [2,32,25]), '3D chunk fail')
 assert(isequal(auto_chunk_size([15,250]), [15,250]), '2D small chunk fail')
 %% test_get_variables
 vars = h5variables(basic);
-assert(isequal(sort(vars),{'A0', 'A1', 'A2', 'A3', 'A4'}), 'missing variables')
+assert(isequal(sort(vars), ["A0", "A1", "A2", "A3", "A4"]), 'missing variables')
 %% test_exists
 e0 = h5exists(basic, '/A3');
 assert(isscalar(e0))
@@ -63,9 +63,9 @@ assert(ndims(s)==3 && isequal(s, A3), 'A3 read')
 s = h5read(basic, '/A4');
 assert(ndims(s)==4 && isequal(s, A4), 'A4 read')
 %% test_coerce
-h5save(basic, '/int32', A0, [], 'int32')
-h5save(basic, '/int64', A0, [], 'int64')
-h5save(basic, '/float32', A0, [], 'float32')
+h5save(basic, '/int32', A0, "type", 'int32')
+h5save(basic, '/int64', A0, "type", 'int64')
+h5save(basic, '/float32', A0, "type", 'float32')
 
 assert(isa(h5read(basic, '/int32'), 'int32'), 'int32')
 assert(isa(h5read(basic, '/int64'), 'int64'), 'int64')

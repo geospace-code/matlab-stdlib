@@ -6,6 +6,8 @@ arguments
 end
 
 switch dtype
+  case ""
+    return
   case {'float64', 'double'}
     if ~isa(A, 'double')
       A = double(A);

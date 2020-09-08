@@ -1,4 +1,4 @@
-function ncsave(filename, varname, A, ncdims, dtype)
+function ncsave(filename, varname, A, opts)
 % NCSAVE
 % create or append to NetCDF4 file
 % parent folder (file directory) must already exist
@@ -6,17 +6,13 @@ arguments
   filename (1,1) string
   varname (1,1) string
   A {mustBeNumeric,mustBeNonempty}
-  ncdims cell = {}
-  dtype (1,1) string = ""
+  opts.dims cell = {}
+  opts.type (1,1) string = ""
 end
 
 filename = hdf5nc.expanduser(filename);
 
-if ~isempty(ncdims)
-  for i = 2:2:length(ncdims)
-    sizeA(i/2) = ncdims{i};
-  end
-else
+if isempty(opts.dims)
   if isscalar(A)
     sizeA = 1;
     ncdims = [];
@@ -34,12 +30,15 @@ else
       otherwise, error('ncsave currently does scalar through 4D')
     end
   end % if
+else
+  ncdims = opts.dims;
+
+  for i = 2:2:length(opts.dims)
+    sizeA(i/2) = opts.dims{i};
+  end
 end
 % coerce if needed
-if dtype ~= ""
-  A = hdf5nc.coerce_ds(A, dtype);
-end
-
+A = hdf5nc.coerce_ds(A, opts.type);
 
 if isfile(filename) && hdf5nc.ncexists(filename, varname)
   exist_file(filename, varname, A, sizeA)

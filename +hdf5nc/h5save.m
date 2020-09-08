@@ -1,4 +1,4 @@
-function h5save(filename, varname, A, sizeA, dtype)
+function h5save(filename, varname, A, opts)
 % H5SAVE
 % create or append to HDF5 file
 % parent folder (file directory) must already exist
@@ -6,23 +6,24 @@ arguments
   filename (1,1) string
   varname (1,1) string
   A {mustBeNumeric,mustBeNonempty}
-  sizeA (1,:) {mustBeInteger,mustBeNonnegative} = []
-  dtype (1,1) string = ""
+  opts.size (1,:) {mustBeInteger,mustBeNonnegative} = []
+  opts.type (1,1) string = ""
 end
 
 filename = hdf5nc.expanduser(filename);
 
-if isempty(sizeA)
+if isempty(opts.size)
   if isvector(A)
     sizeA = length(A);
   else
     sizeA = size(A);
   end
+else
+  sizeA = opts.size;
 end
 % coerce if needed
-if dtype ~= ""
-  A = hdf5nc.coerce_ds(A, dtype);
-end
+A = hdf5nc.coerce_ds(A, opts.type);
+
 if ischar(A)
   A = string(A);
   sizeA = size(A);
