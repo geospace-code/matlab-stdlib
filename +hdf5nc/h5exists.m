@@ -4,7 +4,8 @@ function exists = h5exists(filename, varnames)
 % filename: HDF5 filename
 % varname: name of variable inside HDF5 file
 %
-% exists: boolean
+% exists: boolean (scalar or vector)
+
 arguments
   filename (1,1) string
   varnames (1,:) string
@@ -13,6 +14,6 @@ end
 i = startsWith(varnames, "/");
 varnames(i) = extractAfter(varnames(i), 1);
 
-exists = contains(varnames, hdf5nc.h5variables(filename));
+exists = ismember(varnames, hdf5nc.h5variables(filename));
 
 end % function

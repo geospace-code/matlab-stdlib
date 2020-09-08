@@ -16,7 +16,7 @@ end
 
 if group ~= ""
   gs = finf.Groups;
-  i = contains({gs(:).Name}, group);
+  i = string({gs(:).Name}) == group;
   if ~any(i)
     return
   end
