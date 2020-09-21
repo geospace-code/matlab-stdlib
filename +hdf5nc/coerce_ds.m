@@ -1,7 +1,7 @@
 function A = coerce_ds(A, dtype)
 % used by h5save and ncsave
 arguments
-  A {mustBeNumeric,mustBeNonempty}
+  A {mustBeNonempty}
   dtype (1,1) string
 end
 
