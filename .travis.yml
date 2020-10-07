@@ -1,0 +1,6 @@
+dist: focal
+
+language: matlab
+
+matlab:
+  - latest

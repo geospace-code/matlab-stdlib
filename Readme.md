@@ -2,6 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/273830124.svg)](https://zenodo.org/badge/latestdoi/273830124)
 [![View matlab-hdf5 on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/78673-matlab-hdf5)
+[![Build Status](https://travis-ci.com/geospace-code/matlab-hdf5.svg?branch=master)](https://travis-ci.com/geospace-code/matlab-hdf5)
 
 These HDF5 and NetCDF4 functions should be built into Matlab itself, but since they're not yet, we provide them.
 
@@ -83,5 +84,5 @@ hdf5nc.tests.test_netcdf
 ## unit tests
 
 ```matlab
-test_hdf5nc
+runtests
 ```
