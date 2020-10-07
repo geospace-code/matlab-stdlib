@@ -7,7 +7,7 @@ arguments
   varname (1,1) string
   A {mustBeNumeric,mustBeNonempty}
   opts.size (1,:) {mustBeInteger,mustBeNonnegative} = []
-  opts.type (1,1) string = ""
+  opts.type string = string.empty
 end
 
 filename = hdf5nc.expanduser(filename);
@@ -23,7 +23,6 @@ else
 end
 % coerce if needed
 A = hdf5nc.coerce_ds(A, opts.type);
-
 if ischar(A)
   A = string(A);
   sizeA = size(A);
@@ -79,7 +78,6 @@ end % if
 h5write(filename, varname, A)
 
 end % function
-
 
 % Copyright 2020 Michael Hirsch, Ph.D.
 

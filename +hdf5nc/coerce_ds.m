@@ -1,9 +1,15 @@
 function A = coerce_ds(A, dtype)
 % used by h5save and ncsave
 arguments
-  A {mustBeNonempty}
-  dtype (1,1) string
+  A {mustBeNumeric,mustBeNonempty}
+  dtype string
 end
+
+if isempty(dtype)
+  return
+end
+
+assert(isscalar(dtype), "dtype must be scalar")
 
 switch dtype
   case ""
