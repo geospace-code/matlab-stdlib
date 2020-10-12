@@ -35,29 +35,29 @@ end
 
 function test_auto_chunk_size(tc)
 
-assertEqual(tc, hdf5nc.auto_chunk_size([1500,2500,1000,500,100]), [12,20,8,8,2], '5D chunk fail')
-assertEqual(tc, hdf5nc.auto_chunk_size([15,250,100]), [2,32,25], '3D chunk fail')
-assertEqual(tc, hdf5nc.auto_chunk_size([15,250]), [15,250], '2D small chunk fail')
+tc.assertEqual(hdf5nc.auto_chunk_size([1500,2500,1000,500,100]), [12,20,8,8,2], '5D chunk fail')
+tc.assertEqual(hdf5nc.auto_chunk_size([15,250,100]), [2,32,25], '3D chunk fail')
+tc.assertEqual(hdf5nc.auto_chunk_size([15,250]), [15,250], '2D small chunk fail')
 
 end
 
 
 function test_get_variables(tc)
 vars = hdf5nc.h5variables(tc.TestData.basic);
-assertEqual(tc, sort(vars), ["A0", "A1", "A2", "A3", "A4"], 'missing variables')
+tc.assertEqual(sort(vars), ["A0", "A1", "A2", "A3", "A4"], 'missing variables')
 end
 
 
 function test_exists(tc)
 e0 = hdf5nc.h5exists(tc.TestData.basic, '/A3');
-assertSize(tc, e0, [1,1])
-assertTrue(tc, e0, 'A3 exists')
+tc.assertTrue(isscalar(e0))
+tc.assertTrue(e0, 'A3 exists')
 
-assertFalse(tc, hdf5nc.h5exists(tc.TestData.basic, '/oops'), 'oops not exist')
+tc.assertFalse(hdf5nc.h5exists(tc.TestData.basic, '/oops'), 'oops not exist')
 
 e1 = hdf5nc.h5exists(tc.TestData.basic, ["A3", "oops"]);
-assert(isrow(e1))
-assertEqual(tc, e1, [true, false], 'h5exists array')
+tc.assertTrue(isrow(e1))
+tc.assertEqual(e1, [true, false], 'h5exists array')
 end
 
 
@@ -66,67 +66,78 @@ import hdf5nc.h5size
 basic = tc.TestData.basic;
 
 s = h5size(basic, '/A0');
-assertSize(tc, s, [1,1])
-assertEqual(tc, s, 1, 'A0 shape')
+tc.assertTrue(isscalar(s))
+tc.assertEqual(s, 1, 'A0 shape')
 
 s = h5size(basic, '/A1');
-assertSize(tc, s, [1,1])
-assertEqual(tc, s, 2, 'A1 shape')
+tc.assertTrue(isscalar(s))
+tc.assertEqual(s, 2, 'A1 shape')
 
 s = h5size(basic, '/A2');
-assert(isvector(s))
-assertEqual(tc, s, [4,4], 'A2 shape')
+tc.assertTrue(isvector(s))
+tc.assertEqual(s, [4,4], 'A2 shape')
 
 s = h5size(basic, '/A3');
-assert(isvector(s))
-assertEqual(tc, s, [4,3,2], 'A3 shape')
+tc.assertTrue(isvector(s))
+tc.assertEqual(s, [4,3,2], 'A3 shape')
 
 s = h5size(basic, '/A4');
-assert(isvector(s))
-assertEqual(tc, s, [4,3,2,5], 'A4 shape')
+tc.assertTrue(isvector(s))
+tc.assertEqual(s, [4,3,2,5], 'A4 shape')
 end
 
 
 function test_read(tc)
 basic = tc.TestData.basic;
 s = h5read(basic, '/A0');
-assertSize(tc, s, [1,1])
-assertEqual(tc, s, 42, 'A0 read')
+tc.assertTrue(isscalar(s))
+tc.assertEqual(s, 42, 'A0 read')
 
 s = h5read(basic, '/A1');
-assert(isvector(s))
-assertEqual(tc, s, tc.TestData.A1, 'A1 read')
+tc.assertTrue(isvector(s))
+tc.assertEqual(s, tc.TestData.A1, 'A1 read')
 
 s = h5read(basic, '/A2');
-assert(ismatrix(s))
-assertEqual(tc, s, tc.TestData.A2, 'A2 read')
+tc.assertTrue(ismatrix(s))
+tc.assertEqual(s, tc.TestData.A2, 'A2 read')
 
 s = h5read(tc.TestData.basic, '/A3');
-assert(ndims(s)==3)
-assertEqual(tc, s, tc.TestData.A3, 'A3 read')
+tc.assertEqual(ndims(s), 3)
+tc.assertEqual(s, tc.TestData.A3, 'A3 read')
 
 s = h5read(tc.TestData.basic, '/A4');
-assert(ndims(s)==4)
-assertEqual(tc, s, tc.TestData.A4, 'A4 read')
+tc.assertEqual(ndims(s), 4)
+tc.assertEqual(s, tc.TestData.A4, 'A4 read')
 end
 
 
 function test_coerce(tc)
 
 basic = tc.TestData.basic;
-A0 = tc.TestData.A0;
 
-hdf5nc.h5save(basic, '/int32', A0, "type", 'int32')
-hdf5nc.h5save(basic, '/int64', A0, "type", 'int64')
-hdf5nc.h5save(basic, '/float32', A0, "type", 'float32')
+hdf5nc.h5save(basic, '/int32', 0, "type", 'int32')
+hdf5nc.h5save(basic, '/int64', 0, "type", 'int64')
+hdf5nc.h5save(basic, '/float32', 0, "type", 'float32')
 
-assertClass(tc, h5read(basic, '/int32'), 'int32', 'int32')
-assertClass(tc, h5read(basic, '/int64'), 'int64', 'int64')
-assertClass(tc, h5read(basic, '/float32'), 'single', 'float32')
+tc.assertClass(h5read(basic, '/int32'), 'int32', 'int32')
+tc.assertClass(h5read(basic, '/int64'), 'int64', 'int64')
+tc.assertClass(h5read(basic, '/float32'), 'single', 'float32')
 end
 
 
 function test_rewrite(tc)
 hdf5nc.h5save(tc.TestData.basic, '/A2', 3*magic(4))
-assertEqual(tc, h5read(tc.TestData.basic, '/A2'), 3*magic(4), 'rewrite 2D fail')
+tc.assertEqual(h5read(tc.TestData.basic, '/A2'), 3*magic(4), 'rewrite 2D fail')
+end
+
+function test_string(tc)
+hdf5nc.h5save(tc.TestData.basic, "/a_string", "hello")
+hdf5nc.h5save(tc.TestData.basic, "/a_char", 'there')
+
+astr = h5read(tc.TestData.basic, "/a_string");
+achar = h5read(tc.TestData.basic, "/a_char");
+tc.assertEqual(astr, "hello")
+tc.assertEqual(achar, "there")
+tc.assertClass(astr, "string")
+tc.assertClass(achar, "string")
 end
