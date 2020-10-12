@@ -19,8 +19,7 @@ or append `hdf5nc.` to each function call.
 Run selftests by:
 
 ```matlab
-hdf5nc.tests.test_hdf5
-hdf5nc.tests.test_netcdf
+runtests('hdf5nc')
 ```
 
 * Check that a dataset exists in file:
