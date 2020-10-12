@@ -39,7 +39,7 @@ end
 
 function test_exists(tc)
 e0 = hdf5nc.ncexists(tc.TestData.basic, 'A3');
-assert(isscalar(e0))
+assertSize(tc, e0, [1,1])
 assertTrue(tc, e0, 'A3 exists')
 
 assertFalse(tc, hdf5nc.ncexists(tc.TestData.basic, '/oops'), 'oops not exist')
@@ -54,11 +54,11 @@ import hdf5nc.ncsize
 basic = tc.TestData.basic;
 
 s = ncsize(basic, 'A0');
-assert(isscalar(s))
+assertSize(tc, s, [1,1])
 assertEqual(tc, s, 1, 'A0 shape')
 
 s = ncsize(basic, 'A1');
-assert(isscalar(s))
+assertSize(tc, s, [1,1])
 assertEqual(tc, s, 2, 'A1 shape')
 
 s = ncsize(basic, 'A2');
@@ -79,7 +79,7 @@ function test_read(tc)
 basic = tc.TestData.basic;
 
 s = ncread(basic, '/A0');
-assert(isscalar(s))
+assertSize(tc, s, [1,1])
 assertEqual(tc, s, 42, 'A0 read')
 
 s = ncread(basic, '/A1');
