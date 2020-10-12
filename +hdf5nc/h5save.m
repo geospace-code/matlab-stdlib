@@ -10,7 +10,7 @@ arguments
   opts.type string = string.empty
 end
 
-import hdf5nc.*
+import hdf5nc.h5exists
 
 if isnumeric(A)
   mustBeReal(A)
@@ -67,7 +67,7 @@ end % function
 
 
 function new_file(filename, varname, A, sizeA)
-import hdf5nc.auto_chunk_size
+
 folder = fileparts(filename);
 assert(isfolder(folder), '%s is not a folder, cannot create %s', folder, filename)
 

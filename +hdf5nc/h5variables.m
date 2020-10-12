@@ -5,8 +5,6 @@ arguments
   group string = string.empty
 end
 
-import hdf5nc.expanduser
-
 names = string.empty;
 groups = string.empty;
 

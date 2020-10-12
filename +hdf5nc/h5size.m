@@ -10,8 +10,6 @@ arguments
   variable (1,1) string
 end
 
-import hdf5nc.expanduser
-
 finf = h5info(expanduser(filename), variable);
 fsize = finf.Dataspace.Size;
 

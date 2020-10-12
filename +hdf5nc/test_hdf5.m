@@ -34,7 +34,6 @@ end
 
 
 function test_auto_chunk_size(tc)
-import hdf5nc.auto_chunk_size
 tc.assertEqual(auto_chunk_size([1500,2500,1000,500,100]), [12,20,8,8,2], '5D chunk fail')
 tc.assertEqual(auto_chunk_size([15,250,100]), [2,32,25], '3D chunk fail')
 tc.assertEqual(auto_chunk_size([15,250]), [15,250], '2D small chunk fail')

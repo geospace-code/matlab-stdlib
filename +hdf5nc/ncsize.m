@@ -10,8 +10,6 @@ arguments
   varname (1,1) string
 end
 
-import hdf5nc.expanduser
-
 vinf = ncinfo(expanduser(filename), varname);
 fsize = vinf.Size;
 
