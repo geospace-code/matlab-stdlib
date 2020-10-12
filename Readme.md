@@ -79,9 +79,3 @@ runtests('hdf5nc')
     ```matlab
     expanduser(path)
     ```
-
-## unit tests
-
-```matlab
-runtests
-```

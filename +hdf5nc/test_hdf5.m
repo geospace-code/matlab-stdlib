@@ -3,7 +3,7 @@ tests = functiontests(localfunctions);
 end
 
 function setupOnce(tc)
-import hdf5nc.*
+import hdf5nc.h5save
 
 A0 = 42.;
 A1 = [42.; 43.];
@@ -47,13 +47,13 @@ end
 function test_exists(tc)
 e0 = hdf5nc.h5exists(tc.TestData.basic, '/A3');
 assert(isscalar(e0))
-assert(e0, 'A3 exists')
+assertTrue(tc, e0, 'A3 exists')
 
-assert(~hdf5nc.h5exists(tc.TestData.basic, '/oops'), 'oops not exist')
+assertFalse(tc, hdf5nc.h5exists(tc.TestData.basic, '/oops'), 'oops not exist')
 
 e1 = hdf5nc.h5exists(tc.TestData.basic, ["A3", "oops"]);
 assert(isrow(e1))
-assert(all(e1 == [true, false]), 'h5exists array')
+assertEqual(tc, e1, [true, false], 'h5exists array')
 end
 
 
@@ -84,15 +84,16 @@ end
 
 
 function test_read(tc)
-s = h5read(tc.TestData.basic, '/A0');
+basic = tc.TestData.basic;
+s = h5read(basic, '/A0');
 assert(isscalar(s))
 assertEqual(tc, s, 42, 'A0 read')
 
-s = h5read(tc.TestData.basic, '/A1');
+s = h5read(basic, '/A1');
 assert(isvector(s))
 assertEqual(tc, s, tc.TestData.A1, 'A1 read')
 
-s = h5read(tc.TestData.basic, '/A2');
+s = h5read(basic, '/A2');
 assert(ismatrix(s))
 assertEqual(tc, s, tc.TestData.A2, 'A2 read')
 
