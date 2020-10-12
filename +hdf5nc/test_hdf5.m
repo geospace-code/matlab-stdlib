@@ -57,7 +57,7 @@ tc.assertFalse(hdf5nc.h5exists(tc.TestData.basic, '/oops'), 'oops not exist')
 
 e1 = hdf5nc.h5exists(tc.TestData.basic, ["A3", "oops"]);
 tc.assertTrue(isrow(e1))
-tc.assertEqual(e1, [true, false], 'h5exists array')
+tc.assertEqual(e1, [true, false])
 end
 
 
@@ -140,4 +140,8 @@ tc.assertEqual(astr, "hello")
 tc.assertEqual(achar, "there")
 tc.assertClass(astr, "string")
 tc.assertClass(achar, "string")
+end
+
+function test_real_only(tc)
+tc.assertError(@() hdf5nc.h5save(tc.TestData.basic, "/bad_imag", 1j), 'MATLAB:imagesci:hdf5dataset:badInputClass')
 end

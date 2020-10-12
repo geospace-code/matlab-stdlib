@@ -5,7 +5,7 @@ function ncsave(filename, varname, A, opts)
 arguments
   filename (1,1) string
   varname (1,1) string
-  A {mustBeNumeric,mustBeNonempty}
+  A {mustBeNumeric,mustBeNonempty,mustBeReal}
   opts.dims cell = {}
   opts.type string = string.empty
 end
