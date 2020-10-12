@@ -10,7 +10,9 @@ arguments
   varname (1,1) string
 end
 
-vinf = ncinfo(hdf5nc.expanduser(filename), varname);
+import hdf5nc.expanduser
+
+vinf = ncinfo(expanduser(filename), varname);
 fsize = vinf.Size;
 
 % Octave compatibility

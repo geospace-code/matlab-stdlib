@@ -4,7 +4,9 @@ arguments
   filename (1,1) string
 end
 
-finf = ncinfo(hdf5nc.expanduser(filename));
+import hdf5nc.expanduser
+
+finf = ncinfo(expanduser(filename));
 ds = finf.Variables(:);
 names = string({ds(:).Name});
 

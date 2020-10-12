@@ -10,7 +10,9 @@ arguments
   opts.type string = string.empty
 end
 
-filename = hdf5nc.expanduser(filename);
+import hdf5nc.*
+
+filename = expanduser(filename);
 
 if isempty(opts.dims)
   if isscalar(A)
@@ -38,9 +40,9 @@ else
   end
 end
 % coerce if needed
-A = hdf5nc.coerce_ds(A, opts.type);
+A = coerce_ds(A, opts.type);
 
-if isfile(filename) && hdf5nc.ncexists(filename, varname)
+if isfile(filename) && ncexists(filename, varname)
   exist_file(filename, varname, A, sizeA)
 else
   new_file(filename, varname, A, sizeA, ncdims)
@@ -50,8 +52,8 @@ end % function
 
 
 function exist_file(filename, varname, A, sizeA)
-
-diskshape = hdf5nc.ncsize(filename, varname);
+import hdf5nc.ncsize
+diskshape = ncsize(filename, varname);
 
 if all(diskshape == sizeA)
   ncwrite(filename, varname, A)
@@ -65,7 +67,7 @@ end % function
 
 
 function new_file(filename, varname, A, sizeA, ncdims)
-
+import hdf5nc.auto_chunk_size
 folder = fileparts(filename);
 assert(isfolder(folder), '%s is not a folder, cannot create %s', folder, filename)
 
@@ -81,7 +83,7 @@ else
   nccreate(filename, varname, 'Dimensions', ncdims, ...
     'Datatype', class(A), ...
     'DeflateLevel', 1, 'Shuffle', true, ...
-    'ChunkSize', hdf5nc.auto_chunk_size(sizeA), ...
+    'ChunkSize', auto_chunk_size(sizeA), ...
     'Format', 'netcdf4')
 end
 
@@ -89,7 +91,7 @@ ncwrite(filename, varname, A)
 
 end % function
 
-% Copyright 2020 Michael Hirsch, Ph.D.
+% Copyright 2020 Michael Hirsch
 
 % Licensed under the Apache License, Version 2.0 (the "License");
 % you may not use this file except in compliance with the License.

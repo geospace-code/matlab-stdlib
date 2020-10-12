@@ -11,9 +11,11 @@ arguments
   varnames (1,:) string
 end
 
+import hdf5nc.h5variables
+
 i = startsWith(varnames, "/");
 varnames(i) = extractAfter(varnames(i), 1);
-
-exists = ismember(varnames, hdf5nc.h5variables(filename));
+% NOT contains because we want exact string match
+exists = ismember(varnames, h5variables(filename));
 
 end % function

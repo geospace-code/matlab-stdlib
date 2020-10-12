@@ -36,19 +36,21 @@ end
 
 
 function test_get_variables(tc)
-vars = hdf5nc.ncvariables(tc.TestData.basic);
+import hdf5nc.ncvariables
+vars = ncvariables(tc.TestData.basic);
 tc.assertEqual(sort(vars), ["A0", "A1", "A2", "A3", "A4"], 'missing variables')
 end
 
 
 function test_exists(tc)
-e0 = hdf5nc.ncexists(tc.TestData.basic, 'A3');
+import hdf5nc.ncexists
+e0 = ncexists(tc.TestData.basic, 'A3');
 tc.assertTrue(isscalar(e0))
 tc.assertTrue(e0, 'A3 exists')
 
-assertFalse(tc, hdf5nc.ncexists(tc.TestData.basic, '/oops'), 'oops not exist')
+assertFalse(tc, ncexists(tc.TestData.basic, '/oops'), 'oops not exist')
 
-e1 = hdf5nc.ncexists(tc.TestData.basic, ["A3", "oops"]);
+e1 = ncexists(tc.TestData.basic, ["A3", "oops"]);
 tc.assertTrue(isrow(e1))
 tc.assertEqual(e1, [true, false])
 end
@@ -119,15 +121,18 @@ tc.assertClass(h5read(basic, '/float32'), 'single', 'float32')
 end
 
 function test_rewrite(tc)
-hdf5nc.ncsave(tc.TestData.basic, 'A2', 3*magic(4))
+import hdf5nc.ncsave
+ncsave(tc.TestData.basic, 'A2', 3*magic(4))
 tc.assertEqual(ncread(tc.TestData.basic, 'A2'), 3*magic(4), 'rewrite 2D fail')
 end
 
 function test_no_char_string(tc)
-tc.assertError(@() hdf5nc.ncsave(tc.TestData.basic, "/a_string", "hello"), 'MATLAB:validators:mustBeNumeric')
+import hdf5nc.ncsave
+tc.assertError(@() ncsave(tc.TestData.basic, "/a_string", "hello"), 'MATLAB:validators:mustBeNumeric')
 
 end
 
 function test_real_only(tc)
-tc.assertError(@() hdf5nc.ncsave(tc.TestData.basic, "/bad_imag", 1j), 'MATLAB:validators:mustBeReal')
+import hdf5nc.ncsave
+tc.assertError(@() ncsave(tc.TestData.basic, "/bad_imag", 1j), 'MATLAB:validators:mustBeReal')
 end

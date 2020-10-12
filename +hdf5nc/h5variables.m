@@ -5,10 +5,12 @@ arguments
   group string = string.empty
 end
 
+import hdf5nc.expanduser
+
 names = string.empty;
 groups = string.empty;
 
-finf = h5info(hdf5nc.expanduser(filename));
+finf = h5info(expanduser(filename));
 ds = finf.Datasets;
 if isempty(ds)
   return

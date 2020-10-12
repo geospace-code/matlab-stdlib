@@ -10,7 +10,13 @@ arguments
   opts.type string = string.empty
 end
 
-filename = hdf5nc.expanduser(filename);
+import hdf5nc.*
+
+if isnumeric(A)
+  mustBeReal(A)
+end
+
+filename = expanduser(filename);
 
 if isempty(opts.size)
   if isvector(A)
@@ -22,13 +28,13 @@ else
   sizeA = opts.size;
 end
 % coerce if needed
-A = hdf5nc.coerce_ds(A, opts.type);
+A = coerce_ds(A, opts.type);
 if ischar(A)
   A = string(A);
   sizeA = size(A);
 end
 
-if isfile(filename) && hdf5nc.h5exists(filename, varname)
+if isfile(filename) && h5exists(filename, varname)
   exist_file(filename, varname, A, sizeA)
 else
   new_file(filename, varname, A, sizeA)
@@ -38,8 +44,8 @@ end % function
 
 
 function exist_file(filename, varname, A, sizeA)
-
-diskshape = hdf5nc.h5size(filename, varname);
+import hdf5nc.h5size
+diskshape = h5size(filename, varname);
 if length(diskshape) >= 2
   % start is always a row vector, regardless of shape of array
   start = ones(1,ndims(A));
@@ -61,7 +67,7 @@ end % function
 
 
 function new_file(filename, varname, A, sizeA)
-
+import hdf5nc.auto_chunk_size
 folder = fileparts(filename);
 assert(isfolder(folder), '%s is not a folder, cannot create %s', folder, filename)
 
@@ -72,7 +78,7 @@ else
   % C / Python
   h5create(filename, varname, sizeA, 'DataType', class(A), ...
     'Deflate', 1, 'Fletcher32', true, 'Shuffle', true, ...
-    'ChunkSize', hdf5nc.auto_chunk_size(sizeA))
+    'ChunkSize', auto_chunk_size(sizeA))
 end % if
 
 h5write(filename, varname, A)
