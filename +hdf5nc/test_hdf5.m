@@ -28,6 +28,10 @@ h5save(basic, '/A3', A3, "size", size(A3))
 h5save(basic, '/A4', A4)
 end
 
+function teardownOnce(tc)
+delete(tc.TestData.basic)
+end
+
 
 function test_auto_chunk_size(tc)
 

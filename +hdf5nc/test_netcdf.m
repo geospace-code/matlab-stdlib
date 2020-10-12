@@ -30,6 +30,10 @@ ncsave(basic, 'A3', A3, "dims", {'x3', size(A3,1), 'y3', size(A3,2), 'z3', size(
 ncsave(basic, 'A4', A4, "dims", {'x4', size(A4,1), 'y4', size(A4,2), 'z4', size(A4,3), 'w4', size(A4,4)})
 end
 
+function teardownOnce(tc)
+delete(tc.TestData.basic)
+end
+
 
 function test_get_variables(tc)
 vars = hdf5nc.ncvariables(tc.TestData.basic);
