@@ -19,7 +19,7 @@ function expanded = expanduser(p)
 %
 %   See also absolute_path
 arguments
-  p (1,1) string
+  p string
 end
 
 expanded = p;

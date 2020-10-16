@@ -38,46 +38,47 @@ end
 function test_get_variables(tc)
 import hdf5nc.ncvariables
 vars = ncvariables(tc.TestData.basic);
-tc.assertEqual(sort(vars), ["A0", "A1", "A2", "A3", "A4"], 'missing variables')
+tc.verifyEqual(sort(vars), ["A0", "A1", "A2", "A3", "A4"])
 end
 
 
 function test_exists(tc)
 import hdf5nc.ncexists
 e0 = ncexists(tc.TestData.basic, 'A3');
-tc.assertTrue(isscalar(e0))
-tc.assertTrue(e0, 'A3 exists')
+tc.verifyTrue(isscalar(e0))
+tc.verifyTrue(e0)
 
-assertFalse(tc, ncexists(tc.TestData.basic, '/oops'), 'oops not exist')
+tc.verifyFalse(ncexists(tc.TestData.basic, '/oops'))
 
 e1 = ncexists(tc.TestData.basic, ["A3", "oops"]);
-tc.assertTrue(isrow(e1))
-tc.assertEqual(e1, [true, false])
+tc.verifyTrue(isrow(e1))
+tc.verifyEqual(e1, [true, false])
 end
+
 
 function test_size(tc)
 import hdf5nc.ncsize
 basic = tc.TestData.basic;
 
 s = ncsize(basic, 'A0');
-tc.assertTrue(isscalar(s))
-tc.assertEqual(s, 1, 'A0 shape')
+tc.verifyTrue(isscalar(s))
+tc.verifyEqual(s, 1)
 
 s = ncsize(basic, 'A1');
-tc.assertTrue(isscalar(s))
-tc.assertEqual(s, 2, 'A1 shape')
+tc.verifyTrue(isscalar(s))
+tc.verifyEqual(s, 2)
 
 s = ncsize(basic, 'A2');
-tc.assertTrue(isvector(s))
-tc.assertEqual(s, [4,4], 'A2 shape')
+tc.verifyTrue(isvector(s))
+tc.verifyEqual(s, [4,4])
 
 s = ncsize(basic, 'A3');
-tc.assertTrue(isvector(s))
-tc.assertEqual(s, [4,3,2], 'A3 shape')
+tc.verifyTrue(isvector(s))
+tc.verifyEqual(s, [4,3,2])
 
 s = ncsize(basic, 'A4');
-tc.assertTrue(isvector(s))
-tc.assertEqual(s, [4,3,2,5], 'A4 shape')
+tc.verifyTrue(isvector(s))
+tc.verifyEqual(s, [4,3,2,5])
 end
 
 
@@ -85,24 +86,24 @@ function test_read(tc)
 basic = tc.TestData.basic;
 
 s = ncread(basic, '/A0');
-tc.assertTrue(isscalar(s))
-tc.assertEqual(s, 42, 'A0 read')
+tc.verifyTrue(isscalar(s))
+tc.verifyEqual(s, 42)
 
 s = ncread(basic, '/A1');
-tc.assertTrue(isvector(s))
-tc.assertEqual(s, tc.TestData.A1, 'A1 read')
+tc.verifyTrue(isvector(s))
+tc.verifyEqual(s, tc.TestData.A1)
 
 s = ncread(basic, '/A2');
-tc.assertTrue(ismatrix(s))
-tc.assertEqual(s, tc.TestData.A2, 'A2 read')
+tc.verifyTrue(ismatrix(s))
+tc.verifyEqual(s, tc.TestData.A2)
 
 s = ncread(basic, '/A3');
-tc.assertEqual(ndims(s), 3)
-tc.assertEqual(s, tc.TestData.A3, 'A3 read')
+tc.verifyEqual(ndims(s), 3)
+tc.verifyEqual(s, tc.TestData.A3)
 
 s = ncread(basic, '/A4');
-tc.assertEqual(ndims(s), 4)
-tc.assertEqual(s, tc.TestData.A4, 'A4 read')
+tc.verifyEqual(ndims(s), 4)
+tc.verifyEqual(s, tc.TestData.A4)
 end
 
 
@@ -115,24 +116,29 @@ ncsave(basic, 'int32', 0, "type", 'int32')
 ncsave(basic, 'int64', 0, "type", 'int64')
 ncsave(basic, 'float32', 0, "type", 'float32')
 
-tc.assertClass(h5read(basic, '/int32'), 'int32', 'int32')
-tc.assertClass(h5read(basic, '/int64'), 'int64', 'int64')
-tc.assertClass(h5read(basic, '/float32'), 'single', 'float32')
+tc.assumeTrue(isfile(basic))
+
+tc.verifyClass(h5read(basic, '/int32'), 'int32')
+tc.verifyClass(h5read(basic, '/int64'), 'int64')
+tc.verifyClass(h5read(basic, '/float32'), 'single')
 end
+
 
 function test_rewrite(tc)
 import hdf5nc.ncsave
-ncsave(tc.TestData.basic, 'A2', 3*magic(4))
-tc.assertEqual(ncread(tc.TestData.basic, 'A2'), 3*magic(4), 'rewrite 2D fail')
+basic = tc.TestData.basic;
+ncsave(basic, 'A2', 3*magic(4))
+tc.assumeTrue(isfile(basic))
+tc.verifyEqual(ncread(basic, 'A2'), 3*magic(4))
 end
 
 function test_no_char_string(tc)
 import hdf5nc.ncsave
-tc.assertError(@() ncsave(tc.TestData.basic, "/a_string", "hello"), 'MATLAB:validators:mustBeNumeric')
+tc.verifyError(@() ncsave(tc.TestData.basic, "/a_string", "hello"), 'MATLAB:validators:mustBeNumeric')
 
 end
 
 function test_real_only(tc)
 import hdf5nc.ncsave
-tc.assertError(@() ncsave(tc.TestData.basic, "/bad_imag", 1j), 'MATLAB:validators:mustBeReal')
+tc.verifyError(@() ncsave(tc.TestData.basic, "/bad_imag", 1j), 'MATLAB:validators:mustBeReal')
 end
