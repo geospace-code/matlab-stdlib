@@ -1,5 +1,14 @@
 function names = ncvariables(filename)
-% get dataset names and groups in an NetCDF4 file
+% get dataset names in a file
+%
+% parameters
+% ----------
+% file: filename
+%
+% returns
+% -------
+% names: variable names
+
 arguments
   filename (1,1) string
 end

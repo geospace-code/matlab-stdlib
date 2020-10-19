@@ -1,14 +1,26 @@
-function [names, groups] = h5variables(filename, group)
-% get dataset names and groups in an HDF5 file
+function [names, groups] = h5variables(file, group)
+% get dataset names in a file
+% Optionally, get first level of groups in a file.
+%
+% parameters
+% ----------
+% file: filename
+% group: group name (optional)
+%
+% returns
+% -------
+% names: variable names
+% groups: file groups
+
 arguments
-  filename (1,1) string
+  file (1,1) string
   group string = string.empty
 end
 
 names = string.empty;
 groups = string.empty;
 
-finf = h5info(expanduser(filename));
+finf = h5info(expanduser(file));
 ds = finf.Datasets;
 if isempty(ds)
   return

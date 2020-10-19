@@ -6,9 +6,9 @@
 
 These HDF5 and NetCDF4 functions should be built into Matlab itself, but since they're not yet, we provide them.
 
-## HDF5
+## Usage
 
-This package is setup as a Matlab package, so we assume you have either:
+This package is a Matlab package, so we assume you have either:
 
 ```matlab
 import hdf5nc.*
@@ -21,6 +21,15 @@ Run selftests by:
 ```matlab
 runtests('hdf5nc')
 ```
+
+### HDF5
+
+Matlab R2020b uses HDF5 1.8.12.
+
+```matlab
+[major,minor,rel] = H5.get_libversion()
+```
+
 
 * Check that a dataset exists in file:
 
@@ -46,7 +55,13 @@ runtests('hdf5nc')
     h5variables(filename)
     ```
 
-## NetCDF4
+### NetCDF4
+
+Matlab R2020b uses NetCDF4 4.7.3.
+
+```matlab
+netcdf.inqLibVers
+```
 
 * Check that a variable exists in file:
 
@@ -70,12 +85,4 @@ runtests('hdf5nc')
 
     ```matlab
     ncvariables(filename)
-    ```
-
-## General utilities
-
-* expand a leading tilde to the current user home directory
-
-    ```matlab
-    expanduser(path)
     ```

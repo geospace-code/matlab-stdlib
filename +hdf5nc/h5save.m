@@ -2,6 +2,7 @@ function h5save(filename, varname, A, opts)
 % H5SAVE
 % create or append to HDF5 file
 % parent folder (file directory) must already exist
+
 arguments
   filename (1,1) string
   varname (1,1) string
@@ -9,8 +10,6 @@ arguments
   opts.size (1,:) {mustBeInteger,mustBeNonnegative} = []
   opts.type string = string.empty
 end
-
-import hdf5nc.h5exists
 
 if isnumeric(A)
   mustBeReal(A)
@@ -34,7 +33,7 @@ if ischar(A)
   sizeA = size(A);
 end
 
-if isfile(filename) && h5exists(filename, varname)
+if isfile(filename) && hdf5nc.h5exists(filename, varname)
   exist_file(filename, varname, A, sizeA)
 else
   new_file(filename, varname, A, sizeA)
@@ -44,8 +43,8 @@ end % function
 
 
 function exist_file(filename, varname, A, sizeA)
-import hdf5nc.h5size
-diskshape = h5size(filename, varname);
+
+diskshape = hdf5nc.h5size(filename, varname);
 if length(diskshape) >= 2
   % start is always a row vector, regardless of shape of array
   start = ones(1,ndims(A));

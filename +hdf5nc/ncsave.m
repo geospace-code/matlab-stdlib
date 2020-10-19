@@ -10,8 +10,6 @@ arguments
   opts.type string = string.empty
 end
 
-import hdf5nc.ncexists
-
 filename = expanduser(filename);
 
 if isempty(opts.dims)
@@ -42,7 +40,7 @@ end
 % coerce if needed
 A = coerce_ds(A, opts.type);
 
-if isfile(filename) && ncexists(filename, varname)
+if isfile(filename) && hdf5nc.ncexists(filename, varname)
   exist_file(filename, varname, A, sizeA)
 else
   new_file(filename, varname, A, sizeA, ncdims)
@@ -52,8 +50,8 @@ end % function
 
 
 function exist_file(filename, varname, A, sizeA)
-import hdf5nc.ncsize
-diskshape = ncsize(filename, varname);
+
+diskshape = hdf5nc.ncsize(filename, varname);
 
 if all(diskshape == sizeA)
   ncwrite(filename, varname, A)
@@ -70,7 +68,6 @@ function new_file(filename, varname, A, sizeA, ncdims)
 
 folder = fileparts(filename);
 assert(isfolder(folder), '%s is not a folder, cannot create %s', folder, filename)
-
 
 if isscalar(A)
   nccreate(filename, varname, 'Datatype', class(A), 'Format', 'netcdf4')
