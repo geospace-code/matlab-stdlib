@@ -10,12 +10,6 @@ arguments
   varname (1,1) string
 end
 
-vinf = ncinfo(expanduser(filename), varname);
-fsize = vinf.Size;
-
-% Octave compatibility
-if isempty(fsize)
-  fsize = 1;
-end
+fsize = ncinfo(expanduser(filename), varname).Size;
 
 end

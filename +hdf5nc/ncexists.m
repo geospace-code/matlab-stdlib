@@ -11,9 +11,7 @@ arguments
   varnames (1,:) string
 end
 
-import hdf5nc.ncvariables
-
 % NOT contains because we want exact string match
-exists = ismember(varnames, ncvariables(filename));
+exists = ismember(varnames, hdf5nc.ncvariables(filename));
 
 end % function
