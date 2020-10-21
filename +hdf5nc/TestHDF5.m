@@ -4,6 +4,10 @@ properties
 TestData
 end
 
+properties (TestParameter)
+type = {'single', 'double', 'int32', 'int64'};
+end
+
 
 methods (TestClassSetup)
 
@@ -131,20 +135,18 @@ tc.verifyEqual(s, tc.TestData.A4)
 end
 
 
-function test_coerce(tc)
+function test_coerce(tc, type)
 import hdf5nc.h5save
 import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
-h5save(basic, '/int32', 0, "type", 'int32')
-h5save(basic, '/int64', 0, "type", 'int64')
-h5save(basic, '/float32', 0, "type", 'float32')
+vn = "/" + type;
+
+h5save(basic, vn, 0, "type", type)
 
 tc.assumeThat(basic, IsFile)
 
-tc.verifyClass(h5read(basic, '/int32'), 'int32')
-tc.verifyClass(h5read(basic, '/int64'), 'int64')
-tc.verifyClass(h5read(basic, '/float32'), 'single')
+tc.verifyClass(h5read(basic, vn), type)
 end
 
 
