@@ -34,7 +34,7 @@ else
   ncdims = opts.dims;
 
   for i = 2:2:length(opts.dims)
-    sizeA(i/2) = opts.dims{i};
+    sizeA(i/2) = opts.dims{i}; %#ok<AGROW>
   end
 end
 % coerce if needed

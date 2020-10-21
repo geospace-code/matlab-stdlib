@@ -44,8 +44,10 @@ end
 
 function test_exists(tc)
 import hdf5nc.ncexists
+import matlab.unittest.constraints.IsScalar
+
 e0 = ncexists(tc.TestData.basic, 'A3');
-tc.verifyTrue(isscalar(e0))
+tc.verifyThat(e0, IsScalar)
 tc.verifyTrue(e0)
 
 tc.verifyFalse(ncexists(tc.TestData.basic, '/oops'))
@@ -58,14 +60,15 @@ end
 
 function test_size(tc)
 import hdf5nc.ncsize
+import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
 s = ncsize(basic, 'A0');
-tc.verifyTrue(isscalar(s))
+tc.verifyThat(s, IsScalar)
 tc.verifyEqual(s, 1)
 
 s = ncsize(basic, 'A1');
-tc.verifyTrue(isscalar(s))
+tc.verifyThat(s, IsScalar)
 tc.verifyEqual(s, 2)
 
 s = ncsize(basic, 'A2');
@@ -83,10 +86,13 @@ end
 
 
 function test_read(tc)
+import matlab.unittest.constraints.IsScalar
+import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
+tc.assumeThat(basic, IsFile)
 
 s = ncread(basic, '/A0');
-tc.verifyTrue(isscalar(s))
+tc.verifyThat(s, IsScalar)
 tc.verifyEqual(s, 42)
 
 s = ncread(basic, '/A1');
@@ -109,14 +115,14 @@ end
 
 function test_coerce(tc)
 import hdf5nc.ncsave
-
+import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
 ncsave(basic, 'int32', 0, "type", 'int32')
 ncsave(basic, 'int64', 0, "type", 'int64')
 ncsave(basic, 'float32', 0, "type", 'float32')
 
-tc.assumeTrue(isfile(basic))
+tc.assumeThat(basic, IsFile)
 
 tc.verifyClass(h5read(basic, '/int32'), 'int32')
 tc.verifyClass(h5read(basic, '/int64'), 'int64')
@@ -126,9 +132,12 @@ end
 
 function test_rewrite(tc)
 import hdf5nc.ncsave
+import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
+
 ncsave(basic, 'A2', 3*magic(4))
-tc.assumeTrue(isfile(basic))
+
+tc.assumeThat(basic, IsFile)
 tc.verifyEqual(ncread(basic, 'A2'), 3*magic(4))
 end
 

@@ -43,6 +43,7 @@ end
 
 function test_get_variables(tc)
 import hdf5nc.h5variables
+
 vars = h5variables(tc.TestData.basic);
 tc.verifyEqual(sort(vars), ["A0", "A1", "A2", "A3", "A4"])
 end
@@ -50,8 +51,10 @@ end
 
 function test_exists(tc)
 import hdf5nc.h5exists
+import matlab.unittest.constraints.IsScalar
+
 e0 = h5exists(tc.TestData.basic, '/A3');
-tc.verifyTrue(isscalar(e0))
+tc.verifyThat(e0, IsScalar)
 tc.verifyTrue(e0)
 
 tc.verifyFalse(h5exists(tc.TestData.basic, '/oops'))
@@ -64,14 +67,15 @@ end
 
 function test_size(tc)
 import hdf5nc.h5size
+import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
 s = h5size(basic, '/A0');
-tc.verifyTrue(isscalar(s))
+tc.verifyThat(s, IsScalar)
 tc.verifyEqual(s, 1)
 
 s = h5size(basic, '/A1');
-tc.verifyTrue(isscalar(s))
+tc.verifyThat(s, IsScalar)
 tc.verifyEqual(s, 2)
 
 s = h5size(basic, '/A2');
@@ -89,9 +93,13 @@ end
 
 
 function test_read(tc)
+import matlab.unittest.constraints.IsScalar
+import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
+tc.assumeThat(basic, IsFile)
+
 s = h5read(basic, '/A0');
-tc.verifyTrue(isscalar(s))
+tc.verifyThat(s, IsScalar)
 tc.verifyEqual(s, 42)
 
 s = h5read(basic, '/A1');
@@ -114,13 +122,14 @@ end
 
 function test_coerce(tc)
 import hdf5nc.h5save
+import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
 h5save(basic, '/int32', 0, "type", 'int32')
 h5save(basic, '/int64', 0, "type", 'int64')
 h5save(basic, '/float32', 0, "type", 'float32')
 
-tc.assumeTrue(isfile(basic))
+tc.assumeThat(basic, IsFile)
 
 tc.verifyClass(h5read(basic, '/int32'), 'int32')
 tc.verifyClass(h5read(basic, '/int64'), 'int64')
@@ -130,23 +139,26 @@ end
 
 function test_rewrite(tc)
 import hdf5nc.h5save
+import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
+
 h5save(basic, '/A2', 3*magic(4))
-tc.assumeTrue(isfile(basic))
+
+tc.assumeThat(basic, IsFile)
 tc.verifyEqual(h5read(basic, '/A2'), 3*magic(4))
 end
 
 function test_string(tc)
 import hdf5nc.h5save
-h5save(tc.TestData.basic, "/a_string", "hello")
-h5save(tc.TestData.basic, "/a_char", 'there')
+basic = tc.TestData.basic;
 
-astr = h5read(tc.TestData.basic, "/a_string");
-achar = h5read(tc.TestData.basic, "/a_char");
+h5save(basic, "/a_string", "hello")
+h5save(basic, "/a_char", 'there')
+
+astr = h5read(basic, "/a_string");
+achar = h5read(basic, "/a_char");
 tc.verifyEqual(astr, "hello")
 tc.verifyEqual(achar, "there")
-tc.verifyClass(astr, "string")
-tc.verifyClass(achar, "string")
 end
 
 function test_real_only(tc)
