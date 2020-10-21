@@ -1,4 +1,4 @@
-function fsize = ncsize(filename, varname)
+function fsize = ncsize(file, variable)
 % get size (shape) of a NetCDF4 variable
 %
 % filename: NetCDF4 filename
@@ -6,10 +6,15 @@ function fsize = ncsize(filename, varname)
 %
 % fsize: vector of variable size per dimension
 arguments
-  filename (1,1) string
-  varname (1,1) string
+  file (1,1) string
+  variable (1,1) string
 end
 
-fsize = ncinfo(expanduser(filename), varname).Size;
+file = expanduser(file);
+if ~isfile(file)
+  error('hdf5nc:ncsize:fileNotFound', "%s does not exist", file)
+end
+
+fsize = ncinfo(file, variable).Size;
 
 end

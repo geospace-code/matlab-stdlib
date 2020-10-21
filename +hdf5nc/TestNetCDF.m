@@ -5,14 +5,16 @@ TestData
 end
 
 properties (TestParameter)
-type = {'single', 'double', 'int32', 'int64'};
+type = {'single', 'double', 'int32', 'int64'}
+vars = {'A0', 'A1', 'A2', 'A3', 'A4'}
 end
 
 
-methods (TestClassSetup)
+methods (TestMethodSetup)
 
 function setup_file(tc)
 import hdf5nc.ncsave
+import matlab.unittest.constraints.IsFile
 
 A0 = 42.;
 A1 = [42.; 43.];
@@ -36,11 +38,13 @@ ncsave(basic, 'A1', A1)
 ncsave(basic, 'A2', A2, "dims", {'x2', size(A2,1), 'y2', size(A2,2)})
 ncsave(basic, 'A3', A3, "dims", {'x3', size(A3,1), 'y3', size(A3,2), 'z3', size(A3,3)})
 ncsave(basic, 'A4', A4, "dims", {'x4', size(A4,1), 'y4', size(A4,2), 'z4', size(A4,3), 'w4', size(A4,4)})
+
+tc.assumeThat(basic, IsFile)
 end
 end
 
 
-methods (TestClassTeardown)
+methods (TestMethodTeardown)
 function cleanup(tc)
 delete(tc.TestData.basic)
 end
@@ -51,24 +55,27 @@ methods (Test)
 function test_get_variables(tc)
 import hdf5nc.ncvariables
 
-vars = ncvariables(tc.TestData.basic);
-tc.verifyEqual(sort(vars), ["A0", "A1", "A2", "A3", "A4"])
+tc.verifyEqual(sort(ncvariables(tc.TestData.basic)), ["A0", "A1", "A2", "A3", "A4"])
 end
 
 
-function test_exists(tc)
+function test_exists(tc, vars)
 import hdf5nc.ncexists
 import matlab.unittest.constraints.IsScalar
+basic = tc.TestData.basic;
 
-e0 = ncexists(tc.TestData.basic, 'A3');
-tc.verifyThat(e0, IsScalar)
-tc.verifyTrue(e0)
+e = ncexists(basic, vars);
+tc.verifyThat(e, IsScalar)
+tc.verifyTrue(e)
 
-tc.verifyFalse(ncexists(tc.TestData.basic, '/oops'))
+% vector
+e = ncexists(basic, [vars, "oops", ""]);
+tc.verifyTrue(isrow(e))
+tc.verifyEqual(e, [true, false, false])
 
-e1 = ncexists(tc.TestData.basic, ["A3", "oops"]);
-tc.verifyTrue(isrow(e1))
-tc.verifyEqual(e1, [true, false])
+% empty
+e = ncexists(basic, string.empty);
+tc.verifyEmpty(e)
 end
 
 
@@ -96,14 +103,15 @@ tc.verifyEqual(s, [4,3,2])
 s = ncsize(basic, 'A4');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
+
+% empty
+tc.verifyError(@() ncsize(basic, string.empty), 'MATLAB:validation:IncompatibleSize')
 end
 
 
 function test_read(tc)
 import matlab.unittest.constraints.IsScalar
-import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
-tc.assumeThat(basic, IsFile)
 
 s = ncread(basic, '/A0');
 tc.verifyThat(s, IsScalar)
@@ -159,9 +167,21 @@ tc.verifyError(@() ncsave(tc.TestData.basic, "/a_string", "hello"), 'MATLAB:vali
 
 end
 
+function test_file_missing(tc)
+
+tc.verifyError(@() hdf5nc.ncexists(tempname,""), 'hdf5nc:ncvariables:fileNotFound')
+tc.verifyError(@() hdf5nc.ncvariables(tempname), 'hdf5nc:ncvariables:fileNotFound')
+tc.verifyError(@() hdf5nc.ncsize(tempname,""), 'hdf5nc:ncsize:fileNotFound')
+[~,badname] = fileparts(tempname);
+tc.verifyError(@() hdf5nc.ncsave(badname,"",0), 'hdf5nc:ncsave:fileNotFound')
+end
+
 function test_real_only(tc)
 import hdf5nc.ncsave
-tc.verifyError(@() ncsave(tc.TestData.basic, "/bad_imag", 1j), 'MATLAB:validators:mustBeReal')
+basic = tc.TestData.basic;
+
+tc.verifyError(@() ncsave(basic, "bad_imag", 1j), 'MATLAB:validators:mustBeReal')
+tc.verifyError(@() ncsave(basic, "", 0), 'MATLAB:imagesci:netcdf:badLocationString')
 end
 
 end

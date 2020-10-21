@@ -1,4 +1,4 @@
-function fsize = h5size(filename, variable)
+function fsize = h5size(file, variable)
 % get size (shape) of an HDF5 dataset
 %
 % filename: HDF5 filename
@@ -6,10 +6,15 @@ function fsize = h5size(filename, variable)
 %
 % fsize: vector of variable size per dimension
 arguments
-  filename (1,1) string
+  file (1,1) string
   variable (1,1) string
 end
 
-fsize = h5info(expanduser(filename), variable).Dataspace.Size;
+file = expanduser(file);
+if ~isfile(file)
+  error('hdf5nc:h5size:fileNotFound', "%s does not exist", file)
+end
 
-end % function
+fsize = h5info(file, variable).Dataspace.Size;
+
+end

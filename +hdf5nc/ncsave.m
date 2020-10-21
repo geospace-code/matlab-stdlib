@@ -58,7 +58,7 @@ if all(diskshape == sizeA)
 elseif all(diskshape == fliplr(sizeA))
   ncwrite(filename, varname, A.')
 else
-  error('ncsave:value_error', ['shape of ',varname,': ', int2str(sizeA), ' does not match existing NetCDF4 shape ', int2str(diskshape)])
+  error('hdf5nc:ncsave:value_error', ['shape of ',varname,': ', int2str(sizeA), ' does not match existing NetCDF4 shape ', int2str(diskshape)])
 end
 
 end % function
@@ -67,7 +67,9 @@ end % function
 function new_file(filename, varname, A, sizeA, ncdims)
 
 folder = fileparts(filename);
-assert(isfolder(folder), '%s is not a folder, cannot create %s', folder, filename)
+if ~isfolder(folder)
+  error('hdf5nc:ncsave:fileNotFound', '%s is not a folder, cannot create %s', folder, filename)
+end
 
 if isscalar(A)
   nccreate(filename, varname, 'Datatype', class(A), 'Format', 'netcdf4')

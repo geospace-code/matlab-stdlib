@@ -5,14 +5,17 @@ TestData
 end
 
 properties (TestParameter)
-type = {'single', 'double', 'int32', 'int64'};
+type = {'single', 'double', 'int32', 'int64'}
+vars = {'A0', 'A1', 'A2', 'A3', 'A4'}
+str = {"string", 'char'}
 end
 
 
-methods (TestClassSetup)
+methods (TestMethodSetup)
 
 function setup_file(tc)
 import hdf5nc.h5save
+import matlab.unittest.constraints.IsFile
 
 A0 = 42.;
 A1 = [42.; 43.];
@@ -36,11 +39,17 @@ h5save(basic, '/A1', A1)
 h5save(basic, '/A2', A2)
 h5save(basic, '/A3', A3, "size", size(A3))
 h5save(basic, '/A4', A4)
+
+h5save(basic, '/t/x', 12)
+h5save(basic, '/t/y', 13)
+h5save(basic, '/j/a/b', 6)
+
+tc.assumeThat(basic, IsFile)
 end
 end
 
 
-methods (TestClassTeardown)
+methods (TestMethodTeardown)
 function cleanup(tc)
 delete(tc.TestData.basic)
 end
@@ -58,25 +67,49 @@ end
 
 function test_get_variables(tc)
 import hdf5nc.h5variables
+basic = tc.TestData.basic;
 
-vars = h5variables(tc.TestData.basic);
-tc.verifyEqual(sort(vars), ["A0", "A1", "A2", "A3", "A4"])
+v = h5variables(basic);
+tc.verifyEqual(sort(v), ["A0", "A1", "A2", "A3", "A4"])
+
+[v1,g] = h5variables(basic);
+tc.verifyEqual(v,v1)
+tc.verifyEqual(sort(g), ["/j", "/t"])
+
+% 1-level group
+[v, g] = h5variables(basic, "/t");
+tc.verifyEqual(sort(v), ["x", "y"])
+tc.verifyEmpty(g)
+
+% traversal
+[v, g] = h5variables(basic, "/j");
+tc.verifyEmpty(v)
+tc.verifyEqual(g, "/j/a")
+
+[v, g] = h5variables(basic, "/j/a");
+tc.verifyEqual(v, "b")
+tc.verifyEmpty(g)
+
 end
 
 
-function test_exists(tc)
+function test_exists(tc, vars)
 import hdf5nc.h5exists
 import matlab.unittest.constraints.IsScalar
+basic = tc.TestData.basic;
 
-e0 = h5exists(tc.TestData.basic, '/A3');
-tc.verifyThat(e0, IsScalar)
-tc.verifyTrue(e0)
+e = h5exists(basic, "/" + vars);
+tc.verifyThat(e, IsScalar)
+tc.verifyTrue(e)
 
-tc.verifyFalse(h5exists(tc.TestData.basic, '/oops'))
+% vector
+e = h5exists(basic, [vars, "oops", ""]);
+tc.verifyTrue(isrow(e))
+tc.verifyEqual(e, [true, false, false])
 
-e1 = h5exists(tc.TestData.basic, ["A3", "oops"]);
-tc.verifyTrue(isrow(e1))
-tc.verifyEqual(e1, [true, false])
+% empty
+e = h5exists(basic, string.empty);
+tc.verifyEmpty(e)
 end
 
 
@@ -104,14 +137,15 @@ tc.verifyEqual(s, [4,3,2])
 s = h5size(basic, '/A4');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
+
+% empty
+tc.verifyError(@() h5size(basic, string.empty), 'MATLAB:validation:IncompatibleSize')
 end
 
 
 function test_read(tc)
 import matlab.unittest.constraints.IsScalar
-import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
-tc.assumeThat(basic, IsFile)
 
 s = h5read(basic, '/A0');
 tc.verifyThat(s, IsScalar)
@@ -161,22 +195,31 @@ tc.assumeThat(basic, IsFile)
 tc.verifyEqual(h5read(basic, '/A2'), 3*magic(4))
 end
 
-function test_string(tc)
+function test_string(tc, str)
 import hdf5nc.h5save
 basic = tc.TestData.basic;
 
-h5save(basic, "/a_string", "hello")
-h5save(basic, "/a_char", 'there')
+h5save(basic, "/"+str, str)
 
-astr = h5read(basic, "/a_string");
-achar = h5read(basic, "/a_char");
-tc.verifyEqual(astr, "hello")
-tc.verifyEqual(achar, "there")
+a = h5read(basic, "/"+str);
+tc.verifyEqual(a, string(str))
+end
+
+function test_file_missing(tc)
+
+tc.verifyError(@() hdf5nc.h5exists(tempname,""), 'hdf5nc:h5variables:fileNotFound')
+tc.verifyError(@() hdf5nc.h5variables(tempname), 'hdf5nc:h5variables:fileNotFound')
+tc.verifyError(@() hdf5nc.h5size(tempname,""), 'hdf5nc:h5size:fileNotFound')
+[~,badname] = fileparts(tempname);
+tc.verifyError(@() hdf5nc.h5save(badname,"",0), 'hdf5nc:h5save:fileNotFound')
 end
 
 function test_real_only(tc)
 import hdf5nc.h5save
-tc.verifyError(@() h5save(tc.TestData.basic, "/bad_imag", 1j), 'MATLAB:validators:mustBeReal')
+basic = tc.TestData.basic;
+
+tc.verifyError(@() h5save(basic, "/bad_imag", 1j), 'MATLAB:validators:mustBeReal')
+tc.verifyError(@() h5save(basic, "", 0), 'MATLAB:expectedNonempty')
 end
 
 end

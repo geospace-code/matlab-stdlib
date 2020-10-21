@@ -17,28 +17,28 @@ arguments
   group string = string.empty
 end
 
+file = expanduser(file);
+if ~isfile(file)
+  error('hdf5nc:h5variables:fileNotFound', "%s does not exist", file)
+end
+
 names = string.empty;
 groups = string.empty;
 
-finf = h5info(expanduser(file));
+if isempty(group)
+  finf = h5info(file);
+else
+  finf = h5info(file, group);
+end
+
 ds = finf.Datasets;
-if isempty(ds)
-  return
+gs = finf.Groups;
+
+if ~isempty(ds)
+  names = string({ds.Name});
 end
 
-if ~isempty(group)
-  gs = finf.Groups;
-  i = string({gs(:).Name}) == group;
-  if ~any(i)
-    return
-  end
-  ds = gs(i).Datasets;
-end
-
-names = string({ds(:).Name});
-
-if nargout > 1
-  gs = finf.Groups;
+if nargout > 1 && ~isempty(gs)
   groups = string({gs.Name});
 end
 

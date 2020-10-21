@@ -59,7 +59,7 @@ elseif all(diskshape == sizeA)
 elseif all(diskshape == fliplr(sizeA))
   h5write(filename, varname, A.', start, fliplr(sizeA))
 else
-  error('h5save:value_error', ['shape of ',varname,': ', int2str(sizeA), ' does not match existing HDF5 shape ', int2str(diskshape)])
+  error('hdf5nc:h5save:value_error', ['shape of ',varname,': ', int2str(sizeA), ' does not match existing HDF5 shape ', int2str(diskshape)])
 end
 
 end % function
@@ -68,7 +68,9 @@ end % function
 function new_file(filename, varname, A, sizeA)
 
 folder = fileparts(filename);
-assert(isfolder(folder), '%s is not a folder, cannot create %s', folder, filename)
+if ~isfolder(folder)
+  error('hdf5nc:h5save:fileNotFound', '%s is not a folder, cannot create %s', folder, filename)
+end
 
 if isvector(A)
   h5create(filename, varname, sizeA, 'DataType', class(A))
