@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/273830124.svg)](https://zenodo.org/badge/latestdoi/273830124)
 [![View matlab-hdf5 on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/78673-matlab-hdf5)
-[![Build Status](https://travis-ci.com/geospace-code/matlab-hdf5.svg?branch=master)](https://travis-ci.com/geospace-code/matlab-hdf5)
+[![Build Status](https://dev.azure.com/mhirsch0512/matlab-hdf5/_apis/build/status/geospace-code.matlab-hdf5?branchName=master)](https://dev.azure.com/mhirsch0512/matlab-hdf5/_build/latest?definitionId=18&branchName=master)
 
 These HDF5 and NetCDF4 functions should be built into Matlab itself, but since they're not yet, we provide them.
 
