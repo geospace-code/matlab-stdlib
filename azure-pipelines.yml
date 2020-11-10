@@ -1,6 +1,12 @@
 variables:
   CI: true
 
+trigger:
+  paths:
+    include:
+    - "+hdf5nc/*"
+    - azure-pipelines.yml
+
 pool:
   vmImage: ubuntu-latest
 steps:
