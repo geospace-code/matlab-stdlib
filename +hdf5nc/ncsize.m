@@ -6,13 +6,23 @@ function fsize = ncsize(file, variable)
 %
 % fsize: vector of variable size per dimension
 arguments
-  file (1,1) string
-  variable (1,1) string
+  file string
+  variable string
 end
 
+assert(length(file)<2, "one file at a time")
+assert(length(variable)<2, "one variable at a time")
+
+fsize = [];
+
 file = expanduser(file);
+
+if isempty(file) || isempty(variable)
+  return
+end
+
 if ~isfile(file)
-  error('hdf5nc:ncsize:fileNotFound', "%s does not exist", file)
+  error("hdf5nc:ncsize:fileNotFound", "%s not found.", file)
 end
 
 fsize = ncinfo(file, variable).Size;

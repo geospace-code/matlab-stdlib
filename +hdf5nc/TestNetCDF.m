@@ -54,8 +54,12 @@ end
 methods (Test)
 function test_get_variables(tc)
 import hdf5nc.ncvariables
+basic = tc.TestData.basic;
 
-tc.verifyEqual(sort(ncvariables(tc.TestData.basic)), ["A0", "A1", "A2", "A3", "A4"])
+tc.verifyEmpty(ncvariables(string.empty))
+
+
+tc.verifyEqual(sort(ncvariables(basic)), ["A0", "A1", "A2", "A3", "A4"])
 end
 
 
@@ -76,6 +80,9 @@ tc.verifyEqual(e, [true, false, false])
 % empty
 e = ncexists(basic, string.empty);
 tc.verifyEmpty(e)
+
+tc.verifyEqual(ncexists(string.empty, ["oops", "hi"]), [false, false])
+tc.verifyEmpty(ncexists(string.empty, string.empty))
 end
 
 
@@ -105,7 +112,9 @@ tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
 
 % empty
-tc.verifyError(@() ncsize(basic, string.empty), 'MATLAB:validation:IncompatibleSize')
+tc.verifyEmpty(ncsize(basic, string.empty))
+tc.verifyEmpty(ncsize(string.empty, string.empty))
+tc.verifyEmpty(ncsize(string.empty, "hi"))
 end
 
 

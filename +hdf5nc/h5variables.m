@@ -13,17 +13,25 @@ function [names, groups] = h5variables(file, group)
 % groups: file groups
 
 arguments
-  file (1,1) string
+  file string
   group string = string.empty
 end
 
+assert(length(file)<2, "one file at a time")
+assert(length(group)<2, "one group at a time")
+
 file = expanduser(file);
-if ~isfile(file)
-  error('hdf5nc:h5variables:fileNotFound', "%s does not exist", file)
-end
 
 names = string.empty;
 groups = string.empty;
+
+if isempty(file)
+  return
+end
+
+if ~isfile(file)
+  error("hdf5nc:h5variables:fileNotFound", "%s not found.", file)
+end
 
 if isempty(group)
   finf = h5info(file);

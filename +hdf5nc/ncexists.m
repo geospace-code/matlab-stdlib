@@ -11,7 +11,7 @@ function exists = ncexists(file, varnames)
 % exists: boolean (scalar or vector)
 
 arguments
-  file (1,1) string
+  file string
   varnames (1,:) string
 end
 

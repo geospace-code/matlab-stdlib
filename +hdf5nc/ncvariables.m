@@ -10,12 +10,21 @@ function names = ncvariables(file)
 % names: variable names
 
 arguments
-  file (1,1) string
+  file string
 end
 
+assert(length(file)<2, "one file at a time")
+
 file = expanduser(file);
+
+names = string.empty;
+
+if isempty(file)
+  return
+end
+
 if ~isfile(file)
-  error('hdf5nc:ncvariables:fileNotFound', "%s does not exist", file)
+  error("hdf5nc:ncvariables:fileNotFound", "%s not found.", file)
 end
 
 finf = ncinfo(file);
