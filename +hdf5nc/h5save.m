@@ -7,7 +7,7 @@ arguments
   filename (1,1) string
   varname (1,1) string
   A {mustBeNonempty}
-  opts.size (1,:) {mustBeInteger,mustBeNonnegative} = []
+  opts.size (1,:) double {mustBeInteger,mustBeNonnegative} = []
   opts.type string = string.empty
 end
 
