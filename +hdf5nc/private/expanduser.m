@@ -24,10 +24,6 @@ end
 
 expanded = p;
 
-if ~startsWith(expanded, "~")
-  return
-end
-
 if ispc
   home = getenv('USERPROFILE');
 else
@@ -35,7 +31,8 @@ else
 end
 
 if ~isempty(home)
-  expanded = fullfile(home, extractAfter(expanded, 1));
+  i = startsWith(expanded, "~");
+  expanded(i) = fullfile(home, extractAfter(expanded(i), 1));
 end
 
 end %function
