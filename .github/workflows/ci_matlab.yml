@@ -1,0 +1,24 @@
+name: MATLAB on GitHub-Hosted Runner
+
+on:
+  push:
+    paths:
+    - "**.m"
+    - ".github/workflows/ci_matlab.yml"
+
+
+jobs:
+  linux:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install MATLAB
+        uses: matlab-actions/setup-matlab@v0
+
+      - name: Run tests and generate artifacts
+        uses: matlab-actions/run-tests@v0
+        with:
+          test-results-junit: test-results/results.xml
+          code-coverage-cobertura: code-coverage/coverage.xml
