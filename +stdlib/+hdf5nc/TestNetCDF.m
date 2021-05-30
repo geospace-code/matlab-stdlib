@@ -13,7 +13,7 @@ end
 methods (TestMethodSetup)
 
 function setup_file(tc)
-import hdf5nc.ncsave
+import stdlib.hdf5nc.ncsave
 import matlab.unittest.constraints.IsFile
 
 A0 = 42.;
@@ -53,7 +53,7 @@ end
 
 methods (Test)
 function test_get_variables(tc)
-import hdf5nc.ncvariables
+import stdlib.hdf5nc.ncvariables
 basic = tc.TestData.basic;
 
 tc.verifyEmpty(ncvariables(string.empty))
@@ -64,7 +64,7 @@ end
 
 
 function test_exists(tc, vars)
-import hdf5nc.ncexists
+import stdlib.hdf5nc.ncexists
 import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
@@ -87,7 +87,7 @@ end
 
 
 function test_size(tc)
-import hdf5nc.ncsize
+import stdlib.hdf5nc.ncsize
 import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
@@ -145,7 +145,7 @@ end
 
 
 function test_coerce(tc, type)
-import hdf5nc.ncsave
+import stdlib.hdf5nc.ncsave
 import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
@@ -160,7 +160,7 @@ end
 
 
 function test_rewrite(tc)
-import hdf5nc.ncsave
+import stdlib.hdf5nc.ncsave
 import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
@@ -171,22 +171,22 @@ tc.verifyEqual(ncread(basic, 'A2'), 3*magic(4))
 end
 
 function test_no_char_string(tc)
-import hdf5nc.ncsave
+import stdlib.hdf5nc.ncsave
 tc.verifyError(@() ncsave(tc.TestData.basic, "/a_string", "hello"), 'MATLAB:validators:mustBeNumeric')
 
 end
 
 function test_file_missing(tc)
 
-tc.verifyError(@() hdf5nc.ncexists(tempname,""), 'hdf5nc:ncvariables:fileNotFound')
-tc.verifyError(@() hdf5nc.ncvariables(tempname), 'hdf5nc:ncvariables:fileNotFound')
-tc.verifyError(@() hdf5nc.ncsize(tempname,""), 'hdf5nc:ncsize:fileNotFound')
+tc.verifyError(@() stdlib.hdf5nc.ncexists(tempname,""), 'hdf5nc:ncvariables:fileNotFound')
+tc.verifyError(@() stdlib.hdf5nc.ncvariables(tempname), 'hdf5nc:ncvariables:fileNotFound')
+tc.verifyError(@() stdlib.hdf5nc.ncsize(tempname,""), 'hdf5nc:ncsize:fileNotFound')
 [~,badname] = fileparts(tempname);
-tc.verifyError(@() hdf5nc.ncsave(badname,"",0), 'hdf5nc:ncsave:fileNotFound')
+tc.verifyError(@() stdlib.hdf5nc.ncsave(badname,"",0), 'hdf5nc:ncsave:fileNotFound')
 end
 
 function test_real_only(tc)
-import hdf5nc.ncsave
+import stdlib.hdf5nc.ncsave
 basic = tc.TestData.basic;
 
 tc.verifyError(@() ncsave(basic, "bad_imag", 1j), 'MATLAB:validators:mustBeReal')

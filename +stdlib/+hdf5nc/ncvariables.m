@@ -13,6 +13,8 @@ arguments
   file string
 end
 
+import stdlib.fileio.expanduser
+
 assert(length(file)<2, "one file at a time")
 
 file = expanduser(file);

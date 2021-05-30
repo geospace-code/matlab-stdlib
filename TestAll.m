@@ -6,16 +6,18 @@ import matlab.unittest.plugins.CodeCoveragePlugin;
 import matlab.unittest.plugins.XMLPlugin;
 import matlab.unittest.plugins.codecoverage.CoberturaFormat;
 
-name = "hdf5nc";
+names = ["stdlib.fileio", "stdlib.hdf5nc", "stdlib.sys"];
 
-suite = testsuite(name);
+suite = testsuite(names);
 
-mkdir('code-coverage');
-mkdir('test-results');
+runner = TestRunner.withTextOutput('OutputDetail', Verbosity.Concise);
 
-runner = TestRunner.withTextOutput('OutputDetail', Verbosity.Detailed);
-runner.addPlugin(XMLPlugin.producingJUnitFormat('test-results/results.xml'));
-runner.addPlugin(CodeCoveragePlugin.forPackage(name, 'Producing', CoberturaFormat('code-coverage/coverage.xml')));
+if any(contains(getenv("CI"), ["TRUE", "true", "1"]))
+  mkdir('code-coverage');
+  mkdir('test-results');
+  runner.addPlugin(XMLPlugin.producingJUnitFormat('test-results/results.xml'));
+  runner.addPlugin(CodeCoveragePlugin.forPackage(names, 'Producing', CoberturaFormat('code-coverage/coverage.xml')));
+end
 
 results = runner.run(suite);
 assert(~isempty(results), "no tests found")

@@ -1,28 +1,36 @@
-# Matlab HDF5 and NetCDF4 high-level functions
+# Matlab standard library
 
 [![DOI](https://zenodo.org/badge/273830124.svg)](https://zenodo.org/badge/latestdoi/273830124)
 [![View matlab-hdf5 on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/78673-matlab-hdf5)
 [![MATLAB on GitHub-Hosted Runner](https://github.com/geospace-code/matlab-hdf5/actions/workflows/ci_matlab.yml/badge.svg)](https://github.com/geospace-code/matlab-hdf5/actions/workflows/ci_matlab.yml)
 
-These HDF5 and NetCDF4 functions should be built into Matlab itself, but since they're not yet, we provide them.
+Matlab users coming from other languages often notice the missing functionality contained within this user-developed, unofficial "stdlib" for Matlab.
+These system "sys", file I/O "fileio" and HDF5/NetCDF "hdf5nc" function are useful across several of our own and others projects.
 
 ## Usage
 
-This package is a Matlab package, so we assume you have either:
+This package is a Matlab package, so we assume you have done like:
 
 ```matlab
-import hdf5nc.*
+import stdlib.hdf5nc.*
+import stdlib.fileio.*
+import stdlib.sys.*
 ```
 
-or append `hdf5nc.` to each function call.
+or use the full package name like `stdlib.fileio.expanduser()`
 
-Run selftests by:
+Selftests can be run from that matlab-stdlib/ directory:
 
 ```matlab
-runtests('hdf5nc')
+TestAll
 ```
 
 ### HDF5
+
+```matlab
+import stdlib.hdf5nc.*
+```
+
 
 Matlab R2021a uses HDF5 1.8.12.
 
@@ -56,6 +64,11 @@ h5variables(filename)
 ```
 
 ### NetCDF4
+
+```matlab
+import stdlib.hdf5nc.*
+```
+
 
 Matlab R2021a uses NetCDF4 4.7.3.
 

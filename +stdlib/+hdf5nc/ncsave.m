@@ -10,6 +10,9 @@ arguments
   opts.type string = string.empty
 end
 
+import stdlib.fileio.expanduser
+import stdlib.hdf5nc.ncexists
+
 filename = expanduser(filename);
 
 if isempty(opts.dims)
@@ -40,7 +43,7 @@ end
 % coerce if needed
 A = coerce_ds(A, opts.type);
 
-if isfile(filename) && hdf5nc.ncexists(filename, varname)
+if isfile(filename) && ncexists(filename, varname)
   exist_file(filename, varname, A, sizeA)
 else
   new_file(filename, varname, A, sizeA, ncdims)
@@ -51,7 +54,9 @@ end % function
 
 function exist_file(filename, varname, A, sizeA)
 
-diskshape = hdf5nc.ncsize(filename, varname);
+import stdlib.hdf5nc.ncsize
+
+diskshape = ncsize(filename, varname);
 
 if all(diskshape == sizeA)
   ncwrite(filename, varname, A)

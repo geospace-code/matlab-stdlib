@@ -17,6 +17,8 @@ arguments
   group string = string.empty
 end
 
+import stdlib.fileio.expanduser
+
 assert(length(file)<2, "one file at a time")
 assert(length(group)<2, "one group at a time")
 

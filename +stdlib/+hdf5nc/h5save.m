@@ -11,6 +11,9 @@ arguments
   opts.type string = string.empty
 end
 
+import stdlib.fileio.expanduser
+import stdlib.hdf5nc.h5exists
+
 if isnumeric(A)
   mustBeReal(A)
 end
@@ -33,7 +36,7 @@ if ischar(A)
   sizeA = size(A);
 end
 
-if isfile(filename) && hdf5nc.h5exists(filename, varname)
+if isfile(filename) && h5exists(filename, varname)
   exist_file(filename, varname, A, sizeA)
 else
   new_file(filename, varname, A, sizeA)
@@ -44,7 +47,9 @@ end % function
 
 function exist_file(filename, varname, A, sizeA)
 
-diskshape = hdf5nc.h5size(filename, varname);
+import stdlib.hdf5nc.h5size
+
+diskshape = h5size(filename, varname);
 if length(diskshape) >= 2
   % start is always a row vector, regardless of shape of array
   start = ones(1,ndims(A));

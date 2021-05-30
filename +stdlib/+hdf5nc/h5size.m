@@ -1,7 +1,7 @@
-function fsize = ncsize(file, variable)
-% get size (shape) of a NetCDF4 variable
+function fsize = h5size(file, variable)
+% get size (shape) of an HDF5 dataset
 %
-% filename: NetCDF4 filename
+% filename: HDF5 filename
 % variable: name of variable inside file
 %
 % fsize: vector of variable size per dimension
@@ -9,6 +9,8 @@ arguments
   file string
   variable string
 end
+
+import stdlib.fileio.expanduser
 
 assert(length(file)<2, "one file at a time")
 assert(length(variable)<2, "one variable at a time")
@@ -22,9 +24,9 @@ if isempty(file) || isempty(variable)
 end
 
 if ~isfile(file)
-  error("hdf5nc:ncsize:fileNotFound", "%s not found.", file)
+  error("hdf5nc:h5size:fileNotFound", "%s not found.", file)
 end
 
-fsize = ncinfo(file, variable).Size;
+fsize = h5info(file, variable).Dataspace.Size;
 
 end
