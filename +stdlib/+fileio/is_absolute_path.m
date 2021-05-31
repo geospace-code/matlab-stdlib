@@ -8,7 +8,9 @@ arguments
   apath string
 end
 
-apath = stdlib.fileio.expanduser(apath);
+import stdlib.fileio.expanduser
+
+apath = expanduser(apath);
 
 if ispc
   i = strlength(apath) < 3;

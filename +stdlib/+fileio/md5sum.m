@@ -4,15 +4,12 @@ arguments
   file (1,1) string
 end
 
-file = stdlib.fileio.expanduser(file);
+import stdlib.fileio.expanduser
 
+file = expanduser(file);
 assert(isfile(file), '%s not found', file)
 
 hash = string.empty;
-
-if verLessThan('matlab', '9.7')
-  return
-end
 
 if ismac
   [stat,hash] = system("md5 -r " + file);

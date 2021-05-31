@@ -9,7 +9,9 @@ arguments
   out_dir (1,1) string
 end
 
-archive = stdlib.fileio.expanduser(archive);
+import stdlib.fileio.expanduser
+
+archive = expanduser(archive);
 
 assert(isfile(archive), "%s is not a file", archive)
 
