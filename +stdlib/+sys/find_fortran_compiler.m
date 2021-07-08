@@ -16,7 +16,7 @@ arguments
 end
 
 % stops upon finding first working Fortran compiler
-FCs = ["gfortran", "ifort", "flang", "nvfortran", "nagfor", ...
+FCs = ["gfortran", "ifx", "ifort", "flang", "nvfortran", "nagfor", ...
        "ftn", ... % Cray
        "xlf2008", ... % IBM XL
        "f95", ... % Absoft
