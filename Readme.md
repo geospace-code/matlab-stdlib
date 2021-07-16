@@ -31,8 +31,6 @@ TestAll
 import stdlib.hdf5nc.*
 ```
 
-Matlab R2021a uses HDF5 1.8.12.
-
 ```matlab
 [major,minor,rel] = H5.get_libversion()
 ```
@@ -67,9 +65,6 @@ h5variables(filename)
 ```matlab
 import stdlib.hdf5nc.*
 ```
-
-
-Matlab R2021a uses NetCDF4 4.7.3.
 
 ```matlab
 netcdf.inqLibVers

@@ -101,11 +101,10 @@ end
 
 function test_exists(tc, vars)
 import stdlib.hdf5nc.h5exists
-import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
 e = h5exists(basic, "/" + vars);
-tc.verifyThat(e, IsScalar)
+tc.verifyTrue(isscalar(e))
 tc.verifyTrue(e)
 
 % vector
@@ -124,15 +123,14 @@ end
 
 function test_size(tc)
 import stdlib.hdf5nc.h5size
-import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
 s = h5size(basic, '/A0');
-tc.verifyThat(s, IsScalar)
+tc.verifyTrue(isscalar(s))
 tc.verifyEqual(s, 1)
 
 s = h5size(basic, '/A1');
-tc.verifyThat(s, IsScalar)
+tc.verifyTrue(isscalar(s))
 tc.verifyEqual(s, 2)
 
 s = h5size(basic, '/A2');
@@ -155,11 +153,10 @@ end
 
 
 function test_read(tc)
-import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
 s = h5read(basic, '/A0');
-tc.verifyThat(s, IsScalar)
+tc.verifyTrue(isscalar(s))
 tc.verifyEqual(s, 42)
 
 s = h5read(basic, '/A1');
@@ -218,11 +215,11 @@ end
 
 function test_file_missing(tc)
 
-tc.verifyError(@() stdlib.hdf5nc.h5exists(tempname,""), 'hdf5nc:h5variables:fileNotFound')
+tc.verifyError(@() stdlib.hdf5nc.h5exists(tempname,"/bad"), 'hdf5nc:h5variables:fileNotFound')
 tc.verifyError(@() stdlib.hdf5nc.h5variables(tempname), 'hdf5nc:h5variables:fileNotFound')
-tc.verifyError(@() stdlib.hdf5nc.h5size(tempname,""), 'hdf5nc:h5size:fileNotFound')
+tc.verifyError(@() stdlib.hdf5nc.h5size(tempname,"/bad"), 'hdf5nc:h5size:fileNotFound')
 [~,badname] = fileparts(tempname);
-tc.verifyError(@() stdlib.hdf5nc.h5save(badname,"",0), 'hdf5nc:h5save:fileNotFound')
+tc.verifyError(@() stdlib.hdf5nc.h5save(badname,"/bad",0), 'hdf5nc:h5save:fileNotFound')
 end
 
 function test_real_only(tc)

@@ -27,6 +27,11 @@ if ~isfile(file)
   error("hdf5nc:h5size:fileNotFound", "%s not found.", file)
 end
 
-fsize = h5info(file, variable).Dataspace.Size;
+dsi = h5info(file, variable).Dataspace;
+if dsi.Type == "scalar"
+  fsize = 1;
+else
+  fsize = dsi.Size;
+end
 
 end
