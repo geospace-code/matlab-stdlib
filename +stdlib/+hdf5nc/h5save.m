@@ -77,7 +77,7 @@ if ~isfolder(folder)
   error('hdf5nc:h5save:fileNotFound', '%s is not a folder, cannot create %s', folder, filename)
 end
 
-if isscalar(A) && ~isstring(A) && ~isempty(varname)
+if isscalar(A) && ~isstring(A)
   dcpl = 'H5P_DEFAULT';
 
   if isfile(filename)
