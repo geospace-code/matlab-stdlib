@@ -2,12 +2,13 @@ function ncsave(filename, varname, A, opts)
 % NCSAVE
 % create or append to NetCDF4 file
 % parent folder (file directory) must already exist
+
 arguments
-  filename (1,1) string
-  varname (1,1) string
+  filename (1,1) string {mustBeNonzeroLengthText}
+  varname (1,1) string {mustBeNonzeroLengthText}
   A {mustBeNumeric,mustBeNonempty,mustBeReal}
   opts.dims cell = {}
-  opts.type string = string.empty
+  opts.type string {mustBeScalarOrEmpty} = string.empty
 end
 
 import stdlib.fileio.expanduser

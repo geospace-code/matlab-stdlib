@@ -3,13 +3,10 @@ function exe = which(name, fpath, subdir)
 % like Python shutil.which, may return relative or absolute path
 
 arguments
-  name string
+  name (1,1) string {mustBeNonzeroLengthText}
   fpath string = getenv('PATH')
-  subdir (1,:) string = ""
+  subdir (1,:) string {mustBeNonempty} = ""
 end
-
-assert(length(name) < 2, "fileio.which is for one executable at a time")
-assert(~isempty(subdir), "put '' or '""' for subdir if not wanted")
 
 exe = string.empty;
 

@@ -4,19 +4,15 @@ function h5save(filename, varname, A, opts)
 % parent folder (file directory) must already exist
 
 arguments
-  filename (1,1) string
-  varname (1,1) string
+  filename (1,1) string {mustBeNonzeroLengthText}
+  varname (1,1) string {mustBeNonzeroLengthText}
   A {mustBeNonempty}
   opts.size (1,:) double {mustBeInteger,mustBeNonnegative} = []
-  opts.type string = string.empty
+  opts.type string {mustBeScalarOrEmpty} = string.empty
 end
 
 import stdlib.fileio.expanduser
 import stdlib.hdf5nc.h5exists
-
-if strlength(varname) < 2
-  error("MATLAB:expectedNonempty", "variable name must start with / and be non-empty")
-end
 
 if isnumeric(A)
   mustBeReal(A)

@@ -13,27 +13,18 @@ function [names, groups] = h5variables(file, group)
 % groups: file groups
 
 arguments
-  file string
-  group string = string.empty
+  file (1,1) string {mustBeNonzeroLengthText}
+  group string {mustBeScalarOrEmpty} = string.empty
 end
 
 import stdlib.fileio.expanduser
-
-assert(length(file)<2, "one file at a time")
-assert(length(group)<2, "one group at a time")
 
 file = expanduser(file);
 
 names = string.empty;
 groups = string.empty;
 
-if isempty(file)
-  return
-end
-
-if ~isfile(file)
-  error("hdf5nc:h5variables:fileNotFound", "%s not found.", file)
-end
+assert(isfile(file), "%s not found", file)
 
 if isempty(group)
   finf = h5info(file);

@@ -56,9 +56,6 @@ function test_get_variables(tc)
 import stdlib.hdf5nc.ncvariables
 basic = tc.TestData.basic;
 
-tc.verifyEmpty(ncvariables(string.empty))
-
-
 tc.verifyEqual(sort(ncvariables(basic)), ["A0", "A1", "A2", "A3", "A4"])
 end
 
@@ -73,16 +70,10 @@ tc.verifyThat(e, IsScalar)
 tc.verifyTrue(e)
 
 % vector
-e = ncexists(basic, [vars, "oops", ""]);
+e = ncexists(basic, [vars, "oops"]);
 tc.verifyTrue(isrow(e))
-tc.verifyEqual(e, [true, false, false])
+tc.verifyEqual(e, [true, false])
 
-% empty
-e = ncexists(basic, string.empty);
-tc.verifyEmpty(e)
-
-tc.verifyEqual(ncexists(string.empty, ["oops", "hi"]), [false, false])
-tc.verifyEmpty(ncexists(string.empty, string.empty))
 end
 
 
@@ -111,10 +102,6 @@ s = ncsize(basic, 'A4');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
 
-% empty
-tc.verifyEmpty(ncsize(basic, string.empty))
-tc.verifyEmpty(ncsize(string.empty, string.empty))
-tc.verifyEmpty(ncsize(string.empty, "hi"))
 end
 
 
@@ -178,11 +165,8 @@ end
 
 function test_file_missing(tc)
 
-tc.verifyError(@() stdlib.hdf5nc.ncexists(tempname,""), 'hdf5nc:ncvariables:fileNotFound')
-tc.verifyError(@() stdlib.hdf5nc.ncvariables(tempname), 'hdf5nc:ncvariables:fileNotFound')
-tc.verifyError(@() stdlib.hdf5nc.ncsize(tempname,""), 'hdf5nc:ncsize:fileNotFound')
 [~,badname] = fileparts(tempname);
-tc.verifyError(@() stdlib.hdf5nc.ncsave(badname,"",0), 'hdf5nc:ncsave:fileNotFound')
+tc.verifyError(@() stdlib.hdf5nc.ncsave(badname,"bad",0), 'hdf5nc:ncsave:fileNotFound')
 end
 
 function test_real_only(tc)
@@ -190,7 +174,7 @@ import stdlib.hdf5nc.ncsave
 basic = tc.TestData.basic;
 
 tc.verifyError(@() ncsave(basic, "bad_imag", 1j), 'MATLAB:validators:mustBeReal')
-tc.verifyError(@() ncsave(basic, "", 0), 'MATLAB:imagesci:netcdf:badLocationString')
+tc.verifyError(@() ncsave(basic, "", 0), 'MATLAB:validators:mustBeNonzeroLengthText')
 end
 
 end

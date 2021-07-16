@@ -11,8 +11,8 @@ function exists = h5exists(file, varnames)
 % exists: boolean (scalar or vector)
 
 arguments
-  file string
-  varnames (1,:) string
+  file (1,1) string {mustBeNonzeroLengthText}
+  varnames (1,:) string {mustBeNonempty,mustBeNonzeroLengthText}
 end
 
 import stdlib.hdf5nc.h5variables

@@ -69,12 +69,6 @@ function test_get_variables(tc)
 import stdlib.hdf5nc.h5variables
 basic = tc.TestData.basic;
 
-tc.verifyEmpty(h5variables(string.empty))
-tc.verifyEmpty(h5variables(string.empty, string.empty))
-[a,b] = h5variables(string.empty, "hi");
-tc.verifyEmpty(a)
-tc.verifyEmpty(b)
-
 v = h5variables(basic);
 tc.verifyEqual(sort(v), ["A0", "A1", "A2", "A3", "A4"])
 
@@ -108,16 +102,9 @@ tc.verifyTrue(isscalar(e))
 tc.verifyTrue(e)
 
 % vector
-e = h5exists(basic, [vars, "oops", ""]);
+e = h5exists(basic, [vars, "oops"]);
 tc.verifyTrue(isrow(e))
-tc.verifyEqual(e, [true, false, false])
-
-% empty
-e = h5exists(basic, string.empty);
-tc.verifyEmpty(e)
-
-tc.verifyEqual(h5exists(string.empty, ["oops", "hi"]), [false, false])
-tc.verifyEmpty(h5exists(string.empty, string.empty))
+tc.verifyEqual(e, [true, false])
 end
 
 
@@ -144,11 +131,6 @@ tc.verifyEqual(s, [4,3,2])
 s = h5size(basic, '/A4');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
-
-% empty
-tc.verifyEmpty(h5size(basic, string.empty))
-tc.verifyEmpty(h5size(string.empty, string.empty))
-tc.verifyEmpty(h5size(string.empty, "hi"))
 end
 
 
@@ -215,9 +197,6 @@ end
 
 function test_file_missing(tc)
 
-tc.verifyError(@() stdlib.hdf5nc.h5exists(tempname,"/bad"), 'hdf5nc:h5variables:fileNotFound')
-tc.verifyError(@() stdlib.hdf5nc.h5variables(tempname), 'hdf5nc:h5variables:fileNotFound')
-tc.verifyError(@() stdlib.hdf5nc.h5size(tempname,"/bad"), 'hdf5nc:h5size:fileNotFound')
 [~,badname] = fileparts(tempname);
 tc.verifyError(@() stdlib.hdf5nc.h5save(badname,"/bad",0), 'hdf5nc:h5save:fileNotFound')
 end
@@ -227,7 +206,7 @@ import stdlib.hdf5nc.h5save
 basic = tc.TestData.basic;
 
 tc.verifyError(@() h5save(basic, "/bad_imag", 1j), 'MATLAB:validators:mustBeReal')
-tc.verifyError(@() h5save(basic, "", 0), 'MATLAB:expectedNonempty')
+tc.verifyError(@() h5save(basic, "", 0), 'MATLAB:validators:mustBeNonzeroLengthText')
 end
 
 end

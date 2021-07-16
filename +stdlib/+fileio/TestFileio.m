@@ -79,8 +79,6 @@ end
 function test_which(tc)
 import stdlib.fileio.which
 
-tc.verifyEmpty(which(string.empty))
-
 n = "matlab";
 % assumes Matlab in environment variable PATH
 tc.assumeNotEmpty(which(n))

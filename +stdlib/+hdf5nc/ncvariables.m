@@ -10,24 +10,14 @@ function names = ncvariables(file)
 % names: variable names
 
 arguments
-  file string
+  file (1,1) string {mustBeNonzeroLengthText}
 end
 
 import stdlib.fileio.expanduser
 
-assert(length(file)<2, "one file at a time")
-
 file = expanduser(file);
 
-names = string.empty;
-
-if isempty(file)
-  return
-end
-
-if ~isfile(file)
-  error("hdf5nc:ncvariables:fileNotFound", "%s not found.", file)
-end
+assert(isfile(file), "%s not found", file)
 
 finf = ncinfo(file);
 ds = finf.Variables(:);
