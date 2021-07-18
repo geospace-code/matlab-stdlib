@@ -19,10 +19,14 @@ assert(isfile(archive), "%s is not a file", archive)
 if ret ~= 0
   if ismac
     msg = "brew install zstd";
+  elseif isunix
+    msg = "apt install zstd";
+  elseif ispc
+    msg = "https://github.com/facebook/zstd/releases  and look for zstd-*-win64.zip";
   else
-    msg = "cmake -P cmake/build_zstd.cmake";
+    msg = "https://github.com/facebook/zstd/releases";
   end
-  error("need to have Zstd installed: \n install zstd by: \n %s", msg)
+  error("stdlib:fileio:extract_zstd:EnvironmentError", "need to have Zstd installed: \n install zstd: \n %s", msg)
 end
 
 tar_arc = tempname;
