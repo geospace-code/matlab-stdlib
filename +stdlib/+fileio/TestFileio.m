@@ -78,14 +78,20 @@ end
 
 function test_which(tc)
 import stdlib.fileio.which
+import stdlib.fileio.is_exe
 
 n = "matlab";
-% assumes Matlab in environment variable PATH
-tc.assumeNotEmpty(which(n))
-
+%% which: Matlab in environment variable PATH
+tc.verifyNotEmpty(which(n))
+%% is_exe test
 p = fullfile(matlabroot, "bin", n);
-
-% full absolute path
+if ispc
+  fp = p + ".exe";
+else
+  fp = p;
+end
+tc.verifyTrue(is_exe(fp))
+%% which: test absolute path
 exe = which(p);
 
 if ispc

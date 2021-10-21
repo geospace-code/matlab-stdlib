@@ -8,6 +8,8 @@ arguments
   subdir (1,:) string {mustBeNonempty} = ""
 end
 
+import stdlib.fileio.is_exe
+
 exe = string.empty;
 
 if ispc
@@ -20,7 +22,7 @@ end
 if any(strlength(fileparts(name)) > 0)
   % has directory part
   for n = name
-    if check_exe(n)
+    if is_exe(n)
       exe = n;
       break
     end
@@ -40,7 +42,7 @@ for p = fpath
   for s = subdir
     for n = name
       e = fullfile(p, s, n);
-      if check_exe(e)
+      if is_exe(e)
         exe = e;
         return
       end
@@ -48,16 +50,5 @@ for p = fpath
   end
 
 end
-
-end
-
-
-function ok = check_exe(exe)
-arguments
-  exe (1,1) string
-end
-
-[ok1, stat] = fileattrib(exe);
-ok = ok1 == 1 && (stat.UserExecute == 1 || stat.GroupExecute == 1);
 
 end
