@@ -78,31 +78,8 @@ if ~isfolder(folder)
 end
 
 if isscalar(A) && ~isstring(A)
-  dcpl = 'H5P_DEFAULT';
-
-  if isfile(filename)
-    fid = H5F.open(filename, 'H5F_ACC_RDWR', dcpl);
-  else
-    fid = H5F.create(filename);
-  end
-
-  create_hdf5_group(fid, varname);
-
-  space_id = H5S.create('H5S_SCALAR');
-  t = class2h5t(A);
-  type_id = H5T.copy(t);
-  dset_id = H5D.create(fid, varname, type_id, space_id, dcpl);
-  H5D.write(dset_id,'H5ML_DEFAULT','H5S_ALL','H5S_ALL', dcpl, A);
-
-  H5S.close(space_id);
-  H5T.close(type_id);
-  H5D.close(dset_id);
-  H5F.close(fid);
-
-  return
-end
-
-if isvector(A)
+  h5_write_scalar(filename, varname, A)
+elseif isvector(A)
   h5create(filename, varname, sizeA, 'DataType', class(A))
 else
   % enable Gzip compression--remember Matlab's dim order is flipped from
@@ -114,43 +91,6 @@ end % if
 
 h5write(filename, varname, A)
 
-end % function
-
-
-function t = class2h5t(A)
-% gets HDF5 H5T of variable A
-
-switch class(A)
-  case 'double', t = 'H5T_NATIVE_DOUBLE';
-  case 'single', t = 'H5T_NATIVE_FLOAT';
-  case 'int32', t = 'H5T_STD_I32LE';
-  case 'int64', t = 'H5T_STD_I64LE';
-  otherwise, error('h5save:class2h5t: unknown data class %s', class(A))
-end
-
-end
-
-
-function create_hdf5_group(fid, name)
-
-grps = split(name, "/");
-if length(grps) < 3
-  return
-end
-
-plist = 'H5P_DEFAULT';
-groot = H5G.open(fid, "/");
-
-for i = 0:length(grps) - 3
-  n = join(grps(1:i+2), "/");
-
-  if ~H5L.exists(groot, n, plist)
-    gid = H5G.create(fid, n, plist, plist, plist);
-    H5G.close(gid)
-  end
-end % for
-
-H5G.close(groot)
 end % function
 
 
