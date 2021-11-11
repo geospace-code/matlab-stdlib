@@ -195,11 +195,16 @@ a = h5read(basic, "/"+str);
 tc.verifyEqual(a, string(str))
 end
 
-function test_file_missing(tc)
+function test_name_only(tc)
+import stdlib.hdf5nc.h5save
 
-[~,badname] = fileparts(tempname);
-tc.verifyError(@() stdlib.hdf5nc.h5save(badname,"/bad",0), 'hdf5nc:h5save:fileNotFound')
+[~,name] = fileparts(tempname);
+tc.assumeFalse(isfile(name))
+
+h5save(name, "/A0", 42);
+delete(name)
 end
+
 
 function test_real_only(tc)
 import stdlib.hdf5nc.h5save

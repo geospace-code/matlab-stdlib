@@ -157,17 +157,22 @@ tc.assumeThat(basic, IsFile)
 tc.verifyEqual(ncread(basic, 'A2'), 3*magic(4))
 end
 
+function test_name_only(tc)
+import stdlib.hdf5nc.ncsave
+
+[~,name] = fileparts(tempname);
+tc.assumeFalse(isfile(name))
+
+ncsave(name, "/A0", 42);
+delete(name)
+end
+
 function test_no_char_string(tc)
 import stdlib.hdf5nc.ncsave
 tc.verifyError(@() ncsave(tc.TestData.basic, "/a_string", "hello"), 'MATLAB:validators:mustBeNumeric')
 
 end
 
-function test_file_missing(tc)
-
-[~,badname] = fileparts(tempname);
-tc.verifyError(@() stdlib.hdf5nc.ncsave(badname,"bad",0), 'hdf5nc:ncsave:fileNotFound')
-end
 
 function test_real_only(tc)
 import stdlib.hdf5nc.ncsave

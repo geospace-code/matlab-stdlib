@@ -73,7 +73,7 @@ end % function
 function new_file(filename, varname, A, sizeA)
 
 folder = fileparts(filename);
-if ~isfolder(folder)
+if strlength(folder) > 0 && ~isfolder(folder)
   error('hdf5nc:h5save:fileNotFound', '%s is not a folder, cannot create %s', folder, filename)
 end
 
