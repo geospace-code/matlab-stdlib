@@ -5,6 +5,6 @@ authors:
     given-names: Michael
     orcid: https://orcid.org/0000-0002-1637-6526
 title: Matlab-stdlib
-version: 4.1.1
+version: 4.1.2
 doi: 10.5281/zenodo.3964540
-date-released: 2021-11-11
+date-released: 2021-11-17
