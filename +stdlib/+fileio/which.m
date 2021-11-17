@@ -4,33 +4,31 @@ function exe = which(name, fpath, subdir)
 
 arguments
   name (1,1) string {mustBeNonzeroLengthText}
-  fpath string = getenv('PATH')
+  fpath (1,:) string = getenv('PATH')
   subdir (1,:) string {mustBeNonempty} = ""
 end
 
 import stdlib.fileio.is_exe
-
-exe = string.empty;
+import stdlib.fileio.expanduser
 
 if ispc
   pathext = ".exe";
   if ~endsWith(name, pathext)
-    name = [name + pathext, name];
+    name = name + pathext;
   end
 end
 
-if any(strlength(fileparts(name)) > 0)
+if strlength(fileparts(name)) > 0
   % has directory part
-  for n = name
-    if is_exe(n)
-      exe = n;
-      break
-    end
+  if is_exe(name)
+    exe = name;
+    return
   end
-  return
 end
 
-fpath = split(stdlib.fileio.expanduser(fpath), pathsep).';
+if isscalar(fpath)
+  fpath = split(expanduser(fpath), pathsep).';
+end
 fpath = fpath(strlength(fpath)>0);
 
 if ispc
@@ -40,15 +38,13 @@ end
 
 for p = fpath
   for s = subdir
-    for n = name
-      e = fullfile(p, s, n);
-      if is_exe(e)
-        exe = e;
-        return
-      end
+    exe = fullfile(p, s, name);
+    if is_exe(exe)
+      return
     end
   end
-
 end
+
+exe = string.empty;
 
 end
