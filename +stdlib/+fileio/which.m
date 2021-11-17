@@ -1,11 +1,10 @@
-function exe = which(name, fpath, subdir)
+function exe = which(name, fpath)
 % fileio.which Find executable with name under path
 % like Python shutil.which, may return relative or absolute path
 
 arguments
   name (1,1) string {mustBeNonzeroLengthText}
   fpath (1,:) string = getenv('PATH')
-  subdir (1,:) string {mustBeNonempty} = ""
 end
 
 import stdlib.fileio.is_exe
@@ -37,11 +36,9 @@ if ispc
 end
 
 for p = fpath
-  for s = subdir
-    exe = fullfile(p, s, name);
-    if is_exe(exe)
-      return
-    end
+  exe = fullfile(p, name);
+  if is_exe(exe)
+    return
   end
 end
 
