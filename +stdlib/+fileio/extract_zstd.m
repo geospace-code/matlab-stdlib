@@ -10,28 +10,18 @@ arguments
 end
 
 import stdlib.fileio.expanduser
+import stdlib.fileio.which
 
 archive = expanduser(archive);
 
 assert(isfile(archive), "%s is not a file", archive)
 
-[ret, ~] = system("zstd -h");
-if ret ~= 0
-  if ismac
-    msg = "brew install zstd";
-  elseif isunix
-    msg = "apt install zstd";
-  elseif ispc
-    msg = "https://github.com/facebook/zstd/releases  and look for zstd-*-win64.zip";
-  else
-    msg = "https://github.com/facebook/zstd/releases";
-  end
-  error("stdlib:fileio:extract_zstd:EnvironmentError", "need to have Zstd installed: \n install zstd: \n %s", msg)
-end
+exe = which("zstd");
+assert(~isempty(exe), "need to have Zstd installed: https://github.com/facebook/zstd")
 
 tar_arc = tempname;
 
-ret = system("zstd -d " + archive + " -o " + tar_arc);
+ret = system(exe + " -d " + archive + " -o " + tar_arc);
 assert(ret == 0, "problem extracting %s", archive)
 
 untar(tar_arc, out_dir)
