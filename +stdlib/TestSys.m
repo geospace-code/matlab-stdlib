@@ -2,6 +2,15 @@ classdef TestSys < matlab.unittest.TestCase
 
 methods (Test)
 
+function test_run(tc)
+if ispc
+  cmd = 'dir';
+else
+  cmd = 'ls';
+end
+tc.verifyEqual(stdlib.sys.subprocess_run(cmd), 0)
+end
+
 function test_find_fortran(tc)
 import matlab.unittest.constraints.IsOfClass
 tc.verifyThat(stdlib.sys.find_fortran_compiler(), IsOfClass('string'))
