@@ -3,23 +3,28 @@ classdef TestSys < matlab.unittest.TestCase
 methods (Test)
 
 function test_find_fortran(tc)
-tc.assertTrue(isstring(stdlib.sys.find_fortran_compiler()))
+import matlab.unittest.constraints.IsOfClass
+tc.verifyThat(stdlib.sys.find_fortran_compiler(), IsOfClass('string'))
 end
 
 function test_cygwin(tc)
-tc.assertTrue(islogical(stdlib.sys.iscygwin))
+import matlab.unittest.constraints.IsOfClass
+tc.verifyThat(stdlib.sys.iscygwin, IsOfClass('logical'))
 end
 
 function test_octave(tc)
-tc.assertTrue(islogical(stdlib.sys.isoctave))
+import matlab.unittest.constraints.IsOfClass
+tc.verifyThat(stdlib.sys.isoctave, IsOfClass('logical'))
 end
 
 function test_wsl(tc)
-tc.assertTrue(islogical(stdlib.sys.iswsl))
+import matlab.unittest.constraints.IsOfClass
+tc.verifyThat(stdlib.sys.iswsl, IsOfClass('logical'))
 end
 
 function test_isinteractive(tc)
-tc.assertTrue(islogical(stdlib.sys.isinteractive))
+import matlab.unittest.constraints.IsOfClass
+tc.verifyThat(stdlib.sys.isinteractive, IsOfClass('logical'))
 end
 
 end

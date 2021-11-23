@@ -77,6 +77,7 @@ tc.assertTrue(isfolder(d))
 end
 
 function test_which(tc)
+import matlab.unittest.constraints.IsFile
 import stdlib.fileio.which
 import stdlib.fileio.is_exe
 
@@ -99,7 +100,7 @@ if ispc
 else
   tc.verifyFalse(endsWith(exe, ".exe"))
 end
-tc.assertTrue(isfile(exe))
+tc.verifyThat(exe, IsFile)
 
 end
 
