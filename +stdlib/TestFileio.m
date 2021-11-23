@@ -119,9 +119,14 @@ end
 end
 
 function test_copyfile(tc)
+import matlab.unittest.constraints.IsFile
+
 f1 = tempname;
+[~,name] = fileparts(f1);
 fclose(fopen(f1,'w'));
 stdlib.fileio.copyfile(f1, tempdir)
+
+tc.verifyThat(fullfile(tempdir, name), IsFile)
 end
 
 end

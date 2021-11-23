@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/273830124.svg)](https://zenodo.org/badge/latestdoi/273830124)
 [![View matlab-hdf5 on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/78673-matlab-hdf5)
-[![MATLAB on GitHub-Hosted Runner](https://github.com/geospace-code/matlab-hdf5/actions/workflows/ci_matlab.yml/badge.svg)](https://github.com/geospace-code/matlab-hdf5/actions/workflows/ci_matlab.yml)
+[![MATLAB on GitHub-Hosted Runner](https://github.com/geospace-code/matlab-hdf5/actions/workflows/ci.yml/badge.svg)](https://github.com/geospace-code/matlab-hdf5/actions/workflows/ci.yml)
 
 Matlab users coming from other languages often notice the missing functionality contained within this user-developed, unofficial "stdlib" for Matlab.
 These system "sys", file I/O "fileio" and HDF5/NetCDF "hdf5nc" function are useful across several of our own and others projects.
@@ -22,7 +22,7 @@ or use the full package name like `stdlib.fileio.expanduser()`
 Selftests can be run from that matlab-stdlib/ directory:
 
 ```matlab
-TestAll
+runtests('stdlib.tests')
 ```
 
 ### HDF5
@@ -30,6 +30,8 @@ TestAll
 ```matlab
 import stdlib.hdf5nc.*
 ```
+
+Check HDF5 version built into Matlab:
 
 ```matlab
 [major,minor,rel] = H5.get_libversion()
@@ -65,6 +67,8 @@ h5variables(filename)
 ```matlab
 import stdlib.hdf5nc.*
 ```
+
+Check NetCDF4 version built into Matlab:
 
 ```matlab
 netcdf.inqLibVers

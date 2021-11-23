@@ -1,10 +1,10 @@
-name: MATLAB on GitHub-Hosted Runner
+name: ci
 
 on:
   push:
     paths:
     - "**.m"
-    - ".github/workflows/ci_matlab.yml"
+    - ".github/workflows/ci.yml"
 
 
 jobs:
@@ -18,7 +18,7 @@ jobs:
         uses: matlab-actions/setup-matlab@v1
 
       - name: Run tests and generate artifacts
-        uses: matlab-actions/run-tests@v1
+        timeout-minutes: 5
+        uses: matlab-actions/run-command@v1
         with:
-          test-results-junit: test-results/results.xml
-          code-coverage-cobertura: code-coverage/coverage.xml
+          command: r = runtests('stdlib'), assert ~isempty(r), assertSuccess(r)

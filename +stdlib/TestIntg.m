@@ -4,7 +4,9 @@ methods (Test)
 
 function test_checkRAM(tc)
 import stdlib.sys.checkRAM
-tc.assumeNotEmpty(pyversion)
+
+pe = pyenv;
+tc.assumeNotEmpty(pe.Version)
 
 tc.assertTrue(islogical(checkRAM(1)))
 end
@@ -17,7 +19,9 @@ end
 
 function test_memory(tc)
 import stdlib.sys.memfree
-tc.assumeNotEmpty(pyversion)
+
+pe = pyenv;
+tc.assumeNotEmpty(pe.Version)
 tc.assertTrue(isnumeric(memfree))
 end
 

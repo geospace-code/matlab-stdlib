@@ -71,6 +71,7 @@ end % function
 
 
 function new_file(filename, varname, A, sizeA, ncdims)
+import stdlib.hdf5nc.auto_chunk_size
 
 folder = fileparts(filename);
 if strlength(folder) > 0 && ~isfolder(folder)
