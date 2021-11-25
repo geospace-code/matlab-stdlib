@@ -28,7 +28,11 @@ for i = 1:length(abspath)
     % UNC path is not canonicalized
     continue
   end
-  abspath(i) = string(java.io.File(abspath(i)).getCanonicalPath());
+  try
+    abspath(i) = string(java.io.File(abspath(i)).getCanonicalPath());
+  catch excp
+    error("stdlib:fileio:absolute_path", "%s is not a canonicalizable path.  %s", abspath(i), excp.message)
+  end
 end
 
 end % function
