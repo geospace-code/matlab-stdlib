@@ -24,6 +24,10 @@ end
 abspath = p;
 
 for i = 1:length(abspath)
+  if ispc && startsWith(abspath(i), "\\")
+    % UNC path is not canonicalized
+    continue
+  end
   abspath(i) = string(java.io.File(abspath(i)).getCanonicalPath());
 end
 
