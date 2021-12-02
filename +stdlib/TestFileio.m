@@ -76,14 +76,26 @@ stdlib.fileio.makedir(d)
 tc.assertTrue(isfolder(d))
 end
 
-function test_which(tc)
+function test_which_name(tc)
+import stdlib.fileio.which
+
+if ismac
+  n = "ls";
+else
+  n = "matlab";
+end
+%% which: Matlab in environment variable PATH
+% MacOS Matlab does not source .zshrc so Matlab is not on internal Matlab PATH
+tc.verifyNotEmpty(which(n))
+
+end
+
+function test_is_exe_which_fullpath(tc)
 import matlab.unittest.constraints.IsFile
 import stdlib.fileio.which
 import stdlib.fileio.is_exe
 
 n = "matlab";
-%% which: Matlab in environment variable PATH
-tc.verifyNotEmpty(which(n))
 %% is_exe test
 p = fullfile(matlabroot, "bin", n);
 if ispc
