@@ -27,13 +27,11 @@ else
   cmd = exe;
 end
 
-if ~isempty(fieldnames(opt.env))
-  for f = string(fieldnames(opt.env)).'
-    if ispc
-      cmd = append("set ", f, "=", opt.env.(f), " && ", cmd);
-    else
-      cmd = append(f, "=", opt.env.(f), " ", cmd);
-    end
+for f = string(fieldnames(opt.env)).'
+  if ispc
+    cmd = append("set ", f, "=", opt.env.(f), " && ", cmd);
+  else
+    cmd = append(f, "=", opt.env.(f), " ", cmd);
   end
 end
 

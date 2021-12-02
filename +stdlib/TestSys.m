@@ -2,13 +2,39 @@ classdef TestSys < matlab.unittest.TestCase
 
 methods (Test)
 
-function test_run(tc)
+function test_simple_run(tc)
+
+import stdlib.sys.subprocess_run
+
 if ispc
-  cmd = 'dir';
+  c = 'dir';
 else
-  cmd = 'ls';
+  c = 'ls';
 end
-tc.verifyEqual(stdlib.sys.subprocess_run(cmd), 0)
+tc.verifyEqual(subprocess_run(c), 0)
+end
+
+
+function test_env_run(tc)
+
+import stdlib.sys.subprocess_run
+
+names = ["TEST1", "TEST2"];
+vals = ["test123", "test321"];
+
+env = struct(names(1), vals(1), names(2), vals(2));
+
+% NOTE: test function cannot get specific variables without invoking a
+% subshell, as echo is evaluated in current shell before &&
+if ispc
+  c = "set";
+else
+  c = "env";
+end
+[ret, msg] = subprocess_run(c, env=env);
+tc.verifyEqual(ret, 0)
+tc.verifyTrue(contains(msg, names(1) + "=" + vals(1)) && contains(msg, names(2) + "=" + vals(2)))
+
 end
 
 function test_find_fortran(tc)
