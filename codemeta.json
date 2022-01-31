@@ -8,7 +8,6 @@
     "downloadUrl": "https://github.com/geospace-code/matlab-stdlib/releases",
     "issueTracker": "https://github.com/geospace-code/matlab-stdlib/issues",
     "name": "matlab-stdlib",
-    "version": "4.1.4",
     "identifier": "10.5281/zenodo.3964541",
     "description": "Matlab unofficial standard library, including HDF5 / NetCDF4 functions that should be included in Matlab.",
     "applicationCategory": "computation",

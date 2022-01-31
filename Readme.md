@@ -7,25 +7,13 @@
 Matlab users coming from other languages often notice the missing functionality contained within this user-developed, unofficial "stdlib" for Matlab.
 These system "sys", file I/O "fileio" and HDF5/NetCDF "hdf5nc" function are useful across several of our own and others projects.
 
-## Usage
-
-This package is a Matlab package, so we assume you have done like:
-
-```matlab
-import stdlib.hdf5nc.*
-import stdlib.fileio.*
-import stdlib.sys.*
-```
-
-or use the full package name like `stdlib.fileio.expanduser()`
-
 Selftests can be run from that matlab-stdlib/ directory:
 
 ```matlab
 runtests('stdlib.tests')
 ```
 
-### HDF5
+## HDF5
 
 ```matlab
 import stdlib.hdf5nc.*
@@ -62,7 +50,7 @@ Get the names of all datasets in a file
 h5variables(filename)
 ```
 
-### NetCDF4
+## NetCDF4
 
 ```matlab
 import stdlib.hdf5nc.*
