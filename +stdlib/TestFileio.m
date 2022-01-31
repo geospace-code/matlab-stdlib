@@ -142,6 +142,21 @@ stdlib.fileio.copyfile(f1, tempdir)
 tc.verifyThat(fullfile(tempdir, name), IsFile)
 end
 
+function test_hash(tc)
+import matlab.unittest.constraints.IsFile
+
+fn = tempname;
+fid = fopen(fn, "w");
+tc.assumeGreaterThan(fid, 0);
+fprintf(fid, "hello");
+fclose(fid);
+tc.assumeThat(fn, IsFile)
+
+tc.verifyEqual(stdlib.fileio.md5sum(fn), "5d41402abc4b2a76b9719d911017c592")
+tc.verifyEqual(stdlib.fileio.sha256sum(fn), "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824")
+
+delete(fn)
 end
 
+end
 end

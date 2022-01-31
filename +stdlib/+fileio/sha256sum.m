@@ -9,8 +9,6 @@ import stdlib.fileio.expanduser
 file = expanduser(file);
 assert(isfile(file), '%s not found', file)
 
-hash = string.empty;
-
 if ismac
   [stat,hash] = system("shasum --algorithm 256 --binary " + file);
 elseif isunix
@@ -18,14 +16,13 @@ elseif isunix
 elseif ispc
   [stat,hash] = system("CertUtil -hashfile " + file + " SHA256");
 else
-  return
+  error("no md5sum method for your OS")
 end
 
-if stat ~= 0
-  return
-end
+assert(stat == 0, hash)
 
 hash = regexp(hash,'^\w{64}','match','once','lineanchors');
+hash = string(hash);
 
 assert(strlength(hash)==64, 'SHA256 hash is 64 characters')
 

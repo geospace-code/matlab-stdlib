@@ -8,7 +8,8 @@ on:
 
 
 jobs:
-  linux:
+
+  matlab:
     timeout-minutes: 15
     runs-on: ${{ matrix.os }}
 
