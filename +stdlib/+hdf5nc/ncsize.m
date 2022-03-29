@@ -16,6 +16,11 @@ file = expanduser(file);
 
 assert(isfile(file), "%s not found", file)
 
-fsize = ncinfo(file, variable).Size;
+dsi = ncinfo(file, variable);
+if isempty(dsi.Dimensions)
+  fsize = [];
+else
+  fsize = dsi.Size;
+end
 
 end

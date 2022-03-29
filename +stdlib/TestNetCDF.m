@@ -83,8 +83,7 @@ import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
 s = ncsize(basic, 'A0');
-tc.verifyThat(s, IsScalar)
-tc.verifyEqual(s, 1)
+tc.verifyEmpty(s)
 
 s = ncsize(basic, 'A1');
 tc.verifyThat(s, IsScalar)

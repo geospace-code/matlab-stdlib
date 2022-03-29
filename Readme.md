@@ -97,11 +97,17 @@ If dataset exists, the existing dataset shape must match the variable.
 ncsave(filename, variable_name, variable)
 ```
 
+---
+
 Get the dataset size (shape)
 
 ```matlab
 ncsize(filename, variable_name)
 ```
+
+A scalar disk variable will return empty `[]`.
+
+---
 
 Get the names of all datasets in a file
 
