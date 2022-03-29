@@ -7,7 +7,7 @@
 Matlab users coming from other languages often notice the missing functionality contained within this user-developed, unofficial "stdlib" for Matlab.
 These system "sys", file I/O "fileio" and HDF5/NetCDF "hdf5nc" function are useful across several of our own and others projects.
 
-Selftests can be run from that matlab-stdlib/ directory:
+Self-tests can be run from that matlab-stdlib/ directory:
 
 ```matlab
 runtests('stdlib.tests')
@@ -31,12 +31,30 @@ Check that a dataset exists in file:
 h5exists(filename, dataset_name)
 ```
 
+---
+
 Save a variable to a dataset.
 If dataset exists, the existing dataset shape must match the variable.
 
 ```matlab
 h5save(filename, dataset_name, dataset)
 ```
+
+The shape of the dataset can be controlled by specifying the "size" argument.
+This is particularly useful when writing HDF5 files to be used in other programming languages where dimensional shapes are important.
+Matlab may collapse singleton dimensions otherwise.
+
+```matlab
+h5save(filename, dataset_name, dataset, "size", [3,1])
+```
+
+Likewise, the type of the dataset may be explicitly specified with the "type" argument:
+
+```matlab
+h5save(filename, dataset_name, dataset, "type", "int32")
+```
+
+---
 
 Get the dataset size (shape)
 
