@@ -4,7 +4,7 @@
     "license": "https://spdx.org/licenses/MIT",
     "codeRepository": "https://github.com/geospace-code/matlab-stdlib",
     "contIntegration": "https://github.com/geospace-code/matlab-stdlib/actions",
-    "dateModified": "2021-11-17",
+    "dateModified": "2022-03-29",
     "downloadUrl": "https://github.com/geospace-code/matlab-stdlib/releases",
     "issueTracker": "https://github.com/geospace-code/matlab-stdlib/issues",
     "name": "matlab-stdlib",

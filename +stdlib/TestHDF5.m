@@ -116,8 +116,7 @@ import stdlib.hdf5nc.h5size
 basic = tc.TestData.basic;
 
 s = h5size(basic, '/A0');
-tc.verifyTrue(isscalar(s))
-tc.verifyEqual(s, 1)
+tc.verifyEmpty(s)
 
 s = h5size(basic, '/A1');
 tc.verifyTrue(isscalar(s))
@@ -159,6 +158,22 @@ tc.verifyEqual(s, tc.TestData.A3)
 s = h5read(basic, '/A4');
 tc.verifyEqual(ndims(s), 4)
 tc.verifyEqual(s, tc.TestData.A4)
+end
+
+
+function test_shape(tc)
+import stdlib.hdf5nc.h5save
+import stdlib.hdf5nc.h5size
+basic = tc.TestData.basic;
+
+h5save(basic, "/vector1", 34, "size", 1)
+s = h5size(basic, '/vector1');
+tc.verifyEqual(s, 1);
+
+h5save(basic, "/scalar", 34, "size", 0)
+s = h5size(basic, '/scalar');
+tc.verifyEmpty(s);
+
 end
 
 

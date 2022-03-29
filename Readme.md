@@ -62,6 +62,10 @@ Get the dataset size (shape)
 h5size(filename, dataset_name)
 ```
 
+A scalar dataset will return empty `[]`.
+
+---
+
 Get the names of all datasets in a file
 
 ```matlab

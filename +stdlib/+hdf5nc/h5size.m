@@ -18,7 +18,7 @@ assert(isfile(file), "%s not found", file)
 
 dsi = h5info(file, variable).Dataspace;
 if dsi.Type == "scalar"
-  fsize = 1;
+  fsize = [];
 else
   fsize = dsi.Size;
 end

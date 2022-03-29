@@ -20,26 +20,13 @@ end
 
 filename = expanduser(filename);
 
-if isempty(opts.size)
-  if isvector(A)
-    sizeA = length(A);
-  else
-    sizeA = size(A);
-  end
-else
-  sizeA = opts.size;
-end
 % coerce if needed
 A = coerce_ds(A, opts.type);
-if ischar(A)
-  A = string(A);
-  sizeA = size(A);
-end
 
 if isfile(filename) && h5exists(filename, varname)
-  exist_file(filename, varname, A, sizeA)
+  exist_file(filename, varname, A, opts.size)
 else
-  new_file(filename, varname, A, sizeA)
+  new_file(filename, varname, A, opts.size)
 end
 
 end % function
@@ -57,6 +44,10 @@ elseif ~isempty(diskshape)
   start = 1;
 end
 
+if isempty(sizeA)
+  sizeA = defaultSize(A);
+end
+
 if isscalar(A)
   h5write(filename, varname, A)
 elseif all(diskshape == sizeA)
@@ -71,24 +62,32 @@ end % function
 
 
 function new_file(filename, varname, A, sizeA)
-import stdlib.hdf5nc.auto_chunk_size
+
 
 folder = fileparts(filename);
 if strlength(folder) > 0 && ~isfolder(folder)
   error('hdf5nc:h5save:fileNotFound', '%s is not a folder, cannot create %s', folder, filename)
 end
 
-if isscalar(A) && ~isstring(A)
-  h5_write_scalar(filename, varname, A)
-elseif isvector(A)
-  h5create(filename, varname, sizeA, 'DataType', class(A))
+if isempty(sizeA)
+  if isscalar(A) && ~isstring(A)
+    h5_write_scalar(filename, varname, A)
+  elseif isvector(A)
+    h5create(filename, varname, length(A), 'DataType', class(A))
+  else
+    create_compress(filename, varname, A, size(A))
+  end
 else
-  % enable Gzip compression--remember Matlab's dim order is flipped from
-  % C / Python
-  h5create(filename, varname, sizeA, 'DataType', class(A), ...
-    'Deflate', 1, 'Fletcher32', true, 'Shuffle', true, ...
-    'ChunkSize', auto_chunk_size(sizeA))
-end % if
+  if isscalar(sizeA)
+    if sizeA == 0 && ~isstring(A)
+      h5_write_scalar(filename, varname, A)
+    else
+      h5create(filename, varname, sizeA, 'DataType', class(A))
+    end
+  else
+    create_compress(filename, varname, A, sizeA)
+  end
+end
 
 h5write(filename, varname, A)
 
