@@ -113,26 +113,38 @@ end
 
 function test_size(tc)
 import stdlib.hdf5nc.h5size
+import stdlib.hdf5nc.h5ndims
 basic = tc.TestData.basic;
 
+r = h5ndims(basic, '/A0');
 s = h5size(basic, '/A0');
 tc.verifyEmpty(s)
+tc.verifyEqual(r, 0)
 
+r = h5ndims(basic, '/A1');
 s = h5size(basic, '/A1');
 tc.verifyTrue(isscalar(s))
 tc.verifyEqual(s, 2)
+tc.verifyEqual(r, 1)
 
+r = h5ndims(basic, '/A2');
 s = h5size(basic, '/A2');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,4])
+tc.verifyEqual(r, 2)
 
+r = h5ndims(basic, '/A3');
 s = h5size(basic, '/A3');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2])
+tc.verifyEqual(r, 3)
 
+r = h5ndims(basic, '/A4');
 s = h5size(basic, '/A4');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
+tc.verifyEqual(r, 4)
+
 end
 
 

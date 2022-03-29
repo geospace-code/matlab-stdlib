@@ -56,6 +56,14 @@ h5save(filename, dataset_name, dataset, "type", "int32")
 
 ---
 
+Get the dataset rank (number of dimensions)
+
+```matlab
+h5ndims(filename, variable_name)
+```
+
+---
+
 Get the dataset size (shape)
 
 ```matlab
@@ -95,6 +103,14 @@ If dataset exists, the existing dataset shape must match the variable.
 
 ```matlab
 ncsave(filename, variable_name, variable)
+```
+
+---
+
+Get the variable rank (number of dimensions)
+
+```matlab
+ncndims(filename, variable_name)
 ```
 
 ---

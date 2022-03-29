@@ -79,27 +79,38 @@ end
 
 function test_size(tc)
 import stdlib.hdf5nc.ncsize
+import stdlib.hdf5nc.ncndims
 import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
+r = ncndims(basic, 'A0');
 s = ncsize(basic, 'A0');
 tc.verifyEmpty(s)
+tc.verifyEqual(r, 0)
 
+r = ncndims(basic, 'A1');
 s = ncsize(basic, 'A1');
 tc.verifyThat(s, IsScalar)
 tc.verifyEqual(s, 2)
+tc.verifyEqual(r, 1)
 
+r = ncndims(basic, 'A2');
 s = ncsize(basic, 'A2');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,4])
+tc.verifyEqual(r, 2)
 
+r = ncndims(basic, 'A3');
 s = ncsize(basic, 'A3');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2])
+tc.verifyEqual(r, 3)
 
+r = ncndims(basic, 'A4');
 s = ncsize(basic, 'A4');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
+tc.verifyEqual(r, 4)
 
 end
 
