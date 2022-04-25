@@ -23,12 +23,16 @@ A2 = magic(4);
 A3 = A2(:,1:3,1);
 A3(:,:,2) = 2*A3;
 A4(:,:,:,5) = A3;
+utf = 'Hello There 😄';
+utf2 = [utf; "☎"];
 
 tc.TestData.A0 = A0;
 tc.TestData.A1 = A1;
 tc.TestData.A2 = A2;
 tc.TestData.A3 = A3;
 tc.TestData.A4 = A4;
+tc.TestData.utf = utf;
+tc.TestData.utf2 = utf2;
 
 basic = tempname + ".h5";
 tc.TestData.basic = basic;
@@ -39,6 +43,8 @@ h5save(basic, '/A1', A1)
 h5save(basic, '/A2', A2)
 h5save(basic, '/A3', A3, "size", size(A3))
 h5save(basic, '/A4', A4)
+h5save(basic, "/utf", utf)
+h5save(basic, "/utf2", utf2)
 
 h5save(basic, '/t/x', 12)
 h5save(basic, '/t/y', 13)
@@ -73,7 +79,7 @@ import stdlib.hdf5nc.h5variables
 basic = tc.TestData.basic;
 
 v = h5variables(basic);
-tc.verifyEqual(sort(v), ["A0", "A1", "A2", "A3", "A4"])
+tc.verifyEqual(sort(v), ["A0", "A1", "A2", "A3", "A4", "utf", "utf2"])
 
 [v1,g] = h5variables(basic);
 tc.verifyEqual(v,v1)
@@ -145,6 +151,15 @@ tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
 tc.verifyEqual(r, 4)
 
+r = h5ndims(basic, '/utf');
+s = h5size(basic, '/utf');
+tc.verifyEmpty(s)
+tc.verifyEqual(r, 0)
+
+r = h5ndims(basic, '/utf2');
+s = h5size(basic, '/utf2');
+tc.verifyEqual(s, 2)
+tc.verifyEqual(r, 1)
 end
 
 
@@ -153,7 +168,7 @@ basic = tc.TestData.basic;
 
 s = h5read(basic, '/A0');
 tc.verifyTrue(isscalar(s))
-tc.verifyEqual(s, 42)
+tc.verifyEqual(s, tc.TestData.A0)
 
 s = h5read(basic, '/A1');
 tc.verifyTrue(isvector(s))
@@ -170,6 +185,15 @@ tc.verifyEqual(s, tc.TestData.A3)
 s = h5read(basic, '/A4');
 tc.verifyEqual(ndims(s), 4)
 tc.verifyEqual(s, tc.TestData.A4)
+
+s = h5read(basic, '/utf');
+tc.verifyTrue(ischar(s))
+tc.verifyEqual(s, tc.TestData.utf)
+
+s = h5read(basic, '/utf2');
+tc.verifyTrue(isstring(s))
+tc.verifyEqual(s, tc.TestData.utf2)
+
 end
 
 
@@ -222,7 +246,7 @@ basic = tc.TestData.basic;
 h5save(basic, "/"+str, str)
 
 a = h5read(basic, "/"+str);
-tc.verifyEqual(a, string(str))
+tc.verifyEqual(a, char(str))
 end
 
 function test_name_only(tc)

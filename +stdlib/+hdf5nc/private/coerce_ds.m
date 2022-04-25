@@ -33,10 +33,10 @@ switch dtype
      if ~isa(A, 'int64')
        A = int64(A);
      end
-  case {'char', 'string'}
-    if ~isstring(A)
-      A = string(A);
-    end
+  case 'char'
+    A = string(A);
+  case 'string'
+    % pass
   otherwise, error('create_ds:type_error', 'unknown data type %s', dtype)
 end
 

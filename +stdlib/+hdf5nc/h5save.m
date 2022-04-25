@@ -70,7 +70,7 @@ if strlength(folder) > 0 && ~isfolder(folder)
 end
 
 if isempty(sizeA)
-  if isscalar(A) && ~isstring(A)
+  if isscalar(A)
     h5_write_scalar(filename, varname, A)
   elseif isvector(A)
     h5create(filename, varname, length(A), 'DataType', class(A))
@@ -79,7 +79,7 @@ if isempty(sizeA)
   end
 else
   if isscalar(sizeA)
-    if sizeA == 0 && ~isstring(A)
+    if sizeA == 0
       h5_write_scalar(filename, varname, A)
     else
       h5create(filename, varname, sizeA, 'DataType', class(A))
