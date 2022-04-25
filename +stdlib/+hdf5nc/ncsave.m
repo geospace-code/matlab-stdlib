@@ -6,13 +6,18 @@ function ncsave(filename, varname, A, opts)
 arguments
   filename (1,1) string {mustBeNonzeroLengthText}
   varname (1,1) string {mustBeNonzeroLengthText}
-  A {mustBeNumeric,mustBeNonempty,mustBeReal}
+  A {mustBeNonempty}
   opts.dims cell = {}
   opts.type string {mustBeScalarOrEmpty} = string.empty
 end
 
 import stdlib.fileio.expanduser
 import stdlib.hdf5nc.ncexists
+
+if isnumeric(A)
+  mustBeReal(A)
+end
+
 
 filename = expanduser(filename);
 

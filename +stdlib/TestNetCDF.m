@@ -22,12 +22,16 @@ A2 = magic(4);
 A3 = A2(:,1:3,1);
 A3(:,:,2) = 2*A3;
 A4(:,:,:,5) = A3;
+utf = 'Hello There 😄';
+utf2 = [utf; "☎"];
 
 tc.TestData.A0 = A0;
 tc.TestData.A1 = A1;
 tc.TestData.A2 = A2;
 tc.TestData.A3 = A3;
 tc.TestData.A4 = A4;
+tc.TestData.utf = utf;
+tc.TestData.utf2 = utf2;
 
 basic = tempname + ".nc";
 tc.TestData.basic = basic;
@@ -38,6 +42,8 @@ ncsave(basic, 'A1', A1)
 ncsave(basic, 'A2', A2, "dims", {'x2', size(A2,1), 'y2', size(A2,2)})
 ncsave(basic, 'A3', A3, "dims", {'x3', size(A3,1), 'y3', size(A3,2), 'z3', size(A3,3)})
 ncsave(basic, 'A4', A4, "dims", {'x4', size(A4,1), 'y4', size(A4,2), 'z4', size(A4,3), 'w4', size(A4,4)})
+ncsave(basic, "utf", utf)
+ncsave(basic, "utf2", utf2)
 
 tc.assumeThat(basic, IsFile)
 end
@@ -56,7 +62,7 @@ function test_get_variables(tc)
 import stdlib.hdf5nc.ncvariables
 basic = tc.TestData.basic;
 
-tc.verifyEqual(sort(ncvariables(basic)), ["A0", "A1", "A2", "A3", "A4"])
+tc.verifyEqual(sort(ncvariables(basic)), ["A0", "A1", "A2", "A3", "A4", "utf", "utf2"])
 end
 
 
@@ -112,6 +118,16 @@ tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
 tc.verifyEqual(r, 4)
 
+r = ncndims(basic, 'utf');
+s = ncsize(basic, 'utf');
+tc.verifyEmpty(s)
+tc.verifyEqual(r, 0)
+
+r = ncndims(basic, 'utf2');
+s = ncsize(basic, 'utf2');
+tc.verifyEqual(s, 2)
+tc.verifyEqual(r, 1)
+
 end
 
 
@@ -138,6 +154,14 @@ tc.verifyEqual(s, tc.TestData.A3)
 s = ncread(basic, '/A4');
 tc.verifyEqual(ndims(s), 4)
 tc.verifyEqual(s, tc.TestData.A4)
+
+s = ncread(basic, '/utf');
+tc.verifyTrue(isstring(s))
+tc.verifyEqual(s, string(tc.TestData.utf))
+
+s = ncread(basic, '/utf2');
+tc.verifyTrue(isstring(s))
+tc.verifyEqual(s, tc.TestData.utf2)
 end
 
 
@@ -175,12 +199,6 @@ tc.assumeFalse(isfile(name))
 
 ncsave(name, "/A0", 42);
 delete(name)
-end
-
-function test_no_char_string(tc)
-import stdlib.hdf5nc.ncsave
-tc.verifyError(@() ncsave(tc.TestData.basic, "/a_string", "hello"), 'MATLAB:validators:mustBeNumeric')
-
 end
 
 
