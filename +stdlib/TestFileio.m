@@ -25,6 +25,18 @@ end
 tc.verifyEmpty(posix(string.empty))
 end
 
+function test_path_tail(tc)
+
+import stdlib.fileio.path_tail
+
+tc.verifyEqual(path_tail("/foo/bar/baz"), "baz")
+tc.verifyEqual(path_tail("/foo/bar/baz/"), "baz")
+tc.verifyEqual(path_tail("/foo/bar/baz/."), "baz")
+tc.verifyEqual(path_tail("/foo/bar/baz/.."), "bar")
+tc.verifyEqual(path_tail("/foo/bar/baz.txt"), "baz.txt")
+
+end
+
 function test_is_absolute_path(tc)
 
 import stdlib.fileio.is_absolute_path

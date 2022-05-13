@@ -2,19 +2,12 @@ function last = path_tail(apath)
 % get last part of directory path
 % if filename, return filename with suffix
 arguments
-  apath string
+  apath (1,:) string
 end
 
-k = strlength(apath) == 0;
-final(k) = "";
+import stdlib.fileio.absolute_path
 
-final(~k) = extractAfter(apath(~k), strlength(apath(~k))-1);
-
-i = final == "/" | final == "\";
-
-apath(i) = extractBefore(apath(i), strlength(apath(i)));
-
-[~, name, ext] = fileparts(apath);
+[~, name, ext] = fileparts(absolute_path(apath));
 
 last = append(name, ext);
 
