@@ -14,10 +14,16 @@ if isempty(dtype)
   return
 end
 
+if dtype == "float64"
+  dtype = "double";
+elseif dtype == "float32"
+  dtype = "single";
+end
+
 switch dtype
   case ""
     return
-  case {'float64', 'double', 'float32', 'single', 'int8', 'int16', 'int32', 'int64','uint8', 'uint16', 'uint32', 'uint64'}
+  case {'double', 'single', 'int8', 'int16', 'int32', 'int64','uint8', 'uint16', 'uint32', 'uint64'}
     A = cast(A, dtype);
   case 'char'
     A = string(A);
