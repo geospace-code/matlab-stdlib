@@ -5,7 +5,9 @@ TestData
 end
 
 properties (TestParameter)
-type = {'single', 'double', 'int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32', 'uint64'}
+type = {'single', 'double', 'float32', 'float64', ...
+  'int8', 'int16', 'int32', 'int64', ...
+  'uint8', 'uint16', 'uint32', 'uint64'}
 vars = {'A0', 'A1', 'A2', 'A3', 'A4'}
 end
 
@@ -187,7 +189,14 @@ ncsave(basic, vn, 0, "type", type)
 
 tc.assumeThat(basic, IsFile)
 
-tc.verifyClass(ncread(basic, vn), type)
+if type ==  "float32"
+  vtype = "single";
+elseif type == "float64"
+  vtype = "double";
+else
+  vtype = type;
+end
+tc.verifyClass(ncread(basic, vn), vtype)
 end
 
 
