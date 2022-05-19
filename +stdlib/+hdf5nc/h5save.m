@@ -72,6 +72,7 @@ end
 if isempty(sizeA)
   if isscalar(A)
     h5_write_scalar(filename, varname, A)
+    return
   elseif isvector(A)
     h5create(filename, varname, length(A), 'DataType', class(A))
   else
@@ -81,6 +82,7 @@ else
   if isscalar(sizeA)
     if sizeA == 0
       h5_write_scalar(filename, varname, A)
+      return
     else
       h5create(filename, varname, sizeA, 'DataType', class(A))
     end

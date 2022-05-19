@@ -25,11 +25,19 @@ switch dtype
     if ~isa(A, 'single')
       A = single(A);
     end
-  case {'int32'}
+ case 'int8'
+     if ~isa(A, 'int8')
+       A = int8(A);
+     end
+ case 'int16'
+     if ~isa(A, 'int16')
+       A = int16(A);
+     end
+  case 'int32'
      if ~isa(A, 'int32')
        A = int32(A);
      end
-  case {'int64'}
+  case 'int64'
      if ~isa(A, 'int64')
        A = int64(A);
      end

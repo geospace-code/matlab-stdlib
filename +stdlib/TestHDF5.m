@@ -5,7 +5,7 @@ TestData
 end
 
 properties (TestParameter)
-type = {'single', 'double', 'int32', 'int64'}
+type = {'single', 'double', 'int8', 'int16', 'int32', 'int64'}
 vars = {'A0', 'A1', 'A2', 'A3', 'A4'}
 str = {"string", 'char'}
 end
@@ -239,6 +239,27 @@ tc.assumeThat(basic, IsFile)
 tc.verifyEqual(h5read(basic, '/A2'), 3*magic(4))
 end
 
+function test_int8(tc)
+import stdlib.hdf5nc.h5save
+basic = tc.TestData.basic;
+
+h5save(basic, "/i1", int8(127))
+
+a = h5read(basic, "/i1");
+tc.verifyEqual(a, int8(127))
+
+% test rewrite
+h5save(basic, "/i1", int8(-128))
+
+a = h5read(basic, "/i1");
+tc.verifyEqual(a, int8(-128))
+
+% test int8 array
+h5save(basic, "/Ai1", int8([1, 2]))
+a = h5read(basic, "/Ai1");
+tc.verifyEqual(a, int8([1;2]))
+end
+
 function test_string(tc, str)
 import stdlib.hdf5nc.h5save
 basic = tc.TestData.basic;
@@ -247,6 +268,12 @@ h5save(basic, "/"+str, str)
 
 a = h5read(basic, "/"+str);
 tc.verifyEqual(a, char(str))
+
+% test rewrite
+h5save(basic, "/"+str, str+"hi")
+
+a = h5read(basic, "/"+str);
+tc.verifyEqual(a, char(str+"hi"))
 end
 
 function test_name_only(tc)

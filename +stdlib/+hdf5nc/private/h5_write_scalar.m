@@ -1,6 +1,12 @@
 function h5_write_scalar(filename, varname, A)
 %% write HDF5 scalar as a scalar
 %  h5create doesn't support scalars
+arguments
+  filename (1,1) string {mustBeNonzeroLengthText}
+  varname (1,1) string {mustBeNonzeroLengthText}
+  A (1,1)
+end
+
 dcpl = 'H5P_DEFAULT';
 
 if isfile(filename)
