@@ -5,7 +5,7 @@ TestData
 end
 
 properties (TestParameter)
-type = {'single', 'double', 'int8', 'int16', 'int32', 'int64'}
+type = {'single', 'double', 'int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32', 'uint64'}
 vars = {'A0', 'A1', 'A2', 'A3', 'A4'}
 str = {"string", 'char'}
 end

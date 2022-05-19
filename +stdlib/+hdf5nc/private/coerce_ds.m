@@ -17,30 +17,8 @@ end
 switch dtype
   case ""
     return
-  case {'float64', 'double'}
-    if ~isa(A, 'double')
-      A = double(A);
-    end
-  case {'float32', 'single'}
-    if ~isa(A, 'single')
-      A = single(A);
-    end
- case 'int8'
-     if ~isa(A, 'int8')
-       A = int8(A);
-     end
- case 'int16'
-     if ~isa(A, 'int16')
-       A = int16(A);
-     end
-  case 'int32'
-     if ~isa(A, 'int32')
-       A = int32(A);
-     end
-  case 'int64'
-     if ~isa(A, 'int64')
-       A = int64(A);
-     end
+  case {'float64', 'double', 'float32', 'single', 'int8', 'int16', 'int32', 'int64','uint8', 'uint16', 'uint32', 'uint64'}
+    A = cast(A, dtype);
   case 'char'
     A = string(A);
   case 'string'
