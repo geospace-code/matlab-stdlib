@@ -51,9 +51,9 @@ end
 if isscalar(A)
   h5write(filename, varname, A)
 elseif all(diskshape == sizeA)
-  h5write(filename, varname, A, start, sizeA)
+  h5write(filename, varname, A, start, count=sizeA)
 elseif all(diskshape == fliplr(sizeA))
-  h5write(filename, varname, A.', start, fliplr(sizeA))
+  h5write(filename, varname, A.', start, count=fliplr(sizeA))
 else
   error('hdf5nc:h5save:value_error', ['shape of ',varname,': ', int2str(sizeA), ' does not match existing HDF5 shape ', int2str(diskshape)])
 end
@@ -74,7 +74,7 @@ if isempty(sizeA)
     h5_write_scalar(filename, varname, A)
     return
   elseif isvector(A)
-    h5create(filename, varname, length(A), 'DataType', class(A))
+    h5create(filename, varname, length(A), Datatype=class(A))
   else
     create_compress(filename, varname, A, size(A))
   end
@@ -84,7 +84,7 @@ else
       h5_write_scalar(filename, varname, A)
       return
     else
-      h5create(filename, varname, sizeA, 'DataType', class(A))
+      h5create(filename, varname, sizeA, Datatype=class(A))
     end
   else
     create_compress(filename, varname, A, sizeA)

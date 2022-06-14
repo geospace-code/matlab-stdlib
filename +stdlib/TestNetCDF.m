@@ -43,9 +43,9 @@ tc.TestData.basic = basic;
 % create test data first, so that parallel tests works
 ncsave(basic, 'A0', A0)
 ncsave(basic, 'A1', A1)
-ncsave(basic, 'A2', A2, "dims", {'x2', size(A2,1), 'y2', size(A2,2)})
-ncsave(basic, 'A3', A3, "dims", {'x3', size(A3,1), 'y3', size(A3,2), 'z3', size(A3,3)})
-ncsave(basic, 'A4', A4, "dims", {'x4', size(A4,1), 'y4', size(A4,2), 'z4', size(A4,3), 'w4', size(A4,4)})
+ncsave(basic, 'A2', A2, dims={'x2', size(A2,1), 'y2', size(A2,2)})
+ncsave(basic, 'A3', A3, dims={'x3', size(A3,1), 'y3', size(A3,2), 'z3', size(A3,3)})
+ncsave(basic, 'A4', A4, dims={'x4', size(A4,1), 'y4', size(A4,2), 'z4', size(A4,3), 'w4', size(A4,4)})
 ncsave(basic, "utf0", utf0)
 ncsave(basic, "utf1", utf1)
 ncsave(basic, "utf2", utf2)
@@ -185,7 +185,7 @@ basic = tc.TestData.basic;
 
 vn = type;
 
-ncsave(basic, vn, 0, "type", type)
+ncsave(basic, vn, 0, type=type)
 
 tc.assumeThat(basic, IsFile)
 

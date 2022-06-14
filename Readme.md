@@ -45,13 +45,13 @@ This is particularly useful when writing HDF5 files to be used in other programm
 Matlab may collapse singleton dimensions otherwise.
 
 ```matlab
-h5save(filename, dataset_name, dataset, "size", [3,1])
+h5save(filename, dataset_name, dataset, size=[3,1])
 ```
 
 Likewise, the type of the dataset may be explicitly specified with the "type" argument:
 
 ```matlab
-h5save(filename, dataset_name, dataset, "type", "int32")
+h5save(filename, dataset_name, dataset, type="int32")
 ```
 
 ---

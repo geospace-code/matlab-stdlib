@@ -43,7 +43,7 @@ tc.TestData.basic = basic;
 h5save(basic, '/A0', A0)
 h5save(basic, '/A1', A1)
 h5save(basic, '/A2', A2)
-h5save(basic, '/A3', A3, "size", size(A3))
+h5save(basic, '/A3', A3, size=size(A3))
 h5save(basic, '/A4', A4)
 h5save(basic, "/utf", utf)
 h5save(basic, "/utf2", utf2)
@@ -204,11 +204,11 @@ import stdlib.hdf5nc.h5save
 import stdlib.hdf5nc.h5size
 basic = tc.TestData.basic;
 
-h5save(basic, "/vector1", 34, "size", 1)
+h5save(basic, "/vector1", 34, size=1)
 s = h5size(basic, '/vector1');
 tc.verifyEqual(s, 1);
 
-h5save(basic, "/scalar", 34, "size", 0)
+h5save(basic, "/scalar", 34, size=0)
 s = h5size(basic, '/scalar');
 tc.verifyEmpty(s);
 
@@ -222,7 +222,7 @@ basic = tc.TestData.basic;
 
 vn = "/" + type;
 
-h5save(basic, vn, 0, "type", type)
+h5save(basic, vn, 0, type=type)
 
 tc.assumeThat(basic, IsFile)
 

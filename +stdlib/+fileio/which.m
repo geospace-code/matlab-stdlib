@@ -11,9 +11,8 @@ import stdlib.fileio.is_exe
 import stdlib.fileio.expanduser
 
 if ispc
-  pathext = ".exe";
-  if ~endsWith(name, pathext)
-    name = name + pathext;
+  if ~endsWith(name, ".exe")
+    name = name + ".exe";
   end
 end
 
