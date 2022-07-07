@@ -23,78 +23,21 @@ filename = expanduser(filename);
 % coerce if needed
 A = coerce_ds(A, opts.type);
 
-if isfile(filename) && h5exists(filename, varname)
-  exist_file(filename, varname, A, opts.size)
-else
-  new_file(filename, varname, A, opts.size)
-end
-
-end % function
-
-
-function exist_file(filename, varname, A, sizeA)
-
-import stdlib.hdf5nc.h5size
-
-diskshape = h5size(filename, varname);
-if length(diskshape) >= 2
-  % start is always a row vector, regardless of shape of array
-  start = ones(1,ndims(A));
-elseif ~isempty(diskshape)
-  start = 1;
-end
-
-if isempty(sizeA)
-  sizeA = defaultSize(A);
-end
-
-if isscalar(A)
-  h5write(filename, varname, A)
-elseif all(diskshape == sizeA)
-  h5write(filename, varname, A, start, count=sizeA)
-elseif all(diskshape == fliplr(sizeA))
-  h5write(filename, varname, A.', start, count=fliplr(sizeA))
-else
-  error('hdf5nc:h5save:value_error', ['shape of ',varname,': ', int2str(sizeA), ' does not match existing HDF5 shape ', int2str(diskshape)])
-end
-
-end % function
-
-
-function new_file(filename, varname, A, sizeA)
-
-
-folder = fileparts(filename);
-if strlength(folder) > 0 && ~isfolder(folder)
-  error('hdf5nc:h5save:fileNotFound', '%s is not a folder, cannot create %s', folder, filename)
-end
-
-if isempty(sizeA)
-  if isscalar(A)
-    h5_write_scalar(filename, varname, A)
-    return
-  elseif isvector(A)
-    h5create(filename, varname, length(A), Datatype=class(A))
+try
+  if h5exists(filename, varname)
+    h5_exist_file(filename, varname, A, opts.size)
   else
-    create_compress(filename, varname, A, size(A))
+    h5_new_file(filename, varname, A, opts.size)
   end
-else
-  if isscalar(sizeA)
-    if sizeA == 0
-      h5_write_scalar(filename, varname, A)
-      return
-    else
-      h5create(filename, varname, sizeA, Datatype=class(A))
-    end
+catch e
+  if e.identifier == "MATLAB:imagesci:hdf5io:resourceNotFound"
+    h5_new_file(filename, varname, A, opts.size)
   else
-    create_compress(filename, varname, A, sizeA)
+    rethrow(e)
   end
 end
 
-h5write(filename, varname, A)
-
 end % function
-
 
 % Copyright 2020 Michael Hirsch
 

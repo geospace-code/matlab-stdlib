@@ -49,55 +49,19 @@ end
 % coerce if needed
 A = coerce_ds(A, opts.type);
 
-if isfile(filename) && ncexists(filename, varname)
-  exist_file(filename, varname, A, sizeA)
-else
-  new_file(filename, varname, A, sizeA, ncdims)
+try
+  if ncexists(filename, varname)
+    nc_exist_file(filename, varname, A, sizeA)
+  else
+    nc_new_file(filename, varname, A, sizeA, ncdims)
+  end
+catch e
+  if e.identifier == "MATLAB:imagesci:netcdf:unableToOpenFileforRead"
+     nc_new_file(filename, varname, A, sizeA, ncdims)
+  else
+    rethrow(e)
+  end
 end
-
-end % function
-
-
-function exist_file(filename, varname, A, sizeA)
-
-import stdlib.hdf5nc.ncsize
-
-diskshape = ncsize(filename, varname);
-
-if all(diskshape == sizeA)
-  ncwrite(filename, varname, A)
-elseif all(diskshape == fliplr(sizeA))
-  ncwrite(filename, varname, A.')
-else
-  error('hdf5nc:ncsave:value_error', ['shape of ',varname,': ', int2str(sizeA), ' does not match existing NetCDF4 shape ', int2str(diskshape)])
-end
-
-end % function
-
-
-function new_file(filename, varname, A, sizeA, ncdims)
-import stdlib.hdf5nc.auto_chunk_size
-
-folder = fileparts(filename);
-if strlength(folder) > 0 && ~isfolder(folder)
-  error('hdf5nc:ncsave:fileNotFound', '%s is not a folder, cannot create %s', folder, filename)
-end
-
-if isscalar(A)
-  nccreate(filename, varname, Datatype=class(A), Format='netcdf4')
-elseif isvector(A)
-  nccreate(filename, varname, Dimensions=ncdims, Datatype=class(A), Format='netcdf4')
-else
-  % enable Gzip compression--remember Matlab's dim order is flipped from
-  % C / Python
-  nccreate(filename, varname, Dimensions=ncdims, ...
-    Datatype=class(A), ...
-    DeflateLevel=1, Shuffle=true, ...
-    ChunkSize=auto_chunk_size(sizeA), ...
-    Format='netcdf4')
-end
-
-ncwrite(filename, varname, A)
 
 end % function
 

@@ -7,7 +7,6 @@ end
 import stdlib.fileio.expanduser
 
 file = expanduser(file);
-assert(isfile(file), '%s not found', file)
 
 if ismac
   [stat,hash] = system("shasum --algorithm 256 --binary " + file);
