@@ -17,8 +17,6 @@ import stdlib.fileio.expanduser
 
 file = expanduser(file);
 
-assert(isfile(file), "%s not found", file)
-
 finf = ncinfo(file);
 ds = finf.Variables(:);
 names = string({ds(:).Name});

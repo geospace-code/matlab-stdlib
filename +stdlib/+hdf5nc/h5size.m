@@ -14,8 +14,6 @@ import stdlib.fileio.expanduser
 
 file = expanduser(file);
 
-assert(isfile(file), "%s not found", file)
-
 dsi = h5info(file, variable).Dataspace;
 if dsi.Type == "scalar"
   fsize = [];

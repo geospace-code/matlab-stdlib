@@ -1,21 +1,17 @@
-function h5_write_scalar(filename, varname, A)
+function h5_write_scalar(file, hpath, A)
 %% write HDF5 scalar as a scalar
 %  h5create doesn't support scalars
 arguments
-  filename (1,1) string {mustBeNonzeroLengthText}
-  varname (1,1) string {mustBeNonzeroLengthText}
+  file (1,1)
+  hpath (1,1) string {mustBeNonzeroLengthText}
   A (1,1)
 end
 
+import stdlib.hdf5nc.h5create_group
+
 dcpl = 'H5P_DEFAULT';
 
-if isfile(filename)
-  fid = H5F.open(filename, 'H5F_ACC_RDWR', dcpl);
-else
-  fid = H5F.create(filename);
-end
-
-create_hdf5_group(fid, varname);
+fid = h5create_group(file, hpath);
 
 space_id = H5S.create('H5S_SCALAR');
 if isstring(A)
@@ -30,7 +26,7 @@ else
   type_id = H5T.copy(class2h5t(A));
 end
 
-dset_id = H5D.create(fid, varname, type_id, space_id, dcpl);
+dset_id = H5D.create(fid, hpath, type_id, space_id, dcpl);
 
 H5D.write(dset_id,'H5ML_DEFAULT','H5S_ALL','H5S_ALL', dcpl, A);
 

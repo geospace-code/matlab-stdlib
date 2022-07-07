@@ -83,23 +83,19 @@ basic = tc.TestData.basic;
 v = h5variables(basic);
 tc.verifyEqual(sort(v), ["A0", "A1", "A2", "A3", "A4", "utf", "utf2"])
 
-[v1,g] = h5variables(basic);
+v1 = h5variables(basic);
 tc.verifyEqual(v,v1)
-tc.verifyEqual(sort(g), ["/j", "/t"])
 
 % 1-level group
-[v, g] = h5variables(basic, "/t");
+v = h5variables(basic, "/t");
 tc.verifyEqual(sort(v), ["x", "y"])
-tc.verifyEmpty(g)
 
 % traversal
-[v, g] = h5variables(basic, "/j");
+v = h5variables(basic, "/j");
 tc.verifyEmpty(v)
-tc.verifyEqual(g, "/j/a")
 
-[v, g] = h5variables(basic, "/j/a");
+v = h5variables(basic, "/j/a");
 tc.verifyEqual(v, "b")
-tc.verifyEmpty(g)
 
 end
 

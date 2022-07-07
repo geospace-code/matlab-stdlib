@@ -13,8 +13,6 @@ import stdlib.fileio.expanduser
 
 file = expanduser(file);
 
-assert(isfile(file), "%s not found", file)
-
 dsi = ncinfo(file, variable);
 if isempty(dsi.Dimensions)
   frank = 0;

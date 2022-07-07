@@ -1,6 +1,6 @@
-function [names, groups] = h5variables(file, group)
-% get dataset names in a file
-% Optionally, get first level of groups in a file.
+function names = h5variables(file, group)
+%% get dataset names in a file under group
+% default is datasets under "/", optionally under "/group"
 %
 % parameters
 % ----------
@@ -10,7 +10,6 @@ function [names, groups] = h5variables(file, group)
 % returns
 % -------
 % names: variable names
-% groups: file groups
 
 arguments
   file (1,1) string {mustBeNonzeroLengthText}
@@ -22,9 +21,6 @@ import stdlib.fileio.expanduser
 file = expanduser(file);
 
 names = string.empty;
-groups = string.empty;
-
-assert(isfile(file), "%s not found", file)
 
 if isempty(group)
   finf = h5info(file);
@@ -33,14 +29,11 @@ else
 end
 
 ds = finf.Datasets;
-gs = finf.Groups;
 
-if ~isempty(ds)
-  names = string({ds.Name});
+if isempty(ds)
+  return
 end
 
-if nargout > 1 && ~isempty(gs)
-  groups = string({gs.Name});
-end
+names = string({ds.Name});
 
 end % function
