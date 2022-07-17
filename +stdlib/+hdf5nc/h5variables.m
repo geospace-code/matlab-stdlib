@@ -13,7 +13,7 @@ function names = h5variables(file, group)
 
 arguments
   file (1,1) string {mustBeNonzeroLengthText}
-  group string {mustBeScalarOrEmpty} = string.empty
+  group (1,1) string {mustBeNonzeroLengthText} = "/"
 end
 
 import stdlib.fileio.expanduser
@@ -22,11 +22,7 @@ file = expanduser(file);
 
 names = string.empty;
 
-if isempty(group)
-  finf = h5info(file);
-else
-  finf = h5info(file, group);
-end
+finf = h5info(file, group);
 
 ds = finf.Datasets;
 
