@@ -91,11 +91,12 @@ v = h5variables(basic, "/t");
 tc.verifyEqual(sort(v), ["x", "y"])
 
 % traversal
-v = h5variables(basic, "/j");
-tc.verifyEmpty(v)
+tc.verifyEmpty( h5variables(basic, "/j") )
 
-v = h5variables(basic, "/j/a");
-tc.verifyEqual(v, "b")
+% non-existant group
+tc.verifyEmpty( h5variables(basic, "/nothere") )
+
+tc.verifyEqual( h5variables(basic, "/j/a") , "b")
 
 end
 

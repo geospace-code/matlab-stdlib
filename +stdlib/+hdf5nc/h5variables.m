@@ -22,7 +22,14 @@ file = expanduser(file);
 
 names = string.empty;
 
-finf = h5info(file, group);
+try
+  finf = h5info(file, group);
+catch e
+  if e.identifier == "MATLAB:imagesci:h5info:unableToFind"
+    return
+  end
+  rethrow(e)
+end
 
 ds = finf.Datasets;
 
