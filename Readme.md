@@ -10,7 +10,7 @@ These system "sys", file I/O "fileio" and HDF5/NetCDF "hdf5nc" function are usef
 Self-tests can be run from that matlab-stdlib/ directory:
 
 ```matlab
-runtests('stdlib.tests')
+runtests('stdlib.test')
 ```
 
 ## HDF5

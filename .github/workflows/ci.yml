@@ -27,4 +27,4 @@ jobs:
         timeout-minutes: 10
         uses: matlab-actions/run-command@v1
         with:
-          command: r = runtests('stdlib'), assert(~isempty(r)), assertSuccess(r)
+          command: r = runtests('stdlib.test'), assert(~isempty(r)), assertSuccess(r)

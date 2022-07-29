@@ -3,9 +3,9 @@ plan = buildplan(localfunctions);
 end
 
 function lintTask(~)
-assertSuccess(runtests('stdlib.TestLint'))
+assertSuccess(runtests('stdlib.test.TestLint'))
 end
 
 function testTask(~)
-assertSuccess(runtests('stdlib'))
+assertSuccess(runtests('stdlib.test'))
 end
