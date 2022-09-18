@@ -22,6 +22,8 @@ jobs:
 
       - name: Install MATLAB
         uses: matlab-actions/setup-matlab@v1
+        with:
+          release: R2022b
 
       - name: Run tests
         timeout-minutes: 10
