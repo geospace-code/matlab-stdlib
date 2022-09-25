@@ -10,13 +10,10 @@ arguments
   p (1,:) string
 end
 
-import stdlib.fileio.expanduser
-import stdlib.fileio.is_absolute_path
-
 % have to expand ~ first
-p = expanduser(p);
+p = stdlib.fileio.expanduser(p);
 
-if ~is_absolute_path(p)
+if ~stdlib.fileio.is_absolute_path(p)
   % otherwise the default is Documents/Matlab, which is probably not wanted.
   p = fullfile(pwd, p);
 end

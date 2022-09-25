@@ -17,14 +17,10 @@ if isa(file, 'H5ML.id')
 else
   file = expanduser(file);
   dcpl = 'H5P_DEFAULT';
-  try
+  if isfile(file)
     fid = H5F.open(file, 'H5F_ACC_RDWR', dcpl);
-  catch e
-    if e.identifier == "MATLAB:imagesci:hdf5io:resourceNotFound"
-      fid = H5F.create(file);
-    else
-      rethrow(e)
-    end
+  else
+    fid = H5F.create(file);
   end
 end
 

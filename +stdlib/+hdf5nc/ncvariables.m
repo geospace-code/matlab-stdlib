@@ -1,4 +1,4 @@
-function names = ncvariables(file)
+function names = ncvariables(file, group)
 % get dataset names in a file
 %
 % parameters
@@ -10,15 +10,23 @@ function names = ncvariables(file)
 % names: variable names
 
 arguments
-  file (1,1) string {mustBeNonzeroLengthText}
+  file (1,1) string {mustBeFile}
+  group string {mustBeScalarOrEmpty} = string.empty
 end
 
-import stdlib.fileio.expanduser
+names = string.empty;
 
-file = expanduser(file);
+if isempty(group) || strlength(group) == 0
+  finf = ncinfo(stdlib.fileio.expanduser(file));
+else
+  finf = ncinfo(stdlib.fileio.expanduser(file), group);
+end
 
-finf = ncinfo(file);
 ds = finf.Variables(:);
-names = string({ds(:).Name});
+if isempty(ds)
+  return
+end
+
+names = string({ds.Name});
 
 end % function

@@ -31,7 +31,7 @@ if ispc
 else
   c = "env";
 end
-[ret, msg] = subprocess_run(c, env=env);
+[ret, msg] = subprocess_run(c, "env", env);
 tc.verifyEqual(ret, 0)
 tc.verifyTrue(contains(msg, names(1) + "=" + vals(1)) && contains(msg, names(2) + "=" + vals(2)))
 

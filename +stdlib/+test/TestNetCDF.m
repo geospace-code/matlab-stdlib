@@ -18,6 +18,7 @@ function setup_file(tc)
 import stdlib.hdf5nc.ncsave
 import matlab.unittest.constraints.IsFile
 
+
 A0 = 42.;
 A1 = [42.; 43.];
 A2 = magic(4);
@@ -43,12 +44,19 @@ tc.TestData.basic = basic;
 % create test data first, so that parallel tests works
 ncsave(basic, 'A0', A0)
 ncsave(basic, 'A1', A1)
-ncsave(basic, 'A2', A2, dims={'x2', size(A2,1), 'y2', size(A2,2)})
-ncsave(basic, 'A3', A3, dims={'x3', size(A3,1), 'y3', size(A3,2), 'z3', size(A3,3)})
-ncsave(basic, 'A4', A4, dims={'x4', size(A4,1), 'y4', size(A4,2), 'z4', size(A4,3), 'w4', size(A4,4)})
-ncsave(basic, "utf0", utf0)
-ncsave(basic, "utf1", utf1)
-ncsave(basic, "utf2", utf2)
+ncsave(basic, 'A2', A2, "dims", {'x2', size(A2,1), 'y2', size(A2,2)})
+ncsave(basic, 'A3', A3, "dims", {'x3', size(A3,1), 'y3', size(A3,2), 'z3', size(A3,3)})
+ncsave(basic, 'A4', A4, "dims", {'x4', size(A4,1), 'y4', size(A4,2), 'z4', size(A4,3), 'w4', size(A4,4)})
+
+if ~verLessThan('matlab', '9.11')
+  ncsave(basic, "utf0", utf0)
+  ncsave(basic, "utf1", utf1)
+  ncsave(basic, "utf2", utf2)
+end
+
+ncsave(basic, '/t/x', 12)
+ncsave(basic, '/t/y', 13)
+ncsave(basic, '/j/a/b', 6)
 
 tc.assumeThat(basic, IsFile)
 end
@@ -67,7 +75,21 @@ function test_get_variables(tc)
 import stdlib.hdf5nc.ncvariables
 basic = tc.TestData.basic;
 
-tc.verifyEqual(sort(ncvariables(basic)), ["A0", "A1", "A2", "A3", "A4", "utf0", "utf1", "utf2"])
+k = ["A0", "A1", "A2", "A3", "A4"];
+if ~verLessThan('matlab', '9.11')
+  k = [k, ["utf0", "utf1", "utf2"]];
+end
+
+tc.verifyEqual(sort(ncvariables(basic)), k)
+
+% 1-level group
+v = ncvariables(basic, "/t");
+tc.verifyEqual(sort(v), ["x", "y"])
+
+% traversal
+tc.verifyEmpty( ncvariables(basic, "/j") )
+
+tc.verifyEqual( ncvariables(basic, "/j/a") , "b")
 end
 
 
@@ -122,6 +144,15 @@ s = ncsize(basic, 'A4');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
 tc.verifyEqual(r, 4)
+end
+
+function test_size_string(tc)
+import stdlib.hdf5nc.ncsize
+import stdlib.hdf5nc.ncndims
+import matlab.unittest.constraints.IsScalar
+basic = tc.TestData.basic;
+
+tc.assumeFalse(verLessThan('matlab', '9.11'), "NetCDF4 string required Matlab >= R2021b")
 
 r = ncndims(basic, 'utf0');
 s = ncsize(basic, 'utf0');
@@ -163,6 +194,13 @@ tc.verifyEqual(s, tc.TestData.A3)
 s = ncread(basic, 'A4');
 tc.verifyEqual(ndims(s), 4)
 tc.verifyEqual(s, tc.TestData.A4)
+end
+
+function test_read_string(tc)
+import matlab.unittest.constraints.IsScalar
+basic = tc.TestData.basic;
+
+tc.assumeFalse(verLessThan('matlab', '9.11'), "NetCDF4 string required Matlab >= R2021b")
 
 s = ncread(basic, 'utf0');
 tc.verifyTrue(isstring(s))
@@ -185,7 +223,7 @@ basic = tc.TestData.basic;
 
 vn = type;
 
-ncsave(basic, vn, 0, type=type)
+ncsave(basic, vn, 0, "type", type)
 
 tc.assumeThat(basic, IsFile)
 

@@ -5,26 +5,21 @@ function extract_zstd(archive, out_dir)
 % For our user audience, CMake is at least as likely to be installed as Zstd.
 
 arguments
-  archive (1,1) string
+  archive (1,1) string {mustBeFile}
   out_dir (1,1) string
 end
 
-import stdlib.fileio.absolute_path
-import stdlib.fileio.which
-import stdlib.sys.subprocess_run
+archive = stdlib.fileio.absolute_path(archive);
+out_dir = stdlib.fileio.absolute_path(out_dir);
 
-archive = absolute_path(archive);
-out_dir = absolute_path(out_dir);
-
-assert(isfile(archive), "%s is not a file", archive)
 assert(isfolder(out_dir), "%s is not a folder", out_dir)
 
-exe = which("cmake");
+exe = stdlib.fileio.which("cmake");
 if isempty(exe)
   extract_zstd_bin(archive, outdir)
 end
 
-[ret, msg] = subprocess_run([exe, "-E", "tar", "xf", archive], "cwd", out_dir);
+[ret, msg] = stdlib.sys.subprocess_run([exe, "-E", "tar", "xf", archive], "cwd", out_dir);
 assert(ret == 0, "problem extracting %s   %s", archive, msg)
 
 end

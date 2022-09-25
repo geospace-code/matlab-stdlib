@@ -12,23 +12,16 @@ function names = h5variables(file, group)
 % names: variable names
 
 arguments
-  file (1,1) string {mustBeNonzeroLengthText}
-  group (1,1) string {mustBeNonzeroLengthText} = "/"
+  file (1,1) string {mustBeFile}
+  group string {mustBeScalarOrEmpty} = string.empty
 end
-
-import stdlib.fileio.expanduser
-
-file = expanduser(file);
 
 names = string.empty;
 
-try
-  finf = h5info(file, group);
-catch e
-  if e.identifier == "MATLAB:imagesci:h5info:unableToFind"
-    return
-  end
-  rethrow(e)
+if isempty(group) || strlength(group) == 0
+  finf = h5info(stdlib.fileio.expanduser(file));
+else
+  finf = h5info(stdlib.fileio.expanduser(file), group);
 end
 
 ds = finf.Datasets;

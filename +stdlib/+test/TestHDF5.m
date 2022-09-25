@@ -43,7 +43,7 @@ tc.TestData.basic = basic;
 h5save(basic, '/A0', A0)
 h5save(basic, '/A1', A1)
 h5save(basic, '/A2', A2)
-h5save(basic, '/A3', A3, size=size(A3))
+h5save(basic, '/A3', A3, "size", size(A3))
 h5save(basic, '/A4', A4)
 h5save(basic, "/utf", utf)
 h5save(basic, "/utf2", utf2)
@@ -83,18 +83,12 @@ basic = tc.TestData.basic;
 v = h5variables(basic);
 tc.verifyEqual(sort(v), ["A0", "A1", "A2", "A3", "A4", "utf", "utf2"])
 
-v1 = h5variables(basic);
-tc.verifyEqual(v,v1)
-
 % 1-level group
 v = h5variables(basic, "/t");
 tc.verifyEqual(sort(v), ["x", "y"])
 
 % traversal
 tc.verifyEmpty( h5variables(basic, "/j") )
-
-% non-existant group
-tc.verifyEmpty( h5variables(basic, "/nothere") )
 
 tc.verifyEqual( h5variables(basic, "/j/a") , "b")
 
@@ -201,11 +195,11 @@ import stdlib.hdf5nc.h5save
 import stdlib.hdf5nc.h5size
 basic = tc.TestData.basic;
 
-h5save(basic, "/vector1", 34, size=1)
+h5save(basic, "/vector1", 34, "size", 1)
 s = h5size(basic, '/vector1');
 tc.verifyEqual(s, 1);
 
-h5save(basic, "/scalar", 34, size=0)
+h5save(basic, "/scalar", 34, "size", 0)
 s = h5size(basic, '/scalar');
 tc.verifyEmpty(s);
 
@@ -219,7 +213,7 @@ basic = tc.TestData.basic;
 
 vn = "/" + type;
 
-h5save(basic, vn, 0, type=type)
+h5save(basic, vn, 0, "type",type)
 
 tc.assumeThat(basic, IsFile)
 
@@ -295,11 +289,11 @@ end
 
 
 function test_real_only(tc)
-import stdlib.hdf5nc.h5save
 basic = tc.TestData.basic;
 
-tc.verifyError(@() h5save(basic, "/bad_imag", 1j), 'MATLAB:validators:mustBeReal')
-tc.verifyError(@() h5save(basic, "", 0), 'MATLAB:validators:mustBeNonzeroLengthText')
+tc.verifyError(@() stdlib.hdf5nc.h5save(basic, "/bad_imag", 1j), 'MATLAB:validators:mustBeReal')
+tc.verifyError(@() stdlib.hdf5nc.h5save(basic, "", 0), 'MATLAB:validators:mustBeNonzeroLengthText')
+tc.verifyError(@() stdlib.hdf5nc.h5variables(basic, '/nothere'), 'MATLAB:imagesci:h5info:unableToFind')
 end
 
 end

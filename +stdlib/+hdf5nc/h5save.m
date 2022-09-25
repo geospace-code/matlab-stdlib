@@ -11,30 +11,23 @@ arguments
   opts.type string {mustBeScalarOrEmpty} = string.empty
 end
 
-import stdlib.fileio.expanduser
-import stdlib.hdf5nc.h5exists
-
 if isnumeric(A)
   mustBeReal(A)
 end
 
-filename = expanduser(filename);
+filename = stdlib.fileio.expanduser(filename);
 
 % coerce if needed
 A = coerce_ds(A, opts.type);
 
-try
-  if h5exists(filename, varname)
+if isfile(filename)
+  if stdlib.hdf5nc.h5exists(filename, varname)
     h5_exist_file(filename, varname, A, opts.size)
   else
     h5_new_file(filename, varname, A, opts.size)
   end
-catch e
-  if e.identifier == "MATLAB:imagesci:hdf5io:resourceNotFound"
+else
     h5_new_file(filename, varname, A, opts.size)
-  else
-    rethrow(e)
-  end
 end
 
 end % function

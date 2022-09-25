@@ -1,12 +1,10 @@
 function hash = sha256sum(file)
 % compute sha256 hash of file
 arguments
-  file (1,1) string {mustBeNonzeroLengthText}
+  file (1,1) string {mustBeFile}
 end
 
-import stdlib.fileio.expanduser
-
-file = expanduser(file);
+file = stdlib.fileio.expanduser(file);
 
 if ismac
   [stat,hash] = system("shasum --algorithm 256 --binary " + file);

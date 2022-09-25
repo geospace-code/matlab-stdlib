@@ -3,7 +3,7 @@ function ok = is_exe(file)
 % is a file executable?
 
 arguments
-  file (1,1) string
+  file (1,1) string {mustBeNonzeroLengthText}
 end
 
 if ~isfile(file)

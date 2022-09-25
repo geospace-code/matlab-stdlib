@@ -5,15 +5,11 @@ function frank = ncndims(file, variable)
 % variable: name of variable inside file
 
 arguments
-  file (1,1) string {mustBeNonzeroLengthText}
+  file (1,1) string {mustBeFile}
   variable (1,1) string {mustBeNonzeroLengthText}
 end
 
-import stdlib.fileio.expanduser
-
-file = expanduser(file);
-
-dsi = ncinfo(file, variable);
+dsi = ncinfo(stdlib.fileio.expanduser(file), variable);
 if isempty(dsi.Dimensions)
   frank = 0;
 else

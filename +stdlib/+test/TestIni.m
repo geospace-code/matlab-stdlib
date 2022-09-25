@@ -7,7 +7,7 @@ import matlab.unittest.constraints.IsFile
 import stdlib.fileio.ini2struct
 
 cwd = fileparts(mfilename('fullpath'));
-example = fullfile(cwd, "+fileio", "example.ini");
+example = fullfile(cwd, "example.ini");
 
 tc.assumeThat(example, IsFile)
 

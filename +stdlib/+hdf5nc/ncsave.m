@@ -11,15 +11,11 @@ arguments
   opts.type string {mustBeScalarOrEmpty} = string.empty
 end
 
-import stdlib.fileio.expanduser
-import stdlib.hdf5nc.ncexists
-
 if isnumeric(A)
   mustBeReal(A)
 end
 
-
-filename = expanduser(filename);
+filename = stdlib.fileio.expanduser(filename);
 
 if isempty(opts.dims)
   if isscalar(A)
@@ -49,18 +45,14 @@ end
 % coerce if needed
 A = coerce_ds(A, opts.type);
 
-try
-  if ncexists(filename, varname)
+if isfile(filename)
+  if stdlib.hdf5nc.ncexists(filename, varname)
     nc_exist_file(filename, varname, A, sizeA)
   else
     nc_new_file(filename, varname, A, sizeA, ncdims)
   end
-catch e
-  if e.identifier == "MATLAB:imagesci:netcdf:unableToOpenFileforRead"
-     nc_new_file(filename, varname, A, sizeA, ncdims)
-  else
-    rethrow(e)
-  end
+else
+  nc_new_file(filename, varname, A, sizeA, ncdims)
 end
 
 end % function

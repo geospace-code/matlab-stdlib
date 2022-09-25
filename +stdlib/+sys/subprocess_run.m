@@ -17,8 +17,6 @@ arguments
   opt.cwd string {mustBeScalarOrEmpty} = string.empty
 end
 
-import stdlib.fileio.absolute_path
-
 exe = space_quote(cmd_array(1));
 
 if length(cmd_array) > 1
@@ -36,7 +34,7 @@ for f = string(fieldnames(opt.env)).'
 end
 
 if ~isempty(opt.cwd)
-  cwd = absolute_path(opt.cwd);
+  cwd = stdlib.fileio.absolute_path(opt.cwd);
   assert(isfolder(cwd), "subprocess_run: %s is not a folder", cwd)
   oldcwd = pwd;
   cd(cwd)

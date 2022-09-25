@@ -1,12 +1,10 @@
 function hash = md5sum(file)
 % compute MD5 hash of file
 arguments
-  file (1,1) string {mustBeNonzeroLengthText}
+  file (1,1) string {mustBeFile}
 end
 
-import stdlib.fileio.expanduser
-
-file = expanduser(file);
+file = stdlib.fileio.expanduser(file);
 
 if ismac
   [stat,hash] = system("md5 -r " + file);

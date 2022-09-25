@@ -6,15 +6,11 @@ function fsize = ncsize(file, variable)
 %
 % fsize: vector of variable size per dimension
 arguments
-  file (1,1) string {mustBeNonzeroLengthText}
+  file (1,1) string {mustBeFile}
   variable (1,1) string {mustBeNonzeroLengthText}
 end
 
-import stdlib.fileio.expanduser
-
-file = expanduser(file);
-
-dsi = ncinfo(file, variable);
+dsi = ncinfo(stdlib.fileio.expanduser(file), variable);
 if isempty(dsi.Dimensions)
   fsize = [];
 else

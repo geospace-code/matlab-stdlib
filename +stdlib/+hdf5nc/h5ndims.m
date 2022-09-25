@@ -5,15 +5,11 @@ function frank = h5ndims(file, variable)
 % variable: name of variable inside file
 %
 arguments
-  file (1,1) string {mustBeNonzeroLengthText}
+  file (1,1) string {mustBeFile}
   variable (1,1) string {mustBeNonzeroLengthText}
 end
 
-import stdlib.fileio.expanduser
-
-file = expanduser(file);
-
-dsi = h5info(file, variable).Dataspace;
+dsi = h5info(stdlib.fileio.expanduser(file), variable).Dataspace;
 if dsi.Type == "scalar"
   frank = 0;
 else
