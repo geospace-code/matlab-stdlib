@@ -24,26 +24,27 @@ jobs:
           release: R2022b
 
     steps:
-      - uses: actions/checkout@v3
 
-      - name: Install MATLAB
-        uses: matlab-actions/setup-matlab@v1
-        with:
-          release: ${{ matrix.release }}
+    - name: Install MATLAB
+      uses: matlab-actions/setup-matlab@v1
+      with:
+        release: ${{ matrix.release }}
 
-      - name: Run tests (buildtool)
-        if: ${{ matrix.release == 'R2022b' }}
-        timeout-minutes: 10
-        uses: matlab-actions/run-command@v1
-        with:
-          command: buildtool
+    - uses: actions/checkout@v3
 
-      - name: Run tests (manual)
-        if: ${{ matrix.release != 'R2022b' }}
-        timeout-minutes: 10
-        uses: matlab-actions/run-command@v1
-        with:
-          command: |
-            r = runtests('stdlib.test', 'strict', true, 'UseParallel', true);
-            assert(~isempty(r), "No tests were run")
-            assertSuccess(r)
+    - name: Run Matlab tests (buildtool)
+      if: ${{ matrix.release == 'R2022b' }}
+      timeout-minutes: 10
+      uses: matlab-actions/run-command@v1
+      with:
+        command: buildtool
+
+    - name: Run tests (manual)
+      if: ${{ matrix.release != 'R2022b' }}
+      timeout-minutes: 10
+      uses: matlab-actions/run-command@v1
+      with:
+        command: |
+          r = runtests('stdlib.test', 'strict', true, 'UseParallel', true);
+          assert(~isempty(r), "No tests were run")
+          assertSuccess(r)
