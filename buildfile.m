@@ -7,9 +7,11 @@ end
 function checkTask(~)
 % Identify code issues (recursively all Matlab .m files)
 issues = codeIssues;
-assert(isempty(issues.Issues),formattedDisplayText(issues.Issues))
+assert(isempty(issues.Issues), formattedDisplayText(issues.Issues))
 end
 
 function testTask(~)
-assertSuccess(runtests('stdlib.test'))
+r = runtests('stdlib.test', 'strict', true, 'UseParallel', true);
+assert(~isempty(r), "No tests were run")
+assertSuccess(r)
 end
