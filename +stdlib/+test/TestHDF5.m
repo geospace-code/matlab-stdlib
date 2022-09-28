@@ -45,8 +45,11 @@ h5save(basic, '/A1', A1)
 h5save(basic, '/A2', A2)
 h5save(basic, '/A3', A3, "size", size(A3))
 h5save(basic, '/A4', A4)
-h5save(basic, "/utf", utf)
-h5save(basic, "/utf2", utf2)
+
+if ~verLessThan('matlab', '9.8')
+  h5save(basic, "/utf", utf)
+  h5save(basic, "/utf2", utf2)
+end
 
 h5save(basic, '/t/x', 12)
 h5save(basic, '/t/y', 13)
@@ -81,7 +84,11 @@ import stdlib.hdf5nc.h5variables
 basic = tc.TestData.basic;
 
 v = h5variables(basic);
-tc.verifyEqual(sort(v), ["A0", "A1", "A2", "A3", "A4", "utf", "utf2"])
+k = ["A0", "A1", "A2", "A3", "A4"];
+if ~verLessThan('matlab', '9.8')
+  k = [k, ["utf", "utf2"]];
+end
+tc.verifyEqual(sort(v), k)
 
 % 1-level group
 v = h5variables(basic, "/t");
@@ -115,10 +122,12 @@ import stdlib.hdf5nc.h5size
 import stdlib.hdf5nc.h5ndims
 basic = tc.TestData.basic;
 
-r = h5ndims(basic, '/A0');
-s = h5size(basic, '/A0');
-tc.verifyEmpty(s)
-tc.verifyEqual(r, 0)
+if ~verLessThan('matlab', '9.8')
+  r = h5ndims(basic, '/A0');
+  s = h5size(basic, '/A0');
+  tc.verifyEmpty(s)
+  tc.verifyEqual(r, 0)
+end
 
 r = h5ndims(basic, '/A1');
 s = h5size(basic, '/A1');
@@ -143,6 +152,10 @@ s = h5size(basic, '/A4');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
 tc.verifyEqual(r, 4)
+
+if verLessThan('matlab', '9.8')
+  return
+end
 
 r = h5ndims(basic, '/utf');
 s = h5size(basic, '/utf');
@@ -179,6 +192,10 @@ s = h5read(basic, '/A4');
 tc.verifyEqual(ndims(s), 4)
 tc.verifyEqual(s, tc.TestData.A4)
 
+if verLessThan('matlab', '9.8')
+  return
+end
+
 s = h5read(basic, '/utf');
 tc.verifyTrue(ischar(s))
 tc.verifyEqual(s, tc.TestData.utf)
@@ -199,9 +216,11 @@ h5save(basic, "/vector1", 34, "size", 1)
 s = h5size(basic, '/vector1');
 tc.verifyEqual(s, 1);
 
-h5save(basic, "/scalar", 34, "size", 0)
-s = h5size(basic, '/scalar');
-tc.verifyEmpty(s);
+if ~verLessThan('matlab', '9.8')
+  h5save(basic, "/scalar", 34, "size", 0)
+  s = h5size(basic, '/scalar');
+  tc.verifyEmpty(s);
+end
 
 end
 
@@ -263,6 +282,9 @@ end
 
 function test_string(tc, str)
 import stdlib.hdf5nc.h5save
+
+tc.assumeFalse(verLessThan('matlab', '9.8'), "HDF5 string required Matlab >= R2020a")
+
 basic = tc.TestData.basic;
 
 h5save(basic, "/"+str, str)
