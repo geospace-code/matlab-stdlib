@@ -5,13 +5,17 @@ import stdlib.hdf5nc.h5size
 diskshape = h5size(filename, varname);
 if length(diskshape) >= 2
   % start is always a row vector, regardless of shape of array
-  start = ones(1,ndims(A));
+  start = ones(1, ndims(A));
 elseif ~isempty(diskshape)
   start = 1;
 end
 
 if isempty(sizeA)
   sizeA = defaultSize(A);
+elseif all(sizeA > 0)
+  assert(numel(A) == prod(sizeA), 'hdf5nc:h5save:shape_error', "dataset # of elements %d != prod(sizeA) %d", numel(A), prod(sizeA))
+elseif ~isscalar(sizeA)
+  error('hdf5nc:h5save:shape_error', "only scalar size may be 0")
 end
 
 if isscalar(A)

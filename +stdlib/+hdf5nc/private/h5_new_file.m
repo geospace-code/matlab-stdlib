@@ -1,13 +1,11 @@
 function h5_new_file(filename, varname, A, sizeA)
 
 if isempty(sizeA)
-  if isscalar(A)
-    sizeA = 0;
-  elseif isvector(A)
-    sizeA = length(A);
-  else
-    sizeA = size(A);
-  end
+  sizeA = defaultSize(A);
+elseif all(sizeA > 0)
+  assert(numel(A) == prod(sizeA), 'hdf5nc:h5save:shape_error', "dataset # of elements %d != prod(sizeA) %d", numel(A), prod(sizeA))
+elseif ~isscalar(sizeA)
+  error('hdf5nc:h5save:shape_error', "only scalar size may be 0")
 end
 
 if isscalar(sizeA)
