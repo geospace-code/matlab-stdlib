@@ -16,11 +16,7 @@ arguments
 end
 
 % stops upon finding first working Fortran compiler
-FCs = ["gfortran", "ifx", "ifort", "flang", "nvfortran", "nagfor", ...
-       "ftn", ... % Cray
-       "xlf2008", ... % IBM XL
-       "f95", ... % Absoft
-      ];
+FCs = ["gfortran", "ifx", "flang", "nvfortran", "nagfor", "ftn"];
 
 if strlength(FC) > 0
   FCs = [FC, FCs];
@@ -30,14 +26,21 @@ fstem = tempname;
 fn = fstem + ".f90";
 rfn = fstem + ".exe";
 
-prog = 'use iso_fortran_env; print *,compiler_version(); end program';
+prog = 'program; use iso_fortran_env; print *,compiler_version(); end program';
 fid = fopen(fn, 'wt');
 fprintf(fid, '%s\n', prog);
 fclose(fid);
 
-for fc = FCs
+for f = FCs
+  fc = stdlib.fileio.which(f);
+  if isempty(fc)
+    continue
+  end
+
   [stat, ~] = system(fc + " " + fn + " -o" + rfn);  % gobble error messages
-  if stat ~= 0, continue, end
+  if stat ~= 0
+    continue
+  end
 
   [stat, msg] = system(rfn);
   if stat == 0
@@ -46,6 +49,8 @@ for fc = FCs
   end
 end
 
-if stat ~= 0, fc = string.empty; end
+if ~isempty(fc) && stat ~= 0
+  fc = string.empty;
+end
 
 end
