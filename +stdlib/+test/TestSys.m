@@ -55,6 +55,7 @@ end
 function test_wsl(tc)
 import matlab.unittest.constraints.IsOfClass
 tc.verifyThat(stdlib.sys.iswsl, IsOfClass('logical'))
+tc.verifyThat(stdlib.sys.has_wsl, IsOfClass('logical'))
 end
 
 function test_isinteractive(tc)

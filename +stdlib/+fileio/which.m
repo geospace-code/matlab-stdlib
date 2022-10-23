@@ -7,9 +7,6 @@ arguments
   fpath (1,:) string = getenv('PATH')
 end
 
-import stdlib.fileio.is_exe
-import stdlib.fileio.expanduser
-
 names = filename;
 
 if ispc
@@ -26,7 +23,7 @@ for name = names
 
   if strlength(fileparts(name)) > 0
     % has directory part
-    if is_exe(name)
+    if stdlib.fileio.is_exe(name)
       exe = name;
       return
     end
@@ -37,7 +34,7 @@ end % for name
 %% path given
 
 if isscalar(fpath)
-  fpath = split(expanduser(fpath), pathsep).';
+  fpath = split(stdlib.fileio.expanduser(fpath), pathsep).';
 end
 fpath = fpath(strlength(fpath)>0);
 
@@ -50,7 +47,7 @@ for name = names
 
   for p = fpath
     exe = fullfile(p, name);
-    if is_exe(exe)
+    if stdlib.fileio.is_exe(exe)
       return
     end
   end

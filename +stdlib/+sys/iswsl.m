@@ -3,15 +3,13 @@ persistent wsl;
 
 if isempty(wsl)
   wsl = false;
-  yeswsl = false;
   if isunix && ~ismac
     fid = fopen('/proc/version');
-    if fid < 1
-      return
+    if fid >= 1
+      v = fscanf(fid,'%s');
+      fclose(fid);
+      wsl = contains(v, 'microsoft-standard');
     end
-    v = fscanf(fid,'%s');
-    fclose(fid);
-    wsl = contains(v, 'microsoft-standard');
   end
 end
 
