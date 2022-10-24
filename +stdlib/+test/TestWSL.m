@@ -41,7 +41,7 @@ wsl_temp = stdlib.sys.wsl_tempfile();
 tc.verifyNotEmpty(wsl_temp, "could not get WSL tempfile")
 
 wsl_path = stdlib.sys.wslpath2winpath(wsl_temp);
-tc.verifyNotEmpty(wsl_path, "could not convert WSL path to Windows path")
+tc.verifyTrue(stdlib.fileio.is_wsl_path(wsl_path), "could not convert WSL path to Windows path")
 
 win_path = stdlib.sys.winpath2wslpath(wsl_path);
 tc.verifyNotEmpty(win_path, "could not convert Windows path to WSL path")
