@@ -1,8 +1,13 @@
 function frank = ncndims(file, variable)
-% get number of dimensions of a NetCDF4 variable
+%% ncndims(file, variable)
+% get number of dimensions of a variable in the file
 %
-% filename: NetCDF4 filename
-% variable: name of variable inside file
+%% Inputs
+% * file: data filename
+% * variable: name of variable inside file
+%
+%% Outputs
+% * frank: number of variable dimensions (like Matlab ndims)
 
 arguments
   file (1,1) string {mustBeFile}

@@ -1,13 +1,14 @@
 function names = ncvariables(file, group)
-% get dataset names in a file
+%% ncvariables(file, group)
+% get dataset names in a file under group
+% default is datasets under "/", optionally under "/group"
 %
-% parameters
-% ----------
-% file: filename
+%% Inputs
+% * file: filename
+% * group: group name (optional)
 %
-% returns
-% -------
-% names: variable names
+%% Outputs
+% * names: variable names
 
 arguments
   file (1,1) string {mustBeFile}

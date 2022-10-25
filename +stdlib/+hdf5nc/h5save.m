@@ -1,7 +1,15 @@
 function h5save(filename, varname, A, opts)
-% H5SAVE
-% create or append to HDF5 file
+%% h5save(filename, varname, A, opts)
+% create or append to data file
+%
 % parent folder (file directory) must already exist
+%
+%% Inputs
+% * filename: data filename
+% * varname: variable name to save
+% * A: data to write
+% * opts.size: variable shape -- helps write scalar or vectors especially
+% * opts.type: class of variable e.g. int32, float32
 
 arguments
   filename (1,1) string {mustBeNonzeroLengthText}
@@ -32,7 +40,7 @@ end
 
 end % function
 
-% Copyright 2020 Michael Hirsch
+% Copyright 2020 SciVision, Inc.
 
 % Licensed under the Apache License, Version 2.0 (the "License");
 % you may not use this file except in compliance with the License.

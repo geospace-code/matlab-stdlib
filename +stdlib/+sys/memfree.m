@@ -1,10 +1,10 @@
 function freebytes = memfree()
-%% find free physical RAM on Windows (with or without Cygwin) and Linux systems
+%% memfree()
+% find free physical RAM on Windows (with or without Cygwin) and Linux systems
 % currently Matlab doesn't support memory() on Linux/Mac systems
 %
-% Output:
-% --------
-% free physical RAM [bytes]
+%% Outputs
+% * freebytes: free physical RAM [bytes]
 %
 % If Python psutils not available, returns -1
 

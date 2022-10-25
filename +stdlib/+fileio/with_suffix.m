@@ -1,7 +1,11 @@
 function filename = with_suffix(filename, suffix)
-%% switch file extension
-%
-% suffix: file extension with "." e.g. ".dat"
+%% with_suffix(filename, suffix)
+% switch file extension
+%% Inputs
+% * filename: original filename
+% * suffix: file extension with "." e.g. ".dat"
+%% Outputs
+% * filename: modified filename
 arguments
   filename string
   suffix (1,1) string
@@ -12,4 +16,4 @@ if ext ~= suffix
   filename = fullfile(direc, name + suffix);
 end
 
-end % funciton
+end

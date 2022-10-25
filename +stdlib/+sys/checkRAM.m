@@ -1,5 +1,6 @@
 function [OK,newSizeBytes,freebytes] = checkRAM(newSize, myclass)
-%% checks that your requested memory for the new array won't exceed AVAILABLE RAM with Matlab
+%% checkRAM(newSize, myclass)
+% checks that requested memory for the new array won't exceed AVAILABLE RAM with Matlab
 %
 % This script is optimistic as Matlab won't always be able to
 % create an array using ALL available RAM, but at least you know when you

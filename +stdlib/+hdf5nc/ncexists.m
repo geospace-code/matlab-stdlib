@@ -1,14 +1,13 @@
 function exists = ncexists(file, vars)
+%% ncexists(file, vars)
 % check if variable(s) exists in NetCDF4 file
 %
-% parameters
-% ----------
-% file: NetCDF4 filename
-% varname: path(s) of variable inside file
+%% Inputs
+% * file: data filename
+% * varname: path(s) of variable in file
 %
-% returns
-% -------
-% exists: boolean (scalar or vector)
+%% Outputs
+% * exists: boolean (scalar or vector)
 
 arguments
   file (1,1) string {mustBeFile}

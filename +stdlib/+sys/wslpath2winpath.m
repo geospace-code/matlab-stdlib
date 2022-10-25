@@ -1,5 +1,6 @@
 function win_path = wslpath2winpath(wsl_path)
-%% WSLPATH2WINPATH Convert a WSL path to a Windows path
+%% wslpath2winpath(wsl_path)
+% Convert a WSL path to a Windows path
 % output format is like \\wsl$\Ubuntu\home\username\...
 arguments
   wsl_path (1,1) string {mustBeNonzeroLengthText}

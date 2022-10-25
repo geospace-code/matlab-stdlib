@@ -1,5 +1,6 @@
 function isinter = isinteractive()
-%% tell if the program is being run interactively or not.
+%% isinteractive()
+% tell if the script is being run interactively
 
 if stdlib.sys.isoctave
   isinter = isguirunning;

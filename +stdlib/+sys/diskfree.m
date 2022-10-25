@@ -1,5 +1,6 @@
 function freebytes = diskfree(direc)
-%% returns disk free space in bytes
+%% diskfree(direc)
+% returns disk free space in bytes
 % example:  diskfree('~')
 arguments
   direc (1,1) string

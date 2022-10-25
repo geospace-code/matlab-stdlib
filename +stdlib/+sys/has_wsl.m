@@ -1,5 +1,6 @@
 function ok = has_wsl()
-% HAS_WSL  Check if WSL is installed and notionally working
+%% HAS_WSL()
+% Check if WSL is installed and notionally working
 
 persistent wsl;
 

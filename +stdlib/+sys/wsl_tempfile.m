@@ -1,5 +1,6 @@
 function path = wsl_tempfile()
-%% Windows Subsystem for Linux (WSL) temporary file from Windows Matlab
+%% wsl_tempfile()
+% Windows Subsystem for Linux (WSL) temporary file from Windows Matlab
 
 assert(stdlib.sys.has_wsl(), "stdlib:sys:wsl_tempfile:EnvironmentError", mfilename() + "only supported on Windows Matlab with WSL")
 

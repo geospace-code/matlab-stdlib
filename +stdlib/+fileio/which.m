@@ -1,5 +1,6 @@
 function exe = which(filename, fpath)
-% fileio.which Find executable with name under path
+%% which(filename, fpath)
+% Find executable with name under path
 % like Python shutil.which, may return relative or absolute path
 
 arguments

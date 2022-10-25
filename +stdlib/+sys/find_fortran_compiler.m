@@ -1,16 +1,14 @@
-%!assert(ischar(find_fortran_compiler()))
-
 function fc = find_fortran_compiler(FC)
-%% Find Fortran compiler
-% intended for Fortran 2008+ compilers
+%% find_fortran_compiler(FC)
+% Find Fortran compiler
+% for Fortran 2008+ compilers
 %
 % fc = find_fortran_compiler()   finds the first Fortran compiler available
 % and working on your system.
 %
 % fc = find_fortran_compiler(FC) searches first for the compiler specified
 % in string FC.
-%
-%  Michael Hirsch, Ph.D.
+
 arguments
   FC (1,1) string = getenv('FC')
 end

@@ -1,6 +1,11 @@
 function ok = is_exe(file)
-%% ok = is_exe(file)
-% is a file executable?
+%% is_exe(file)
+% is a file executable, as per its filesystem attributes
+% does not actually try to run the file.
+%% Inputs
+% * file: filename
+%% Outputs
+% * ok: boolean logical
 
 arguments
   file (1,1) string {mustBeNonzeroLengthText}

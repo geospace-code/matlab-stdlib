@@ -1,6 +1,10 @@
 function issame = samepath(path1, path2)
-%% issame = samepath(path1, path)
+%% samepath(path1, path)
 % true if inputs resolve to same path
+arguments
+  path1 (1,1) string {mustBeNonzeroLengthText}
+  path2 (1,1) string {mustBeNonzeroLengthText}
+end
 
 import stdlib.fileio.absolute_path
 
