@@ -7,7 +7,7 @@ import stdlib.fileio.posix
 
 if ispc
   tc.verifyFalse(contains(posix("c:\foo"), "\"))
-  tc.verifyFalse(any(contains(posix(["x:\123", "d:\abc"]), "\")))
+  tc.verifyFalse(all(contains(posix(["x:\123", "d:\abc"]), "\")))
 end
 
 tc.verifyEmpty(posix(string.empty))

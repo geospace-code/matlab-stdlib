@@ -4,7 +4,7 @@ function ppath = posix(file)
 % with "/" even on Windows.
 % If Windows path also have escaping "\" this breaks
 arguments
-  file (1,:) string
+  file string
 end
 
 
