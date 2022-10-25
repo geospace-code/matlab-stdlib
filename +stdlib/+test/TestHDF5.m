@@ -5,9 +5,6 @@ TestData
 end
 
 properties (TestParameter)
-type = {'single', 'double', 'float32', 'float64', ...
-  'int8', 'int16', 'int32', 'int64', ...
-  'uint8', 'uint16', 'uint32', 'uint64'}
 str = {"string", 'char'}
 end
 
@@ -236,26 +233,20 @@ end
 end
 
 
-function test_coerce(tc, type)
+function test_coerce(tc)
 import stdlib.hdf5nc.h5save
 import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
-vn = "/" + type;
+for type = ["single", "double", ...
+            "int8", "int16", "int32", "int64", ...
+            "uint8", "uint16", "uint32", "uint64"]
 
-h5save(basic, vn, 0, "type",type)
+  h5save(basic, type, 0, "type",type)
 
-tc.assumeThat(basic, IsFile)
-
-if type ==  "float32"
-  vtype = "single";
-elseif type == "float64"
-  vtype = "double";
-else
-  vtype = type;
+  tc.verifyClass(h5read(basic, "/"+type), type)
 end
 
-tc.verifyClass(h5read(basic, vn), vtype)
 end
 
 

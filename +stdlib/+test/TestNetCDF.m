@@ -4,13 +4,6 @@ properties
 TestData
 end
 
-properties (TestParameter)
-type = {'single', 'double', 'float32', 'float64', ...
-  'int8', 'int16', 'int32', 'int64', ...
-  'uint8', 'uint16', 'uint32', 'uint64'}
-end
-
-
 methods (TestMethodSetup)
 
 function setup_file(tc)
@@ -221,25 +214,20 @@ tc.verifyEqual(s, tc.TestData.utf2)
 end
 
 
-function test_coerce(tc, type)
+function test_coerce(tc)
 import stdlib.hdf5nc.ncsave
 import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
-vn = type;
+for type = ["single", "double", ...
+            "int8", "int16", "int32", "int64", ...
+            "uint8", "uint16", "uint32", "uint64"]
 
-ncsave(basic, vn, 0, "type", type)
+  ncsave(basic, type, 0, "type", type)
 
-tc.assumeThat(basic, IsFile)
-
-if type ==  "float32"
-  vtype = "single";
-elseif type == "float64"
-  vtype = "double";
-else
-  vtype = type;
+  tc.verifyClass(ncread(basic, type), type)
 end
-tc.verifyClass(ncread(basic, vn), vtype)
+
 end
 
 
@@ -248,7 +236,7 @@ import stdlib.hdf5nc.ncsave
 import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
-ncsave(basic, 'A2', 3*magic(4))
+ncsave(basic, "A2", 3*magic(4))
 
 tc.assumeThat(basic, IsFile)
 tc.verifyEqual(ncread(basic, 'A2'), 3*magic(4))
