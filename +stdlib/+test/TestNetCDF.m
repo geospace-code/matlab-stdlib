@@ -8,7 +8,6 @@ properties (TestParameter)
 type = {'single', 'double', 'float32', 'float64', ...
   'int8', 'int16', 'int32', 'int64', ...
   'uint8', 'uint16', 'uint32', 'uint64'}
-vars = {'A0', 'A1', 'A2', 'A3', 'A4'}
 end
 
 
@@ -93,20 +92,23 @@ tc.verifyEqual( ncvariables(basic, "/j/a") , "b")
 end
 
 
-function test_exists(tc, vars)
+function test_exists(tc)
 import stdlib.hdf5nc.ncexists
-import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
-e = ncexists(basic, vars);
-tc.verifyThat(e, IsScalar)
-tc.verifyTrue(e)
+tc.verifyEmpty(ncexists(basic, string.empty))
 
-% vector
-e = ncexists(basic, [vars, "oops"]);
-tc.verifyTrue(isrow(e))
+e = ncexists(basic, "");
+
+tc.verifyTrue(isscalar(e))
+tc.verifyFalse(e)
+
+e = ncexists(basic, ["A1", "oops"]);
+tc.verifyTrue(isvector(e))
 tc.verifyEqual(e, [true, false])
 
+e = ncexists(basic, {'A0', 'A1', 'A2', 'A3', 'A4'});
+tc.verifyTrue(all(e))
 end
 
 

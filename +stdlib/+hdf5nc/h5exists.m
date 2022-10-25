@@ -11,7 +11,7 @@ function exists = h5exists(file, vars)
 
 arguments
   file (1,1) string {mustBeFile}
-  vars (1,:) string {mustBeNonempty,mustBeNonzeroLengthText}
+  vars string
 end
 
 i = startsWith(vars, "/");

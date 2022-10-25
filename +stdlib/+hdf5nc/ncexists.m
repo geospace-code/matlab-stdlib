@@ -11,7 +11,7 @@ function exists = ncexists(file, vars)
 
 arguments
   file (1,1) string {mustBeFile}
-  vars (1,:) string {mustBeNonempty,mustBeNonzeroLengthText}
+  vars string
 end
 
 % NOT contains because we want exact string match

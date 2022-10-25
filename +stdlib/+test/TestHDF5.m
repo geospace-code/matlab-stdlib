@@ -8,7 +8,6 @@ properties (TestParameter)
 type = {'single', 'double', 'float32', 'float64', ...
   'int8', 'int16', 'int32', 'int64', ...
   'uint8', 'uint16', 'uint32', 'uint64'}
-vars = {'A0', 'A1', 'A2', 'A3', 'A4'}
 str = {"string", 'char'}
 end
 
@@ -102,16 +101,25 @@ tc.verifyEqual( h5variables(basic, "/j/a") , "b")
 end
 
 
-function test_exists(tc, vars)
+function test_exists(tc)
 import stdlib.hdf5nc.h5exists
 basic = tc.TestData.basic;
 
-e = h5exists(basic, "/" + vars);
+tc.verifyEmpty(h5exists(basic, string.empty))
+
+e = h5exists(basic, "");
+
 tc.verifyTrue(isscalar(e))
-tc.verifyTrue(e)
+tc.verifyFalse(e)
+
+vars = {'A0', 'A1', 'A2', 'A3', 'A4', '/A0'};
+
+e = h5exists(basic, vars);
+tc.verifyTrue(isvector(e))
+tc.verifyTrue(all(e))
 
 % vector
-e = h5exists(basic, [vars, "oops"]);
+e = h5exists(basic, ["/A1", "oops"]);
 tc.verifyTrue(isrow(e))
 tc.verifyEqual(e, [true, false])
 end
