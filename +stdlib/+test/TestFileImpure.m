@@ -23,6 +23,8 @@ end
 
 function test_which_name(tc)
 
+tc.verifyEmpty(stdlib.fileio.which(tempname))
+
 if ismac
   n = "ls";
 else
@@ -37,6 +39,10 @@ end
 
 function test_is_exe_which_fullpath(tc)
 import matlab.unittest.constraints.IsFile
+
+tc.verifyEmpty(stdlib.fileio.is_exe(string.empty))
+tc.verifyFalse(stdlib.fileio.is_exe(""))
+tc.verifyFalse(stdlib.fileio.is_exe(tempname))
 
 n = "matlab";
 %% is_exe test

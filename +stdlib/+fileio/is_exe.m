@@ -8,7 +8,12 @@ function ok = is_exe(file)
 % * ok: boolean logical
 
 arguments
-  file (1,1) string {mustBeNonzeroLengthText}
+  file string {mustBeScalarOrEmpty}
+end
+
+if isempty(file)
+  ok = logical.empty;
+  return
 end
 
 if ~isfile(file)

@@ -32,8 +32,6 @@ import stdlib.fileio.is_absolute_path
 tc.verifyTrue(is_absolute_path('~/foo'))
 if ispc
   tc.verifyTrue(is_absolute_path('x:/foo'))
-  tc.verifyEqual(is_absolute_path(["x:/abc", "x:/123", "", "c"]), [true, true, false, false])
-  tc.verifyTrue(all(is_absolute_path(["x:/abc"; "x:/123"])))
   tc.verifyFalse(is_absolute_path('/foo'))
 else
   tc.verifyTrue(is_absolute_path('/foo'))
@@ -61,10 +59,10 @@ tc.verifyTrue(strncmp(par2, pabs2, 2))
 pt1 = absolute_path("bar/../2foo");
 tc.verifyFalse(contains(pt1, ".."))
 
-va = absolute_path(["2foo", "4foo"]);
-tc.verifyFalse(any(startsWith(va, "2")))
-vs = extractBefore(va, 2);
-tc.verifyEqual(vs(1), vs(2))
+va = absolute_path("2foo");
+vb = absolute_path("4foo");
+tc.verifyFalse(startsWith(va, "2"))
+tc.verifyTrue(strncmp(va, vb, 2))
 
 tc.verifyEmpty(absolute_path(string.empty))
 tc.verifyEqual(absolute_path(""), string(pwd))

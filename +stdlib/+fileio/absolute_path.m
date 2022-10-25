@@ -12,29 +12,29 @@ function abspath = absolute_path(p)
 % * abspath: absolute path, if determined
 
 arguments
-  p (1,:) string
+  p string {mustBeScalarOrEmpty}
 end
 
 % have to expand ~ first
-p = stdlib.fileio.expanduser(p);
+abspath = stdlib.fileio.expanduser(p);
 
-if ~stdlib.fileio.is_absolute_path(p)
-  % otherwise the default is Documents/Matlab, which is probably not wanted.
-  p = fullfile(pwd, p);
+if isempty(abspath)
+  return
 end
 
-abspath = p;
+if ~stdlib.fileio.is_absolute_path(abspath)
+  % otherwise the default is Documents/Matlab, which is probably not wanted.
+  abspath = fullfile(pwd, abspath);
+end
 
-for i = 1:length(abspath)
-  if ispc && startsWith(abspath(i), "\\")
-    % UNC path is not canonicalized
-    continue
-  end
-  try
-    abspath(i) = string(java.io.File(abspath(i)).getCanonicalPath());
-  catch excp
-    error("stdlib:fileio:absolute_path", "%s is not a canonicalizable path.  %s", abspath(i), excp.message)
-  end
+if ispc && startsWith(abspath, "\\")
+  % UNC path is not canonicalized
+  return
+end
+try
+  abspath = string(java.io.File(abspath).getCanonicalPath());
+catch excp
+  error("stdlib:fileio:absolute_path", "%s is not a canonicalizable path.  %s", abspath, excp.message)
 end
 
 end % function
