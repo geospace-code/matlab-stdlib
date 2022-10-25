@@ -19,20 +19,16 @@ if ispc
   end
 end
 
-%% directory/filename given
-for name = names
+% directory/filename given
+for exe = names
 
-  if strlength(fileparts(name)) > 0
-    % has directory part
-    if stdlib.fileio.is_exe(name)
-      exe = name;
-      return
-    end
+  if strlength(fileparts(exe)) > 0 && stdlib.fileio.is_exe(exe)
+    return
   end
 
 end % for name
 
-%% path given
+% path given
 
 if isscalar(fpath)
   fpath = split(stdlib.fileio.expanduser(fpath), pathsep).';
