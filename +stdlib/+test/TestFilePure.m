@@ -12,6 +12,16 @@ if ispc
   tc.verifyFalse(contains(posix("c:\foo"), "\"))
   tc.verifyFalse(all(contains(posix(["x:\123", "d:\abc"]), "\")))
 end
+end
+
+function test_samepath(tc)
+import stdlib.fileio.samepath
+
+tc.verifyEmpty(samepath(string.empty, string.empty))
+tc.verifyTrue(samepath("", ""))
+tc.verifyFalse(samepath("a", "b"))
+tc.verifyTrue(samepath("a/b/..", "a/c/.."))
+tc.verifyTrue(samepath(".", "a/.."))
 
 end
 
