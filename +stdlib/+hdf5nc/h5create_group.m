@@ -2,11 +2,11 @@ function fid = h5create_group(file, hpath)
 %% h5create_group(file, hpath)
 % create HDF5 group
 %
-%% Inputs
+%%% Inputs
 % * file: HDF5 file name or handle
 % * hpath: HDF5 group/dataset -- ensure final character is "/" if hpath is only a group
 %
-%% Outputs
+%%% Outputs
 % * HDF5 file handle
 
 arguments
@@ -16,7 +16,7 @@ end
 
 import stdlib.fileio.expanduser
 
-%% polymorphic fid/filename
+% polymorphic fid/filename
 if isa(file, 'H5ML.id')
   fid = file;
 else
@@ -29,13 +29,13 @@ else
   end
 end
 
-%% are there any groups
+% are there any groups
 grps = split(hpath, "/");
 if length(grps) < 3
   return
 end
 
-%% recursively create groups as needed
+% recursively create groups as needed
 plist = 'H5P_DEFAULT';
 groot = H5G.open(fid, "/");
 

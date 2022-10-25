@@ -3,11 +3,11 @@ function [status, msg] = subprocess_run(cmd_array, opt)
 % handle command lines with spaces
 % input each segment of the command as an element in a string array
 % this is how python subprocess.run works
-%% Inputs
+%%% Inputs
 % * cmd_array: vector of string to compose a command line
 % * opt.env: environment variable struct to set
 % * opt.cwd: working directory to use while running command
-%% Outputs
+%%% Outputs
 % * status: 0 is success
 % * msg: stderr + stdout from process
 %

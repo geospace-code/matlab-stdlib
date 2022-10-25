@@ -4,9 +4,10 @@ function expanded = expanduser(p)
 %
 % Useful for Matlab functions like h5read() and some Computer Vision toolbox functions
 % that can't handle ~
-%% Inputs
+%
+%%% Inputs
 % * p: path to expand, if tilde present
-%% Outputs
+%%% Outputs
 % * expanded: expanded path
 %
 % See also ABSOLUTE_PATH

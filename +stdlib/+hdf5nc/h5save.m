@@ -4,7 +4,7 @@ function h5save(filename, varname, A, opts)
 %
 % parent folder (file directory) must already exist
 %
-%% Inputs
+%%% Inputs
 % * filename: data filename
 % * varname: variable name to save
 % * A: data to write

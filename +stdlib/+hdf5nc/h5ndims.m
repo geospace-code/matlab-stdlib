@@ -2,11 +2,11 @@ function frank = h5ndims(file, variable)
 %% h5ndims(file, variable)
 % get number of dimensions of an HDF5 dataset
 %
-%% Inputs
+%%% Inputs
 % * file: data filename
 % * variable: name of variable inside file
 %
-%% Outputs
+%%% Outputs
 % * frank: number of variable dimensions (like Matlab ndims)
 
 arguments

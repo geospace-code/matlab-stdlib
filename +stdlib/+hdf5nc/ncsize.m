@@ -2,11 +2,11 @@ function fsize = ncsize(file, variable)
 %% ncsize(file, variable)
 % get size (shape) of a data file variable
 %
-%% Inputs
+%%% Inputs
 % filename: data filename
 % variable: name of variable inside file
 %
-%% Outputs
+%%% Outputs
 % fsize: vector of variable size per dimension
 
 arguments

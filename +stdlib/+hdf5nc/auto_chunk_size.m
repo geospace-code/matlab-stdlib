@@ -4,7 +4,7 @@ function csize = auto_chunk_size(dims)
 % based on https://github.com/h5py/h5py/blob/master/h5py/_hl/filters.py
 % refer to https://support.hdfgroup.org/HDF5/Tutor/layout.html
 %
-%% Inputs
+%%% Inputs
 % * dims: proposed dataset dimensions (like size())
 
 arguments

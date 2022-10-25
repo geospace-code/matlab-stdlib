@@ -1,10 +1,10 @@
 function r = version_atleast(in, ref)
 %% version_atleast(in, ref)
 % compare two string verions: major.minor.rev.patch
-%% Inputs
+%%% Inputs
 % * in: version to compare
 % * ref: version to compare against
-%% Outputs
+%%% Outputs
 % * r: logical
 arguments
   in (1,1) string

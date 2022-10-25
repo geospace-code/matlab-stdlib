@@ -6,9 +6,9 @@ function abspath = absolute_path(p)
 % subsystem, but are sometimes still valid--so return
 % unmodified path if this occurs.
 %
-%% Inputs
+%%% Inputs
 % * p: path to make absolute
-%% Outputs
+%%% Outputs
 % * abspath: absolute path, if determined
 
 arguments

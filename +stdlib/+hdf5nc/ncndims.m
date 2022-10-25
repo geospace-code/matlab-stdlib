@@ -2,11 +2,11 @@ function frank = ncndims(file, variable)
 %% ncndims(file, variable)
 % get number of dimensions of a variable in the file
 %
-%% Inputs
+%%% Inputs
 % * file: data filename
 % * variable: name of variable inside file
 %
-%% Outputs
+%%% Outputs
 % * frank: number of variable dimensions (like Matlab ndims)
 
 arguments

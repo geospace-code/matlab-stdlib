@@ -11,9 +11,9 @@ arguments
   myclass (1,1) string = "double"
 end
 
-%% get available RAM
+% get available RAM
 freebytes = stdlib.sys.memfree();
-%% variable sizing
+% variable sizing
 switch(myclass)
   case {'single','int32','uint32'}, bits = 32;
   case {'double','int64','uint64','float'}, bits = 64;
