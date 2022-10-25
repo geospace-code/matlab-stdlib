@@ -8,6 +8,11 @@ end
 
 import stdlib.fileio.absolute_path
 
+if isempty(apath)
+  last = string.empty;
+  return
+end
+
 if strlength(apath) == 0
   last = "";
   return

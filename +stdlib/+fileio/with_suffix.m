@@ -11,6 +11,10 @@ arguments
   suffix (1,1) string
 end
 
+if isempty(filename)
+  return
+end
+
 [direc, name, ext] = fileparts(filename);
 if ext ~= suffix
   filename = fullfile(direc, name + suffix);
