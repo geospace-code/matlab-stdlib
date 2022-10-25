@@ -18,4 +18,4 @@ Self-tests can be run from that matlab-stdlib/ directory:
 buildtool
 ```
 
-[API Documentation](./docs)
+[API Documentation](https://geospace-code.github.io/matlab-stdlib)
