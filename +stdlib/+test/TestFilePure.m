@@ -5,18 +5,22 @@ methods (Test)
 function test_posix(tc)
 import stdlib.fileio.posix
 
+tc.verifyEmpty(posix(string.empty))
+tc.verifyEqual(posix(""), "")
+
 if ispc
   tc.verifyFalse(contains(posix("c:\foo"), "\"))
   tc.verifyFalse(all(contains(posix(["x:\123", "d:\abc"]), "\")))
 end
 
-tc.verifyEmpty(posix(string.empty))
 end
 
 function test_path_tail(tc)
 
 import stdlib.fileio.path_tail
 
+tc.verifyEmpty(path_tail(string.empty))
+tc.verifyEqual(path_tail(""), "")
 tc.verifyEqual(path_tail("/foo/bar/baz"), "baz")
 tc.verifyEqual(path_tail("/foo/bar/baz/"), "baz")
 tc.verifyEqual(path_tail("/foo/bar/baz/."), "baz")
@@ -29,6 +33,10 @@ function test_is_absolute_path(tc)
 
 import stdlib.fileio.is_absolute_path
 % path need not exist
+
+tc.verifyEmpty(is_absolute_path(string.empty))
+tc.verifyFalse(is_absolute_path(""))
+
 tc.verifyTrue(is_absolute_path('~/foo'))
 if ispc
   tc.verifyTrue(is_absolute_path('x:/foo'))
@@ -37,14 +45,15 @@ else
   tc.verifyTrue(is_absolute_path('/foo'))
 end
 
-tc.verifyEmpty(is_absolute_path(string.empty))
-tc.verifyFalse(is_absolute_path(""))
 tc.verifyFalse(is_absolute_path("c"))
 end
 
 function test_absolute_path(tc)
 
 import stdlib.fileio.absolute_path
+
+tc.verifyEmpty(absolute_path(string.empty))
+tc.verifyEqual(absolute_path(""), string(pwd))
 
 pabs = absolute_path('2foo');
 pabs2 = absolute_path('4foo');
@@ -64,19 +73,19 @@ vb = absolute_path("4foo");
 tc.verifyFalse(startsWith(va, "2"))
 tc.verifyTrue(strncmp(va, vb, 2))
 
-tc.verifyEmpty(absolute_path(string.empty))
-tc.verifyEqual(absolute_path(""), string(pwd))
 end
 
 function test_with_suffix(tc)
 import stdlib.fileio.with_suffix
+
+tc.verifyEmpty(with_suffix(string.empty, ".nc"))
+tc.verifyEqual(with_suffix("", ""), "")
+
 tc.verifyEqual(with_suffix("foo.h5", ".nc"), "foo.nc")
 if ~verLessThan("matlab", "9.9")
 % fileparts vectorized in R2020b
 tc.verifyEqual(with_suffix(["foo.h5", "bar.dat"], ".nc"), ["foo.nc", "bar.nc"])
 
-tc.verifyEmpty(with_suffix(string.empty, ".nc"))
-tc.verifyEqual(with_suffix("", ""), "")
 tc.verifyEqual(with_suffix("c", ""), "c")
 tc.verifyEqual(with_suffix("c.nc", ""), "c")
 tc.verifyEqual(with_suffix("", ".nc"), ".nc")

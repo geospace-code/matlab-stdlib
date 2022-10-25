@@ -5,14 +5,14 @@ methods (Test)
 function test_expanduser(tc)
 import stdlib.fileio.expanduser
 
+tc.verifyEmpty(expanduser(string.empty))
+tc.verifyEqual(expanduser(""), "")
+
 tc.verifyFalse(startsWith(expanduser('~/foo'), "~"))
 tc.verifyFalse(any(startsWith(expanduser(["~/abc", "~/123"]), "~")))
 
 tc.verifyTrue(endsWith(expanduser('~/foo'), "foo"))
 tc.verifyTrue(all(endsWith(expanduser(["~/abc", "~/123"]), ["abc", "123"])))
-
-tc.verifyEmpty(expanduser(string.empty))
-tc.verifyEqual(expanduser(""), "")
 end
 
 function test_makedir(tc)

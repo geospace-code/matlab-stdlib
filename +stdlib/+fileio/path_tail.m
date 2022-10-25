@@ -3,10 +3,15 @@ function last = path_tail(apath)
 % get last part of directory path
 % if filename, return filename with suffix
 arguments
-  apath (1,:) string
+  apath string {mustBeScalarOrEmpty}
 end
 
 import stdlib.fileio.absolute_path
+
+if strlength(apath) == 0
+  last = "";
+  return
+end
 
 [~, name, ext] = fileparts(absolute_path(apath));
 
