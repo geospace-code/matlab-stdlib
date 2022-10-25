@@ -11,7 +11,12 @@ function frank = h5ndims(file, variable)
 
 arguments
   file (1,1) string {mustBeFile}
-  variable (1,1) string {mustBeNonzeroLengthText}
+  variable string {mustBeScalarOrEmpty}
+end
+
+if isempty(variable) || strlength(variable) == 0
+  frank = [];
+  return
 end
 
 dsi = h5info(stdlib.fileio.expanduser(file), variable).Dataspace;

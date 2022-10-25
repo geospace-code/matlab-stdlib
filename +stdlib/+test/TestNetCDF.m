@@ -118,6 +118,9 @@ import stdlib.hdf5nc.ncndims
 import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
+tc.verifyEmpty(ncndims(basic, string.empty))
+tc.verifyEmpty(ncndims(basic, ""))
+
 r = ncndims(basic, 'A0');
 s = ncsize(basic, 'A0');
 tc.verifyEmpty(s)

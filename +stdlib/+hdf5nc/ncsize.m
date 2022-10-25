@@ -7,7 +7,7 @@ function fsize = ncsize(file, variable)
 % variable: name of variable inside file
 %
 %%% Outputs
-% fsize: vector of variable size per dimension
+% fsize: vector of variable size per dimension. Empty if scalar variable.
 
 arguments
   file (1,1) string {mustBeFile}

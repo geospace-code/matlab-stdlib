@@ -130,6 +130,9 @@ import stdlib.hdf5nc.h5size
 import stdlib.hdf5nc.h5ndims
 basic = tc.TestData.basic;
 
+tc.verifyEmpty(h5ndims(basic, string.empty))
+tc.verifyEmpty(h5ndims(basic, ""))
+
 if ~verLessThan('matlab', '9.8')
   r = h5ndims(basic, '/A0');
   s = h5size(basic, '/A0');
