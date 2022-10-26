@@ -4,20 +4,17 @@ methods (Test)
 
 function test_simple_run(tc)
 
-import stdlib.sys.subprocess_run
-
 if ispc
   c = 'dir';
 else
   c = 'ls';
 end
-tc.verifyEqual(subprocess_run(c), 0)
+tc.verifyEqual(stdlib.sys.subprocess_run(c), 0)
 end
 
 
 function test_env_run(tc)
-
-import stdlib.sys.subprocess_run
+tc.assumeFalse(verLessThan('matlab', '9.13'), "system(..., EnvName=, EnvVal=) requires Matlab R2022b+")
 
 names = ["TEST1", "TEST2"];
 vals = ["test123", "test321"];
@@ -26,12 +23,14 @@ env = struct(names(1), vals(1), names(2), vals(2));
 
 % NOTE: test function cannot get specific variables without invoking a
 % subshell, as echo is evaluated in current shell before &&
+% Thus we just print the entire environment
 if ispc
   c = "set";
 else
   c = "env";
 end
-[ret, msg] = subprocess_run(c, "env", env);
+
+[ret, msg] = stdlib.sys.subprocess_run(c, env=env);
 tc.verifyEqual(ret, 0)
 tc.verifyTrue(contains(msg, names(1) + "=" + vals(1)) && contains(msg, names(2) + "=" + vals(2)))
 

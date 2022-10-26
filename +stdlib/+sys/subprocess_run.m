@@ -21,7 +21,7 @@ function [status, msg] = subprocess_run(cmd_array, opt)
 
 arguments
   cmd_array (1,:) string
-  opt.env (1,1) struct = struct()
+  opt.env struct {mustBeScalarOrEmpty} = struct.empty
   opt.cwd string {mustBeScalarOrEmpty} = string.empty
 end
 
@@ -33,14 +33,6 @@ else
   cmd = exe;
 end
 
-for f = string(fieldnames(opt.env)).'
-  if ispc
-    cmd = append("set ", f, "=", opt.env.(f), " && ", cmd);
-  else
-    cmd = append(f, "=", opt.env.(f), " ", cmd);
-  end
-end
-
 if ~isempty(opt.cwd)
   cwd = stdlib.fileio.absolute_path(opt.cwd);
   assert(isfolder(cwd), "subprocess_run: %s is not a folder", cwd)
@@ -48,8 +40,18 @@ if ~isempty(opt.cwd)
   cd(cwd)
 end
 
-[status, msg] = system(cmd);
+old = verLessThan('matlab', '9.13');
+if old && ~isempty(opt.env)
+  warning("Matlab >= R2022b required for 'env' option of subprocess_run()")
+end
 
+if isempty(opt.env) || old
+  [status, msg] = system(cmd);
+else
+  envCell = namedargs2cell(opt.env);
+
+  [status, msg] = system(cmd, envCell{:});
+end
 if ~isempty(opt.cwd)
   cd(oldcwd)
 end
