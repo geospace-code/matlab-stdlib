@@ -12,7 +12,10 @@ tc.assertTrue(islogical(checkRAM(1)))
 end
 
 function test_diskfree(tc)
-  import stdlib.sys.diskfree
+import stdlib.sys.diskfree
+
+tc.assumeTrue(usejava("jvm"), "Java required for path_tail")
+
 tc.assertTrue(isnumeric(diskfree('~')))
 tc.assertTrue(diskfree('~') > 0, 'diskfree')
 end

@@ -15,7 +15,10 @@ end
 end
 
 function test_samepath(tc)
+
 import stdlib.fileio.samepath
+
+tc.assumeTrue(usejava("jvm"), "Java required for samepath")
 
 tc.verifyEmpty(samepath(string.empty, string.empty))
 tc.verifyTrue(samepath("", ""))
@@ -28,6 +31,8 @@ end
 function test_path_tail(tc)
 
 import stdlib.fileio.path_tail
+
+tc.assumeTrue(usejava("jvm"), "Java required for path_tail")
 
 tc.verifyEmpty(path_tail(string.empty))
 tc.verifyEqual(path_tail(""), "")
@@ -62,6 +67,8 @@ function test_absolute_path(tc)
 
 import stdlib.fileio.absolute_path
 
+tc.assumeTrue(usejava("jvm"), "Java required for absolute_path")
+
 tc.verifyEmpty(absolute_path(string.empty))
 tc.verifyEqual(absolute_path(""), string(pwd))
 
@@ -71,11 +78,14 @@ tc.verifyFalse(startsWith(pabs, "2"))
 tc.verifyTrue(strncmp(pabs, pabs2, 2))
 
 par1 = absolute_path("../2foo");
+tc.verifyNotEmpty(par1)
+tc.verifyFalse(contains(par1, ".."))
+
 par2 = absolute_path("../4foo");
-tc.verifyFalse(startsWith(par1, ".."))
 tc.verifyTrue(strncmp(par2, pabs2, 2))
 
 pt1 = absolute_path("bar/../2foo");
+tc.verifyNotEmpty(pt1)
 tc.verifyFalse(contains(pt1, ".."))
 
 va = absolute_path("2foo");

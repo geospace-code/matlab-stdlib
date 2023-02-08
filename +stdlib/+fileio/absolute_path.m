@@ -34,7 +34,12 @@ end
 try
   abspath = string(java.io.File(abspath).getCanonicalPath());
 catch excp
-  error("stdlib:fileio:absolute_path", "%s is not a canonicalizable path.  %s", abspath, excp.message)
+  if excp.identifier == "MATLAB:undefinedVarOrClass"
+    % Java is not available, so return unmodified path
+    return
+  else
+    error("stdlib:fileio:absolute_path", "%s is not a canonicalizable path.  %s", abspath, excp.message)
+  end
 end
 
 end % function
