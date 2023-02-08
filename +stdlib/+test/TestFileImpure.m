@@ -3,7 +3,7 @@ classdef TestFileImpure < matlab.unittest.TestCase
 methods (Test)
 
 function test_expanduser(tc)
-import stdlib.fileio.expanduser
+import stdlib.expanduser
 
 tc.verifyEmpty(expanduser(string.empty))
 tc.verifyEqual(expanduser(""), "")
@@ -17,13 +17,13 @@ end
 
 function test_makedir(tc)
 d = tempname;
-stdlib.fileio.makedir(d)
+stdlib.makedir(d)
 tc.assertTrue(isfolder(d))
 end
 
 function test_which_name(tc)
 
-tc.verifyEmpty(stdlib.fileio.which(tempname))
+tc.verifyEmpty(stdlib.which(tempname))
 
 if ismac
   n = "ls";
@@ -32,7 +32,7 @@ else
 end
 %% which: Matlab in environment variable PATH
 % MacOS Matlab does not source .zshrc so Matlab is not on internal Matlab PATH
-tc.verifyNotEmpty(stdlib.fileio.which(n))
+tc.verifyNotEmpty(stdlib.which(n))
 
 end
 
@@ -40,9 +40,9 @@ end
 function test_is_exe_which_fullpath(tc)
 import matlab.unittest.constraints.IsFile
 
-tc.verifyEmpty(stdlib.fileio.is_exe(string.empty))
-tc.verifyFalse(stdlib.fileio.is_exe(""))
-tc.verifyFalse(stdlib.fileio.is_exe(tempname))
+tc.verifyEmpty(stdlib.is_exe(string.empty))
+tc.verifyFalse(stdlib.is_exe(""))
+tc.verifyFalse(stdlib.is_exe(tempname))
 
 n = "matlab";
 %% is_exe test
@@ -52,9 +52,9 @@ if ispc
 else
   fp = p;
 end
-tc.verifyTrue(stdlib.fileio.is_exe(fp))
+tc.verifyTrue(stdlib.is_exe(fp))
 %% which: test absolute path
-exe = stdlib.fileio.which(p);
+exe = stdlib.which(p);
 
 if ispc
   tc.verifyTrue(endsWith(exe, ".exe"))

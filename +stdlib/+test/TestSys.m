@@ -9,11 +9,16 @@ if ispc
 else
   c = 'ls';
 end
-tc.verifyEqual(stdlib.sys.subprocess_run(c), 0)
+
+[status, msg] = stdlib.subprocess_run(c);
+tc.verifyEqual(status, 0)
+tc.verifyTrue(strlength(msg) > 0)
+
 end
 
 
 function test_env_run(tc)
+
 tc.assumeFalse(verLessThan('matlab', '9.13'), "system(..., EnvName=, EnvVal=) requires Matlab R2022b+")
 
 names = ["TEST1", "TEST2"];
@@ -30,9 +35,10 @@ else
   c = "env";
 end
 
-[ret, msg] = stdlib.sys.subprocess_run(c, env=env);
+[ret, msg] = stdlib.subprocess_run(c, env=env);
 tc.verifyEqual(ret, 0)
-tc.verifyTrue(contains(msg, names(1) + "=" + vals(1)) && contains(msg, names(2) + "=" + vals(2)))
+tc.verifyTrue(contains(msg, names(1) + "=" + vals(1)))
+tc.verifyTrue(contains(msg, names(2) + "=" + vals(2)))
 
 end
 

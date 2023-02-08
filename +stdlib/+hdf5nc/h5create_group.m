@@ -14,13 +14,11 @@ arguments
   hpath (1,1) string {mustBeNonzeroLengthText}
 end
 
-import stdlib.fileio.expanduser
-
 % polymorphic fid/filename
 if isa(file, 'H5ML.id')
   fid = file;
 else
-  file = expanduser(file);
+  file = stdlib.fileio.expanduser(file);
   dcpl = 'H5P_DEFAULT';
   if isfile(file)
     fid = H5F.open(file, 'H5F_ACC_RDWR', dcpl);

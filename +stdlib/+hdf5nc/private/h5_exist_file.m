@@ -1,8 +1,6 @@
 function h5_exist_file(filename, varname, A, sizeA)
 
-import stdlib.hdf5nc.h5size
-
-diskshape = h5size(filename, varname);
+diskshape = stdlib.hdf5nc.h5size(filename, varname);
 if length(diskshape) >= 2
   % start is always a row vector, regardless of shape of array
   start = ones(1, ndims(A));

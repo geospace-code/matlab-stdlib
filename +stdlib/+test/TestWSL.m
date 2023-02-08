@@ -24,9 +24,9 @@ tc.assumeEqual(ret, 0, "failed to compile " + src)
 out = stdlib.sys.wslpath2winpath(out_wsl);
 tc.assumeTrue(isfile(out), "cc failed to produce output file " + out)
 
-tc.verifyTrue(stdlib.fileio.is_exe(out), "is_exe() failed to detect WSL executable " + out)
+tc.verifyTrue(stdlib.is_exe(out), "is_exe() failed to detect WSL executable " + out)
 
-wsl_exe = stdlib.fileio.which(out);
+wsl_exe = stdlib.which(out);
 tc.verifyNotEmpty(wsl_exe, "which() failed to detect WSL executable " + out)
 
 end

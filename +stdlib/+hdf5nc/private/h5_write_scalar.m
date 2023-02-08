@@ -7,11 +7,9 @@ arguments
   A (1,1)
 end
 
-import stdlib.hdf5nc.h5create_group
-
 dcpl = 'H5P_DEFAULT';
 
-fid = h5create_group(file, hpath);
+fid = stdlib.hdf5nc.h5create_group(file, hpath);
 
 space_id = H5S.create('H5S_SCALAR');
 if isstring(A)

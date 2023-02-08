@@ -10,12 +10,8 @@ end
 
 if isscalar(sizeA)
   if sizeA == 0
-    if verLessThan('matlab', '9.8')
-      h5create(filename, varname, 1, "Datatype", class(A))
-    else
-      h5_write_scalar(filename, varname, A)
-      return
-    end
+    h5_write_scalar(filename, varname, A)
+    return
   else
     h5create(filename, varname, sizeA, "Datatype", class(A))
   end

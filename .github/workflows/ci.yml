@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        release: [R2020a, R2020b, R2021a, R2021b, R2022a, R2022b]
+        release: [R2020b, R2021a, R2021b, R2022a, R2022b]
         include:
         - os: macos-latest
           release: R2022b

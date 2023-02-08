@@ -3,7 +3,7 @@ classdef TestFilePure < matlab.unittest.TestCase
 methods (Test)
 
 function test_posix(tc)
-import stdlib.fileio.posix
+import stdlib.posix
 
 tc.verifyEmpty(posix(string.empty))
 tc.verifyEqual(posix(""), "")
@@ -16,7 +16,7 @@ end
 
 function test_samepath(tc)
 
-import stdlib.fileio.samepath
+import stdlib.samepath
 
 tc.assumeTrue(usejava("jvm"), "Java required for samepath")
 
@@ -30,7 +30,7 @@ end
 
 function test_path_tail(tc)
 
-import stdlib.fileio.path_tail
+import stdlib.path_tail
 
 tc.assumeTrue(usejava("jvm"), "Java required for path_tail")
 
@@ -46,7 +46,7 @@ end
 
 function test_is_absolute_path(tc)
 
-import stdlib.fileio.is_absolute_path
+import stdlib.is_absolute_path
 % path need not exist
 
 tc.verifyEmpty(is_absolute_path(string.empty))
@@ -63,53 +63,50 @@ end
 tc.verifyFalse(is_absolute_path("c"))
 end
 
-function test_absolute_path(tc)
+function test_canonical(tc)
 
-import stdlib.fileio.absolute_path
+import stdlib.canonical
 
-tc.assumeTrue(usejava("jvm"), "Java required for absolute_path")
+tc.assumeTrue(usejava("jvm"), "Java required for canonical")
 
-tc.verifyEmpty(absolute_path(string.empty))
-tc.verifyEqual(absolute_path(""), string(pwd))
+tc.verifyEmpty(canonical(string.empty))
+tc.verifyEqual(canonical(""), string(pwd))
 
-pabs = absolute_path('2foo');
-pabs2 = absolute_path('4foo');
+pabs = canonical('2foo');
+pabs2 = canonical('4foo');
 tc.verifyFalse(startsWith(pabs, "2"))
 tc.verifyTrue(strncmp(pabs, pabs2, 2))
 
-par1 = absolute_path("../2foo");
+par1 = canonical("../2foo");
 tc.verifyNotEmpty(par1)
 tc.verifyFalse(contains(par1, ".."))
 
-par2 = absolute_path("../4foo");
+par2 = canonical("../4foo");
 tc.verifyTrue(strncmp(par2, pabs2, 2))
 
-pt1 = absolute_path("bar/../2foo");
+pt1 = canonical("bar/../2foo");
 tc.verifyNotEmpty(pt1)
 tc.verifyFalse(contains(pt1, ".."))
 
-va = absolute_path("2foo");
-vb = absolute_path("4foo");
+va = canonical("2foo");
+vb = canonical("4foo");
 tc.verifyFalse(startsWith(va, "2"))
 tc.verifyTrue(strncmp(va, vb, 2))
 
 end
 
 function test_with_suffix(tc)
-import stdlib.fileio.with_suffix
+import stdlib.with_suffix
 
 tc.verifyEmpty(with_suffix(string.empty, ".nc"))
 tc.verifyEqual(with_suffix("", ""), "")
 
 tc.verifyEqual(with_suffix("foo.h5", ".nc"), "foo.nc")
-if ~verLessThan("matlab", "9.9")
-% fileparts vectorized in R2020b
 tc.verifyEqual(with_suffix(["foo.h5", "bar.dat"], ".nc"), ["foo.nc", "bar.nc"])
 
 tc.verifyEqual(with_suffix("c", ""), "c")
 tc.verifyEqual(with_suffix("c.nc", ""), "c")
 tc.verifyEqual(with_suffix("", ".nc"), ".nc")
-end
 end
 
 end

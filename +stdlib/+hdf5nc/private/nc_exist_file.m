@@ -1,8 +1,6 @@
 function nc_exist_file(filename, varname, A, sizeA)
 
-import stdlib.hdf5nc.ncsize
-
-diskshape = ncsize(filename, varname);
+diskshape = stdlib.hdf5nc.ncsize(filename, varname);
 
 if all(diskshape == sizeA)
   ncwrite(filename, varname, A)

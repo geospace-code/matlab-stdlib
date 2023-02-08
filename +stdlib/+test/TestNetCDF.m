@@ -7,7 +7,7 @@ end
 methods (TestMethodSetup)
 
 function setup_file(tc)
-import stdlib.hdf5nc.ncsave
+import stdlib.ncsave
 import matlab.unittest.constraints.IsFile
 
 
@@ -64,7 +64,7 @@ end
 
 methods (Test)
 function test_get_variables(tc)
-import stdlib.hdf5nc.ncvariables
+import stdlib.ncvariables
 basic = tc.TestData.basic;
 
 k = ["A0", "A1", "A2", "A3", "A4"];
@@ -86,28 +86,28 @@ end
 
 
 function test_exists(tc)
-import stdlib.hdf5nc.ncexists
+
 basic = tc.TestData.basic;
 
-tc.verifyEmpty(ncexists(basic, string.empty))
+tc.verifyEmpty(stdlib.ncexists(basic, string.empty))
 
-e = ncexists(basic, "");
+e = stdlib.ncexists(basic, "");
 
 tc.verifyTrue(isscalar(e))
 tc.verifyFalse(e)
 
-e = ncexists(basic, ["A1", "oops"]);
+e = stdlib.ncexists(basic, ["A1", "oops"]);
 tc.verifyTrue(isvector(e))
 tc.verifyEqual(e, [true, false])
 
-e = ncexists(basic, {'A0', 'A1', 'A2', 'A3', 'A4'});
+e = stdlib.ncexists(basic, {'A0', 'A1', 'A2', 'A3', 'A4'});
 tc.verifyTrue(all(e))
 end
 
 
 function test_size(tc)
-import stdlib.hdf5nc.ncsize
-import stdlib.hdf5nc.ncndims
+import stdlib.ncsize
+import stdlib.ncndims
 import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
@@ -145,8 +145,8 @@ tc.verifyEqual(r, 4)
 end
 
 function test_size_string(tc)
-import stdlib.hdf5nc.ncsize
-import stdlib.hdf5nc.ncndims
+import stdlib.ncsize
+import stdlib.ncndims
 import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
@@ -215,7 +215,7 @@ end
 
 
 function test_coerce(tc)
-import stdlib.hdf5nc.ncsave
+import stdlib.ncsave
 import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
@@ -232,7 +232,7 @@ end
 
 
 function test_rewrite(tc)
-import stdlib.hdf5nc.ncsave
+import stdlib.ncsave
 import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
@@ -243,7 +243,7 @@ tc.verifyEqual(ncread(basic, 'A2'), 3*magic(4))
 end
 
 function test_name_only(tc)
-import stdlib.hdf5nc.ncsave
+import stdlib.ncsave
 
 [~,name] = fileparts(tempname);
 tc.assumeFalse(isfile(name))
@@ -254,7 +254,7 @@ end
 
 
 function test_real_only(tc)
-import stdlib.hdf5nc.ncsave
+import stdlib.ncsave
 basic = tc.TestData.basic;
 
 tc.verifyError(@() ncsave(basic, "bad_imag", 1j), 'MATLAB:validators:mustBeReal')

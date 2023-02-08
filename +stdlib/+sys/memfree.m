@@ -14,4 +14,4 @@ catch
   freebytes = -1;
 end
 
-end %function
+end

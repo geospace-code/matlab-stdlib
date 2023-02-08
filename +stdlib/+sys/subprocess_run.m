@@ -1,23 +1,4 @@
 function [status, msg] = subprocess_run(cmd_array, opt)
-%% subprocess_run(cmd_array, opt)
-% handle command lines with spaces
-% input each segment of the command as an element in a string array
-% this is how python subprocess.run works
-%%% Inputs
-% * cmd_array: vector of string to compose a command line
-% * opt.env: environment variable struct to set
-% * opt.cwd: working directory to use while running command
-%%% Outputs
-% * status: 0 is success
-% * msg: stderr + stdout from process
-%
-%% Example
-% sys.subprocess_run(["mpiexec", "-help2"])
-% sys.subprocess_run(["ls", "-l"])
-% sys.subprocess_run(["dir", "/Q", "/L"])
-%
-% NOTE: if cwd option used, any paths must be absolute or relative to cwd.
-% otherwise, they are relative to pwd.
 
 arguments
   cmd_array (1,:) string

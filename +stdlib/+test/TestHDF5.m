@@ -12,7 +12,7 @@ end
 methods (TestMethodSetup)
 
 function setup_file(tc)
-import stdlib.hdf5nc.h5save
+import stdlib.h5save
 import matlab.unittest.constraints.IsFile
 
 A0 = 42.;
@@ -42,10 +42,8 @@ h5save(basic, '/A2', A2)
 h5save(basic, '/A3', A3, "size", size(A3))
 h5save(basic, '/A4', A4)
 
-if ~verLessThan('matlab', '9.8')
-  h5save(basic, "/utf", utf)
-  h5save(basic, "/utf2", utf2)
-end
+h5save(basic, "/utf", utf)
+h5save(basic, "/utf2", utf2)
 
 h5save(basic, '/t/x', 12)
 h5save(basic, '/t/y', 13)
@@ -75,15 +73,12 @@ end
 
 
 function test_get_variables(tc)
-import stdlib.hdf5nc.h5variables
+import stdlib.h5variables
 
 basic = tc.TestData.basic;
 
 v = h5variables(basic);
-k = ["A0", "A1", "A2", "A3", "A4"];
-if ~verLessThan('matlab', '9.8')
-  k = [k, ["utf", "utf2"]];
-end
+k = ["A0", "A1", "A2", "A3", "A4", "utf", "utf2"];
 tc.verifyEqual(sort(v), k)
 
 % 1-level group
@@ -99,7 +94,7 @@ end
 
 
 function test_exists(tc)
-import stdlib.hdf5nc.h5exists
+import stdlib.h5exists
 basic = tc.TestData.basic;
 
 tc.verifyEmpty(h5exists(basic, string.empty))
@@ -123,55 +118,49 @@ end
 
 
 function test_size(tc)
-import stdlib.hdf5nc.h5size
-import stdlib.hdf5nc.h5ndims
+
+import stdlib.h5ndims
 basic = tc.TestData.basic;
 
 tc.verifyEmpty(h5ndims(basic, string.empty))
 tc.verifyEmpty(h5ndims(basic, ""))
 
-if ~verLessThan('matlab', '9.8')
-  r = h5ndims(basic, '/A0');
-  s = h5size(basic, '/A0');
-  tc.verifyEmpty(s)
-  tc.verifyEqual(r, 0)
-end
+r = h5ndims(basic, '/A0');
+s = stdlib.h5size(basic, '/A0');
+tc.verifyEmpty(s)
+tc.verifyEqual(r, 0)
 
 r = h5ndims(basic, '/A1');
-s = h5size(basic, '/A1');
+s = stdlib.h5size(basic, '/A1');
 tc.verifyTrue(isscalar(s))
 tc.verifyEqual(s, 2)
 tc.verifyEqual(r, 1)
 
 r = h5ndims(basic, '/A2');
-s = h5size(basic, '/A2');
+s = stdlib.h5size(basic, '/A2');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,4])
 tc.verifyEqual(r, 2)
 
 r = h5ndims(basic, '/A3');
-s = h5size(basic, '/A3');
+s = stdlib.h5size(basic, '/A3');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2])
 tc.verifyEqual(r, 3)
 
 r = h5ndims(basic, '/A4');
-s = h5size(basic, '/A4');
+s = stdlib.h5size(basic, '/A4');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
 tc.verifyEqual(r, 4)
 
-if verLessThan('matlab', '9.8')
-  return
-end
-
 r = h5ndims(basic, '/utf');
-s = h5size(basic, '/utf');
+s = stdlib.h5size(basic, '/utf');
 tc.verifyEmpty(s)
 tc.verifyEqual(r, 0)
 
 r = h5ndims(basic, '/utf2');
-s = h5size(basic, '/utf2');
+s = stdlib.h5size(basic, '/utf2');
 tc.verifyEqual(s, 2)
 tc.verifyEqual(r, 1)
 end
@@ -200,10 +189,6 @@ s = h5read(basic, '/A4');
 tc.verifyEqual(ndims(s), 4)
 tc.verifyEqual(s, tc.TestData.A4)
 
-if verLessThan('matlab', '9.8')
-  return
-end
-
 s = h5read(basic, '/utf');
 tc.verifyTrue(ischar(s))
 tc.verifyEqual(s, tc.TestData.utf)
@@ -216,25 +201,21 @@ end
 
 
 function test_shape(tc)
-import stdlib.hdf5nc.h5save
-import stdlib.hdf5nc.h5size
+
 basic = tc.TestData.basic;
 
-h5save(basic, "/vector1", 34, "size", 1)
-s = h5size(basic, '/vector1');
+stdlib.h5save(basic, "/vector1", 34, "size", 1)
+s = stdlib.h5size(basic, '/vector1');
 tc.verifyEqual(s, 1);
 
-if ~verLessThan('matlab', '9.8')
-  h5save(basic, "/scalar", 34, "size", 0)
-  s = h5size(basic, '/scalar');
-  tc.verifyEmpty(s);
-end
+stdlib.h5save(basic, "/scalar", 34, "size", 0)
+s = stdlib.h5size(basic, '/scalar');
+tc.verifyEmpty(s);
 
 end
 
 
 function test_coerce(tc)
-import stdlib.hdf5nc.h5save
 import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
@@ -242,7 +223,7 @@ for type = ["single", "double", ...
             "int8", "int16", "int32", "int64", ...
             "uint8", "uint16", "uint32", "uint64"]
 
-  h5save(basic, type, 0, "type",type)
+  stdlib.h5save(basic, type, 0, "type",type)
 
   tc.verifyClass(h5read(basic, "/"+type), type)
 end
@@ -251,18 +232,17 @@ end
 
 
 function test_rewrite(tc)
-import stdlib.hdf5nc.h5save
 import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
-h5save(basic, '/A2', 3*magic(4))
+stdlib.h5save(basic, '/A2', 3*magic(4))
 
 tc.assumeThat(basic, IsFile)
 tc.verifyEqual(h5read(basic, '/A2'), 3*magic(4))
 end
 
 function test_int8(tc)
-import stdlib.hdf5nc.h5save
+import stdlib.h5save
 basic = tc.TestData.basic;
 
 h5save(basic, "/i1", int8(127))
@@ -283,31 +263,27 @@ tc.verifyEqual(a, int8([1;2]))
 end
 
 function test_string(tc, str)
-import stdlib.hdf5nc.h5save
-
-tc.assumeFalse(verLessThan('matlab', '9.8'), "HDF5 string required Matlab >= R2020a")
 
 basic = tc.TestData.basic;
 
-h5save(basic, "/"+str, str)
+stdlib.h5save(basic, "/"+str, str)
 
 a = h5read(basic, "/"+str);
 tc.verifyEqual(a, char(str))
 
 % test rewrite
-h5save(basic, "/"+str, str+"hi")
+stdlib.h5save(basic, "/"+str, str+"hi")
 
 a = h5read(basic, "/"+str);
 tc.verifyEqual(a, char(str+"hi"))
 end
 
 function test_name_only(tc)
-import stdlib.hdf5nc.h5save
 
 [~,name] = fileparts(tempname);
 tc.assumeFalse(isfile(name))
 
-h5save(name, "/A0", 42);
+stdlib.h5save(name, "/A0", 42);
 delete(name)
 end
 
@@ -315,9 +291,9 @@ end
 function test_real_only(tc)
 basic = tc.TestData.basic;
 
-tc.verifyError(@() stdlib.hdf5nc.h5save(basic, "/bad_imag", 1j), 'MATLAB:validators:mustBeReal')
-tc.verifyError(@() stdlib.hdf5nc.h5save(basic, "", 0), 'MATLAB:validators:mustBeNonzeroLengthText')
-tc.verifyError(@() stdlib.hdf5nc.h5variables(basic, '/nothere'), 'MATLAB:imagesci:h5info:unableToFind')
+tc.verifyError(@() stdlib.h5save(basic, "/bad_imag", 1j), 'MATLAB:validators:mustBeReal')
+tc.verifyError(@() stdlib.h5save(basic, "", 0), 'MATLAB:validators:mustBeNonzeroLengthText')
+tc.verifyError(@() stdlib.h5variables(basic, '/nothere'), 'MATLAB:imagesci:h5info:unableToFind')
 end
 
 end

@@ -24,4 +24,4 @@ hash = string(hash);
 
 assert(strlength(hash)==32, 'md5 hash is 32 characters')
 
-end % function
+end

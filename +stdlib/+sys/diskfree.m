@@ -6,9 +6,7 @@ arguments
   direc (1,1) string
 end
 
-import stdlib.fileio.expanduser
-
-direc = expanduser(direc);
+direc = stdlib.fileio.expanduser(direc);
 
 assert(isfolder(direc), '%s is not a folder', direc)
 
