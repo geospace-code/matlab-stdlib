@@ -7,9 +7,6 @@ end
 methods (TestMethodSetup)
 
 function setup_file(tc)
-import stdlib.ncsave
-import matlab.unittest.constraints.IsFile
-
 
 A0 = 42.;
 A1 = [42.; 43.];
@@ -34,23 +31,23 @@ basic = tempname + ".nc";
 tc.TestData.basic = basic;
 
 % create test data first, so that parallel tests works
-ncsave(basic, 'A0', A0)
-ncsave(basic, 'A1', A1)
-ncsave(basic, 'A2', A2, "dims", {'x2', size(A2,1), 'y2', size(A2,2)})
-ncsave(basic, 'A3', A3, "dims", {'x3', size(A3,1), 'y3', size(A3,2), 'z3', size(A3,3)})
-ncsave(basic, 'A4', A4, "dims", {'x4', size(A4,1), 'y4', size(A4,2), 'z4', size(A4,3), 'w4', size(A4,4)})
+stdlib.ncsave(basic, 'A0', A0)
+stdlib.ncsave(basic, 'A1', A1)
+stdlib.ncsave(basic, 'A2', A2, "dims", {'x2', size(A2,1), 'y2', size(A2,2)})
+stdlib.ncsave(basic, 'A3', A3, "dims", {'x3', size(A3,1), 'y3', size(A3,2), 'z3', size(A3,3)})
+stdlib.ncsave(basic, 'A4', A4, "dims", {'x4', size(A4,1), 'y4', size(A4,2), 'z4', size(A4,3), 'w4', size(A4,4)})
 
 if ~verLessThan('matlab', '9.11')
-  ncsave(basic, "utf0", utf0)
-  ncsave(basic, "utf1", utf1)
-  ncsave(basic, "utf2", utf2)
+  stdlib.ncsave(basic, "utf0", utf0)
+  stdlib.ncsave(basic, "utf1", utf1)
+  stdlib.ncsave(basic, "utf2", utf2)
 end
 
-ncsave(basic, '/t/x', 12)
-ncsave(basic, '/t/y', 13)
-ncsave(basic, '/j/a/b', 6)
+stdlib.ncsave(basic, '/t/x', 12)
+stdlib.ncsave(basic, '/t/y', 13)
+stdlib.ncsave(basic, '/j/a/b', 6)
 
-tc.assumeThat(basic, IsFile)
+tc.assumeTrue(isfile(basic))
 end
 end
 
@@ -64,7 +61,6 @@ end
 
 methods (Test)
 function test_get_variables(tc)
-import stdlib.ncvariables
 basic = tc.TestData.basic;
 
 k = ["A0", "A1", "A2", "A3", "A4"];
@@ -72,16 +68,16 @@ if ~verLessThan('matlab', '9.11')
   k = [k, ["utf0", "utf1", "utf2"]];
 end
 
-tc.verifyEqual(sort(ncvariables(basic)), k)
+tc.verifyEqual(sort(stdlib.ncvariables(basic)), k)
 
 % 1-level group
-v = ncvariables(basic, "/t");
+v = stdlib.ncvariables(basic, "/t");
 tc.verifyEqual(sort(v), ["x", "y"])
 
 % traversal
-tc.verifyEmpty( ncvariables(basic, "/j") )
+tc.verifyEmpty(stdlib.ncvariables(basic, "/j") )
 
-tc.verifyEqual( ncvariables(basic, "/j/a") , "b")
+tc.verifyEqual(stdlib.ncvariables(basic, "/j/a") , "b")
 end
 
 
@@ -106,75 +102,68 @@ end
 
 
 function test_size(tc)
-import stdlib.ncsize
-import stdlib.ncndims
-import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
-tc.verifyEmpty(ncndims(basic, string.empty))
-tc.verifyEmpty(ncndims(basic, ""))
+tc.verifyEmpty(stdlib.ncndims(basic, string.empty))
+tc.verifyEmpty(stdlib.ncndims(basic, ""))
 
-r = ncndims(basic, 'A0');
-s = ncsize(basic, 'A0');
+r = stdlib.ncndims(basic, 'A0');
+s = stdlib.ncsize(basic, 'A0');
 tc.verifyEmpty(s)
 tc.verifyEqual(r, 0)
 
-r = ncndims(basic, 'A1');
-s = ncsize(basic, 'A1');
-tc.verifyThat(s, IsScalar)
+r = stdlib.ncndims(basic, 'A1');
+s = stdlib.ncsize(basic, 'A1');
+tc.verifyTrue(isscalar(s))
 tc.verifyEqual(s, 2)
 tc.verifyEqual(r, 1)
 
-r = ncndims(basic, 'A2');
-s = ncsize(basic, 'A2');
+r = stdlib.ncndims(basic, 'A2');
+s = stdlib.ncsize(basic, 'A2');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,4])
 tc.verifyEqual(r, 2)
 
-r = ncndims(basic, 'A3');
-s = ncsize(basic, 'A3');
+r = stdlib.ncndims(basic, 'A3');
+s = stdlib.ncsize(basic, 'A3');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2])
 tc.verifyEqual(r, 3)
 
-r = ncndims(basic, 'A4');
-s = ncsize(basic, 'A4');
+r = stdlib.ncndims(basic, 'A4');
+s = stdlib.ncsize(basic, 'A4');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
 tc.verifyEqual(r, 4)
 end
 
 function test_size_string(tc)
-import stdlib.ncsize
-import stdlib.ncndims
-import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
 tc.assumeFalse(verLessThan('matlab', '9.11'), "NetCDF4 string required Matlab >= R2021b")
 
-r = ncndims(basic, 'utf0');
-s = ncsize(basic, 'utf0');
+r = stdlib.ncndims(basic, 'utf0');
+s = stdlib.ncsize(basic, 'utf0');
 tc.verifyEmpty(s)
 tc.verifyEqual(r, 0)
 
-r = ncndims(basic, 'utf1');
-s = ncsize(basic, 'utf1');
+r = stdlib.ncndims(basic, 'utf1');
+s = stdlib.ncsize(basic, 'utf1');
 tc.verifyEqual(s, 2)
 tc.verifyEqual(r, 1)
 
-r = ncndims(basic, 'utf2');
-s = ncsize(basic, 'utf2');
+r = stdlib.ncndims(basic, 'utf2');
+s = stdlib.ncsize(basic, 'utf2');
 tc.verifyEqual(s, [2, 2])
 tc.verifyEqual(r, 2)
 end
 
 
 function test_read(tc)
-import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
 s = ncread(basic, 'A0');
-tc.verifyThat(s, IsScalar)
+tc.verifyTrue(isscalar(s))
 tc.verifyEqual(s, 42)
 
 s = ncread(basic, 'A1');
@@ -195,7 +184,6 @@ tc.verifyEqual(s, tc.TestData.A4)
 end
 
 function test_read_string(tc)
-import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
 tc.assumeFalse(verLessThan('matlab', '9.11'), "NetCDF4 string required Matlab >= R2021b")
@@ -215,15 +203,13 @@ end
 
 
 function test_coerce(tc)
-import stdlib.ncsave
-import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
 for type = ["single", "double", ...
             "int8", "int16", "int32", "int64", ...
             "uint8", "uint16", "uint32", "uint64"]
 
-  ncsave(basic, type, 0, "type", type)
+  stdlib.ncsave(basic, type, 0, "type", type)
 
   tc.verifyClass(ncread(basic, type), type)
 end
@@ -232,33 +218,28 @@ end
 
 
 function test_rewrite(tc)
-import stdlib.ncsave
-import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
-ncsave(basic, "A2", 3*magic(4))
+stdlib.ncsave(basic, "A2", 3*magic(4))
 
-tc.assumeThat(basic, IsFile)
+tc.assumeTrue(isfile(basic))
 tc.verifyEqual(ncread(basic, 'A2'), 3*magic(4))
 end
 
 function test_name_only(tc)
-import stdlib.ncsave
-
 [~,name] = fileparts(tempname);
 tc.assumeFalse(isfile(name))
 
-ncsave(name, "/A0", 42);
+stdlib.ncsave(name, "/A0", 42);
 delete(name)
 end
 
 
 function test_real_only(tc)
-import stdlib.ncsave
 basic = tc.TestData.basic;
 
-tc.verifyError(@() ncsave(basic, "bad_imag", 1j), 'MATLAB:validators:mustBeReal')
-tc.verifyError(@() ncsave(basic, "", 0), 'MATLAB:validators:mustBeNonzeroLengthText')
+tc.verifyError(@() stdlib.ncsave(basic, "bad_imag", 1j), 'MATLAB:validators:mustBeReal')
+tc.verifyError(@() stdlib.ncsave(basic, "", 0), 'MATLAB:validators:mustBeNonzeroLengthText')
 end
 
 end

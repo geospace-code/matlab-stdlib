@@ -43,29 +43,24 @@ tc.verifyTrue(contains(msg, names(2) + "=" + vals(2)))
 end
 
 function test_find_fortran(tc)
-import matlab.unittest.constraints.IsOfClass
-tc.verifyThat(stdlib.sys.find_fortran_compiler(), IsOfClass('string'))
+tc.verifyTrue(isstring(stdlib.sys.find_fortran_compiler()))
 end
 
 function test_cygwin(tc)
-import matlab.unittest.constraints.IsOfClass
-tc.verifyThat(stdlib.sys.iscygwin, IsOfClass('logical'))
+tc.verifyTrue(islogical(stdlib.sys.iscygwin))
 end
 
 function test_octave(tc)
-import matlab.unittest.constraints.IsOfClass
-tc.verifyThat(stdlib.sys.isoctave, IsOfClass('logical'))
+tc.verifyTrue(islogical(stdlib.sys.isoctave))
 end
 
 function test_wsl(tc)
-import matlab.unittest.constraints.IsOfClass
-tc.verifyThat(stdlib.sys.iswsl, IsOfClass('logical'))
-tc.verifyThat(stdlib.sys.has_wsl, IsOfClass('logical'))
+tc.verifyTrue(islogical(stdlib.sys.iswsl))
+tc.verifyTrue(islogical(stdlib.sys.has_wsl))
 end
 
 function test_isinteractive(tc)
-import matlab.unittest.constraints.IsOfClass
-tc.verifyThat(stdlib.sys.isinteractive, IsOfClass('logical'))
+tc.verifyTrue(islogical(stdlib.sys.isinteractive))
 end
 
 end
