@@ -8,9 +8,9 @@ end
 names = string.empty;
 
 if isempty(group) || strlength(group) == 0
-  finf = ncinfo(stdlib.fileio.expanduser(file));
+  finf = ncinfo(file);
 else
-  finf = ncinfo(stdlib.fileio.expanduser(file), group);
+  finf = ncinfo(file, group);
 end
 
 ds = finf.Variables(:);

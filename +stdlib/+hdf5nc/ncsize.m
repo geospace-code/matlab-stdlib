@@ -5,7 +5,7 @@ arguments
   variable (1,1) string {mustBeNonzeroLengthText}
 end
 
-dsi = ncinfo(stdlib.fileio.expanduser(file), variable);
+dsi = ncinfo(file, variable);
 if isempty(dsi.Dimensions)
   fsize = [];
 else

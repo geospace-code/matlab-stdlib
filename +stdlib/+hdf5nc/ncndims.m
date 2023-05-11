@@ -10,7 +10,7 @@ if isempty(variable) || strlength(variable) == 0
   return
 end
 
-dsi = ncinfo(stdlib.fileio.expanduser(file), variable);
+dsi = ncinfo(file, variable);
 if isempty(dsi.Dimensions)
   frank = 0;
 else

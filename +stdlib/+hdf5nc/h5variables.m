@@ -8,9 +8,9 @@ end
 names = string.empty;
 
 if isempty(group) || strlength(group) == 0
-  finf = h5info(stdlib.fileio.expanduser(file));
+  finf = h5info(file);
 else
-  finf = h5info(stdlib.fileio.expanduser(file), group);
+  finf = h5info(file, group);
 end
 
 ds = finf.Datasets;

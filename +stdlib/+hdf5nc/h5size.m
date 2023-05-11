@@ -5,7 +5,7 @@ arguments
   variable (1,1) string {mustBeNonzeroLengthText}
 end
 
-dsi = h5info(stdlib.fileio.expanduser(file), variable).Dataspace;
+dsi = h5info(file, variable).Dataspace;
 if dsi.Type == "scalar"
   fsize = [];
 else

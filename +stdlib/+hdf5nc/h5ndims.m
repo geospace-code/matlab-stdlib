@@ -10,7 +10,7 @@ if isempty(variable) || strlength(variable) == 0
   return
 end
 
-dsi = h5info(stdlib.fileio.expanduser(file), variable).Dataspace;
+dsi = h5info(file, variable).Dataspace;
 if dsi.Type == "scalar"
   frank = 0;
 else

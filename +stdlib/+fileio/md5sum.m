@@ -5,19 +5,17 @@ arguments
   file (1,1) string {mustBeFile}
 end
 
-file = stdlib.fileio.expanduser(file);
-
 if ismac
-  [stat,hash] = system("md5 -r " + file);
+  [stat, hash] = system("md5 -r " + file);
 elseif isunix
-  [stat,hash] = system("md5sum " + file);
+  [stat, hash] = system("md5sum " + file);
 elseif ispc
-  [stat,hash] = system("CertUtil -hashfile " + file + " MD5");
+  [stat, hash] = system("CertUtil -hashfile " + file + " MD5");
 else
   error("no sha256sum method for your OS")
 end
 
-assert(stat == 0, hash)
+assert(stat == 0, hash, "failed to compute md5sum of " + file)
 
 hash = regexp(hash,'^\w{32}','match','once','lineanchors');
 hash = string(hash);
