@@ -21,7 +21,7 @@ if ~isempty(opt.cwd)
   cd(cwd)
 end
 
-old = verLessThan('matlab', '9.13');
+old = isMATLABReleaseOlderThan('R2022b');
 if old && ~isempty(opt.env)
   warning("Matlab >= R2022b required for 'env' option of subprocess_run()")
 end

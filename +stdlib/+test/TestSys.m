@@ -19,7 +19,7 @@ end
 
 function test_env_run(tc)
 
-tc.assumeFalse(verLessThan('matlab', '9.13'), "system(..., EnvName=, EnvVal=) requires Matlab R2022b+")
+tc.assumeFalse(isMATLABReleaseOlderThan('R2022b'), "system(..., EnvName=, EnvVal=) requires Matlab R2022b+")
 
 names = ["TEST1", "TEST2"];
 vals = ["test123", "test321"];
