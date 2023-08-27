@@ -9,8 +9,11 @@ function short = windows_shortname(p)
 %
 
 
-arguments
+arguments (Input)
   p (1,1) string
+end
+arguments (Output)
+  short (1,1) string
 end
 
 assert(ispc, 'Only available on Windows')

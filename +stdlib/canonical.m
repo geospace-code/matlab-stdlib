@@ -6,6 +6,8 @@ function abspath = canonical(p)
 % subsystem, but are sometimes still valid--so return
 % unmodified path if this occurs.
 %
+% This also resolves Windows short paths to full long paths.
+%
 %%% Inputs
 % * p: path to make absolute
 %%% Outputs
