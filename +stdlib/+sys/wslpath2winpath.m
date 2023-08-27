@@ -1,7 +1,10 @@
 function win_path = wslpath2winpath(wsl_path)
 
-arguments
+arguments (Input)
   wsl_path (1,1) string {mustBeNonzeroLengthText}
+end
+arguments (Output)
+  win_path (1,1) string {mustBeNonzeroLengthText}
 end
 
 assert(stdlib.sys.has_wsl(), "stdlib:sys:wslpath2winpath:EnvironmentError", mfilename() + "only supported on Windows Matlab with WSL")
@@ -10,6 +13,6 @@ assert(stdlib.sys.has_wsl(), "stdlib:sys:wslpath2winpath:EnvironmentError", mfil
 
 assert(stat == 0, "stdlib:sys:wslpath2winpath:IOError", "could not convert wslpath " + win_path)
 
-win_path = strip(string(win_path));
+win_path = strip(win_path);
 
 end
