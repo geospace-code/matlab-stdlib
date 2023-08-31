@@ -6,11 +6,7 @@ end
 
 expanded = p;
 
-if ispc
-  home = getenv('USERPROFILE');
-else
-  home = getenv('HOME');
-end
+home = stdlib.fileio.homedir();
 
 if ~isempty(home)
   i = startsWith(expanded, "~");
