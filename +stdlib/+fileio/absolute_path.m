@@ -20,6 +20,11 @@ if ispc && startsWith(abspath, "\\")
   % UNC path is not canonicalized
   return
 end
+
+% similar benchmark time as java method
+% REQUIRES path to exist, while java method does not.
+% abspath = builtin('_canonicalizepath', abspath);
+
 try
   abspath = string(java.io.File(abspath).getCanonicalPath());
 catch excp
