@@ -12,6 +12,7 @@ if isnumeric(A)
   mustBeReal(A)
 end
 
+% avoid confusing creating file ./~/foo.h5
 filename = stdlib.fileio.expanduser(filename);
 
 % coerce if needed

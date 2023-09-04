@@ -12,6 +12,7 @@ if isnumeric(A)
   mustBeReal(A)
 end
 
+% avoid creating confusing file ./~/foo.nc
 filename = stdlib.fileio.expanduser(filename);
 
 if isempty(opts.dims)

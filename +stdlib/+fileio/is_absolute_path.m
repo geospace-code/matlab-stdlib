@@ -4,6 +4,7 @@ arguments
   apath string
 end
 
+% leave expanduser() here to work like C++ filesystem::path::is_absolute()
 apath = stdlib.fileio.expanduser(apath);
 
 if ispc

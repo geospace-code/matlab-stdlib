@@ -18,6 +18,7 @@ end
 if isa(file, 'H5ML.id')
   fid = file;
 else
+  % avoid confusing creating file ./~/foo.h5
   file = stdlib.fileio.expanduser(file);
   dcpl = 'H5P_DEFAULT';
   if isfile(file)

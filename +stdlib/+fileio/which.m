@@ -1,5 +1,5 @@
 function exe = which(filename, fpath)
-
+%% which  like Python shutil.which, find executable in fpath or env var PATH
 arguments
   filename (1,1) string {mustBeNonzeroLengthText}
   fpath (1,:) string = getenv('PATH')
@@ -28,6 +28,7 @@ end % for name
 % path given
 
 if isscalar(fpath)
+  % PATH could have ~/ prefixed paths in it
   fpath = split(stdlib.fileio.expanduser(fpath), pathsep).';
 end
 fpath = fpath(strlength(fpath)>0);
