@@ -1,5 +1,7 @@
 function hash = sha256sum(file)
-
+%% sha256sum
+% DEPRECATED: use file_checksum(file, "SHA-256") instead
+% compute sha256 checksum of filetemp
 arguments
   file (1,1) string {mustBeFile}
 end
@@ -11,7 +13,7 @@ elseif isunix
 elseif ispc
   [stat, hash] = system("CertUtil -hashfile " + file + " SHA256");
 else
-  error("no sha256sum method for your OS")
+  error("no method for your OS")
 end
 
 assert(stat == 0, hash, "failed to compute SHA256 hash of " + file)

@@ -1,5 +1,6 @@
 function hash = md5sum(file)
 %% md5sum(file)
+% DEPRECATED: use file_checksum(file, "md5") instead
 % compute MD5 hash of file
 arguments
   file (1,1) string {mustBeFile}
@@ -12,7 +13,7 @@ elseif isunix
 elseif ispc
   [stat, hash] = system("CertUtil -hashfile " + file + " MD5");
 else
-  error("no sha256sum method for your OS")
+  error("no method for your OS")
 end
 
 assert(stat == 0, hash, "failed to compute md5sum of " + file)

@@ -5,6 +5,6 @@ arguments
   file (1,1) string {mustBeFile}
 end
 
-hash = stdlib.fileio.sha256sum(file);
+hash = stdlib.fileio.file_checksum(file, "SHA-256");
 
 end
