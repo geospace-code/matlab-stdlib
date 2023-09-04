@@ -1,8 +1,8 @@
 function hash = file_checksum(file, method)
-%% file_checkum compute checksum of file
+%% file_checksum compute checksum of file
 % read in chunks to avoid excessive RAM use
 %
-% method: md5, sha1, sha256, etc.
+% method:  "MD5", "SHA-1", "SHA-256", etc.
 %
 % Reference: https://docs.oracle.com/javase/8/docs/api/java/security/MessageDigest.html
 arguments
