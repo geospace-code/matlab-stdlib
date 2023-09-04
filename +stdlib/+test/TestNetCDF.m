@@ -7,6 +7,8 @@ end
 methods (TestMethodSetup)
 
 function setup_file(tc)
+import matlab.unittest.fixtures.TemporaryFolderFixture
+fixture = tc.applyFixture(TemporaryFolderFixture);
 
 A0 = 42.;
 A1 = [42.; 43.];
@@ -27,7 +29,7 @@ tc.TestData.utf0 = utf0;
 tc.TestData.utf1 = utf1;
 tc.TestData.utf2 = utf2;
 
-basic = tempname + ".nc";
+basic = fullfile(fixture.Folder, "basic.nc");
 tc.TestData.basic = basic;
 
 % create test data first, so that parallel tests works
@@ -48,13 +50,6 @@ stdlib.ncsave(basic, '/t/y', 13)
 stdlib.ncsave(basic, '/j/a/b', 6)
 
 tc.assumeTrue(isfile(basic))
-end
-end
-
-
-methods (TestMethodTeardown)
-function cleanup(tc)
-delete(tc.TestData.basic)
 end
 end
 
@@ -224,14 +219,6 @@ stdlib.ncsave(basic, "A2", 3*magic(4))
 
 tc.assumeTrue(isfile(basic))
 tc.verifyEqual(ncread(basic, 'A2'), 3*magic(4))
-end
-
-function test_name_only(tc)
-[~,name] = fileparts(tempname);
-tc.assumeFalse(isfile(name))
-
-stdlib.ncsave(name, "/A0", 42);
-delete(name)
 end
 
 

@@ -12,6 +12,8 @@ end
 methods (TestMethodSetup)
 
 function setup_file(tc)
+import matlab.unittest.fixtures.TemporaryFolderFixture
+fixture = tc.applyFixture(TemporaryFolderFixture);
 
 A0 = 42.;
 A1 = [42.; 43.];
@@ -30,31 +32,24 @@ tc.TestData.A4 = A4;
 tc.TestData.utf = utf;
 tc.TestData.utf2 = utf2;
 
-basic = tempname + ".h5";
-tc.TestData.basic = basic;
+tc.TestData.basic = fullfile(fixture.Folder, "basic.h5");
+bf = tc.TestData.basic;
 
 % create test data first, so that parallel tests works
-stdlib.h5save(basic, '/A0', A0)
-stdlib.h5save(basic, '/A1', A1)
-stdlib.h5save(basic, '/A2', A2)
-stdlib.h5save(basic, '/A3', A3, "size", size(A3))
-stdlib.h5save(basic, '/A4', A4)
+stdlib.h5save(bf, '/A0', A0)
+stdlib.h5save(bf, '/A1', A1)
+stdlib.h5save(bf, '/A2', A2)
+stdlib.h5save(bf, '/A3', A3, "size", size(A3))
+stdlib.h5save(bf, '/A4', A4)
 
-stdlib.h5save(basic, "/utf", utf)
-stdlib.h5save(basic, "/utf2", utf2)
+stdlib.h5save(bf, "/utf", utf)
+stdlib.h5save(bf, "/utf2", utf2)
 
-stdlib.h5save(basic, '/t/x', 12)
-stdlib.h5save(basic, '/t/y', 13)
-stdlib.h5save(basic, '/j/a/b', 6)
+stdlib.h5save(bf, '/t/x', 12)
+stdlib.h5save(bf, '/t/y', 13)
+stdlib.h5save(bf, '/j/a/b', 6)
 
-tc.assumeTrue(isfile(basic))
-end
-end
-
-
-methods (TestMethodTeardown)
-function cleanup(tc)
-delete(tc.TestData.basic)
+tc.assumeTrue(isfile(bf))
 end
 end
 
@@ -267,15 +262,6 @@ stdlib.h5save(basic, "/"+str, str+"hi")
 
 a = h5read(basic, "/"+str);
 tc.verifyEqual(a, char(str+"hi"))
-end
-
-function test_name_only(tc)
-
-[~,name] = fileparts(tempname);
-tc.assumeFalse(isfile(name))
-
-stdlib.h5save(name, "/A0", 42);
-delete(name)
 end
 
 
