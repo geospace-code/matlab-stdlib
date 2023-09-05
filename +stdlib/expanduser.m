@@ -10,7 +10,7 @@ function expanded = expanduser(p)
 %%% Outputs
 % * expanded: expanded path
 %
-% See also CANONICAL
+% See also absolute_path
 
 arguments
   p string

@@ -1,6 +1,5 @@
-function abspath = canonical(p)
-%% canonical(p)
-% yes this is the same as absolute_path
+function abspath = absolute_path(p)
+%% absolute_path(p)
 % path need not exist, but absolute path is returned
 %
 % NOTE: some network file systems are not resolvable by Matlab Java

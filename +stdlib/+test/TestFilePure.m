@@ -59,33 +59,33 @@ end
 tc.verifyFalse(is_absolute_path("c"))
 end
 
-function test_canonical(tc)
+function test_absolute_path(tc)
 
-import stdlib.canonical
+import stdlib.absolute_path
 
-tc.assumeTrue(usejava("jvm"), "Java required for canonical")
+tc.assumeTrue(usejava("jvm"), "Java required for absolute_path")
 
-tc.verifyEmpty(canonical(string.empty))
-tc.verifyEqual(canonical(""), string(pwd))
+tc.verifyEmpty(absolute_path(string.empty))
+tc.verifyEqual(absolute_path(""), string(pwd))
 
-pabs = canonical('2foo');
-pabs2 = canonical('4foo');
+pabs = absolute_path('2foo');
+pabs2 = absolute_path('4foo');
 tc.verifyFalse(startsWith(pabs, "2"))
 tc.verifyTrue(strncmp(pabs, pabs2, 2))
 
-par1 = canonical("../2foo");
+par1 = absolute_path("../2foo");
 tc.verifyNotEmpty(par1)
 tc.verifyFalse(contains(par1, ".."))
 
-par2 = canonical("../4foo");
+par2 = absolute_path("../4foo");
 tc.verifyTrue(strncmp(par2, pabs2, 2))
 
-pt1 = canonical("bar/../2foo");
+pt1 = absolute_path("bar/../2foo");
 tc.verifyNotEmpty(pt1)
 tc.verifyFalse(contains(pt1, ".."))
 
-va = canonical("2foo");
-vb = canonical("4foo");
+va = absolute_path("2foo");
+vb = absolute_path("4foo");
 tc.verifyFalse(startsWith(va, "2"))
 tc.verifyTrue(strncmp(va, vb, 2))
 

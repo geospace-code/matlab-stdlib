@@ -14,7 +14,7 @@ short = stdlib.fileio.windows_shortname(test_file);
 tc.verifyTrue(endsWith(short, 'notepad.exe'), "Short name should end with 'notepad.exe'")
 tc.verifyTrue(contains(short, "MICROS~1"))
 
-tc.verifyEqual(stdlib.canonical(short), test_file)
+tc.verifyEqual(stdlib.absolute_path(short), test_file)
 
 end
 
