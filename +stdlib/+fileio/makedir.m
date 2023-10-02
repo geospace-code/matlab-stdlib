@@ -13,6 +13,6 @@ end
 
 mkdir(direc);
 
-assert(isfolder(direc), "stdlib:fileio:makedir:IOError", 'not a directory %s', direc)
+mustBeFolder(direc)
 
 end

@@ -15,8 +15,8 @@ else
 end
 
 if ~isempty(opt.cwd)
+  mustBeFolder(opt.cwd)
   cwd = stdlib.fileio.absolute_path(opt.cwd);
-  assert(isfolder(cwd), "subprocess_run: %s is not a folder", cwd)
   oldcwd = pwd;
   cd(cwd)
 end

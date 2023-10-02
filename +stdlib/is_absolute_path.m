@@ -6,7 +6,7 @@ function isabs = is_absolute_path(apath)
 %  os.path.isabs("/foo/../bar") == True
 
 arguments
-  apath string
+  apath string {mustBeScalarOrEmpty}
 end
 
 isabs = stdlib.fileio.is_absolute_path(apath);

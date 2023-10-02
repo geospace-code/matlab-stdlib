@@ -2,13 +2,11 @@ function extract_zstd(archive, out_dir)
 
 arguments
   archive (1,1) string {mustBeFile}
-  out_dir (1,1) string
+  out_dir (1,1) string {mustBeFolder}
 end
 
 archive = stdlib.fileio.absolute_path(archive);
 out_dir = stdlib.fileio.absolute_path(out_dir);
-
-assert(isfolder(out_dir), "%s is not a folder", out_dir)
 
 exe = stdlib.fileio.which("cmake");
 if isempty(exe)
