@@ -1,55 +1,73 @@
-function [status, msg] = subprocess_run(cmd_array, opt)
-
+function [status, stdout, stderr] = subprocess_run(cmd, opt)
+% SUBPROCESS_RUN run a program with arguments and options
+% uses Matlab Java ProcessBuilder interface to run subprocess and use stdin/stdout pipes
 arguments
-  cmd_array (1,:) string
+  cmd (1,:) string
   opt.env struct {mustBeScalarOrEmpty} = struct.empty
   opt.cwd string {mustBeScalarOrEmpty} = string.empty
+  opt.stdin string {mustBeScalarOrEmpty} = string.empty
 end
 
-exe = space_quote(cmd_array(1));
+%% process instantiation
+proc = java.lang.ProcessBuilder("");
 
-if length(cmd_array) > 1
-  cmd = append(exe, " ", join(cmd_array(2:end), " "));
-else
-  cmd = exe;
+if ~isempty(opt.env)
+  % requires Parallel Computing Toolbox
+  env = proc.environment();
+  fields = fieldnames(opt.env);
+  for i = 1:length(fields)
+    env.put(fields{i}, opt.env.(fields{i}));
+  end
 end
 
 if ~isempty(opt.cwd)
   mustBeFolder(opt.cwd)
-  cwd = stdlib.fileio.absolute_path(opt.cwd);
-  oldcwd = pwd;
-  cd(cwd)
+  proc.directory(java.io.File(opt.cwd));
 end
 
-old = isMATLABReleaseOlderThan('R2022b');
-if old && ~isempty(opt.env)
-  warning("Matlab >= R2022b required for 'env' option of subprocess_run()")
+proc.command(cmd);
+%% start process
+h = proc.start();
+
+%% stdin pipe
+if ~isempty(opt.stdin)
+  writer = java.io.BufferedWriter(java.io.OutputStreamWriter(h.getOutputStream()));
+  writer.write(opt.stdin);
+  writer.flush()
+  writer.close()
 end
 
-if isempty(opt.env) || old
-  [status, msg] = system(cmd);
-else
-  envCell = namedargs2cell(opt.env);
-  % https://www.mathworks.com/help/matlab/ref/system.html
-  [status, msg] = system(cmd, envCell{:});
-end
-if ~isempty(opt.cwd)
-  cd(oldcwd)
-end
+%% wait for process to complete
+% https://docs.oracle.com/javase/9/docs/api/java/lang/Process.html#waitFor--
+status = h.waitFor();
 
+%% read stdout, stderr pipes
+stdout = read_stream(h.getInputStream());
+stderr = read_stream(h.getErrorStream());
+
+%% close process
+h.destroy()
+
+if nargout < 2 && strlength(stdout) > 0
+  disp(stdout)
 end
-
-
-function q = space_quote(p)
-arguments
-  p (1,1) string
-end
-
-if ~contains(p, " ")
-  q = p;
-  return
+if nargout < 3 && strlength(stderr) > 0
+  warning(stderr)
 end
 
-q = append('"', p, '"');
+end % function subprocess_run
+
+
+function msg = read_stream(stream)
+
+reader = java.io.BufferedReader(java.io.InputStreamReader(stream));
+line = reader.readLine();
+msg = "";
+while ~isempty(line)
+  msg = append(msg, string(line), newline);
+  line = reader.readLine();
+end
+msg = strip(msg);
+reader.close()
 
 end

@@ -19,26 +19,24 @@ end
 
 function test_env_run(tc)
 
-tc.assumeFalse(isMATLABReleaseOlderThan('R2022b'), "system(..., EnvName=, EnvVal=) requires Matlab R2022b+")
-
 names = ["TEST1", "TEST2"];
 vals = ["test123", "test321"];
 
 env = struct(names(1), vals(1), names(2), vals(2));
 
-% NOTE: test function cannot get specific variables without invoking a
-% subshell, as echo is evaluated in current shell before &&
-% Thus we just print the entire environment
-if ispc
-  c = "set";
-else
-  c = "env";
-end
+for i = 1:length(names)
+  if ispc
+    % in ComSpec, echo is a special shell cmd like "dir" -- also doesn't
+    % work in python subprocess.run
+    cmd = ["pwsh", "-c" "(Get-ChildItem Env:" + names(i) + ").Value"];
+  else
+    cmd = ["sh", "-c", "echo $" + names(i)];
+  end
 
-[ret, msg] = stdlib.subprocess_run(c, env=env);
-tc.verifyEqual(ret, 0)
-tc.verifyTrue(contains(msg, names(1) + "=" + vals(1)))
-tc.verifyTrue(contains(msg, names(2) + "=" + vals(2)))
+  [ret, out] = stdlib.subprocess_run(cmd, env=env);
+  tc.verifyEqual(ret, 0)
+  tc.verifyTrue(contains(out, vals(i)))
+end
 
 end
 
