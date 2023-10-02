@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        release: [R2020b, R2021a, R2021b, R2022a, R2022b, R2023a]
+        release: [R2020b, R2021a, R2021b, R2022a, R2022b, R2023a, R2023b]
         include:
         - os: macos-latest
           release: R2023a
@@ -30,7 +30,7 @@ jobs:
       with:
         release: ${{ matrix.release }}
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Run Matlab tests (buildtool)
       if: ${{ matrix.release >= 'R2022b' }}
@@ -40,9 +40,7 @@ jobs:
     - name: Run tests (manual)
       if: ${{ matrix.release < 'R2022b' }}
       timeout-minutes: 10
-      uses: matlab-actions/run-command@v1
+      uses: matlab-actions/run-tests@v1
       with:
-        command: |
-          r = runtests('stdlib.test', 'strict', true, 'UseParallel', true);
-          assert(~isempty(r), "No tests were run")
-          assertSuccess(r)
+        strict: true
+        select-by-folder: test
