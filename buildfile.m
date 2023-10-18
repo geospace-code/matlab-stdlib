@@ -24,7 +24,7 @@ import matlab.unittest.plugins.CodeCoveragePlugin;
 import matlab.unittest.plugins.XMLPlugin;
 import matlab.unittest.plugins.codecoverage.CoberturaFormat;
 
-name = "matmap3d";
+name = "stdlib";
 
 suite = testsuite(name);
 
