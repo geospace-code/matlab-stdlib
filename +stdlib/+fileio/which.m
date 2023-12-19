@@ -19,11 +19,11 @@ end
 % directory/filename given
 for exe = names
 
-  if strlength(fileparts(exe)) > 0 && stdlib.fileio.is_exe(exe)
+  if stdlib.fileio.is_absolute_path(exe) && stdlib.fileio.is_exe(exe)
     return
   end
 
-end % for name
+end % for exe
 
 % path given
 
