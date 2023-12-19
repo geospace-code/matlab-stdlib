@@ -19,9 +19,9 @@ jobs:
         release: [R2020b, R2021a, R2021b, R2022a, R2022b, R2023a, R2023b]
         include:
         - os: macos-latest
-          release: R2023a
+          release: R2023b
         - os: windows-latest
-          release: R2023a
+          release: R2023b
 
     steps:
 
