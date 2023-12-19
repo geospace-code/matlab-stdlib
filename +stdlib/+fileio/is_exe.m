@@ -9,12 +9,6 @@ if isempty(file)
   return
 end
 
-if ~isfile(file)
-  ok = false;
-  return
-end
-
-[ok1, stat] = fileattrib(file);
-ok = ok1 == 1 && (stat.UserExecute == 1 || stat.GroupExecute == 1);
+ok = java.io.File(file).canExecute();
 
 end
