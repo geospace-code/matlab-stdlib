@@ -13,16 +13,6 @@ if ispc
 end
 end
 
-function test_samepath(tc)
-tc.assumeTrue(usejava("jvm"), "Java required for samepath")
-
-tc.verifyEmpty(stdlib.samepath(string.empty, string.empty))
-tc.verifyTrue(stdlib.samepath("", ""))
-tc.verifyFalse(stdlib.samepath("a", "b"))
-tc.verifyTrue(stdlib.samepath("a/b/..", "a/c/.."))
-tc.verifyTrue(stdlib.samepath(".", "a/.."))
-
-end
 
 function test_path_tail(tc)
 

@@ -15,11 +15,25 @@ tc.verifyTrue(endsWith(expanduser('~/foo'), "foo"))
 tc.verifyTrue(all(endsWith(expanduser(["~/abc", "~/123"]), ["abc", "123"])))
 end
 
+
 function test_makedir(tc)
 d = tempname;
 stdlib.makedir(d)
 tc.assertTrue(isfolder(d))
 end
+
+
+function test_samepath(tc)
+import stdlib.fileio.samepath
+tc.assumeTrue(usejava("jvm"), "Java required for samepath")
+
+tc.verifyEmpty(samepath(string.empty, string.empty))
+tc.verifyTrue(samepath("", ""))
+tc.verifyFalse(samepath(tempname, tempname))
+tc.verifyTrue(samepath("~/b/..", "~/c/.."), "tilde path ..")
+tc.verifyTrue(samepath(".", "a/.."))
+end
+
 
 function test_which_name(tc)
 
