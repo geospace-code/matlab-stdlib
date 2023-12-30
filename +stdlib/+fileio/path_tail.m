@@ -9,7 +9,7 @@ if strlength(apath) == 0
   return
 end
 
-[~, name, ext] = fileparts(stdlib.fileio.absolute_path(apath));
+[~, name, ext] = fileparts(stdlib.fileio.canonical(apath));
 
 last = append(name, ext);
 

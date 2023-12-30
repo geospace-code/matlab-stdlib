@@ -9,8 +9,6 @@ function expanded = expanduser(p)
 % * p: path to expand, if tilde present
 %%% Outputs
 % * expanded: expanded path
-%
-% See also absolute_path
 
 arguments
   p string

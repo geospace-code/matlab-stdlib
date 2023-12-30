@@ -1,4 +1,4 @@
-function abspath = absolute_path(p)
+function a = absolute_path(p)
 %% absolute_path(p)
 % path need not exist, but absolute path is returned
 %
@@ -6,17 +6,15 @@ function abspath = absolute_path(p)
 % subsystem, but are sometimes still valid--so return
 % unmodified path if this occurs.
 %
-% This also resolves Windows short paths to full long paths.
-%
 %%% Inputs
 % * p: path to make absolute
 %%% Outputs
-% * abspath: absolute path, if determined
+% * a: absolute path, if determined
 
 arguments
   p string {mustBeScalarOrEmpty}
 end
 
-abspath = stdlib.fileio.absolute_path(p);
+a = stdlib.fileio.absolute_path(p);
 
 end

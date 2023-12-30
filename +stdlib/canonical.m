@@ -1,7 +1,6 @@
-function abspath = canonical(p)
+function c = canonical(p)
 %% canonical(p)
-% yes this is the same as absolute_path
-% path need not exist, but absolute path is returned
+% path need not exist, but canonical path is returned
 %
 % NOTE: some network file systems are not resolvable by Matlab Java
 % subsystem, but are sometimes still valid--so return
@@ -10,14 +9,14 @@ function abspath = canonical(p)
 % This also resolves Windows short paths to full long paths.
 %
 %%% Inputs
-% * p: path to make absolute
+% * p: path to make canonical
 %%% Outputs
-% * abspath: absolute path, if determined
+% * c: canonical path, if determined
 
 arguments
   p string {mustBeScalarOrEmpty}
 end
 
-abspath = stdlib.fileio.absolute_path(p);
+c = stdlib.fileio.canonical(p);
 
 end

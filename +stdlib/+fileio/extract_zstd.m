@@ -5,8 +5,8 @@ arguments
   out_dir (1,1) string {mustBeFolder}
 end
 
-archive = stdlib.fileio.absolute_path(archive);
-out_dir = stdlib.fileio.absolute_path(out_dir);
+archive = stdlib.fileio.canonical(archive);
+out_dir = stdlib.fileio.canonical(out_dir);
 
 exe = stdlib.fileio.which("cmake");
 if isempty(exe)

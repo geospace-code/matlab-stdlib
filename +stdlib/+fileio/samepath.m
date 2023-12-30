@@ -10,10 +10,9 @@ if isempty(path1) || isempty(path2)
    return
 end
 
-% absolute_path because unlike c++ filesystem, isSameFile does not
-% canonicalize first
-p1 = java.io.File(stdlib.fileio.absolute_path(path1)).toPath();
-p2 = java.io.File(stdlib.fileio.absolute_path(path2)).toPath();
+% unlike c++ filesystem, isSameFile does not canonicalize first
+p1 = java.io.File(stdlib.fileio.canonical(path1)).toPath();
+p2 = java.io.File(stdlib.fileio.canonical(path2)).toPath();
 
 try
   issame = java.nio.file.Files.isSameFile(p1, p2);
