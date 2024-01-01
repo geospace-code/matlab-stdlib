@@ -33,7 +33,7 @@ end
 function test_is_absolute_path(tc)
 
 import stdlib.is_absolute_path
-% path need not exist
+tc.assumeTrue(usejava("jvm"), "Java required")
 
 tc.verifyEmpty(is_absolute_path(string.empty))
 tc.verifyFalse(is_absolute_path(""))
@@ -52,8 +52,7 @@ end
 function test_absolute_path(tc)
 
 import stdlib.absolute_path
-
-tc.assumeTrue(usejava("jvm"), "Java required for absolute_path")
+tc.assumeTrue(usejava("jvm"), "Java required")
 
 tc.verifyEmpty(absolute_path(string.empty))
 tc.verifyEqual(absolute_path(""), string(pwd))
@@ -83,8 +82,7 @@ end
 function test_canonical(tc)
 
 import stdlib.canonical
-
-tc.assumeTrue(usejava("jvm"), "Java required for absolute_path")
+tc.assumeTrue(usejava("jvm"), "Java required")
 
 tc.verifyEmpty(canonical(string.empty))
 tc.verifyEqual(canonical(""), string(pwd))

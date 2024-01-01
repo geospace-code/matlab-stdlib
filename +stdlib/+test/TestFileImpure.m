@@ -4,6 +4,7 @@ methods (Test)
 
 function test_expanduser(tc)
 import stdlib.expanduser
+tc.assumeTrue(usejava("jvm"), "Java required")
 
 tc.verifyEmpty(expanduser(string.empty))
 tc.verifyEqual(expanduser(""), "")
@@ -23,7 +24,7 @@ end
 
 function test_samepath(tc)
 import stdlib.fileio.samepath
-tc.assumeTrue(usejava("jvm"), "Java required for samepath")
+tc.assumeTrue(usejava("jvm"), "Java required")
 
 tc.verifyEmpty(samepath(string.empty, string.empty))
 tc.verifyTrue(samepath("", ""))
@@ -34,6 +35,7 @@ end
 
 
 function test_which_name(tc)
+tc.assumeTrue(usejava("jvm"), "Java required")
 
 tc.verifyEmpty(stdlib.which(tempname))
 
@@ -51,6 +53,7 @@ end
 
 function test_is_exe_which_fullpath(tc)
 import matlab.unittest.constraints.IsFile
+tc.assumeTrue(usejava("jvm"), "Java required")
 
 tc.verifyEmpty(stdlib.is_exe(string.empty))
 tc.verifyFalse(stdlib.is_exe(""))
@@ -80,6 +83,7 @@ end
 function test_hash(tc)
 import matlab.unittest.constraints.IsFile
 import matlab.unittest.fixtures.TemporaryFolderFixture
+tc.assumeTrue(usejava("jvm"), "Java required")
 
 fixture = tc.applyFixture(TemporaryFolderFixture);
 

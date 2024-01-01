@@ -3,6 +3,7 @@ classdef TestSys < matlab.unittest.TestCase
 methods (Test)
 
 function test_simple_run(tc)
+tc.assumeTrue(usejava("jvm"), "Java required")
 
 if ispc
   c = 'dir';
@@ -18,6 +19,7 @@ end
 
 
 function test_env_run(tc)
+tc.assumeTrue(usejava("jvm"), "Java required")
 
 names = ["TEST1", "TEST2"];
 vals = ["test123", "test321"];
@@ -41,6 +43,7 @@ end
 end
 
 function test_find_fortran(tc)
+tc.assumeTrue(usejava("jvm"), "Java required")
 tc.verifyTrue(isstring(stdlib.sys.find_fortran_compiler()))
 end
 
