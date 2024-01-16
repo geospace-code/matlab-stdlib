@@ -17,8 +17,8 @@ CHUNK_MAX = 1000000; % upper limit: 1 Mbyte
 TYPESIZE = 8;        % bytes, assume real64 for simplicity
 
 csize = dims;
-Ndim = length(dims);
-if Ndim == 1 || prod(dims) * TYPESIZE < CHUNK_MIN
+
+if isscalar(dims) || prod(dims) * TYPESIZE < CHUNK_MIN
   return
 end
 
@@ -33,7 +33,7 @@ end
 i = 0;
 while true
   % Repeatedly loop over the axes, dividing them by 2.
- % Stop when:
+  % Stop when:
   %  1a. We're smaller than the target chunk size, OR
   %  1b. We're within 50% of the target chunk size, AND
   %   2. The chunk is smaller than the maximum chunk size
@@ -50,7 +50,7 @@ while true
     break
   end
   % Element size larger than CHUNK_MAX
-  j = mod(i, Ndim) + 1;
+  j = mod(i, length(dims)) + 1;
   csize(j) = ceil(csize(j) / 2);
   i = i+1;
 end
