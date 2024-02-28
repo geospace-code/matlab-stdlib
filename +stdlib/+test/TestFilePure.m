@@ -40,6 +40,19 @@ tc.verifyEqual(stdlib.fileio.parent("foo/bar/baz/"), "foo/bar")
 
 end
 
+function test_suffix(tc)
+
+tc.verifyEmpty(stdlib.fileio.suffix(string.empty))
+tc.verifyEqual(stdlib.fileio.suffix(""), "")
+
+tc.verifyEqual(stdlib.fileio.suffix("/foo/bar/baz"), "")
+tc.verifyEqual(stdlib.fileio.suffix("/foo/bar/baz/"), "")
+
+tc.verifyEqual(stdlib.fileio.suffix("foo/bar/baz.txt"), ".txt")
+tc.verifyEqual(stdlib.fileio.suffix("foo/bar/baz.txt.gz"), ".gz")
+
+end
+
 
 function test_stem(tc)
 
