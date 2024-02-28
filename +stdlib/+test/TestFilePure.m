@@ -14,6 +14,20 @@ end
 end
 
 
+function test_filename(tc)
+
+tc.verifyEmpty(stdlib.fileio.filename(string.empty))
+tc.verifyEqual(stdlib.fileio.filename(""), "")
+
+tc.verifyEqual(stdlib.fileio.filename("/foo/bar/baz"), "baz")
+tc.verifyEqual(stdlib.fileio.filename("/foo/bar/baz/"), "")
+
+tc.verifyEqual(stdlib.fileio.filename("foo/bar/baz.txt"), "baz.txt")
+tc.verifyEqual(stdlib.fileio.filename("foo/bar/baz.txt.gz"), "baz.txt.gz")
+
+end
+
+
 function test_parent(tc)
 
 tc.verifyEmpty(stdlib.fileio.parent(string.empty))
