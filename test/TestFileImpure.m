@@ -1,21 +1,32 @@
 classdef TestFileImpure < matlab.unittest.TestCase
 
+methods(TestClassSetup)
+
+function setup_path(tc)
+import matlab.unittest.fixtures.PathFixture
+cwd = fileparts(mfilename("fullpath"));
+top = fullfile(cwd, "..");
+tc.applyFixture(PathFixture(top))
+
+end
+
+end
+
 methods (Test)
 
 function test_expanduser(tc)
 import matlab.unittest.constraints.EndsWithSubstring
 import matlab.unittest.constraints.StartsWithSubstring
-import stdlib.expanduser
 tc.assumeTrue(usejava("jvm"), "Java required")
 
-tc.verifyEmpty(expanduser(string.empty))
-tc.verifyEqual(expanduser(""), "")
+tc.verifyEmpty(stdlib.fileio.expanduser(string.empty))
+tc.verifyEqual(stdlib.fileio.expanduser(""), "")
 
-tc.verifyEqual(expanduser("~abc"), "~abc")
+tc.verifyEqual(stdlib.fileio.expanduser("~abc"), "~abc")
 
-tc.verifyThat(expanduser('~/foo'), ~StartsWithSubstring("~"))
+tc.verifyThat(stdlib.fileio.expanduser('~/foo'), ~StartsWithSubstring("~"))
 
-tc.verifyThat(expanduser('~/foo'), EndsWithSubstring("foo"))
+tc.verifyThat(stdlib.fileio.expanduser('~/foo'), EndsWithSubstring("foo"))
 end
 
 

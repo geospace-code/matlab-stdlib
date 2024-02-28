@@ -11,7 +11,7 @@ assert(isempty(issues.Issues), formattedDisplayText(issues.Issues))
 end
 
 function testTask(~)
-r = runtests('stdlib.test', strict=true, UseParallel=false);
+r = runtests('test/', strict=true, UseParallel=false);
 % UseParallel can be a lot slower, especially on Mac
 assert(~isempty(r), "No tests were run")
 assertSuccess(r)

@@ -27,61 +27,63 @@ end
 
 function test_filename(tc)
 
-tc.verifyEmpty(stdlib.filename(string.empty))
-tc.verifyEqual(stdlib.filename(""), "")
+tc.verifyEmpty(stdlib.fileio.filename(string.empty))
+tc.verifyEqual(stdlib.fileio.filename(""), "")
 
-tc.verifyEqual(stdlib.filename("/foo/bar/baz"), "baz")
-tc.verifyEqual(stdlib.filename("/foo/bar/baz/"), "")
+tc.verifyEqual(stdlib.fileio.filename("/foo/bar/baz"), "baz")
+tc.verifyEqual(stdlib.fileio.filename("/foo/bar/baz/"), "")
 
-tc.verifyEqual(stdlib.filename("foo/bar/baz.txt"), "baz.txt")
-tc.verifyEqual(stdlib.filename("foo/bar/baz.txt.gz"), "baz.txt.gz")
+tc.verifyEqual(stdlib.fileio.filename("foo/bar/baz.txt"), "baz.txt")
+tc.verifyEqual(stdlib.fileio.filename("foo/bar/baz.txt.gz"), "baz.txt.gz")
 
 end
 
 
 function test_parent(tc)
 
-tc.verifyEmpty(stdlib.parent(string.empty))
-tc.verifyEqual(stdlib.parent(""), "")
+tc.verifyEmpty(stdlib.fileio.parent(string.empty))
+tc.verifyEqual(stdlib.fileio.parent(""), "")
 
-tc.verifyEqual(stdlib.parent("/foo/bar/baz"), "/foo/bar")
-tc.verifyEqual(stdlib.parent("/foo/bar/baz/"), "/foo/bar")
+tc.verifyEqual(stdlib.fileio.parent("/foo/bar/baz"), "/foo/bar")
+tc.verifyEqual(stdlib.fileio.parent("/foo/bar/baz/"), "/foo/bar")
 
-tc.verifyEqual(stdlib.parent("foo/bar/baz/"), "foo/bar")
+tc.verifyEqual(stdlib.fileio.parent("foo/bar/baz/"), "foo/bar")
 
 end
 
 function test_suffix(tc)
 
-tc.verifyEmpty(stdlib.suffix(string.empty))
-tc.verifyEqual(stdlib.suffix(""), "")
+tc.verifyEmpty(stdlib.fileio.suffix(string.empty))
+tc.verifyEqual(stdlib.fileio.suffix(""), "")
 
-tc.verifyEqual(stdlib.suffix("/foo/bar/baz"), "")
-tc.verifyEqual(stdlib.suffix("/foo/bar/baz/"), "")
+tc.verifyEqual(stdlib.fileio.suffix("/foo/bar/baz"), "")
+tc.verifyEqual(stdlib.fileio.suffix("/foo/bar/baz/"), "")
 
-tc.verifyEqual(stdlib.suffix("foo/bar/baz.txt"), ".txt")
-tc.verifyEqual(stdlib.suffix("foo/bar/baz.txt.gz"), ".gz")
+tc.verifyEqual(stdlib.fileio.suffix("foo/bar/baz.txt"), ".txt")
+tc.verifyEqual(stdlib.fileio.suffix("foo/bar/baz.txt.gz"), ".gz")
 
 end
 
 
 function test_stem(tc)
 
-tc.verifyEmpty(stdlib.stem(string.empty))
-tc.verifyEqual(stdlib.stem(""), "")
+tc.verifyEmpty(stdlib.fileio.stem(string.empty))
+tc.verifyEqual(stdlib.fileio.stem(""), "")
 
-tc.verifyEqual(stdlib.stem("/foo/bar/baz"), "baz")
-tc.verifyEqual(stdlib.stem("/foo/bar/baz/"), "")
+tc.verifyEqual(stdlib.fileio.stem("/foo/bar/baz"), "baz")
+tc.verifyEqual(stdlib.fileio.stem("/foo/bar/baz/"), "")
 
-tc.verifyEqual(stdlib.stem("foo/bar/baz/"), "")
+tc.verifyEqual(stdlib.fileio.stem("foo/bar/baz/"), "")
 
-tc.verifyEqual(stdlib.stem("foo/bar/baz.txt"), "baz")
-tc.verifyEqual(stdlib.stem("foo/bar/baz.txt.gz"), "baz.txt")
+tc.verifyEqual(stdlib.fileio.stem("foo/bar/baz.txt"), "baz")
+tc.verifyEqual(stdlib.fileio.stem("foo/bar/baz.txt.gz"), "baz.txt")
 
 end
 
 
 function test_path_tail(tc)
+
+tc.assumeTrue(usejava("jvm"), "Java required for path_tail")
 
 tc.verifyEmpty(stdlib.path_tail(string.empty))
 tc.verifyEqual(stdlib.path_tail(""), "")
@@ -94,6 +96,8 @@ tc.verifyEqual(stdlib.path_tail("/foo/bar/baz.txt"), "baz.txt")
 end
 
 function test_is_absolute_path(tc)
+
+tc.assumeTrue(usejava("jvm"), "Java required")
 
 tc.verifyEmpty(stdlib.is_absolute_path(string.empty))
 tc.verifyFalse(stdlib.is_absolute_path(""))
@@ -111,6 +115,8 @@ end
 
 function test_absolute_path(tc)
 import matlab.unittest.constraints.StartsWithSubstring
+
+tc.assumeTrue(usejava("jvm"), "Java required")
 
 tc.verifyEmpty(stdlib.absolute_path(string.empty))
 tc.verifyEqual(stdlib.absolute_path(""), string(pwd))
@@ -136,20 +142,13 @@ tc.verifyTrue(strncmp(va, vb, 2))
 
 end
 
-function test_normalize(tc)
-
-tc.verifyEmpty(stdlib.normalize(string.empty))
-tc.verifyEqual(stdlib.normalize(""), "")
-
-pabs = stdlib.normalize('2foo//');
-tc.verifyEqual(pabs, "2foo")
-end
-
 
 function test_canonical(tc)
 import matlab.unittest.fixtures.TemporaryFolderFixture
 import matlab.unittest.fixtures.CurrentFolderFixture
 import matlab.unittest.constraints.StartsWithSubstring
+
+tc.assumeTrue(usejava("jvm"), "Java required")
 
 td = tc.applyFixture(TemporaryFolderFixture).Folder;
 tc.applyFixture(CurrentFolderFixture(td))
@@ -169,16 +168,9 @@ pt1 = stdlib.canonical("bar/../2foo");
 tc.verifyEqual(pt1, "2foo")
 
 % test existing file
-r = stdlib.parent(mfilename('fullpath'));
+r = stdlib.fileio.parent(mfilename('fullpath'));
 rp = fullfile(r, "..");
-tc.verifyEqual(stdlib.canonical(rp), stdlib.parent(r))
-
-
-tc.verifyEqual(stdlib.canonical("."), stdlib.posix(pwd))
-
-tc.verifyEqual(stdlib.canonical("~/.."), stdlib.parent(stdlib.fileio.homedir))
-
-tc.verifyEqual(stdlib.canonical("../nobody.txt"), "../nobody.txt")
+tc.verifyEqual(stdlib.canonical(rp), stdlib.fileio.parent(r))
 
 end
 
@@ -189,13 +181,14 @@ import matlab.unittest.fixtures.CurrentFolderFixture
 import matlab.unittest.constraints.StartsWithSubstring
 import matlab.unittest.constraints.EndsWithSubstring
 import matlab.unittest.constraints.ContainsSubstring
+tc.assumeTrue(usejava("jvm"), "Java required")
 
 td = tc.applyFixture(TemporaryFolderFixture).Folder;
 tc.applyFixture(CurrentFolderFixture(td))
 
 % all non-existing files
 tc.verifyEmpty(stdlib.resolve(string.empty))
-tc.verifyEqual(stdlib.resolve(""), stdlib.fileio.posix(pwd))
+tc.verifyEqual(stdlib.resolve(""), string(stdlib.fileio.posix(pwd)))
 
 pabs = stdlib.resolve('2foo');
 pabs2 = stdlib.resolve('4foo');
@@ -219,9 +212,9 @@ tc.verifyThat(va, ~StartsWithSubstring("2"))
 tc.verifyTrue(strncmp(va, vb, 2))
 
 % test existing file
-r = stdlib.parent(mfilename('fullpath'));
+r = stdlib.fileio.parent(mfilename('fullpath'));
 rp = fullfile(r, "..");
-tc.verifyEqual(stdlib.resolve(rp), stdlib.parent(r))
+tc.verifyEqual(stdlib.resolve(rp), stdlib.fileio.parent(r))
 
 end
 

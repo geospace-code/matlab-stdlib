@@ -8,8 +8,13 @@ properties (TestParameter)
 str = {"string", 'char'}
 end
 
-
-methods (TestMethodSetup)
+methods(TestClassSetup)
+function setup_path(tc)
+import matlab.unittest.fixtures.PathFixture
+cwd = fileparts(mfilename("fullpath"));
+top = fullfile(cwd, "..");
+tc.applyFixture(PathFixture(top))
+end
 
 function setup_file(tc)
 import matlab.unittest.fixtures.TemporaryFolderFixture
@@ -58,11 +63,10 @@ end
 methods (Test)
 
 function test_auto_chunk_size(tc)
-import stdlib.hdf5nc.auto_chunk_size
 
-tc.verifyEqual(auto_chunk_size([1500,2500,1000,500,100]), [12,20,8,8,2])
-tc.verifyEqual(auto_chunk_size([15,250,100]), [2,32,25])
-tc.verifyEqual(auto_chunk_size([15,250]), [15,250])
+tc.verifyEqual(stdlib.hdf5nc.auto_chunk_size([1500,2500,1000,500,100]), [12,20,8,8,2])
+tc.verifyEqual(stdlib.hdf5nc.auto_chunk_size([15,250,100]), [2,32,25])
+tc.verifyEqual(stdlib.hdf5nc.auto_chunk_size([15,250]), [15,250])
 end
 
 

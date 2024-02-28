@@ -1,5 +1,14 @@
 classdef TestWSL < matlab.unittest.TestCase
 
+methods (TestClassSetup)
+function setup_path(tc)
+import matlab.unittest.fixtures.PathFixture
+cwd = fileparts(mfilename("fullpath"));
+top = fullfile(cwd, "..");
+tc.applyFixture(PathFixture(top))
+end
+end
+
 methods (Test)
 
 function test_is_exe_which_wsl(tc)

@@ -4,7 +4,13 @@ properties
 TestData
 end
 
-methods (TestMethodSetup)
+methods (TestClassSetup)
+function setup_path(tc)
+import matlab.unittest.fixtures.PathFixture
+cwd = fileparts(mfilename("fullpath"));
+top = fullfile(cwd, "..");
+tc.applyFixture(PathFixture(top))
+end
 
 function setup_file(tc)
 import matlab.unittest.constraints.IsFile
