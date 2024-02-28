@@ -6,15 +6,14 @@ function test_shortname(tc)
 
 tc.assumeTrue(ispc, "Windows only")
 
-test_file = stdlib.fileio.posix(fullfile(getenv("LocalAppData"), "Microsoft/WindowsApps/notepad.exe"));
-tc.assumeTrue(isfile(test_file))
+progdir = stdlib.fileio.posix(getenv("PROGRAMFILES"));
+tc.assumeTrue(isfolder(progdir), "Env:ProgramFiles not defined")
 
-short = stdlib.fileio.windows_shortname(test_file);
+short = stdlib.fileio.windows_shortname(progdir);
 
-tc.verifyTrue(endsWith(short, 'notepad.exe'), "Short name should end with 'notepad.exe'")
-tc.verifyTrue(contains(short, "MICROS~1"))
+tc.verifyTrue(contains(short, "PROGRA~1"), short + " did not contain PROGRA~1")
 
-tc.verifyEqual(stdlib.canonical(short), test_file)
+tc.verifyEqual(stdlib.canonical(short), progdir)
 
 end
 
