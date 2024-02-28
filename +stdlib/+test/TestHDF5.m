@@ -13,6 +13,7 @@ methods (TestMethodSetup)
 
 function setup_file(tc)
 import matlab.unittest.fixtures.TemporaryFolderFixture
+import matlab.unittest.constraints.IsFile
 fixture = tc.applyFixture(TemporaryFolderFixture);
 
 A0 = 42.;
@@ -49,7 +50,7 @@ stdlib.h5save(bf, '/t/x', 12)
 stdlib.h5save(bf, '/t/y', 13)
 stdlib.h5save(bf, '/j/a/b', 6)
 
-tc.assumeTrue(isfile(bf))
+tc.assumeThat(bf, IsFile)
 end
 end
 
@@ -220,11 +221,12 @@ end
 
 
 function test_rewrite(tc)
+import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
 stdlib.h5save(basic, '/A2', 3*magic(4))
 
-tc.assumeTrue(isfile(basic))
+tc.assumeThat(basic, IsFile)
 tc.verifyEqual(h5read(basic, '/A2'), 3*magic(4))
 end
 

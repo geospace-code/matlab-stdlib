@@ -3,7 +3,7 @@ classdef TestWSL < matlab.unittest.TestCase
 methods (Test)
 
 function test_is_exe_which_wsl(tc)
-
+import matlab.unittest.constraints.IsFile
 tc.assumeTrue(ispc, "Windows only")
 tc.assumeTrue(stdlib.sys.has_wsl(), "did not find Windows Subsystem for Linux")
 
@@ -22,7 +22,7 @@ ret = system("wsl cc " + src + " -o" + out_wsl);
 
 tc.assumeEqual(ret, 0, "failed to compile " + src)
 out = stdlib.sys.wslpath2winpath(out_wsl);
-tc.assumeTrue(isfile(out), "cc failed to produce output file " + out)
+tc.assumeThat(out, IsFile, "cc failed to produce output file " + out)
 
 tc.verifyTrue(stdlib.is_exe(out), "is_exe() failed to detect WSL executable " + out)
 

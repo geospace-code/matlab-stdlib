@@ -3,6 +3,7 @@ classdef TestFileImpure < matlab.unittest.TestCase
 methods (Test)
 
 function test_expanduser(tc)
+import matlab.unittest.constraints.EndsWithSubstring
 import stdlib.expanduser
 tc.assumeTrue(usejava("jvm"), "Java required")
 
@@ -13,7 +14,7 @@ tc.verifyEqual(expanduser("~abc"), "~abc")
 
 tc.verifyFalse(startsWith(expanduser('~/foo'), "~"))
 
-tc.verifyTrue(endsWith(expanduser('~/foo'), "foo"))
+tc.verifyThat(expanduser('~/foo'), EndsWithSubstring("foo"))
 end
 
 
@@ -53,6 +54,7 @@ end
 
 function test_is_exe_which_fullpath(tc)
 import matlab.unittest.constraints.IsFile
+import matlab.unittest.constraints.EndsWithSubstring
 tc.assumeTrue(usejava("jvm"), "Java required")
 
 tc.verifyEmpty(stdlib.is_exe(string.empty))
@@ -72,9 +74,9 @@ tc.verifyTrue(stdlib.is_exe(fp))
 exe = stdlib.which(p);
 
 if ispc
-  tc.verifyTrue(endsWith(exe, ".exe"))
+  tc.verifyThat(exe, EndsWithSubstring(".exe"))
 else
-  tc.verifyFalse(endsWith(exe, ".exe"))
+  tc.verifyThat(exe, ~EndsWithSubstring(".exe"))
 end
 tc.verifyThat(exe, IsFile)
 

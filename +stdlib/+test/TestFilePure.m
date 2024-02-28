@@ -138,6 +138,7 @@ end
 function test_canonical(tc)
 import matlab.unittest.fixtures.TemporaryFolderFixture
 import matlab.unittest.fixtures.CurrentFolderFixture
+import matlab.unittest.constraints.StartsWithSubstring
 import stdlib.canonical
 
 tc.assumeTrue(usejava("jvm"), "Java required")
@@ -150,11 +151,11 @@ tc.verifyEmpty(canonical(string.empty))
 tc.verifyEqual(canonical(""), "")
 
 pabs = canonical('2foo');
-tc.verifyTrue(startsWith(pabs, "2foo"))
+tc.verifyThat(pabs, StartsWithSubstring("2foo"))
 
 par1 = canonical("../2foo");
 tc.verifyNotEmpty(par1)
-tc.verifyTrue(startsWith(par1, ".."))
+tc.verifyThat(par1, StartsWithSubstring(".."))
 
 pt1 = canonical("bar/../2foo");
 tc.verifyEqual(pt1, "2foo")

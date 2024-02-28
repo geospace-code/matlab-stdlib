@@ -38,7 +38,7 @@ for i = 1:length(names)
 
   [ret, out] = stdlib.subprocess_run(cmd, env=env);
   tc.verifyEqual(ret, 0)
-  tc.verifyTrue(contains(out, vals(i)))
+  tc.verifySubstring(out, vals(i))
 end
 
 end
