@@ -1,5 +1,6 @@
-function c = canonical(p)
-
+function c = resolve(p)
+% distinct from canonical(), resolve() always returns absolute path
+% non-existant path is made absolute relative to pwd
 arguments
   p string {mustBeScalarOrEmpty}
 end
@@ -17,15 +18,8 @@ if ispc && startsWith(c, "\\")
 end
 
 if ~stdlib.fileio.is_absolute_path(c)
-  if isfile(c) || isfolder(c)
-    % workaround Java/Matlab limitations
-    c = fullfile(pwd, c);
-  else
-    % for non-existing path, return normalized relative path
-    % like C++ filesystem weakly_canonical()
-    c = stdlib.fileio.normalize(c);
-    return
-  end
+  % .toAbsolutePath() default is Documents/Matlab, which is probably not wanted.
+  c = fullfile(pwd, c);
 end
 
 % similar benchmark time as java method

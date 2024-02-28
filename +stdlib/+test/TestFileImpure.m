@@ -23,14 +23,12 @@ end
 
 
 function test_samepath(tc)
-import stdlib.fileio.samepath
-tc.assumeTrue(usejava("jvm"), "Java required")
 
-tc.verifyEmpty(samepath(string.empty, string.empty))
-tc.verifyTrue(samepath("", ""))
-tc.verifyFalse(samepath(tempname, tempname))
-tc.verifyTrue(samepath("~/b/..", "~/c/.."), "tilde path ..")
-tc.verifyTrue(samepath(".", "a/.."))
+tc.verifyEmpty(stdlib.samepath(string.empty, string.empty))
+tc.verifyTrue(stdlib.samepath("", ""))
+tc.verifyFalse(stdlib.samepath(tempname, tempname))
+tc.verifyTrue(stdlib.samepath("~/b/..", "~/c/.."), "tilde path ..")
+tc.verifyTrue(stdlib.samepath(".", fullfile(pwd, "a/..")))
 end
 
 

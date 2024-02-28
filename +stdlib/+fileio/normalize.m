@@ -9,6 +9,7 @@ if isempty(p)
   return
 end
 
-n = string(java.io.File(stdlib.fileio.expanduser(n)).toPath().normalize());
+n = stdlib.fileio.posix(string(...
+    java.io.File(stdlib.fileio.expanduser(n)).toPath().normalize()));
 
 end

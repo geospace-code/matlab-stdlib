@@ -1,7 +1,7 @@
-function c = canonical(p)
-%% canonical(p)
-% If exists, canonical absolute path is returned
-% if path does not exist, normalized relative path is returned
+function c = resolve(p)
+%% resolve(p)
+% path need not exist--absolute path will be relative to pwd if not exist
+% if path exists, same result as canonical()
 %
 % NOTE: some network file systems are not resolvable by Matlab Java
 % subsystem, but are sometimes still valid--so return
@@ -10,14 +10,14 @@ function c = canonical(p)
 % This also resolves Windows short paths to full long paths.
 %
 %%% Inputs
-% * p: path to make canonical
+% * p: path to resolve
 %%% Outputs
-% * c: canonical path, if determined
+% * c: resolved path
 
 arguments
   p string {mustBeScalarOrEmpty}
 end
 
-c = stdlib.fileio.canonical(p);
+c = stdlib.fileio.resolve(p);
 
 end

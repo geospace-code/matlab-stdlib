@@ -6,7 +6,7 @@ function test_shortname(tc)
 
 tc.assumeTrue(ispc, "Windows only")
 
-test_file = string(fullfile(getenv("LocalAppData"), 'Microsoft\WindowsApps\notepad.exe'));
+test_file = stdlib.fileio.posix(fullfile(getenv("LocalAppData"), "Microsoft/WindowsApps/notepad.exe"));
 tc.assumeTrue(isfile(test_file))
 
 short = stdlib.fileio.windows_shortname(test_file);

@@ -93,33 +93,75 @@ end
 
 
 function test_canonical(tc)
-
+import matlab.unittest.fixtures.TemporaryFolderFixture
+import matlab.unittest.fixtures.CurrentFolderFixture
 import stdlib.canonical
+
 tc.assumeTrue(usejava("jvm"), "Java required")
 
+td = tc.applyFixture(TemporaryFolderFixture).Folder;
+tc.applyFixture(CurrentFolderFixture(td))
+
+% all non-existing files
 tc.verifyEmpty(canonical(string.empty))
-tc.verifyEqual(canonical(""), string(pwd))
+tc.verifyEqual(canonical(""), "")
 
 pabs = canonical('2foo');
-pabs2 = canonical('4foo');
-tc.verifyFalse(startsWith(pabs, "2"))
-tc.verifyTrue(strncmp(pabs, pabs2, 2))
+tc.verifyTrue(startsWith(pabs, "2foo"))
 
 par1 = canonical("../2foo");
 tc.verifyNotEmpty(par1)
-tc.verifyFalse(contains(par1, ".."))
-
-par2 = canonical("../4foo");
-tc.verifyTrue(strncmp(par2, pabs2, 2))
+tc.verifyTrue(startsWith(par1, ".."))
 
 pt1 = canonical("bar/../2foo");
+tc.verifyEqual(pt1, "2foo")
+
+% test existing file
+r = stdlib.fileio.parent(mfilename('fullpath'));
+rp = fullfile(r, "..");
+tc.verifyEqual(canonical(rp), stdlib.fileio.parent(r))
+
+end
+
+
+function test_resolve(tc)
+import matlab.unittest.fixtures.TemporaryFolderFixture
+import matlab.unittest.fixtures.CurrentFolderFixture
+import stdlib.resolve
+tc.assumeTrue(usejava("jvm"), "Java required")
+
+td = tc.applyFixture(TemporaryFolderFixture).Folder;
+tc.applyFixture(CurrentFolderFixture(td))
+
+% all non-existing files
+tc.verifyEmpty(resolve(string.empty))
+tc.verifyEqual(resolve(""), string(stdlib.fileio.posix(pwd)))
+
+pabs = resolve('2foo');
+pabs2 = resolve('4foo');
+tc.verifyFalse(startsWith(pabs, "2"))
+tc.verifyTrue(strncmp(pabs, pabs2, 2))
+
+par1 = resolve("../2foo");
+tc.verifyNotEmpty(par1)
+tc.verifyFalse(contains(par1, ".."))
+
+par2 = resolve("../4foo");
+tc.verifyTrue(strncmp(par2, pabs2, 2))
+
+pt1 = resolve("bar/../2foo");
 tc.verifyNotEmpty(pt1)
 tc.verifyFalse(contains(pt1, ".."))
 
-va = canonical("2foo");
-vb = canonical("4foo");
+va = resolve("2foo");
+vb = resolve("4foo");
 tc.verifyFalse(startsWith(va, "2"))
 tc.verifyTrue(strncmp(va, vb, 2))
+
+% test existing file
+r = stdlib.fileio.parent(mfilename('fullpath'));
+rp = fullfile(r, "..");
+tc.verifyEqual(resolve(rp), stdlib.fileio.parent(r))
 
 end
 
