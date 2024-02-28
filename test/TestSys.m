@@ -12,8 +12,6 @@ end
 methods (Test)
 
 function test_simple_run(tc)
-tc.assumeTrue(usejava("jvm"), "Java required")
-
 if ispc
   c = ["cmd", "/c", "dir"];
 else
@@ -29,7 +27,6 @@ end
 
 
 function test_env_run(tc)
-tc.assumeTrue(usejava("jvm"), "Java required")
 
 names = ["TEST1", "TEST2"];
 vals = ["test123", "test321"];
@@ -54,7 +51,7 @@ end
 
 function test_find_fortran(tc)
 import matlab.unittest.constraints.IsOfClass
-tc.assumeTrue(usejava("jvm"), "Java required")
+
 tc.verifyThat(stdlib.sys.find_fortran_compiler(), IsOfClass('string'))
 end
 

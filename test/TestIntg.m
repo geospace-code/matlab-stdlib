@@ -19,7 +19,6 @@ tc.assertTrue(islogical(stdlib.sys.checkRAM(1)))
 end
 
 function test_diskfree(tc)
-tc.assumeTrue(usejava("jvm"), "Java required")
 
 tc.assertTrue(isnumeric(stdlib.sys.diskfree('/')))
 tc.assertTrue(stdlib.sys.diskfree('/') > 0, 'diskfree')

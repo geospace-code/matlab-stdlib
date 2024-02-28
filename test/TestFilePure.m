@@ -83,8 +83,6 @@ end
 
 function test_path_tail(tc)
 
-tc.assumeTrue(usejava("jvm"), "Java required for path_tail")
-
 tc.verifyEmpty(stdlib.path_tail(string.empty))
 tc.verifyEqual(stdlib.path_tail(""), "")
 tc.verifyEqual(stdlib.path_tail("/foo/bar/baz"), "baz")
@@ -96,8 +94,6 @@ tc.verifyEqual(stdlib.path_tail("/foo/bar/baz.txt"), "baz.txt")
 end
 
 function test_is_absolute_path(tc)
-
-tc.assumeTrue(usejava("jvm"), "Java required")
 
 tc.verifyEmpty(stdlib.is_absolute_path(string.empty))
 tc.verifyFalse(stdlib.is_absolute_path(""))
@@ -115,8 +111,6 @@ end
 
 function test_absolute_path(tc)
 import matlab.unittest.constraints.StartsWithSubstring
-
-tc.assumeTrue(usejava("jvm"), "Java required")
 
 tc.verifyEmpty(stdlib.absolute_path(string.empty))
 tc.verifyEqual(stdlib.absolute_path(""), string(pwd))
@@ -147,8 +141,6 @@ function test_canonical(tc)
 import matlab.unittest.fixtures.TemporaryFolderFixture
 import matlab.unittest.fixtures.CurrentFolderFixture
 import matlab.unittest.constraints.StartsWithSubstring
-
-tc.assumeTrue(usejava("jvm"), "Java required")
 
 td = tc.applyFixture(TemporaryFolderFixture).Folder;
 tc.applyFixture(CurrentFolderFixture(td))
@@ -181,7 +173,6 @@ import matlab.unittest.fixtures.CurrentFolderFixture
 import matlab.unittest.constraints.StartsWithSubstring
 import matlab.unittest.constraints.EndsWithSubstring
 import matlab.unittest.constraints.ContainsSubstring
-tc.assumeTrue(usejava("jvm"), "Java required")
 
 td = tc.applyFixture(TemporaryFolderFixture).Folder;
 tc.applyFixture(CurrentFolderFixture(td))
