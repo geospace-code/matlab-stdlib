@@ -87,13 +87,14 @@ end
 
 
 function test_exists(tc)
+import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
 tc.verifyEmpty(stdlib.h5exists(basic, string.empty))
 
 e = stdlib.h5exists(basic, "");
 
-tc.verifyTrue(isscalar(e))
+tc.verifyThat(e, IsScalar)
 tc.verifyFalse(e)
 
 vars = {'A0', 'A1', 'A2', 'A3', 'A4', '/A0'};
@@ -110,6 +111,7 @@ end
 
 
 function test_size(tc)
+import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
 tc.verifyEmpty(stdlib.h5ndims(basic, string.empty))
@@ -122,7 +124,7 @@ tc.verifyEqual(r, 0)
 
 r = stdlib.h5ndims(basic, '/A1');
 s = stdlib.h5size(basic, '/A1');
-tc.verifyTrue(isscalar(s))
+tc.verifyThat(s, IsScalar)
 tc.verifyEqual(s, 2)
 tc.verifyEqual(r, 1)
 
@@ -157,10 +159,12 @@ end
 
 
 function test_read(tc)
+import matlab.unittest.constraints.IsScalar
+import matlab.unittest.constraints.IsOfClass
 basic = tc.TestData.basic;
 
 s = h5read(basic, '/A0');
-tc.verifyTrue(isscalar(s))
+tc.verifyThat(s, IsScalar)
 tc.verifyEqual(s, tc.TestData.A0)
 
 s = h5read(basic, '/A1');
@@ -184,7 +188,7 @@ tc.verifyTrue(ischar(s))
 tc.verifyEqual(s, tc.TestData.utf)
 
 s = h5read(basic, '/utf2');
-tc.verifyTrue(isstring(s))
+tc.verifyThat(s, IsOfClass('string'))
 tc.verifyEqual(s, tc.TestData.utf2)
 
 end

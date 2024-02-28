@@ -3,13 +3,14 @@ classdef TestFilePure < matlab.unittest.TestCase
 methods (Test)
 
 function test_posix(tc)
+import matlab.unittest.constraints.ContainsSubstring
 
 tc.verifyEmpty(stdlib.posix(string.empty))
 tc.verifyEqual(stdlib.posix(""), "")
 
 if ispc
-  tc.verifyFalse(contains(stdlib.posix("c:\foo"), "\"))
-  tc.verifyFalse(all(contains(stdlib.posix(["x:\123", "d:\abc"]), "\")))
+  tc.verifyThat(stdlib.posix("c:\foo"), ~ContainsSubstring("\"))
+  tc.verifyThat(stdlib.posix(["x:\123", "d:\abc"]), ~ContainsSubstring("\"))
 end
 end
 
@@ -106,6 +107,7 @@ tc.verifyFalse(is_absolute_path("c"))
 end
 
 function test_absolute_path(tc)
+import matlab.unittest.constraints.StartsWithSubstring
 
 import stdlib.absolute_path
 tc.assumeTrue(usejava("jvm"), "Java required")
@@ -115,7 +117,7 @@ tc.verifyEqual(absolute_path(""), string(pwd))
 
 pabs = absolute_path('2foo');
 pabs2 = absolute_path('4foo');
-tc.verifyFalse(startsWith(pabs, "2"))
+tc.verifyThat(pabs, ~StartsWithSubstring("2"))
 tc.verifyTrue(strncmp(pabs, pabs2, 2))
 
 par1 = absolute_path("../2foo");
@@ -129,7 +131,7 @@ tc.verifyNotEmpty(pt1)
 
 va = absolute_path("2foo");
 vb = absolute_path("4foo");
-tc.verifyFalse(startsWith(va, "2"))
+tc.verifyThat(va, ~StartsWithSubstring("2"))
 tc.verifyTrue(strncmp(va, vb, 2))
 
 end
@@ -171,6 +173,9 @@ end
 function test_resolve(tc)
 import matlab.unittest.fixtures.TemporaryFolderFixture
 import matlab.unittest.fixtures.CurrentFolderFixture
+import matlab.unittest.constraints.StartsWithSubstring
+import matlab.unittest.constraints.EndsWithSubstring
+import matlab.unittest.constraints.ContainsSubstring
 import stdlib.resolve
 tc.assumeTrue(usejava("jvm"), "Java required")
 
@@ -183,23 +188,23 @@ tc.verifyEqual(resolve(""), string(stdlib.fileio.posix(pwd)))
 
 pabs = resolve('2foo');
 pabs2 = resolve('4foo');
-tc.verifyFalse(startsWith(pabs, "2"))
+tc.verifyThat(pabs, ~StartsWithSubstring("2"))
 tc.verifyTrue(strncmp(pabs, pabs2, 2))
 
 par1 = resolve("../2foo");
 tc.verifyNotEmpty(par1)
-tc.verifyFalse(contains(par1, ".."))
+tc.verifyThat(par1, ~ContainsSubstring(".."))
 
 par2 = resolve("../4foo");
 tc.verifyTrue(strncmp(par2, pabs2, 2))
 
 pt1 = resolve("bar/../2foo");
 tc.verifyNotEmpty(pt1)
-tc.verifyFalse(contains(pt1, ".."))
+tc.verifyThat(pt1, ~ContainsSubstring(".."))
 
 va = resolve("2foo");
 vb = resolve("4foo");
-tc.verifyFalse(startsWith(va, "2"))
+tc.verifyThat(va, ~StartsWithSubstring("2"))
 tc.verifyTrue(strncmp(va, vb, 2))
 
 % test existing file

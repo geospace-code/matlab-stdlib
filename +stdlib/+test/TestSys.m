@@ -44,8 +44,9 @@ end
 end
 
 function test_find_fortran(tc)
+import matlab.unittest.constraints.IsOfClass
 tc.assumeTrue(usejava("jvm"), "Java required")
-tc.verifyTrue(isstring(stdlib.sys.find_fortran_compiler()))
+tc.verifyThat(stdlib.sys.find_fortran_compiler(), IsOfClass('string'))
 end
 
 function test_cygwin(tc)

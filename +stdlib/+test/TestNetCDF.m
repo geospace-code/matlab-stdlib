@@ -78,14 +78,14 @@ end
 
 
 function test_exists(tc)
-
+import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
 tc.verifyEmpty(stdlib.ncexists(basic, string.empty))
 
 e = stdlib.ncexists(basic, "");
 
-tc.verifyTrue(isscalar(e))
+tc.verifyThat(e, IsScalar)
 tc.verifyFalse(e)
 
 e = stdlib.ncexists(basic, ["A1", "oops"]);
@@ -98,6 +98,7 @@ end
 
 
 function test_size(tc)
+import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
 tc.verifyEmpty(stdlib.ncndims(basic, string.empty))
@@ -110,7 +111,7 @@ tc.verifyEqual(r, 0)
 
 r = stdlib.ncndims(basic, 'A1');
 s = stdlib.ncsize(basic, 'A1');
-tc.verifyTrue(isscalar(s))
+tc.verifyThat(s, IsScalar)
 tc.verifyEqual(s, 2)
 tc.verifyEqual(r, 1)
 
@@ -156,10 +157,11 @@ end
 
 
 function test_read(tc)
+import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
 s = ncread(basic, 'A0');
-tc.verifyTrue(isscalar(s))
+tc.verifyThat(s, IsScalar)
 tc.verifyEqual(s, 42)
 
 s = ncread(basic, 'A1');
@@ -180,20 +182,21 @@ tc.verifyEqual(s, tc.TestData.A4)
 end
 
 function test_read_string(tc)
+import matlab.unittest.constraints.IsOfClass
 basic = tc.TestData.basic;
 
 tc.assumeFalse(isMATLABReleaseOlderThan('R2021b'), "NetCDF4 string requires Matlab >= R2021b")
 
 s = ncread(basic, 'utf0');
-tc.verifyTrue(isstring(s))
+tc.verifyThat(s, IsOfClass('string'))
 tc.verifyEqual(s, string(tc.TestData.utf0))
 
 s = ncread(basic, 'utf1');
-tc.verifyTrue(isstring(s))
+tc.verifyThat(s, IsOfClass('string'))
 tc.verifyEqual(s, tc.TestData.utf1)
 
 s = ncread(basic, 'utf2');
-tc.verifyTrue(isstring(s))
+tc.verifyThat(s, IsOfClass('string'))
 tc.verifyEqual(s, tc.TestData.utf2)
 end
 

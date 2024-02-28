@@ -4,6 +4,7 @@ methods (Test)
 
 function test_expanduser(tc)
 import matlab.unittest.constraints.EndsWithSubstring
+import matlab.unittest.constraints.StartsWithSubstring
 import stdlib.expanduser
 tc.assumeTrue(usejava("jvm"), "Java required")
 
@@ -12,7 +13,7 @@ tc.verifyEqual(expanduser(""), "")
 
 tc.verifyEqual(expanduser("~abc"), "~abc")
 
-tc.verifyFalse(startsWith(expanduser('~/foo'), "~"))
+tc.verifyThat(expanduser('~/foo'), ~StartsWithSubstring("~"))
 
 tc.verifyThat(expanduser('~/foo'), EndsWithSubstring("foo"))
 end
