@@ -14,6 +14,19 @@ end
 end
 
 
+function test_parent(tc)
+
+tc.assertEmpty(stdlib.fileio.parent(string.empty))
+tc.verifyEqual(stdlib.fileio.parent(""), "")
+
+tc.verifyEqual(stdlib.fileio.parent("/foo/bar/baz"), "/foo/bar")
+tc.verifyEqual(stdlib.fileio.parent("/foo/bar/baz/"), "/foo/bar")
+
+tc.verifyEqual(stdlib.fileio.parent("foo/bar/baz/"), "foo/bar")
+
+end
+
+
 function test_path_tail(tc)
 
 import stdlib.path_tail
