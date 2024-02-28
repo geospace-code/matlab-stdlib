@@ -7,7 +7,7 @@ if ~isempty(h)
   return
 end
 
-home = string(java.lang.System.getProperty("user.home"));
+home = stdlib.fileio.posix(java.lang.System.getProperty("user.home"));
 
 h = home;
 

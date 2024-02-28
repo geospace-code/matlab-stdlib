@@ -1,19 +1,19 @@
-function expanded = expanduser(p)
+function e = expanduser(p)
 
 arguments
   p string {mustBeScalarOrEmpty}
 end
 
-expanded = p;
+e = p;
 
-if ~startsWith(expanded, "~")
+if ~all(startsWith(e, "~")) || (all(strlength(e) > 1) && ~all(startsWith(e, "~/")))
   return
 end
 
 home = stdlib.fileio.homedir();
 
 if ~isempty(home)
-  expanded = fullfile(home, extractAfter(expanded, 1));
+  e = fullfile(home, extractAfter(e, 1));
 end
 
 end %function

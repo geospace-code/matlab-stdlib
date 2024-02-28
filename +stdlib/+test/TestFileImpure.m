@@ -9,6 +9,8 @@ tc.assumeTrue(usejava("jvm"), "Java required")
 tc.verifyEmpty(expanduser(string.empty))
 tc.verifyEqual(expanduser(""), "")
 
+tc.verifyEqual(expanduser("~abc"), "~abc")
+
 tc.verifyFalse(startsWith(expanduser('~/foo'), "~"))
 
 tc.verifyTrue(endsWith(expanduser('~/foo'), "foo"))
