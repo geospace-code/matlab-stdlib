@@ -6,14 +6,15 @@ function test_simple_run(tc)
 tc.assumeTrue(usejava("jvm"), "Java required")
 
 if ispc
-  c = 'dir';
+  c = ["cmd", "/c", "dir"];
 else
   c = 'ls';
 end
 
-[status, msg] = stdlib.subprocess_run(c);
+[status, msg, err] = stdlib.subprocess_run(c);
 tc.verifyEqual(status, 0)
 tc.verifyTrue(strlength(msg) > 0)
+tc.verifyTrue(strlength(err) == 0)
 
 end
 
