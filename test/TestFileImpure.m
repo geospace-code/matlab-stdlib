@@ -18,14 +18,14 @@ function test_expanduser(tc)
 import matlab.unittest.constraints.EndsWithSubstring
 import matlab.unittest.constraints.StartsWithSubstring
 
-tc.verifyEmpty(stdlib.fileio.expanduser(string.empty))
-tc.verifyEqual(stdlib.fileio.expanduser(""), "")
+tc.verifyEmpty(stdlib.expanduser(string.empty))
+tc.verifyEqual(stdlib.expanduser(""), "")
 
-tc.verifyEqual(stdlib.fileio.expanduser("~abc"), "~abc")
+tc.verifyEqual(stdlib.expanduser("~abc"), "~abc")
 
-tc.verifyThat(stdlib.fileio.expanduser('~/foo'), ~StartsWithSubstring("~"))
+tc.verifyThat(stdlib.expanduser('~/foo'), ~StartsWithSubstring("~"))
 
-tc.verifyThat(stdlib.fileio.expanduser('~/foo'), EndsWithSubstring("foo"))
+tc.verifyThat(stdlib.expanduser('~/foo'), EndsWithSubstring("foo"))
 end
 
 

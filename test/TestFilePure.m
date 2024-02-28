@@ -27,56 +27,56 @@ end
 
 function test_filename(tc)
 
-tc.verifyEmpty(stdlib.fileio.filename(string.empty))
-tc.verifyEqual(stdlib.fileio.filename(""), "")
+tc.verifyEmpty(stdlib.filename(string.empty))
+tc.verifyEqual(stdlib.filename(""), "")
 
-tc.verifyEqual(stdlib.fileio.filename("/foo/bar/baz"), "baz")
-tc.verifyEqual(stdlib.fileio.filename("/foo/bar/baz/"), "")
+tc.verifyEqual(stdlib.filename("/foo/bar/baz"), "baz")
+tc.verifyEqual(stdlib.filename("/foo/bar/baz/"), "")
 
-tc.verifyEqual(stdlib.fileio.filename("foo/bar/baz.txt"), "baz.txt")
-tc.verifyEqual(stdlib.fileio.filename("foo/bar/baz.txt.gz"), "baz.txt.gz")
+tc.verifyEqual(stdlib.filename("foo/bar/baz.txt"), "baz.txt")
+tc.verifyEqual(stdlib.filename("foo/bar/baz.txt.gz"), "baz.txt.gz")
 
 end
 
 
 function test_parent(tc)
 
-tc.verifyEmpty(stdlib.fileio.parent(string.empty))
-tc.verifyEqual(stdlib.fileio.parent(""), "")
+tc.verifyEmpty(stdlib.parent(string.empty))
+tc.verifyEqual(stdlib.parent(""), "")
 
-tc.verifyEqual(stdlib.fileio.parent("/foo/bar/baz"), "/foo/bar")
-tc.verifyEqual(stdlib.fileio.parent("/foo/bar/baz/"), "/foo/bar")
+tc.verifyEqual(stdlib.parent("/foo/bar/baz"), "/foo/bar")
+tc.verifyEqual(stdlib.parent("/foo/bar/baz/"), "/foo/bar")
 
-tc.verifyEqual(stdlib.fileio.parent("foo/bar/baz/"), "foo/bar")
+tc.verifyEqual(stdlib.parent("foo/bar/baz/"), "foo/bar")
 
 end
 
 function test_suffix(tc)
 
-tc.verifyEmpty(stdlib.fileio.suffix(string.empty))
-tc.verifyEqual(stdlib.fileio.suffix(""), "")
+tc.verifyEmpty(stdlib.suffix(string.empty))
+tc.verifyEqual(stdlib.suffix(""), "")
 
-tc.verifyEqual(stdlib.fileio.suffix("/foo/bar/baz"), "")
-tc.verifyEqual(stdlib.fileio.suffix("/foo/bar/baz/"), "")
+tc.verifyEqual(stdlib.suffix("/foo/bar/baz"), "")
+tc.verifyEqual(stdlib.suffix("/foo/bar/baz/"), "")
 
-tc.verifyEqual(stdlib.fileio.suffix("foo/bar/baz.txt"), ".txt")
-tc.verifyEqual(stdlib.fileio.suffix("foo/bar/baz.txt.gz"), ".gz")
+tc.verifyEqual(stdlib.suffix("foo/bar/baz.txt"), ".txt")
+tc.verifyEqual(stdlib.suffix("foo/bar/baz.txt.gz"), ".gz")
 
 end
 
 
 function test_stem(tc)
 
-tc.verifyEmpty(stdlib.fileio.stem(string.empty))
-tc.verifyEqual(stdlib.fileio.stem(""), "")
+tc.verifyEmpty(stdlib.stem(string.empty))
+tc.verifyEqual(stdlib.stem(""), "")
 
-tc.verifyEqual(stdlib.fileio.stem("/foo/bar/baz"), "baz")
-tc.verifyEqual(stdlib.fileio.stem("/foo/bar/baz/"), "")
+tc.verifyEqual(stdlib.stem("/foo/bar/baz"), "baz")
+tc.verifyEqual(stdlib.stem("/foo/bar/baz/"), "")
 
-tc.verifyEqual(stdlib.fileio.stem("foo/bar/baz/"), "")
+tc.verifyEqual(stdlib.stem("foo/bar/baz/"), "")
 
-tc.verifyEqual(stdlib.fileio.stem("foo/bar/baz.txt"), "baz")
-tc.verifyEqual(stdlib.fileio.stem("foo/bar/baz.txt.gz"), "baz.txt")
+tc.verifyEqual(stdlib.stem("foo/bar/baz.txt"), "baz")
+tc.verifyEqual(stdlib.stem("foo/bar/baz.txt.gz"), "baz.txt")
 
 end
 
@@ -136,6 +136,15 @@ tc.verifyTrue(strncmp(va, vb, 2))
 
 end
 
+function test_normalize(tc)
+
+tc.verifyEmpty(stdlib.normalize(string.empty))
+tc.verifyEqual(stdlib.normalize(""), "")
+
+pabs = stdlib.normalize('2foo//');
+tc.verifyEqual(pabs, "2foo")
+end
+
 
 function test_canonical(tc)
 import matlab.unittest.fixtures.TemporaryFolderFixture
@@ -160,9 +169,9 @@ pt1 = stdlib.canonical("bar/../2foo");
 tc.verifyEqual(pt1, "2foo")
 
 % test existing file
-r = stdlib.fileio.parent(mfilename('fullpath'));
+r = stdlib.parent(mfilename('fullpath'));
 rp = fullfile(r, "..");
-tc.verifyEqual(stdlib.canonical(rp), stdlib.fileio.parent(r))
+tc.verifyEqual(stdlib.canonical(rp), stdlib.parent(r))
 
 end
 
@@ -203,9 +212,9 @@ tc.verifyThat(va, ~StartsWithSubstring("2"))
 tc.verifyTrue(strncmp(va, vb, 2))
 
 % test existing file
-r = stdlib.fileio.parent(mfilename('fullpath'));
+r = stdlib.parent(mfilename('fullpath'));
 rp = fullfile(r, "..");
-tc.verifyEqual(stdlib.resolve(rp), stdlib.fileio.parent(r))
+tc.verifyEqual(stdlib.resolve(rp), stdlib.parent(r))
 
 end
 

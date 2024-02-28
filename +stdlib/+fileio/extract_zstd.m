@@ -10,7 +10,7 @@ out_dir = stdlib.fileio.canonical(out_dir);
 
 exe = stdlib.fileio.which("cmake");
 if isempty(exe)
-  extract_zstd_bin(archive, outdir)
+  extract_zstd_bin(archive, out_dir)
 end
 
 [ret, msg] = stdlib.sys.subprocess_run([exe, "-E", "tar", "xf", archive], "cwd", out_dir);

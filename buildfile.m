@@ -18,27 +18,34 @@ assertSuccess(r)
 end
 
 function coverageTask(~)
-import matlab.unittest.TestRunner;
-import matlab.unittest.Verbosity;
-import matlab.unittest.plugins.CodeCoveragePlugin;
-import matlab.unittest.plugins.XMLPlugin;
-import matlab.unittest.plugins.codecoverage.CoberturaFormat;
+import matlab.unittest.TestRunner
+import matlab.unittest.Verbosity
+import matlab.unittest.plugins.CodeCoveragePlugin
+import matlab.unittest.plugins.XMLPlugin
+import matlab.unittest.plugins.codecoverage.CoberturaFormat
 
-name = "stdlib";
 
-suite = testsuite(name);
+pkg = "stdlib";
 
-mkdir('code-coverage');
-mkdir('test-results');
+suite = testsuite("test/");
+
+% not import to allow use of rest of buildfile with R2022b
+format = matlab.unittest.plugins.codecoverage.CoverageResult;
+
 
 runner = TestRunner.withTextOutput();
-runner.addPlugin(XMLPlugin.producingJUnitFormat('test-results/results.xml'));
-runner.addPlugin(CodeCoveragePlugin.forPackage(name, 'Producing', CoberturaFormat('code-coverage/coverage.xml')));
+runner.addPlugin(CodeCoveragePlugin.forPackage(pkg, Producing=format))
 
-results = runner.run(suite);
-assert(~isempty(results), "no tests found")
+% runner.addPlugin(XMLPlugin.producingJUnitFormat('test-results.xml'))
+% runner.addPlugin(CodeCoveragePlugin.forPackage(pkg, 'Producing', ...
+%     CoberturaFormat('test-coverage.xml')))
 
-assertSuccess(results)
+run_results = runner.run(suite);
+assert(~isempty(run_results), "no tests found")
+
+assertSuccess(run_results)
+
+generateHTMLReport(format.Result)
 end
 
 function publishTask(~)
@@ -51,7 +58,7 @@ r = codeIssues;
 files = r.Files;
 
 % remove nuisance functions
-i = contains(files, [mfilename, "buildfile.m", filesep + "private" + filesep, filesep + "+test" + filesep]);
+i = contains(files, [mfilename, "buildfile.m", filesep + "private" + filesep]);
 files(i) = [];
 
 pkg = what(pkg_name);
