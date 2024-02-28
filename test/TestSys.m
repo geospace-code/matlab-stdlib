@@ -40,12 +40,12 @@ for i = 1:length(names)
   if ispc
     % in ComSpec, echo is a special shell cmd like "dir" -- also doesn't
     % work in python subprocess.run
-    cmd = ["pwsh", "-c" "(Get-ChildItem Env:" + names(i) + ").Value"];
+    cmd = ["pwsh", "-c", "(Get-ChildItem Env:" + names(i) + ").Value"];
   else
     cmd = ["sh", "-c", "echo $" + names(i)];
   end
 
-  [ret, out] = stdlib.subprocess_run(cmd, env=env);
+  [ret, out] = stdlib.subprocess_run(cmd, "env", env);
   tc.verifyEqual(ret, 0)
   tc.verifySubstring(out, vals(i))
 end
