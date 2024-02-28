@@ -16,13 +16,29 @@ end
 
 function test_parent(tc)
 
-tc.assertEmpty(stdlib.fileio.parent(string.empty))
+tc.verifyEmpty(stdlib.fileio.parent(string.empty))
 tc.verifyEqual(stdlib.fileio.parent(""), "")
 
 tc.verifyEqual(stdlib.fileio.parent("/foo/bar/baz"), "/foo/bar")
 tc.verifyEqual(stdlib.fileio.parent("/foo/bar/baz/"), "/foo/bar")
 
 tc.verifyEqual(stdlib.fileio.parent("foo/bar/baz/"), "foo/bar")
+
+end
+
+
+function test_stem(tc)
+
+tc.verifyEmpty(stdlib.fileio.stem(string.empty))
+tc.verifyEqual(stdlib.fileio.stem(""), "")
+
+tc.verifyEqual(stdlib.fileio.stem("/foo/bar/baz"), "baz")
+tc.verifyEqual(stdlib.fileio.stem("/foo/bar/baz/"), "")
+
+tc.verifyEqual(stdlib.fileio.stem("foo/bar/baz/"), "")
+
+tc.verifyEqual(stdlib.fileio.stem("foo/bar/baz.txt"), "baz")
+tc.verifyEqual(stdlib.fileio.stem("foo/bar/baz.txt.gz"), "baz.txt")
 
 end
 
