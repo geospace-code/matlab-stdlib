@@ -173,6 +173,14 @@ r = stdlib.parent(mfilename('fullpath'));
 rp = fullfile(r, "..");
 tc.verifyEqual(stdlib.canonical(rp), stdlib.parent(r))
 
+h = stdlib.fileio.homedir;
+tc.verifyEqual(stdlib.canonical("~"), h)
+tc.verifyEqual(stdlib.canonical("~/"), h)
+tc.verifyEqual(stdlib.canonical("~/.."), stdlib.parent(h))
+
+tc.verifyEqual(stdlib.canonical("nobody.txt"), "nobody.txt")
+tc.verifyEqual(stdlib.canonical("../nobody.txt"), "../nobody.txt")
+
 end
 
 
@@ -188,7 +196,7 @@ tc.applyFixture(CurrentFolderFixture(td))
 
 % all non-existing files
 tc.verifyEmpty(stdlib.resolve(string.empty))
-tc.verifyEqual(stdlib.resolve(""), string(stdlib.fileio.posix(pwd)))
+tc.verifyEqual(stdlib.resolve(""), stdlib.fileio.posix(pwd))
 
 pabs = stdlib.resolve('2foo');
 pabs2 = stdlib.resolve('4foo');
@@ -215,6 +223,14 @@ tc.verifyTrue(strncmp(va, vb, 2))
 r = stdlib.parent(mfilename('fullpath'));
 rp = fullfile(r, "..");
 tc.verifyEqual(stdlib.resolve(rp), stdlib.parent(r))
+
+h = stdlib.fileio.homedir;
+tc.verifyEqual(stdlib.resolve("~"), h)
+tc.verifyEqual(stdlib.resolve("~/"), h)
+tc.verifyEqual(stdlib.resolve("~/.."), stdlib.parent(h))
+
+tc.verifyEqual(stdlib.resolve("nobody.txt"), fullfile(td, "nobody.txt"))
+tc.verifyEqual(stdlib.resolve("../nobody.txt"), fullfile(stdlib.parent(td), "nobody.txt"))
 
 end
 
