@@ -30,6 +30,24 @@ tc.verifyThat(fullfile(tmpDir, "test/hello.txt"), IsFile)
 
 end
 
+function test_sha256(tc)
+
+r = fileparts(mfilename('fullpath'));
+fn = fullfile(r, "hello.tar.zst");
+
+tc.verifyEqual(stdlib.sha256sum(fn), "36c1bbbdfd8d04ef546ffb15b9c0a65767fd1fe9a6135a257847e3a51fb1426c")
+
+end
+
+function test_md5sum(tc)
+
+r = fileparts(mfilename('fullpath'));
+fn = fullfile(r, "hello.tar.zst");
+
+tc.verifyEqual(stdlib.md5sum(fn), "d58cfb32e075781ba59082a8b18287f9")
+
+end
+
 end
 
 end
