@@ -15,17 +15,107 @@ end
 methods (Test)
 
 function test_expanduser(tc)
-import matlab.unittest.constraints.EndsWithSubstring
-import matlab.unittest.constraints.StartsWithSubstring
 
 tc.verifyEmpty(stdlib.expanduser(string.empty))
 tc.verifyEqual(stdlib.expanduser(""), "")
 
 tc.verifyEqual(stdlib.expanduser("~abc"), "~abc")
 
-tc.verifyThat(stdlib.expanduser('~/foo'), ~StartsWithSubstring("~"))
+h = stdlib.fileio.homedir();
+tc.verifyEqual(stdlib.expanduser("~"), h)
 
-tc.verifyThat(stdlib.expanduser('~/foo'), EndsWithSubstring("foo"))
+e = stdlib.expanduser("~/foo");
+tc.verifyEqual(e, stdlib.posix(fullfile(h, "foo")))
+
+end
+
+
+function test_canonical(tc)
+import matlab.unittest.fixtures.TemporaryFolderFixture
+import matlab.unittest.fixtures.CurrentFolderFixture
+import matlab.unittest.constraints.StartsWithSubstring
+
+td = tc.applyFixture(TemporaryFolderFixture).Folder;
+tc.applyFixture(CurrentFolderFixture(td))
+
+% all non-existing files
+tc.verifyEmpty(stdlib.canonical(string.empty))
+tc.verifyEqual(stdlib.canonical(""), "")
+
+pabs = stdlib.canonical('2foo');
+tc.verifyThat(pabs, StartsWithSubstring("2foo"))
+
+par1 = stdlib.canonical("../2foo");
+tc.verifyNotEmpty(par1)
+tc.verifyThat(par1, StartsWithSubstring(".."))
+
+pt1 = stdlib.canonical("bar/../2foo");
+tc.verifyEqual(pt1, "2foo")
+
+% test existing file
+r = stdlib.parent(mfilename('fullpath'));
+rp = fullfile(r, "..");
+tc.verifyEqual(stdlib.canonical(rp), stdlib.parent(r))
+
+h = stdlib.fileio.homedir;
+tc.verifyEqual(stdlib.canonical("~"), h)
+tc.verifyEqual(stdlib.canonical("~/"), h)
+tc.verifyEqual(stdlib.canonical("~/.."), stdlib.parent(h))
+
+tc.verifyEqual(stdlib.canonical("nobody.txt"), "nobody.txt")
+tc.verifyEqual(stdlib.canonical("../nobody.txt"), "../nobody.txt")
+
+end
+
+
+function test_resolve(tc)
+import matlab.unittest.fixtures.TemporaryFolderFixture
+import matlab.unittest.fixtures.CurrentFolderFixture
+import matlab.unittest.constraints.StartsWithSubstring
+import matlab.unittest.constraints.EndsWithSubstring
+import matlab.unittest.constraints.ContainsSubstring
+
+td = tc.applyFixture(TemporaryFolderFixture).Folder;
+tc.applyFixture(CurrentFolderFixture(td))
+
+% all non-existing files
+tc.verifyEmpty(stdlib.resolve(string.empty))
+tc.verifyEqual(stdlib.resolve(""), stdlib.fileio.posix(pwd))
+
+pabs = stdlib.resolve('2foo');
+pabs2 = stdlib.resolve('4foo');
+tc.verifyThat(pabs, ~StartsWithSubstring("2"))
+tc.verifyTrue(strncmp(pabs, pabs2, 2))
+
+par1 = stdlib.resolve("../2foo");
+tc.verifyNotEmpty(par1)
+tc.verifyThat(par1, ~ContainsSubstring(".."))
+
+par2 = stdlib.resolve("../4foo");
+tc.verifyTrue(strncmp(par2, pabs2, 2))
+
+pt1 = stdlib.resolve("bar/../2foo");
+tc.verifyNotEmpty(pt1)
+tc.verifyThat(pt1, ~ContainsSubstring(".."))
+
+va = stdlib.resolve("2foo");
+vb = stdlib.resolve("4foo");
+tc.verifyThat(va, ~StartsWithSubstring("2"))
+tc.verifyTrue(strncmp(va, vb, 2))
+
+% test existing file
+r = stdlib.parent(mfilename('fullpath'));
+rp = fullfile(r, "..");
+tc.verifyEqual(stdlib.resolve(rp), stdlib.parent(r))
+
+h = stdlib.fileio.homedir;
+tc.verifyEqual(stdlib.resolve("~"), h)
+tc.verifyEqual(stdlib.resolve("~/"), h)
+tc.verifyEqual(stdlib.resolve("~/.."), stdlib.parent(h))
+
+tc.verifyEqual(stdlib.resolve("nobody.txt"), fullfile(td, "nobody.txt"))
+tc.verifyEqual(stdlib.resolve("../nobody.txt"), fullfile(stdlib.parent(td), "nobody.txt"))
+
 end
 
 
