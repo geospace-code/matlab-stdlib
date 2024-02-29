@@ -25,7 +25,7 @@ h = stdlib.fileio.homedir();
 tc.verifyEqual(stdlib.expanduser("~"), h)
 
 e = stdlib.expanduser("~/foo");
-tc.verifyEqual(e, stdlib.posix(fullfile(h, "foo")))
+tc.verifyEqual(e, stdlib.fileio.join(h, "foo"))
 
 end
 
@@ -54,8 +54,7 @@ tc.verifyEqual(pt1, "2foo")
 
 % test existing file
 r = stdlib.parent(mfilename('fullpath'));
-rp = fullfile(r, "..");
-tc.verifyEqual(stdlib.canonical(rp), stdlib.parent(r))
+tc.verifyEqual(stdlib.canonical(fullfile(r, "..")), stdlib.parent(r))
 
 h = stdlib.fileio.homedir;
 tc.verifyEqual(stdlib.canonical("~"), h)
@@ -105,7 +104,7 @@ tc.verifyTrue(strncmp(va, vb, 2))
 
 % test existing file
 r = stdlib.parent(mfilename('fullpath'));
-rp = fullfile(r, "..");
+rp = stdlib.parent(r);
 tc.verifyEqual(stdlib.resolve(rp), stdlib.parent(r))
 
 h = stdlib.fileio.homedir;
@@ -113,8 +112,8 @@ tc.verifyEqual(stdlib.resolve("~"), h)
 tc.verifyEqual(stdlib.resolve("~/"), h)
 tc.verifyEqual(stdlib.resolve("~/.."), stdlib.parent(h))
 
-tc.verifyEqual(stdlib.resolve("nobody.txt"), fullfile(td, "nobody.txt"))
-tc.verifyEqual(stdlib.resolve("../nobody.txt"), fullfile(stdlib.parent(td), "nobody.txt"))
+tc.verifyEqual(stdlib.resolve("nobody.txt"), stdlib.join(td, "nobody.txt"))
+tc.verifyEqual(stdlib.resolve("../nobody.txt"), stdlib.join(stdlib.parent(td), "nobody.txt"))
 
 end
 

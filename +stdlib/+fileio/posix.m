@@ -1,14 +1,11 @@
-function ppath = posix(file)
+function p = posix(p)
 
 arguments
-  file string
+  p string
 end
 
-
-ppath = fullfile(file);
-
 if ispc
-  ppath = strrep(ppath, "\", "/");
+  p = strrep(p, "\", "/");
 end
 
 end

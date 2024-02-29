@@ -19,7 +19,7 @@ end
 if ~stdlib.fileio.is_absolute_path(c)
   if isfile(c) || isfolder(c)
     % workaround Java/Matlab limitations
-    c = fullfile(pwd, c);
+    c = stdlib.fileio.join(pwd, c);
   else
     % for non-existing path, return normalized relative path
     % like C++ filesystem weakly_canonical()

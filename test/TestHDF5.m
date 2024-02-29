@@ -38,7 +38,7 @@ tc.TestData.A4 = A4;
 tc.TestData.utf = utf;
 tc.TestData.utf2 = utf2;
 
-tc.TestData.basic = fullfile(fixture.Folder, "basic.h5");
+tc.TestData.basic = stdlib.join(fixture.Folder, "basic.h5");
 bf = tc.TestData.basic;
 
 % create test data first, so that parallel tests works

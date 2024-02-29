@@ -19,7 +19,7 @@ end
 
 if ~stdlib.fileio.is_absolute_path(c)
   % .toAbsolutePath() default is Documents/Matlab, which is probably not wanted.
-  c = fullfile(pwd, c);
+  c = stdlib.fileio.join(pwd, c);
 end
 
 % similar benchmark time as java method

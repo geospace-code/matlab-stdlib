@@ -13,7 +13,7 @@ end
 home = stdlib.fileio.homedir();
 
 if ~isempty(home)
-  e = fullfile(home, extractAfter(e, 1));
+  e = stdlib.fileio.join(home, extractAfter(e, 1));
 end
 
 end %function

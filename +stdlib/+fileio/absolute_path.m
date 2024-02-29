@@ -18,9 +18,9 @@ end
 
 if ~stdlib.fileio.is_absolute_path(abspath)
   % .toAbsolutePath() default is Documents/Matlab, which is probably not wanted.
-  abspath = fullfile(pwd, abspath);
+  abspath = stdlib.fileio.join(pwd, abspath);
 end
 
-abspath = string(java.io.File(abspath).getAbsolutePath());
+abspath = stdlib.posix(java.io.File(abspath).getAbsolutePath());
 
 end % function

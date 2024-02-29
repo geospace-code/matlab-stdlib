@@ -21,7 +21,7 @@ tc.assumeEqual(ret, 0, "could not find WSL C compiler")
 tc.assumeNotEmpty(cc, "did not find WSL C compiler")
 
 cwd = fileparts(mfilename('fullpath'));
-src = stdlib.sys.winpath2wslpath(fullfile(cwd, "main.c"));
+src = stdlib.sys.winpath2wslpath(stdlib.join(cwd, "main.c"));
 
 [ret, out_wsl] = system("wsl mktemp -u");
 tc.assumeEqual(ret, 0, "could not get WSL tempfile")

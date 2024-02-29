@@ -1,13 +1,13 @@
 function filename = with_suffix(filename, suffix)
 
 arguments
-  filename string
+  filename string {mustBeScalarOrEmpty}
   suffix (1,1) string
 end
 
 [direc, name, ext] = fileparts(filename);
 if ext ~= suffix
-  filename = fullfile(direc, name + suffix);
+  filename = stdlib.fileio.join(direc, name + suffix);
 end
 
 end

@@ -41,7 +41,7 @@ end
 for name = names
 
   for p = fpath
-    exe = fullfile(p, name);
+    exe = stdlib.fileio.join(p, name);
     if stdlib.fileio.is_exe(exe)
       return
     end

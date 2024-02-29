@@ -152,7 +152,6 @@ tc.verifyEmpty(stdlib.with_suffix(string.empty, ".nc"))
 tc.verifyEqual(stdlib.with_suffix("", ""), "")
 
 tc.verifyEqual(stdlib.with_suffix("foo.h5", ".nc"), "foo.nc")
-tc.verifyEqual(stdlib.with_suffix(["foo.h5", "bar.dat"], ".nc"), ["foo.nc", "bar.nc"])
 
 tc.verifyEqual(stdlib.with_suffix("c", ""), "c")
 tc.verifyEqual(stdlib.with_suffix("c.nc", ""), "c")
