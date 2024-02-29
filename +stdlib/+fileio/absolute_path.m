@@ -7,7 +7,7 @@ end
 % have to expand ~ first (like C++ filesystem::path::absolute)
 abspath = stdlib.fileio.expanduser(p);
 
-if isempty(abspath)
+if isempty(abspath) || abspath == ""
   return
 end
 

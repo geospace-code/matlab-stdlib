@@ -113,7 +113,7 @@ function test_absolute_path(tc)
 import matlab.unittest.constraints.StartsWithSubstring
 
 tc.verifyEmpty(stdlib.absolute_path(string.empty))
-tc.verifyEqual(stdlib.absolute_path(""), string(pwd))
+tc.verifyEqual(stdlib.absolute_path(""), "")
 
 pabs = stdlib.absolute_path('2foo');
 pabs2 = stdlib.absolute_path('4foo');
