@@ -12,7 +12,7 @@ arguments
 end
 
 % get available RAM
-freebytes = stdlib.sys.memfree();
+freebytes = stdlib.sys.ram_free();
 % variable sizing
 switch(myclass)
   case {'single','int32','uint32'}, bits = 32;
