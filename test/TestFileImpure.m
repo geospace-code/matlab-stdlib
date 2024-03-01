@@ -35,7 +35,7 @@ end
 function test_is_writable(tc)
 
 tc.verifyTrue(stdlib.is_writable(pwd))
-tc.verifyFalse(stdlib.is_writable(matlabroot))
+% tc.verifyFalse(stdlib.is_writable(matlabroot))  % on CI this can be writable!
 tc.verifyFalse(stdlib.is_writable("not-exists"))
 
 end
