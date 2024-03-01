@@ -4,10 +4,10 @@ function hash = file_checksum(file, method)
 %
 % method:  "MD5", "SHA-1", "SHA-256", etc.
 %
-% Reference: https://docs.oracle.com/javase/8/docs/api/java/security/MessageDigest.html
+% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#getInstance(java.lang.String)
 arguments
-    file (1,1) string {mustBeFile}
-    method (1,1) string {mustBeNonzeroLengthText}
+  file (1,1) string {mustBeFile}
+  method (1,1) string {mustBeNonzeroLengthText}
 end
 
 if any(method == ["sha256", "SHA256"])
@@ -22,10 +22,12 @@ fid = fopen(file, 'r');
 assert(fid > 0, "could not open " + file)
 
 while ~feof(fid)
+  % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#update(byte)
   inst.update(fread(fid, file_chunk, '*uint8'))
 end
 fclose(fid);
 
+% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#digest()
 hash = typecast(inst.digest, 'uint8');
 
 hash = string(sprintf('%.2x', hash));

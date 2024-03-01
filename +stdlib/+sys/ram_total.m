@@ -1,7 +1,7 @@
 function bytes = ram_total()
 %% ram_total()
 % get total physical RAM across operating systems
-% Ref: https://docs.oracle.com/javase/9/docs/api/com/sun/management/OperatingSystemMXBean.html
+% https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getTotalMemorySize()
 %
 %%% Outputs
 % * bytes: total physical RAM [bytes]
@@ -9,6 +9,6 @@ function bytes = ram_total()
 
 b = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
 
-bytes = b.getTotalPhysicalMemorySize();
+bytes = b.getTotalPhysicalMemorySize(); % deprecated but Matlab R2023b doesn't have getPhysicalMemorySize() yet
 
 end

@@ -1,7 +1,7 @@
 function freebytes = ram_free()
 %% ram_free()
 % get free physical RAM across operating systems
-% Ref: https://docs.oracle.com/javase/9/docs/api/com/sun/management/OperatingSystemMXBean.html
+% https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getFreeMemorySize()
 %
 %%% Outputs
 % * freebytes: free physical RAM [bytes]
@@ -9,6 +9,6 @@ function freebytes = ram_free()
 
 b = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
 
-freebytes = b.getFreePhysicalMemorySize();
+freebytes = b.getFreePhysicalMemorySize(); % deprecated but Matlab R2023b doesn't have getFreeMemorySize()
 
 end

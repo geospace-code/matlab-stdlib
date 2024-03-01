@@ -26,7 +26,7 @@ end
 % REQUIRES path to exist, while java method does not.
 % c = builtin('_canonicalizepath', c);
 
-% https://docs.oracle.com/javase/9/docs/api/java/io/File.html#getCanonicalPath--
+% % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getCanonicalPath()
 
 c = stdlib.fileio.posix(string(java.io.File(c).getCanonicalPath()));
 

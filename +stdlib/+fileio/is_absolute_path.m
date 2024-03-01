@@ -1,5 +1,5 @@
 function isabs = is_absolute_path(apath)
-
+% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#isAbsolute()
 arguments
   apath string {mustBeScalarOrEmpty}
 end
