@@ -1,13 +1,8 @@
 function issame = samepath(path1, path2)
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isSameFile(java.nio.file.Path,java.nio.file.Path)
 arguments
-  path1 string {mustBeScalarOrEmpty}
-  path2 string {mustBeScalarOrEmpty}
-end
-
-if isempty(path1) || isempty(path2)
-   issame = logical.empty;
-   return
+  path1 (1,1) string
+  path2 (1,1) string
 end
 
 % java.nio.file.Files needs CANONICAL -- not just absolute path

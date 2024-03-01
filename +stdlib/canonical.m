@@ -15,7 +15,7 @@ function c = canonical(p)
 % * c: canonical path, if determined
 
 arguments
-  p string {mustBeScalarOrEmpty}
+  p (1,1) string
 end
 
 c = stdlib.fileio.canonical(p);

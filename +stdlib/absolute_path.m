@@ -12,7 +12,7 @@ function a = absolute_path(p)
 % * a: absolute path, if determined
 
 arguments
-  p string {mustBeScalarOrEmpty}
+  p (1,1) string
 end
 
 a = stdlib.fileio.absolute_path(p);

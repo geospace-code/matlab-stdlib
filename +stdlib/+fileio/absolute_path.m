@@ -1,13 +1,13 @@
 function abspath = absolute_path(p)
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getAbsolutePath()
 arguments
-  p string {mustBeScalarOrEmpty}
+  p (1,1) string
 end
 
 % have to expand ~ first (like C++ filesystem::path::absolute)
 abspath = stdlib.fileio.expanduser(p);
 
-if isempty(abspath) || abspath == ""
+if abspath == ""
   return
 end
 
@@ -21,6 +21,6 @@ if ~stdlib.fileio.is_absolute_path(abspath)
   abspath = stdlib.fileio.join(pwd, abspath);
 end
 
-abspath = stdlib.posix(java.io.File(abspath).getAbsolutePath());
+abspath = stdlib.fileio.posix(java.io.File(abspath).getAbsolutePath());
 
 end % function

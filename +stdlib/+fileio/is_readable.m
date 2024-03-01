@@ -3,12 +3,7 @@ function ok = is_readable(file)
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isReadable(java.nio.file.Path)
 
 arguments
-  file string {mustBeScalarOrEmpty}
-end
-
-if isempty(file)
-  ok = logical.empty;
-  return
+  file (1,1) string
 end
 
 

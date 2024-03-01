@@ -15,7 +15,7 @@ function c = resolve(p)
 % * c: resolved path
 
 arguments
-  p string {mustBeScalarOrEmpty}
+  p (1,1) string
 end
 
 c = stdlib.fileio.resolve(p);

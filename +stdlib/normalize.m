@@ -8,7 +8,7 @@ function c = normalize(p)
 % * c: normalized path
 
 arguments
-  p string {mustBeScalarOrEmpty}
+  p (1,1) string
 end
 
 c = stdlib.fileio.normalize(p);

@@ -1,7 +1,7 @@
 function filename = with_suffix(filename, suffix)
 
 arguments
-  filename string {mustBeScalarOrEmpty}
+  filename (1,1) string
   suffix (1,1) string
 end
 

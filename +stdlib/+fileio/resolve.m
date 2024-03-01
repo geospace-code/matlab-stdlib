@@ -2,15 +2,11 @@ function c = resolve(p)
 % distinct from canonical(), resolve() always returns absolute path
 % non-existant path is made absolute relative to pwd
 arguments
-  p string {mustBeScalarOrEmpty}
+  p (1,1) string
 end
 
 % have to expand ~ first (like C++ filesystem::path::absolute)
 c = stdlib.fileio.expanduser(p);
-
-if isempty(c)
-  return
-end
 
 if ispc && startsWith(c, "\\")
   % UNC path is not canonicalized

@@ -1,12 +1,7 @@
 function isabs = is_absolute_path(apath)
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#isAbsolute()
 arguments
-  apath string {mustBeScalarOrEmpty}
-end
-
-if isempty(apath)
-  isabs = logical.empty();
-  return
+  apath (1,1) string
 end
 
 % expanduser() here to work like C++ filesystem::path::is_absolute()

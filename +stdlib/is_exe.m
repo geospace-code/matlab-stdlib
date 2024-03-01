@@ -8,7 +8,7 @@ function ok = is_exe(file)
 % * ok: boolean logical
 
 arguments
-  file string {mustBeScalarOrEmpty}
+  file (1,1) string
 end
 
 ok = stdlib.fileio.is_exe(file);

@@ -1,7 +1,7 @@
 function e = expanduser(p)
 
 arguments
-  p string {mustBeScalarOrEmpty}
+  p (1,1) string
 end
 
 e = p;

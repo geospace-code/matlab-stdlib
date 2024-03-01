@@ -7,7 +7,7 @@ function filename = with_suffix(filename, suffix)
 %%% Outputs
 % * filename: modified filename
 arguments
-  filename string
+  filename (1,1) string
   suffix (1,1) string
 end
 

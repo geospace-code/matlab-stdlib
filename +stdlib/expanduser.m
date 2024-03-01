@@ -2,8 +2,7 @@ function expanded = expanduser(p)
 %% expanduser(path)
 % expands tilde ~ into user home directory
 %
-% Useful for Matlab functions like h5read() and some Computer Vision toolbox functions
-% that can't handle ~
+% Useful for Matlab functions that can't handle ~
 %
 %%% Inputs
 % * p: path to expand, if tilde present
@@ -11,7 +10,7 @@ function expanded = expanduser(p)
 % * expanded: expanded path
 
 arguments
-  p string
+  p (1,1) string
 end
 
 expanded = stdlib.fileio.expanduser(p);

@@ -7,8 +7,8 @@ function issame = samepath(path1, path2)
 %%% Outputs
 % issame: logical
 arguments
-  path1 string {mustBeScalarOrEmpty}
-  path2 string {mustBeScalarOrEmpty}
+  path1 (1,1) string
+  path2 (1,1) string
 end
 
 issame = stdlib.fileio.samepath(path1, path2);

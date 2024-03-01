@@ -1,15 +1,11 @@
 function c = canonical(p)
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getCanonicalPath()
 arguments
-  p string {mustBeScalarOrEmpty}
+  p (1,1) string
 end
 
 % have to expand ~ first (like C++ filesystem::path::absolute)
 c = stdlib.fileio.expanduser(p);
-
-if isempty(c)
-  return
-end
 
 if ispc && startsWith(c, "\\")
   % UNC path is not canonicalized
