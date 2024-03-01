@@ -14,9 +14,36 @@ end
 
 methods (Test)
 
+function test_exists(tc)
+
+tc.verifyTrue(stdlib.exists(pwd))
+tc.verifyTrue(stdlib.exists(string(mfilename("fullpath"))+".m"))
+tc.verifyFalse(stdlib.exists("not-exists"))
+
+end
+
+
+function test_is_readable(tc)
+
+tc.verifyTrue(stdlib.is_readable(pwd))
+tc.verifyTrue(stdlib.is_readable(string(mfilename("fullpath"))+".m"))
+tc.verifyFalse(stdlib.is_readable("not-exists"))
+
+end
+
+
+function test_is_writable(tc)
+
+tc.verifyTrue(stdlib.is_writable(pwd))
+tc.verifyFalse(stdlib.is_writable(matlabroot))
+tc.verifyFalse(stdlib.is_writable("not-exists"))
+
+end
+
+
+
 function test_expanduser(tc)
 
-tc.verifyEmpty(stdlib.expanduser(string.empty))
 tc.verifyEqual(stdlib.expanduser(""), "")
 
 tc.verifyEqual(stdlib.expanduser("~abc"), "~abc")
@@ -30,6 +57,33 @@ tc.verifyEqual(e, stdlib.fileio.join(h, "foo"))
 end
 
 
+function test_absolute_path(tc)
+import matlab.unittest.constraints.StartsWithSubstring
+
+tc.verifyEqual(stdlib.absolute_path(""), "")
+
+pabs = stdlib.absolute_path('2foo');
+pabs2 = stdlib.absolute_path('4foo');
+tc.verifyThat(pabs, ~StartsWithSubstring("2"))
+tc.verifyTrue(strncmp(pabs, pabs2, 2))
+
+par1 = stdlib.absolute_path("../2foo");
+tc.verifyNotEmpty(par1)
+
+par2 = stdlib.absolute_path("../4foo");
+tc.verifyTrue(strncmp(par2, pabs2, 2))
+
+pt1 = stdlib.absolute_path("bar/../2foo");
+tc.verifyNotEmpty(pt1)
+
+va = stdlib.absolute_path("2foo");
+vb = stdlib.absolute_path("4foo");
+tc.verifyThat(va, ~StartsWithSubstring("2"))
+tc.verifyTrue(strncmp(va, vb, 2))
+
+end
+
+
 function test_canonical(tc)
 import matlab.unittest.fixtures.TemporaryFolderFixture
 import matlab.unittest.fixtures.CurrentFolderFixture
@@ -39,7 +93,7 @@ td = tc.applyFixture(TemporaryFolderFixture).Folder;
 tc.applyFixture(CurrentFolderFixture(td))
 
 % all non-existing files
-tc.verifyEmpty(stdlib.canonical(string.empty))
+
 tc.verifyEqual(stdlib.canonical(""), "")
 
 pabs = stdlib.canonical('2foo');
@@ -78,7 +132,7 @@ td = tc.applyFixture(TemporaryFolderFixture).Folder;
 tc.applyFixture(CurrentFolderFixture(td))
 
 % all non-existing files
-tc.verifyEmpty(stdlib.resolve(string.empty))
+
 tc.verifyEqual(stdlib.resolve(""), stdlib.fileio.posix(pwd))
 
 pabs = stdlib.resolve('2foo');
@@ -127,11 +181,10 @@ end
 
 function test_samepath(tc)
 
-tc.verifyEmpty(stdlib.samepath(string.empty, string.empty))
-tc.verifyTrue(stdlib.samepath("", ""))
-tc.verifyFalse(stdlib.samepath(tempname, tempname))
+tc.verifyTrue(stdlib.samepath("", ""), "empty not same")
+tc.verifyFalse(stdlib.samepath(tempname, tempname), "tempname not same")
 tc.verifyTrue(stdlib.samepath("~/b/..", "~/c/.."), "tilde path ..")
-tc.verifyTrue(stdlib.samepath(".", fullfile(pwd, "a/..")))
+tc.verifyTrue(stdlib.samepath(".", fullfile(pwd, "a/..")), "dot path ..")
 end
 
 
@@ -155,7 +208,6 @@ function test_is_exe_which_fullpath(tc)
 import matlab.unittest.constraints.IsFile
 import matlab.unittest.constraints.EndsWithSubstring
 
-tc.verifyEmpty(stdlib.is_exe(string.empty))
 tc.verifyFalse(stdlib.is_exe(""))
 tc.verifyFalse(stdlib.is_exe(tempname))
 

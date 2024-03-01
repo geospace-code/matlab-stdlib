@@ -10,7 +10,7 @@ if isempty(path1) || isempty(path2)
    return
 end
 
-% unlike c++ filesystem, isSameFile does not canonicalize first
+% java.nio.file.Files needs CANONICAL -- not just absolute path
 p1 = java.io.File(stdlib.fileio.canonical(path1)).toPath();
 p2 = java.io.File(stdlib.fileio.canonical(path2)).toPath();
 

@@ -13,4 +13,7 @@ end
 
 ok = java.io.File(file).canExecute();
 
+% more complicated
+% ok = java.nio.file.Files.isExecutable(java.io.File(stdlib.fileio.absolute_path(file)).toPath());
+
 end
