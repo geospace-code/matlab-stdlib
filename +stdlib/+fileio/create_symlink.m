@@ -13,7 +13,6 @@ end
 % the above should work, but Matlab Java doesn't recognize the optional argument omitted.
 
 if stdlib.fileio.exists(link)
-  warning("link %s already exists", link)
   ok = false;
   return
 end

@@ -16,18 +16,15 @@ end
 short = "";
 
 if ~ispc
-  warning('Only available on Windows')
   return
 end
 
 fso = actxserver('Scripting.FileSystemObject');
 
 if isfolder(p)
-    short = fso.GetFolder(p).ShortPath;
+  short = fso.GetFolder(p).ShortPath;
 elseif isfile(p)
-    short = fso.GetFile(p).ShortPath;
-else
-    warning('%s is not folder or file', p);
+  short = fso.GetFile(p).ShortPath;
 end
 
 short = string(short);

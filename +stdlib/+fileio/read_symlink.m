@@ -8,13 +8,7 @@ import java.io.File
 import java.nio.file.Files
 
 r = stdlib.fileio.absolute_path(p);
-if ~stdlib.fileio.exists(r)
-  warning("%s does not exist", r)
-  r = string.empty;
-  return
-end
-if ~stdlib.fileio.is_symlink(r)
-  warning("%s is not a symlink", r)
+if ~stdlib.fileio.exists(r) || ~stdlib.fileio.is_symlink(r)
   r = string.empty;
   return
 end
