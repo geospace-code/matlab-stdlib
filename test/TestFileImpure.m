@@ -181,7 +181,7 @@ end
 
 function test_samepath(tc)
 
-tc.verifyTrue(stdlib.samepath("", ""), "empty not same")
+tc.verifyFalse(stdlib.samepath("", ""), "empty not same")
 tc.verifyFalse(stdlib.samepath(tempname, tempname), "tempname not same")
 tc.verifyTrue(stdlib.samepath("~/b/..", "~/c/.."), "tilde path ..")
 tc.verifyTrue(stdlib.samepath(".", fullfile(pwd, "a/..")), "dot path ..")
@@ -238,7 +238,7 @@ import matlab.unittest.fixtures.TemporaryFolderFixture
 
 fixture = tc.applyFixture(TemporaryFolderFixture);
 
-fn = fullfile(fixture.Folder, "hello");
+fn = stdlib.join(fixture.Folder, "hello");
 fid = fopen(fn, "w");
 tc.assumeGreaterThan(fid, 0);
 fprintf(fid, "hello");

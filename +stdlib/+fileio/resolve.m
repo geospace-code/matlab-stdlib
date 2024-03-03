@@ -5,6 +5,8 @@ arguments
   p (1,1) string
 end
 
+import java.io.File
+
 % have to expand ~ first (like C++ filesystem::path::absolute)
 c = stdlib.fileio.expanduser(p);
 
@@ -18,12 +20,8 @@ if ~stdlib.fileio.is_absolute_path(c)
   c = stdlib.fileio.join(pwd, c);
 end
 
-% similar benchmark time as java method
-% REQUIRES path to exist, while java method does not.
-% c = builtin('_canonicalizepath', c);
-
 % % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getCanonicalPath()
 
-c = stdlib.fileio.posix(string(java.io.File(c).getCanonicalPath()));
+c = stdlib.fileio.posix(File(c).getCanonicalPath());
 
 end % function

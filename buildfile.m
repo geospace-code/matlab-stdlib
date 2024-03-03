@@ -21,8 +21,8 @@ function coverageTask(~)
 import matlab.unittest.TestRunner
 import matlab.unittest.Verbosity
 import matlab.unittest.plugins.CodeCoveragePlugin
-import matlab.unittest.plugins.XMLPlugin
-import matlab.unittest.plugins.codecoverage.CoberturaFormat
+% import matlab.unittest.plugins.XMLPlugin
+% import matlab.unittest.plugins.codecoverage.CoberturaFormat
 
 
 pkg = "stdlib";
@@ -34,7 +34,9 @@ format = matlab.unittest.plugins.codecoverage.CoverageResult;
 
 
 runner = TestRunner.withTextOutput();
-runner.addPlugin(CodeCoveragePlugin.forPackage(pkg, Producing=format))
+runner.addPlugin(...
+  CodeCoveragePlugin.forPackage(pkg, ...
+    IncludingSubpackages=true, Producing=format))
 
 % runner.addPlugin(XMLPlugin.producingJUnitFormat('test-results.xml'))
 % runner.addPlugin(CodeCoveragePlugin.forPackage(pkg, 'Producing', ...

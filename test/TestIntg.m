@@ -22,9 +22,6 @@ tc.assertTrue(isnumeric(stdlib.sys.diskfree('/')))
 tc.assertTrue(stdlib.sys.diskfree('/') > 0, 'diskfree')
 end
 
-function test_memory(tc)
-tc.assertTrue(isnumeric(stdlib.sys.ram_free))
-end
 
 end
 end

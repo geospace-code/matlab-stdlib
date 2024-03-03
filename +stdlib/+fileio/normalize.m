@@ -5,6 +5,9 @@ arguments
   p (1,1) string
 end
 
-n = stdlib.fileio.posix(java.io.File(stdlib.fileio.expanduser(p)).toPath().normalize());
+import java.io.File
+import stdlib.fileio.expanduser
+
+n = stdlib.fileio.posix(File(expanduser(p)).toPath().normalize());
 
 end

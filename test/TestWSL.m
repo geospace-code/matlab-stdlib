@@ -21,7 +21,7 @@ tc.assumeEqual(ret, 0, "could not find WSL C compiler")
 tc.assumeNotEmpty(cc, "did not find WSL C compiler")
 
 cwd = fileparts(mfilename('fullpath'));
-src = stdlib.sys.winpath2wslpath(stdlib.join(cwd, "main.c"));
+src = stdlib.winpath2wslpath(stdlib.join(cwd, "main.c"));
 
 [ret, out_wsl] = system("wsl mktemp -u");
 tc.assumeEqual(ret, 0, "could not get WSL tempfile")
@@ -30,7 +30,7 @@ out_wsl = strtrim(out_wsl);
 ret = system("wsl cc " + src + " -o" + out_wsl);
 
 tc.assumeEqual(ret, 0, "failed to compile " + src)
-out = stdlib.sys.wslpath2winpath(out_wsl);
+out = stdlib.wslpath2winpath(out_wsl);
 tc.assumeThat(out, IsFile, "cc failed to produce output file " + out)
 
 tc.verifyTrue(stdlib.is_exe(out), "is_exe() failed to detect WSL executable " + out)
@@ -49,10 +49,10 @@ tc.assumeTrue(stdlib.sys.has_wsl(), "did not find Windows Subsystem for Linux")
 wsl_temp = stdlib.sys.wsl_tempfile();
 tc.verifyNotEmpty(wsl_temp, "could not get WSL tempfile")
 
-wsl_path = stdlib.sys.wslpath2winpath(wsl_temp);
+wsl_path = stdlib.wslpath2winpath(wsl_temp);
 tc.verifyTrue(stdlib.is_wsl_path(wsl_path), "could not convert WSL path to Windows path")
 
-win_path = stdlib.sys.winpath2wslpath(wsl_path);
+win_path = stdlib.winpath2wslpath(wsl_path);
 tc.verifyNotEmpty(win_path, "could not convert Windows path to WSL path")
 
 end

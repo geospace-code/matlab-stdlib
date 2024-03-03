@@ -5,18 +5,20 @@ arguments
   path2 (1,1) string
 end
 
-% java.nio.file.Files needs CANONICAL -- not just absolute path
-p1 = java.io.File(stdlib.fileio.canonical(path1)).toPath();
-p2 = java.io.File(stdlib.fileio.canonical(path2)).toPath();
+import java.io.File
+import java.nio.file.Files
+import stdlib.fileio.canonical
 
-try
-  issame = java.nio.file.Files.isSameFile(p1, p2);
-catch e
-  if e.identifier == "MATLAB:Java:GenericException" && contains(e.message, "NoSuchFileException")
-    issame = false;
-  else
-    rethrow(e)
-  end
-end
+issame = false;
+% java.nio.file.Files needs CANONICAL -- not just absolute path
+p1 = canonical(path1);
+if ~stdlib.fileio.exists(p1), return, end
+p1 = File(p1).toPath();
+
+p2 = canonical(path2);
+if ~stdlib.fileio.exists(p2), return, end
+p2 = File(p2).toPath();
+
+issame = Files.isSameFile(p1, p2);
 
 end

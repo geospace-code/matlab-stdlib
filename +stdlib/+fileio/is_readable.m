@@ -6,7 +6,10 @@ arguments
   file (1,1) string
 end
 
+import java.io.File
+import java.nio.file.Files
 
-ok = java.nio.file.Files.isReadable(java.io.File(stdlib.fileio.absolute_path(file)).toPath());
+
+ok = Files.isReadable(File(stdlib.fileio.absolute_path(file)).toPath());
 
 end

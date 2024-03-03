@@ -25,10 +25,8 @@ switch dtype
     return
   case {'double', 'single', 'int8', 'int16', 'int32', 'int64','uint8', 'uint16', 'uint32', 'uint64'}
     A = cast(A, dtype);
-  case 'char'
+  case {'char', 'string'}
     A = string(A);
-  case 'string'
-    % pass
   otherwise, error('create_ds:type_error', 'unknown data type %s', dtype)
 end
 

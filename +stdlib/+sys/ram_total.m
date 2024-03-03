@@ -6,8 +6,9 @@ function bytes = ram_total()
 %%% Outputs
 % * bytes: total physical RAM [bytes]
 
+import java.lang.management.ManagementFactory
 
-b = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
+b = ManagementFactory.getOperatingSystemMXBean();
 
 bytes = b.getTotalPhysicalMemorySize(); % deprecated but Matlab R2023b doesn't have getPhysicalMemorySize() yet
 

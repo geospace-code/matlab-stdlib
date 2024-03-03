@@ -216,13 +216,19 @@ end
 function test_coerce(tc)
 basic = tc.TestData.basic;
 
-for type = ["single", "double", ...
+for type = ["single", "double", "float64", "float32",...
             "int8", "int16", "int32", "int64", ...
-            "uint8", "uint16", "uint32", "uint64"]
+            "uint8", "uint16", "uint32", "uint64", "string"]
 
   stdlib.h5save(basic, type, 0, "type",type)
 
-  tc.verifyClass(h5read(basic, "/"+type), type)
+  switch type
+    case "string", vt = 'char';
+    case "float64", vt = 'double';
+    case "float32", vt = 'single';
+    otherwise, vt = type;
+  end
+  tc.verifyClass(h5read(basic, "/"+type), vt)
 end
 
 end

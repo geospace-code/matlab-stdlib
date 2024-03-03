@@ -16,7 +16,12 @@ arguments (Output)
   short (1,1) string
 end
 
-assert(ispc, 'Only available on Windows')
+short = "";
+
+if ~ispc
+  warning('Only available on Windows')
+  return
+end
 
 fso = actxserver('Scripting.FileSystemObject');
 
@@ -25,7 +30,7 @@ if isfolder(p)
 elseif isfile(p)
     short = fso.GetFile(p).ShortPath;
 else
-    error('Path "%s" not found', p);
+    warning('%s is not folder or file', p);
 end
 
 delete(fso);

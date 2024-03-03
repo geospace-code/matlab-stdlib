@@ -4,7 +4,9 @@ arguments
   apath (1,1) string
 end
 
+import java.io.File
+
 % expanduser() here to work like C++ filesystem::path::is_absolute()
-isabs = java.io.File(stdlib.fileio.expanduser(apath)).isAbsolute();
+isabs = File(stdlib.fileio.expanduser(apath)).isAbsolute();
 
 end
