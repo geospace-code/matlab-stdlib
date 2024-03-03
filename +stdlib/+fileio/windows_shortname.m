@@ -9,11 +9,8 @@ function short = windows_shortname(p)
 %
 
 
-arguments (Input)
+arguments
   p (1,1) string
-end
-arguments (Output)
-  short (1,1) string
 end
 
 short = "";
@@ -32,6 +29,8 @@ elseif isfile(p)
 else
     warning('%s is not folder or file', p);
 end
+
+short = string(short);
 
 delete(fso);
 
