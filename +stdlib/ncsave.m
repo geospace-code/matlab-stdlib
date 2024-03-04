@@ -8,6 +8,5 @@ arguments
   opts.type string {mustBeScalarOrEmpty} = string.empty
 end
 
-stdlib.hdf5nc.ncsave(filename, varname, A, ...
-'dims', opts.dims, 'type', opts.type)
+stdlib.hdf5nc.ncsave(filename, varname, A, dims=opts.dims, type=opts.type)
 end
