@@ -16,12 +16,12 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        release: [R2020b, R2021a, R2021b, R2022a, R2022b, R2023a, R2023b]
+        release: [R2020b, R2021a, R2021b, R2022a, R2022b, R2023a, R2023b, R2024a]
         include:
         - os: macos-latest
-          release: R2023b
+          release: R2024a
         - os: windows-latest
-          release: R2023b
+          release: R2024a
 
     steps:
 
