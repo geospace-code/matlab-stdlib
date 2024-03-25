@@ -53,7 +53,13 @@ tc.verifyGreaterThan(stdlib.sys.ram_free(), 0)
 
 end
 
-function test_cpu(tc)
+function test_cpu_count(tc)
+
+tc.verifyGreaterThan(stdlib.sys.cpu_count(), 0)
+
+end
+
+function test_cpu_load(tc)
 
 tc.verifyGreaterThanOrEqual(stdlib.sys.cpu_load(), 0)
 
