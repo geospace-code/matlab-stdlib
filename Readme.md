@@ -17,3 +17,10 @@ buildtool
 ```
 
 [API Documentation](https://geospace-code.github.io/matlab-stdlib)
+
+## Developer notes
+
+The "matlab-stdlib" package uses Java functions throughout, with the higher-level
+[java.nio.Files](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html)
+and the classic
+[java.io.File](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/File.html) classes.

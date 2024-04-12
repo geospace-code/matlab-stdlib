@@ -1,16 +1,70 @@
 classdef TestFilePure < matlab.unittest.TestCase
 
+properties (ClassSetupParameter)
+  classToTest = {"TestFilePure"};
+end
+
+properties (TestParameter)
+base
+other
+ref
+end
+
+properties
+tobj
+end
+
+methods (TestParameterDefinition,Static)
+function [base, other, ref] = initializeProperty(classToTest) %#ok<INUSD>
+if ispc
+
+base = {'', 'Hello', 'Hello', ...
+'c:\a\b', 'c:\', 'c:/a/b', 'c:/a/b', 'c:\a/b\c/d', 'c:/path'};
+
+other = {'', 'Hello', 'Hello/', ...
+'c:/', 'c:/a/b', 'c:/a/b', 'c:/a', 'c:/a\b', 'd:/path'};
+
+ref = {'.', '.', '.', '../..', 'a/b', '.', '..', '../..', ''};
+
+else
+
+base = {'', '',  '/', '/', 'Hello', 'Hello',  '/dev/null', '/a/b', 'c', ...
+'/a/b', '/a/b', '/a/b/c/d', './this/one', '/this/one', '/path/same'};
+
+other = {'', '/', '',  '/', 'Hello', 'Hello/', '/dev/null', 'c',    '/a/b', ...
+'/a/b', '/a',   '/a/b',     './this/two', '/this/two', '/path/same/hi/..'};
+
+ref = {'.', '',  '',  '.', '.',     '.',      '.',         '',     '', ...
+'.',    '..',   '../..',    '../two',     '../two', '.'};
+
+end
+end
+end
+
+
 methods (TestClassSetup)
+function classSetup(testCase, classToTest)
+constructor = str2func(classToTest);
+testCase.tobj = constructor();
+end
+end
+
+
+
+methods (TestClassSetup)
+
 function setup_path(tc)
 import matlab.unittest.fixtures.PathFixture
 cwd = fileparts(mfilename("fullpath"));
 top = fullfile(cwd, "..");
 tc.applyFixture(PathFixture(top))
 end
+
 end
 
 
-methods (Test)
+
+methods (Test, ParameterCombination = 'sequential')
 
 function test_posix(tc)
 import matlab.unittest.constraints.ContainsSubstring
@@ -139,6 +193,15 @@ tc.verifyEqual(stdlib.with_suffix("c", ""), "c")
 tc.verifyEqual(stdlib.with_suffix("c.nc", ""), "c")
 tc.verifyEqual(stdlib.with_suffix("", ".nc"), ".nc")
 end
+
+
+function test_relative_to(tc, base, other, ref)
+
+r = stdlib.relative_to(base, other);
+tc.verifyEqual(r, string(ref))
+
+end
+
 
 end
 end
