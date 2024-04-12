@@ -57,6 +57,21 @@ tc.verifyEqual(e, stdlib.fileio.join(h, "foo"))
 end
 
 
+function test_touch_modtime(tc)
+
+fn = tempname;
+tc.verifyTrue(stdlib.touch(fn))
+
+t0 = stdlib.get_modtime(fn);
+pause(1.1)
+tc.verifyTrue(stdlib.set_modtime(fn))
+t1 = stdlib.get_modtime(fn);
+
+tc.verifyGreaterThan(t1, t0)
+
+end
+
+
 function test_absolute_path(tc)
 import matlab.unittest.constraints.StartsWithSubstring
 
