@@ -6,6 +6,9 @@ end
 
 properties (TestParameter)
 str = {"string", 'char'}
+type = {"single", "double", "float64", "float32",...
+            "int8", "int16", "int32", "int64", ...
+            "uint8", "uint16", "uint32", "uint64", "string"}
 end
 
 methods(TestClassSetup)
@@ -60,7 +63,7 @@ end
 end
 
 
-methods (Test)
+methods (Test, ParameterCombination = 'sequential')
 
 function test_auto_chunk_size(tc)
 
@@ -213,23 +216,19 @@ tc.verifyEmpty(s);
 end
 
 
-function test_coerce(tc)
+function test_coerce(tc, type)
 basic = tc.TestData.basic;
 
-for type = ["single", "double", "float64", "float32",...
-            "int8", "int16", "int32", "int64", ...
-            "uint8", "uint16", "uint32", "uint64", "string"]
+stdlib.h5save(basic, type, 0, "type",type)
 
-  stdlib.h5save(basic, type, 0, "type",type)
-
-  switch type
-    case "string", vt = 'char';
-    case "float64", vt = 'double';
-    case "float32", vt = 'single';
-    otherwise, vt = type;
-  end
-  tc.verifyClass(h5read(basic, "/"+type), vt)
+switch type
+case "string", vt = 'char';
+case "float64", vt = 'double';
+case "float32", vt = 'single';
+otherwise, vt = type;
 end
+
+tc.verifyClass(h5read(basic, "/"+type), vt)
 
 end
 
