@@ -13,10 +13,11 @@ jobs:
     timeout-minutes: 15
     runs-on: ${{ matrix.os }}
 
+# R2022b has a bug with test parameter {"h"} syntax
     strategy:
       matrix:
         os: [ubuntu-latest]
-        release: [R2020b, R2021a, R2021b, R2022a, R2022b, R2023a, R2023b, R2024a]
+        release: [R2020b, R2021a, R2021b, R2022a, R2023a, R2023b, R2024a]
         include:
         - os: macos-latest
           release: R2024a
