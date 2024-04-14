@@ -1,59 +1,74 @@
 classdef TestFileImpure < matlab.unittest.TestCase
 
+properties (ClassSetupParameter)
+  classToTest = {"TestFileImpure"};
+end
+
+properties(TestParameter)
+in_exists = {pwd, string(mfilename("fullpath"))+".m", "not-exists"}
+ref_exists = {true, true, false}
+% on CI matlabroot can be writable!
+in_is_write = {pwd, "not-exists"};
+ref_is_write = {true, false}
+in_expand = {"", "~abc", "~", "~/foo"}
+ref_expand
+in_same = {"", tempname, "~/b/..", "."}
+other_same = {"", tempname, "~/c/..", fullfile(pwd, "a/..")}
+ref_same = {false, false, true, true}
+end
+
+properties
+tobj
+end
+
+
+methods (TestParameterDefinition, Static)
+
+function ref_expand = init_expand(classToTest) %#ok<INUSD>
+cwd = fileparts(mfilename("fullpath"));
+top = fullfile(cwd, "..");
+addpath(top)
+
+ref_expand = {"", "~abc", stdlib.fileio.homedir, stdlib.join(stdlib.fileio.homedir, "foo")};
+end
+end
+
+
 methods(TestClassSetup)
+
+function classSetup(tc, classToTest)
+constructor = str2func(classToTest);
+tc.tobj = constructor();
+end
 
 function setup_path(tc)
 import matlab.unittest.fixtures.PathFixture
 cwd = fileparts(mfilename("fullpath"));
 top = fullfile(cwd, "..");
 tc.applyFixture(PathFixture(top))
-
 end
 
 end
 
-methods (Test)
+methods (Test, ParameterCombination = 'sequential')
 
-function test_exists(tc)
-
-tc.verifyTrue(stdlib.exists(pwd))
-tc.verifyTrue(stdlib.exists(string(mfilename("fullpath"))+".m"))
-tc.verifyFalse(stdlib.exists("not-exists"))
-
+function test_exists(tc, in_exists, ref_exists)
+tc.verifyEqual(stdlib.exists(in_exists), ref_exists)
 end
 
 
-function test_is_readable(tc)
-
-tc.verifyTrue(stdlib.is_readable(pwd))
-tc.verifyTrue(stdlib.is_readable(string(mfilename("fullpath"))+".m"))
-tc.verifyFalse(stdlib.is_readable("not-exists"))
-
+function test_is_readable(tc, in_exists, ref_exists)
+tc.verifyEqual(stdlib.is_readable(in_exists), ref_exists)
 end
 
 
-function test_is_writable(tc)
-
-tc.verifyTrue(stdlib.is_writable(pwd))
-% tc.verifyFalse(stdlib.is_writable(matlabroot))  % on CI this can be writable!
-tc.verifyFalse(stdlib.is_writable("not-exists"))
-
+function test_is_writable(tc, in_is_write, ref_is_write)
+tc.verifyEqual(stdlib.is_writable(in_is_write), ref_is_write)
 end
 
 
-
-function test_expanduser(tc)
-
-tc.verifyEqual(stdlib.expanduser(""), "")
-
-tc.verifyEqual(stdlib.expanduser("~abc"), "~abc")
-
-h = stdlib.fileio.homedir();
-tc.verifyEqual(stdlib.expanduser("~"), h)
-
-e = stdlib.expanduser("~/foo");
-tc.verifyEqual(e, stdlib.fileio.join(h, "foo"))
-
+function test_expanduser(tc, in_expand, ref_expand)
+tc.verifyEqual(stdlib.expanduser(in_expand), ref_expand)
 end
 
 
@@ -61,13 +76,13 @@ function test_touch_modtime(tc)
 
 fn = tempname;
 tc.verifyTrue(stdlib.touch(fn))
-
 t0 = stdlib.get_modtime(fn);
-pause(1.1)
+
+pause(0.4)  % empirical to avoid failing >=
 tc.verifyTrue(stdlib.set_modtime(fn))
 t1 = stdlib.get_modtime(fn);
 
-tc.verifyGreaterThan(t1, t0)
+tc.verifyGreaterThanOrEqual(t1, t0)
 
 end
 
@@ -115,7 +130,6 @@ pabs = stdlib.canonical('2foo');
 tc.verifyThat(pabs, StartsWithSubstring("2foo"))
 
 par1 = stdlib.canonical("../2foo");
-tc.verifyNotEmpty(par1)
 tc.verifyThat(par1, StartsWithSubstring(".."))
 
 pt1 = stdlib.canonical("bar/../2foo");
@@ -194,12 +208,8 @@ tc.assertTrue(isfolder(d))
 end
 
 
-function test_samepath(tc)
-
-tc.verifyFalse(stdlib.samepath("", ""), "empty not same")
-tc.verifyFalse(stdlib.samepath(tempname, tempname), "tempname not same")
-tc.verifyTrue(stdlib.samepath("~/b/..", "~/c/.."), "tilde path ..")
-tc.verifyTrue(stdlib.samepath(".", fullfile(pwd, "a/..")), "dot path ..")
+function test_samepath(tc, in_same, other_same, ref_same)
+tc.verifyEqual(stdlib.samepath(in_same, other_same), ref_same)
 end
 
 

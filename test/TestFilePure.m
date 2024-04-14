@@ -5,53 +5,112 @@ properties (ClassSetupParameter)
 end
 
 properties (TestParameter)
-base
-other
-ref
+base_relative_to
+other_relative_to
+ref_relative_to
+ref_proximate_to
+in_is_absolute
+ref_is_absolute
+in_filename = {'', '/foo/bar/baz', '/foo/bar/baz/', 'foo/bar/baz.txt', 'foo/bar/baz.txt.gz'};
+ref_filename = {'', 'baz', '', 'baz.txt', 'baz.txt.gz'};
+dir_is_subdir
+sub_is_subdir
+ref_is_subdir
 end
 
 properties
 tobj
 end
 
-methods (TestParameterDefinition,Static)
-function [base, other, ref] = initializeProperty(classToTest) %#ok<INUSD>
+methods (TestParameterDefinition, Static)
+function [base_relative_to, other_relative_to, ref_relative_to, ref_proximate_to] = init_relative_to(classToTest) %#ok<INUSD>
+
 if ispc
 
-base = {'', 'Hello', 'Hello', ...
+base_relative_to = {'', 'Hello', 'Hello', ...
 'c:\a\b', 'c:\', 'c:/a/b', 'c:/a/b', 'c:\a/b\c/d', 'c:/path'};
 
-other = {'', 'Hello', 'Hello/', ...
+other_relative_to = {'', 'Hello', 'Hello/', ...
 'c:/', 'c:/a/b', 'c:/a/b', 'c:/a', 'c:/a\b', 'd:/path'};
 
-ref = {'.', '.', '.', '../..', 'a/b', '.', '..', '../..', ''};
+ref_relative_to = {'.', '.', '.', '../..', 'a/b', '.', '..', '../..', ''};
+
+ref_proximate_to = ref_relative_to;
+ref_proximate_to{end} = other_relative_to{end};
 
 else
 
-base = {'', '',  '/', '/', 'Hello', 'Hello',  '/dev/null', '/a/b', 'c', ...
-'/a/b', '/a/b', '/a/b/c/d', './this/one', '/this/one', '/path/same'};
+base_relative_to = {'', '',  '/', '/', 'Hello', 'Hello',  '/dev/null', '/a/b', 'c', ...
+'/a/b', '/a/b', '/a/b/c/d', '/this/one', '/path/same'};
 
-other = {'', '/', '',  '/', 'Hello', 'Hello/', '/dev/null', 'c',    '/a/b', ...
-'/a/b', '/a',   '/a/b',     './this/two', '/this/two', '/path/same/hi/..'};
+other_relative_to = {'', '/', '',  '/', 'Hello', 'Hello/', '/dev/null', 'c',    '/a/b', ...
+'/a/b', '/a',   '/a/b',     '/this/two', '/path/same/hi/..'};
 
-ref = {'.', '',  '',  '.', '.',     '.',      '.',         '',     '', ...
-'.',    '..',   '../..',    '../two',     '../two', '.'};
+ref_relative_to = {'.', '',  '',  '.', '.',     '.',      '.',         '',     '', ...
+'.',    '..',   '../..',     '../two',   '.'};
+
+ref_proximate_to = ref_relative_to;
+ref_proximate_to{2} = '/';
+ref_proximate_to{8} = 'c';
+ref_proximate_to{9} = '/a/b';
 
 end
+
+base_relative_to{end+1} =  './this/one';
+other_relative_to{end+1} = './this/two';
+ref_relative_to{end+1} = '../two';
+ref_proximate_to{end+1} = ref_relative_to{end};
+
 end
+
+
+function [in_is_absolute, ref_is_absolute] = init_is_absolute(classToTest) %#ok<INUSD>
+
+in_is_absolute = {'', '~/foo', 'x', 'x:/foo', '/foo'};
+ref_is_absolute = {false, true, false};
+
+if ispc
+  ref_is_absolute{end+1} = true;
+  ref_is_absolute{end+1} = false;
+else
+  ref_is_absolute{end+1} = false;
+  ref_is_absolute{end+1} = true;
+end
+
+end
+
+
+function [dir_is_subdir, sub_is_subdir, ref_is_subdir] = init_is_subdir(classToTest) %#ok<INUSD>
+
+dir_is_subdir = {"a/b", "a/b", "a/b", "a"};
+sub_is_subdir = {"a/b", "a/b/", "a", "a/.c"};
+ref_is_subdir = {false, false, false, true};
+
+if ispc
+
+dir_is_subdir{end+1} = "c:\";
+sub_is_subdir{end+1} = "c:/";
+ref_is_subdir{end+1} = false;
+
+else
+
+dir_is_subdir{end+1} = "/";
+sub_is_subdir{end+1} = "/";
+ref_is_subdir{end+1} = false;
+
+end
+
+end
+
 end
 
 
 methods (TestClassSetup)
-function classSetup(testCase, classToTest)
+
+function classSetup(tc, classToTest)
 constructor = str2func(classToTest);
-testCase.tobj = constructor();
+tc.tobj = constructor();
 end
-end
-
-
-
-methods (TestClassSetup)
 
 function setup_path(tc)
 import matlab.unittest.fixtures.PathFixture
@@ -79,16 +138,8 @@ end
 end
 
 
-function test_filename(tc)
-
-tc.verifyEqual(stdlib.filename(""), "")
-
-tc.verifyEqual(stdlib.filename("/foo/bar/baz"), "baz")
-tc.verifyEqual(stdlib.filename("/foo/bar/baz/"), "")
-
-tc.verifyEqual(stdlib.filename("foo/bar/baz.txt"), "baz.txt")
-tc.verifyEqual(stdlib.filename("foo/bar/baz.txt.gz"), "baz.txt.gz")
-
+function test_filename(tc, in_filename, ref_filename)
+tc.verifyEqual(stdlib.filename(in_filename), string(ref_filename))
 end
 
 
@@ -133,20 +184,10 @@ tc.verifyEqual(stdlib.stem("foo/bar/baz.txt.gz"), "baz.txt")
 end
 
 
-function test_is_absolute_path(tc)
-
-tc.verifyFalse(stdlib.is_absolute_path(""))
-
-tc.verifyTrue(stdlib.is_absolute_path('~/foo'))
-if ispc
-  tc.verifyTrue(stdlib.is_absolute_path('x:/foo'))
-  tc.verifyFalse(stdlib.is_absolute_path('/foo'))
-else
-  tc.verifyTrue(stdlib.is_absolute_path('/foo'))
+function test_is_absolute_path(tc, in_is_absolute, ref_is_absolute)
+tc.verifyEqual(stdlib.is_absolute_path(in_is_absolute), ref_is_absolute)
 end
 
-tc.verifyFalse(stdlib.is_absolute_path("c"))
-end
 
 function test_absolute_path(tc)
 import matlab.unittest.constraints.StartsWithSubstring
@@ -195,11 +236,18 @@ tc.verifyEqual(stdlib.with_suffix("", ".nc"), ".nc")
 end
 
 
-function test_relative_to(tc, base, other, ref)
+function test_relative_to(tc, base_relative_to, other_relative_to, ref_relative_to)
+tc.verifyEqual(stdlib.relative_to(base_relative_to, other_relative_to), string(ref_relative_to))
+end
 
-r = stdlib.relative_to(base, other);
-tc.verifyEqual(r, string(ref))
 
+function test_proximate_to(tc, base_relative_to, other_relative_to, ref_proximate_to)
+tc.verifyEqual(stdlib.proximate_to(base_relative_to, other_relative_to), string(ref_proximate_to))
+end
+
+
+function test_is_subdir(tc, dir_is_subdir, sub_is_subdir, ref_is_subdir)
+tc.verifyEqual(stdlib.is_subdir(sub_is_subdir, dir_is_subdir), ref_is_subdir)
 end
 
 
