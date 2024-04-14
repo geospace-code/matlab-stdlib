@@ -11,11 +11,15 @@ ref_relative_to
 ref_proximate_to
 in_is_absolute
 ref_is_absolute
-in_filename = {'', '/foo/bar/baz', '/foo/bar/baz/', 'foo/bar/baz.txt', 'foo/bar/baz.txt.gz'};
-ref_filename = {'', 'baz', '', 'baz.txt', 'baz.txt.gz'};
+in_filename = {'', '/foo/bar/baz', '/foo/bar/baz/', 'foo/bar/baz.txt', 'foo/bar/baz.txt.gz'}
+ref_filename = {'', 'baz', '', 'baz.txt', 'baz.txt.gz'}
 dir_is_subdir
 sub_is_subdir
 ref_is_subdir
+in_parent = {"", ".", "..", "../..", "a/b", "a/b/", "ab/.parent", "ab/.parent.txt", "a/b/../.parent.txt"}
+ref_parent = {".", ".", ".", "..",   "a",   "a",    "ab",         "ab",             "a/b/.."}
+in_suffix = {"", "/foo/bar/baz", "/foo/bar/baz/", "foo/bar/baz.txt", "foo/bar/baz.txt.gz", ".stat", ".stat.txt"}
+ref_suffix = {"", "", "", ".txt", ".gz", ".stat", ".txt"}
 end
 
 properties
@@ -143,28 +147,12 @@ tc.verifyEqual(stdlib.filename(in_filename), string(ref_filename))
 end
 
 
-function test_parent(tc)
-
-tc.verifyEqual(stdlib.parent(""), "")
-
-tc.verifyEqual(stdlib.parent("/foo/bar/baz"), "/foo/bar")
-tc.verifyEqual(stdlib.parent("/foo/bar/baz/"), "/foo/bar")
-
-tc.verifyEqual(stdlib.parent("foo/bar/baz/"), "foo/bar")
-
+function test_parent(tc, in_parent, ref_parent)
+tc.verifyEqual(stdlib.parent(in_parent), ref_parent)
 end
 
-function test_suffix(tc)
-
-tc.verifyEmpty(stdlib.suffix(string.empty))
-tc.verifyEqual(stdlib.suffix(""), "")
-
-tc.verifyEqual(stdlib.suffix("/foo/bar/baz"), "")
-tc.verifyEqual(stdlib.suffix("/foo/bar/baz/"), "")
-
-tc.verifyEqual(stdlib.suffix("foo/bar/baz.txt"), ".txt")
-tc.verifyEqual(stdlib.suffix("foo/bar/baz.txt.gz"), ".gz")
-
+function test_suffix(tc, in_suffix, ref_suffix)
+tc.verifyEqual(stdlib.suffix(in_suffix), string(ref_suffix))
 end
 
 

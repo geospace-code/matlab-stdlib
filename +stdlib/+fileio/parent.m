@@ -7,12 +7,9 @@ end
 
 jp = java.io.File(path).getParent();
 if isempty(jp)
-  jp = "";
+  jp = ".";
 end
 
 p = stdlib.fileio.posix(jp);
-
-% must drop trailing slash - need to as_posix for windows
-%p = fileparts(strip(stdlib.fileio.posix(path), 'right', '/'));
 
 end
