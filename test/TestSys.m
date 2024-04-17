@@ -17,32 +17,20 @@ import matlab.unittest.constraints.IsOfClass
 tc.verifyThat(stdlib.sys.find_fortran_compiler(), IsOfClass('string'))
 end
 
-function test_cygwin(tc)
-tc.verifyTrue(islogical(stdlib.sys.iscygwin))
-end
+function test_platform(tc)
+import matlab.unittest.constraints.IsOfClass
 
-function test_octave(tc)
-tc.verifyTrue(islogical(stdlib.sys.isoctave))
-end
+tc.verifyThat(stdlib.sys.iscygwin, IsOfClass('logical'))
+tc.verifyThat(stdlib.sys.isoctave, IsOfClass('logical'))
 
-function test_wsl(tc)
-tc.verifyTrue(islogical(stdlib.sys.iswsl))
-tc.verifyTrue(islogical(stdlib.sys.has_wsl))
-end
+tc.verifyThat(stdlib.sys.iswsl, IsOfClass('logical'))
+tc.verifyThat(stdlib.sys.has_wsl, IsOfClass('logical'))
 
-function test_isinteractive(tc)
-tc.verifyTrue(islogical(stdlib.sys.isinteractive))
-end
+tc.verifyThat(stdlib.sys.isinteractive, IsOfClass('logical'))
 
-function test_isparallel(tc)
+tc.verifyThat(stdlib.sys.is_parallel_worker, IsOfClass('logical'))
 
-tc.verifyTrue(islogical(stdlib.sys.is_parallel_worker()))
-
-end
-
-function test_is_pwsh(tc)
-
-tc.verifyTrue(islogical(stdlib.sys.is_windows_powershell()))
+tc.verifyThat(stdlib.sys.is_windows_powershell, IsOfClass('logical'))
 
 end
 

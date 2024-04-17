@@ -1,5 +1,10 @@
 classdef TestHash < matlab.unittest.TestCase
 
+properties (TestParameter)
+type = {'sha256', 'md5'}
+hash = {"36c1bbbdfd8d04ef546ffb15b9c0a65767fd1fe9a6135a257847e3a51fb1426c", "d58cfb32e075781ba59082a8b18287f9"}
+end
+
 methods(TestClassSetup)
 function setup_path(tc)
 import matlab.unittest.fixtures.PathFixture
@@ -9,7 +14,7 @@ tc.applyFixture(PathFixture(top))
 end
 end
 
-methods (Test)
+methods (Test, ParameterCombination = 'sequential')
 
 function test_extract(tc)
 import matlab.unittest.constraints.IsFile
@@ -30,21 +35,17 @@ tc.verifyThat(stdlib.join(tmpDir, "test/hello.txt"), IsFile)
 
 end
 
-function test_sha256(tc)
+function test_hash(tc, type, hash)
 
 r = fileparts(mfilename('fullpath'));
-fn = stdlib.join(r, "hello.tar.zst");
+fn = fullfile(r, "hello.tar.zst");
 
-tc.verifyEqual(stdlib.sha256sum(fn), "36c1bbbdfd8d04ef546ffb15b9c0a65767fd1fe9a6135a257847e3a51fb1426c")
-
+switch type
+case 'sha256', h = stdlib.sha256sum(fn);
+case 'md5', h = stdlib.md5sum(fn);
 end
 
-function test_md5sum(tc)
-
-r = fileparts(mfilename('fullpath'));
-fn = stdlib.join(r, "hello.tar.zst");
-
-tc.verifyEqual(stdlib.md5sum(fn), "d58cfb32e075781ba59082a8b18287f9")
+tc.verifyEqual(h, hash)
 
 end
 
