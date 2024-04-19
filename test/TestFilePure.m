@@ -205,7 +205,7 @@ end
 
 function test_normalize(tc)
 
-tc.verifyEqual(stdlib.normalize(""), "")
+tc.verifyEqual(stdlib.normalize(""), ".")
 
 pabs = stdlib.normalize('2foo//');
 tc.verifyEqual(pabs, "2foo")

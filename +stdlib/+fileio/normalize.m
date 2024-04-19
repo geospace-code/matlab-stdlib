@@ -10,4 +10,6 @@ import stdlib.fileio.expanduser
 
 n = stdlib.fileio.posix(File(expanduser(p)).toPath().normalize());
 
+if(strlength(n) == 0), n = "."; end
+
 end

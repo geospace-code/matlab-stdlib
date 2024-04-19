@@ -7,18 +7,19 @@ end
 
 import java.io.File
 import java.nio.file.Files
-import stdlib.fileio.canonical
 
 issame = false;
-% java.nio.file.Files needs CANONICAL -- not just absolute path
-p1 = canonical(path1);
-if ~stdlib.fileio.exists(p1), return, end
-p1 = File(p1).toPath();
+if ~stdlib.fileio.exists(path1) || ~stdlib.fileio.exists(path2)
+  return
+end
 
-p2 = canonical(path2);
-if ~stdlib.fileio.exists(p2), return, end
-p2 = File(p2).toPath();
+% not correct without canoncial(). Normalize() doesn't help.
+path1 = stdlib.fileio.canonical(path1);
+path2 = stdlib.fileio.canonical(path2);
 
-issame = Files.isSameFile(p1, p2);
+issame = Files.isSameFile(File(path1).toPath(), File(path2).toPath());
+
+% alternative, lower-level method is lexical only (not suitable for us):
+% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#equals(java.lang.Object)
 
 end

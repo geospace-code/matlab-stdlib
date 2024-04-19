@@ -12,8 +12,8 @@ in_is_write = {pwd, "not-exists"};
 ref_is_write = {true, false}
 in_expand = {"", "~abc", "~", "~/foo"}
 ref_expand
-in_same = {"", tempname, "~/b/..", "."}
-other_same = {"", tempname, "~/c/..", fullfile(pwd, "a/..")}
+in_same = {"", tempname, "..", ".."}
+other_same = {"", tempname, "./..", fullfile(pwd, "..")}
 ref_same = {false, false, true, true}
 end
 
@@ -124,7 +124,7 @@ tc.applyFixture(CurrentFolderFixture(td))
 
 % all non-existing files
 
-tc.verifyEqual(stdlib.canonical(""), "")
+tc.verifyEqual(stdlib.canonical(""), ".")
 
 pabs = stdlib.canonical('2foo');
 tc.verifyThat(pabs, StartsWithSubstring("2foo"))
@@ -207,12 +207,12 @@ stdlib.makedir(d)
 tc.assertTrue(isfolder(d))
 end
 
-
+%%
 function test_samepath(tc, in_same, other_same, ref_same)
 tc.verifyEqual(stdlib.samepath(in_same, other_same), ref_same)
 end
 
-
+%%
 function test_which_name(tc)
 
 tc.verifyEmpty(stdlib.which(tempname))
