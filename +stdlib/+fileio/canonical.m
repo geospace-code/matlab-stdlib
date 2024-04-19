@@ -14,7 +14,7 @@ if ispc && startsWith(c, "\\")
   return
 end
 
-if ~stdlib.fileio.is_absolute_path(c)
+if ~stdlib.fileio.is_absolute(c)
   if isfile(c) || isfolder(c)
     % workaround Java/Matlab limitations
     c = stdlib.fileio.join(pwd, c);

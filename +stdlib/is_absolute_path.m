@@ -1,9 +1,8 @@
-function isabs = is_absolute_path(apath)
-%% is_absolute_path
+function isabs = is_absolute_path(p)
 arguments
-  apath (1,1) string
+  p (1,1) string
 end
 
-isabs = stdlib.fileio.is_absolute_path(apath);
+isabs = stdlib.fileio.is_absolute(p);
 
 end

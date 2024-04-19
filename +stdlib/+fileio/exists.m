@@ -6,7 +6,6 @@ arguments
   p (1,1) string
 end
 
-
 ok = java.io.File(p).exists();
 
 end

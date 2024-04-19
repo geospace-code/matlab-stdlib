@@ -19,7 +19,7 @@ end
 % directory/filename given
 for exe = names
 
-  if stdlib.fileio.is_absolute_path(exe) && stdlib.fileio.is_exe(exe)
+  if stdlib.fileio.is_absolute(exe) && stdlib.fileio.is_exe(exe)
     return
   end
 

@@ -16,7 +16,7 @@ if ispc && startsWith(abspath, "\\")
   return
 end
 
-if ~stdlib.fileio.is_absolute_path(abspath)
+if ~stdlib.fileio.is_absolute(abspath)
   % .toAbsolutePath() default is Documents/Matlab, which is probably not wanted.
   abspath = stdlib.fileio.join(pwd, abspath);
 end

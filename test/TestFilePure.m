@@ -70,8 +70,8 @@ end
 
 function [in_is_absolute, ref_is_absolute] = init_is_absolute(classToTest) %#ok<INUSD>
 
-in_is_absolute = {'', '~/foo', 'x', 'x:/foo', '/foo'};
-ref_is_absolute = {false, true, false};
+in_is_absolute = {'', 'x', 'x:/foo', '/foo'};
+ref_is_absolute = {false, false};
 
 if ispc
   ref_is_absolute{end+1} = true;
@@ -172,8 +172,8 @@ tc.verifyEqual(stdlib.stem("foo/bar/baz.txt.gz"), "baz.txt")
 end
 
 
-function test_is_absolute_path(tc, in_is_absolute, ref_is_absolute)
-tc.verifyEqual(stdlib.is_absolute_path(in_is_absolute), ref_is_absolute)
+function test_is_absolute(tc, in_is_absolute, ref_is_absolute)
+tc.verifyEqual(stdlib.is_absolute(in_is_absolute), ref_is_absolute)
 end
 
 
