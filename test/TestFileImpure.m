@@ -275,6 +275,17 @@ tc.verifyEqual(stdlib.fileio.file_checksum(fn, "sha256"), "2cf24dba5fb0a30e26e83
 
 end
 
+
+function test_filesystem_type(tc)
+
+import matlab.unittest.constraints.IsOfClass
+
+t = stdlib.filesystem_type(".");
+
+tc.verifyThat(t, IsOfClass('string'))
+
+end
+
 end
 
 end
