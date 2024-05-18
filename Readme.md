@@ -7,7 +7,7 @@
 Matlab users coming from other languages often notice the missing functionality contained within this user-developed, unofficial "stdlib" for Matlab.
 These system "sys", file I/O "fileio" and HDF5/NetCDF "hdf5nc" function are useful across several of our own and others projects.
 
-The absolute minimum Matlab release is R2020b.
+The absolute minimum Matlab release is R2021a.
 NetCDF4 string support requires Matlab >= R2021b.
 
 Self-tests can be run from that matlab-stdlib/ directory:
