@@ -78,7 +78,7 @@ fn = tempname;
 tc.verifyTrue(stdlib.touch(fn))
 t0 = stdlib.get_modtime(fn);
 
-pause(0.4)  % empirical to avoid failing >=
+pause(1.)  % empirical to avoid failing >=.  0.4 failed intermittantly
 tc.verifyTrue(stdlib.set_modtime(fn))
 t1 = stdlib.get_modtime(fn);
 
