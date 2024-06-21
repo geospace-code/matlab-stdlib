@@ -7,6 +7,7 @@ arguments
   link (1,1) string
 end
 
+if isMATLABReleaseOlderThan("R2024b")
 % import java.io.File
 % import java.nio.file.Files
 % ok = Files.createSymbolicLink(File(link).toPath(), File(target).toPath());
@@ -18,7 +19,8 @@ if stdlib.fileio.exists(link)
 end
 
 if ispc
-  cmd = "pwsh -c " + '"' + "New-Item -ItemType SymbolicLink -Path " + link + " -Target " + target + '"';
+  cmd = "pwsh -c " + '"' + "New-Item -ItemType SymbolicLink -Path " + link + ...
+        " -Target " + target + '"';
 else
   cmd = "ln -s " + target + " " + link;
 end
@@ -27,5 +29,16 @@ end
 [stat, ~] = system(cmd);
 
 ok = stat == 0;
+
+else
+
+  try
+    createSymbolicLink(link, target);
+    ok = true;
+  catch
+    ok = false;
+  end
+
+end
 
 end

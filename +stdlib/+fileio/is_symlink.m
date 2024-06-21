@@ -6,11 +6,11 @@ arguments
   p (1,1) string
 end
 
-import java.io.File
-import java.nio.file.Files
-
-% must be absolute path
-f = File(stdlib.fileio.absolute_path(p)).toPath();
-ok = Files.isSymbolicLink(f);
+if isMATLABReleaseOlderThan("R2024b")
+  % must be absolute path
+  ok = java.nio.file.Files.isSymbolicLink(java.io.File(stdlib.fileio.absolute_path(p)).toPath());
+else
+  ok = isSymbolicLink(p);
+end
 
 end
