@@ -7,7 +7,7 @@ arguments
   link (1,1) string
 end
 
-if isMATLABReleaseOlderThan("R2024b")
+if ispc || isMATLABReleaseOlderThan("R2024b")
 % import java.io.File
 % import java.nio.file.Files
 % ok = Files.createSymbolicLink(File(link).toPath(), File(target).toPath());
@@ -31,11 +31,14 @@ end
 ok = stat == 0;
 
 else
+% windows requires RunAsAdmin, so we don't use this on Windows
+% https://www.mathworks.com/help/releases/R2024b/matlab/ref/createsymboliclink.html
 
   try
     createSymbolicLink(link, target);
     ok = true;
-  catch
+  catch e
+    warning(e.message)
     ok = false;
   end
 
