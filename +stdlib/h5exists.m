@@ -1,19 +1,19 @@
-function exists = h5exists(file, vars)
+function exists = h5exists(file, variable)
 %% H5EXISTS(file, vars)
 % check if object(s) exists in HDF5 file
 %
 %%% Inputs
 % * file: data filename
-% * varname: path(s) of variable in file
+% * variable: path of variable in file
 %
 %%% Outputs
-% * exists: boolean (scalar or vector)
+% * exists: boolean
 
 arguments
     file (1,1) string {mustBeFile}
-    vars string
+    variable string {mustBeScalarOrEmpty}
 end
 
-exists = stdlib.hdf5nc.h5exists(file, vars);
+exists = stdlib.hdf5nc.h5exists(file, variable);
 
 end

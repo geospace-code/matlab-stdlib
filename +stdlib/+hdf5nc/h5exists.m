@@ -1,13 +1,27 @@
-function exists = h5exists(file, vars)
+function exists = h5exists(file, variable)
 
 arguments
   file (1,1) string {mustBeFile}
-  vars string
+  variable string {mustBeScalarOrEmpty}
 end
 
-i = startsWith(vars, "/");
-vars(i) = extractAfter(vars(i), 1);
-% NOT contains because we want exact string match
-exists = ismember(vars, stdlib.hdf5nc.h5variables(file));
+exists = false;
+
+if(strlength(variable) == 0)
+  return
+end
+
+if ~startsWith(variable, "/")
+  variable = "/" + variable;
+end
+
+try
+  h5info(file, variable);
+  exists = true;
+catch e
+  if e.identifier ~= "MATLAB:imagesci:h5info:unableToFind"
+    rethrow(e)
+  end
+end
 
 end
