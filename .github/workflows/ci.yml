@@ -15,6 +15,7 @@ jobs:
 
 # R2022b has a bug with test parameter {"h"} syntax
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest]
         release: [R2021a, R2021b, R2022a, R2023a, R2023b, R2024a]
