@@ -37,8 +37,7 @@ else
   try
     createSymbolicLink(link, target);
     ok = true;
-  catch e
-    warning(e.message)
+  catch
     ok = false;
   end
 
