@@ -16,8 +16,6 @@ function setup_file(tc)
 import matlab.unittest.constraints.IsFile
 import matlab.unittest.fixtures.TemporaryFolderFixture
 
-tc.assumeFalse(isMATLABReleaseOlderThan('R2021a'), "NetCDF requires Matlab >= R2021a")
-
 fixture = tc.applyFixture(TemporaryFolderFixture);
 
 A0 = 42.;
