@@ -16,7 +16,7 @@ r = stdlib.fileio.absolute_path(p);
 
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#readSymbolicLink(java.nio.file.Path)
 % must be absolute path
-r = java.nio.file.Files.readSymbolicLink(java.io.File(r).toPath());
+r = stdlib.fileio.posix(java.nio.file.Files.readSymbolicLink(java.io.File(r).toPath()));
 
 else
   [ok, t] = isSymbolicLink(p);

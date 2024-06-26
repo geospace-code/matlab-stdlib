@@ -42,13 +42,20 @@ tc.verifyFalse(stdlib.is_symlink(tc.TestData.this))
 
 end
 
+
 function test_read_symlink(tc)
+import matlab.unittest.constraints.IsOfClass
 
 tc.verifyEmpty(stdlib.read_symlink("not-exist"))
 tc.verifyEmpty(stdlib.read_symlink(tc.TestData.this))
-tc.verifyNotEmpty(stdlib.read_symlink(tc.TestData.link))
+
+t = stdlib.read_symlink(tc.TestData.link);
+tc.verifyNotEmpty(t)
+tc.verifyThat(t, IsOfClass('string'))
+tc.verifyTrue(stdlib.samepath(tc.TestData.this, t))
 
 end
+
 
 function test_create_symlink(tc)
 
