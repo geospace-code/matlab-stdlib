@@ -8,7 +8,8 @@ end
 
 if isMATLABReleaseOlderThan("R2024b")
   % must be absolute path
-  ok = java.nio.file.Files.isSymbolicLink(java.io.File(stdlib.fileio.absolute_path(p)).toPath());
+  p = stdlib.fileio.absolute_path(p);
+  ok = java.nio.file.Files.isSymbolicLink(java.io.File(p).toPath());
 else
   ok = isSymbolicLink(p);
 end
