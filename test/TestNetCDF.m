@@ -90,19 +90,14 @@ function test_exists(tc)
 import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
-tc.verifyEmpty(stdlib.ncexists(basic, string.empty))
-
 e = stdlib.ncexists(basic, "");
 
 tc.verifyThat(e, IsScalar)
 tc.verifyFalse(e)
 
-e = stdlib.ncexists(basic, ["A1", "oops"]);
-tc.verifyTrue(isvector(e))
-tc.verifyEqual(e, [true, false])
+tc.verifyTrue(stdlib.ncexists(basic, "A1"))
+tc.verifyFalse(stdlib.ncexists(basic, "not-exist"))
 
-e = stdlib.ncexists(basic, {'A0', 'A1', 'A2', 'A3', 'A4'});
-tc.verifyTrue(all(e))
 end
 
 

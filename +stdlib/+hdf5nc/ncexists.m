@@ -1,11 +1,19 @@
-function exists = ncexists(file, vars)
+function exists = ncexists(file, variable)
 
 arguments
   file (1,1) string {mustBeFile}
-  vars string
+  variable string {mustBeScalarOrEmpty}
 end
 
-% NOT contains because we want exact string match
-exists = ismember(vars, stdlib.hdf5nc.ncvariables(file));
+exists = false;
+
+try
+  ncinfo(file, variable);
+  exists = true;
+catch e
+  if ~any(contains(e.identifier, ["MATLAB:imagesci:netcdf:badLocationString", "MATLAB:imagesci:netcdf:unknownLocation"]))
+    rethrow(e)
+  end
+end
 
 end

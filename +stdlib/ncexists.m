@@ -1,19 +1,19 @@
-function exists = ncexists(file, vars)
-%% ncexists(file, vars)
-% check if variable(s) exists in NetCDF4 file
+function exists = ncexists(file, variable)
+%% ncexists(file, variable)
+% check if variable exists in NetCDF4 file
 %
 %%% Inputs
 % * file: data filename
-% * varname: path(s) of variable in file
+% * variable: path of variable in file
 %
 %%% Outputs
-% * exists: boolean (scalar or vector)
+% * exists: boolean
 
 arguments
-  file (1,1) string {mustBeFile}
-  vars string
+  file (1,1) string
+  variable string {mustBeScalarOrEmpty}
 end
 
-exists = stdlib.hdf5nc.ncexists(file, vars);
+exists = stdlib.hdf5nc.ncexists(file, variable);
 
 end
