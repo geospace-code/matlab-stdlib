@@ -11,7 +11,7 @@ function exists = ncexists(file, variable)
 
 arguments
   file (1,1) string
-  variable string {mustBeScalarOrEmpty}
+  variable (1,1) string
 end
 
 exists = stdlib.hdf5nc.ncexists(file, variable);

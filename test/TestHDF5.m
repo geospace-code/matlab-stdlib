@@ -97,13 +97,10 @@ function test_exists(tc)
 import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
-e = stdlib.h5exists(basic, "");
+e = stdlib.h5exists(basic, "/A0");
 
 tc.verifyThat(e, IsScalar)
-tc.verifyFalse(e)
-
-tc.verifyTrue(stdlib.h5exists(basic, "/A0"));
-tc.verifyTrue(stdlib.h5exists(basic, "A0"));
+tc.verifyTrue(e);
 
 end
 
@@ -194,7 +191,7 @@ end
 function test_coerce(tc, type)
 basic = tc.TestData.basic;
 
-stdlib.h5save(basic, type, 0, "type",type)
+stdlib.h5save(basic, "/"+type, 0, "type",type)
 
 switch type
 case "string", vt = 'char';

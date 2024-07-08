@@ -2,7 +2,7 @@ function exists = ncexists(file, variable)
 
 arguments
   file (1,1) string {mustBeFile}
-  variable string {mustBeScalarOrEmpty}
+  variable (1,1) string
 end
 
 exists = false;

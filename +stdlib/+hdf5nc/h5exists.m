@@ -2,18 +2,10 @@ function exists = h5exists(file, variable)
 
 arguments
   file (1,1) string {mustBeFile}
-  variable string {mustBeScalarOrEmpty}
+  variable (1,1) string
 end
 
 exists = false;
-
-if(strlength(variable) == 0)
-  return
-end
-
-if ~startsWith(variable, "/")
-  variable = "/" + variable;
-end
 
 try
   h5info(file, variable);
