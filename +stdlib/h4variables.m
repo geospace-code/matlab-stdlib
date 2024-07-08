@@ -1,4 +1,4 @@
-function names = h5variables(file, group)
+function names = h4variables(file)
 %% h5variables(file, group)
 % get dataset names in a file under group
 % default is datasets under "/", optionally under "/group"
@@ -12,9 +12,8 @@ function names = h5variables(file, group)
 
 arguments
     file (1,1) string
-    group string {mustBeScalarOrEmpty} = string.empty
 end
 
-names = stdlib.hdf5nc.h5variables(file, group);
+names = stdlib.hdf5nc.h4variables(file);
 
 end

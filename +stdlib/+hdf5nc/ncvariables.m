@@ -5,8 +5,6 @@ arguments
   group string {mustBeScalarOrEmpty} = string.empty
 end
 
-names = string.empty;
-
 if isempty(group) || strlength(group) == 0
   finf = ncinfo(file);
 else
@@ -14,10 +12,11 @@ else
 end
 
 ds = finf.Variables(:);
+
 if isempty(ds)
-  return
+  names = string.empty;
+else
+  names = string({ds.Name});
 end
 
-names = string({ds.Name});
-
-end % function
+end

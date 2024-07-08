@@ -7,7 +7,7 @@ end
 
 sds = hdfinfo(file).SDS;
 
-i = string(hdfinfo(file).SDS.Name) == variable;
+i = string(sds.Name) == variable;
 if ~all(i)
   error(variable + " is not an SDS in " + file)
 end
