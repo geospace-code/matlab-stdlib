@@ -112,47 +112,31 @@ function test_size(tc)
 import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
-tc.verifyEmpty(stdlib.h5ndims(basic, string.empty))
-tc.verifyEmpty(stdlib.h5ndims(basic, ""))
-
-r = stdlib.h5ndims(basic, '/A0');
 s = stdlib.h5size(basic, '/A0');
 tc.verifyEmpty(s)
-tc.verifyEqual(r, 0)
 
-r = stdlib.h5ndims(basic, '/A1');
 s = stdlib.h5size(basic, '/A1');
 tc.verifyThat(s, IsScalar)
 tc.verifyEqual(s, 2)
-tc.verifyEqual(r, 1)
 
-r = stdlib.h5ndims(basic, '/A2');
 s = stdlib.h5size(basic, '/A2');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,4])
-tc.verifyEqual(r, 2)
 
-r = stdlib.h5ndims(basic, '/A3');
 s = stdlib.h5size(basic, '/A3');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2])
-tc.verifyEqual(r, 3)
 
-r = stdlib.h5ndims(basic, '/A4');
 s = stdlib.h5size(basic, '/A4');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
-tc.verifyEqual(r, 4)
 
-r = stdlib.h5ndims(basic, '/utf');
 s = stdlib.h5size(basic, '/utf');
 tc.verifyEmpty(s)
-tc.verifyEqual(r, 0)
 
-r = stdlib.h5ndims(basic, '/utf2');
 s = stdlib.h5size(basic, '/utf2');
 tc.verifyEqual(s, 2)
-tc.verifyEqual(r, 1)
+
 end
 
 

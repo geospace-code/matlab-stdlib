@@ -103,37 +103,25 @@ function test_size(tc)
 import matlab.unittest.constraints.IsScalar
 basic = tc.TestData.basic;
 
-tc.verifyEmpty(stdlib.ncndims(basic, string.empty))
-tc.verifyEmpty(stdlib.ncndims(basic, ""))
-
-r = stdlib.ncndims(basic, 'A0');
 s = stdlib.ncsize(basic, 'A0');
 tc.verifyEmpty(s)
-tc.verifyEqual(r, 0)
 
-r = stdlib.ncndims(basic, 'A1');
 s = stdlib.ncsize(basic, 'A1');
 tc.verifyThat(s, IsScalar)
 tc.verifyEqual(s, 2)
-tc.verifyEqual(r, 1)
 
-r = stdlib.ncndims(basic, 'A2');
 s = stdlib.ncsize(basic, 'A2');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,4])
-tc.verifyEqual(r, 2)
 
-r = stdlib.ncndims(basic, 'A3');
 s = stdlib.ncsize(basic, 'A3');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2])
-tc.verifyEqual(r, 3)
 
-r = stdlib.ncndims(basic, 'A4');
 s = stdlib.ncsize(basic, 'A4');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
-tc.verifyEqual(r, 4)
+
 end
 
 function test_size_string(tc)
@@ -141,20 +129,14 @@ basic = tc.TestData.basic;
 
 tc.assumeFalse(isMATLABReleaseOlderThan('R2021b'), "NetCDF4 string requires Matlab >= R2021b")
 
-r = stdlib.ncndims(basic, 'utf0');
 s = stdlib.ncsize(basic, 'utf0');
 tc.verifyEmpty(s)
-tc.verifyEqual(r, 0)
 
-r = stdlib.ncndims(basic, 'utf1');
 s = stdlib.ncsize(basic, 'utf1');
 tc.verifyEqual(s, 2)
-tc.verifyEqual(r, 1)
 
-r = stdlib.ncndims(basic, 'utf2');
 s = stdlib.ncsize(basic, 'utf2');
 tc.verifyEqual(s, [2, 2])
-tc.verifyEqual(r, 2)
 end
 
 

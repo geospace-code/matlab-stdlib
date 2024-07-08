@@ -1,0 +1,17 @@
+function fsize = h4size(file, variable)
+
+arguments
+  file (1,1) string {mustBeFile}
+  variable (1,1) string {mustBeNonzeroLengthText}
+end
+
+sds = hdfinfo(file).SDS;
+
+i = string(hdfinfo(file).SDS.Name) == variable;
+if ~all(i)
+  error(variable + " is not an SDS in " + file)
+end
+
+fsize = cell2mat({sds(i).Dims.Size});
+
+end

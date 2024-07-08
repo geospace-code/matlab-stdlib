@@ -10,8 +10,8 @@ function fsize = h5size(file, variable)
 % fsize: vector of variable size per dimension. Empty if scalar variable.
 
 arguments
-    file (1,1) string {mustBeFile}
-    variable (1,1) string {mustBeNonzeroLengthText}
+    file (1,1) string
+    variable (1,1) string
 end
 
 fsize = stdlib.hdf5nc.h5size(file, variable);
