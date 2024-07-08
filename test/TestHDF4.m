@@ -6,7 +6,9 @@ end
 
 methods (TestClassSetup)
 function setup_path(tc)
+import matlab.unittest.constraints.IsFile
 tc.TestData.basic = fullfile(matlabroot, "toolbox/matlab/demos/example.hdf");
+tc.assumeThat(tc.TestData.basic, IsFile)
 end
 end
 
