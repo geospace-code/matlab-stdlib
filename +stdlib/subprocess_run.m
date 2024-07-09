@@ -29,7 +29,7 @@ arguments
 end
 
 [status, stdout, stderr] = stdlib.sys.subprocess_run(cmd_array, ...
-'env', opt.env, 'cwd', opt.cwd, "stdin", opt.stdin);
+                                                                                 env=opt.env, cwd=opt.cwd, stdin=opt.stdin);
 
 if nargout<3
   fprintf(2, stderr)
