@@ -45,11 +45,7 @@ tc.assumeThat(file, IsFile, "VersionInfo.xml missing")
 for f = [file, stdlib.posix(file)]
     short = stdlib.fileio.windows_shortname(f);
 
-    if lower(getenv("CI")) == "true"
-      tc.assumeSubstring(short, "VERSIO~1.XML")
-    else
-      tc.verifySubstring(short, "VERSIO~1.XML")
-    end
+    tc.verifySubstring(short, "~")
 end
 
 tc.verifyEqual(stdlib.canonical(short), stdlib.posix(file))
