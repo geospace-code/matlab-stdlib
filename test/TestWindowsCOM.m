@@ -41,6 +41,7 @@ tc.assumeTrue(ispc, "Windows only")
 
 file = fullfile(matlabroot, "VersionInfo.xml");
 tc.assumeThat(file, IsFile, "VersionInfo.xml missing")
+tc.assumeSubstring(file, " ", "name won't shorten if it doesn't have a space")
 
 for f = [file, stdlib.posix(file)]
     short = stdlib.fileio.windows_shortname(f);
