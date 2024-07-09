@@ -20,9 +20,9 @@ else
 end
 
 [status, msg, err] = stdlib.subprocess_run(c);
-tc.verifyEqual(status, 0)
-tc.verifyTrue(strlength(msg) > 0)
-tc.verifyTrue(strlength(err) == 0)
+tc.assertEqual(status, 0, err)
+tc.verifyGreaterThan(strlength(msg),  0)
+tc.verifyEqual(strlength(err), 0)
 
 end
 
@@ -40,14 +40,14 @@ fixture = tc.applyFixture(TemporaryFolderFixture);
 td = fixture.Folder;
 
 [s, m, e] = stdlib.subprocess_run(c);
-tc.verifyEqual(s, 0)
-tc.verifyTrue(strlength(m) > 0)
-tc.verifyTrue(strlength(e) == 0)
+tc.assertEqual(s, 0, "status non-zero")
+tc.verifyGreaterThan(strlength(m), 0, "empty directory not expected")
+tc.verifyEqual(strlength(e), 0, e)
 
-[s, mc, e] = stdlib.subprocess_run(c, "cwd", td);
-tc.verifyEqual(s, 0)
-tc.verifyNotEqual(m, mc)
-tc.verifyTrue(strlength(e) == 0)
+[s, mc, e] = stdlib.subprocess_run(c, cwd=td);
+tc.assertEqual(s, 0, "status non-zero")
+tc.verifyNotEqual(m, mc, "expected different directory to have different contents")
+tc.verifyEqual(strlength(e), 0, e)
 
 end
 
