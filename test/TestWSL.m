@@ -49,7 +49,9 @@ tc.assumeTrue(stdlib.sys.has_wsl(), "did not find Windows Subsystem for Linux")
 wsl_temp = stdlib.sys.wsl_tempfile();
 tc.verifyNotEmpty(wsl_temp, "could not get WSL tempfile")
 
-wsl_path = stdlib.wslpath2winpath(wsl_temp);
+wsl_path = stdlib.wslpath2winpath("~");
+% can't use wsl_temp as new WSL spawned might have erased it.
+tc.verifyNotEqual(wsl_path, "~")
 tc.verifyTrue(stdlib.is_wsl_path(wsl_path), "could not convert WSL path to Windows path")
 
 win_path = stdlib.winpath2wslpath(wsl_path);
