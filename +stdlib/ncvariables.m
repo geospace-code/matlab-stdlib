@@ -9,12 +9,23 @@ function names = ncvariables(file, group)
 %
 %%% Outputs
 % * names: variable names
-
 arguments
   file (1,1) string {mustBeFile}
   group string {mustBeScalarOrEmpty} = string.empty
 end
 
-names = stdlib.hdf5nc.ncvariables(file, group);
+if isempty(group) || strlength(group) == 0
+  finf = ncinfo(file);
+else
+  finf = ncinfo(file, group);
+end
+
+ds = finf.Variables(:);
+
+if isempty(ds)
+  names = string.empty;
+else
+  names = string({ds.Name});
+end
 
 end

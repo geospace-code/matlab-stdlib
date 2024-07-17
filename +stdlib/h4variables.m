@@ -1,5 +1,5 @@
 function names = h4variables(file)
-%% h5variables(file, group)
+%% h4variables(file, group)
 % get dataset names in a file under group
 % default is datasets under "/", optionally under "/group"
 %
@@ -9,11 +9,14 @@ function names = h4variables(file)
 %
 %%% Outputs
 % * names: variable names
-
 arguments
-    file (1,1) string
+  file (1,1) string {mustBeFile}
 end
 
-names = stdlib.hdf5nc.h4variables(file);
+finf = hdfinfo(file);
+
+ds = finf.SDS;
+
+names = string({ds.Name});
 
 end

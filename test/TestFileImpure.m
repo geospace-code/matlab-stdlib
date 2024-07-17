@@ -29,7 +29,7 @@ cwd = fileparts(mfilename("fullpath"));
 top = fullfile(cwd, "..");
 addpath(top)
 
-ref_expand = {"", "~abc", stdlib.fileio.homedir, stdlib.join(stdlib.fileio.homedir, "foo")};
+ref_expand = {"", "~abc", stdlib.homedir, stdlib.join(stdlib.homedir, "foo")};
 end
 end
 
@@ -139,7 +139,7 @@ tc.verifyEqual(pt1, "2foo")
 r = stdlib.parent(mfilename('fullpath'));
 tc.verifyEqual(stdlib.canonical(fullfile(r, "..")), stdlib.parent(r))
 
-h = stdlib.fileio.homedir;
+h = stdlib.homedir;
 tc.verifyEqual(stdlib.canonical("~"), h)
 tc.verifyEqual(stdlib.canonical("~/"), h)
 tc.verifyEqual(stdlib.canonical("~/.."), stdlib.parent(h))
@@ -162,7 +162,7 @@ tc.applyFixture(CurrentFolderFixture(td))
 
 % all non-existing files
 
-tc.verifyEqual(stdlib.resolve(""), stdlib.fileio.posix(pwd))
+tc.verifyEqual(stdlib.resolve(""), stdlib.posix(pwd))
 
 pabs = stdlib.resolve('2foo');
 pabs2 = stdlib.resolve('4foo');
@@ -190,7 +190,7 @@ r = stdlib.parent(mfilename('fullpath'));
 rp = stdlib.parent(r);
 tc.verifyEqual(stdlib.resolve(rp), stdlib.parent(r))
 
-h = stdlib.fileio.homedir;
+h = stdlib.homedir;
 tc.verifyEqual(stdlib.resolve("~"), h)
 tc.verifyEqual(stdlib.resolve("~/"), h)
 tc.verifyEqual(stdlib.resolve("~/.."), stdlib.parent(h))
@@ -270,8 +270,8 @@ fprintf(fid, "hello");
 fclose(fid);
 tc.assumeThat(fn, IsFile)
 
-tc.verifyEqual(stdlib.fileio.file_checksum(fn, "md5"), "5d41402abc4b2a76b9719d911017c592")
-tc.verifyEqual(stdlib.fileio.file_checksum(fn, "sha256"), "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824")
+tc.verifyEqual(stdlib.file_checksum(fn, "md5"), "5d41402abc4b2a76b9719d911017c592")
+tc.verifyEqual(stdlib.file_checksum(fn, "sha256"), "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824")
 
 end
 

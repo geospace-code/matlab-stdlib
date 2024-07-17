@@ -6,6 +6,15 @@ arguments
   direc (1,1) string {mustBeNonzeroLengthText}
 end
 
-stdlib.fileio.makedir(direc);
+%% to avoid confusing making ./~/mydir
+direc = stdlib.expanduser(direc);
+
+if isfolder(direc)
+  return
+end
+
+mkdir(direc);
+
+mustBeFolder(direc)
 
 end

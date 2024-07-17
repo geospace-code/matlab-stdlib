@@ -5,6 +5,6 @@ arguments
   b (1,1) string
 end
 
-p = stdlib.fileio.join(a, b);
+p = stdlib.posix(fullfile(a, b));
 
 end

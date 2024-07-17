@@ -3,6 +3,10 @@ arguments
   path (1,1) string {mustBeNonzeroLengthText}
 end
 
-iswsl = stdlib.fileio.is_wsl_path(path);
+if ispc
+  iswsl = any(startsWith(path, ["\\wsl$", "\\wsl.localhost"]));
+else
+  iswsl = false;
+end
 
 end

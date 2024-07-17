@@ -1,5 +1,5 @@
 function exists = h4exists(file, variable)
-%% H5EXISTS(file, variable)
+%% H4EXISTS(file, variable)
 % check if object exists in HDF4 file
 %
 %%% Inputs
@@ -8,12 +8,19 @@ function exists = h4exists(file, variable)
 %
 %%% Outputs
 % * exists: boolean
-
 arguments
-  file (1,1) string
-  variable (1,1) string
+  file (1,1) string {mustBeFile}
+  variable (1,1) string {mustBeNonzeroLengthText}
 end
 
-exists = stdlib.hdf5nc.h4exists(file, variable);
+exists = false;
 
+try
+  sds = hdfinfo(file).SDS;
+  i = string(sds.Name) == variable;
+  exists = any(i);
+catch e
+  if e.identifier ~= "MATLAB:imagesci:h5info:unableToFind"
+    rethrow(e)
+  end
 end

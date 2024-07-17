@@ -4,6 +4,11 @@ arguments
   other (1,1) string
 end
 
-r = stdlib.fileio.proximate_to(base, other);
+r = stdlib.relative_to(base, other);
+if strlength(r) > 0
+  return;
+end
+
+r = other;
 
 end

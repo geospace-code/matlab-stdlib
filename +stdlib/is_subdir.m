@@ -4,6 +4,8 @@ arguments
   dir (1,1) string
 end
 
-yes = stdlib.fileio.is_subdir(subdir, dir);
+r = stdlib.relative_to(dir, subdir);
+
+yes = strlength(r) > 0 && r ~= "." && ~startsWith(r, "..");
 
 end

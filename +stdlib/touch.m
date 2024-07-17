@@ -3,6 +3,10 @@ arguments
   p (1,1) string
 end
 
-ok = stdlib.fileio.touch(p);
+if stdlib.exists(p)
+  ok = stdlib.set_modtime(p);
+else
+  ok = java.io.File(p).createNewFile();
+end
 
 end

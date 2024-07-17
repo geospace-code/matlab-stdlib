@@ -13,7 +13,7 @@ end
 methods (Test)
 
 function test_not(tc)
-tc.verifyEqual(stdlib.fileio.windows_shortname("not-exist"), "")
+tc.verifyEqual(stdlib.windows_shortname("not-exist"), "")
 
 end
 
@@ -25,7 +25,7 @@ tc.assumeTrue(ispc, "Windows only")
 progdir = getenv("PROGRAMFILES");
 tc.assumeThat(progdir, IsFolder, "PROGRAMFILES is not a directory")
 
-short = stdlib.fileio.windows_shortname(progdir);
+short = stdlib.windows_shortname(progdir);
 
 tc.verifySubstring(short, "PROGRA~1")
 
@@ -44,7 +44,7 @@ tc.assumeThat(file, IsFile, "VersionInfo.xml missing")
 tc.assumeSubstring(file, " ", "name won't shorten if it doesn't have a space")
 
 for f = [file, stdlib.posix(file)]
-    short = stdlib.fileio.windows_shortname(f);
+    short = stdlib.windows_shortname(f);
 
     tc.verifySubstring(short, "~")
 end

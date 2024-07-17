@@ -1,10 +1,27 @@
-function isabs = read_symlink(apath)
+function r = read_symlink(p)
 %% read_symlink read symbolic link
-
 arguments
-  apath (1,1) string
+  p (1,1) string
 end
 
-isabs = stdlib.fileio.read_symlink(apath);
+r = string.empty;
 
+if isMATLABReleaseOlderThan("R2024b")
+
+if ~stdlib.is_symlink(p)
+  return
+end
+
+r = stdlib.absolute_path(p);
+
+% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#readSymbolicLink(java.nio.file.Path)
+% must be absolute path
+r = stdlib.posix(...
+      java.nio.file.Files.readSymbolicLink(java.io.File(r).toPath()));
+
+else
+  [ok, t] = isSymbolicLink(p);
+  if ok
+    r = t;
+  end
 end

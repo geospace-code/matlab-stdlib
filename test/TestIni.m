@@ -19,7 +19,7 @@ example = stdlib.join(cwd, "example.ini");
 
 tc.assumeThat(example, IsFile)
 
-s = stdlib.fileio.ini2struct(example);
+s = stdlib.ini2struct(example);
 tc.verifyClass(s, 'struct')
 tc.verifyEqual(s.DATA.keyNum, 113);
 

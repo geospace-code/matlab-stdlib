@@ -1,10 +1,15 @@
-function ok = is_readable(p)
-%% is_readable() returns true if the file at path p is readable
+function ok = is_readable(file)
+%% is_readable is file readable
+% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isReadable(java.nio.file.Path)
 
 arguments
-  p (1,1) string
+  file (1,1) string
 end
 
-ok = stdlib.fileio.is_readable(p);
+import java.io.File
+import java.nio.file.Files
+
+
+ok = Files.isReadable(File(stdlib.absolute_path(file)).toPath());
 
 end

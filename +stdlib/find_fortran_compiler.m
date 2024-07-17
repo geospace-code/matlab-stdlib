@@ -30,7 +30,7 @@ fprintf(fid, '%s\n', prog);
 fclose(fid);
 
 for f = FCs
-  fc = stdlib.fileio.which(f);
+  fc = stdlib.which(f);
   if isempty(fc)
     continue
   end

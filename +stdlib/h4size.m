@@ -1,5 +1,5 @@
 function fsize = h4size(file, variable)
-%% h5size(file, variable)
+%% h4size(file, variable)
 % get size (shape) of a data file variable
 %
 %%% Inputs
@@ -8,12 +8,18 @@ function fsize = h4size(file, variable)
 %
 %%% Outputs
 % fsize: vector of variable size per dimension. Empty if scalar variable.
-
 arguments
-    file (1,1) string
-    variable (1,1) string
+  file (1,1) string {mustBeFile}
+  variable (1,1) string {mustBeNonzeroLengthText}
 end
 
-fsize = stdlib.hdf5nc.h4size(file, variable);
+sds = hdfinfo(file).SDS;
+
+i = string(sds.Name) == variable;
+if ~all(i)
+  error(variable + " is not an SDS in " + file)
+end
+
+fsize = cell2mat({sds(i).Dims.Size});
 
 end

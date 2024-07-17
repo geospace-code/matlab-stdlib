@@ -8,12 +8,20 @@ function exists = h5exists(file, variable)
 %
 %%% Outputs
 % * exists: boolean
-
 arguments
-  file (1,1) string
+  file (1,1) string {mustBeFile}
   variable (1,1) string
 end
 
-exists = stdlib.hdf5nc.h5exists(file, variable);
+exists = false;
+
+try
+  h5info(file, variable);
+  exists = true;
+catch e
+  if e.identifier ~= "MATLAB:imagesci:h5info:unableToFind"
+    rethrow(e)
+  end
+end
 
 end

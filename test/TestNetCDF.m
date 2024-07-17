@@ -42,15 +42,15 @@ tc.TestData.basic = basic;
 
 % create test data first, so that parallel tests works
 stdlib.ncsave(basic, 'A0', A0)
-stdlib.ncsave(basic, 'A1', A1, "dims", {'x1', size(A1,1)})
-stdlib.ncsave(basic, 'A2', A2, "dims", {'x2', size(A2,1), 'y2', size(A2,2)})
-stdlib.ncsave(basic, 'A3', A3, "dims", {'x3', size(A3,1), 'y3', size(A3,2), 'z3', size(A3,3)})
-stdlib.ncsave(basic, 'A4', A4, "dims", {'x4', size(A4,1), 'y4', size(A4,2), 'z4', size(A4,3), 'w4', size(A4,4)})
+stdlib.ncsave(basic, 'A1', A1, dims={'x1', size(A1,1)})
+stdlib.ncsave(basic, 'A2', A2, dims={'x2', size(A2,1), 'y2', size(A2,2)})
+stdlib.ncsave(basic, 'A3', A3, dims={'x3', size(A3,1), 'y3', size(A3,2), 'z3', size(A3,3)})
+stdlib.ncsave(basic, 'A4', A4, dims={'x4', size(A4,1), 'y4', size(A4,2), 'z4', size(A4,3), 'w4', size(A4,4)})
 
 if ~isMATLABReleaseOlderThan('R2021b')
   stdlib.ncsave(basic, "utf0", utf0)
-  stdlib.ncsave(basic, "utf1", utf1, "dims", {'s1', size(utf1, 1)})
-  stdlib.ncsave(basic, "utf2", utf2, "dims", {'s1', size(utf2, 1), 't1', size(utf2, 2)})
+  stdlib.ncsave(basic, "utf1", utf1, dims={'s1', size(utf1, 1)})
+  stdlib.ncsave(basic, "utf2", utf2, dims={'s1', size(utf2, 1), 't1', size(utf2, 2)})
 end
 
 stdlib.ncsave(basic, '/t/x', 12)
@@ -205,7 +205,7 @@ import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
 A2 = 3*magic(4);
-stdlib.ncsave(basic, "A2", A2, "dims", {'x2', size(A2,1), 'y2', size(A2,2)})
+stdlib.ncsave(basic, "A2", A2, dims={'x2', size(A2,1), 'y2', size(A2,2)})
 
 tc.assumeThat(basic, IsFile)
 tc.verifyEqual(ncread(basic, 'A2'), 3*magic(4))

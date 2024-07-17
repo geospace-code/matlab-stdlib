@@ -1,12 +1,13 @@
-function ppath = posix(file)
+function p = posix(p)
 %% posix(file)
 % convert a path to a Posix path separated with "/" even on Windows.
 % If Windows path also have escaping "\" this breaks
 arguments
-  file string
+  p string
 end
 
-
-ppath = stdlib.fileio.posix(file);
+if ispc
+  p = strrep(p, "\", "/");
+end
 
 end

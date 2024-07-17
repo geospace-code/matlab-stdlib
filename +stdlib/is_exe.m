@@ -1,15 +1,14 @@
 function ok = is_exe(file)
-%% is_exe(file)
-% is a file executable, as per its filesystem attributes
-%%% Inputs
-% * file: filename
-%%% Outputs
-% * ok: boolean logical
+%% is_exe is file executable
+% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#canExecute()
 
 arguments
   file (1,1) string
 end
 
-ok = stdlib.fileio.is_exe(file);
+ok = java.io.File(file).canExecute();
+
+% more complicated
+% ok = java.nio.file.Files.isExecutable(java.io.File(stdlib.absolute_path(file)).toPath());
 
 end

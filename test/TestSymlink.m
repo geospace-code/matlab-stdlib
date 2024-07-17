@@ -20,11 +20,11 @@ fixture = tc.applyFixture(TemporaryFolderFixture);
 td = fixture.Folder;
 tc.applyFixture(CurrentFolderFixture(td))
 
-tc.TestData.link = stdlib.fileio.join(td, "my.lnk");
+tc.TestData.link = stdlib.join(td, "my.lnk");
 
 tc.TestData.this = mfilename("fullpath") + ".m";
 
-tc.assumeTrue(stdlib.fileio.create_symlink(tc.TestData.this, tc.TestData.link), ...
+tc.assumeTrue(stdlib.create_symlink(tc.TestData.this, tc.TestData.link), ...
     "failed to create test link " + tc.TestData.link)
 
 end

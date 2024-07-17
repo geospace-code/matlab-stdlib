@@ -11,6 +11,9 @@ arguments
   suffix (1,1) string
 end
 
-filename = stdlib.fileio.with_suffix(filename, suffix);
+[direc, name, ext] = fileparts(filename);
+if ext ~= suffix
+  filename = stdlib.join(direc, name + suffix);
+end
 
 end

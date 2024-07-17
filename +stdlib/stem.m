@@ -4,6 +4,8 @@ arguments
   path string
 end
 
-p = stdlib.fileio.stem(path);
+[~, p] = fileparts(path);
+
+p = stdlib.posix(p);
 
 end

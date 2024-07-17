@@ -13,13 +13,13 @@ end
 methods (Test)
 
 function test_checkRAM(tc)
-tc.assertTrue(islogical(stdlib.sys.checkRAM(1)))
+tc.assertTrue(islogical(stdlib.checkRAM(1)))
 end
 
 function test_diskfree(tc)
 
-tc.assertTrue(isnumeric(stdlib.sys.diskfree('/')))
-tc.assertTrue(stdlib.sys.diskfree('/') > 0, 'diskfree')
+tc.assertTrue(isnumeric(stdlib.diskfree('/')))
+tc.assertTrue(stdlib.diskfree('/') > 0, 'diskfree')
 end
 
 

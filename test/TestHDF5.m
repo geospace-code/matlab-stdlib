@@ -67,9 +67,9 @@ methods (Test, ParameterCombination = 'sequential')
 
 function test_auto_chunk_size(tc)
 
-tc.verifyEqual(stdlib.hdf5nc.auto_chunk_size([1500,2500,1000,500,100]), [12,20,8,8,2])
-tc.verifyEqual(stdlib.hdf5nc.auto_chunk_size([15,250,100]), [2,32,25])
-tc.verifyEqual(stdlib.hdf5nc.auto_chunk_size([15,250]), [15,250])
+tc.verifyEqual(stdlib.auto_chunk_size([1500,2500,1000,500,100]), [12,20,8,8,2])
+tc.verifyEqual(stdlib.auto_chunk_size([15,250,100]), [2,32,25])
+tc.verifyEqual(stdlib.auto_chunk_size([15,250]), [15,250])
 end
 
 

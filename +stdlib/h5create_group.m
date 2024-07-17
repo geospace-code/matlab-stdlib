@@ -19,7 +19,7 @@ if isa(file, 'H5ML.id')
   fid = file;
 else
   % avoid confusing creating file ./~/foo.h5
-  file = stdlib.fileio.expanduser(file);
+  file = stdlib.expanduser(file);
   dcpl = 'H5P_DEFAULT';
   if isfile(file)
     fid = H5F.open(file, 'H5F_ACC_RDWR', dcpl);

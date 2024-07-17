@@ -5,6 +5,6 @@ arguments
   file (1,1) string {mustBeFile}
 end
 
-hash = stdlib.fileio.file_checksum(file, "md5");
+hash = stdlib.file_checksum(file, "md5");
 
 end

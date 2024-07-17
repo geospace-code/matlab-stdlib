@@ -14,7 +14,7 @@ methods (Test)
 function test_is_exe_which_wsl(tc)
 import matlab.unittest.constraints.IsFile
 tc.assumeTrue(ispc, "Windows only")
-tc.assumeTrue(stdlib.sys.has_wsl(), "did not find Windows Subsystem for Linux")
+tc.assumeTrue(stdlib.has_wsl(), "did not find Windows Subsystem for Linux")
 
 [ret, cc] = system("wsl which cc");
 tc.assumeEqual(ret, 0, "could not find WSL C compiler")
@@ -44,9 +44,9 @@ end
 function test_wsl_path(tc)
 
 tc.assumeTrue(ispc, "Windows only")
-tc.assumeTrue(stdlib.sys.has_wsl(), "did not find Windows Subsystem for Linux")
+tc.assumeTrue(stdlib.has_wsl(), "did not find Windows Subsystem for Linux")
 
-wsl_temp = stdlib.sys.wsl_tempfile();
+wsl_temp = stdlib.wsl_tempfile();
 tc.verifyNotEmpty(wsl_temp, "could not get WSL tempfile")
 
 wsl_path = stdlib.wslpath2winpath("~");

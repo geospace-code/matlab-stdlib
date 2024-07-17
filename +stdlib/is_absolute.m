@@ -1,8 +1,10 @@
-function isabs = is_absolute(apath)
+function isabs = is_absolute(p)
 arguments
-  apath (1,1) string
+  p (1,1) string
 end
 
-isabs = stdlib.fileio.is_absolute(apath);
+isabs = java.io.File(p).toPath().isAbsolute();
 
+% alternative
+% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#isAbsolute()
 end

@@ -10,16 +10,32 @@ function h5save(filename, varname, A, opts)
 % * A: data to write
 % * opts.size: variable shape -- helps write scalar or vectors especially
 % * opts.type: class of variable e.g. int32, float32
-
 arguments
-    filename (1,1) string {mustBeNonzeroLengthText}
-    varname (1,1) string {mustBeNonzeroLengthText}
-    A {mustBeNonempty}
-    opts.size (1,:) double {mustBeInteger,mustBeNonnegative} = []
-    opts.type string {mustBeScalarOrEmpty} = string.empty
+  filename (1,1) string {mustBeNonzeroLengthText}
+  varname (1,1) string {mustBeNonzeroLengthText}
+  A {mustBeNonempty}
+  opts.size (1,:) double {mustBeInteger,mustBeNonnegative} = []
+  opts.type string {mustBeScalarOrEmpty} = string.empty
 end
 
-stdlib.hdf5nc.h5save(filename, varname, A, ...
-'size', opts.size, 'type', opts.type)
-
+if isnumeric(A)
+  mustBeReal(A)
 end
+
+% avoid confusing creating file ./~/foo.h5
+filename = stdlib.expanduser(filename);
+
+% coerce if needed
+A = coerce_ds(A, opts.type);
+
+if isfile(filename)
+  if stdlib.h5exists(filename, varname)
+    h5_exist_file(filename, varname, A, opts.size)
+  else
+    h5_new_file(filename, varname, A, opts.size)
+  end
+else
+    h5_new_file(filename, varname, A, opts.size)
+end
+
+end % function

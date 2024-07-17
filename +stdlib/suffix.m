@@ -1,10 +1,9 @@
-function s = suffix(p)
-%% suffix(p)
-
+function s = suffix(path)
+% SUFFIX last suffix of filename
 arguments
-  p string
+  path string
 end
 
-s = stdlib.fileio.suffix(p);
+[~, ~, s] = fileparts(path);
 
 end

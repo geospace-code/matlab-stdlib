@@ -9,7 +9,7 @@ end
 
 dcpl = 'H5P_DEFAULT';
 
-fid = stdlib.hdf5nc.h5create_group(file, hpath);
+fid = stdlib.h5create_group(file, hpath);
 
 space_id = H5S.create('H5S_SCALAR');
 if isstring(A)

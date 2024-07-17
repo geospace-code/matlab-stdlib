@@ -5,7 +5,7 @@ arguments (Output)
   path (1,1) string {mustBeNonzeroLengthText}
 end
 
-assert(stdlib.sys.has_wsl(), "stdlib:sys:wsl_tempfile:EnvironmentError", mfilename() + "only supported on Windows Matlab with WSL")
+assert(stdlib.has_wsl(), "stdlib:sys:wsl_tempfile:EnvironmentError", mfilename() + "only supported on Windows Matlab with WSL")
 
 [stat, path] = system("wsl mktemp -u");
 

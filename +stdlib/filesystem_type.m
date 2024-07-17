@@ -3,5 +3,9 @@ arguments
   p (1,1) string
 end
 
-t = stdlib.fileio.filesystem_type(p);
+import java.io.File
+import java.nio.file.Files
+
+t = string(Files.getFileStore(File(p).toPath()).type());
+
 end

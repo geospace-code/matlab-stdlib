@@ -3,6 +3,8 @@ arguments
   p (1,1) string
 end
 
-ok = stdlib.fileio.set_modtime(p);
+utc = convertTo(datetime("now", "TimeZone", "UTC"), "posixtime");
+
+ok = java.io.File(p).setLastModified(int64(utc) * 1000);
 
 end

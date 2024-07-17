@@ -1,10 +1,15 @@
-function ok = is_writable(p)
-%% is_writable() returns true if the file at path p is writable
+function ok = is_writable(file)
+%% is_writable is file writable
+% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isWritable(java.nio.file.Path)
 
 arguments
-  p (1,1) string
+  file (1,1) string
 end
 
-ok = stdlib.fileio.is_writable(p);
+import java.io.File
+import java.nio.file.Files
+
+
+ok = Files.isWritable(File(stdlib.absolute_path(file)).toPath());
 
 end
