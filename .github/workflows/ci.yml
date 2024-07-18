@@ -38,12 +38,12 @@ jobs:
 
     # >= R2022b
     - name: Run Matlab tests (buildtool)
-      if: ${{ matrix.release != 'R2021a' }}
+      if: ${{ matrix.release >= 'R2022b' || matrix.release == 'latest-including-prerelease' }}
       timeout-minutes: 10
       uses: matlab-actions/run-build@v2
 
     - name: Run tests (manual)
-      if: ${{ matrix.release == 'R2021a' }}
+      if: ${{ matrix.release < 'R2022b' && matrix.release != 'latest-including-prerelease' }}
       timeout-minutes: 10
       uses: matlab-actions/run-tests@v2
       with:
