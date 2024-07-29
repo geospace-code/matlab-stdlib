@@ -24,6 +24,10 @@ The "matlab-stdlib" package uses Java functions throughout, with the higher-leve
 and the classic
 [java.io.File](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/File.html) classes.
 
+That is, if Matlab was started with
+[-nojvm](https://www.mathworks.com/help/matlab/matlab_env/commonly-used-startup-options.html),
+many of the stdlib filesystem function do not work.
+
 ## Acknowledgements
 
 Stdlib for Matlab was partly funded by NASA NNH19ZDA001N-HDEE grant 80NSSC20K0176.
