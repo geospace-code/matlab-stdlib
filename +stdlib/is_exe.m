@@ -1,6 +1,6 @@
 function ok = is_exe(file)
 %% is_exe is file executable
-% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#canExecute()
+% https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/File.html#canExecute()
 
 arguments
   file (1,1) string

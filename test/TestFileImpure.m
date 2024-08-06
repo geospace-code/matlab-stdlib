@@ -286,6 +286,24 @@ tc.verifyThat(t, IsOfClass('string'))
 
 end
 
+
+function test_owner(tc)
+
+owner = stdlib.get_owner('.');
+L = strlength(owner);
+tc.verifyGreaterThan(L, 0, "expected non-empty username")
+
+end
+
+
+function test_username(tc)
+
+u = stdlib.get_username();
+L = strlength(u);
+tc.verifyGreaterThan(L, 0, "expected non-empty username")
+
+end
+
 end
 
 end
