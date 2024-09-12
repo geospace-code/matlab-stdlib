@@ -72,6 +72,19 @@ tc.verifyEqual(stdlib.expanduser(in_expand), ref_expand)
 end
 
 
+function test_null_file(tc)
+tc.verifyTrue(isfile(stdlib.null_file), "Null file not exist")
+end
+
+
+function test_is_regular_file(tc)
+
+tc.assumeTrue(isfile(stdlib.null_file), "null file not exist")
+tc.verifyFalse(stdlib.is_regular_file(stdlib.null_file), "null file is not a regular file")
+
+end
+
+
 function test_touch_modtime(tc)
 
 fn = tempname;
