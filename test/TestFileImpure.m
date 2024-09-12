@@ -73,13 +73,16 @@ end
 
 
 function test_null_file(tc)
+tc.assumeFalse(ispc)
 tc.verifyTrue(isfile(stdlib.null_file), "Null file not exist")
 end
 
 
 function test_is_regular_file(tc)
 
-tc.assumeTrue(isfile(stdlib.null_file), "null file not exist")
+if ~ispc
+  tc.assumeTrue(isfile(stdlib.null_file), "null file not exist")
+end
 tc.verifyFalse(stdlib.is_regular_file(stdlib.null_file), "null file is not a regular file")
 
 end
@@ -153,7 +156,10 @@ tc.verifyEqual(pt1, "2foo")
 r = stdlib.parent(mfilename('fullpath'));
 tc.verifyEqual(stdlib.canonical(fullfile(r, "..")), stdlib.parent(r))
 
+% on windows, ~ is expanded even without expanduser
+if ~ispc
 tc.verifyThat(stdlib.canonical("~", false), EndsWithSubstring("~"))
+end
 
 h = stdlib.homedir;
 tc.verifyEqual(stdlib.canonical("~"), h)
