@@ -1,4 +1,4 @@
-function c = canonical(p)
+function c = canonical(p, expand_tilde)
 %% canonical(p)
 % If exists, canonical absolute path is returned
 % if path does not exist, normalized relative path is returned
@@ -16,12 +16,16 @@ function c = canonical(p)
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getCanonicalPath()
 arguments
   p (1,1) string
+  expand_tilde (1,1) logical=true
 end
 
 import java.io.File
 
-% have to expand ~ first (like C++ filesystem::path::absolute)
-c = stdlib.expanduser(p);
+if expand_tilde
+  c = stdlib.expanduser(p);
+else
+  c = p;
+end
 
 if ispc && startsWith(c, "\\")
   % UNC path is not canonicalized

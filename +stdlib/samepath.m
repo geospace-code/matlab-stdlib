@@ -20,7 +20,7 @@ if ~stdlib.exists(path1) || ~stdlib.exists(path2)
   return
 end
 
-% not correct without canoncial(). Normalize() doesn't help.
+% not correct without canonical(). Normalize() doesn't help.
 path1 = stdlib.canonical(path1);
 path2 = stdlib.canonical(path2);
 
