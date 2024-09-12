@@ -118,6 +118,7 @@ function test_canonical(tc)
 import matlab.unittest.fixtures.TemporaryFolderFixture
 import matlab.unittest.fixtures.CurrentFolderFixture
 import matlab.unittest.constraints.StartsWithSubstring
+import matlab.unittest.constraints.EndsWithSubstring
 
 td = tc.applyFixture(TemporaryFolderFixture).Folder;
 tc.applyFixture(CurrentFolderFixture(td))
@@ -138,6 +139,8 @@ tc.verifyEqual(pt1, "2foo")
 % test existing file
 r = stdlib.parent(mfilename('fullpath'));
 tc.verifyEqual(stdlib.canonical(fullfile(r, "..")), stdlib.parent(r))
+
+tc.verifyThat(stdlib.canonical("~", false), EndsWithSubstring("~"))
 
 h = stdlib.homedir;
 tc.verifyEqual(stdlib.canonical("~"), h)
