@@ -9,6 +9,6 @@ end
 ok = java.io.File(file).canExecute();
 
 % more complicated
-% ok = java.nio.file.Files.isExecutable(java.io.File(stdlib.absolute_path(file)).toPath());
+% ok = java.nio.file.Files.isExecutable(java.io.File(stdlib.canonical(file)).toPath());
 
 end

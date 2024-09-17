@@ -12,10 +12,7 @@ arguments
   p (1,1) string
 end
 
-import java.io.File
-import stdlib.expanduser
-
-n = stdlib.posix(File(expanduser(p)).toPath().normalize());
+n = stdlib.posix(java.io.File(p).toPath().normalize());
 
 if(strlength(n) == 0), n = "."; end
 

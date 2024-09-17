@@ -1,4 +1,4 @@
-function c = resolve(p)
+function c = resolve(p, expand_tilde)
 %% resolve(p)
 % path need not exist--absolute path will be relative to pwd if not exist
 % if path exists, same result as canonical()
@@ -17,12 +17,14 @@ function c = resolve(p)
 % non-existant path is made absolute relative to pwd
 arguments
   p (1,1) string
+  expand_tilde (1,1) logical=true
 end
 
-import java.io.File
-
-% have to expand ~ first (like C++ filesystem::path::absolute)
-c = stdlib.expanduser(p);
+if expand_tilde
+  c = stdlib.expanduser(p);
+else
+  c = p;
+end
 
 if ispc && startsWith(c, "\\")
   % UNC path is not canonicalized
@@ -34,8 +36,8 @@ if ~stdlib.is_absolute(c)
   c = stdlib.join(pwd, c);
 end
 
-% % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getCanonicalPath()
+% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getAbsolutePath()
 
-c = stdlib.posix(File(c).getCanonicalPath());
+c = stdlib.posix(java.io.File(java.io.File(c).getAbsolutePath()).toPath().normalize());
 
 end % function

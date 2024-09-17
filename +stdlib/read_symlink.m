@@ -12,10 +12,11 @@ if ~stdlib.is_symlink(p)
   return
 end
 
-r = stdlib.absolute_path(p);
+% must be absolute path
+% must not be .canonical or symlink is gobbled!
+r = stdlib.resolve(p);
 
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#readSymbolicLink(java.nio.file.Path)
-% must be absolute path
 r = stdlib.posix(...
       java.nio.file.Files.readSymbolicLink(java.io.File(r).toPath()));
 

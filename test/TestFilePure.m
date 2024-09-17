@@ -177,32 +177,6 @@ tc.verifyEqual(stdlib.is_absolute(in_is_absolute), ref_is_absolute)
 end
 
 
-function test_absolute_path(tc)
-import matlab.unittest.constraints.StartsWithSubstring
-
-tc.verifyEqual(stdlib.absolute_path(""), "")
-
-pabs = stdlib.absolute_path('2foo');
-pabs2 = stdlib.absolute_path('4foo');
-tc.verifyThat(pabs, ~StartsWithSubstring("2"))
-tc.verifyTrue(strncmp(pabs, pabs2, 2))
-
-par1 = stdlib.absolute_path("../2foo");
-tc.verifyNotEmpty(par1)
-
-par2 = stdlib.absolute_path("../4foo");
-tc.verifyTrue(strncmp(par2, pabs2, 2))
-
-pt1 = stdlib.absolute_path("bar/../2foo");
-tc.verifyNotEmpty(pt1)
-
-va = stdlib.absolute_path("2foo");
-vb = stdlib.absolute_path("4foo");
-tc.verifyThat(va, ~StartsWithSubstring("2"))
-tc.verifyTrue(strncmp(va, vb, 2))
-
-end
-
 function test_normalize(tc)
 
 tc.verifyEqual(stdlib.normalize(""), ".")

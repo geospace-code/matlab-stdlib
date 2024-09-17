@@ -7,10 +7,6 @@ arguments
   file (1,1) string
 end
 
-import java.io.File
-import java.nio.file.Files
-
-
-ok = Files.isWritable(File(stdlib.absolute_path(file)).toPath());
+ok = java.nio.file.Files.isWritable(java.io.File(stdlib.canonical(file)).toPath());
 
 end
