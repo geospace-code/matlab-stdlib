@@ -6,5 +6,6 @@ if N < 2  % happens on some HPC
 end
 
 % logical CPUs
+% https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Runtime.html#getRuntime()
 % N=java.lang.Runtime.getRuntime().availableProcessors();
 end
