@@ -44,8 +44,24 @@ by using the
 [jenv](https://www.mathworks.com/help/matlab/ref/jenv.html)
 Matlab function.
 
-Matlab-stdlib has been test with JVM from version 8 to 17.
+For example, to use the [JDK 17 on macOS](https://www.oracle.com/java/technologies/downloads/#jdk17-mac) download and extract the ARM64 Compressed Archive.
+Tell Matlab to use this JDK from the Matlab console by:
 
-## Acknowledgements
+```matlab
+jenv("/path/to/jdk-17/Contents/Home")
+```
+
+To
+[revert back to the factory JRE](https://www.mathworks.com/help/matlab/ref/matlab_jenv.html)
+if Matlab can't start or has problems, from system Terminal do:
+
+```sh
+matlab_jenv factory
+```
+
+
+Matlab-stdlib has been tested with JVM versions 8 and 17.
+
+## Acknowledgments
 
 Stdlib for Matlab was partly funded by NASA NNH19ZDA001N-HDEE grant 80NSSC20K0176.
