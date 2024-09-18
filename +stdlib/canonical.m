@@ -19,8 +19,6 @@ arguments
   expand_tilde (1,1) logical=true
 end
 
-import java.io.File
-
 if expand_tilde
   c = stdlib.expanduser(p);
 else
@@ -48,6 +46,6 @@ end
 % REQUIRES path to exist, while java method does not.
 % c = builtin('_canonicalizepath', c);
 
-c = stdlib.posix(File(c).getCanonicalPath());
+c = stdlib.posix(java.io.File(c).getCanonicalPath());
 
 end % function

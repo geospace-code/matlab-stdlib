@@ -36,8 +36,8 @@ while ~feof(f)                              % and read until it ends
     Val = strtok(Val, "#");             % remove inline comment
     Val = strtrim(Val);                 % remove spaces before comment
 
-    [val, status] = double(string(Val));
-    if status, Val = val; end           % convert string to number(s)
+    Val = double(string(Val));
+    % convert string to number(s)
   end
 
   if ~exist('Section', 'var')             % No section found before

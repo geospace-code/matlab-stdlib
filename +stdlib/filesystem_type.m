@@ -3,9 +3,6 @@ arguments
   p (1,1) string
 end
 
-import java.io.File
-import java.nio.file.Files
-
-t = string(Files.getFileStore(File(p).toPath()).type());
+t = string(java.nio.file.Files.getFileStore(java.io.File(p).toPath()).type());
 
 end
