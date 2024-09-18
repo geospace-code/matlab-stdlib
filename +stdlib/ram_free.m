@@ -9,6 +9,10 @@ function freebytes = ram_free()
 
 b = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
 
-freebytes = b.getFreePhysicalMemorySize(); % deprecated but Matlab R2023b doesn't have getFreeMemorySize()
+if stdlib.java_api() < 14
+  freebytes = b.getFreePhysicalMemorySize();
+else
+  freebytes = b.getFreeMemorySize();
+end
 
 end

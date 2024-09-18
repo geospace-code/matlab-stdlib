@@ -8,8 +8,12 @@ function bytes = ram_total()
 
 b = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
 
-bytes = b.getTotalPhysicalMemorySize();
-% deprecated but Matlab doesn't have Java 14 getPhysicalMemorySize() yet
+if stdlib.java_api() < 14
+  bytes = b.getTotalPhysicalMemorySize();
+else
+  bytes = b.getTotalMemorySize();
+end
+
 % https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getTotalMemorySize()
 
 end
