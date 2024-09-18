@@ -299,6 +299,35 @@ tc.verifyGreaterThan(L, 0, "expected non-empty username")
 
 end
 
+function test_hostname(tc)
+h = stdlib.hostname();
+L = strlength(h);
+tc.verifyGreaterThan(L, 0, "expected non-empty hostname")
+
+end
+
+function test_getpid(tc)
+pid = stdlib.getpid();
+tc.verifyGreaterThan(pid, 0, "expected positive PID")
+end
+
+function test_get_permissions(tc)
+import matlab.unittest.constraints.StartsWithSubstring
+p = stdlib.get_permissions(".");
+tc.verifyThat(p, StartsWithSubstring("r"))
+end
+
+function test_java_version(tc)
+v = stdlib.java_version();
+L = strlength(v);
+tc.verifyGreaterThanOrEqual(L, 4)
+end
+
+function test_java_api(tc)
+v = stdlib.java_api();
+tc.verifyGreaterThanOrEqual(v, 8)
+end
+
 end
 
 end
