@@ -13,7 +13,7 @@ arguments
   p (1,1) string
 end
 
-short = "";
+short = string.empty;
 
 if ~ispc
   return

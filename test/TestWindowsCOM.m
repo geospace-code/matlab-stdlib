@@ -13,7 +13,7 @@ end
 methods (Test)
 
 function test_not(tc)
-tc.verifyEqual(stdlib.windows_shortname("not-exist"), "")
+tc.verifyEmpty(stdlib.windows_shortname("not-exist"))
 
 end
 
