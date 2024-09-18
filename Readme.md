@@ -17,50 +17,13 @@ buildtool
 
 [API Documentation](https://geospace-code.github.io/matlab-stdlib)
 
-## Java details
-
-The "matlab-stdlib" package uses Java functions throughout, with the higher-level
-[java.nio.Files](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html)
-and the classic
-[java.io.File](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/File.html) classes.
-
-That is, if Matlab was started with
+Many Matlab-Stdlib functions use the factory JRE in Matlab, and have been tested with JVM versions 8 and 17.
+For reference, we further
+[discuss Java implementation details](./Readme_java.md).
+If Matlab was started with
 [-nojvm](https://www.mathworks.com/help/matlab/matlab_env/commonly-used-startup-options.html),
-many of the stdlib filesystem function do not work.
+many Matlab-stdlib functions do not work.
 
-Get the JVM version with
-
-```matlab
-version("-java")
-```
-
-The Matlab default
-[JVM can be configured](https://www.mathworks.com/help/matlab/matlab_external/configure-your-system-to-use-java.html)
-to
-[compatible JRE](https://www.mathworks.com/support/requirements/language-interfaces.html)
-across
-[Matlab versions](https://www.mathworks.com/support/requirements/openjdk.html)
-by using the
-[jenv](https://www.mathworks.com/help/matlab/ref/jenv.html)
-Matlab function.
-
-For example, to use the [JDK 17 on macOS](https://www.oracle.com/java/technologies/downloads/#jdk17-mac) download and extract the ARM64 Compressed Archive.
-Tell Matlab to use this JDK from the Matlab console by:
-
-```matlab
-jenv("/path/to/jdk-17/Contents/Home")
-```
-
-To
-[revert back to the factory JRE](https://www.mathworks.com/help/matlab/ref/matlab_jenv.html)
-if Matlab can't start or has problems, from system Terminal do:
-
-```sh
-matlab_jenv factory
-```
-
-
-Matlab-stdlib has been tested with JVM versions 8 and 17.
 
 ## Acknowledgments
 
