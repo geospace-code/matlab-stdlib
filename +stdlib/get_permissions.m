@@ -22,22 +22,22 @@ end
 if v.UserExecute
   p = replaceBetween(p, 3, 3, "x");
 end
-if v.GroupRead
+if ~isnan(v.GroupRead) && logical(v.GroupRead)
   p = replaceBetween(p, 4, 4, "r");
 end
-if v.GroupWrite
+if ~isnan(v.GroupWrite) && logical(v.GroupWrite)
   p = replaceBetween(p, 5, 5, "w");
 end
-if v.GroupExecute
+if ~isnan(v.GroupExecute) && logical(v.GroupExecute)
   p = replaceBetween(p, 6, 6, "x");
 end
-if v.OtherRead
+if ~isnan(v.OtherRead) && logical(v.OtherRead)
   p = replaceBetween(p, 7, 7, "r");
 end
-if v.OtherWrite
+if ~isnan(v.OtherWrite) && logical(v.OtherWrite)
   p = replaceBetween(p, 8, 8, "w");
 end
-if v.OtherExecute
+if ~isnan(v.OtherExecute) && logical(v.OtherExecute)
   p = replaceBetween(p, 9, 9, "x");
 end
 
