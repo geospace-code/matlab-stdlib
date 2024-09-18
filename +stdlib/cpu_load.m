@@ -9,6 +9,12 @@ function L = cpu_load()
 
 b = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
 
-L = b.getSystemCpuLoad(); % deprecated, but Matlab R2023b didn't have getCpuLoad() yet
+if stdlib.java_api() < 14
+  L = b.getSystemCpuLoad();
+else
+  L = b.getCpuLoad();
+end
+
+% https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getSystemCpuLoad()
 
 end

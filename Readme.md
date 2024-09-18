@@ -17,7 +17,7 @@ buildtool
 
 [API Documentation](https://geospace-code.github.io/matlab-stdlib)
 
-## Developer notes
+## Java details
 
 The "matlab-stdlib" package uses Java functions throughout, with the higher-level
 [java.nio.Files](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html)
@@ -27,6 +27,24 @@ and the classic
 That is, if Matlab was started with
 [-nojvm](https://www.mathworks.com/help/matlab/matlab_env/commonly-used-startup-options.html),
 many of the stdlib filesystem function do not work.
+
+Get the JVM version with
+
+```matlab
+version("-java")
+```
+
+The Matlab default
+[JVM can be configured](https://www.mathworks.com/help/matlab/matlab_external/configure-your-system-to-use-java.html)
+to
+[compatible JRE](https://www.mathworks.com/support/requirements/language-interfaces.html)
+across
+[Matlab versions](https://www.mathworks.com/support/requirements/openjdk.html)
+by using the
+[jenv](https://www.mathworks.com/help/matlab/ref/jenv.html)
+Matlab function.
+
+Matlab-stdlib has been test with JVM from version 8 to 17.
 
 ## Acknowledgements
 

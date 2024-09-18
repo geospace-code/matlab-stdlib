@@ -32,11 +32,11 @@ while ~feof(f)                              % and read until it ends
   elseif Val(1)==''''                     % single-quoted string
     Val = strtok(Val, '''');
   else
-    Val = strtok(Val, ';');             % remove inline comment
-    Val = strtok(Val, '#');             % remove inline comment
+    Val = strtok(Val, ";");             % remove inline comment
+    Val = strtok(Val, "#");             % remove inline comment
     Val = strtrim(Val);                 % remove spaces before comment
 
-    [val, status] = str2num(Val);
+    [val, status] = double(string(Val));
     if status, Val = val; end           % convert string to number(s)
   end
 

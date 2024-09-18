@@ -12,8 +12,8 @@ function r = version_atleast(in, ref)
 % r: logical
 
 arguments
-    in (1,1) string
-    ref (1,1) string
+  in (1,1) string
+  ref (1,1) string
 end
 
 in = split(in, ' ');
