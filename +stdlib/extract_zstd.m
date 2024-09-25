@@ -9,8 +9,8 @@ arguments
   out_dir (1,1) string {mustBeFolder}
 end
 
-archive = stdlib.canonical(archive);
-out_dir = stdlib.canonical(out_dir);
+archive = stdlib.absolute(archive);
+out_dir = stdlib.absolute(out_dir);
 
 exe = stdlib.which("cmake");
 if isempty(exe)

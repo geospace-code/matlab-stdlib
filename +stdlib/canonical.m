@@ -11,6 +11,7 @@ function c = canonical(p, expand_tilde)
 %
 %%% Inputs
 % * p: path to make canonical
+% * expand_tilde: expand ~ to username if present
 %%% Outputs
 % * c: canonical path, if determined
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getCanonicalPath()

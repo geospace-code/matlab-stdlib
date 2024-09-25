@@ -6,6 +6,9 @@ arguments
   file (1,1) string
 end
 
-ok = java.nio.file.Files.isReadable(java.io.File(stdlib.canonical(file)).toPath());
+% needs absolute()
+file = stdlib.absolute(file);
+
+ok = java.nio.file.Files.isReadable(java.io.File(file).toPath());
 
 end

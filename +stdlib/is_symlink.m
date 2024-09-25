@@ -8,8 +8,8 @@ end
 
 if isMATLABReleaseOlderThan("R2024b")
   % must be absolute path
-  % must be .resolve, NOT .canonical or symlink is gobbled!
-  p = stdlib.resolve(p);
+  % NOT .canonical or symlink is gobbled!
+  p = stdlib.absolute(p);
   ok = java.nio.file.Files.isSymbolicLink(java.io.File(p).toPath());
 else
   ok = isSymbolicLink(p);

@@ -17,9 +17,9 @@ if ~stdlib.exists(path1) || ~stdlib.exists(path2)
   return
 end
 
-% not correct without canonical(). Normalize() doesn't help.
-path1 = stdlib.canonical(path1);
-path2 = stdlib.canonical(path2);
+% needs absolute
+path1 = stdlib.absolute(path1);
+path2 = stdlib.absolute(path2);
 
 issame = java.nio.file.Files.isSameFile(...
             java.io.File(path1).toPath(), ...

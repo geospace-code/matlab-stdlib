@@ -6,6 +6,8 @@ arguments
   file (1,1) string
 end
 
+% doesn't need absolute path like other Java functions
+
 ok = java.io.File(file).canExecute();
 
 % more complicated

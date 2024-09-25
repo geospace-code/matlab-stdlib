@@ -103,6 +103,25 @@ tc.verifyGreaterThanOrEqual(t1, t0)
 end
 
 
+function test_absolute(tc)
+import matlab.unittest.fixtures.TemporaryFolderFixture
+import matlab.unittest.fixtures.CurrentFolderFixture
+import matlab.unittest.constraints.StartsWithSubstring
+import matlab.unittest.constraints.EndsWithSubstring
+
+td = tc.applyFixture(TemporaryFolderFixture).Folder;
+tc.applyFixture(CurrentFolderFixture(td))
+
+tc.verifyEqual(stdlib.absolute(""), stdlib.posix(td))
+tc.verifyEqual(stdlib.absolute("",""), stdlib.posix(td))
+tc.verifyEqual(stdlib.absolute("hi"), stdlib.join(td, "hi"))
+tc.verifyEqual(stdlib.absolute("", "hi"), stdlib.join(td, "hi"))
+tc.verifyEqual(stdlib.absolute("there", "hi"), stdlib.join(td, "hi/there"))
+
+end
+
+
+
 function test_canonical(tc)
 import matlab.unittest.fixtures.TemporaryFolderFixture
 import matlab.unittest.fixtures.CurrentFolderFixture
@@ -157,7 +176,7 @@ tc.applyFixture(CurrentFolderFixture(td))
 
 % all non-existing files
 
-tc.verifyEqual(stdlib.resolve(""), stdlib.posix(pwd))
+tc.verifyEqual(stdlib.resolve(""), stdlib.posix(td))
 
 pabs = stdlib.resolve('2foo');
 pabs2 = stdlib.resolve('4foo');

@@ -5,8 +5,8 @@ end
 
 opt = java.nio.file.LinkOption.values;
 
-% not correct without canonical(). Normalize() doesn't help.
-p = stdlib.canonical(p);
+% needs absolute()
+p = stdlib.absolute(p);
 
 isreg = java.nio.file.Files.isRegularFile(java.io.File(p).toPath(), opt);
 
