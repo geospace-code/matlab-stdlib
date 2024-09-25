@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        release: [R2021a, R2023a, R2023b, R2024a]
+        release: [R2021a, R2023a, R2023b, R2024a, R2024b]
         include:
         - os: macos-latest
           release: R2024b
