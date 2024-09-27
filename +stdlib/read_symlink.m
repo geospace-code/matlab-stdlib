@@ -23,6 +23,6 @@ r = stdlib.posix(...
 else
   [ok, t] = isSymbolicLink(p);
   if ok
-    r = t;
+    r = stdlib.posix(t);
   end
 end
