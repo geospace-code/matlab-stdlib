@@ -336,6 +336,13 @@ p = stdlib.get_permissions(".");
 tc.verifyThat(p, StartsWithSubstring("r"))
 end
 
+function test_handle2filename(tc)
+tc.verifyEqual(stdlib.handle2filename(0), '"' + "stdin" + '"')
+tc.verifyEqual(stdlib.handle2filename(1), '"' + "stdout" + '"')
+tc.verifyEqual(stdlib.handle2filename(2), '"' + "stderr" + '"')
+tc.verifyEmpty(stdlib.handle2filename(fopen(tempname)))
+end
+
 function test_java_version(tc)
 v = stdlib.java_version();
 L = strlength(v);

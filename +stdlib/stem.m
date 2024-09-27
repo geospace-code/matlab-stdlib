@@ -6,6 +6,4 @@ end
 
 [~, p] = fileparts(path);
 
-p = stdlib.posix(p);
-
 end

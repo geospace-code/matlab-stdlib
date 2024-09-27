@@ -1,10 +1,12 @@
 function p = posix(p)
 %% posix(file)
-% convert a path to a Posix path separated with "/" even on Windows.
+% convert a path to a Posix string path separated with "/" even on Windows.
 % If Windows path also have escaping "\" this breaks
 arguments
   p string
 end
+
+p = string(p);
 
 if ispc
   p = strrep(p, "\", "/");
