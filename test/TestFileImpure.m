@@ -5,7 +5,7 @@ properties (ClassSetupParameter)
 end
 
 properties(TestParameter)
-in_exists = {pwd, string(mfilename("fullpath"))+".m", "not-exists"}
+in_exists = {pwd, mfilename("fullpath") + ".m", "not-exists"}
 ref_exists = {true, true, false}
 % on CI matlabroot can be writable!
 in_is_write = {pwd, "not-exists"};
@@ -355,6 +355,20 @@ end
 function test_java_api(tc)
 v = stdlib.java_api();
 tc.verifyGreaterThanOrEqual(v, 8)
+end
+
+function test_hard_link_count(tc)
+
+fn = mfilename("fullpath") + ".m";
+
+if ispc
+  tc.verifyEmpty(stdlib.hard_link_count(fn))
+else
+  tc.verifyGreaterThanOrEqual(stdlib.hard_link_count(fn), 1)
+end
+
+tc.verifyEmpty(stdlib.hard_link_count(tempname))
+
 end
 
 end

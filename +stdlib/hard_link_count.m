@@ -3,10 +3,10 @@ function c = hard_link_count(filepath)
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#getPosixFileAttributes(java.nio.file.Path,java.nio.file.LinkOption...)
 % https://docs.oracle.com/javase/tutorial/essential/io/links.html
 arguments
-  filepath (1,1) string {mustBeFile}
+  filepath (1,1) string
 end
 
-if ispc
+if ispc || ~isfile(filepath)
   c = [];
   return
 end
