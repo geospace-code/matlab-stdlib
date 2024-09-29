@@ -231,13 +231,16 @@ function test_which_name(tc)
 
 tc.verifyEmpty(stdlib.which(tempname))
 
-if ismac
-  n = "ls";
+if ispc
+  n = "pwsh.exe";
 else
-  n = "matlab";
+  n = "ls";
 end
 %% which: Matlab in environment variable PATH
 % MacOS Matlab does not source .zshrc so Matlab is not on internal Matlab PATH
+% Unix-like OS may have Matlab as alias which is not visible to
+% stdlib.which()
+% virus scanners may block stdlib.which("cmd.exe") on Windows
 tc.verifyNotEmpty(stdlib.which(n))
 
 end
