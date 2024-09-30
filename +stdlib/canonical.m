@@ -1,4 +1,4 @@
-function c = canonical(p, expand_tilde)
+function c = canonical(p, expand_tilde, use_java)
 %% canonical(p)
 % If exists, canonical absolute path is returned
 % if path does not exist, normalized relative path is returned
@@ -18,6 +18,7 @@ function c = canonical(p, expand_tilde)
 arguments
   p (1,1) string
   expand_tilde (1,1) logical=true
+  use_java (1,1) logical = true
 end
 
 if expand_tilde
@@ -32,7 +33,7 @@ if ispc && startsWith(c, "\\")
 end
 
 if ~stdlib.is_absolute(c)
-  if isfile(c) || isfolder(c)
+  if stdlib.exists(c)
     % workaround Java/Matlab limitations
     c = stdlib.join(pwd, c);
   else
@@ -43,10 +44,14 @@ if ~stdlib.is_absolute(c)
   end
 end
 
-% similar benchmark time as java method
-% REQUIRES path to exist, while java method does not.
-% c = builtin('_canonicalizepath', c);
+if use_java
+  c = java.io.File(c).getCanonicalPath();
+else
+  % similar benchmark time as java method
+  % REQUIRES path to exist, while java method does not.
+  c = builtin('_canonicalizepath', c);
+end
 
-c = stdlib.posix(java.io.File(c).getCanonicalPath());
+c = stdlib.posix(c);
 
 end % function
