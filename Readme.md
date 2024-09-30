@@ -22,7 +22,9 @@ For reference, we further
 [discuss Java implementation details](./Readme_java.md).
 If Matlab was started with
 [-nojvm](https://www.mathworks.com/help/matlab/matlab_env/commonly-used-startup-options.html),
-many Matlab-stdlib functions do not work.
+some Matlab-stdlib functions do not work.
+We have a CI job that tests without JVM.
+
 
 
 ## Acknowledgments
