@@ -32,8 +32,14 @@ if ispc && startsWith(c, "\\")
   return
 end
 
+e = stdlib.exists(c);
+if ~e && ~stdlib.has_java
+  % _canonicalizepath errors if path does not exist
+  return
+end
+
 if ~stdlib.is_absolute(c)
-  if stdlib.exists(c)
+  if e
     % workaround Java/Matlab limitations
     c = stdlib.join(pwd, c);
   else
@@ -49,7 +55,6 @@ if use_java && stdlib.has_java
   c = java.io.File(c).getCanonicalPath();
 else
   % similar benchmark time as java method
-  % REQUIRES path to exist, while java method does not.
   c = builtin('_canonicalizepath', c);
 end
 
