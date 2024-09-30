@@ -13,6 +13,7 @@ methods (Test)
 
 function test_is_exe_which_wsl(tc)
 import matlab.unittest.constraints.IsFile
+tc.assumeTrue(stdlib.has_java)
 tc.assumeTrue(ispc, "Windows only")
 tc.assumeTrue(stdlib.has_wsl(), "did not find Windows Subsystem for Linux")
 

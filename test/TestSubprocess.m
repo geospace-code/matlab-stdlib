@@ -13,6 +13,8 @@ methods (Test)
 
 function test_simple_run(tc)
 
+tc.assumeTrue(stdlib.has_java)
+
 if ispc
   c = ["cmd", "/c", "dir"];
 else
@@ -29,6 +31,8 @@ end
 
 function test_cwd(tc)
 import matlab.unittest.fixtures.TemporaryFolderFixture
+
+tc.assumeTrue(stdlib.has_java)
 
 if ispc
   c = ["cmd", "/c", "dir"];
@@ -53,6 +57,8 @@ end
 
 
 function test_env_run(tc)
+
+tc.assumeTrue(stdlib.has_java)
 
 names = ["TEST1", "TEST2"];
 vals = ["test123", "test321"];

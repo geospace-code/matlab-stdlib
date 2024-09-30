@@ -178,6 +178,7 @@ end
 
 
 function test_normalize(tc)
+tc.assumeTrue(stdlib.has_java)
 
 tc.verifyEqual(stdlib.normalize(""), ".")
 
@@ -199,16 +200,19 @@ end
 
 
 function test_relative_to(tc, base_relative_to, other_relative_to, ref_relative_to)
+tc.assumeTrue(stdlib.has_java)
 tc.verifyEqual(stdlib.relative_to(base_relative_to, other_relative_to), string(ref_relative_to))
 end
 
 
 function test_proximate_to(tc, base_relative_to, other_relative_to, ref_proximate_to)
+tc.assumeTrue(stdlib.has_java)
 tc.verifyEqual(stdlib.proximate_to(base_relative_to, other_relative_to), string(ref_proximate_to))
 end
 
 
 function test_is_subdir(tc, dir_is_subdir, sub_is_subdir, ref_is_subdir)
+tc.assumeTrue(stdlib.has_java)
 tc.verifyEqual(stdlib.is_subdir(sub_is_subdir, dir_is_subdir), ref_is_subdir)
 end
 

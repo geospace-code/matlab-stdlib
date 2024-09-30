@@ -20,6 +20,8 @@ function test_extract(tc)
 import matlab.unittest.constraints.IsFile
 import matlab.unittest.fixtures.TemporaryFolderFixture
 
+tc.assumeTrue(stdlib.has_java)
+
 fixture = tc.applyFixture(TemporaryFolderFixture);
 tmpDir = fixture.Folder;
 
@@ -36,6 +38,8 @@ tc.verifyThat(stdlib.join(tmpDir, "test/hello.txt"), IsFile)
 end
 
 function test_hash(tc, type, hash)
+
+tc.assumeTrue(stdlib.has_java)
 
 r = fileparts(mfilename('fullpath'));
 fn = fullfile(r, "hello.tar.zst");

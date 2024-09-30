@@ -22,7 +22,7 @@ tc.applyFixture(CurrentFolderFixture(td))
 
 tc.TestData.link = stdlib.join(td, "my.lnk");
 
-tc.TestData.this = mfilename("fullpath") + ".m";
+tc.TestData.this = stdlib.posix(mfilename("fullpath") + ".m");
 
 tc.assumeTrue(stdlib.create_symlink(tc.TestData.this, tc.TestData.link), ...
     "failed to create test link " + tc.TestData.link)
@@ -52,7 +52,7 @@ tc.verifyEmpty(stdlib.read_symlink(tc.TestData.this))
 t = stdlib.read_symlink(tc.TestData.link);
 tc.verifyNotEmpty(t)
 tc.verifyThat(t, IsOfClass('string'))
-tc.verifyTrue(stdlib.samepath(tc.TestData.this, t))
+tc.verifyEqual(tc.TestData.this, t)
 
 end
 

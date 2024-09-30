@@ -248,8 +248,9 @@ end
 
 
 function test_filesystem_type(tc)
-
 import matlab.unittest.constraints.IsOfClass
+
+tc.assumeTrue(stdlib.has_java)
 
 t = stdlib.filesystem_type(".");
 
