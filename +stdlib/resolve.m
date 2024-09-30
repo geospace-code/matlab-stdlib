@@ -10,7 +10,7 @@ function r = resolve(p, expand_tilde)
 % non-existant path is made absolute relative to pwd
 arguments
   p (1,1) string
-  expand_tilde (1,1) logical=true
+  expand_tilde (1,1) logical = true
 end
 
 r = stdlib.canonical(stdlib.absolute(p, "", expand_tilde), false);

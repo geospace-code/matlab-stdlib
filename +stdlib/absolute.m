@@ -13,8 +13,8 @@ function c = absolute(p, base, expand_tilde)
 % non-existant path is made absolute relative to pwd
 arguments
   p (1,1) string
-  base string {mustBeScalarOrEmpty}=string.empty
-  expand_tilde (1,1) logical=true
+  base string {mustBeScalarOrEmpty} = string.empty
+  expand_tilde (1,1) logical = true
 end
 
 if expand_tilde

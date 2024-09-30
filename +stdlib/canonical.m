@@ -17,7 +17,7 @@ function c = canonical(p, expand_tilde, use_java)
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getCanonicalPath()
 arguments
   p (1,1) string
-  expand_tilde (1,1) logical=true
+  expand_tilde (1,1) logical = true
   use_java (1,1) logical = true
 end
 
