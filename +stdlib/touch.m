@@ -6,7 +6,12 @@ end
 if stdlib.exists(p)
   ok = stdlib.set_modtime(p);
 else
-  ok = java.io.File(p).createNewFile();
+  fid = fopen(p, "w");
+  if fid < 0
+    ok = false;
+  else
+    ok = fclose(fid) == 0;
+  end
 end
 
 end
