@@ -1,4 +1,4 @@
-function exe = which(filename, fpath)
+function exe = which(filename, fpath, use_java)
 %% which()
 % like Python shutil.which, find executable in fpath or env var PATH
 % does not resolve path.
@@ -8,6 +8,7 @@ function exe = which(filename, fpath)
 arguments
   filename (1,1) string {mustBeNonzeroLengthText}
   fpath (1,:) string = getenv('PATH')
+  use_java (1,1) logical = false
 end
 
 names = filename;
@@ -24,7 +25,7 @@ end
 % directory/filename given
 for exe = names
 
-  if stdlib.is_absolute(exe) && stdlib.is_exe(exe)
+  if stdlib.is_absolute(exe, use_java) && stdlib.is_exe(exe, use_java)
     return
   end
 
@@ -47,7 +48,7 @@ for name = names
 
   for p = fpath
     exe = stdlib.join(p, name);
-    if stdlib.is_exe(exe)
+    if stdlib.is_exe(exe, use_java)
       return
     end
   end

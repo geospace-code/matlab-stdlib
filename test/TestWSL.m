@@ -35,7 +35,7 @@ tc.assumeThat(out, IsFile, "cc failed to produce output file " + out)
 
 tc.verifyTrue(stdlib.is_exe(out), "is_exe() failed to detect WSL executable " + out)
 
-wsl_exe = stdlib.which(out);
+wsl_exe = stdlib.which(out, [], true);
 tc.verifyNotEmpty(wsl_exe, "which() failed to detect WSL executable " + out)
 
 end
