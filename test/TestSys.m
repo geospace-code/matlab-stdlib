@@ -32,6 +32,7 @@ tc.verifyThat(stdlib.is_windows_powershell, IsOfClass('logical'))
 end
 
 function test_is_parallel(tc)
+import matlab.unittest.constraints.IsOfClass
 tc.assumeTrue(stdlib.has_java)
 tc.verifyThat(stdlib.is_parallel_worker, IsOfClass('logical'))
 end
