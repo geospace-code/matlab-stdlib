@@ -44,7 +44,8 @@ if ~stdlib.is_absolute(c)
   end
 end
 
-if use_java
+if use_java && stdlib.has_java
+  % we use has_java check because default is use_java
   c = java.io.File(c).getCanonicalPath();
 else
   % similar benchmark time as java method
