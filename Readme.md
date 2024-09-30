@@ -24,7 +24,7 @@ For reference, we further
 If Matlab was started with
 [-nojvm](https://www.mathworks.com/help/matlab/matlab_env/commonly-used-startup-options.html),
 some Matlab-stdlib functions do not work.
-We have a CI job that tests without JVM.
+We have a [CI job that tests without Java](https://github.com/geospace-code/matlab-stdlib/actions/workflows/ci-nojvm.yml).
 
 
 
