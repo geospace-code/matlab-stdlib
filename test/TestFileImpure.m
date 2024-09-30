@@ -73,15 +73,16 @@ end
 
 
 function test_null_file(tc)
+import matlab.unittest.constraints.IsFile
 tc.assumeFalse(ispc)
-tc.verifyTrue(isfile(stdlib.null_file), "Null file not exist")
+tc.verifyThat(stdlib.null_file, IsFile)
 end
 
 
 function test_is_regular_file(tc)
-
+  import matlab.unittest.constraints.IsFile
 if ~ispc
-  tc.assumeTrue(isfile(stdlib.null_file), "null file not exist")
+  tc.assumeThat(stdlib.null_file, IsFile)
 end
 tc.verifyFalse(stdlib.is_regular_file(stdlib.null_file), "null file is not a regular file")
 
@@ -216,9 +217,10 @@ end
 
 
 function test_makedir(tc)
+import matlab.unittest.constraints.IsFolder
 d = tempname;
 stdlib.makedir(d)
-tc.assertTrue(isfolder(d))
+tc.assertThat(d, IsFolder)
 end
 
 %%

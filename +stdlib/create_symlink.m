@@ -8,9 +8,7 @@ arguments
 end
 
 if ispc || isMATLABReleaseOlderThan("R2024b")
-% import java.io.File
-% import java.nio.file.Files
-% ok = Files.createSymbolicLink(File(link).toPath(), File(target).toPath());
+% ok = java.nio.file.Files.createSymbolicLink(java.io.File(link).toPath(), java.io.File(target).toPath());
 % the above should work, but Matlab Java doesn't recognize the optional argument omitted.
 
 if stdlib.exists(link)
