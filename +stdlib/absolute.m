@@ -23,7 +23,9 @@ else
   c = p;
 end
 
-if ~stdlib.is_absolute(c)
+if stdlib.is_absolute(c)
+  c = stdlib.posix(c);
+else
   % .getAbsolutePath(), .toAbsolutePath()
   % default is Documents/Matlab, which is probably not wanted.
   if isempty(base) || strlength(base) == 0
@@ -33,8 +35,7 @@ if ~stdlib.is_absolute(c)
   end
 end
 
+% not needed:
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getAbsolutePath()
-
-c = stdlib.posix(java.io.File(c).getAbsolutePath());
 
 end % function

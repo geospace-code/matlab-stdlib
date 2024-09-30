@@ -9,8 +9,6 @@ import matlab.unittest.fixtures.CurrentFolderFixture
 import matlab.unittest.constraints.StartsWithSubstring
 import matlab.unittest.constraints.EndsWithSubstring
 
-tc.assumeTrue(stdlib.has_java)
-
 td = tc.applyFixture(TemporaryFolderFixture).Folder;
 tc.applyFixture(CurrentFolderFixture(td))
 
