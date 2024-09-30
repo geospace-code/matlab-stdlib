@@ -31,7 +31,7 @@ arguments
   out_dir (1,1) string
 end
 
-exe = which("zstd");
+exe = stdlib.which("zstd");
 assert(~isempty(exe), "need to have Zstd installed: https://github.com/facebook/zstd")
 
 tar_arc = tempname;
