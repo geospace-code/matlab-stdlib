@@ -11,7 +11,7 @@ if use_java
   p = string(java.io.File(p).getParent());
 else
   % have to drop_slash on input to get expected parent path
-  p = strip(p, "right", "/");
+  p = strip(stdlib.posix(p), "right", "/");
   [p, ~, ~] = fileparts(p);
 end
 
