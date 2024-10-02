@@ -64,23 +64,51 @@ end
 tc.verifyEmpty(stdlib.hard_link_count(tempname))
 end
 
+
 function test_is_parallel(tc)
 import matlab.unittest.constraints.IsOfClass
 tc.verifyThat(stdlib.is_parallel_worker, IsOfClass('logical'))
 end
+
 
 function test_ram(tc)
 tc.verifyGreaterThan(stdlib.ram_total(), 0)
 tc.verifyGreaterThan(stdlib.ram_free(), 0)
 end
 
+
 function test_cpu_count(tc)
 tc.verifyGreaterThan(stdlib.cpu_count(), 0)
 end
 
+
 function test_cpu_load(tc)
 tc.verifyGreaterThanOrEqual(stdlib.cpu_load(), 0)
 end
+
+
+function test_is_regular_file(tc)
+import matlab.unittest.constraints.IsFile
+if ~ispc
+  tc.assumeThat(stdlib.null_file, IsFile)
+end
+tc.verifyFalse(stdlib.is_regular_file(stdlib.null_file), "null file is not a regular file")
+
+end
+
+
+function test_touch_modtime(tc)
+fn = tempname;
+tc.verifyTrue(stdlib.touch(fn))
+t0 = stdlib.get_modtime(fn);
+
+pause(1.)  % empirical to avoid failing >=.  0.4 failed intermittantly
+tc.verifyTrue(stdlib.set_modtime(fn))
+t1 = stdlib.get_modtime(fn);
+
+tc.verifyGreaterThanOrEqual(t1, t0)
+end
+
 
 end
 

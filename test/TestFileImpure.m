@@ -79,33 +79,6 @@ tc.verifyThat(stdlib.null_file, IsFile)
 end
 
 
-function test_is_regular_file(tc)
-import matlab.unittest.constraints.IsFile
-tc.assumeTrue(stdlib.has_java)
-if ~ispc
-  tc.assumeThat(stdlib.null_file, IsFile)
-end
-tc.verifyFalse(stdlib.is_regular_file(stdlib.null_file), "null file is not a regular file")
-
-end
-
-
-function test_touch_modtime(tc)
-tc.assumeTrue(stdlib.has_java)
-fn = tempname;
-tc.verifyTrue(stdlib.touch(fn))
-t0 = stdlib.get_modtime(fn);
-
-pause(1.)  % empirical to avoid failing >=.  0.4 failed intermittantly
-tc.verifyTrue(stdlib.set_modtime(fn))
-t1 = stdlib.get_modtime(fn);
-
-tc.verifyGreaterThanOrEqual(t1, t0)
-
-end
-
-
-
 function test_makedir(tc)
 import matlab.unittest.constraints.IsFolder
 d = tempname;
@@ -115,7 +88,6 @@ end
 
 %%
 function test_samepath(tc, in_same, other_same, ref_same)
-tc.assumeTrue(stdlib.has_java)
 tc.verifyEqual(stdlib.samepath(in_same, other_same), ref_same)
 end
 
