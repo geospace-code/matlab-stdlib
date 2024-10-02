@@ -1,6 +1,11 @@
 classdef TestWSL < matlab.unittest.TestCase
 
 methods (TestClassSetup)
+
+function has_java(tc)
+  tc.assumeTrue(stdlib.has_java)
+end
+
 function setup_path(tc)
 import matlab.unittest.fixtures.PathFixture
 cwd = fileparts(mfilename("fullpath"));
@@ -13,7 +18,6 @@ methods (Test)
 
 function test_is_exe_which_wsl(tc)
 import matlab.unittest.constraints.IsFile
-tc.assumeTrue(stdlib.has_java)
 tc.assumeTrue(ispc, "Windows only")
 tc.assumeTrue(stdlib.has_wsl(), "did not find Windows Subsystem for Linux")
 

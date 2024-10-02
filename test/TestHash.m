@@ -6,6 +6,11 @@ hash = {"36c1bbbdfd8d04ef546ffb15b9c0a65767fd1fe9a6135a257847e3a51fb1426c", "d58
 end
 
 methods(TestClassSetup)
+
+function has_java(tc)
+  tc.assumeTrue(stdlib.has_java)
+end
+
 function setup_path(tc)
 import matlab.unittest.fixtures.PathFixture
 cwd = fileparts(mfilename("fullpath"));
@@ -19,8 +24,6 @@ methods (Test, ParameterCombination = 'sequential')
 function test_extract(tc)
 import matlab.unittest.constraints.IsFile
 import matlab.unittest.fixtures.TemporaryFolderFixture
-
-tc.assumeTrue(stdlib.has_java)
 
 fixture = tc.applyFixture(TemporaryFolderFixture);
 tmpDir = fixture.Folder;
@@ -37,9 +40,8 @@ tc.verifyThat(stdlib.join(tmpDir, "test/hello.txt"), IsFile)
 
 end
 
-function test_hash(tc, type, hash)
 
-tc.assumeTrue(stdlib.has_java)
+function test_hash(tc, type, hash)
 
 r = fileparts(mfilename('fullpath'));
 fn = fullfile(r, "hello.tar.zst");
@@ -50,6 +52,24 @@ case 'md5', h = stdlib.md5sum(fn);
 end
 
 tc.verifyEqual(h, hash)
+
+end
+
+
+function test_hash_text(tc)
+import matlab.unittest.constraints.IsFile
+import matlab.unittest.fixtures.TemporaryFolderFixture
+fixture = tc.applyFixture(TemporaryFolderFixture);
+
+fn = stdlib.join(fixture.Folder, "hello");
+fid = fopen(fn, "w");
+tc.assumeGreaterThan(fid, 0);
+fprintf(fid, "hello");
+fclose(fid);
+tc.assumeThat(fn, IsFile)
+
+tc.verifyEqual(stdlib.file_checksum(fn, "md5"), "5d41402abc4b2a76b9719d911017c592")
+tc.verifyEqual(stdlib.file_checksum(fn, "sha256"), "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824")
 
 end
 

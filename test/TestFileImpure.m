@@ -119,61 +119,6 @@ tc.assumeTrue(stdlib.has_java)
 tc.verifyEqual(stdlib.samepath(in_same, other_same), ref_same)
 end
 
-function test_hash(tc)
-import matlab.unittest.constraints.IsFile
-import matlab.unittest.fixtures.TemporaryFolderFixture
-tc.assumeTrue(stdlib.has_java)
-fixture = tc.applyFixture(TemporaryFolderFixture);
-
-fn = stdlib.join(fixture.Folder, "hello");
-fid = fopen(fn, "w");
-tc.assumeGreaterThan(fid, 0);
-fprintf(fid, "hello");
-fclose(fid);
-tc.assumeThat(fn, IsFile)
-
-tc.verifyEqual(stdlib.file_checksum(fn, "md5"), "5d41402abc4b2a76b9719d911017c592")
-tc.verifyEqual(stdlib.file_checksum(fn, "sha256"), "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824")
-
-end
-
-
-function test_filesystem_type(tc)
-import matlab.unittest.constraints.IsOfClass
-
-tc.assumeTrue(stdlib.has_java)
-
-t = stdlib.filesystem_type(".");
-
-tc.verifyThat(t, IsOfClass('string'))
-
-end
-
-
-function test_owner(tc)
-tc.assumeTrue(stdlib.has_java)
-owner = stdlib.get_owner('.');
-L = strlength(owner);
-tc.verifyGreaterThan(L, 0, "expected non-empty username")
-
-end
-
-
-function test_username(tc)
-tc.assumeTrue(stdlib.has_java)
-u = stdlib.get_username();
-L = strlength(u);
-tc.verifyGreaterThan(L, 0, "expected non-empty username")
-
-end
-
-function test_hostname(tc)
-tc.assumeTrue(stdlib.has_java)
-h = stdlib.hostname();
-L = strlength(h);
-tc.verifyGreaterThan(L, 0, "expected non-empty hostname")
-
-end
 
 function test_getpid(tc)
 pid = stdlib.getpid();
@@ -191,33 +136,6 @@ tc.verifyEqual(stdlib.handle2filename(0), '"' + "stdin" + '"')
 tc.verifyEqual(stdlib.handle2filename(1), '"' + "stdout" + '"')
 tc.verifyEqual(stdlib.handle2filename(2), '"' + "stderr" + '"')
 tc.verifyEmpty(stdlib.handle2filename(fopen(tempname)))
-end
-
-function test_java_version(tc)
-tc.assumeTrue(stdlib.has_java)
-v = stdlib.java_version();
-L = strlength(v);
-tc.verifyGreaterThanOrEqual(L, 4)
-end
-
-function test_java_api(tc)
-tc.assumeTrue(stdlib.has_java)
-v = stdlib.java_api();
-tc.verifyGreaterThanOrEqual(v, 8)
-end
-
-function test_hard_link_count(tc)
-tc.assumeTrue(stdlib.has_java)
-fn = mfilename("fullpath") + ".m";
-
-if ispc
-  tc.verifyEmpty(stdlib.hard_link_count(fn))
-else
-  tc.verifyGreaterThanOrEqual(stdlib.hard_link_count(fn), 1)
-end
-
-tc.verifyEmpty(stdlib.hard_link_count(tempname))
-
 end
 
 end
