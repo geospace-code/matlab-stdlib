@@ -5,8 +5,8 @@ arguments
 end
 
 % must remove trailing slashes
-base = stdlib.normalize(base);
-other = stdlib.normalize(other);
+base = stdlib.normalize(base, true);
+other = stdlib.normalize(other, true);
 
 if base == other
   r = ".";

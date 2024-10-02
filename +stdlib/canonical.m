@@ -45,7 +45,7 @@ if ~stdlib.is_absolute(c)
   else
     % for non-existing path, return normalized relative path
     % like C++ filesystem weakly_canonical()
-    c = stdlib.normalize(c);
+    c = stdlib.normalize(c, use_java);
     return
   end
 end
