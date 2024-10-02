@@ -27,6 +27,9 @@ in_norm = {"", "a/b/", "a/../c", "a/b/../c", "a/b/../../c", "a/b/../../c/..", ..
     "a/b/../../c/../..", "a////b"}
 ref_norm = {".", "a/b", "c", "a/c", "c", ".", ...
     "..", "a/b"}
+
+in_root
+ref_root
 end
 
 properties
@@ -34,7 +37,10 @@ tobj
 end
 
 methods (TestParameterDefinition, Static)
-function [base_relative_to, other_relative_to, ref_relative_to, ref_proximate_to] = init_relative_to(classToTest) %#ok<INUSD>
+function [base_relative_to, other_relative_to, ref_relative_to, ref_proximate_to, in_root, ref_root] = init_relative_to(classToTest) %#ok<INUSD>
+
+in_root = {"", "a/b", "./a/b", "../a/b", "/etc", "c:/etc"};
+ref_root = {"", "", "", "", "/", ""};
 
 if ispc
 
@@ -48,6 +54,8 @@ ref_relative_to = {'.', '.', '.', '../..', 'a/b', '.', '..', '../..', ''};
 
 ref_proximate_to = ref_relative_to;
 ref_proximate_to{end} = other_relative_to{end};
+
+ref_root{end} = "c:/";
 
 else
 
@@ -187,6 +195,13 @@ end
 function test_normalize(tc, in_norm, ref_norm)
 
 tc.verifyEqual(stdlib.normalize(in_norm), ref_norm)
+
+end
+
+
+function test_root(tc, in_root, ref_root)
+
+tc.verifyEqual(stdlib.root(in_root), ref_root)
 
 end
 
