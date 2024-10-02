@@ -12,10 +12,15 @@ if use_java
 else
   % have to drop_slash on input to get expected parent path
   p = strip(stdlib.posix(p), "right", "/");
-  [p, ~, ~] = fileparts(p);
+  j = strfind(p, "/");
+  if isempty(j)
+    p = "";
+  else
+    p = extractBefore(p, j(end));
+  end
 end
 
-if isempty(p) || strlength(p) == 0
+if p == ""
   p = ".";
 end
 
