@@ -1,4 +1,4 @@
-function r = resolve(p, expand_tilde)
+function r = resolve(p, expand_tilde, use_java)
 % resolve path, to cwd if relative
 % effectively canonical(absolute(p))
 %%% Inputs
@@ -11,8 +11,9 @@ function r = resolve(p, expand_tilde)
 arguments
   p (1,1) string
   expand_tilde (1,1) logical = true
+  use_java (1,1) logical = false
 end
 
-r = stdlib.canonical(stdlib.absolute(p, "", expand_tilde), false);
+r = stdlib.canonical(stdlib.absolute(p, "", expand_tilde), false, use_java);
 
 end
