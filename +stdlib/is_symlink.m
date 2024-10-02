@@ -9,7 +9,7 @@ end
 if isMATLABReleaseOlderThan("R2024b")
   % must be absolute path
   % NOT .canonical or symlink is gobbled!
-  p = stdlib.absolute(p);
+  p = stdlib.absolute(p, string.empty, false, true);
   ok = java.nio.file.Files.isSymbolicLink(java.io.File(p).toPath());
 else
   ok = isSymbolicLink(p);

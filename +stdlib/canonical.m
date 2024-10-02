@@ -22,7 +22,7 @@ arguments
 end
 
 if expand_tilde
-  c = stdlib.expanduser(p);
+  c = stdlib.expanduser(p, use_java);
 else
   c = p;
 end

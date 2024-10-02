@@ -6,7 +6,7 @@ end
 opt = java.nio.file.LinkOption.values;
 
 % needs absolute()
-p = stdlib.absolute(p);
+p = stdlib.absolute(p, string.empty, false, true);
 
 isreg = java.nio.file.Files.isRegularFile(java.io.File(p).toPath(), opt);
 

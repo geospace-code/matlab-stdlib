@@ -1,4 +1,4 @@
-function c = absolute(p, base, expand_tilde)
+function c = absolute(p, base, expand_tilde, use_java)
 %% absolute(p)
 % path need not exist
 % absolute path will be relative to pwd if not exist
@@ -15,10 +15,11 @@ arguments
   p (1,1) string
   base string {mustBeScalarOrEmpty} = string.empty
   expand_tilde (1,1) logical = true
+  use_java (1,1) logical = false
 end
 
 if expand_tilde
-  c = stdlib.expanduser(p);
+  c = stdlib.expanduser(p, use_java);
 else
   c = p;
 end
@@ -31,7 +32,7 @@ else
   if isempty(base) || strlength(base) == 0
     c = stdlib.join(pwd, c);
   else
-    c = stdlib.join(stdlib.absolute(base), c);
+    c = stdlib.join(stdlib.absolute(base, string.empty, expand_tilde, use_java), c);
   end
 end
 

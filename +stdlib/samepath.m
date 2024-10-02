@@ -18,8 +18,8 @@ if ~stdlib.exists(path1) || ~stdlib.exists(path2)
 end
 
 % needs absolute
-path1 = stdlib.absolute(path1);
-path2 = stdlib.absolute(path2);
+path1 = stdlib.absolute(path1, string.empty, false, true);
+path2 = stdlib.absolute(path2, string.empty, false, true);
 
 issame = java.nio.file.Files.isSameFile(...
             java.io.File(path1).toPath(), ...
