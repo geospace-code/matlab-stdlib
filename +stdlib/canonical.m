@@ -18,7 +18,7 @@ function c = canonical(p, expand_tilde, use_java)
 arguments
   p (1,1) string
   expand_tilde (1,1) logical = true
-  use_java (1,1) logical = true
+  use_java (1,1) logical = false
 end
 
 if expand_tilde
@@ -33,15 +33,16 @@ if ispc && startsWith(c, "\\")
 end
 
 e = stdlib.exists(c);
-if ~e && ~stdlib.has_java
-  % _canonicalizepath errors if path does not exist
-  return
-end
 
 if ~stdlib.is_absolute(c)
   if e
-    % workaround Java/Matlab limitations
-    c = stdlib.join(pwd, c);
+    if ~expand_tilde && ~use_java && startsWith(c, "~")
+      c = stdlib.normalize(c, use_java);
+      return
+    else
+      % workaround Java/Matlab limitations
+      c = stdlib.join(pwd, c);
+    end
   else
     % for non-existing path, return normalized relative path
     % like C++ filesystem weakly_canonical()
@@ -50,12 +51,13 @@ if ~stdlib.is_absolute(c)
   end
 end
 
-if use_java && stdlib.has_java
-  % we use has_java check because default is use_java
+if use_java
   c = java.io.File(c).getCanonicalPath();
-else
-  % similar benchmark time as java method
+elseif e
+  % errors if path does not exist. Errors on leading ~
   c = builtin('_canonicalizepath', c);
+else
+  c = stdlib.normalize(c, use_java);
 end
 
 c = stdlib.posix(c);
