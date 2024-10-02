@@ -17,12 +17,13 @@ end
 r = stdlib.absolute(p, string.empty, false, true);
 
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#readSymbolicLink(java.nio.file.Path)
-r = stdlib.posix(...
-      java.nio.file.Files.readSymbolicLink(java.io.File(r).toPath()));
+t = java.nio.file.Files.readSymbolicLink(java.io.File(r).toPath());
 
 else
   [ok, t] = isSymbolicLink(p);
-  if ok
-    r = stdlib.posix(t);
-  end
+  if ~ok, return, end
+end
+
+r = stdlib.posix(t);
+
 end

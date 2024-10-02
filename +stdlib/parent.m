@@ -8,7 +8,7 @@ end
 
 if use_java
   % java is about 10x slower than intrinsic
-  p = string(java.io.File(p).getParent());
+  p = java.io.File(p).getParent();
 else
   % have to drop_slash on input to get expected parent path
   p = strip(stdlib.posix(p), "right", "/");
