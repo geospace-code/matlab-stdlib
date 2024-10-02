@@ -16,10 +16,17 @@ ref_filename = {'', 'baz', '', 'baz.txt', 'baz.txt.gz'}
 dir_is_subdir
 sub_is_subdir
 ref_is_subdir
+
 in_parent = {"", ".", "..", "../..", "a/b", "a/b/", "ab/.parent", "ab/.parent.txt", "a/b/../.parent.txt"}
 ref_parent = {".", ".", ".", "..",   "a",   "a",    "ab",         "ab",             "a/b/.."}
+
 in_suffix = {"", "/foo/bar/baz", "/foo/bar/baz/", "foo/bar/baz.txt", "foo/bar/baz.txt.gz", ".stat", ".stat.txt"}
 ref_suffix = {"", "", "", ".txt", ".gz", ".stat", ".txt"}
+
+in_norm = {"", "a/b/", "a/../c", "a/b/../c", "a/b/../../c", "a/b/../../c/..", ...
+    "a/b/../../c/../..", "a////b"}
+ref_norm = {".", "a/b", "c", "a/c", "c", ".", ...
+    "..", "a/b"}
 end
 
 properties
@@ -177,13 +184,10 @@ tc.verifyEqual(stdlib.is_absolute(in_is_absolute), ref_is_absolute)
 end
 
 
-function test_normalize(tc)
-tc.assumeTrue(stdlib.has_java)
+function test_normalize(tc, in_norm, ref_norm)
 
-tc.verifyEqual(stdlib.normalize(""), ".")
+tc.verifyEqual(stdlib.normalize(in_norm), ref_norm)
 
-pabs = stdlib.normalize('2foo//');
-tc.verifyEqual(pabs, "2foo")
 end
 
 
