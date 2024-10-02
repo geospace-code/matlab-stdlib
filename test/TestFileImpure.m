@@ -80,7 +80,8 @@ end
 
 
 function test_is_regular_file(tc)
-  import matlab.unittest.constraints.IsFile
+import matlab.unittest.constraints.IsFile
+tc.assumeTrue(stdlib.has_java)
 if ~ispc
   tc.assumeThat(stdlib.null_file, IsFile)
 end
@@ -90,7 +91,7 @@ end
 
 
 function test_touch_modtime(tc)
-
+tc.assumeTrue(stdlib.has_java)
 fn = tempname;
 tc.verifyTrue(stdlib.touch(fn))
 t0 = stdlib.get_modtime(fn);
@@ -114,13 +115,14 @@ end
 
 %%
 function test_samepath(tc, in_same, other_same, ref_same)
+tc.assumeTrue(stdlib.has_java)
 tc.verifyEqual(stdlib.samepath(in_same, other_same), ref_same)
 end
 
 function test_hash(tc)
 import matlab.unittest.constraints.IsFile
 import matlab.unittest.fixtures.TemporaryFolderFixture
-
+tc.assumeTrue(stdlib.has_java)
 fixture = tc.applyFixture(TemporaryFolderFixture);
 
 fn = stdlib.join(fixture.Folder, "hello");
@@ -149,7 +151,7 @@ end
 
 
 function test_owner(tc)
-
+tc.assumeTrue(stdlib.has_java)
 owner = stdlib.get_owner('.');
 L = strlength(owner);
 tc.verifyGreaterThan(L, 0, "expected non-empty username")
@@ -158,7 +160,7 @@ end
 
 
 function test_username(tc)
-
+tc.assumeTrue(stdlib.has_java)
 u = stdlib.get_username();
 L = strlength(u);
 tc.verifyGreaterThan(L, 0, "expected non-empty username")
@@ -166,6 +168,7 @@ tc.verifyGreaterThan(L, 0, "expected non-empty username")
 end
 
 function test_hostname(tc)
+tc.assumeTrue(stdlib.has_java)
 h = stdlib.hostname();
 L = strlength(h);
 tc.verifyGreaterThan(L, 0, "expected non-empty hostname")
@@ -191,18 +194,20 @@ tc.verifyEmpty(stdlib.handle2filename(fopen(tempname)))
 end
 
 function test_java_version(tc)
+tc.assumeTrue(stdlib.has_java)
 v = stdlib.java_version();
 L = strlength(v);
 tc.verifyGreaterThanOrEqual(L, 4)
 end
 
 function test_java_api(tc)
+tc.assumeTrue(stdlib.has_java)
 v = stdlib.java_api();
 tc.verifyGreaterThanOrEqual(v, 8)
 end
 
 function test_hard_link_count(tc)
-
+tc.assumeTrue(stdlib.has_java)
 fn = mfilename("fullpath") + ".m";
 
 if ispc
