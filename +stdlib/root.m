@@ -9,11 +9,14 @@ if use_java
 else
 
   r = "";
+  if ~stdlib.is_absolute(p)
+    return
+  end
 
-  if startsWith(p, "/")
-    r = "/";
-  elseif ispc && strlength(p) >= 2 && isletter(extractBetween(p, 1, 1)) && extractBetween(p, 2, 2) == ":"
+  if ispc
     r = extractBetween(p, 1, 2) + "/";
+  else
+    r = "/";
   end
 
 end

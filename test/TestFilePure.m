@@ -55,7 +55,8 @@ ref_relative_to = {'.', '.', '.', '../..', 'a/b', '.', '..', '../..', ''};
 ref_proximate_to = ref_relative_to;
 ref_proximate_to{end} = other_relative_to{end};
 
-ref_root{end} = "c:/";
+ref_root{5} = "";
+ref_root{6} = "c:/";
 
 else
 
