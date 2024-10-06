@@ -39,11 +39,6 @@ if isscalar(fpath)
 end
 fpath = fpath(strlength(fpath)>0);
 
-if ispc
-  % windows pwd priority, while unix ignores
-  fpath = [pwd, fpath];
-end
-
 for name = names
 
   for p = fpath
