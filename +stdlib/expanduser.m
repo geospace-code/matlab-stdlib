@@ -15,14 +15,14 @@ end
 
 e = p;
 
-if ~all(startsWith(e, "~")) || (all(strlength(e) > 1) && ~all(startsWith(e, "~/")))
+if ~startsWith(e, "~") || (strlength(e) > 1 && ~startsWith(e, "~/"))
   return
 end
 
 home = stdlib.homedir(use_java);
 
 if ~isempty(home)
-  e = stdlib.join(home, extractAfter(e, 1));
+  e = stdlib.join(home, strip(extractAfter(e, 1), "left", "/"));
 end
 
 end %function

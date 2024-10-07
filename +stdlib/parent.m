@@ -10,6 +10,15 @@ if use_java
   % java is about 10x slower than intrinsic
   p = java.io.File(p).getParent();
 else
+  p = stdlib.posix(p);
+  % drop duplicated slashes in the parent path
+  p = regexprep(p, "//+", "/");
+
+  if ispc && any(strlength(p) == [2,3]) && isletter(extractBetween(p, 1, 1)) && extractBetween(p, 2, 2) == ":"
+    % 2 or 3 char drive letter
+    p = stdlib.root(p);
+    return
+  end
   % have to drop_slash on input to get expected parent path
   p = strip(stdlib.posix(p), "right", "/");
   j = strfind(p, "/");

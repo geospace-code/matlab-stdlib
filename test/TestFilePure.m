@@ -17,8 +17,12 @@ dir_is_subdir
 sub_is_subdir
 ref_is_subdir
 
-in_parent = {"", ".", "..", "../..", "a/b", "a/b/", "ab/.parent", "ab/.parent.txt", "a/b/../.parent.txt"}
-ref_parent = {".", ".", ".", "..",   "a",   "a",    "ab",         "ab",             "a/b/.."}
+in_parent
+ref_parent
+
+in_join = {"", "a", "", "a/b/", "/", "", "a", "a//", "a/b/../", "a/b", "a/b", "ab/cd"}
+other_join = {"", "", "b", "c/", "", "/", "b//", "b//", "c/d/../", "..", "c/d", "/ef"}
+ref_join = {"", "a", "b", "a/b/c", "/", "/", "a/b", "a/b", "a/c", "a", "a/b/c/d", "/ef"}
 
 in_suffix = {"", "/foo/bar/baz", "/foo/bar/baz/", "foo/bar/baz.txt", "foo/bar/baz.txt.gz", ".stat", ".stat.txt"}
 ref_suffix = {"", "", "", ".txt", ".gz", ".stat", ".txt"}
@@ -37,10 +41,13 @@ tobj
 end
 
 methods (TestParameterDefinition, Static)
-function [base_relative_to, other_relative_to, ref_relative_to, ref_proximate_to, in_root, ref_root] = init_relative_to(classToTest) %#ok<INUSD>
+function [base_relative_to, other_relative_to, ref_relative_to, ref_proximate_to, in_root, ref_root, in_parent, ref_parent] = init_relative_to(classToTest) %#ok<INUSD>
 
 in_root = {"", "a/b", "./a/b", "../a/b", "/etc", "c:/etc"};
 ref_root = {"", "", "", "", "/", ""};
+
+in_parent = {"", ".", "..", "../..", "a/", "a/b", "a/b/", "ab/.parent", "ab/.parent.txt", "a/b/../.parent.txt", "a/////b////c", "c:/", "c:\", "c:/a/b", "c:\a/b"};
+ref_parent = {".", ".", ".", "..",   ".",  "a",   "a",    "ab",         "ab",             "a/b/..",             "a/b",          ".",    ".",    "c:/a",     "c:\a"};
 
 if ispc
 
@@ -54,6 +61,11 @@ ref_relative_to = {'.', '.', '.', '../..', 'a/b', '.', '..', '../..', ''};
 
 ref_proximate_to = ref_relative_to;
 ref_proximate_to{end} = other_relative_to{end};
+
+ref_parent{12} = "c:/";
+ref_parent{13} = "c:/";
+ref_parent{14} = "c:/a";
+ref_parent{15} = "c:/a";
 
 ref_root{5} = "";
 ref_root{6} = "c:/";
@@ -155,6 +167,11 @@ if ispc
   tc.verifyThat(stdlib.posix("c:\foo"), ~ContainsSubstring("\"))
   tc.verifyThat(stdlib.posix(["x:\123", "d:\abc"]), ~ContainsSubstring("\"))
 end
+end
+
+
+function test_join(tc, in_join, other_join, ref_join)
+tc.verifyEqual(stdlib.join(in_join, other_join), ref_join)
 end
 
 
