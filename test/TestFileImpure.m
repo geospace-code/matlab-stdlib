@@ -5,16 +5,16 @@ properties (ClassSetupParameter)
 end
 
 properties(TestParameter)
-in_exists = {pwd, mfilename("fullpath") + ".m", "not-exists"}
-ref_exists = {true, true, false}
+p_exists = {{pwd, true}, {mfilename("fullpath") + ".m", true}, {tempname, false}}
 % on CI matlabroot can be writable!
 in_is_write = {pwd, "not-exists"};
 ref_is_write = {true, false}
-in_expand = {"", "~abc", "~", "~/foo"}
-ref_expand
-in_same = {"", tempname, "..", ".."}
-other_same = {"", tempname, "./..", fullfile(pwd, "..")}
-ref_same = {false, false, true, true}
+p_expand
+p_same = {...
+{"","", false}, ...
+{tempname, tempname, false}, ...
+{"..", "./..", true}, ...
+{"..", pwd + "/..", true}}
 end
 
 properties
@@ -24,12 +24,11 @@ end
 
 methods (TestParameterDefinition, Static)
 
-function ref_expand = init_expand(classToTest) %#ok<INUSD>
+function p_expand = init_expand(classToTest) %#ok<INUSD>
 cwd = fileparts(mfilename("fullpath"));
 top = fullfile(cwd, "..");
 addpath(top)
-
-ref_expand = {"", "~abc", stdlib.homedir, stdlib.join(stdlib.homedir, "foo")};
+p_expand = {{"", ""}, {"~abc", "~abc"}, {"~", stdlib.homedir}, {"~/foo", stdlib.join(stdlib.homedir, "foo")}};
 end
 end
 
@@ -52,13 +51,13 @@ end
 
 methods (Test, ParameterCombination = 'sequential')
 
-function test_exists(tc, in_exists, ref_exists)
-tc.verifyEqual(stdlib.exists(in_exists), ref_exists)
+function test_exists(tc, p_exists)
+tc.verifyEqual(stdlib.exists(p_exists{1}), p_exists{2})
 end
 
 
-function test_is_readable(tc, in_exists, ref_exists)
-tc.verifyEqual(stdlib.is_readable(in_exists), ref_exists)
+function test_is_readable(tc, p_exists)
+tc.verifyEqual(stdlib.is_readable(p_exists{1}), p_exists{2})
 end
 
 
@@ -67,8 +66,8 @@ tc.verifyEqual(stdlib.is_writable(in_is_write), ref_is_write)
 end
 
 
-function test_expanduser(tc, in_expand, ref_expand)
-tc.verifyEqual(stdlib.expanduser(in_expand), ref_expand)
+function test_expanduser(tc, p_expand)
+tc.verifyEqual(stdlib.expanduser(p_expand{1}), p_expand{2})
 end
 
 
@@ -87,8 +86,8 @@ tc.assertThat(d, IsFolder)
 end
 
 %%
-function test_samepath(tc, in_same, other_same, ref_same)
-tc.verifyEqual(stdlib.samepath(in_same, other_same), ref_same)
+function test_samepath(tc, p_same)
+tc.verifyEqual(stdlib.samepath(p_same{1}, p_same{2}), p_same{3})
 end
 
 
