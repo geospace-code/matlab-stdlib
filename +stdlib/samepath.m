@@ -1,7 +1,7 @@
 %% SAMEPATH is path the same
 %
-% true if inputs resolve to same path
-% paths must exist
+% true if inputs resolve to same path.
+% Both paths must exist.
 %
 %%% Inputs
 % * path1, path2: paths to compare

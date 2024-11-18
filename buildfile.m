@@ -83,7 +83,7 @@ fprintf(fid, join(txt, "\n"));
 for sub = pkg.m.'
   s = sub{1};
   [~, name] = fileparts(s);
-  doc_fn = publish(pkg_name + "." + name, evalCode=false, outputDir=docs, showCode=false);
+  doc_fn = publish(pkg_name + "." + name, evalCode=false, outputDir=docs);
   disp(doc_fn)
   % inject summary into Readme.md
   summary = split(string(help(pkg_name + "." + name)), newline);
