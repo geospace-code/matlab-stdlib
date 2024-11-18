@@ -1,5 +1,6 @@
-function ok = set_modtime(p)
 %% SET_MODTIME set modification time of path
+
+function ok = set_modtime(p)
 arguments
   p (1,1) string
 end

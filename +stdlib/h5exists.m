@@ -1,4 +1,3 @@
-function exists = h5exists(file, variable)
 %% H5EXISTS check if object exists
 %
 %%% Inputs
@@ -6,6 +5,8 @@ function exists = h5exists(file, variable)
 % * variable: path of variable in file
 %%% Outputs
 % * exists: boolean
+
+function exists = h5exists(file, variable)
 arguments
   file (1,1) string {mustBeFile}
   variable (1,1) string

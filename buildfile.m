@@ -67,15 +67,18 @@ pkg = what(pkg_name);
 %% generate docs
 cwd = fileparts(mfilename('fullpath'));
 docs = fullfile(cwd, "docs");
-readme = fullfile(docs, "README.md");
+readme = fullfile(docs, "index.html");
 
 if ~isfolder(docs)
   mkdir(docs);
 end
 
-txt = "# stdlib for Matlab API\n\nA standard library of functions for Matlab.\n\nAPI Reference:\n\n";
+txt = ["<!DOCTYPE html> <head> <title>Standard library for Matlab API</title> <body>", ...
+       "<h1>stdlib for Matlab API</h1>", ...
+       "A standard library of functions for Matlab.", ...
+       "<h2>API Reference</h2>"];
 fid = fopen(readme, 'w');
-fprintf(fid, txt);
+fprintf(fid, join(txt, "\n"));
 
 for sub = pkg.m.'
   s = sub{1};
@@ -87,12 +90,14 @@ for sub = pkg.m.'
   words = split(strip(summary(1)), " ");
   % purposefully this will error if no docstring
   fname = words(1);
-  line = "[" + fname + "](" + name + ".html) ";
+  line = "<a href=" + name + ".html>" + fname + "</a> ";
   if(length(words) > 1)
     line = line + join(words(2:end));
   end
-  fprintf(fid, line + "\n");
+  fprintf(fid, line + "<br>\n");
 end
+
+fprintf(fid, "</body> </html>");
 
 fclose(fid);
 

@@ -1,9 +1,9 @@
-function ok = is_symlink(p)
 %% IS_SYMLINK is it a symbolic link
 %
 % Ref:
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isSymbolicLink(java.nio.file.Path)
 
+function ok = is_symlink(p)
 arguments
   p (1,1) string
 end

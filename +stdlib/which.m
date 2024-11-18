@@ -1,10 +1,11 @@
-function exe = which(filename, fpath, use_java)
 %% WHICH find executable in fpath or env var PATH
 % like Python shutil.which, find executable in fpath or env var PATH
 % does not resolve path.
 % That is, can return relative path if executable is in:
 % * (Windows) in cwd
 % * (all) fpath or Path contains relative paths
+
+function exe = which(filename, fpath, use_java)
 arguments
   filename (1,1) string {mustBeNonzeroLengthText}
   fpath (1,:) string = getenv('PATH')

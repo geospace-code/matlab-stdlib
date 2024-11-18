@@ -1,5 +1,5 @@
-function ok = exists(p, use_java)
-%% EXIST does path exist
+%% EXISTS does path exist
+%
 %%% Inputs
 % * p: path to check
 %%% Outputs
@@ -7,6 +7,7 @@ function ok = exists(p, use_java)
 %
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#exists()
 
+function ok = exists(p, use_java)
 arguments
   p (1,1) string
   use_java (1,1) logical = false

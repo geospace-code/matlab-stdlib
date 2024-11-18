@@ -1,6 +1,6 @@
-function owner = get_owner(p)
 %% GET_OWNER owner of file or directory
 
+function owner = get_owner(p)
 arguments
   p (1,1) string
 end

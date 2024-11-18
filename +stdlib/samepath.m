@@ -1,4 +1,3 @@
-function issame = samepath(path1, path2, use_java)
 %% SAMEPATH is path the same
 %
 % true if inputs resolve to same path
@@ -9,6 +8,8 @@ function issame = samepath(path1, path2, use_java)
 %%% Outputs
 % issame: logical
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isSameFile(java.nio.file.Path,java.nio.file.Path)
+
+function issame = samepath(path1, path2, use_java)
 arguments
   path1 (1,1) string
   path2 (1,1) string

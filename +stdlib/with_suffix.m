@@ -1,4 +1,3 @@
-function filename = with_suffix(filename, suffix)
 %% WITH_SUFFIX switch file extension
 %
 %%% Inputs
@@ -6,6 +5,8 @@ function filename = with_suffix(filename, suffix)
 % * suffix: file extension with "." e.g. ".dat"
 %%% Outputs
 % * filename: modified filename
+
+function filename = with_suffix(filename, suffix)
 arguments
   filename (1,1) string
   suffix (1,1) string

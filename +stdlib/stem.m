@@ -1,5 +1,6 @@
-function p = stem(path)
 %% STEM filename without directory or suffix
+
+function p = stem(path)
 arguments
   path string
 end

@@ -1,6 +1,7 @@
-function ok = has_wsl()
-%% HAS_WSL() is Windows Subsystem for Linux installed
+%% HAS_WSL is Windows Subsystem for Linux installed
 % Check if WSL is installed and notionally working
+
+function ok = has_wsl()
 
 persistent wsl;
 

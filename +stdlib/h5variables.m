@@ -1,4 +1,3 @@
-function names = h5variables(file, group)
 %% H5VARIABLES get HDF5 dataset names
 % get dataset names in a file under group
 % default is datasets under "/", optionally under "/group"
@@ -8,6 +7,8 @@ function names = h5variables(file, group)
 % * group: group name (optional)
 %%% Outputs
 % * names: variable names
+
+function names = h5variables(file, group)
 arguments
   file (1,1) string {mustBeFile}
   group string {mustBeScalarOrEmpty} = string.empty

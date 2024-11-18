@@ -1,4 +1,3 @@
-function ncsave(filename, varname, A, opts)
 %% NCSAVE save data to NetCDF4 file
 % create or append to data file
 %
@@ -10,6 +9,8 @@ function ncsave(filename, varname, A, opts)
 % * A: data to write
 % * opts.dims: name and size of dimensions
 % * opts.type: class of variable e.g. int32, float32
+
+function ncsave(filename, varname, A, opts)
 arguments
   filename (1,1) string {mustBeNonzeroLengthText}
   varname (1,1) string {mustBeNonzeroLengthText}

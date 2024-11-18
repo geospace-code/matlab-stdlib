@@ -1,4 +1,3 @@
-function c = absolute(p, base, expand_tilde, use_java)
 %% ABSOLUTE Determine absolute path
 % c = absolute(p);
 % Path "p" need not exist.
@@ -16,6 +15,8 @@ function c = absolute(p, base, expand_tilde, use_java)
 %
 % does not normalize path
 % non-existant path is made absolute relative to pwd
+
+function c = absolute(p, base, expand_tilde, use_java)
 arguments
   p (1,1) string
   base string {mustBeScalarOrEmpty} = string.empty

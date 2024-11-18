@@ -1,4 +1,3 @@
-function [status, stdout, stderr] = subprocess_run(cmd, opt)
 %% SUBPROCESS_RUN run process with optional cwd, env. vars, stdin stream
 %
 % handle command lines with spaces
@@ -25,6 +24,8 @@ function [status, stdout, stderr] = subprocess_run(cmd, opt)
 % SUBPROCESS_RUN run a program with arguments and options
 % uses Matlab Java ProcessBuilder interface to run subprocess and use stdin/stdout pipes
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html
+
+function [status, stdout, stderr] = subprocess_run(cmd, opt)
 arguments
   cmd (1,:) string
   opt.env struct {mustBeScalarOrEmpty} = struct.empty

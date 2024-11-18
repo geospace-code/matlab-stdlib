@@ -1,6 +1,5 @@
 function exists = h4exists(file, variable)
-%% H4EXISTS
-% check if object exists in HDF4 file
+%% H4EXISTS check if object exists in HDF4 file
 %
 %%% Inputs
 % * file: data filename

@@ -1,16 +1,14 @@
-function r = version_atleast(in, ref)
 %% VERSION_ATLEAST compare two string verions: major.minor.rev.patch
 % compare two string verions: major.minor.rev.patch
 % uses strings to compare so mixed number/string is OK
 %
-% parameters
-% ------------
-% in: version to examine (string)
-% ref: version to compare against (at least this version is true)
-%
-% returns
-% -------
-% r: logical
+%% Inputs
+% * in: version to examine (string)
+% * ref: version to compare against (at least this version is true)
+%% Outputs
+% * r: logical
+
+function r = version_atleast(in, ref)
 
 arguments
   in (1,1) string

@@ -1,4 +1,3 @@
-function [OK,newSizeBytes,freebytes] = checkRAM(newSize, myclass)
 %% CHECKRAN estimate if RAM will fit a new array
 % checks that requested memory for the new array won't exceed AVAILABLE RAM with Matlab
 %
@@ -6,6 +5,7 @@ function [OK,newSizeBytes,freebytes] = checkRAM(newSize, myclass)
 % create an array using ALL available RAM, but at least you know when you
 % certainly CAN'T create an array without digging deep into swap or worse.
 
+function [OK,newSizeBytes,freebytes] = checkRAM(newSize, myclass)
 arguments
   newSize (1,:) {mustBeNumeric}
   myclass (1,1) string = "double"

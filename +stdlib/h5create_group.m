@@ -1,5 +1,4 @@
-function fid = h5create_group(file, hpath)
-%% H%CREATE_GROUP create HDF5 group
+%% H5CREATE_GROUP create HDF5 group
 %
 %%% Inputs
 % * file: HDF5 file name or handle
@@ -7,6 +6,7 @@ function fid = h5create_group(file, hpath)
 %%% Outputs
 % * HDF5 file handle
 
+function fid = h5create_group(file, hpath)
 arguments
   file
   hpath (1,1) string {mustBeNonzeroLengthText}

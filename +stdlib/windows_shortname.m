@@ -1,4 +1,3 @@
-function short = windows_shortname(p)
 %% WINDOWS_SHORTNAME Retrieves the Windows short name (8.3 character) form
 %
 %  Example of using a COM server (Scripting.FileSystemObject) in Windows
@@ -6,9 +5,8 @@ function short = windows_shortname(p)
 %  References:
 %  https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/windows-scripting/ch28h2s7
 %  https://www.mathworks.com/matlabcentral/fileexchange/48950-short-path-name-on-windows-com-server
-%
 
-
+function short = windows_shortname(p)
 arguments
   p (1,1) string
 end

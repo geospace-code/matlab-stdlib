@@ -1,4 +1,3 @@
-function c = canonical(p, expand_tilde, use_java)
 %% CANONICAL Canonicalize path
 % c = canonical(p);
 % If exists, canonical absolute path is returned.
@@ -13,6 +12,8 @@ function c = canonical(p, expand_tilde, use_java)
 %%% Outputs
 % * c: canonical path, if determined
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getCanonicalPath()
+
+function c = canonical(p, expand_tilde, use_java)
 arguments
   p (1,1) string
   expand_tilde (1,1) logical = true

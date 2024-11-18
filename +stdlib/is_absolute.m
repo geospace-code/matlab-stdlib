@@ -1,7 +1,8 @@
-function isabs = is_absolute(p, use_java)
 %% IS_ABSOLUTE is path absolute?
 %
 % Ref: https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/File.html#isAbsolute()
+
+function isabs = is_absolute(p, use_java)
 arguments
   p (1,1) string
   use_java (1,1) logical = false

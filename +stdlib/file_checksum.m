@@ -1,4 +1,3 @@
-function hash = file_checksum(file, method)
 %% FILE_CHECKSUM compute hash of file
 % read in chunks to avoid excessive RAM use
 %
@@ -8,7 +7,9 @@ function hash = file_checksum(file, method)
 %%% Outputs
 % * hash: string hash
 %
-% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#getInstance(java.lang.String)
+% Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#getInstance(java.lang.String)
+
+function hash = file_checksum(file, method)
 arguments
   file (1,1) string {mustBeFile}
   method (1,1) string {mustBeNonzeroLengthText}

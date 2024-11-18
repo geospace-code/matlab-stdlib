@@ -1,6 +1,6 @@
-function iscyg = iscygwin()
 %% ISCYGWIN  Detect if running under Cygwin
 
+function iscyg = iscygwin()
 if ispc || ismac
   iscyg = false;
 elseif isunix

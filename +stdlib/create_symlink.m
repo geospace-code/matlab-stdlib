@@ -1,4 +1,3 @@
-function ok = create_symlink(target, link)
 %% CREATE_SYMLINK create symbolic link
 %
 %%% Inputs
@@ -8,6 +7,8 @@ function ok = create_symlink(target, link)
 % * ok: true if successful
 %
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#createSymbolicLink(java.nio.file.Path,java.nio.file.Path,java.nio.file.attribute.FileAttribute...)
+
+function ok = create_symlink(target, link)
 
 arguments
   target (1,1) string

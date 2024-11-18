@@ -1,4 +1,3 @@
-function ispar = is_parallel_worker()
 %% IS_PARALLEL_WORKER  being executed by Parallel Computing Toolbox?
 % detects if being executed by Parallel Computing Toolbox
 % e.g. in a parfor loop
@@ -14,6 +13,8 @@ function ispar = is_parallel_worker()
 % Starting parallel pool (parpool) using the 'local' profile ...
 %
 % ans = logical 1
+
+function ispar = is_parallel_worker()
 
 ispar = false;
 

@@ -1,9 +1,9 @@
-function Struct = ini2struct(filename)
 %% INI2STRUCT Parses .ini file
 % Returns a structure with section names and keys as fields.
 %
 % Based on init2struct.m by Andriy Nych
 
+function Struct = ini2struct(filename)
 arguments
   filename (1,1) string {mustBeFile}
 end

@@ -1,4 +1,3 @@
-function h5save(filename, varname, A, opts)
 %% H5SAVE save data to HDF5 file
 % create or append to data file
 %
@@ -10,6 +9,8 @@ function h5save(filename, varname, A, opts)
 % * A: data to write
 % * opts.size: variable shape -- helps write scalar or vectors especially
 % * opts.type: class of variable e.g. int32, float32
+
+function h5save(filename, varname, A, opts)
 arguments
   filename (1,1) string {mustBeNonzeroLengthText}
   varname (1,1) string {mustBeNonzeroLengthText}

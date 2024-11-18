@@ -1,4 +1,3 @@
-function fsize = h5size(file, variable)
 %% H5SIZE get shape of HDF5 variable
 %
 %%% Inputs
@@ -6,6 +5,8 @@ function fsize = h5size(file, variable)
 % variable: name of variable inside file
 %%% Outputs
 % fsize: vector of variable size per dimension. Empty if scalar variable.
+
+function fsize = h5size(file, variable)
 arguments
   file (1,1) string {mustBeFile}
   variable (1,1) string {mustBeNonzeroLengthText}

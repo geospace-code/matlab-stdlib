@@ -1,4 +1,3 @@
-function names = h4variables(file)
 %% H4VARIABLES get HDF4 dataset names
 % get dataset names in a file under group
 % default is datasets under "/", optionally under "/group"
@@ -8,6 +7,8 @@ function names = h4variables(file)
 % * group: group name (optional)
 %%% Outputs
 % * names: variable names
+
+function names = h4variables(file)
 arguments
   file (1,1) string {mustBeFile}
 end

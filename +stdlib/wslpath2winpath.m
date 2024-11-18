@@ -1,13 +1,11 @@
-function win_path = wslpath2winpath(wsl_path)
 %% WSLPATH2WINPATH convert a WSL path to a Windows path
 %
 % PATH MUST EXIST IN WSL
 % output format is like \\wsl$\Ubuntu\home\username\...
-arguments (Input)
+
+function win_path = wslpath2winpath(wsl_path)
+arguments
   wsl_path (1,1) string {mustBeNonzeroLengthText}
-end
-arguments (Output)
-  win_path (1,1) string {mustBeNonzeroLengthText}
 end
 
 assert(stdlib.has_wsl(), "stdlib:sys:wslpath2winpath:EnvironmentError", mfilename() + "only supported on Windows Matlab with WSL")

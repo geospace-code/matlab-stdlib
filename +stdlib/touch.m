@@ -1,5 +1,6 @@
-function ok = touch(p)
 %% TOUCH create file if not exists, else update modification time
+
+function ok = touch(p)
 arguments
   p (1,1) string
 end

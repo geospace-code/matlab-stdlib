@@ -1,6 +1,8 @@
-function name = hostname()
+
 %% HOSTNAME get hostname of local machine
-% Get the hostname of the local machine
-% https://docs.oracle.com/javase/8/docs/api/java/net/InetAddress.html#getHostName--
+%
+% Ref: https://docs.oracle.com/javase/8/docs/api/java/net/InetAddress.html#getHostName--
+
+function name = hostname()
   name = string(java.net.InetAddress.getLocalHost().getHostName());
 end

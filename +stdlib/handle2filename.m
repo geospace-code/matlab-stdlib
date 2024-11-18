@@ -1,5 +1,6 @@
-function name = handle2filename(fileHandle)
 %% HANDLE2FILENAME Convert a file handle to a filename
+
+function name = handle2filename(fileHandle)
 arguments
     fileHandle (1,1) {mustBeInteger}
 end

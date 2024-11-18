@@ -1,5 +1,6 @@
-function isreg = is_regular_file(p)
 %% IS_REGULAR_FILE check if path is a regular file
+
+function isreg = is_regular_file(p)
 arguments
   p (1,1) string
 end

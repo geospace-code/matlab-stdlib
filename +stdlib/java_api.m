@@ -1,5 +1,7 @@
-function api = java_api()
 %% JAVA_API Java API version
+
+function api = java_api()
+
 v = stdlib.java_version();
 
 % major version is first number before "."

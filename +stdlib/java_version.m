@@ -1,5 +1,7 @@
-function v = java_version()
 %% JAVA_VERSION get version of Java Virtual Machine
+
+function v = java_version()
+
   v = string(java.lang.System.getProperty("java.version"));
 
 % this gives a long string with more detail

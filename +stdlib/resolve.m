@@ -1,4 +1,3 @@
-function r = resolve(p, expand_tilde, use_java)
 %% RESOLVE resolve path
 % resolve path, to cwd if relative
 % effectively canonical(absolute(p))
@@ -9,6 +8,8 @@ function r = resolve(p, expand_tilde, use_java)
 % * c: resolved path
 % distinct from canonical(), resolve() always returns absolute path
 % non-existant path is made absolute relative to pwd
+
+function r = resolve(p, expand_tilde, use_java)
 arguments
   p (1,1) string
   expand_tilde (1,1) logical = true

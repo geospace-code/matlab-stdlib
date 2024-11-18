@@ -1,6 +1,7 @@
-function p = filename(p)
 % FILENAME file name of path
 % filename (including suffix) without directory
+
+function p = filename(p)
 arguments
   p (1,1) string
 end

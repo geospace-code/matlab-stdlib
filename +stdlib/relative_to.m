@@ -1,5 +1,6 @@
-function r = relative_to(base, other)
 %% RELATIVE_TO relative path to base
+
+function r = relative_to(base, other)
 arguments
   base (1,1) string
   other (1,1) string

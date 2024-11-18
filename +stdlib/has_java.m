@@ -1,5 +1,6 @@
-function ok = has_java()
 % HAS_JAVA detect if JVM is available
+
+function ok = has_java()
 
 persistent h;
 

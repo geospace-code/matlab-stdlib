@@ -1,4 +1,3 @@
-function exists = ncexists(file, variable)
 %% NCEXISTS check if variable exists in NetCDF4 file
 %
 %%% Inputs
@@ -6,6 +5,8 @@ function exists = ncexists(file, variable)
 % * variable: path of variable in file
 %%% Outputs
 % * exists: boolean
+
+function exists = ncexists(file, variable)
 arguments
   file (1,1) string {mustBeFile}
   variable (1,1) string

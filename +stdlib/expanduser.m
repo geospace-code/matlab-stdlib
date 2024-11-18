@@ -1,4 +1,3 @@
-function e = expanduser(p, use_java)
 %% EXPANDUSER expands tilde ~ into user home directory
 %
 % Useful for Matlab functions that can't handle ~
@@ -7,6 +6,8 @@ function e = expanduser(p, use_java)
 % * p: path to expand, if tilde present
 %%% Outputs
 % * e: expanded path
+
+function e = expanduser(p, use_java)
 arguments
   p (1,1) string
   use_java (1,1) logical = false

@@ -1,8 +1,8 @@
-function ok = is_readable(file, use_java)
 %% IS_READABLE is file readable
 %
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isReadable(java.nio.file.Path)
 
+function ok = is_readable(file, use_java)
 arguments
   file (1,1) string
   use_java (1,1) logical = false

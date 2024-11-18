@@ -1,7 +1,8 @@
-function r = read_symlink(p)
 %% READ_SYMLINK read symbolic link
 %
 % empty string if path is not a symlink
+
+function r = read_symlink(p)
 arguments
   p (1,1) string
 end
