@@ -4,11 +4,13 @@ plan.DefaultTasks = "test";
 plan("test").Dependencies = "check";
 end
 
+
 function checkTask(~)
 % Identify code issues (recursively all Matlab .m files)
 issues = codeIssues;
 assert(isempty(issues.Issues), formattedDisplayText(issues.Issues))
 end
+
 
 function testTask(~)
 r = runtests('test/', strict=true, UseParallel=false);
@@ -16,6 +18,7 @@ r = runtests('test/', strict=true, UseParallel=false);
 assert(~isempty(r), "No tests were run")
 assertSuccess(r)
 end
+
 
 function coverageTask(~)
 import matlab.unittest.TestRunner
@@ -49,6 +52,7 @@ assertSuccess(run_results)
 
 generateHTMLReport(format.Result)
 end
+
 
 function publishTask(~)
 % publish (generate) docs from Matlab project
