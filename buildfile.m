@@ -90,6 +90,9 @@ for sub = pkg.m.'
   words = split(strip(summary(1)), " ");
   % purposefully this will error if no docstring
   fname = words(1);
+  if(lower(fname) ~= lower(name))
+    error("fname %s does not match name %s", fname, name)
+  end
   line = "<a href=" + name + ".html>" + fname + "</a> ";
   if(length(words) > 1)
     line = line + join(words(2:end));
