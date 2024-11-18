@@ -1,15 +1,20 @@
 function c = absolute(p, base, expand_tilde, use_java)
-%% absolute(p)
-% path need not exist
-% absolute path will be relative to pwd if not exist
+%% ABSOLUTE Determine absolute path
+% c = absolute(p);
+% Path "p" need not exist.
+% Absolute path will be relative to pwd if path does not exist.
+%
+% c = absolute(p, base);
+% the "base" path is used instead of pwd.
 %
 %%% Inputs
 % * p: path to make absolute
 % * base: if present, base on this instead of cwd
 % * expand_tilde: expand ~ to username if present
 %%% Outputs
-% * c: resolved path
-% does not normalize
+% * c: absolute path
+%
+% does not normalize path
 % non-existant path is made absolute relative to pwd
 arguments
   p (1,1) string

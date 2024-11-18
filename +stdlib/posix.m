@@ -1,5 +1,5 @@
 function p = posix(p)
-%% posix(file)
+%% POSIX posix format of path with '/' separator
 % convert a path to a Posix string path separated with "/" even on Windows.
 % If Windows path also have escaping "\" this breaks
 arguments

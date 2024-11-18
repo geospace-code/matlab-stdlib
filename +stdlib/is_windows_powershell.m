@@ -1,5 +1,5 @@
 function iswps = is_windows_powershell()
-%% is_windows_powershell()
+%% IS_WINDOWS_POWERSHELL detects Windows powershell vs. Command Prompt
 % detects Windows powershell vs. Command Prompt
 % Matlab on Windows Powershell vs Comspec for system()
 % would impact syntax of some system() commands

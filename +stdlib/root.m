@@ -1,4 +1,5 @@
 function r = root(p, use_java)
+%% ROOT get root of path
 arguments
   p (1,1) string
   use_java (1,1) logical = false

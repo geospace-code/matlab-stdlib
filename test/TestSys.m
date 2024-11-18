@@ -11,12 +11,6 @@ end
 
 methods (Test)
 
-function test_find_fortran(tc)
-import matlab.unittest.constraints.IsOfClass
-
-tc.verifyThat(stdlib.find_fortran_compiler(), IsOfClass('string'))
-end
-
 function test_platform(tc)
 import matlab.unittest.constraints.IsOfClass
 

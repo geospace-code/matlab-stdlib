@@ -1,5 +1,5 @@
 function isinter = isinteractive()
-%% isinteractive()
+%% ISINTERACTIVE
 % tell if the script is being run interactively
 
 % Matlab: this test doesn't work for Octave

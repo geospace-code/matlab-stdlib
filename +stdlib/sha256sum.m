@@ -1,6 +1,5 @@
 function hash = sha256sum(file)
-%% sha256sum(file)
-% compute sha256 hash of file
+%% SHA256SUM compute sha256 hash of file
 arguments
   file (1,1) string {mustBeFile}
 end

@@ -56,7 +56,9 @@ end
 
 function publishTask(~)
 % publish (generate) docs from Matlab project
-
+% https://www.mathworks.com/help/matlab/ref/publish.html
+% https://www.mathworks.com/help/matlab/matlab_prog/marking-up-matlab-comments-for-publishing.html
+%
 % for package code -- assumes no classes and depth == 1
 pkg_name = "stdlib";
 
@@ -65,12 +67,33 @@ pkg = what(pkg_name);
 %% generate docs
 cwd = fileparts(mfilename('fullpath'));
 docs = fullfile(cwd, "docs");
+readme = fullfile(docs, "README.md");
+
+if ~isfolder(docs)
+  mkdir(docs);
+end
+
+txt = "# stdlib for Matlab API\n\nA standard library of functions for Matlab.\n\nAPI Reference:\n\n";
+fid = fopen(readme, 'w');
+fprintf(fid, txt);
 
 for sub = pkg.m.'
   s = sub{1};
   [~, name] = fileparts(s);
   doc_fn = publish(pkg_name + "." + name, evalCode=false, outputDir=docs, showCode=false);
   disp(doc_fn)
+  % inject summary into Readme.md
+  summary = split(string(help(pkg_name + "." + name)), newline);
+  words = split(strip(summary(1)), " ");
+  % purposefully this will error if no docstring
+  fname = words(1);
+  line = "[" + fname + "](" + name + ".html) ";
+  if(length(words) > 1)
+    line = line + join(words(2:end));
+  end
+  fprintf(fid, line + "\n");
 end
+
+fclose(fid);
 
 end

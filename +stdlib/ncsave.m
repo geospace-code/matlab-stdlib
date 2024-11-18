@@ -1,5 +1,15 @@
 function ncsave(filename, varname, A, opts)
-
+%% NCSAVE save data to NetCDF4 file
+% create or append to data file
+%
+% parent folder (file directory) must already exist
+%
+%%% Inputs
+% * filename: data filename
+% * varname: variable name to save
+% * A: data to write
+% * opts.dims: name and size of dimensions
+% * opts.type: class of variable e.g. int32, float32
 arguments
   filename (1,1) string {mustBeNonzeroLengthText}
   varname (1,1) string {mustBeNonzeroLengthText}

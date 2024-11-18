@@ -1,11 +1,8 @@
 function iscyg = iscygwin()
-%% iscygwin()
-% detects if running under Cygwin
-%
-% Note: primarily for GNU Octave as it's unlikely Matlab would run under Cygwin!
+%% ISCYGWIN  Detect if running under Cygwin
 
 if ispc || ismac
-  iscyg=false;
+  iscyg = false;
 elseif isunix
   fid = fopen('/proc/version');
   v = fscanf(fid,'%s');

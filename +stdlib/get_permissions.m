@@ -1,4 +1,7 @@
 function p = get_permissions(f)
+%% GET_PERMISSIONS permissions of file or directory
+%
+% output is string like "rwxrwxr--"
 arguments
   f (1,1) string
 end

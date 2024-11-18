@@ -1,5 +1,5 @@
 function N = cpu_count
-%CPU_COUNT how many CPUs
+%% CPU_COUNT how many CPUs are available
 N = maxNumCompThreads;
 if N < 2  % happens on some HPC
   N = feature('NumCores');

@@ -1,4 +1,5 @@
 function r = resolve(p, expand_tilde, use_java)
+%% RESOLVE resolve path
 % resolve path, to cwd if relative
 % effectively canonical(absolute(p))
 %%% Inputs

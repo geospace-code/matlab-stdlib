@@ -1,8 +1,10 @@
 function [status, stdout, stderr] = subprocess_run(cmd, opt)
-%% subprocess_run(cmd_array, opt)
+%% SUBPROCESS_RUN run process with optional cwd, env. vars, stdin stream
+%
 % handle command lines with spaces
 % input each segment of the command as an element in a string array
 % this is how python subprocess.run works
+%
 %%% Inputs
 % * cmd_array: vector of string to compose a command line
 % * opt.env: environment variable struct to set

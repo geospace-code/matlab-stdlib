@@ -1,6 +1,5 @@
 function fsize = h4size(file, variable)
-%% h4size(file, variable)
-% get size (shape) of a data file variable
+%% H4SIZE get size (shape) of a HDF4 variable
 %
 %%% Inputs
 % filename: data filename

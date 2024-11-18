@@ -1,5 +1,5 @@
 function exe = which(filename, fpath, use_java)
-%% which()
+%% WHICH find executable in fpath or env var PATH
 % like Python shutil.which, find executable in fpath or env var PATH
 % does not resolve path.
 % That is, can return relative path if executable is in:

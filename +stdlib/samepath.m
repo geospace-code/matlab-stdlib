@@ -1,7 +1,9 @@
 function issame = samepath(path1, path2, use_java)
-%% samepath(path1, path)
+%% SAMEPATH is path the same
+%
 % true if inputs resolve to same path
-% files need not exist
+% paths must exist
+%
 %%% Inputs
 % * path1, path2: paths to compare
 %%% Outputs

@@ -1,5 +1,5 @@
 function h5save(filename, varname, A, opts)
-%% h5save(filename, varname, A, opts)
+%% H5SAVE save data to HDF5 file
 % create or append to data file
 %
 % parent folder (file directory) must already exist

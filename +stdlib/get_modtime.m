@@ -1,5 +1,5 @@
 function t = get_modtime(p)
-%get_modtime get path modification time
+%% GET_MODTIME get path modification time
 arguments
   p (1,1) string
 end

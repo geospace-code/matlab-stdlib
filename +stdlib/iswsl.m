@@ -1,5 +1,5 @@
 function yeswsl = iswsl()
-%% iswsl()
+%% ISWSL detect if running under WSL
 % Detects if Matlab or GNU Octave is installed and running from within
 % Windows Subsystem for Linux
 persistent wsl;

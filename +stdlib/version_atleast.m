@@ -1,4 +1,5 @@
 function r = version_atleast(in, ref)
+%% VERSION_ATLEAST compare two string verions: major.minor.rev.patch
 % compare two string verions: major.minor.rev.patch
 % uses strings to compare so mixed number/string is OK
 %

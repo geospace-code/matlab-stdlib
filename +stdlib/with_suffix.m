@@ -1,6 +1,6 @@
 function filename = with_suffix(filename, suffix)
-%% with_suffix(filename, suffix)
-% switch file extension
+%% WITH_SUFFIX switch file extension
+%
 %%% Inputs
 % * filename: original filename
 % * suffix: file extension with "." e.g. ".dat"

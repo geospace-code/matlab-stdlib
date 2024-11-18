@@ -1,6 +1,5 @@
 function hash = md5sum(file)
-%% md5sum(file)
-% compute MD5 hash of file
+%% MD5SUM compute MD5 hash of file
 arguments
   file (1,1) string {mustBeFile}
 end

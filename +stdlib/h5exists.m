@@ -1,11 +1,9 @@
 function exists = h5exists(file, variable)
-%% H5EXISTS(file, variable)
-% check if object exists in HDF5 file
+%% H5EXISTS check if object exists
 %
 %%% Inputs
 % * file: data filename
 % * variable: path of variable in file
-%
 %%% Outputs
 % * exists: boolean
 arguments

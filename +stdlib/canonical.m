@@ -1,13 +1,11 @@
 function c = canonical(p, expand_tilde, use_java)
-%% canonical(p)
-% If exists, canonical absolute path is returned
-% if path does not exist, normalized relative path is returned
+%% CANONICAL Canonicalize path
+% c = canonical(p);
+% If exists, canonical absolute path is returned.
+% if path does not exist, normalized relative path is returned.
+% UNC paths are not canonicalized.
 %
-% NOTE: some network file systems are not resolvable by Matlab Java
-% subsystem, but are sometimes still valid--so return
-% unmodified path if this occurs.
-%
-% This also resolves Windows short paths to full long paths.
+% This also resolves Windows short paths to long paths.
 %
 %%% Inputs
 % * p: path to make canonical

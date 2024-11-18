@@ -1,5 +1,5 @@
 function ispar = is_parallel_worker()
-%% is_parallel_worker()
+%% IS_PARALLEL_WORKER  being executed by Parallel Computing Toolbox?
 % detects if being executed by Parallel Computing Toolbox
 % e.g. in a parfor loop
 %

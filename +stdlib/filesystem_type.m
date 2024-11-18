@@ -1,4 +1,7 @@
 function t = filesystem_type(p)
+%% FILESYSTEM_TYPE tell type of filesystem
+%
+% example outputs: ntfs, ext4, apfs, ...
 arguments
   p (1,1) string
 end

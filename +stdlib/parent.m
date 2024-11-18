@@ -1,6 +1,7 @@
 function p = parent(p, use_java)
-% PARENT parent directory of path
-% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getParent()
+%% PARENT parent directory of path
+%
+% Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getParent()
 arguments
   p (1,1) string
   use_java (1,1) logical = false

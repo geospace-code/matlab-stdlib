@@ -1,6 +1,13 @@
 function ok = create_symlink(target, link)
-%% create_symlink create symbolic link
-% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#createSymbolicLink(java.nio.file.Path,java.nio.file.Path,java.nio.file.attribute.FileAttribute...)
+%% CREATE_SYMLINK create symbolic link
+%
+%%% Inputs
+% * target: path to link to
+% * link: path to create link at
+%%% Outputs
+% * ok: true if successful
+%
+% Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#createSymbolicLink(java.nio.file.Path,java.nio.file.Path,java.nio.file.attribute.FileAttribute...)
 
 arguments
   target (1,1) string

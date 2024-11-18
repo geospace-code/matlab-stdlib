@@ -1,7 +1,7 @@
 function ok = is_writable(file, use_java)
-%% is_writable
-% is path writable
-% https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html#isWritable(java.nio.file.Path)
+%% IS_WRITABLE is path writable
+%
+% Ref: https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html#isWritable(java.nio.file.Path)
 
 arguments
   file (1,1) string

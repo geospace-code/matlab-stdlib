@@ -1,5 +1,5 @@
 function path = wsl_tempfile()
-%% wsl_tempfile()
+%% WSL_TEMPFILE get temporary file from WSL
 % Windows Subsystem for Linux (WSL) temporary file from Windows Matlab
 arguments (Output)
   path (1,1) string {mustBeNonzeroLengthText}

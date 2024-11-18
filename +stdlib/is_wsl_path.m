@@ -1,6 +1,7 @@
 function iswsl = is_wsl_path(path)
-% heuristic to detect a WSL path
-% https://learn.microsoft.com/en-us/windows/wsl/filesystems
+%% IS_WSL_PATH detect a WSL path
+%
+% Ref: https://learn.microsoft.com/en-us/windows/wsl/filesystems
 arguments
   path (1,1) string {mustBeNonzeroLengthText}
 end

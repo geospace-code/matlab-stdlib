@@ -1,5 +1,5 @@
 function p = join(a, b, use_java)
-%% JOIN: join two paths with posix file separator
+%% JOIN join two paths with posix file separator
 arguments
   a (1,1) string
   b (1,1) string

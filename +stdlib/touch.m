@@ -1,4 +1,5 @@
 function ok = touch(p)
+%% TOUCH create file if not exists, else update modification time
 arguments
   p (1,1) string
 end

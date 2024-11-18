@@ -1,11 +1,9 @@
 function fid = h5create_group(file, hpath)
-%% h5create_group(file, hpath)
-% create HDF5 group
+%% H%CREATE_GROUP create HDF5 group
 %
 %%% Inputs
 % * file: HDF5 file name or handle
 % * hpath: HDF5 group/dataset -- ensure final character is "/" if hpath is only a group
-%
 %%% Outputs
 % * HDF5 file handle
 

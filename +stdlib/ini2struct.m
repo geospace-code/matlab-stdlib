@@ -1,6 +1,5 @@
 function Struct = ini2struct(filename)
-%% ini2struct(filename)
-% Parses .ini file
+%% INI2STRUCT Parses .ini file
 % Returns a structure with section names and keys as fields.
 %
 % Based on init2struct.m by Andriy Nych

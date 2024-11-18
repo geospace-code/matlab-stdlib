@@ -1,5 +1,5 @@
 function [OK,newSizeBytes,freebytes] = checkRAM(newSize, myclass)
-%% checkRAM(newSize, myclass)
+%% CHECKRAN estimate if RAM will fit a new array
 % checks that requested memory for the new array won't exceed AVAILABLE RAM with Matlab
 %
 % This script is optimistic as Matlab won't always be able to

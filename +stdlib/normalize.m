@@ -1,5 +1,5 @@
 function n = normalize(p, use_java)
-%% normalize(p)
+%% NORMALIZE remove redundant elements of path
 % normalize(p) remove redundant elements of path p
 % path need not exist, normalized path is returned
 %
