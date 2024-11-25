@@ -37,7 +37,7 @@ tc.TestData.utf0 = utf0;
 tc.TestData.utf1 = utf1;
 tc.TestData.utf2 = utf2;
 
-basic = stdlib.join(fixture.Folder, "basic.nc");
+basic = stdlib.posix(fixture.Folder) + "/basic.nc";
 tc.TestData.basic = basic;
 
 % create test data first, so that parallel tests works

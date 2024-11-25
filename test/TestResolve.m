@@ -92,7 +92,7 @@ import matlab.unittest.constraints.StartsWithSubstring
 import matlab.unittest.constraints.EndsWithSubstring
 import matlab.unittest.constraints.ContainsSubstring
 
-td = tc.applyFixture(TemporaryFolderFixture).Folder;
+td = stdlib.posix(tc.applyFixture(TemporaryFolderFixture).Folder);
 tc.applyFixture(CurrentFolderFixture(td))
 
 % all non-existing files
@@ -130,8 +130,8 @@ tc.verifyEqual(stdlib.resolve("~"), h)
 tc.verifyEqual(stdlib.resolve("~/"), h)
 tc.verifyEqual(stdlib.resolve("~/.."), stdlib.parent(h))
 
-tc.verifyEqual(stdlib.resolve("nobody.txt"), stdlib.join(td, "nobody.txt"))
-tc.verifyEqual(stdlib.resolve("../nobody.txt"), stdlib.join(stdlib.parent(td), "nobody.txt"))
+tc.verifyEqual(stdlib.resolve("nobody.txt"), td + "/nobody.txt")
+tc.verifyEqual(stdlib.resolve("../nobody.txt"), stdlib.parent(td) + "/nobody.txt")
 
 end
 

@@ -29,14 +29,14 @@ fixture = tc.applyFixture(TemporaryFolderFixture);
 tmpDir = fixture.Folder;
 
 r = fileparts(mfilename('fullpath'));
-fn = stdlib.join(r, "hello.tar.zst");
+fn = stdlib.posix(r) + "/hello.tar.zst";
 
 tc.assumeThat(fn, IsFile)
 
 tc.assumeNotEmpty(stdlib.which("cmake"), "CMake not available")
 
 stdlib.extract_zstd(fn, tmpDir)
-tc.verifyThat(stdlib.join(tmpDir, "test/hello.txt"), IsFile)
+tc.verifyThat(stdlib.posix(tmpDir) + "/test/hello.txt", IsFile)
 
 end
 
@@ -61,7 +61,7 @@ import matlab.unittest.constraints.IsFile
 import matlab.unittest.fixtures.TemporaryFolderFixture
 fixture = tc.applyFixture(TemporaryFolderFixture);
 
-fn = stdlib.join(fixture.Folder, "hello");
+fn = stdlib.posix(fixture.Folder) + "/hello";
 fid = fopen(fn, "w");
 tc.assumeGreaterThan(fid, 0);
 fprintf(fid, "hello");

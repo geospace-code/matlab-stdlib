@@ -5,16 +5,16 @@ properties (ClassSetupParameter)
 end
 
 properties(TestParameter)
-p_exists = {{pwd, true}, {mfilename("fullpath") + ".m", true}, {tempname, false}}
+p_exists = {{pwd(), true}, {mfilename("fullpath") + ".m", true}, {tempname, false}}
 % on CI matlabroot can be writable!
-in_is_write = {pwd, "not-exists"};
+in_is_write = {pwd(), "not-exists"};
 ref_is_write = {true, false}
 p_expand
 p_same = {...
 {"","", false}, ...
 {tempname, tempname, false}, ...
 {"..", "./..", true}, ...
-{"..", pwd + "/..", true}}
+{"..", pwd() + "/..", true}}
 end
 
 properties
@@ -28,7 +28,7 @@ function p_expand = init_expand(classToTest) %#ok<INUSD>
 cwd = fileparts(mfilename("fullpath"));
 top = fullfile(cwd, "..");
 addpath(top)
-p_expand = {{"", ""}, {"~abc", "~abc"}, {"~", stdlib.homedir}, {"~/foo", stdlib.join(stdlib.homedir, "foo")}};
+p_expand = {{"", ""}, {"~abc", "~abc"}, {"~", stdlib.homedir()}, {"~/foo", stdlib.homedir() + "/foo"}};
 end
 end
 

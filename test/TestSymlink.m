@@ -17,10 +17,10 @@ import matlab.unittest.fixtures.CurrentFolderFixture
 import matlab.unittest.fixtures.TemporaryFolderFixture
 
 fixture = tc.applyFixture(TemporaryFolderFixture);
-td = fixture.Folder;
+td = stdlib.posix(fixture.Folder);
 tc.applyFixture(CurrentFolderFixture(td))
 
-tc.TestData.link = stdlib.join(td, "my.lnk");
+tc.TestData.link = td + "/my.lnk";
 
 tc.TestData.this = stdlib.posix(mfilename("fullpath") + ".m");
 
