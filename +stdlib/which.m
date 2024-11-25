@@ -43,7 +43,7 @@ fpath = fpath(strlength(fpath)>0);
 for name = names
 
   for p = fpath
-    exe = stdlib.join(p, name);
+    exe = stdlib.posix(p) + "/" + name;
     if stdlib.is_exe(exe, use_java)
       return
     end

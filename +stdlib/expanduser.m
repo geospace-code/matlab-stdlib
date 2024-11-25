@@ -15,6 +15,7 @@ end
 
 e = p;
 
+
 if ~startsWith(e, "~") || (strlength(e) > 1 && ~startsWith(e, "~/"))
   return
 end
@@ -22,7 +23,13 @@ end
 home = stdlib.homedir(use_java);
 
 if ~isempty(home)
-  e = stdlib.join(home, strip(extractAfter(e, 1), "left", "/"));
+  d = home;
+  if strlength(e) < 2
+    e = d;
+    return
+  end
+
+  e = d + "/" + strip(extractAfter(e, 1), "left", "/");
 end
 
 end %function

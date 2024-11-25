@@ -248,6 +248,8 @@ tc.verifyEqual(stdlib.with_suffix("foo.h5", ".nc"), "foo.nc")
 tc.verifyEqual(stdlib.with_suffix("c", ""), "c")
 tc.verifyEqual(stdlib.with_suffix("c.nc", ""), "c")
 tc.verifyEqual(stdlib.with_suffix("", ".nc"), ".nc")
+
+tc.verifyEqual(stdlib.with_suffix("a//b///c///", ".h5"), "a/b/c/.h5")
 end
 
 

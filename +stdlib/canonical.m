@@ -40,7 +40,7 @@ if ~stdlib.is_absolute(c)
       return
     else
       % workaround Java/Matlab limitations
-      c = stdlib.join(pwd, c);
+      c = stdlib.posix(pwd()) + "/" + c;
     end
   else
     % for non-existing path, return normalized relative path
