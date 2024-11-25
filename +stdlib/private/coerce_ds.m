@@ -2,7 +2,7 @@ function A = coerce_ds(A, dtype)
 % used by h5save and ncsave
 arguments
   A
-  dtype string {mustBeScalarOrEmpty}
+  dtype (1,1) string
 end
 
 if ischar(A)
@@ -10,7 +10,7 @@ if ischar(A)
   return
 end
 
-if isempty(dtype)
+if strlength(dtype) == 0
   return
 end
 

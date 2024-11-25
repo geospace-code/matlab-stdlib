@@ -24,7 +24,7 @@ arguments
   varname (1,1) string {mustBeNonzeroLengthText}
   A {mustBeNonempty}
   opts.size (1,:) double {mustBeInteger,mustBeNonnegative} = []
-  opts.type string {mustBeScalarOrEmpty} = string.empty
+  opts.type (1,1) string = ""
 end
 
 if isnumeric(A)

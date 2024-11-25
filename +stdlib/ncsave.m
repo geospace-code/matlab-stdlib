@@ -16,7 +16,7 @@ arguments
   varname (1,1) string {mustBeNonzeroLengthText}
   A {mustBeNonempty}
   opts.dims cell = {}
-  opts.type string {mustBeScalarOrEmpty} = string.empty
+  opts.type (1,1) string = ""
 end
 
 if isnumeric(A)

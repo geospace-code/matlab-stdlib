@@ -16,6 +16,6 @@ arguments
   use_java (1,1) logical = false
 end
 
-r = stdlib.canonical(stdlib.absolute(p, string.empty, expand_tilde, use_java), false, use_java);
+r = stdlib.canonical(stdlib.absolute(p, "", expand_tilde, use_java), false, use_java);
 
 end

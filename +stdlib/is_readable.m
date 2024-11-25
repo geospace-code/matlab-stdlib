@@ -11,7 +11,7 @@ end
 if use_java
   % java is about 10x slower than fileattrib
   % needs absolute()
-  file = stdlib.absolute(file, string.empty, false, use_java);
+  file = stdlib.absolute(file, "", false, use_java);
 
   ok = java.nio.file.Files.isReadable(java.io.File(file).toPath());
 else

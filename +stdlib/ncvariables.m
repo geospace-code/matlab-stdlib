@@ -11,10 +11,10 @@
 function names = ncvariables(file, group)
 arguments
   file (1,1) string {mustBeFile}
-  group string {mustBeScalarOrEmpty} = string.empty
+  group (1,1) string = ""
 end
 
-if isempty(group) || strlength(group) == 0
+if strlength(group) == 0
   finf = ncinfo(file);
 else
   finf = ncinfo(file, group);

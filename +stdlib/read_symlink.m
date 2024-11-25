@@ -17,7 +17,7 @@ end
 
 % must be absolute path
 % must not be .canonical or symlink is gobbled!
-r = stdlib.absolute(p, string.empty, false, true);
+r = stdlib.absolute(p, "", false, true);
 
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#readSymbolicLink(java.nio.file.Path)
 t = java.nio.file.Files.readSymbolicLink(java.io.File(r).toPath());

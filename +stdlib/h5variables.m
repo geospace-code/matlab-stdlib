@@ -11,10 +11,10 @@
 function names = h5variables(file, group)
 arguments
   file (1,1) string {mustBeFile}
-  group string {mustBeScalarOrEmpty} = string.empty
+  group (1,1) string = ""
 end
 
-if isempty(group) || strlength(group) == 0
+if strlength(group) == 0
   finf = h5info(file);
 else
   finf = h5info(file, group);

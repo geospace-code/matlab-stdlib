@@ -19,14 +19,14 @@
 function c = absolute(p, base, expand_tilde, use_java)
 arguments
   p (1,1) string
-  base string {mustBeScalarOrEmpty} = string.empty
+  base (1,1) string = ""
   expand_tilde (1,1) logical = true
   use_java (1,1) logical = false
 end
 
 cwd = stdlib.posix(pwd());
 
-if (isempty(p) || strlength(p) == 0) && (isempty(base) || strlength(base) == 0)
+if strlength(p) == 0 && strlength(base) == 0
    c = cwd;
    return
 end
@@ -42,10 +42,10 @@ if stdlib.is_absolute(c)
 else
   % .getAbsolutePath(), .toAbsolutePath()
   % default is Documents/Matlab, which is probably not wanted.
-  if isempty(base) || strlength(base) == 0
+  if strlength(base) == 0
     c = cwd + "/" + c;
   else
-    d = stdlib.absolute(base, string.empty, expand_tilde, use_java);
+    d = stdlib.absolute(base, "", expand_tilde, use_java);
     if isempty(c) || strlength(c) == 0
       c = d;
     else

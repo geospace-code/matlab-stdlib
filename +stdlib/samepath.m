@@ -23,8 +23,8 @@ end
 
 if use_java
 % needs absolute
-path1 = stdlib.absolute(path1, string.empty, false, true);
-path2 = stdlib.absolute(path2, string.empty, false, true);
+path1 = stdlib.absolute(path1, "", false, true);
+path2 = stdlib.absolute(path2, "", false, true);
 
 issame = java.nio.file.Files.isSameFile(...
             java.io.File(path1).toPath(), ...

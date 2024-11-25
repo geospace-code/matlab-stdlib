@@ -28,15 +28,15 @@
 function [status, stdout, stderr] = subprocess_run(cmd, opt)
 arguments
   cmd (1,:) string
-  opt.env struct {mustBeScalarOrEmpty} = struct.empty
-  opt.cwd string {mustBeScalarOrEmpty} = string.empty
-  opt.stdin string {mustBeScalarOrEmpty} = string.empty
+  opt.env (1,1) struct = struct()
+  opt.cwd (1,1) string = ""
+  opt.stdin (1,1) string = ""
 end
 
 %% process instantiation
 proc = java.lang.ProcessBuilder("");
 
-if ~isempty(opt.env)
+if ~isempty(fieldnames(opt.env))
   % requires Parallel Computing Toolbox
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html#environment()
   env = proc.environment();
@@ -46,7 +46,7 @@ if ~isempty(opt.env)
   end
 end
 
-if ~isempty(opt.cwd)
+if strlength(opt.cwd) > 0
   mustBeFolder(opt.cwd)
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html#directory(java.io.File)
   proc.directory(java.io.File(opt.cwd));
@@ -59,7 +59,7 @@ proc.command(cmd);
 h = proc.start();
 
 %% stdin pipe
-if ~isempty(opt.stdin)
+if strlength(opt.stdin) > 0
   writer = java.io.BufferedWriter(java.io.OutputStreamWriter(h.getOutputStream()));
   writer.write(opt.stdin);
   writer.flush()
