@@ -24,6 +24,13 @@ arguments
   use_java (1,1) logical = false
 end
 
+cwd = stdlib.posix(pwd());
+
+if (isempty(p) || strlength(p) == 0) && (isempty(base) || strlength(base) == 0)
+   c = cwd;
+   return
+end
+
 if expand_tilde
   c = stdlib.expanduser(p, use_java);
 else
@@ -36,9 +43,14 @@ else
   % .getAbsolutePath(), .toAbsolutePath()
   % default is Documents/Matlab, which is probably not wanted.
   if isempty(base) || strlength(base) == 0
-    c = stdlib.join(pwd, c);
+    c = cwd + "/" + c;
   else
-    c = stdlib.join(stdlib.absolute(base, string.empty, expand_tilde, use_java), c);
+    d = stdlib.absolute(base, string.empty, expand_tilde, use_java);
+    if isempty(c) || strlength(c) == 0
+      c = d;
+    else
+      c = d + "/" + c;
+    end
   end
 end
 

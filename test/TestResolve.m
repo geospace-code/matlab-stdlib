@@ -1,5 +1,17 @@
 classdef TestResolve < matlab.unittest.TestCase
 
+methods(TestClassSetup)
+
+function setup_path(tc)
+import matlab.unittest.fixtures.PathFixture
+cwd = fileparts(mfilename("fullpath"));
+top = fullfile(cwd, "..");
+tc.applyFixture(PathFixture(top))
+end
+
+end
+
+
 methods(Test)
 
 
@@ -12,11 +24,20 @@ import matlab.unittest.constraints.EndsWithSubstring
 td = tc.applyFixture(TemporaryFolderFixture).Folder;
 tc.applyFixture(CurrentFolderFixture(td))
 
-tc.verifyEqual(stdlib.absolute(""), stdlib.posix(td))
-tc.verifyEqual(stdlib.absolute("",""), stdlib.posix(td))
-tc.verifyEqual(stdlib.absolute("hi"), stdlib.join(td, "hi"))
-tc.verifyEqual(stdlib.absolute("", "hi"), stdlib.join(td, "hi"))
-tc.verifyEqual(stdlib.absolute("there", "hi"), stdlib.join(td, "hi/there"))
+td = stdlib.posix(td);
+
+tc.verifyEqual(stdlib.absolute(""), td)
+tc.verifyEqual(stdlib.absolute("",""), td)
+
+r = td + "/hi";
+tc.verifyEqual(stdlib.absolute("hi"), r)
+tc.verifyEqual(stdlib.absolute("", "hi"), r)
+tc.verifyEqual(stdlib.absolute("hi", ""), r)
+
+tc.verifyEqual(stdlib.absolute("./hi"), td + "/./hi")
+tc.verifyEqual(stdlib.absolute("../hi"), td + "/../hi")
+
+tc.verifyEqual(stdlib.absolute("there", "hi"), td + "/hi/there")
 
 end
 
