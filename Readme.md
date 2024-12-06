@@ -27,7 +27,6 @@ some Matlab-stdlib functions do not work.
 We have a [CI job that tests without Java](https://github.com/geospace-code/matlab-stdlib/actions/workflows/ci-nojvm.yml).
 
 
-
 ## Acknowledgments
 
 Stdlib for Matlab was partly funded by NASA NNH19ZDA001N-HDEE grant 80NSSC20K0176.

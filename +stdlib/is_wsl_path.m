@@ -2,13 +2,13 @@
 %
 % Ref: https://learn.microsoft.com/en-us/windows/wsl/filesystems
 
-function iswsl = is_wsl_path(path)
+function iswsl = is_wsl_path(p)
 arguments
-  path (1,1) string {mustBeNonzeroLengthText}
+  p (1,1) string {mustBeNonzeroLengthText}
 end
 
 if ispc
-  iswsl = any(startsWith(path, ["\\wsl$", "\\wsl.localhost"]));
+  iswsl = any(startsWith(p, ["\\wsl$", "\\wsl.localhost"]));
 else
   iswsl = false;
 end

@@ -1,10 +1,10 @@
 %% SUFFIX last suffix of filename
 
-function s = suffix(path)
+function s = suffix(p)
 arguments
-  path string
+  p string
 end
 
-[~, ~, s] = fileparts(path);
+[~, ~, s] = fileparts(p);
 
 end

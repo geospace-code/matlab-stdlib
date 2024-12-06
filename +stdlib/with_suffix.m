@@ -1,29 +1,29 @@
 %% WITH_SUFFIX switch file extension
 %
 %%% Inputs
-% * filename: original filename
+% * p: path to modify
 % * suffix: file extension with "." e.g. ".dat"
 %%% Outputs
-% * filename: modified filename
+% * f: modified filename
 
-function f = with_suffix(filename, suffix)
+function f = with_suffix(p, suffix)
 arguments
-  filename (1,1) string
+  p (1,1) string
   suffix (1,1) string
 end
 
-p = stdlib.parent(filename);
-s = stdlib.stem(filename);
+r = stdlib.parent(p);
+s = stdlib.stem(p);
 
 if strlength(s) == 0
-  f = stdlib.join(filename, suffix);
+  f = stdlib.join(p, suffix);
   return
 end
 
-if p == "."
+if r == "."
   f = s;
 else
-  f = p + "/" + s;
+  f = r + "/" + s;
 end
 
 f = f + suffix;

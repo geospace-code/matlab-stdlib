@@ -26,6 +26,24 @@ Get the JVM version with
 version("-java")
 ```
 
+Get the JVM details with
+
+```matlab
+jenv
+```.
+
+Get the Java API level:
+
+```matlab
+stdlib.java_api
+```
+
+Get the Java version:
+
+```matlab
+stdlib.java_version
+```
+
 The Matlab default
 [JVM can be configured](https://www.mathworks.com/help/matlab/matlab_external/configure-your-system-to-use-java.html)
 to
@@ -47,7 +65,7 @@ jenv("/path/to/jdk-17/Contents/Home")
 
 To
 [revert back to the factory JRE](https://www.mathworks.com/help/matlab/ref/matlab_jenv.html)
-if Matlab can't start or has problems, from system Terminal do:
+if Matlab can't start or has problems, from system Terminal (not within Matlab):
 
 ```sh
 matlab_jenv factory

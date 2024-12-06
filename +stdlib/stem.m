@@ -1,10 +1,10 @@
 %% STEM filename without directory or suffix
 
-function p = stem(path)
+function p = stem(p)
 arguments
-  path string
+  p string
 end
 
-[~, p] = fileparts(path);
+[~, p] = fileparts(p);
 
 end
