@@ -1,46 +1,44 @@
 %% JOIN join two paths with posix file separator
 
-function p = join(a, b, use_java)
+function p = join(base, other, use_java)
 arguments
-  a (1,1) string
-  b (1,1) string
+  base (1,1) string
+  other (1,1) string
   use_java (1,1) logical = false
 end
 
-if a == "" && b == ""
+if base == "" && other == ""
   p = "";
   return
 end
 
-a = stdlib.posix(a);
-b = stdlib.posix(b);
+b = stdlib.drop_slash(base);
+o = stdlib.drop_slash(other);
 
-if a == ""
-  p = b;
+if b == ""
+  p = o;
   return
 end
 
-if b == ""
-  p = a;
+if o == ""
+  p = b;
   return
 end
 
 
 if use_java
 
-p = java.io.File(a).toPath().resolve(b);
+p = java.io.File(b).toPath().resolve(o);
 
 else
 
-if startsWith(b, "/") || (ispc && stdlib.is_absolute(b))
-  p = b;
+if startsWith(o, "/") || (ispc && stdlib.is_absolute(o))
+  p = o;
   return
 end
 
-p = a + "/" + b;
+p = b + "/" + o;
 
 end
-
-p = stdlib.normalize(p);
 
 end
