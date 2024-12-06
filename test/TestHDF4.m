@@ -5,7 +5,15 @@ TestData
 end
 
 methods (TestClassSetup)
+
 function setup_path(tc)
+import matlab.unittest.fixtures.PathFixture
+cwd = fileparts(mfilename("fullpath"));
+top = fullfile(cwd, "..");
+tc.applyFixture(PathFixture(top))
+end
+
+function setup_file(tc)
 import matlab.unittest.constraints.IsFile
 tc.TestData.basic = fullfile(matlabroot, "toolbox/matlab/demos/example.hdf");
 tc.assumeThat(tc.TestData.basic, IsFile)

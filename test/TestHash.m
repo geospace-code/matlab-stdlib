@@ -7,16 +7,15 @@ end
 
 methods(TestClassSetup)
 
-function has_java(tc)
-  tc.assumeTrue(stdlib.has_java)
-end
-
 function setup_path(tc)
 import matlab.unittest.fixtures.PathFixture
 cwd = fileparts(mfilename("fullpath"));
 top = fullfile(cwd, "..");
 tc.applyFixture(PathFixture(top))
+
+tc.assumeTrue(stdlib.has_java)
 end
+
 end
 
 methods (Test, ParameterCombination = 'sequential')
