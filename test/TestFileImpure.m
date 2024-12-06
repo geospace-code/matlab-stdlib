@@ -55,6 +55,10 @@ function test_exists(tc, p_exists)
 tc.verifyEqual(stdlib.exists(p_exists{1}), p_exists{2})
 end
 
+function test_file_size(tc)
+tc.verifyGreaterThan(stdlib.file_size(mfilename("fullpath") + ".m"), 0)
+end
+
 
 function test_is_readable(tc, p_exists)
 tc.verifyEqual(stdlib.is_readable(p_exists{1}), p_exists{2})
