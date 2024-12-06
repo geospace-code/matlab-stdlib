@@ -31,7 +31,7 @@ if ispc && startsWith(c, "\\")
   return
 end
 
-e = stdlib.exists(c);
+e = stdlib.exists(c, use_java);
 
 if ~stdlib.is_absolute(c)
   if e

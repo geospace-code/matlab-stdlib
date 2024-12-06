@@ -5,7 +5,6 @@
 %%% Outputs
 % * ok: true if exists
 %
-% Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#exists()
 
 function ok = exists(p, use_java)
 arguments
@@ -14,9 +13,14 @@ arguments
 end
 
 if use_java
-% Java takes 2x to 10x as long as intrinsic way worst case
-% the intrinsic way above is at least not slower
 
+% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#exists(java.nio.file.Path,java.nio.file.LinkOption...)
+% this takes 2x longer than java.io.File.exists()
+% opt = java.nio.file.LinkOption.values;
+% ok = java.nio.file.Files.exists(java.io.File(p).toPath(), opt);
+
+% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#exists()
+% takes 2x longer than native Matlab isfile || isfolder
   ok = java.io.File(p).exists();
 else
   ok = isfile(p) || isfolder(p);

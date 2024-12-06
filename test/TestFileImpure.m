@@ -5,7 +5,7 @@ properties (ClassSetupParameter)
 end
 
 properties(TestParameter)
-p_exists = {{pwd(), true}, {mfilename("fullpath") + ".m", true}, {tempname, false}}
+p_exists = {{pwd(), true}, {mfilename("fullpath") + ".m", true}, {"TestFileImpure.m", true} {tempname, false}}
 % on CI matlabroot can be writable!
 in_is_write = {pwd(), "not-exists"};
 ref_is_write = {true, false}
@@ -35,16 +35,16 @@ end
 
 methods(TestClassSetup)
 
-function classSetup(tc, classToTest)
-constructor = str2func(classToTest);
-tc.tobj = constructor();
-end
-
 function setup_path(tc)
 import matlab.unittest.fixtures.PathFixture
 cwd = fileparts(mfilename("fullpath"));
 top = fullfile(cwd, "..");
 tc.applyFixture(PathFixture(top))
+end
+
+function classSetup(tc, classToTest)
+constructor = str2func(classToTest);
+tc.tobj = constructor();
 end
 
 end

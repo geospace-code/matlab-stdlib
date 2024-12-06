@@ -17,7 +17,7 @@ arguments
 end
 
 issame = false;
-if ~stdlib.exists(path1) || ~stdlib.exists(path2)
+if ~stdlib.exists(path1, use_java) || ~stdlib.exists(path2, use_java)
   return
 end
 
