@@ -1,17 +1,7 @@
 %% IS_ABSOLUTE is path absolute?
-%
-%!assert(is_absolute('', false), false)
-%!test
-%! if ispc
-%!   assert(is_absolute('C:\', false), true)
-%!   assert(is_absolute('C:/', false), true)
-%!   assert(is_absolute('C:', false), false)
-%!   assert(is_absolute('C', false), false)
-%! else
-%!   assert(is_absolute('/', false), true)
-%!   assert(is_absolute('/usr', false), true)
-%!   assert(is_absolute('usr', false), false)
-%! endif
+% on Windows, absolute paths must be at least 3 character long, starting with a root name followed by a slash
+% on non-Windows, absolute paths must start with a slash
+
 
 function isabs = is_absolute(p, use_java)
 arguments
@@ -33,10 +23,27 @@ elseif ischar(p)
 else
   L = strlength(p);
   if ispc
-    isabs = L > 2 && strlength(stdlib.root_name(p)) && any(extractBetween(p, 3, 3) == ["/", "\"]);
+    s = "";
+    if L > 2
+      s = extractBetween(p, 3, 3);
+    end
+    isabs = L > 2 && strlength(stdlib.root_name(p)) && (s == '/' || s == '\');
   else
     isabs = L >= 1 && startsWith(p, "/");
   end
 end
 
 end
+
+%!assert(is_absolute('', false), false)
+%!test
+%! if ispc
+%!   assert(is_absolute('C:\', false), true)
+%!   assert(is_absolute('C:/', false), true)
+%!   assert(is_absolute('C:', false), false)
+%!   assert(is_absolute('C', false), false)
+%! else
+%!   assert(is_absolute('/', false), true)
+%!   assert(is_absolute('/usr', false), true)
+%!   assert(is_absolute('usr', false), false)
+%! endif

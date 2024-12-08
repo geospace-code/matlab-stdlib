@@ -95,8 +95,8 @@ tc.verifyEqual(stdlib.samepath(p_same{1}, p_same{2}), p_same{3})
 end
 
 
-function test_getpid(tc)
-pid = stdlib.getpid();
+function test_get_pid(tc)
+pid = stdlib.get_pid();
 tc.verifyGreaterThan(pid, 0, "expected positive PID")
 end
 

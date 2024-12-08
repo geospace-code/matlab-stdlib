@@ -3,16 +3,7 @@
 % root_name is the drive letter on Windows without the trailing slash
 % or an empty string if P is not an absolute path.
 % on non-Windows platforms, root_name is always an empty string.
-%
-%!assert(root_name(''), '')
-%!assert(root_name('/'), '')
-%!test
-%! if ispc
-%!   assert(root_name('C:\'), 'C:')
-%!   assert(root_name('C:/'), 'C:')
-%!   assert(root_name('C:'), 'C:')
-%!   assert(root_name('C'), '')
-%! endif
+
 
 function r = root_name(p)
 arguments
@@ -36,3 +27,13 @@ else
 end
 
 end
+
+%!assert(root_name(''), '')
+%!assert(root_name('/'), '')
+%!test
+%! if ispc
+%!   assert(root_name('C:\'), 'C:')
+%!   assert(root_name('C:/'), 'C:')
+%!   assert(root_name('C:'), 'C:')
+%!   assert(root_name('C'), '')
+%! endif

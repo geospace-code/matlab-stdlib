@@ -2,7 +2,6 @@
 % convert a path to a Posix string path separated with "/" even on Windows.
 % If Windows path also have escaping "\" this breaks
 %
-%!assert (posix('/'), '/')
 
 function r = posix(p)
 arguments
@@ -16,3 +15,5 @@ else
 end
 
 end
+
+%!assert (posix('/'), '/')

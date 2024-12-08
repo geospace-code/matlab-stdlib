@@ -1,7 +1,6 @@
 %% IS_WRITABLE is path writable
 %
-%!assert (is_writable('is_writable.m', false))
-%!assert (is_writable('', false), false)
+% non-existant file is false
 
 function ok = is_writable(file, use_java)
 arguments
@@ -23,3 +22,6 @@ else
 end
 
 end
+
+%!assert (is_writable('is_writable.m', false))
+%!assert (is_writable('', false), false)

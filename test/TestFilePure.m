@@ -209,7 +209,6 @@ end
 
 function test_stem(tc)
 
-tc.verifyEmpty(stdlib.stem(string.empty))
 tc.verifyEqual(stdlib.stem(""), "")
 
 tc.verifyEqual(stdlib.stem("/foo/bar/baz"), "baz")

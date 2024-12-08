@@ -1,16 +1,7 @@
 %% ROOT get root path
 % ROOT(P) returns the root path of P.
 % root is the root_name + root_directory.
-%
-%!assert(root('', 0), '')
-%!assert(root('/', 0), '/')
-%!test
-%! if ispc
-%!   assert(root('C:\', 0), 'C:/')
-%!   assert(root('C:/', 0), 'C:/')
-%!   assert(root('C:', 0), 'C:')
-%!   assert(root('C', 0), '')
-%! endif
+
 
 function r = root(p, use_java)
 arguments
@@ -66,3 +57,13 @@ else
 end
 
 end
+
+%!assert(root('', 0), '')
+%!assert(root('/', 0), '/')
+%!test
+%! if ispc
+%!   assert(root('C:\', 0), 'C:/')
+%!   assert(root('C:/', 0), 'C:/')
+%!   assert(root('C:', 0), 'C:')
+%!   assert(root('C', 0), '')
+%! endif

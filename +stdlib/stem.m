@@ -2,9 +2,11 @@
 
 function p = stem(p)
 arguments
-  p string
+  p (1,1) string
 end
 
 [~, p] = fileparts(p);
 
 end
+
+%!assert(stem('/a/b.c'), 'b')

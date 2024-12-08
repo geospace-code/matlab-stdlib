@@ -1,8 +1,7 @@
 %% IS_EXE is file executable
 %
 % false if file does not exist
-%
-%!assert (is_exe('', false), false)
+
 
 function ok = is_exe(file, use_java)
 arguments
@@ -30,4 +29,9 @@ else
   ok = status ~= 0 && (v.UserExecute || (~isnan(v.GroupExecute) && v.GroupExecute) || (~isnan(v.OtherExecute) && v.OtherExecute));
 
 end
+
 end
+
+%!assert (is_exe('', false), false)
+%!assert (is_exe(tempname, false), false)
+%!assert (is_exe(program_invocation_name, 0), true)

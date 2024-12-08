@@ -2,9 +2,11 @@
 
 function s = suffix(p)
 arguments
-  p string
+  p (1,1) string
 end
 
 [~, ~, s] = fileparts(p);
 
 end
+
+%!assert (suffix('/a/b.c'), '.c')
