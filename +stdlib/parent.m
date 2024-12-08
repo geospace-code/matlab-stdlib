@@ -16,7 +16,7 @@ else
   % drop duplicated slashes in the parent path
   p = regexprep(p, "//+", "/");
 
-  if ispc && any(strlength(p) == [2,3]) && isletter(extractBetween(p, 1, 1)) && extractBetween(p, 2, 2) == ":"
+  if ispc && any(strlength(p) == [2,3]) && strlength(stdlib.root_name(p))
     % 2 or 3 char drive letter
     p = stdlib.root(p);
     return

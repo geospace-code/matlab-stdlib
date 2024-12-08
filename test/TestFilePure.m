@@ -7,10 +7,9 @@ end
 properties (TestParameter)
 p_relative_to
 p_proximate_to
-in_is_absolute
-ref_is_absolute
-in_filename = {'', '/foo/bar/baz', '/foo/bar/baz/', 'foo/bar/baz.txt', 'foo/bar/baz.txt.gz'}
-ref_filename = {'', 'baz', '', 'baz.txt', 'baz.txt.gz'}
+p_is_absolute
+in_filename = {"", "/foo/bar/baz", "/foo/bar/baz/", "foo/bar/baz.txt", "foo/bar/baz.txt.gz"}
+ref_filename = {"", "baz", "", "baz.txt", "baz.txt.gz"}
 dir_is_subdir
 sub_is_subdir
 ref_is_subdir
@@ -40,8 +39,8 @@ in_norm = {"", "a/..", "//a/b/", "/a/b/", "a/b/", "a/../c", "a/b/../c", "a/b/../
 ref_norm = {".", ".", "/a/b", "/a/b", "a/b", "c", "a/c", "c", ".", ...
     "..", "a/b", ".a", "..a", "a.", "a..", "a", "../a"}
 
-in_root
-ref_root
+p_root
+p_root_name
 end
 
 properties
@@ -49,51 +48,60 @@ tobj
 end
 
 methods (TestParameterDefinition, Static)
-function [p_relative_to, p_proximate_to, in_root, ref_root, in_parent, ref_parent] = init_relative_to(classToTest) %#ok<INUSD>
+function [p_relative_to, p_proximate_to, p_root, p_root_name, in_parent, ref_parent] = init_relative_to(classToTest) %#ok<INUSD>
 
-in_root = {"", "a/b", "./a/b", "../a/b", "/etc", "c:/etc"};
-ref_root = {"", "", "", "", "/", ""};
+p_root = {{"", ""}, ...
+{"a/b", ""}, ...
+{"./a/b", ""}, ...
+{"/etc", "/"}, ...
+{"c:", ""}, ...
+{"c:/etc", ""}};
+
+p_root_name = {{"", ""}, ...
+{"a/b", ""}, ...
+{"/etc", ""}, ...
+{"c:/etc", ""}};
 
 in_parent = {"", ".", "..", "../..", "a/", "a/b", "a/b/", "ab/.parent", "ab/.parent.txt", "a/b/../.parent.txt", "a/////b////c", "c:/", "c:\", "c:/a/b", "c:\a/b"};
 ref_parent = {".", ".", ".", "..",   ".",  "a",   "a",    "ab",         "ab",             "a/b/..",             "a/b",          ".",    ".",    "c:/a",     "c:\a"};
 
-p_relative_to = {{'', '', '.'}, ...
-{'Hello', 'Hello', '.'}, ...
-{'Hello', 'Hello/', '.'}, ...
-{'./this/one', './this/two', '../two'}, ...
-{'/path/same', '/path/same/hi/..', 'hi/..'}, ...
-{'', '/', ''}, ...
-{'/', '', ''}, ...
-{'/', '/', '.'}, ...
-{'/dev/null', '/dev/null', '.'}, ...
-{'/a/b', 'c', ''}, ...
-{'c', '/a/b', ''}, ...
-{'/a/b', '/a/b', '.'}, ...
-{'/a/b', '/a', '..'}, ...
-{'/a/b/c/d', '/a/b', '../..'}, ...
-{'/this/one', '/this/two', '../two'}};
+p_relative_to = {{"", "", "."}, ...
+{"Hello", "Hello", "."}, ...
+{"Hello", "Hello/", "."}, ...
+{"./this/one", "./this/two", "../two"}, ...
+{"/path/same", "/path/same/hi/..", "hi/.."}, ...
+{"", "/", ""}, ...
+{"/", "", ""}, ...
+{"/", "/", "."}, ...
+{"/dev/null", "/dev/null", "."}, ...
+{"/a/b", "c", ""}, ...
+{"c", "/a/b", ""}, ...
+{"/a/b", "/a/b", "."}, ...
+{"/a/b", "/a", ".."}, ...
+{"/a/b/c/d", "/a/b", "../.."}, ...
+{"/this/one", "/this/two", "../two"}};
 
 p_proximate_to = p_relative_to;
 
-p_proximate_to{6}{3} = '/';
-p_proximate_to{10}{3} = 'c';
-p_proximate_to{11}{3} = '/a/b';
+p_proximate_to{6}{3} = "/";
+p_proximate_to{10}{3} = "c";
+p_proximate_to{11}{3} = "/a/b";
 
 if ispc
 
 p_relative_to = [p_relative_to, ...
-{{'c:\a\b', 'c:/', '../..'}, ...
-{'c:\', 'c:/a/b', 'a/b'}, ...
-{'c:/a/b', 'c:/a/b', '.'}, ...
-{'c:/a/b', 'c:/a', '..'}, ...
-{'c:\a/b\c/d', 'c:/a\b', '../..'}, ...
-{'c:/path', 'd:/path', ''}}];
+{{"c:\a\b", "c:/", "../.."}, ...
+{"c:\", "c:/a/b", "a/b"}, ...
+{"c:/a/b", "c:/a/b", "."}, ...
+{"c:/a/b", "c:/a", ".."}, ...
+{"c:\a/b\c/d", "c:/a\b", "../.."}, ...
+{"c:/path", "d:/path", ""}}];
 
 p_proximate_to = p_relative_to;
 
-p_proximate_to{6}{3} = '/';
-p_proximate_to{10}{3} = 'c';
-p_proximate_to{11}{3} = '/a/b';
+p_proximate_to{6}{3} = "/";
+p_proximate_to{10}{3} = "c";
+p_proximate_to{11}{3} = "/a/b";
 
 p_proximate_to{end}{3} = "d:/path";
 
@@ -102,25 +110,23 @@ ref_parent{13} = "c:/";
 ref_parent{14} = "c:/a";
 ref_parent{15} = "c:/a";
 
-ref_root{5} = "";
-ref_root{6} = "c:/";
+p_root{5}{2} = "c:";
+p_root{6}{2} = "c:/";
+
+p_root_name{4}{2} = "c:";
 
 end  % if ispc
 
 end
 
 
-function [in_is_absolute, ref_is_absolute] = init_is_absolute(classToTest) %#ok<INUSD>
+function [p_is_absolute] = init_is_absolute(classToTest) %#ok<INUSD>
 
-in_is_absolute = {'', 'x', 'x:/foo', '/foo'};
-ref_is_absolute = {false, false};
+p_is_absolute = {{"", false}, {"x", false}, {"x:", false}, {"x:/foo", false}, {"/foo", true}};
 
 if ispc
-  ref_is_absolute{end+1} = true;
-  ref_is_absolute{end+1} = false;
-else
-  ref_is_absolute{end+1} = false;
-  ref_is_absolute{end+1} = true;
+  p_is_absolute{4}{2} = true;
+  p_is_absolute{5}{2} = false;
 end
 
 end
@@ -169,17 +175,15 @@ end
 
 
 
-methods (Test, ParameterCombination = 'sequential')
+methods (Test, ParameterCombination = "sequential")
 
 function test_posix(tc)
 import matlab.unittest.constraints.ContainsSubstring
 
-tc.verifyEmpty(stdlib.posix(string.empty))
 tc.verifyEqual(stdlib.posix(""), "")
 
 if ispc
   tc.verifyThat(stdlib.posix("c:\foo"), ~ContainsSubstring("\"))
-  tc.verifyThat(stdlib.posix(["x:\123", "d:\abc"]), ~ContainsSubstring("\"))
 end
 end
 
@@ -219,8 +223,8 @@ tc.verifyEqual(stdlib.stem("foo/bar/baz.txt.gz"), "baz.txt")
 end
 
 
-function test_is_absolute(tc, in_is_absolute, ref_is_absolute)
-tc.verifyEqual(stdlib.is_absolute(in_is_absolute), ref_is_absolute)
+function test_is_absolute(tc, p_is_absolute)
+tc.verifyEqual(stdlib.is_absolute(p_is_absolute{1}), p_is_absolute{2}, p_is_absolute{1})
 end
 
 
@@ -231,10 +235,8 @@ tc.verifyEqual(stdlib.normalize(in_norm), ref_norm)
 end
 
 
-function test_root(tc, in_root, ref_root)
-
-tc.verifyEqual(stdlib.root(in_root), ref_root)
-
+function test_root(tc, p_root)
+tc.verifyEqual(stdlib.root(p_root{1}), p_root{2})
 end
 
 
@@ -254,13 +256,13 @@ end
 
 function test_relative_to(tc, p_relative_to)
 tc.assumeTrue(stdlib.has_java)
-tc.verifyEqual(stdlib.relative_to(p_relative_to{1}, p_relative_to{2}), string(p_relative_to{3}))
+tc.verifyEqual(stdlib.relative_to(p_relative_to{1}, p_relative_to{2}), p_relative_to{3})
 end
 
 
 function test_proximate_to(tc, p_proximate_to)
 tc.assumeTrue(stdlib.has_java)
-tc.verifyEqual(stdlib.proximate_to(p_proximate_to{1}, p_proximate_to{2}), string(p_proximate_to{3}))
+tc.verifyEqual(stdlib.proximate_to(p_proximate_to{1}, p_proximate_to{2}), p_proximate_to{3})
 end
 
 

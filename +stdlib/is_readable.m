@@ -1,6 +1,9 @@
 %% IS_READABLE is file readable
 %
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isReadable(java.nio.file.Path)
+%
+%!assert (is_readable('is_readable.m', false))
+%!assert (is_readable('', false), false)
 
 function ok = is_readable(file, use_java)
 arguments

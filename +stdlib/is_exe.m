@@ -1,6 +1,8 @@
 %% IS_EXE is file executable
 %
-% Ref: https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/File.html#canExecute()
+% false if file does not exist
+%
+%!assert (is_exe('', false), false)
 
 function ok = is_exe(file, use_java)
 arguments
@@ -11,13 +13,14 @@ end
 if use_java
 % about the same time as fileattrib
 % doesn't need absolute path like other Java functions
+% https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/File.html#canExecute()
 ok = java.io.File(file).canExecute();
 
 % more complicated
 % ok = java.nio.file.Files.isExecutable(java.io.File(stdlib.canonical(file)).toPath());
 
 else
-  if strlength(file) == 0
+  if stdlib.len(file) == 0
     ok = false;
     return
   end

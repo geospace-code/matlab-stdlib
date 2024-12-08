@@ -1,6 +1,7 @@
 %% IS_WRITABLE is path writable
 %
-% Ref: https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html#isWritable(java.nio.file.Path)
+%!assert (is_writable('is_writable.m', false))
+%!assert (is_writable('', false), false)
 
 function ok = is_writable(file, use_java)
 arguments
@@ -13,6 +14,7 @@ if use_java
   % needs absolute()
   file = stdlib.absolute(file, "", false, use_java);
 
+  % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html#isWritable(java.nio.file.Path)
   ok = java.nio.file.Files.isWritable(java.io.File(file).toPath());
 else
   [status, v] = fileattrib(file);
