@@ -6,7 +6,14 @@ runs:
 
   steps:
 
-  - name: Run Matlab buildtool
+  - name: Check task
+    if: ${{ matrix.release >= 'R2024b' || matrix.release == 'latest' || matrix.release == 'latest-including-prerelease' }}
+    uses: matlab-actions/run-build@v2
+    with:
+      startup-options: ${{ matrix.startup-options }}
+      tasks: check
+
+  - name: Test task
     if: ${{ matrix.release >= 'R2022b' || matrix.release == 'latest' || matrix.release == 'latest-including-prerelease' }}
     uses: matlab-actions/run-build@v2
     with:
