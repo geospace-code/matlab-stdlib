@@ -1,40 +1,61 @@
 %% PARENT parent directory of path
 %
-% Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getParent()
 
-function p = parent(p, use_java)
+function p = parent(pth)
 arguments
-  p (1,1) string
-  use_java (1,1) logical = false
+  pth (1,1) string
 end
 
-if use_java
-  % java is about 10x slower than intrinsic
-  p = java.io.File(p).getParent();
+% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getParent()
+% java was 10x slower and not correct for input like C:
+
+p = stdlib.drop_slash(pth);
+
+if is_root_stub(p)
+  % 2 or 3 char drive letter
+  p = stdlib.root(pth, false);
+  return
+end
+
+j = strfind(p, '/');
+if isempty(j)
+  p = "";
+elseif stdlib.isoctave()
+  p = p(1:j(end)-1);
 else
-  p = stdlib.posix(p);
-  % drop duplicated slashes in the parent path
-  p = regexprep(p, "//+", "/");
-
-  if ispc && any(strlength(p) == [2,3]) && strlength(stdlib.root_name(p))
-    % 2 or 3 char drive letter
-    p = stdlib.root(p);
-    return
-  end
-  % have to drop_slash on input to get expected parent path
-  p = strip(stdlib.posix(p), "right", "/");
-  j = strfind(p, "/");
-  if isempty(j)
-    p = "";
-  else
-    p = extractBefore(p, j(end));
-  end
+  p = extractBefore(p, j(end));
 end
 
-if p == ""
+if is_root_stub(p)
+  p = stdlib.root(pth, false);
+  return
+end
+
+
+if ~stdlib.len(p)
   p = ".";
 end
 
 p = stdlib.posix(p);
 
 end
+
+
+function s = is_root_stub(p)
+  s = ispc() && any(stdlib.len(p) == [2,3]) && stdlib.len(stdlib.root_name(p));
+end
+
+
+%!assert(parent("/a/b/c"), "/a/b")
+%!assert(parent("/a/b/c/"), "/a/b")
+%!assert(parent('/a///b'), '/a')
+%!assert(parent('a/b/'), 'a')
+%!assert(parent('a//b/'), 'a')
+%!assert(parent('a//b'), 'a')
+%!test
+%! if ispc
+%!   assert(parent('c:/foo'), 'c:/')
+%!   assert(parent('c:\foo\'), 'c:/')
+%!   assert(parent('c:\'), 'c:/')
+%!   assert(parent('c:'), 'c:/')
+%! end

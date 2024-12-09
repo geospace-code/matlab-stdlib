@@ -10,7 +10,7 @@ arguments
 end
 
 if use_java
-  r = string(java.io.File(p).toPath().getRoot());
+  r = stdlib.posix(java.io.File(p).toPath().getRoot());
   return
 end
 

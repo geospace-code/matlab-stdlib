@@ -15,13 +15,15 @@ end
 r = stdlib.parent(p);
 s = stdlib.stem(p);
 
-if strlength(s) == 0
+if stdlib.len(s) == 0
   f = stdlib.join(p, suffix);
   return
 end
 
-if r == "."
+if r == '.'
   f = s;
+elseif stdlib.isoctave()
+  f = strcat(r, '/', s);
 else
   f = r + "/" + s;
 end
@@ -29,3 +31,10 @@ end
 f = f + suffix;
 
 end
+
+
+%!assert(with_suffix("", ""), "")
+%!assert(with_suffix("foo.h5", ".nc"), "foo.nc")
+%!assert(with_suffix("foo", ".nc"), "foo.nc")
+%!assert(with_suffix("foo.h5", ""), "foo")
+%!assert(with_suffix("foo", ""), "foo")

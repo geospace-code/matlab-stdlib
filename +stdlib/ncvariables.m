@@ -14,7 +14,7 @@ arguments
   group (1,1) string = ""
 end
 
-if strlength(group) == 0
+if stdlib.len(group) == 0
   finf = ncinfo(file);
 else
   finf = ncinfo(file, group);
@@ -22,10 +22,29 @@ end
 
 ds = finf.Variables(:);
 
-if isempty(ds)
-  names = string.empty;
+if ischar(file)
+  if isempty(ds) %#ok<UNRCH>
+    names = [];
+  else
+    names = {ds.Name};
+  end
 else
-  names = string({ds.Name});
+  if isempty(ds)
+    names = string.empty;
+  else
+    names = string({ds.Name});
+  end
 end
 
+
 end
+
+
+%!test
+%! pkg load netcdf
+%! fn = 'test_variables.nc';
+%! ds = 'a';
+%! delete(fn)
+%! nccreate(fn, ds)
+%! assert(ncvariables(fn, ''), {'a'})
+%! delete(fn)

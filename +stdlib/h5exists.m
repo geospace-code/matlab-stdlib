@@ -30,3 +30,12 @@ catch e
 end
 
 end
+
+%!test
+%! pkg load hdf5oct
+%! fn = 'test_h5exists.h5';
+%! ds = '/a';
+%! delete(fn)
+%! h5create(fn, ds, [1])
+%! assert(h5exists(fn, ds))
+%! delete(fn)

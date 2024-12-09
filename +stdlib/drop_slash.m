@@ -10,12 +10,26 @@ s = stdlib.posix(p);
 % drop repeated slashes inside string
 d = regexprep(s, "/+", "/");
 
-if d == "/"
+L = stdlib.len(d);
+
+if d == '/' || ~L
   return;
 end
 
-if ~ispc || (strlength(d) ~= 3 || d ~= stdlib.root(s))
-  d = strip(d, "right", "/");
+if ~ispc || (L ~= 3 || ~strcmp(d, stdlib.root(s, false)))
+  if stdlib.isoctave()
+    if d(end) == '/'
+      d = d(1:end-1);
+    end
+  else
+    d = strip(d, "right", "/");
+  end
 end
 
 end
+
+%!assert(drop_slash(''), '')
+%!assert(drop_slash('/'), '/')
+%!assert(drop_slash('//'), '/')
+%!assert(drop_slash('a//b'), 'a/b')
+%!assert(drop_slash('a//b/'), 'a/b')

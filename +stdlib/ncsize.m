@@ -21,3 +21,13 @@ else
 end
 
 end
+
+%!test
+%! pkg load netcdf
+%! fn = 'test_size.nc';
+%! delete(fn)
+%! nccreate(fn, 'a')
+%! assert(ncsize(fn, 'a'), [])
+%! nccreate(fn, 'b', 'Dimensions', {'x', 2, 'y', 3})
+%! assert(ncsize(fn, 'b'), [2, 3])
+%! delete(fn)

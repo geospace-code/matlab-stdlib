@@ -14,10 +14,21 @@ end
 
 dsi = h5info(file, variable).Dataspace;
 
-if ~stdlib.isoctave && dsi.Type == "scalar"
+if ~stdlib.isoctave() && dsi.Type == "scalar"
   fsize = [];
 else
   fsize = dsi.Size;
 end
 
 end
+
+
+%!test
+%! pkg load hdf5oct
+%! fn = 'test_h5size.h5';
+%! ds = '/a';
+%! a = [1,2];
+%! delete(fn)
+%! h5save_new(fn, ds, a, size(a), 0)
+%! assert(h5size(fn, ds), uint64([1,2]))
+%! delete(fn)
