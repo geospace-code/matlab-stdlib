@@ -61,3 +61,4 @@ end
 
 %!assert(canonical("", 0,0), "")
 %!assert(canonical("~",1,0), homedir())
+%!assert(canonical("a/b/..",0,0), "a")

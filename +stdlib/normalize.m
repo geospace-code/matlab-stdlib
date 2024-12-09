@@ -17,7 +17,7 @@ end
 if stdlib.isoctave()
   n = stdlib.posix(javaObject("java.io.File", p).toPath().normalize().toString());
 elseif use_java
-  n = stdlib.posix(java.io.File(p).toPath().normalize());
+  n = stdlib.posix(java.io.File(p).toPath().normalize().toString());
 else
 
   n = stdlib.posix(p);

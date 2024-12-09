@@ -7,10 +7,15 @@ arguments
 end
 
 r = stdlib.relative_to(base, other);
-if strlength(r) > 0
+if stdlib.len(r) > 0
   return;
 end
 
 r = other;
 
 end
+
+%!assert(proximate_to("/a/b", "/a/b"), ".")
+%!assert(proximate_to("/a/b", "/a/b/c"), "c")
+%!assert(proximate_to("/a/b", "/a/b/c/"), "c")
+%!assert(proximate_to("/a/b", "d"), "d")

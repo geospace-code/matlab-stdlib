@@ -21,7 +21,7 @@ if stdlib.isoctave()
     r = stdlib.posix(o.toString());
   end
 elseif use_java
-  r = stdlib.posix(java.io.File(p).toPath().getRoot());
+  r = stdlib.posix(java.io.File(p).toPath().getRoot().toString());
 else
 
 r = stdlib.root_name(p);
