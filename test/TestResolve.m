@@ -47,14 +47,13 @@ function test_canonical(tc)
 import matlab.unittest.fixtures.TemporaryFolderFixture
 import matlab.unittest.fixtures.CurrentFolderFixture
 import matlab.unittest.constraints.StartsWithSubstring
-import matlab.unittest.constraints.EndsWithSubstring
 
 td = tc.applyFixture(TemporaryFolderFixture).Folder;
 tc.applyFixture(CurrentFolderFixture(td))
 
 % all non-existing files
 
-tc.verifyEqual(stdlib.canonical(""), ".")
+tc.verifyEqual(stdlib.canonical(""), "")
 
 pabs = stdlib.canonical('2foo');
 tc.verifyThat(pabs, StartsWithSubstring("2foo"))
@@ -69,10 +68,8 @@ tc.verifyEqual(pt1, "2foo")
 r = stdlib.parent(mfilename('fullpath'));
 tc.verifyEqual(stdlib.canonical(fullfile(r, "..")), stdlib.parent(r))
 
-% on windows, ~ is expanded even without expanduser
-if ~ispc
-tc.verifyThat(stdlib.canonical("~", false), EndsWithSubstring("~"))
-end
+% ~ is expanded even without expanduser when path exists
+tc.verifyEqual(stdlib.canonical("~/nobody/a/..", false), "~/nobody")
 
 h = stdlib.homedir;
 tc.verifyEqual(stdlib.canonical("~"), h)

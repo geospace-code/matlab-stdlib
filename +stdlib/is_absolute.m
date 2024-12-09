@@ -14,6 +14,7 @@ if use_java
   % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/File.html#isAbsolute()
   isabs = java.io.File(p).toPath().isAbsolute();
 elseif ischar(p)
+  % not is_absolute_filename() because this is a stricter check for "c:" false
   L = length(p);
   if ispc
     isabs = L > 2 && ~isempty(stdlib.root_name(p)) && (p(3) == '\' || p(3) == '/');

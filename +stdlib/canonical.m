@@ -26,39 +26,38 @@ else
   c = p;
 end
 
+if ~stdlib.len(c)
+  return
+end
+
 if ispc && startsWith(c, "\\")
   % UNC path is not canonicalized
   return
 end
 
-e = stdlib.exists(c, use_java);
-
-if ~stdlib.is_absolute(c)
-  if e
-    if ~expand_tilde && ~use_java && startsWith(c, "~")
-      c = stdlib.normalize(c, use_java);
-      return
-    else
-      % workaround Java/Matlab limitations
-      c = stdlib.posix(pwd()) + "/" + c;
-    end
+if stdlib.exists(c, use_java)
+  if stdlib.isoctave()
+    c = canonicalize_file_name(c);
   else
-    % for non-existing path, return normalized relative path
-    % like C++ filesystem weakly_canonical()
-    c = stdlib.normalize(c, use_java);
-    return
+    % errors if path does not exist. Errors on leading ~
+    c = builtin('_canonicalizepath', c);
   end
+
+  c = stdlib.posix(c);
+  return
 end
+
+% like C++ filesystem weakly_canonical()
 
 if use_java
   c = java.io.File(c).getCanonicalPath();
-elseif e
-  % errors if path does not exist. Errors on leading ~
-  c = builtin('_canonicalizepath', c);
 else
   c = stdlib.normalize(c, use_java);
 end
 
 c = stdlib.posix(c);
 
-end % function
+end
+
+%!assert(canonical("", 0,0), "")
+%!assert(canonical("~",1,0), homedir(0))

@@ -21,7 +21,7 @@ else
   n = stdlib.posix(p);
 
   % use split to remove /../ and /./ and duplicated /
-  parts = split(n, "/");
+  parts = split(n, '/');
   i0 = 1;
   if startsWith(n, "/")
     n = "/";
