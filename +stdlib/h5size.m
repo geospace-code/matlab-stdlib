@@ -13,7 +13,8 @@ arguments
 end
 
 dsi = h5info(file, variable).Dataspace;
-if dsi.Type == "scalar"
+
+if ~stdlib.isoctave && dsi.Type == "scalar"
   fsize = [];
 else
   fsize = dsi.Size;

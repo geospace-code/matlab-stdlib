@@ -14,7 +14,7 @@ arguments
   group (1,1) string = ""
 end
 
-if strlength(group) == 0
+if stdlib.len(group) == 0
   finf = h5info(file);
 else
   finf = h5info(file, group);
@@ -22,10 +22,18 @@ end
 
 ds = finf.Datasets;
 
-if isempty(ds)
-  names = string.empty;
+if ischar(file)
+  if isempty(ds) %#ok<UNRCH>
+    names = [];
+  else
+    names = {ds.Name};
+  end
 else
-  names = string({ds.Name});
+  if isempty(ds)
+    names = string.empty;
+  else
+    names = string({ds.Name});
+  end
 end
 
 end

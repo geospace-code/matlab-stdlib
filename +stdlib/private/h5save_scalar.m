@@ -1,4 +1,4 @@
-function h5_write_scalar(file, hpath, A)
+function h5save_scalar(file, hpath, A)
 %% write HDF5 scalar as a scalar
 %  h5create doesn't support scalars
 arguments

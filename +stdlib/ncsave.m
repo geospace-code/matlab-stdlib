@@ -17,6 +17,7 @@ arguments
   A {mustBeNonempty}
   opts.dims cell = {}
   opts.type (1,1) string = ""
+  opts.compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0
 end
 
 if isnumeric(A)
@@ -42,12 +43,12 @@ end
 
 if isfile(filename)
   if stdlib.ncexists(filename, varname)
-    nc_exist_file(filename, varname, A, sizeA)
+    stdlib.ncsave_exist(filename, varname, A, sizeA)
   else
-    nc_new_file(filename, varname, A, sizeA, opts.dims)
+    stdlib.ncsave_new(filename, varname, A, sizeA, opts.dims, opts.compressLevel)
   end
 else
-  nc_new_file(filename, varname, A, sizeA, opts.dims)
+  stdlib.ncsave_new(filename, varname, A, sizeA, opts.dims, opts.compressLevel)
 end
 
 end

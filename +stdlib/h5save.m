@@ -25,6 +25,7 @@ arguments
   A {mustBeNonempty}
   opts.size (1,:) double {mustBeInteger,mustBeNonnegative} = []
   opts.type (1,1) string = ""
+  opts.compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0
 end
 
 if isnumeric(A)
@@ -39,12 +40,12 @@ A = coerce_ds(A, opts.type);
 
 if isfile(filename)
   if stdlib.h5exists(filename, varname)
-    h5_exist_file(filename, varname, A, opts.size)
+    stdlib.h5save_exist(filename, varname, A, opts.size)
   else
-    h5_new_file(filename, varname, A, opts.size)
+    stdlib.h5save_new(filename, varname, A, opts.size, opts.compressLevel)
   end
 else
-    h5_new_file(filename, varname, A, opts.size)
+    stdlib.h5save_new(filename, varname, A, opts.size, opts.compressLevel)
 end
 
 end % function

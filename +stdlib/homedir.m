@@ -20,3 +20,5 @@ end
 home = stdlib.posix(home);
 
 end
+
+%!assert(!isempty(homedir(false)))

@@ -18,8 +18,14 @@ try
   h5info(file, variable);
   exists = true;
 catch e
-  if e.identifier ~= "MATLAB:imagesci:h5info:unableToFind"
-    rethrow(e)
+  if stdlib.isoctave
+    if ~strfind(e.message, 'does not exist')
+      rethrow(e)
+    end
+  else
+    if ~strcmp(e.identifier, 'MATLAB:imagesci:h5info:unableToFind')
+      rethrow(e)
+    end
   end
 end
 
