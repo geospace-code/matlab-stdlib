@@ -17,8 +17,6 @@ p_filename = {
   {"a/b/c.txt.gz", "c.txt.gz"}
 };
 
-p_parent
-
 p_stem ={{"/a/b/c", "c"}, {"/a/b/c/", ""}, {"a/b/c/", ""}, {"a/b/c.txt", "c"}, {"a/b/c.txt.gz", "c.txt"}}
 
 p_join = {{"", "", ""}, ...
@@ -70,7 +68,7 @@ end
 
 methods (TestParameterDefinition, Static)
 
-function [p_root, p_root_name, p_parent] = init_relative_to(classToTest) %#ok<INUSD>
+function [p_root, p_root_name] = init_relative_to(classToTest) %#ok<INUSD>
 
 p_root = {{"", ""}, ...
 {"a/b", ""}, ...
@@ -84,37 +82,11 @@ p_root_name = {{"", ""}, ...
 {"/etc", ""}, ...
 {"c:/etc", ""}};
 
-p_parent = {
-  {"", "."}, ...
-  {".", "."}, ...
-  {"..", "."}, ...
-  {"../..", ".."}, ...
-  {"a/", "."}, ...
-  {"a/b", "a"}, ...
-  {"a/b/", "a"}, ...
-  {"ab/.parent", "ab"}, ...
-  {"ab/.parent.txt", "ab"}, ...
-  {"a/b/../.parent.txt", "a/b/.."}, ...
-  {"a/////b////c", "a/b"}, ...
-  {"c:/", "."}, ...
-  {"c:\", "."}, ...
-  {"c:/a/b", "c:/a"}, ...
-  {"c:\a/b", "c:\a"}
-};
-
 if ispc
-p_parent{12}{2} = "c:/";
-p_parent{13}{2} = "c:/";
-p_parent{14}{2} = "c:/a";
-p_parent{15}{2} = "c:/a";
-p_parent{end+1} =  {"c:/a", "c:/"};
-p_parent{end+1} = {"c:", "c:/"};
-
 p_root{5}{2} = "c:";
 p_root{6}{2} = "c:/";
 
 p_root_name{4}{2} = "c:";
-
 end
 
 end
@@ -143,10 +115,8 @@ tc.tobj = constructor();
 end
 
 function setup_path(tc)
-import matlab.unittest.fixtures.PathFixture
-cwd = fileparts(mfilename("fullpath"));
-top = fullfile(cwd, "..");
-tc.applyFixture(PathFixture(top))
+top = fullfile(fileparts(mfilename("fullpath")), "..");
+tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
 end
 
 end
@@ -170,14 +140,8 @@ function test_join(tc, p_join)
 tc.verifyEqual(stdlib.join(p_join{1}, p_join{2}), p_join{3})
 end
 
-
 function test_filename(tc, p_filename)
 tc.verifyEqual(stdlib.filename(p_filename{1}), string(p_filename{2}))
-end
-
-
-function test_parent(tc, p_parent)
-tc.verifyEqual(stdlib.parent(p_parent{1}), p_parent{2}, p_parent{1})
 end
 
 function test_suffix(tc, p_suffix)

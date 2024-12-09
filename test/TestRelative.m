@@ -8,7 +8,6 @@ properties (TestParameter)
 p_relative_to
 p_proximate_to
 p_is_subdir
-
 end
 
 properties
@@ -101,10 +100,8 @@ tc.tobj = constructor();
 end
 
 function setup_path(tc)
-import matlab.unittest.fixtures.PathFixture
-cwd = fileparts(mfilename("fullpath"));
-top = fullfile(cwd, "..");
-tc.applyFixture(PathFixture(top))
+top = fullfile(fileparts(mfilename("fullpath")), "..");
+tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
 end
 
 end

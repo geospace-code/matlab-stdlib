@@ -1,19 +1,20 @@
 classdef TestVersion < matlab.unittest.TestCase
 
+properties (TestParameter)
+v = {{"3.19.0.33", "3.19.0", true}, {"3.19.0.33", "3.19.0.34", false}}
+end
+
 methods (TestClassSetup)
 function setup_path(tc)
-import matlab.unittest.fixtures.PathFixture
-cwd = fileparts(mfilename("fullpath"));
-top = fullfile(cwd, "..");
-tc.applyFixture(PathFixture(top))
+top = fullfile(fileparts(mfilename("fullpath")), "..");
+tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
 end
 end
 
 methods (Test)
 
-function test_version(tc)
-tc.verifyTrue(stdlib.version_atleast("3.19.0.33", "3.19.0"))
-tc.verifyFalse(stdlib.version_atleast("3.19.0.33", "3.19.0.34"))
+function test_version(tc, v)
+tc.verifyEqual(stdlib.version_atleast(v{1}, v{2}), v{3})
 end
 
 end

@@ -6,10 +6,8 @@ end
 
 methods (TestClassSetup)
 function setup_path(tc)
-import matlab.unittest.fixtures.PathFixture
-cwd = fileparts(mfilename("fullpath"));
-top = fullfile(cwd, "..");
-tc.applyFixture(PathFixture(top))
+top = fullfile(fileparts(mfilename("fullpath")), "..");
+tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
 end
 
 function setup_file(tc)
