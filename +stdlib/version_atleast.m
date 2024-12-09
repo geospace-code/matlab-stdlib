@@ -9,10 +9,14 @@
 % * r: logical
 
 function r = version_atleast(in, ref)
-
 arguments
   in (1,1) string
   ref (1,1) string
+end
+
+if stdlib.isoctave()
+  r = compare_versions(in, ref, '>=');
+  return
 end
 
 in = split(in, ' ');
@@ -32,4 +36,6 @@ end
 
 r = in(end) >= ref(end);
 
-end % function
+end
+
+%!assert(version_atleast("1.2.3", "1.2"))

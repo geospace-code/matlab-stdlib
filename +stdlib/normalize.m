@@ -25,7 +25,7 @@ else
   i0 = 1;
   if startsWith(n, "/")
     n = "/";
-  elseif ispc && strlength(n) >= 2 && isletter(extractBetween(n, 1, 1)) && extractBetween(n, 2, 2) == ":"
+  elseif ispc && strlength(n) >= 2 && strlength(stdlib.root_name(p))
     n = parts(1);
     i0 = 2;
   else
