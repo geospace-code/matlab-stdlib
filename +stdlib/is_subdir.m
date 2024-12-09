@@ -6,14 +6,10 @@ arguments
   dir (1,1) string
 end
 
-r = stdlib.relative_to(dir, subdir);
-
-if stdlib.len(r) == 0 || r == "."
-  s = false;
-elseif ischar(r)
-  s = ~strncmp(r, '..', 2);
+if ischar(subdir)
+  s = strfind(subdir, dir) == 1 && (length(subdir) > length(dir)); %#ok<UNRCH>
 else
-  s = ~startsWith(r, "..");
+  s = startsWith(subdir, dir) && (strlength(subdir) > strlength(dir));
 end
 
 end
