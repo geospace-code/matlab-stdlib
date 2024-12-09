@@ -10,6 +10,9 @@ end
 b1 = stdlib.drop_slash(base);
 o1 = stdlib.drop_slash(other);
 
+b1 = strrep(b1, "/./", "/");
+o1 = strrep(o1, "/./", "/");
+
 if strcmp(b1, o1)
   r = ".";
   return

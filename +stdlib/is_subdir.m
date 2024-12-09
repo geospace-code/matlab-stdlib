@@ -1,4 +1,6 @@
 %% IS_SUBDIR is subdir a subdirectory of dir?
+% canonicalization and normalization are NOT performed
+% duplicated slashes are dropped
 
 function s = is_subdir(subdir, dir)
 arguments
@@ -7,16 +9,19 @@ arguments
 end
 
 
+s = stdlib.drop_slash(subdir);
+d = stdlib.drop_slash(dir);
+
 if ischar(subdir)
-  w = ~isempty(strfind(dir, "..")) || ~isempty(strfind(subdir, "..")); %#ok<STREMP,UNRCH>
-  s = strfind(subdir, dir) == 1 && (length(subdir) > length(dir));
+  w = ~isempty(strfind(d, "..")) || ~isempty(strfind(s, "..")); %#ok<STREMP,UNRCH>
+  s = strfind(s, d) == 1 && (length(s) > length(d));
 else
-  w = contains(dir, "..") || contains(subdir, "..");
-  s = startsWith(subdir, dir) && (strlength(subdir) > strlength(dir));
+  w = contains(d, "..") || contains(s, "..");
+  s = startsWith(s, d) && (strlength(s) > strlength(d));
 end
 
-if ~strcmp(subdir, dir) && w
-  warning("is_subdir: %s and/or %s is ambiguous input with '..'  consider using stdlib.canonical() first", subdir, dir)
+if ~strcmp(s, d) && w
+  warning("is_subdir: %s and/or %s is ambiguous input with '..'  consider using stdlib.canonical() first", s, d)
 end
 
 end
@@ -27,5 +32,6 @@ end
 %!assert(!is_subdir("/a/b", "d"))
 %!assert(is_subdir("a/b", "a"))
 %!assert(!is_subdir("a", "a/.c"))
+%!assert(!is_subdir("a/./b/c", "a/b"))
 
 % this is incorrect on Windows at least %assert(is_subdir("a/b", "a/b/.."))
