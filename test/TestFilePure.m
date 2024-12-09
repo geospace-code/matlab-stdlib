@@ -124,6 +124,7 @@ p_parent{13}{2} = "c:/";
 p_parent{14}{2} = "c:/a";
 p_parent{15}{2} = "c:/a";
 p_parent{end+1} =  {"c:/a", "c:/"};
+p_parent{end+1} = {"c:", "c:/"};
 
 p_root{5}{2} = "c:";
 p_root{6}{2} = "c:/";

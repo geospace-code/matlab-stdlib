@@ -4,21 +4,23 @@
 % * https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/System.html#getProperty(java.lang.String)
 % * https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/System.html#getProperties()
 
-function home = homedir(use_java)
+function h = homedir(use_java)
 arguments
   use_java (1,1) logical = false
 end
 
-if(use_java)
-  home = java.lang.System.getProperty("user.home");
+if stdlib.isoctave()
+  h = javaMethod("getProperty", "java.lang.System", "user.home");
+elseif use_java
+  h = java.lang.System.getProperty("user.home");
 elseif ispc
-  home = getenv("USERPROFILE");
+  h = getenv("USERPROFILE");
 else
-  home = getenv("HOME");
+  h = getenv("HOME");
 end
 
-home = stdlib.posix(home);
+h = stdlib.posix(h);
 
 end
 
-%!assert(!isempty(homedir(false)))
+%!assert(!isempty(homedir()))

@@ -5,11 +5,19 @@
 %
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getUsableSpace()
 
-function freebytes = diskfree(d)
+function f = diskfree(d)
 arguments
   d (1,1) string {mustBeFolder}
 end
 
-freebytes = java.io.File(d).getUsableSpace;
+if stdlib.isoctave()
+  o = javaObject("java.io.File", d);
+else
+  o = java.io.File(d);
+end
+
+f = o.getUsableSpace();
 
 end
+
+%!assert (diskfree('.') > 0)

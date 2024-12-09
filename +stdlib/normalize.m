@@ -14,7 +14,9 @@ arguments
   use_java (1,1) logical = false
 end
 
-if use_java
+if stdlib.isoctave()
+  n = stdlib.posix(javaObject("java.io.File", p).toPath().normalize().toString());
+elseif use_java
   n = stdlib.posix(java.io.File(p).toPath().normalize());
 else
 
@@ -59,6 +61,18 @@ else
 
 end
 
-if(strlength(n) == 0), n = "."; end
+
+if ~stdlib.len(n)
+  n = ".";
+end
 
 end
+
+
+%!assert(normalize("."), ".")
+%!assert(normalize("./"), ".")
+%!assert(normalize("a/.."), ".")
+%!assert(normalize("a/../b"), "b")
+%!assert(normalize("a/./b"), "a/b")
+%!assert(normalize("a/./b/.."), "a")
+%!assert(normalize(""), ".")

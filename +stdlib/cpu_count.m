@@ -2,7 +2,8 @@
 function N = cpu_count()
 
   N = maxNumCompThreads;
-  if N < 2  % happens on some HPC
+
+  if N < 2 && ~stdlib.isoctave() % happens on some HPC
     N = feature('NumCores');
   end
 
@@ -10,3 +11,5 @@ function N = cpu_count()
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Runtime.html#getRuntime()
 % N=java.lang.Runtime.getRuntime().availableProcessors();
 end
+
+%!assert(cpu_count() > 0)

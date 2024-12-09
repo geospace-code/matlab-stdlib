@@ -3,12 +3,12 @@
 %
 % Ref: https://docs.oracle.com/javase/8/docs/api/java/net/InetAddress.html#getHostName--
 
-function name = hostname()
+function n = hostname()
 
-if stdlib.isoctave
-  name = gethostname();
+if stdlib.isoctave()
+  n = gethostname();
 else
-  name = string(java.net.InetAddress.getLocalHost().getHostName());
+  n = string(java.net.InetAddress.getLocalHost().getHostName());
 end
 
 end

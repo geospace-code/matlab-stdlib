@@ -6,7 +6,9 @@ arguments
   use_java (1,1) logical = false
 end
 
-if use_java
+if stdlib.isoctave()
+  s = javaObject("java.io.File", p).length();
+elseif use_java
 % several percent slower than native Matlab
   s = java.io.File(p).length;
 else
@@ -18,5 +20,8 @@ else
   end
 end
 
-
 end
+
+
+%!assert (file_size(''), 0)
+%!assert (file_size('file_size.m') > 0)

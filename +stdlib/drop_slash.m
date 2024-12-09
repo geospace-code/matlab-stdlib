@@ -17,7 +17,7 @@ if d == '/' || ~L
 end
 
 if ~ispc || (L ~= 3 || ~strcmp(d, stdlib.root(s, false)))
-  if stdlib.isoctave()
+  if ischar(s)
     if d(end) == '/'
       d = d(1:end-1);
     end

@@ -60,4 +60,4 @@ c = stdlib.posix(c);
 end
 
 %!assert(canonical("", 0,0), "")
-%!assert(canonical("~",1,0), homedir(0))
+%!assert(canonical("~",1,0), homedir())

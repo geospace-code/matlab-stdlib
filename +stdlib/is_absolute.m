@@ -9,18 +9,13 @@ arguments
   use_java (1,1) logical = false
 end
 
-if use_java
+if stdlib.isoctave()
+  % not is_absolute_filename() because this is a stricter check for "c:" false
+  isabs = javaObject("java.io.File", p).isAbsolute();
+elseif use_java
   % java is about 5x to 10x slower than intrinsic
   % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/File.html#isAbsolute()
   isabs = java.io.File(p).toPath().isAbsolute();
-elseif ischar(p)
-  % not is_absolute_filename() because this is a stricter check for "c:" false
-  L = length(p);
-  if ispc
-    isabs = L > 2 && ~isempty(stdlib.root_name(p)) && (p(3) == '\' || p(3) == '/');
-  else
-    isabs = L >= 1 && p(1) == '/';
-  end
 else
   L = strlength(p);
   if ispc
@@ -39,12 +34,12 @@ end
 %!assert(is_absolute('', false), false)
 %!test
 %! if ispc
-%!   assert(is_absolute('C:\', false), true)
-%!   assert(is_absolute('C:/', false), true)
-%!   assert(is_absolute('C:', false), false)
-%!   assert(is_absolute('C', false), false)
+%!   assert(is_absolute('C:\'))
+%!   assert(is_absolute('C:/'))
+%!   assert(!is_absolute('C:'))
+%!   assert(!is_absolute('C'))
 %! else
-%!   assert(is_absolute('/', false), true)
-%!   assert(is_absolute('/usr', false), true)
-%!   assert(is_absolute('usr', false), false)
+%!   assert(is_absolute('/'))
+%!   assert(is_absolute('/usr'))
+%!   assert(!is_absolute('usr'))
 %! endif

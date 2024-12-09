@@ -15,7 +15,15 @@ arguments
   link (1,1) string
 end
 
-if ispc || isMATLABReleaseOlderThan("R2024b")
+if stdlib.isoctave()
+
+  [err, msg] = symlink(target, link);
+  ok = err == 0;
+  if ~ok
+    warning("symlink: %s", msg)
+  end
+
+elseif ispc || isMATLABReleaseOlderThan("R2024b")
 % ok = java.nio.file.Files.createSymbolicLink(java.io.File(link).toPath(), java.io.File(target).toPath());
 % the above should work, but Matlab Java doesn't recognize the optional argument omitted.
 
@@ -50,3 +58,8 @@ else
 end
 
 end
+
+%!test
+%! if !ispc
+%!   create_symlink(tempname, tempname)
+%! endif

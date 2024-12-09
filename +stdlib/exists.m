@@ -13,7 +13,9 @@ arguments
 end
 
 
-if use_java
+if stdlib.isoctave()
+  ok = javaObject("java.io.File", p).exists();
+elseif use_java
 
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#exists(java.nio.file.Path,java.nio.file.LinkOption...)
 % this takes 2x longer than java.io.File.exists()
@@ -27,5 +29,8 @@ else
   ok = isfile(p) || isfolder(p);
 end
 
-
 end
+
+%!assert (!exists(''))
+%!assert (!exists(tempname))
+%!assert (exists(program_invocation_name))

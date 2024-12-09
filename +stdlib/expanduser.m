@@ -50,8 +50,8 @@ end
 
 
 %!assert(expanduser('',0), '')
-%!assert(expanduser("~",0), homedir(0))
-%!assert(expanduser("~/",0), homedir(0))
+%!assert(expanduser("~",0), homedir())
+%!assert(expanduser("~/",0), homedir())
 %!assert(expanduser("~user",0), "~user")
 %!assert(expanduser("~user/",0), "~user")
-%!assert(expanduser("~///c",0), strcat(homedir(0), "/c"))
+%!assert(expanduser("~///c",0), strcat(homedir(), "/c"))

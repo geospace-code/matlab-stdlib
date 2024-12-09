@@ -13,14 +13,20 @@ p = stdlib.drop_slash(pth);
 
 if is_root_stub(p)
   % 2 or 3 char drive letter
-  p = stdlib.root(pth, false);
+  if stdlib.len(p) == 2
+    if ischar(p)
+      p = strcat(p, '/');
+    else
+      p = p + "/";
+    end
+  end
   return
 end
 
 j = strfind(p, '/');
 if isempty(j)
   p = "";
-elseif stdlib.isoctave()
+elseif ischar(p)
   p = p(1:j(end)-1);
 else
   p = extractBefore(p, j(end));

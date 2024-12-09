@@ -9,61 +9,45 @@ arguments
   use_java (1,1) logical = false
 end
 
-if use_java
-  r = stdlib.posix(java.io.File(p).toPath().getRoot());
-  return
-end
-
-
 r = "";
 if stdlib.len(p) == 0
   return
 end
 
-r = stdlib.root_name(p);
 
-if ischar(p)
-
-  if isempty(r) %#ok<UNRCH>
-    if p(1) == '/'
-      r = "/";
-    end
-
-    return
+if stdlib.isoctave()
+  o = javaObject("java.io.File", p).toPath().getRoot();
+  if ~isempty(o)
+    r = stdlib.posix(o.toString());
   end
-
-  if ispc && strcmp(r, p)
-    return
-  end
-
-  r = strcat(r, '/');
-
+elseif use_java
+  r = stdlib.posix(java.io.File(p).toPath().getRoot());
 else
 
-  if strlength(r) == 0
-    if startsWith(p, "/")
-      r = "/";
-    end
+r = stdlib.root_name(p);
 
-    return
+if strlength(r) == 0
+  if startsWith(p, "/")
+    r = "/";
   end
 
-  if ispc && r == p
-    return
-  end
+  return
+end
 
-  r = r + "/";
+if ispc && r == p
+  return
+end
+
+r = r + "/";
 
 end
 
-end
-
-%!assert(root('', 0), '')
-%!assert(root('/', 0), '/')
+%!assert(root(''), '')
+%!assert(root('/'), '/')
 %!test
 %! if ispc
-%!   assert(root('C:\', 0), 'C:/')
-%!   assert(root('C:/', 0), 'C:/')
-%!   assert(root('C:', 0), 'C:')
-%!   assert(root('C', 0), '')
+%!   assert(root('C:\'), 'C:/')
+%!   assert(root('C:/'), 'C:/')
+%!   assert(root('C:'), 'C:')
+%!   assert(root('C'), '')
 %! endif

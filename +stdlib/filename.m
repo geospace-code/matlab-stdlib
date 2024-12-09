@@ -1,7 +1,7 @@
 % FILENAME file name of path
 % filename (including suffix) without directory
 
-function p = filename(p)
+function f = filename(p)
 arguments
   p (1,1) string
 end
@@ -11,6 +11,14 @@ end
 % this is like C++17 filesystem::path::filename
 
 [~, n, e] = fileparts(p);
-p = n + e;
+
+if ischar(n)
+  f = strcat(n, e);
+else
+  f = n + e;
+end
 
 end
+
+
+%!assert (filename('a/b/c.txt'), 'c.txt')
