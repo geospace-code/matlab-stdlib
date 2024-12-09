@@ -7,34 +7,22 @@
 % * path1, path2: paths to compare
 %%% Outputs
 % issame: logical
-% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isSameFile(java.nio.file.Path,java.nio.file.Path)
 
-function issame = samepath(path1, path2, use_java)
+
+function issame = samepath(path1, path2)
 arguments
   path1 (1,1) string
   path2 (1,1) string
-  use_java (1,1) logical = false
 end
 
-issame = false;
-if ~stdlib.exists(path1, use_java) || ~stdlib.exists(path2, use_java)
-  return
-end
+% simpler our way than
+% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isSameFile(java.nio.file.Path,java.nio.file.Path)
 
-if use_java
-% needs absolute
-path1 = stdlib.absolute(path1, "", false, true);
-path2 = stdlib.absolute(path2, "", false, true);
-
-issame = java.nio.file.Files.isSameFile(...
-            java.io.File(path1).toPath(), ...
-            java.io.File(path2).toPath());
-
-% alternative, lower-level method is lexical only (not suitable for us):
-% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#equals(java.lang.Object)
-
-else
-  issame = stdlib.canonical(path1, false, false) == stdlib.canonical(path2, false, false);
-end
+issame = stdlib.exists(path1, false) && stdlib.exists(path2, false) && ...
+         stdlib.canonical(path1, false, false) == stdlib.canonical(path2, false, false);
 
 end
+
+%!assert(samepath(".", "."))
+%!assert(samepath(".", "./"))
+%!assert(samepath(".", "a/.."))
