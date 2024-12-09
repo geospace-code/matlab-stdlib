@@ -6,10 +6,17 @@ arguments
   dir (1,1) string
 end
 
+
 if ischar(subdir)
-  s = strfind(subdir, dir) == 1 && (length(subdir) > length(dir)); %#ok<UNRCH>
+  w = ~isempty(strfind(dir, "..")) || ~isempty(strfind(subdir, "..")); %#ok<STREMP,UNRCH>
+  s = strfind(subdir, dir) == 1 && (length(subdir) > length(dir));
 else
+  w = contains(dir, "..") || contains(subdir, "..");
   s = startsWith(subdir, dir) && (strlength(subdir) > strlength(dir));
+end
+
+if ~strcmp(subdir, dir) && w
+  warning("is_subdir: %s and/or %s is ambiguous input with '..'  consider using stdlib.canonical() first", subdir, dir)
 end
 
 end
@@ -21,4 +28,4 @@ end
 %!assert(is_subdir("a/b", "a"))
 %!assert(!is_subdir("a", "a/.c"))
 
-% this is incorrect on Windows at least%assert(is_subdir("a/b", "a/b/.."))
+% this is incorrect on Windows at least %assert(is_subdir("a/b", "a/b/.."))

@@ -92,7 +92,7 @@ p_relative_to = {{"", "", "."}, ...
 {"/a/b", "/a", ".."}, ...
 {"/a/b/c/d", "/a/b", "../.."}, ...
 {"this/one", "this/two", "../two"}};
-% NOTE: ".." in relative_to is ambiguous including for python.pathlib, C++ <filesystem>, etc.
+% NOTE: ".." in relative_to(base) is ambiguous including for python.pathlib, C++ <filesystem>, etc.
 
 p_proximate_to = p_relative_to;
 
@@ -111,7 +111,7 @@ p_relative_to = [p_relative_to, ...
 {"c:/path", "d:/path", ""}}];
 
 p_proximate_to = p_relative_to;
-% NOTE: ".." in proximate_to is ambiguous including for python.pathlib, C++ <filesystem>, etc
+% NOTE: ".." in proximate_to(base) is ambiguous including for python.pathlib, C++ <filesystem>, etc
 
 p_proximate_to{6}{3} = "/";
 p_proximate_to{10}{3} = "c";
@@ -156,7 +156,7 @@ p_is_subdir = {
   {"a/b", "a", true}, ...
   {"a/.c", "a", true}
 };
-% NOTE: ".." in is_subidr is ambiguous
+% NOTE: ".." in is_subdir (either argument) is ambiguous
 
 if ispc
   p_is_subdir{end+1} = {"c:\", "c:/", false};

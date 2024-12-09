@@ -16,11 +16,17 @@ if strcmp(b1, o1)
 end
 
 if stdlib.isoctave()
+  w = ~isempty(strfind(b1, "..")); %#ok<STREMP>
   b = javaObject("java.io.File", b1).toPath();
   o = javaObject("java.io.File", o1).toPath();
 else
+  w = contains(b1, "..");
   b = java.io.File(b1).toPath();
   o = java.io.File(o1).toPath();
+end
+
+if w
+  warning("relative_to(%s) is ambiguous base with '..'  consider using stdlib.canonical() first", b1)
 end
 
 try
