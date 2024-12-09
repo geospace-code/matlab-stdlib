@@ -28,7 +28,7 @@ function p_expand = init_expand(classToTest) %#ok<INUSD>
 cwd = fileparts(mfilename("fullpath"));
 top = fullfile(cwd, "..");
 addpath(top)
-p_expand = {{"", ""}, {"~abc", "~abc"}, {"~", stdlib.homedir()}, {"~/foo", stdlib.homedir() + "/foo"}};
+p_expand = {{"", ""}, {"~abc", "~abc"}, {"~", stdlib.homedir()}, {"~/foo", stdlib.homedir() + "/foo"}, {'~/////c', stdlib.homedir() + "/c"}};
 end
 end
 

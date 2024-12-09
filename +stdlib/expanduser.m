@@ -13,23 +13,45 @@ arguments
   use_java (1,1) logical = false
 end
 
-e = p;
+e = stdlib.drop_slash(p);
 
-
-if ~startsWith(e, "~") || (strlength(e) > 1 && ~startsWith(e, "~/"))
+L = stdlib.len(e);
+if ~L
   return
+end
+
+if ischar(e)
+  if e(1) ~= '~' || (L > 1 && e(1) == '~' && e(2) ~= '/')
+    return
+  end
+else
+  if ~startsWith(e, "~") || (L > 1 && ~startsWith(e, "~/"))
+    return
+  end
 end
 
 home = stdlib.homedir(use_java);
 
 if ~isempty(home)
   d = home;
-  if strlength(e) < 2
+  if L < 2
     e = d;
     return
   end
 
-  e = d + "/" + strip(extractAfter(e, 1), "left", "/");
+  if ischar(e)
+    e = strcat(d, '/', e(3:end));
+  else
+    e = d + "/" + extractAfter(e, 2);
+  end
 end
 
-end %function
+end
+
+
+%!assert(expanduser('',0), '')
+%!assert(expanduser("~",0), homedir(0))
+%!assert(expanduser("~/",0), homedir(0))
+%!assert(expanduser("~user",0), "~user")
+%!assert(expanduser("~user/",0), "~user")
+%!assert(expanduser("~///c",0), strcat(homedir(0), "/c"))
