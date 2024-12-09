@@ -7,9 +7,11 @@ end
 properties(TestParameter)
 p_exists = {{pwd(), true}, {mfilename("fullpath") + ".m", true}, {"TestFileImpure.m", true} {tempname, false}}
 % on CI matlabroot can be writable!
-in_is_write = {pwd(), "not-exists"};
-ref_is_write = {true, false}
+
+p_is_writable = {{pwd(), true}, {"not-exists", false}};
+
 p_expand
+
 p_same = {...
 {"","", false}, ...
 {tempname, tempname, false}, ...
@@ -65,8 +67,8 @@ tc.verifyEqual(stdlib.is_readable(p_exists{1}), p_exists{2})
 end
 
 
-function test_is_writable(tc, in_is_write, ref_is_write)
-tc.verifyEqual(stdlib.is_writable(in_is_write), ref_is_write)
+function test_is_writable(tc, p_is_writable)
+tc.verifyEqual(stdlib.is_writable(p_is_writable{1}), p_is_writable{2})
 end
 
 
