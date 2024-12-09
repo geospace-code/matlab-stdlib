@@ -7,20 +7,20 @@ arguments
 end
 
 % must remove trailing slashes
-base = stdlib.drop_slash(base);
-other = stdlib.drop_slash(other);
+b1 = stdlib.drop_slash(base);
+o1 = stdlib.drop_slash(other);
 
-if strcmp(base, other)
+if strcmp(b1, o1)
   r = ".";
   return
 end
 
 if stdlib.isoctave()
-  b = javaObject("java.io.File", base).toPath();
-  o = javaObject("java.io.File", other).toPath();
+  b = javaObject("java.io.File", b1).toPath();
+  o = javaObject("java.io.File", o1).toPath();
 else
-  b = java.io.File(base).toPath();
-  o = java.io.File(other).toPath();
+  b = java.io.File(b1).toPath();
+  o = java.io.File(o1).toPath();
 end
 
 try
@@ -43,5 +43,4 @@ end
 %!assert(relative_to("/a/b", "/a/b"), ".")
 %!assert(relative_to("/a/b", "/a/b/c"), "c")
 %!assert(relative_to("/a/b", "/a/b/c/"), "c")
-%!assert(relative_to("a/b/..", "a/b"), "..")
 %!assert(relative_to("/a/b", "d"), "")

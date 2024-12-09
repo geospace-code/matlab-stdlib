@@ -7,11 +7,10 @@ arguments
 end
 
 r = stdlib.relative_to(base, other);
-if stdlib.len(r) > 0
-  return;
-end
 
-r = other;
+if ~stdlib.len(r)
+  r = other;
+end
 
 end
 

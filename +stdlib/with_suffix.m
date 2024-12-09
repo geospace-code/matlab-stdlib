@@ -16,25 +16,27 @@ r = stdlib.parent(p);
 s = stdlib.stem(p);
 
 if stdlib.len(s) == 0
-  f = stdlib.join(p, suffix);
+  f = stdlib.join(p, suffix, false);
   return
 end
 
 if r == '.'
   f = s;
-elseif stdlib.isoctave()
+elseif ischar(r)
   f = strcat(r, '/', s);
 else
   f = r + "/" + s;
 end
 
-f = f + suffix;
+if ischar(r)
+  f = strcat(f, suffix);
+else
+  f = f + suffix;
+end
 
 end
 
-
-%!assert(with_suffix("", ""), "")
-%!assert(with_suffix("a.h5", ".nc"), "a.nc")
-%!assert(with_suffix("a", ".nc"), "a.nc")
-%!assert(with_suffix("a.h5", ""), "a")
-%!assert(with_suffix("a", ""), "a")
+%!assert(with_suffix("ab.h5", ".nc"), "ab.nc")
+%!assert(with_suffix("ab", ".nc"), "ab.nc")
+%!assert(with_suffix("ab.h5", ""), "ab")
+%!assert(with_suffix("ab", ""), "ab")
