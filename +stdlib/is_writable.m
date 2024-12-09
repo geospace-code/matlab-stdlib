@@ -11,7 +11,7 @@ end
 if use_java
   % java is about 10x slower than fileattrib
   % needs absolute()
-  file = stdlib.absolute(file, "", false, use_java);
+  file = stdlib.absolute(file, "", false, true);
 
   % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html#isWritable(java.nio.file.Path)
   ok = java.nio.file.Files.isWritable(java.io.File(file).toPath());

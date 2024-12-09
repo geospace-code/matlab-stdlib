@@ -10,10 +10,8 @@ p_proximate_to
 p_is_absolute
 in_filename = {"", "/a/b/c", "/a/b/c/", "a/b/c.txt", "a/b/c.txt.gz"}
 ref_filename = {"", "c", "", "c.txt", "c.txt.gz"}
-dir_is_subdir
-sub_is_subdir
-ref_is_subdir
 
+p_is_subdir
 p_parent
 
 p_join = {{"", "", ""}, ...
@@ -84,6 +82,7 @@ p_relative_to = {{"", "", "."}, ...
 {"Hello", "Hello/", "."}, ...
 {"./this/one", "./this/two", "../two"}, ...
 {"/path/same", "/path/same/hi/..", "hi/.."}, ...
+{"a/b/..", "a/b", ".."}, ...
 {"", "/", ""}, ...
 {"/", "", ""}, ...
 {"/", "/", "."}, ...
@@ -148,24 +147,20 @@ end
 end
 
 
-function [dir_is_subdir, sub_is_subdir, ref_is_subdir] = init_is_subdir(classToTest) %#ok<INUSD>
+function [p_is_subdir] = init_is_subdir(classToTest) %#ok<INUSD>
 
-dir_is_subdir = {"a/b", "a/b", "a/b", "a"};
-sub_is_subdir = {"a/b", "a/b/", "a", "a/.c"};
-ref_is_subdir = {false, false, false, true};
+p_is_subdir = {
+  {"a/b", "a/b", false}, ...
+  {"a/b", "a/b/", false}, ...
+  {"a/b", "a", true}, ...
+  {"a/.c", "a", true}, ...
+  {"a/b", "a/b/..", false}  % tricky one
+};
 
 if ispc
-
-dir_is_subdir{end+1} = "c:\";
-sub_is_subdir{end+1} = "c:/";
-ref_is_subdir{end+1} = false;
-
+  p_is_subdir{end+1} = {"c:\", "c:/", false};
 else
-
-dir_is_subdir{end+1} = "/";
-sub_is_subdir{end+1} = "/";
-ref_is_subdir{end+1} = false;
-
+  p_is_subdir{end+1} = {"/", "/", false};
 end
 
 end
@@ -281,9 +276,9 @@ tc.verifyEqual(stdlib.proximate_to(p_proximate_to{1}, p_proximate_to{2}), p_prox
 end
 
 
-function test_is_subdir(tc, dir_is_subdir, sub_is_subdir, ref_is_subdir)
+function test_is_subdir(tc, p_is_subdir)
 tc.assumeTrue(stdlib.has_java)
-tc.verifyEqual(stdlib.is_subdir(sub_is_subdir, dir_is_subdir), ref_is_subdir)
+tc.verifyEqual(stdlib.is_subdir(p_is_subdir{1}, p_is_subdir{2}), p_is_subdir{3}, "subdir(" + p_is_subdir{1} + "," + p_is_subdir{2} + ")")
 end
 
 

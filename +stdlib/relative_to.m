@@ -43,4 +43,5 @@ end
 %!assert(relative_to("/a/b", "/a/b"), ".")
 %!assert(relative_to("/a/b", "/a/b/c"), "c")
 %!assert(relative_to("/a/b", "/a/b/c/"), "c")
+%!assert(relative_to("a/b/..", "a/b"), "..")
 %!assert(relative_to("/a/b", "d"), "")
