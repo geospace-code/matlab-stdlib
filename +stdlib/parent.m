@@ -54,8 +54,8 @@ end
 %!assert(parent('a//b'), 'a')
 %!test
 %! if ispc
-%!   assert(parent('c:/foo'), 'c:/')
-%!   assert(parent('c:\foo\'), 'c:/')
+%!   assert(parent('c:/a'), 'c:/')
+%!   assert(parent('c:\a\'), 'c:/')
 %!   assert(parent('c:\'), 'c:/')
 %!   assert(parent('c:'), 'c:/')
 %! end

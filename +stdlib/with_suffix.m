@@ -34,7 +34,7 @@ end
 
 
 %!assert(with_suffix("", ""), "")
-%!assert(with_suffix("foo.h5", ".nc"), "foo.nc")
-%!assert(with_suffix("foo", ".nc"), "foo.nc")
-%!assert(with_suffix("foo.h5", ""), "foo")
-%!assert(with_suffix("foo", ""), "foo")
+%!assert(with_suffix("a.h5", ".nc"), "a.nc")
+%!assert(with_suffix("a", ".nc"), "a.nc")
+%!assert(with_suffix("a.h5", ""), "a")
+%!assert(with_suffix("a", ""), "a")

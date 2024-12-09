@@ -26,7 +26,9 @@ end
 
 cwd = stdlib.posix(pwd());
 
-if strlength(p) == 0 && strlength(base) == 0
+Lb = stdlib.len(base);
+
+if stdlib.len(p) == 0 && Lb == 0
    c = cwd;
    return
 end
@@ -37,19 +39,27 @@ else
   c = p;
 end
 
-if stdlib.is_absolute(c)
+if stdlib.is_absolute(c, use_java)
   c = stdlib.posix(c);
 else
   % .getAbsolutePath(), .toAbsolutePath()
   % default is Documents/Matlab, which is probably not wanted.
-  if strlength(base) == 0
-    c = cwd + "/" + c;
+  if Lb == 0
+    if ischar(cwd)
+      c = strcat(cwd, '/', c);
+    else
+      c = cwd + "/" + c;
+    end
   else
     d = stdlib.absolute(base, "", expand_tilde, use_java);
-    if isempty(c) || strlength(c) == 0
+    if isempty(c) || stdlib.len(c) == 0
       c = d;
     else
-      c = d + "/" + c;
+      if ischar(d)
+        c = strcat(d, '/', c);
+      else
+        c = d + "/" + c;
+      end
     end
   end
 end
@@ -57,4 +67,8 @@ end
 % not needed:
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getAbsolutePath()
 
-end % function
+end
+
+
+%!assert(absolute('', '', 0,0), posix(pwd))
+%!assert(absolute('a/b', '', 0,0), posix(fullfile(pwd, 'a/b')))

@@ -8,8 +8,8 @@ properties (TestParameter)
 p_relative_to
 p_proximate_to
 p_is_absolute
-in_filename = {"", "/foo/bar/baz", "/foo/bar/baz/", "foo/bar/baz.txt", "foo/bar/baz.txt.gz"}
-ref_filename = {"", "baz", "", "baz.txt", "baz.txt.gz"}
+in_filename = {"", "/a/b/c", "/a/b/c/", "a/b/c.txt", "a/b/c.txt.gz"}
+ref_filename = {"", "c", "", "c.txt", "c.txt.gz"}
 dir_is_subdir
 sub_is_subdir
 ref_is_subdir
@@ -30,7 +30,7 @@ p_join = {{"", "", ""}, ...
 {"ab/cd", "/ef", "/ef"} ...
 };
 
-in_suffix = {"", "/foo/bar/baz", "/foo/bar/baz/", "foo/bar/baz.txt", "foo/bar/baz.txt.gz", ".stat", ".stat.txt"}
+in_suffix = {"", "/a/b/c", "/a/b/c/", "a/b/c.txt", "a/b/c.txt.gz", ".stat", ".stat.txt"}
 ref_suffix = {"", "", "", ".txt", ".gz", ".stat", ".txt"}
 
 in_norm = {"", "a/..", "//a/b/", "/a/b/", "a/b/", "a/../c", "a/b/../c", "a/b/../../c", "a/b/../../c/..", ...
@@ -226,13 +226,13 @@ function test_stem(tc)
 
 tc.verifyEqual(stdlib.stem(""), "")
 
-tc.verifyEqual(stdlib.stem("/foo/bar/baz"), "baz")
-tc.verifyEqual(stdlib.stem("/foo/bar/baz/"), "")
+tc.verifyEqual(stdlib.stem("/a/b/c"), "c")
+tc.verifyEqual(stdlib.stem("/a/b/c/"), "")
 
-tc.verifyEqual(stdlib.stem("foo/bar/baz/"), "")
+tc.verifyEqual(stdlib.stem("a/b/c/"), "")
 
-tc.verifyEqual(stdlib.stem("foo/bar/baz.txt"), "baz")
-tc.verifyEqual(stdlib.stem("foo/bar/baz.txt.gz"), "baz.txt")
+tc.verifyEqual(stdlib.stem("a/b/c.txt"), "c")
+tc.verifyEqual(stdlib.stem("a/b/c.txt.gz"), "c.txt")
 
 end
 

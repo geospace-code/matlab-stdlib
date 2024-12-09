@@ -24,7 +24,7 @@ if isnumeric(A)
   mustBeReal(A)
 end
 
-% avoid creating confusing file ./~/foo.nc
+% avoid creating confusing file ./~/a.nc
 filename = stdlib.expanduser(filename);
 
 % coerce if needed

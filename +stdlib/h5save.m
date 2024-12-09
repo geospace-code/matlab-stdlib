@@ -32,7 +32,7 @@ if isnumeric(A)
   mustBeReal(A)
 end
 
-% avoid confusing creating file ./~/foo.h5
+% avoid confusing creating file ./~/a.h5
 filename = stdlib.expanduser(filename);
 
 % coerce if needed
