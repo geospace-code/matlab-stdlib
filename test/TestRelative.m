@@ -1,23 +1,15 @@
 classdef TestRelative < matlab.unittest.TestCase
 
-properties (ClassSetupParameter)
-classToTest = {"TestRelative"};
-end
-
 properties (TestParameter)
 p_relative_to
 p_proximate_to
 p_is_subdir
 end
 
-properties
-tobj
-end
-
 
 methods (TestParameterDefinition, Static)
 
-function [p_relative_to, p_proximate_to] = init_relative_to(classToTest) %#ok<INUSD>
+function [p_relative_to, p_proximate_to] = init_relative_to()
 
 p_relative_to = {{"", "", "."}, ...
 {"Hello", "Hello", "."}, ...
@@ -67,7 +59,7 @@ end
 end
 
 
-function [p_is_subdir] = init_is_subdir(classToTest) %#ok<INUSD>
+function [p_is_subdir] = init_is_subdir()
 
 p_is_subdir = {
     {"a/b", "a/b", false}, ...
@@ -94,11 +86,6 @@ end
 
 methods (TestClassSetup)
 
-function classSetup(tc, classToTest)
-constructor = str2func(classToTest);
-tc.tobj = constructor();
-end
-
 function setup_path(tc)
 top = fullfile(fileparts(mfilename("fullpath")), "..");
 tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
@@ -107,7 +94,7 @@ end
 end
 
 
-methods (Test, ParameterCombination = "sequential")
+methods (Test)
 
 
 function test_relative_to(tc, p_relative_to)

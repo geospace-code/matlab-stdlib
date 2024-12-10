@@ -36,18 +36,16 @@ function test_short_file(tc)
 import matlab.unittest.constraints.IsFile
 
 tc.assumeTrue(ispc, "Windows only")
+p = matlabroot;
+tc.assumeSubstring(p, " ", "name won't shorten if it doesn't have a space")
 
-file = fullfile(matlabroot, "VersionInfo.xml");
-tc.assumeThat(file, IsFile, "VersionInfo.xml missing")
-tc.assumeSubstring(file, " ", "name won't shorten if it doesn't have a space")
+for d = [p, stdlib.posix(p)]
+  s = stdlib.windows_shortname(d);
 
-for f = [file, stdlib.posix(file)]
-    short = stdlib.windows_shortname(f);
-
-    tc.verifySubstring(short, "~")
+  tc.verifySubstring(s, "~")
 end
 
-tc.verifyEqual(stdlib.canonical(short), stdlib.posix(file))
+tc.verifyEqual(stdlib.canonical(s), stdlib.posix(p), "shortname didn't resolve same as canonical")
 
 end
 

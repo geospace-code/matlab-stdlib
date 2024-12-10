@@ -61,7 +61,7 @@ end
 end
 
 
-methods (Test, ParameterCombination = 'sequential')
+methods (Test)
 
 function test_auto_chunk_size(tc)
 

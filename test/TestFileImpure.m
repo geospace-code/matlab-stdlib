@@ -1,9 +1,5 @@
 classdef TestFileImpure < matlab.unittest.TestCase
 
-properties (ClassSetupParameter)
-  classToTest = {"TestFileImpure"};
-end
-
 properties(TestParameter)
 p_exists = {{pwd(), true}, {mfilename("fullpath") + ".m", true}, {"TestFileImpure.m", true} {tempname, false}}
 % on CI matlabroot can be writable!
@@ -17,16 +13,14 @@ p_same = {...
 {tempname, tempname, false}, ...
 {"..", "./..", true}, ...
 {"..", pwd() + "/..", true}}
-end
 
-properties
-tobj
+ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname), string.empty}}
 end
 
 
 methods (TestParameterDefinition, Static)
 
-function p_expand = init_expand(classToTest) %#ok<INUSD>
+function p_expand = init_expand()
 cwd = fileparts(mfilename("fullpath"));
 top = fullfile(cwd, "..");
 addpath(top)
@@ -42,14 +36,9 @@ top = fullfile(fileparts(mfilename("fullpath")), "..");
 tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
 end
 
-function classSetup(tc, classToTest)
-constructor = str2func(classToTest);
-tc.tobj = constructor();
 end
 
-end
-
-methods (Test, ParameterCombination = 'sequential')
+methods (Test)
 
 function test_exists(tc, p_exists)
 tc.verifyEqual(stdlib.exists(p_exists{1}), p_exists{2})
@@ -106,11 +95,8 @@ p = stdlib.get_permissions(".");
 tc.verifyThat(p, StartsWithSubstring("r"))
 end
 
-function test_handle2filename(tc)
-tc.verifyEqual(stdlib.handle2filename(0), '"' + "stdin" + '"')
-tc.verifyEqual(stdlib.handle2filename(1), '"' + "stdout" + '"')
-tc.verifyEqual(stdlib.handle2filename(2), '"' + "stderr" + '"')
-tc.verifyEmpty(stdlib.handle2filename(fopen(tempname)))
+function test_handle2filename(tc, ph)
+tc.verifyEqual(stdlib.handle2filename(ph{1}), string(ph{2}))
 end
 
 end

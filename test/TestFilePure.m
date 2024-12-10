@@ -1,9 +1,5 @@
 classdef TestFilePure < matlab.unittest.TestCase
 
-properties (ClassSetupParameter)
-classToTest = {"TestFilePure"};
-end
-
 properties (TestParameter)
 
 p_is_absolute
@@ -61,14 +57,10 @@ p_root
 p_root_name
 end
 
-properties
-tobj
-end
-
 
 methods (TestParameterDefinition, Static)
 
-function [p_root, p_root_name] = init_relative_to(classToTest) %#ok<INUSD>
+function [p_root, p_root_name] = init_relative_to()
 
 p_root = {{"", ""}, ...
 {"a/b", ""}, ...
@@ -92,7 +84,7 @@ end
 end
 
 
-function [p_is_absolute] = init_is_absolute(classToTest) %#ok<INUSD>
+function [p_is_absolute] = init_is_absolute()
 
 p_is_absolute = {{"", false}, {"x", false}, {"x:", false}, {"x:/foo", false}, {"/foo", true}};
 
@@ -109,11 +101,6 @@ end
 
 methods (TestClassSetup)
 
-function classSetup(tc, classToTest)
-constructor = str2func(classToTest);
-tc.tobj = constructor();
-end
-
 function setup_path(tc)
 top = fullfile(fileparts(mfilename("fullpath")), "..");
 tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
@@ -123,7 +110,7 @@ end
 
 
 
-methods (Test, ParameterCombination = "sequential")
+methods (Test)
 
 function test_posix(tc)
 import matlab.unittest.constraints.ContainsSubstring
