@@ -22,3 +22,5 @@ catch e
     rethrow(e)
   end
 end
+
+%!testif 0

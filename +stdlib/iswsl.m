@@ -2,7 +2,7 @@
 % Detects if Matlab or GNU Octave is installed and running from within
 % Windows Subsystem for Linux
 
-function yeswsl = iswsl()
+function w = iswsl()
 
 persistent wsl;
 
@@ -13,11 +13,13 @@ if isempty(wsl)
     if fid >= 1
       v = fscanf(fid,'%s');
       fclose(fid);
-      wsl = contains(v, 'microsoft-standard');
+      wsl = ~isempty(strfind(v, 'microsoft-standard')); %#ok<*STREMP>
     end
   end
 end
 
-yeswsl=wsl; % has to be a separate line/variable for matlab
+w = wsl; % has to be a separate line/variable for matlab
 
 end
+
+%!assert(islogical(iswsl()))

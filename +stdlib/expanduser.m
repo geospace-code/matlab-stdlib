@@ -22,14 +22,11 @@ if ~L
 end
 
 if ischar(e)
-  if e(1) ~= '~' || (L > 1 && e(1) == '~' && e(2) ~= '/')
-    return
-  end
+  ng = e(1) ~= '~' || (L > 1 && e(1) == '~' && e(2) ~= '/');
 else
-  if ~startsWith(e, "~") || (L > 1 && ~startsWith(e, "~/"))
-    return
-  end
+  ng = ~startsWith(e, "~") || (L > 1 && ~startsWith(e, "~/"));
 end
+if ng, return, end
 
 home = stdlib.homedir(use_java);
 

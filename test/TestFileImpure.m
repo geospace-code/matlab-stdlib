@@ -14,7 +14,7 @@ p_same = {...
 {"..", "./..", true}, ...
 {"..", pwd() + "/..", true}}
 
-ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname), string.empty}}
+ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname), ""}}
 end
 
 

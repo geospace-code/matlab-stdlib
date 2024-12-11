@@ -44,6 +44,8 @@ p = b + "/" + o;
 
 end
 
+p = stdlib.posix(p);
+
 end
 
 %!assert(join("", ""), "")

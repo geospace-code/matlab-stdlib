@@ -114,7 +114,7 @@ end
 
 
 function test_checkRAM(tc)
-tc.assertTrue(islogical(stdlib.checkRAM(1)))
+tc.assertTrue(islogical(stdlib.checkRAM(1, "double")))
 end
 
 

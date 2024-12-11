@@ -20,3 +20,5 @@ ds = finf.SDS;
 names = string({ds.Name});
 
 end
+
+%!testif 0

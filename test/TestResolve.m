@@ -39,7 +39,7 @@ tc.verifyEqual(stdlib.absolute("there", "hi"), td + "/hi/there")
 end
 
 
-function test_resolve(tc)
+function test_resolve_non_exist(tc)
 import matlab.unittest.fixtures.TemporaryFolderFixture
 import matlab.unittest.fixtures.CurrentFolderFixture
 import matlab.unittest.constraints.StartsWithSubstring
@@ -76,10 +76,23 @@ vb = stdlib.resolve("4foo");
 tc.verifyThat(va, ~StartsWithSubstring("2"))
 tc.verifyTrue(strncmp(va, vb, 2))
 
-% test existing file
+end
+
+function test_resolve_exist(tc)
+import matlab.unittest.fixtures.TemporaryFolderFixture
+import matlab.unittest.fixtures.CurrentFolderFixture
+import matlab.unittest.constraints.StartsWithSubstring
+import matlab.unittest.constraints.EndsWithSubstring
+import matlab.unittest.constraints.ContainsSubstring
+
+td = stdlib.posix(tc.applyFixture(TemporaryFolderFixture).Folder);
+tc.applyFixture(CurrentFolderFixture(td))
+
+td = string(td);
+
 r = stdlib.parent(mfilename('fullpath'));
 rp = stdlib.parent(r);
-tc.verifyEqual(stdlib.resolve(rp), stdlib.parent(r))
+tc.verifyEqual(stdlib.resolve(rp), string(stdlib.parent(r)))
 
 h = stdlib.homedir;
 tc.verifyEqual(stdlib.resolve("~"), h)

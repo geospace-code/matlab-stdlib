@@ -49,7 +49,7 @@ end
 
 fclose(f);
 
-end % function
+end
 
 
 function i = is_comment(line)
@@ -58,6 +58,8 @@ function i = is_comment(line)
 i = isempty(line) || any(startsWith(line, [";", "#"]));
 
 end
+
+%!testif 0
 
 % Copyright (c) 2014, freeb
 % Copyright (c) 2008, Andriy Nych

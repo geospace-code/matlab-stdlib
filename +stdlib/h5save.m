@@ -48,4 +48,7 @@ else
     stdlib.h5save_new(filename, varname, A, opts.size, opts.compressLevel)
 end
 
-end % function
+end
+
+
+%!testif 0

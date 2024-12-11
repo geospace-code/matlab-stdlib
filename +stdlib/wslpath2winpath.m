@@ -17,3 +17,5 @@ assert(stat == 0, "stdlib:sys:wslpath2winpath:IOError", "could not convert wslpa
 win_path = strip(win_path);
 
 end
+
+%!testif 0

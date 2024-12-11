@@ -18,6 +18,7 @@ elseif use_java
   % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/File.html#isAbsolute()
   isabs = java.io.File(p).toPath().isAbsolute();
 else
+  p = string(p);
   L = strlength(p);
   if ispc
     s = "";

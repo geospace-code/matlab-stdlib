@@ -6,10 +6,10 @@
 % certainly CAN'T create an array without digging deep into swap or worse.
 
 function [OK,newSizeBytes,freebytes] = checkRAM(newSize, myclass)
-arguments
-  newSize (1,:) {mustBeNumeric}
-  myclass (1,1) string = "double"
-end
+% arguments
+%   newSize (1,:) {mustBeNumeric}
+%   myclass (1,1) string
+% end
 
 % get available RAM
 freebytes = stdlib.ram_free();
@@ -29,3 +29,5 @@ newSizeBytes = prod(newSize)*bits / 8;
 OK = newSizeBytes < freebytes;
 
 end
+
+%!assert(checkRAM([15,2,1], 'double'), true)

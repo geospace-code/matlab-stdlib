@@ -30,3 +30,5 @@ short = string(short);
 delete(fso);
 
 end
+
+%!testif 0

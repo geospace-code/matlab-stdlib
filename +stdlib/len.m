@@ -13,3 +13,5 @@ elseif isstring(s)
 end
 
 end
+
+%!assert(len('abc'), 3)

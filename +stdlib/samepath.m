@@ -3,6 +3,10 @@
 % true if inputs resolve to same path.
 % Both paths must exist.
 %
+% NOTE: in general on Windows same(".", "not-exist/..") is true, but on
+% Unix it is false.
+% In C/C++ access() or stat() the same behavior is observed Windows vs Unix.
+%
 %%% Inputs
 % * path1, path2: paths to compare
 %%% Outputs
@@ -25,4 +29,4 @@ end
 
 %!assert(samepath(".", "."))
 %!assert(samepath(".", "./"))
-%!assert(!samepath(".", "not-exist/.."))
+%!assert(!samepath("not-exist", "not-exist/.."))

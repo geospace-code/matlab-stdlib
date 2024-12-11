@@ -24,3 +24,5 @@ if any(contains(addons.Name, 'Parallel Computing Toolbox'))
 end
 
 end
+
+%!testif 0

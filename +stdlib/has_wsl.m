@@ -6,14 +6,15 @@ function ok = has_wsl()
 persistent wsl;
 
 if isempty(wsl)
+  wsl = false;
   if ispc
     [stat, ~] = system("wsl test 1");
     wsl = stat == 0;
-  else
-    wsl = false;
   end
 end
 
 ok = wsl;
 
 end
+
+%!assert(islogical(has_wsl()))

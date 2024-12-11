@@ -31,6 +31,8 @@ cwd = pwd();
 
 try %#ok<TRYNC>
   cwd = string(cwd);
+  p = string(p);
+  base = string(base);
 end
 
 cwd = stdlib.posix(cwd);

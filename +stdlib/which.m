@@ -54,3 +54,5 @@ end % for name
 exe = string.empty;
 
 end
+
+%!testif 0

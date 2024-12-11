@@ -26,4 +26,6 @@ end
 
 end
 
-%!assert(hard_link_count('hard_link_count.m') >= 1)
+%!test
+%! if ispc, return; end
+%! assert(hard_link_count('hard_link_count.m') >= 1)

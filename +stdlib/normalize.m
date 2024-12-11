@@ -21,7 +21,7 @@ elseif use_java
   n = stdlib.posix(java.io.File(p).toPath().normalize().toString());
 else
 
-  n = stdlib.posix(p);
+  n = stdlib.posix(string(p));
 
   % use split to remove /../ and /./ and duplicated /
   parts = split(n, '/');

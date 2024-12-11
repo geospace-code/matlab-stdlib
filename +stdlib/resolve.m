@@ -22,4 +22,4 @@ r = stdlib.canonical(stdlib.absolute(p, "", expand_tilde, use_java), false, use_
 
 end
 
-%!assert (resolve(''), pwd())
+%!assert (resolve(''), stdlib.posix(pwd()))

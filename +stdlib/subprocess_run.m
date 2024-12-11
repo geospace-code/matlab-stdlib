@@ -101,3 +101,5 @@ msg = strip(msg);
 reader.close()
 
 end
+
+%!testif 0

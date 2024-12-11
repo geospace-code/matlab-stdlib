@@ -40,3 +40,5 @@ assert(ret == 0, "problem extracting %s", archive)
 untar(tar_arc, out_dir)
 delete(tar_arc)
 end
+
+%!testif 0
