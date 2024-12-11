@@ -16,15 +16,7 @@ r = stdlib.parent(p);
 s = stdlib.stem(p);
 
 if stdlib.len(s) == 0
-  if stdlib.len(stdlib.filename(p))
-    if ischar(r)
-      f = strcat(p, suffix);
-    else
-      f = p + suffix;
-    end
-  else
-    f = stdlib.join(p, suffix, false);
-  end
+  f = stdlib.join(p, suffix, false);
   return
 end
 
