@@ -16,7 +16,15 @@ r = stdlib.parent(p);
 s = stdlib.stem(p);
 
 if stdlib.len(s) == 0
-  f = stdlib.join(p, suffix, false);
+  if stdlib.len(stdlib.filename(p))
+    if ischar(r)
+      f = strcat(p, suffix);
+    else
+      f = p + suffix;
+    end
+  else
+    f = stdlib.join(p, suffix, false);
+  end
   return
 end
 
@@ -40,3 +48,4 @@ end
 %!assert(with_suffix("ab", ".nc"), "ab.nc")
 %!assert(with_suffix("ab.h5", ""), "ab")
 %!assert(with_suffix("ab", ""), "ab")
+%!assert(with_suffix("ab/.h5", ".nc"), "ab/.nc")
