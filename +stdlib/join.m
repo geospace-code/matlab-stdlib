@@ -32,7 +32,7 @@ end
 if stdlib.isoctave()
   p = javaObject("java.io.File", b).toPath().resolve(o).toString();
 elseif use_java
-  p = java.io.File(b).toPath().resolve(o);
+  p = string(java.io.File(b).toPath().resolve(o));
 else
 
 if startsWith(o, "/") || (ispc && stdlib.is_absolute(o))
@@ -45,3 +45,9 @@ p = b + "/" + o;
 end
 
 end
+
+%!assert(join("", ""), "")
+%!assert(join("", "b"), "b")
+%!assert(join("a", ""), "a")
+%!assert(join("a", "b"), "a/b")
+%!assert(join("a", "/b/c"), "/b/c")

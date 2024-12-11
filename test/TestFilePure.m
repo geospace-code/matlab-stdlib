@@ -26,7 +26,9 @@ p_join = {{"", "", ""}, ...
 {"a/b/../", "c/d/../", "a/b/../c/d/.."}, ...
 {"a/b", "..", "a/b/.."}, ...
 {"a/b", "c/d", "a/b/c/d"}, ...
-{"ab/cd", "/ef", "/ef"} ...
+{"ab/cd", "/ef", "/ef"}, ...
+{test_homedir(), "", test_homedir()}, ...
+{matlabroot, "bin", stdlib.posix(matlabroot + "/bin")}
 }
 
 p_suffix = {{"", ""}, {"/a/b/c", ""}, {"/a/b/c/", ""}, {"a/b/c.txt", ".txt"}, {"a/b/c.txt.gz", ".gz"}, {".stat", ".stat"}, {".stat.txt", ".txt"}}
@@ -87,29 +89,14 @@ end
 
 
 function [p_is_absolute] = init_is_absolute()
-
 p_is_absolute = {{"", false}, {"x", false}, {"x:", false}, {"x:/foo", false}, {"/foo", true}};
-
 if ispc
   p_is_absolute{4}{2} = true;
   p_is_absolute{5}{2} = false;
 end
-
 end
 
 end
-
-
-
-methods (TestClassSetup)
-
-function setup_path(tc)
-top = fullfile(fileparts(mfilename("fullpath")), "..");
-tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
-end
-
-end
-
 
 
 methods (Test)
