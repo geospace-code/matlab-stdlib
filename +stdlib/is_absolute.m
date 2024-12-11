@@ -4,10 +4,11 @@
 
 
 function isabs = is_absolute(p, use_java)
-arguments
-  p (1,1)
-  use_java (1,1) logical = false
-end
+% arguments
+%   p (1,1)
+%   use_java (1,1) logical = false
+% end
+if nargin < 2, use_java = false; end
 
 if stdlib.isoctave()
   % not is_absolute_filename() because this is a stricter check for "c:" false
@@ -23,7 +24,7 @@ else
     if L > 2
       s = extractBetween(p, 3, 3);
     end
-    isabs = L > 2 && strlength(stdlib.root_name(p)) && (s == '/' || s == '\');
+    isabs = L > 2 && strlength(stdlib.root_name(p)) && (strcmp(s, '/') || strcmp(s, '\'));
   else
     isabs = L >= 1 && startsWith(p, "/");
   end
@@ -31,7 +32,7 @@ end
 
 end
 
-%!assert(is_absolute('', false), false)
+%!assert(is_absolute(''), false)
 %!test
 %! if ispc
 %!   assert(is_absolute('C:\'))

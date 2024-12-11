@@ -9,18 +9,17 @@
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#createSymbolicLink(java.nio.file.Path,java.nio.file.Path,java.nio.file.attribute.FileAttribute...)
 
 function ok = create_symlink(target, link)
-
-arguments
-  target (1,1) string
-  link (1,1) string
-end
+% arguments
+%   target (1,1) string
+%   link (1,1) string
+% end
 
 if stdlib.isoctave()
 
   [err, msg] = symlink(target, link);
   ok = err == 0;
   if ~ok
-    warning("symlink: %s", msg)
+    warning("create_symlink: %s", msg)
   end
 
 elseif ispc || isMATLABReleaseOlderThan("R2024b")
@@ -61,5 +60,5 @@ end
 
 %!test
 %! if !ispc
-%!   create_symlink(tempname, tempname)
+%!   assert(create_symlink(tempname, tempname))
 %! endif

@@ -31,10 +31,10 @@ h5write(filename, varname, A)
 end
 
 %!test
-%! fn = 'test_h5save_new.h5';
+%! pkg load hdf5oct
+%! fn = tempname();
 %! ds = '/a';
 %! a = [1,2];
-%! delete(fn)
 %! h5save_new(fn, ds, a, size(a), 0)
 %! assert(h5read(fn, ds), a)
 %! delete(fn)

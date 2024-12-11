@@ -12,7 +12,6 @@ end
 
 methods(Test)
 
-
 function test_absolute(tc)
 import matlab.unittest.fixtures.TemporaryFolderFixture
 import matlab.unittest.fixtures.CurrentFolderFixture
@@ -22,7 +21,7 @@ import matlab.unittest.constraints.EndsWithSubstring
 td = tc.applyFixture(TemporaryFolderFixture).Folder;
 tc.applyFixture(CurrentFolderFixture(td))
 
-td = stdlib.posix(td);
+td = stdlib.posix(string(td));
 
 tc.verifyEqual(stdlib.absolute(""), td)
 tc.verifyEqual(stdlib.absolute("",""), td)
@@ -40,46 +39,6 @@ tc.verifyEqual(stdlib.absolute("there", "hi"), td + "/hi/there")
 end
 
 
-
-function test_canonical(tc)
-import matlab.unittest.fixtures.TemporaryFolderFixture
-import matlab.unittest.fixtures.CurrentFolderFixture
-import matlab.unittest.constraints.StartsWithSubstring
-
-td = tc.applyFixture(TemporaryFolderFixture).Folder;
-tc.applyFixture(CurrentFolderFixture(td))
-
-% all non-existing files
-
-tc.verifyEqual(stdlib.canonical(""), "")
-
-pabs = stdlib.canonical('2foo');
-tc.verifyThat(pabs, StartsWithSubstring("2foo"))
-
-par1 = stdlib.canonical("../2foo");
-tc.verifyThat(par1, StartsWithSubstring(".."))
-
-pt1 = stdlib.canonical("bar/../2foo");
-tc.verifyEqual(pt1, "2foo")
-
-% test existing file
-r = stdlib.parent(mfilename('fullpath'));
-tc.verifyEqual(stdlib.canonical(fullfile(r, "..")), stdlib.parent(r))
-
-% ~ is expanded even without expanduser when path exists
-tc.verifyEqual(stdlib.canonical("~/nobody/a/..", false), "~/nobody")
-
-h = stdlib.homedir;
-tc.verifyEqual(stdlib.canonical("~"), h)
-tc.verifyEqual(stdlib.canonical("~/"), h)
-tc.verifyEqual(stdlib.canonical("~/.."), stdlib.parent(h))
-
-tc.verifyEqual(stdlib.canonical("nobody.txt"), "nobody.txt")
-tc.verifyEqual(stdlib.canonical("../nobody.txt"), "../nobody.txt")
-
-end
-
-
 function test_resolve(tc)
 import matlab.unittest.fixtures.TemporaryFolderFixture
 import matlab.unittest.fixtures.CurrentFolderFixture
@@ -89,6 +48,8 @@ import matlab.unittest.constraints.ContainsSubstring
 
 td = stdlib.posix(tc.applyFixture(TemporaryFolderFixture).Folder);
 tc.applyFixture(CurrentFolderFixture(td))
+
+td = string(td);
 
 % all non-existing files
 

@@ -11,3 +11,5 @@ end
 ok = h;
 
 end
+
+%!assert(islogical(has_java()))

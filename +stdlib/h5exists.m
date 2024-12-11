@@ -7,10 +7,10 @@
 % * exists: boolean
 
 function exists = h5exists(file, variable)
-arguments
-  file (1,1) string {mustBeFile}
-  variable (1,1) string
-end
+% arguments
+%   file (1,1) string {mustBeFile}
+%   variable (1,1) string
+% end
 
 exists = false;
 
@@ -19,7 +19,8 @@ try
   exists = true;
 catch e
   if stdlib.isoctave
-    if ~strfind(e.message, 'does not exist')
+    disp(e.message)
+    if strcmp(e.identifier, "Octave:undefined-function") || isempty(strfind(e.message, 'does not exist'))
       rethrow(e)
     end
   else
@@ -33,9 +34,8 @@ end
 
 %!test
 %! pkg load hdf5oct
-%! fn = 'test_h5exists.h5';
+%! fn = tempname();
 %! ds = '/a';
-%! delete(fn)
 %! h5create(fn, ds, [1])
 %! assert(h5exists(fn, ds))
 %! delete(fn)

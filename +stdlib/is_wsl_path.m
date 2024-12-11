@@ -4,7 +4,7 @@
 
 function iswsl = is_wsl_path(p)
 arguments
-  p (1,1) string {mustBeNonzeroLengthText}
+  p (1,1) string
 end
 
 if ispc

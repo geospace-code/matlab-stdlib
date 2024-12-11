@@ -6,7 +6,7 @@ p_exists = {{pwd(), true}, {mfilename("fullpath") + ".m", true}, {"TestFileImpur
 
 p_is_writable = {{pwd(), true}, {"not-exists", false}};
 
-p_expand
+p_expand = {{"", ""}, {"~abc", "~abc"}, {"~", test_homedir()}, {"~/c", test_homedir() + "/c"}, {'~/////c', test_homedir() + "/c"}};
 
 p_same = {...
 {"","", false}, ...
@@ -17,26 +17,6 @@ p_same = {...
 ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname), string.empty}}
 end
 
-
-methods (TestParameterDefinition, Static)
-
-function p_expand = init_expand()
-cwd = fileparts(mfilename("fullpath"));
-top = fullfile(cwd, "..");
-addpath(top)
-p_expand = {{"", ""}, {"~abc", "~abc"}, {"~", stdlib.homedir()}, {"~/c", stdlib.homedir() + "/c"}, {'~/////c', stdlib.homedir() + "/c"}};
-end
-end
-
-
-methods(TestClassSetup)
-
-function setup_path(tc)
-top = fullfile(fileparts(mfilename("fullpath")), "..");
-tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
-end
-
-end
 
 methods (Test)
 

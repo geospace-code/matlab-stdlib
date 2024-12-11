@@ -2,8 +2,12 @@
 % return value of environment variable SHELL
 % this is mostly relevant on unix-like systems
 
-function shell = get_shell()
+function s = get_shell()
 
-shell = string(getenv("SHELL"));
+s = getenv("SHELL");
+
+try %#ok<TRYNC>
+  s = string(s);
+end
 
 end

@@ -23,4 +23,4 @@ if any(contains(addons.Name, 'Parallel Computing Toolbox'))
   ispar = ~isempty(getCurrentWorker());
 end
 
-end % function
+end

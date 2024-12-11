@@ -4,9 +4,9 @@
 %
 
 function r = posix(p)
-arguments
-  p (1,1) string
-end
+% arguments
+%   p (1,1) string
+% end
 
 if ispc
   r = strrep(p, '\', '/');

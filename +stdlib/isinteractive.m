@@ -1,9 +1,15 @@
 %% ISINTERACTIVE tell if being run interactively
 %
-% Matlab-only as this test doesn't work for Octave.
-%
 % NOTE: don't use batchStartupOptionUsed as it neglects the "-nodesktop" case
 
-function isinter = isinteractive()
-isinter = usejava('desktop');
+function g = isinteractive()
+
+if stdlib.isoctave()
+  g = ~isempty(graphics_toolkit());
+else
+  g = usejava('desktop');
 end
+
+end
+
+%!assert (islogical(isinteractive()))

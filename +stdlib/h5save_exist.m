@@ -32,11 +32,11 @@ end
 end
 
 %!test
-%! fn = 'test_h5save_exist.h5';
+%! pkg load hdf5oct
+%! fn = tempname();
 %! ds = '/a';
 %! a = [1,2];
 %! b = [3,4];
-%! delete(fn)
 %! h5save_new(fn, ds, a, size(a), 0)
 %! h5save_exist(fn, ds, b, size(b))
 %! assert(h5read(fn, ds), b)

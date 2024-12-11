@@ -6,9 +6,9 @@
 
 
 function r = root_name(p)
-arguments
-  p (1,1) string
-end
+% arguments
+%   p (1,1) string
+% end
 
 r = "";
 
@@ -17,7 +17,7 @@ if ~ispc || stdlib.len(p) < 2
 end
 
 if ischar(p)
-  if p(2) == ':' && isletter(p(1))  %#ok<UNRCH>
+  if p(2) == ':' && isletter(p(1))
     r = p(1:2);
   end
 else

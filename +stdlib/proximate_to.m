@@ -1,10 +1,10 @@
 %% PROXIMATE_TO proximate path to base
 
 function r = proximate_to(base, other)
-arguments
-  base (1,1) string
-  other (1,1) string
-end
+% arguments
+%   base (1,1) string
+%   other (1,1) string
+% end
 
 r = stdlib.relative_to(base, other);
 

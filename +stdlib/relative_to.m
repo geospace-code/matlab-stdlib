@@ -1,10 +1,10 @@
 %% RELATIVE_TO relative path to base
 
 function r = relative_to(base, other)
-arguments
-  base (1,1) string
-  other (1,1) string
-end
+% arguments
+%   base (1,1) string
+%   other (1,1) string
+% end
 
 % must remove trailing slashes
 b1 = stdlib.drop_slash(base);
@@ -33,7 +33,7 @@ if w
 end
 
 try
-  r = stdlib.posix(b.relativize(o).toString());
+  r = b.relativize(o).toString();
 catch e
   r = "";
   if stdlib.isoctave()
@@ -46,6 +46,12 @@ catch e
     end
   end
 end
+
+if isstring(b1)
+  r = string(r);
+end
+
+r = stdlib.posix(r);
 
 end
 

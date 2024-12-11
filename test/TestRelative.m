@@ -74,9 +74,9 @@ p_is_subdir = {
 % NOTE: ".." in is_subdir (either argument) is ambiguous
 
 if ispc
-    p_is_subdir{end+1} = {"c:\", "c:/", false};
+  p_is_subdir{end+1} = {"c:\", "c:/", false};
 else
-    p_is_subdir{end+1} = {"/", "/", false};
+  p_is_subdir{end+1} = {"/", "/", false};
 end
 
 end

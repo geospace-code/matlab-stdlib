@@ -51,8 +51,8 @@ end
 function test_read_symlink(tc)
 import matlab.unittest.constraints.IsOfClass
 
-tc.verifyEmpty(stdlib.read_symlink("not-exist"))
-tc.verifyEmpty(stdlib.read_symlink(tc.d.this))
+tc.verifyEqual(stdlib.read_symlink("not-exist"), "")
+tc.verifyEqual(stdlib.read_symlink(tc.d.this), "")
 
 t = stdlib.read_symlink(tc.d.link);
 tc.verifyNotEmpty(t)

@@ -20,8 +20,8 @@ import matlab.unittest.constraints.IsFolder
 
 tc.assumeTrue(ispc, "Windows only")
 
-progdir = getenv("PROGRAMFILES");
-tc.assumeThat(progdir, IsFolder, "PROGRAMFILES is not a directory")
+progdir = string(getenv("PROGRAMFILES"));
+tc.assumeThat(progdir, IsFolder, "env:PROGRAMFILES is not a directory")
 
 short = stdlib.windows_shortname(progdir);
 

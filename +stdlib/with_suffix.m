@@ -7,10 +7,10 @@
 % * f: modified filename
 
 function f = with_suffix(p, suffix)
-arguments
-  p (1,1) string
-  suffix (1,1) string
-end
+% arguments
+%   p (1,1) string
+%   suffix (1,1) string
+% end
 
 r = stdlib.parent(p);
 s = stdlib.stem(p);
@@ -20,7 +20,7 @@ if stdlib.len(s) == 0
   return
 end
 
-if r == '.'
+if strcmp(r, '.')
   f = s;
 elseif ischar(r)
   f = strcat(r, '/', s);

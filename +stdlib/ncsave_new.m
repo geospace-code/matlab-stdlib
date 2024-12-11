@@ -22,10 +22,10 @@ ncwrite(file, varname, A)
 end
 
 %!test
-%! fn = 'test_ncsave_new.nc';
+%! pkg load netcdf
+%! fn = tempname();
 %! ds = 'a';
 %! a = [1,2];
-%! delete(fn)
 %! ncsave_new(fn, ds, a, size(a), {"x", 1, "y", 2}, 0)
 %! assert(ncread(fn, ds), a)
 %! delete(fn)

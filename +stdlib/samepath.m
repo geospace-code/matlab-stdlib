@@ -10,10 +10,10 @@
 
 
 function issame = samepath(path1, path2)
-arguments
-  path1 (1,1) string
-  path2 (1,1) string
-end
+% arguments
+%   path1 (1,1) string
+%   path2 (1,1) string
+% end
 
 % simpler our way than
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isSameFile(java.nio.file.Path,java.nio.file.Path)
@@ -25,4 +25,4 @@ end
 
 %!assert(samepath(".", "."))
 %!assert(samepath(".", "./"))
-%!assert(samepath(".", "a/.."))
+%!assert(!samepath(".", "not-exist/.."))

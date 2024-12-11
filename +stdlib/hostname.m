@@ -12,3 +12,5 @@ else
 end
 
 end
+
+%!assert (!isempty(hostname()))

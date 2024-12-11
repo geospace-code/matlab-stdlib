@@ -6,9 +6,9 @@
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getUsableSpace()
 
 function f = diskfree(d)
-arguments
-  d (1,1) string {mustBeFolder}
-end
+% arguments
+%   d (1,1) string
+% end
 
 if stdlib.isoctave()
   o = javaObject("java.io.File", d);

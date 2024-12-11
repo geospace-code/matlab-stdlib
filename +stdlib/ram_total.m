@@ -6,6 +6,7 @@
 % * bytes: total physical RAM [bytes]
 
 function bytes = ram_total()
+
 b = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
 
 if stdlib.java_api() < 14

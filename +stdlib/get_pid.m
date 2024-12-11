@@ -2,7 +2,7 @@
 
 function pid = get_pid()
 
-if stdlib.isoctave
+if stdlib.isoctave()
   pid = getpid();
 else
   pid = feature("getpid");

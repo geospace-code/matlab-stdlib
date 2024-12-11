@@ -2,9 +2,9 @@
 %
 
 function p = parent(pth)
-arguments
-  pth (1,1) string
-end
+% arguments
+%   pth (1,1) string
+% end
 
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getParent()
 % java was 10x slower and not correct for input like C:

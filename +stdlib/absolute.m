@@ -17,14 +17,23 @@
 % non-existant path is made absolute relative to pwd
 
 function c = absolute(p, base, expand_tilde, use_java)
-arguments
-  p (1,1) string
-  base (1,1) string = ""
-  expand_tilde (1,1) logical = true
-  use_java (1,1) logical = false
+% arguments
+%   p (1,1) string
+%   base (1,1) string = ""
+%   expand_tilde (1,1) logical = true
+%   use_java (1,1) logical = false
+% end
+if nargin < 2, base = ""; end
+if nargin < 3, expand_tilde = true; end
+if nargin < 4, use_java = false; end
+
+cwd = pwd();
+
+try %#ok<TRYNC>
+  cwd = string(cwd);
 end
 
-cwd = stdlib.posix(pwd());
+cwd = stdlib.posix(cwd);
 
 Lb = stdlib.len(base);
 
@@ -70,5 +79,5 @@ end
 end
 
 
-%!assert(absolute('', '', 0,0), posix(pwd))
-%!assert(absolute('a/b', '', 0,0), posix(fullfile(pwd, 'a/b')))
+%!assert(absolute('', ''), posix(pwd))
+%!assert(absolute('a/b', ''), posix(fullfile(pwd, 'a/b')))

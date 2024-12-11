@@ -9,10 +9,10 @@
 % * r: logical
 
 function r = version_atleast(in, ref)
-arguments
-  in (1,1) string
-  ref (1,1) string
-end
+% arguments
+%   in (1,1) string
+%   ref (1,1) string
+% end
 
 if stdlib.isoctave()
   r = compare_versions(in, ref, '>=');

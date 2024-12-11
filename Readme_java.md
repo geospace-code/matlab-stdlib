@@ -1,36 +1,14 @@
 # Matlab-Stdlib Java implementation
 
-Matlab has used Java extensively internally for over a decade.
-While the "New Desktop" is HTML and JavaScript based, and already other new GUI elements in Matlab were not using Java, the underlying JRE interface is treated at least like other Matlab external languages such as C++ and Python.
+Matlab has used Java since before Matlab R2006a.
+GNU Octave also can [use Java](https://docs.octave.org/latest/Set-up-the-JVM.html).
 Matlab-Stdlib uses only factory JRE classes.
 
-For reference, it is readily possible in general to use non-factory
-[Java classes](https://www.mathworks.com/help/matlab/matlab_external/static-path-of-java-class-path.html)
-in Matlab.
-
-The Matlab-Stdlib package uses Java functions throughout, including:
-
-* [java.lang.ProcessBuilder](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/ProcessBuilder.html)
-* [java.lang.System](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/System.html)
-* [java.nio.file](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html)
-* [java.io.File](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/File.html)
-* [java.net.InetAddress](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/net/InetAddress.html)
-* [java.lang.management.ManagementFactory](https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html)
-* [java.security.MessageDigest](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/security/MessageDigest.html)
-
-## Java version
-
-Get the JVM version with
+Tell JVM version
 
 ```matlab
 version("-java")
 ```
-
-Get the JVM details with
-
-```matlab
-jenv
-```.
 
 Get the Java API level:
 
@@ -44,6 +22,15 @@ Get the Java version:
 stdlib.java_version
 ```
 
+If desired (not used by Matlab-stdlib), one can use non-factory Java classes in
+[Matlab](](https://www.mathworks.com/help/matlab/matlab_external/static-path-of-java-class-path.html))
+and
+[GNU Octave](https://docs.octave.org/interpreter/Making-Java-Classes-Available.html).
+
+
+## Configure Matlab JVM
+
+The Matlab Java interface is like other Matlab external languages such as Python.
 The Matlab default
 [JVM can be configured](https://www.mathworks.com/help/matlab/matlab_external/configure-your-system-to-use-java.html)
 to
@@ -53,6 +40,12 @@ across
 by using the
 [jenv](https://www.mathworks.com/help/matlab/ref/jenv.html)
 Matlab function.
+
+Tell JVM details:
+
+```matlab
+jenv
+```
 
 For example, to use the
 [JDK 17 on macOS](https://www.oracle.com/java/technologies/downloads/#jdk17-mac)
@@ -69,4 +62,15 @@ if Matlab can't start or has problems, from system Terminal (not within Matlab):
 
 ```sh
 matlab_jenv factory
+```
+
+## Configure GNU Octave JVM
+
+GNU [Octave JVM](https://docs.octave.org/latest/Set-up-the-JVM.html)
+can be configured with the JAVA_HOME environment variable.
+Some install packages don't include Java.
+For example, with Homebrew:
+
+```sh
+brew install octave openjdk
 ```

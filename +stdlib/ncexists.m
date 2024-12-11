@@ -7,10 +7,10 @@
 % * exists: boolean
 
 function exists = ncexists(file, variable)
-arguments
-  file (1,1) string {mustBeFile}
-  variable (1,1) string
-end
+% arguments
+%   file (1,1) string {mustBeFile}
+%   variable (1,1) string
+% end
 
 exists = false;
 
@@ -20,7 +20,7 @@ try
 catch e
   if stdlib.isoctave()
     disp(e)
-    if ~strfind(e.message, 'No such file or directory')
+    if strcmp(e.identifier, "Octave:undefined-function") || isempty(strfind(e.message, 'No such file or directory'))
       rethrow(e)
     end
   else
@@ -35,9 +35,8 @@ end
 
 %!test
 %! pkg load netcdf
-%! fn = 'test_exists.nc';
+%! fn = tempname();
 %! ds = 'a';
-%! delete(fn)
 %! nccreate(fn, ds)
 %! assert(ncexists(fn, ds))
 %! delete(fn)

@@ -8,10 +8,10 @@
 % fsize: vector of variable size per dimension. Empty if scalar variable.
 
 function fsize = ncsize(file, variable)
-arguments
-  file (1,1) string {mustBeFile}
-  variable (1,1) string {mustBeNonzeroLengthText}
-end
+% arguments
+%   file (1,1) string {mustBeFile}
+%   variable (1,1) string
+% end
 
 dsi = ncinfo(file, variable);
 if isempty(dsi.Dimensions)
@@ -24,8 +24,7 @@ end
 
 %!test
 %! pkg load netcdf
-%! fn = 'test_size.nc';
-%! delete(fn)
+%! fn = tempname();
 %! nccreate(fn, 'a')
 %! assert(ncsize(fn, 'a'), [])
 %! nccreate(fn, 'b', 'Dimensions', {'x', 2, 'y', 3})

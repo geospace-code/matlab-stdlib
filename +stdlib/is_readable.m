@@ -3,10 +3,11 @@
 % non-existant file is false
 
 function ok = is_readable(file, use_java)
-arguments
-  file (1,1) string
-  use_java (1,1) logical = false
-end
+% arguments
+%   file (1,1) string
+%   use_java (1,1) logical = false
+% end
+if nargin < 2, use_java = false; end
 
 if use_java
   % java is about 10x slower than fileattrib
@@ -23,5 +24,5 @@ end
 
 end
 
-%!assert (is_readable('is_readable.m', false))
-%!assert (is_readable('', false), false)
+%!assert (is_readable('is_readable.m'))
+%!assert (!is_readable(''))

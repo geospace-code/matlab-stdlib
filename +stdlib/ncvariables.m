@@ -9,10 +9,12 @@
 % * names: variable names
 
 function names = ncvariables(file, group)
-arguments
-  file (1,1) string {mustBeFile}
-  group (1,1) string = ""
-end
+% arguments
+%   file (1,1) string {mustBeFile}
+%   group (1,1) string = ""
+% end
+if nargin < 2, group = ""; end
+
 
 if stdlib.len(group) == 0
   finf = ncinfo(file);
@@ -23,7 +25,7 @@ end
 ds = finf.Variables(:);
 
 if ischar(file)
-  if isempty(ds) %#ok<UNRCH>
+  if isempty(ds)
     names = [];
   else
     names = {ds.Name};
@@ -42,9 +44,8 @@ end
 
 %!test
 %! pkg load netcdf
-%! fn = 'test_variables.nc';
+%! fn = tempname();
 %! ds = 'a';
-%! delete(fn)
 %! nccreate(fn, ds)
 %! assert(ncvariables(fn, ''), {'a'})
 %! delete(fn)

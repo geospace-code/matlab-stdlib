@@ -1,14 +1,39 @@
 %% GET_MODTIME get path modification time
 
 function t = get_modtime(p)
-arguments
-  p (1,1) string
-end
+% arguments
+%   p (1,1) string
+% end
 
 if stdlib.exists(p)
-  t = datetime(java.io.File(p).lastModified()/1e3, "ConvertFrom", "PosixTime");
+  if stdlib.isoctave()
+    o = javaObject("java.io.File", p);
+  else
+    o = java.io.File(p);
+  end
+  utc = o.lastModified() / 1000;
+
+  try
+    t = datetime(utc, "ConvertFrom", "PosixTime");
+  catch e
+    if strcmp(e.identifier, "Octave:undefined-function")
+      t = utc;
+    else
+      rethrow(e);
+    end
+  end
 else
-  t = datetime.empty();
+  try
+    t = datetime.empty();
+  catch
+    t = [];
+  end
 end
 
 end
+
+%!test
+%! p = tempname();
+%! assert(touch(p))
+%! assert(get_modtime(p) > 0)
+%! delete(p)

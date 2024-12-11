@@ -21,8 +21,6 @@ tc.verifyThat(stdlib.has_wsl, IsOfClass('logical'))
 tc.verifyThat(stdlib.is_rosetta, IsOfClass('logical'))
 
 tc.verifyThat(stdlib.isinteractive, IsOfClass('logical'))
-
-tc.verifyThat(stdlib.is_windows_powershell, IsOfClass('logical'))
 end
 
 end

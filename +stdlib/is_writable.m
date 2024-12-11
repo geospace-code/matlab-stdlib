@@ -3,10 +3,11 @@
 % non-existant file is false
 
 function ok = is_writable(file, use_java)
-arguments
-  file (1,1) string
-  use_java (1,1) logical = false
-end
+% arguments
+%   file (1,1) string
+%   use_java (1,1) logical = false
+% end
+if nargin < 2, use_java = false; end
 
 if use_java
   % java is about 10x slower than fileattrib
@@ -23,5 +24,5 @@ end
 
 end
 
-%!assert (is_writable('is_writable.m', false))
-%!assert (is_writable('', false), false)
+%!assert (is_writable('is_writable.m'))
+%!assert (!is_writable(''))

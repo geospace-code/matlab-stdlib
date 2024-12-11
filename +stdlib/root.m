@@ -4,10 +4,11 @@
 
 
 function r = root(p, use_java)
-arguments
-  p (1,1) string
-  use_java (1,1) logical = false
-end
+% arguments
+%   p (1,1) string
+%   use_java (1,1) logical = false
+% end
+if nargin < 2, use_java = false; end
 
 r = "";
 if stdlib.len(p) == 0
@@ -24,21 +25,21 @@ elseif use_java
   r = stdlib.posix(java.io.File(p).toPath().getRoot().toString());
 else
 
-r = stdlib.root_name(p);
+  r = stdlib.root_name(p);
 
-if strlength(r) == 0
-  if startsWith(p, "/")
-    r = "/";
+  if strlength(r) == 0
+    if startsWith(p, "/")
+      r = "/";
+    end
+
+    return
   end
 
-  return
-end
+  if ispc && r == p
+    return
+  end
 
-if ispc && r == p
-  return
-end
-
-r = r + "/";
+  r = r + "/";
 
 end
 
