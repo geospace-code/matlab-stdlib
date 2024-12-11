@@ -11,3 +11,5 @@ try %#ok<TRYNC>
 end
 
 end
+
+%!assert(ischar(get_shell()))

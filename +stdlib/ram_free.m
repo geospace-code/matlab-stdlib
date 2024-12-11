@@ -7,7 +7,11 @@
 
 function freebytes = ram_free()
 
+if stdlib.isoctave()
+  b = javaMethod("getOperatingSystemMXBean", "java.lang.management.ManagementFactory");
+else
   b = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
+end
 
 if stdlib.java_api() < 14
   freebytes = b.getFreePhysicalMemorySize();
@@ -16,3 +20,5 @@ else
 end
 
 end
+
+%!assert(ram_free()>0)

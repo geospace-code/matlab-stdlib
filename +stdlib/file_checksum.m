@@ -10,31 +10,41 @@
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#getInstance(java.lang.String)
 
 function hash = file_checksum(file, method)
-arguments
-  file (1,1) string {mustBeFile}
-  method (1,1) string {mustBeNonzeroLengthText}
-end
+% arguments
+%   file (1,1) string {mustBeFile}
+%   method (1,1) string
+% end
 
-if any(method == ["sha256", "SHA256"])
+if strcmp(method, "sha256") || strcmp(method, "SHA256")
   method = "SHA-256";
 end
 
 file_chunk = 10e6;  % arbitrary (bytes) didn't seem to be very sensitive for speed
 
-inst = java.security.MessageDigest.getInstance(method);
+if stdlib.isoctave()
+  inst = javaMethod("getInstance", "java.security.MessageDigest", method);
+else
+  inst = java.security.MessageDigest.getInstance(method);
+end
 
 fid = fopen(file, 'r');
-assert(fid > 0, "could not open " + file)
+assert(fid > 0, "could not open %s", file)
 
 while ~feof(fid)
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#update(byte)
-  inst.update(fread(fid, file_chunk, '*uint8'))
+  inst.update(fread(fid, file_chunk, '*uint8'));
 end
 fclose(fid);
 
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#digest()
 hash = typecast(inst.digest, 'uint8');
 
-hash = string(sprintf('%.2x', hash));
+hash = sprintf('%.2x', hash);
+
+try %#ok<TRYNC>
+  hash = string(hash);
+end
 
 end
+
+%!assert(!isempty(file_checksum('file_checksum.m', "sha256")))

@@ -12,3 +12,5 @@ elseif isunix
 end
 
 end
+
+%!assert(islogical(iscygwin()))
