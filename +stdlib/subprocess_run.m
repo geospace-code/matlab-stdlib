@@ -1,4 +1,5 @@
-%% SUBPROCESS_RUN run process with optional cwd, env. vars, stdin, timeout
+%% SUBPROCESS_RUN run process for Matlab only
+% with optional cwd, env. vars, stdin, timeout
 %
 % handles command lines with spaces
 % input each segment of the command as an element in a string array
@@ -23,7 +24,7 @@
 %
 % NOTE: if cwd option used, any paths must be absolute or relative to cwd.
 % otherwise, they are relative to pwd.
-% SUBPROCESS_RUN run a program with arguments and options
+%
 % uses Matlab Java ProcessBuilder interface to run subprocess and use stdin/stdout pipes
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html
 
