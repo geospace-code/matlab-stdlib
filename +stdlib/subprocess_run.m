@@ -1,6 +1,6 @@
-%% SUBPROCESS_RUN run process with optional cwd, env. vars, stdin stream
+%% SUBPROCESS_RUN run process with optional cwd, env. vars, stdin, timeout
 %
-% handle command lines with spaces
+% handles command lines with spaces
 % input each segment of the command as an element in a string array
 % this is how python subprocess.run works
 %
@@ -9,8 +9,10 @@
 % * opt.env: environment variable struct to set
 % * opt.cwd: working directory to use while running command
 % * opt.stdin: string to pass to subprocess stdin pipe
+% * opt.timeout: time to wait for process to complete before erroring (seconds)
 %%% Outputs
-% * status: 0 is success
+% * status: 0 is generally success. -1 if timeout. Other codes as per the
+% program / command run
 % * stdout: stdout from process
 % * stderr: stderr from process
 %
@@ -31,6 +33,7 @@ arguments
   opt.env (1,1) struct = struct()
   opt.cwd (1,1) string = ""
   opt.stdin (1,1) string = ""
+  opt.timeout (1,1) int64 = 0
 end
 
 %% process instantiation
@@ -67,8 +70,23 @@ if strlength(opt.stdin) > 0
 end
 
 %% wait for process to complete
-% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Process.html#waitFor()
-status = h.waitFor();
+% https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Process.html#waitFor()
+
+tmsg = "";
+if opt.timeout > 0
+  % returns true if process completed successfully
+  % returns false if process did not complete within timeout
+  b = h.waitFor(opt.timeout, java.util.concurrent.TimeUnit.SECONDS);
+  if b
+    status = 0;
+  else
+    tmsg = "Subprocess timeout";
+    status = -1;
+  end
+else
+  % returns 0 if process completed successfully
+  status = h.waitFor();
+end
 
 %% read stdout, stderr pipes
 stdout = read_stream(h.getInputStream());
@@ -76,6 +94,8 @@ stderr = read_stream(h.getErrorStream());
 
 %% close process
 h.destroy()
+
+stderr = tmsg + stderr;
 
 if nargout < 2 && strlength(stdout) > 0
   disp(stdout)

@@ -76,6 +76,25 @@ end
 
 end
 
+
+function test_timeout(tc)
+import matlab.unittest.constraints.StartsWithSubstring
+
+timeout = 1;
+
+if ispc
+  c = ["powershell", "-command", "Start-Sleep -s 3"];
+else
+  c = ["sleep", "3"];
+end
+
+[ret, ~, err] = stdlib.subprocess_run(c, timeout=timeout);
+
+tc.verifyNotEqual(ret, 0, err)
+tc.verifyThat(err, StartsWithSubstring("Subprocess timeout"))
+
+end
+
 end
 
 end
