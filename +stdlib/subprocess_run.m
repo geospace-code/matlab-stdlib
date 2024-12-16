@@ -37,10 +37,10 @@ arguments
 end
 
 %% process instantiation
-proc = java.lang.ProcessBuilder("");
+% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html#command(java.lang.String...)
+proc = java.lang.ProcessBuilder(cmd);
 
 if ~isempty(fieldnames(opt.env))
-  % requires Parallel Computing Toolbox
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html#environment()
   env = proc.environment();
   fields = fieldnames(opt.env);
@@ -54,9 +54,6 @@ if strlength(opt.cwd) > 0
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html#directory(java.io.File)
   proc.directory(java.io.File(opt.cwd));
 end
-
-% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html#command(java.lang.String...)
-proc.command(cmd);
 %% start process
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html#start()
 h = proc.start();
