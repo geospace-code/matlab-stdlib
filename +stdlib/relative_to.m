@@ -33,7 +33,7 @@ if w
 end
 
 try
-  r = b.relativize(o).toString();
+  r = jPosix(b.relativize(o));
 catch e
   r = "";
   if stdlib.isoctave()
@@ -46,12 +46,6 @@ catch e
     end
   end
 end
-
-if isstring(b1)
-  r = string(r);
-end
-
-r = stdlib.posix(r);
 
 end
 

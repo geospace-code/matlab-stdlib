@@ -16,12 +16,14 @@ end
 
 
 if stdlib.isoctave()
-  n = stdlib.posix(javaObject("java.io.File", p).toPath().normalize().toString());
+  o = javaObject("java.io.File", p).toPath().normalize();
+  n = jPosix(o);
 elseif use_java
-  n = stdlib.posix(java.io.File(p).toPath().normalize().toString());
+  o = java.io.File(p).toPath().normalize();
+  n = jPosix(o);
 else
 
-  n = stdlib.posix(string(p));
+  n = stdlib.posix(p);
 
   % use split to remove /../ and /./ and duplicated /
   parts = split(n, '/');
