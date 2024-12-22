@@ -15,8 +15,7 @@ import matlab.unittest.constraints.IsOfClass
 tc.verifyThat(stdlib.iscygwin, IsOfClass('logical'))
 tc.verifyThat(stdlib.isoctave, IsOfClass('logical'))
 
-tc.verifyThat(stdlib.iswsl, IsOfClass('logical'))
-tc.verifyThat(stdlib.has_wsl, IsOfClass('logical'))
+tc.verifyThat(stdlib.is_wsl, IsOfClass('logical'))
 
 tc.verifyThat(stdlib.is_rosetta, IsOfClass('logical'))
 
