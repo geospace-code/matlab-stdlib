@@ -7,7 +7,7 @@ arguments
 end
 
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getParent()
-% java was 10x slower and not correct for input like C:
+% java was 10x slower and not correct for input like C:/
 
 p = stdlib.drop_slash(pth);
 

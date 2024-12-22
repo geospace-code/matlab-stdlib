@@ -10,19 +10,12 @@ arguments
 end
 
 
-r = "";
-if stdlib.len(p) == 0
-  return
-end
-
-
 if stdlib.isoctave()
   o = javaObject("java.io.File", p).toPath().getRoot();
-  if ~isempty(o)
-    r = stdlib.posix(o.toString());
-  end
+  r = jPosix(o);
 elseif use_java
-  r = stdlib.posix(java.io.File(p).toPath().getRoot().toString());
+  o = java.io.File(p).toPath().getRoot();
+  r = jPosix(o);
 else
 
   r = stdlib.root_name(p);
