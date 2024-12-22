@@ -10,6 +10,11 @@ function ok = is_exe(p, use_java)
 % end
 if nargin < 2, use_java = false; end
 
+if ~isfile(p)
+  ok = false;
+  return
+end
+
 if stdlib.isoctave()
   ok = javaObject("java.io.File", p).canExecute();
 elseif use_java
