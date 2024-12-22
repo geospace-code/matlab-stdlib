@@ -11,28 +11,12 @@ end
 b = stdlib.drop_slash(base);
 o = stdlib.drop_slash(other);
 
-Lb = stdlib.len(b);
-Lo = stdlib.len(o);
-
-if ~Lb && ~Lo
-  p = "";
-  return
-end
-
-if ~Lb
-  p = o;
-  return
-end
-
-if ~stdlib.len(o)
-  p = b;
-  return
-end
-
 if stdlib.isoctave()
-  p = javaObject("java.io.File", b).toPath().resolve(o).toString();
+  o = javaObject("java.io.File", b).toPath().resolve(o);
+  p = jPosix(o);
 elseif use_java
-  p = string(java.io.File(b).toPath().resolve(o));
+  o = java.io.File(b).toPath().resolve(o);
+  p = jPosix(o);
 else
 
 if startsWith(o, "/") || (ispc && stdlib.is_absolute(o))
@@ -40,11 +24,18 @@ if startsWith(o, "/") || (ispc && stdlib.is_absolute(o))
   return
 end
 
-p = b + "/" + o;
-
+p = b;
+if strlength(o)
+  if endsWith(p, "/")
+    p = p + o;
+  elseif strlength(p)
+    p = p + "/" + o;
+  else
+    p = o;
+  end
 end
 
-p = stdlib.posix(p);
+end
 
 end
 
