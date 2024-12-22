@@ -43,6 +43,10 @@ public class Filesystem {
                 System.out.println(expanduser(argument));
             } else if (command.equals("canonical")) {
                 System.out.println(canonical(argument));
+            } else if (command.equals("parent")) {
+                System.out.println(parent(argument));
+            } else if (command.equals("root")) {
+                System.out.println(root(argument));
             } else if (command.equals("is_absolute")) {
                 System.out.println(is_absolute(argument));
             } else if (command.equals("is_exe")) {
@@ -51,6 +55,10 @@ public class Filesystem {
                 System.out.println(is_readable(argument));
             } else if (command.equals("ram_free")) {
                 System.out.println(ram_free());
+            } else if (command.equals("cpu_count")) {
+                System.out.println(cpu_count());
+            } else if (command.equals("cpu_load")) {
+                System.out.println(cpu_load());
             } else {
                 System.err.println("Command not found");
             }
@@ -93,9 +101,31 @@ public class Filesystem {
         return new File(path).canRead();
     }
 
+    public static String parent(String path) {
+        File f = new File(path);
+        return f.getParent();
+    }
+
+    public static String root(String path) {
+        File f = new File(path);
+        return f.toPath().getRoot().toString();
+    }
+
     public static Long ram_free() {
         com.sun.management.OperatingSystemMXBean os = (com.sun.management.OperatingSystemMXBean)
             java.lang.management.ManagementFactory.getOperatingSystemMXBean();
         return os.getFreeMemorySize();
+    }
+
+    public static int cpu_count() {
+        com.sun.management.OperatingSystemMXBean os = (com.sun.management.OperatingSystemMXBean)
+            java.lang.management.ManagementFactory.getOperatingSystemMXBean();
+        return os.getAvailableProcessors();
+    }
+
+    public static double cpu_load() {
+        com.sun.management.OperatingSystemMXBean os = (com.sun.management.OperatingSystemMXBean)
+            java.lang.management.ManagementFactory.getOperatingSystemMXBean();
+        return os.getCpuLoad();
     }
 }
