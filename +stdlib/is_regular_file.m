@@ -1,9 +1,9 @@
 %% IS_REGULAR_FILE check if path is a regular file
 
 function r = is_regular_file(p)
-% arguments
-%   p (1,1) string
-% end
+arguments
+  p (1,1) string
+end
 
 % needs absolute()
 p = stdlib.absolute(p, "", false, true);

@@ -17,69 +17,50 @@
 % non-existant path is made absolute relative to pwd
 
 function c = absolute(p, base, expand_tilde, use_java)
-% arguments
-%   p (1,1) string
-%   base (1,1) string = ""
-%   expand_tilde (1,1) logical = true
-%   use_java (1,1) logical = false
-% end
-if nargin < 2, base = ""; end
-if nargin < 3, expand_tilde = true; end
-if nargin < 4, use_java = false; end
-
-cwd = pwd();
-
-try %#ok<TRYNC>
-  cwd = string(cwd);
-  p = string(p);
-  base = string(base);
-end
-
-cwd = stdlib.posix(cwd);
-
-Lb = stdlib.len(base);
-
-if stdlib.len(p) == 0 && Lb == 0
-   c = cwd;
-   return
+arguments
+  p (1,1) string
+  base (1,1) string = ""
+  expand_tilde (1,1) logical = true
+  use_java (1,1) logical = true
 end
 
 if expand_tilde
   c = stdlib.expanduser(p, use_java);
 else
-  c = p;
+  c = stdlib.posix(p);
 end
 
-if stdlib.is_absolute(c, use_java)
-  c = stdlib.posix(c);
+if stdlib.is_absolute(c)
+ return
+end
+
+if stdlib.len(base) == 0
+  b = pwd();
+elseif expand_tilde
+  b = stdlib.expanduser(base, use_java);
 else
-  % .getAbsolutePath(), .toAbsolutePath()
-  % default is Documents/Matlab, which is probably not wanted.
-  if Lb == 0
-    if ischar(cwd)
-      c = strcat(cwd, '/', c);
-    else
-      c = cwd + "/" + c;
-    end
+  b = base;
+end
+b = stdlib.posix(b);
+
+if stdlib.is_absolute(b)
+  if ischar(c)
+    c = strcat(b, '/', c);
   else
-    d = stdlib.absolute(base, "", expand_tilde, use_java);
-    if isempty(c) || stdlib.len(c) == 0
-      c = d;
-    else
-      if ischar(d)
-        c = strcat(d, '/', c);
-      else
-        c = d + "/" + c;
-      end
-    end
+    c = b + "/" + c;
+  end
+else
+  if ischar(c)
+    c = strcat(pwd(), '/', b, '/', c);
+  else
+    c = pwd() + "/" + b + "/" + c;
   end
 end
 
-% not needed:
-% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getAbsolutePath()
+c = stdlib.drop_slash(c);
 
 end
 
 
-%!assert(absolute('', ''), posix(pwd))
-%!assert(absolute('a/b', ''), posix(fullfile(pwd, 'a/b')))
+%!assert(absolute('', '', false), posix(pwd))
+%!assert(absolute('a/b', '', false), posix(strcat(pwd(), '/a/b')))

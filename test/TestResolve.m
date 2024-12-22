@@ -7,21 +7,24 @@ top = fullfile(fileparts(mfilename("fullpath")), "..");
 tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
 end
 
+
+function setup_workdir(tc)
+import matlab.unittest.constraints.IsFile
+import matlab.unittest.fixtures.TemporaryFolderFixture
+import matlab.unittest.fixtures.CurrentFolderFixture
+
+workdir = tc.applyFixture(TemporaryFolderFixture).Folder;
+tc.applyFixture(CurrentFolderFixture(workdir))
+end
+
 end
 
 
 methods(Test)
 
 function test_absolute(tc)
-import matlab.unittest.fixtures.TemporaryFolderFixture
-import matlab.unittest.fixtures.CurrentFolderFixture
-import matlab.unittest.constraints.StartsWithSubstring
-import matlab.unittest.constraints.EndsWithSubstring
 
-td = tc.applyFixture(TemporaryFolderFixture).Folder;
-tc.applyFixture(CurrentFolderFixture(td))
-
-td = stdlib.posix(string(td));
+td = stdlib.posix(string(pwd()));
 
 tc.verifyEqual(stdlib.absolute(""), td)
 tc.verifyEqual(stdlib.absolute("",""), td)
@@ -40,16 +43,10 @@ end
 
 
 function test_resolve_non_exist(tc)
-import matlab.unittest.fixtures.TemporaryFolderFixture
-import matlab.unittest.fixtures.CurrentFolderFixture
 import matlab.unittest.constraints.StartsWithSubstring
-import matlab.unittest.constraints.EndsWithSubstring
 import matlab.unittest.constraints.ContainsSubstring
 
-td = stdlib.posix(tc.applyFixture(TemporaryFolderFixture).Folder);
-tc.applyFixture(CurrentFolderFixture(td))
-
-td = string(td);
+td = stdlib.posix(string(pwd()));
 
 % all non-existing files
 
@@ -79,22 +76,14 @@ tc.verifyTrue(strncmp(va, vb, 2))
 end
 
 function test_resolve_exist(tc)
-import matlab.unittest.fixtures.TemporaryFolderFixture
-import matlab.unittest.fixtures.CurrentFolderFixture
-import matlab.unittest.constraints.StartsWithSubstring
-import matlab.unittest.constraints.EndsWithSubstring
-import matlab.unittest.constraints.ContainsSubstring
 
-td = stdlib.posix(tc.applyFixture(TemporaryFolderFixture).Folder);
-tc.applyFixture(CurrentFolderFixture(td))
-
-td = string(td);
+td = stdlib.posix(string(pwd()));
 
 r = stdlib.parent(mfilename('fullpath'));
 rp = stdlib.parent(r);
 tc.verifyEqual(stdlib.resolve(rp), string(stdlib.parent(r)))
 
-h = stdlib.homedir;
+h = stdlib.homedir();
 tc.verifyEqual(stdlib.resolve("~"), h)
 tc.verifyEqual(stdlib.resolve("~/"), h)
 tc.verifyEqual(stdlib.resolve("~/.."), stdlib.parent(h))
