@@ -2,21 +2,26 @@
 % filename (including suffix) without directory
 
 function f = filename(p)
-% arguments
-%   p (1,1) string
-% end
+arguments
+  p (1,1) string
+end
 
 % NOT https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getName()
 % because by our definition, a trailing directory component is not part of the filename
 % this is like C++17 filesystem::path::filename
 
-[~, n, e] = fileparts(p);
+p = stdlib.posix(p);
 
-if ischar(n)
-  f = strcat(n, e);
+i = strfind(p, "/");
+
+if isempty(i)
+  f = p;
+elseif ischar(p)
+  f = p(i(end)+1:end);
 else
-  f = n + e;
+  f = extractAfter(p, i(end));
 end
+
 
 end
 
