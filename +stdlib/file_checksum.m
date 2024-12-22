@@ -10,10 +10,10 @@
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#getInstance(java.lang.String)
 
 function hash = file_checksum(file, method)
-% arguments
-%   file (1,1) string {mustBeFile}
-%   method (1,1) string
-% end
+arguments
+  file (1,1) string {mustBeFile}
+  method (1,1) string
+end
 
 if strcmp(method, "sha256") || strcmp(method, "SHA256")
   method = "SHA-256";

@@ -1,9 +1,9 @@
 %% STEM filename without directory or suffix
 
 function st = stem(p)
-% arguments
-%   p (1,1) string
-% end
+arguments
+  p (1,1) string
+end
 
 [~, n, s] = fileparts(p);
 

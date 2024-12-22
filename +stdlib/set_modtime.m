@@ -1,9 +1,9 @@
 %% SET_MODTIME set modification time of path
 
 function ok = set_modtime(p)
-% arguments
-%   p (1,1) string
-% end
+arguments
+  p (1,1) string
+end
 
 try
   utc = convertTo(datetime("now", "TimeZone", "UTC"), "posixtime");

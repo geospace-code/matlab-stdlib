@@ -9,11 +9,11 @@
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Path.html#normalize()
 
 function n = normalize(p, use_java)
-% arguments
-%   p (1,1) string
-%   use_java (1,1) logical = false
-% end
-if nargin < 2, use_java = false; end
+arguments
+  p (1,1) string
+  use_java (1,1) logical = false
+end
+
 
 if stdlib.isoctave()
   n = stdlib.posix(javaObject("java.io.File", p).toPath().normalize().toString());

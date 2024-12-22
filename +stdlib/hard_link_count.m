@@ -5,9 +5,9 @@
 % * https://docs.oracle.com/javase/tutorial/essential/io/links.html
 
 function c = hard_link_count(p)
-% arguments
-%   p (1,1) string
-% end
+arguments
+  p (1,1) string
+end
 
 if ispc || ~isfile(p)
   c = [];

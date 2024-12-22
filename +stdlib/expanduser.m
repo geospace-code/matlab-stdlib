@@ -8,11 +8,10 @@
 % * e: expanded path
 
 function e = expanduser(p, use_java)
-% arguments
-%   p (1,1) string
-%   use_java (1,1) logical = false
-% end
-if nargin < 2, use_java = false; end
+arguments
+  p (1,1) string
+  use_java (1,1) logical = false
+end
 
 e = stdlib.drop_slash(p);
 
@@ -30,26 +29,28 @@ if ng, return, end
 
 home = stdlib.homedir(use_java);
 
-if ~isempty(home)
-  d = home;
-  if L < 2
-    e = d;
-    return
-  end
+if stdlib.len(home) == 0
+  return
+end
 
-  if ischar(e)
-    e = strcat(d, '/', e(3:end));
-  else
-    e = d + "/" + extractAfter(e, 2);
-  end
+d = home;
+if L < 2
+  e = d;
+  return
+end
+
+if ischar(e)
+  e = strcat(d, '/', e(3:end));
+else
+  e = d + "/" + extractAfter(e, 2);
 end
 
 end
 
 
-%!assert(expanduser(''), '')
-%!assert(expanduser("~"), homedir())
-%!assert(expanduser("~/"), homedir())
-%!assert(expanduser("~user"), "~user")
-%!assert(expanduser("~user/"), "~user")
-%!assert(expanduser("~///c"), strcat(homedir(), "/c"))
+%!assert(expanduser('', 0), '')
+%!assert(expanduser("~", 0), homedir())
+%!assert(expanduser("~/", 0), homedir())
+%!assert(expanduser("~user", 0), "~user")
+%!assert(expanduser("~user/", 0), "~user")
+%!assert(expanduser("~///c", 0), strcat(homedir(), "/c"))

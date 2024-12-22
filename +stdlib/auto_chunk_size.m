@@ -7,12 +7,9 @@
 % * dims: proposed dataset dimensions (like size())
 
 function csize = auto_chunk_size(dims)
-% arguments
-%   dims (1,:) {mustBeInteger,mustBePositive}
-% end
-
-assert(isvector(dims), 'dims must be a vector')
-mustBePositive(dims)
+arguments
+  dims (1,:) {mustBeInteger,mustBePositive}
+end
 
 CHUNK_BASE = 16000;  % Multiplier by which chunks are adjusted
 CHUNK_MIN = 8000;    % lower limit: 8 kbyte

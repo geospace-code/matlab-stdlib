@@ -1,10 +1,10 @@
 %% RELATIVE_TO relative path to base
 
 function r = relative_to(base, other)
-% arguments
-%   base (1,1) string
-%   other (1,1) string
-% end
+arguments
+  base (1,1) string
+  other (1,1) string
+end
 
 % must remove trailing slashes
 b1 = stdlib.drop_slash(base);

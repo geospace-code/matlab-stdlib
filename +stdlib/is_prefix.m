@@ -3,10 +3,10 @@
 % duplicated slashes are dropped
 
 function s = is_prefix(prefix, pth)
-% arguments
-%   prefix (1,1) string
-%   pth (1,1) string
-% end
+arguments
+  prefix (1,1) string
+  pth (1,1) string
+end
 
 pr = stdlib.drop_slash(prefix);
 p = stdlib.drop_slash(pth);

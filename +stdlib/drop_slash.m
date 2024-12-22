@@ -1,9 +1,9 @@
 %% DROP_SLASH drop repeated and trailing slash
 
 function d = drop_slash(p)
-% arguments
-%   p (1,1) string
-% end
+arguments
+  p (1,1) string
+end
 
 s = stdlib.posix(p);
 

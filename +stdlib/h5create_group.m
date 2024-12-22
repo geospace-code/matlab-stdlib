@@ -1,14 +1,14 @@
 %% H5CREATE_GROUP create HDF5 group
 %
 %%% Inputs
-% * file: HDF5 file name or handle
+% * file: HDF5 file (string or H5ML.id)
 % * hpath: HDF5 group/dataset -- ensure final character is "/" if hpath is only a group
 %%% Outputs
 % * HDF5 file handle
 
 function fid = h5create_group(file, hpath)
 arguments
-  file
+  file (1,1)
   hpath (1,1) string {mustBeNonzeroLengthText}
 end
 

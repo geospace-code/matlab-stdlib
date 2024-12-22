@@ -9,11 +9,10 @@
 % * names: variable names
 
 function names = ncvariables(file, group)
-% arguments
-%   file (1,1) string {mustBeFile}
-%   group (1,1) string = ""
-% end
-if nargin < 2, group = ""; end
+arguments
+  file (1,1) string {mustBeFile}
+  group (1,1) string = ""
+end
 
 
 if stdlib.len(group) == 0
@@ -25,7 +24,7 @@ end
 ds = finf.Variables(:);
 
 if ischar(file)
-  if isempty(ds)
+  if isempty(ds) %#ok<UNRCH>
     names = [];
   else
     names = {ds.Name};

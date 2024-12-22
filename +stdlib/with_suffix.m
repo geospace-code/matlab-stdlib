@@ -7,10 +7,11 @@
 % * f: modified filename
 
 function f = with_suffix(p, suffix)
-% arguments
-%   p (1,1) string
-%   suffix (1,1) string
-% end
+arguments
+  p (1,1) string
+  suffix (1,1) string
+end
+
 
 r = stdlib.parent(p);
 s = stdlib.stem(p);

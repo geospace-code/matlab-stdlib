@@ -3,9 +3,9 @@
 % This function works around that bug in Matlab mkdir().
 
 function makedir(d)
-% arguments
-%   d (1,1) string {mustBeNonzeroLengthText}
-% end
+arguments
+  d (1,1) string {mustBeNonzeroLengthText}
+end
 
 %% to avoid confusing making ./~/mydir
 d = stdlib.expanduser(d);

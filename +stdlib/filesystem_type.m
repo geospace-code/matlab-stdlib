@@ -3,23 +3,17 @@
 % example outputs: ntfs, ext4, apfs, ...
 
 function t = filesystem_type(p)
-% arguments
-%   p (1,1) string
-% end
+arguments
+  p (1,1) string
+end
 
 if stdlib.isoctave()
   op = javaObject("java.io.File", p).toPath();
-  m = javaMethod("getFileStore", "java.nio.file.Files", op);
+  t = javaMethod("getFileStore", "java.nio.file.Files", op).type;
 else
   op = java.io.File(p).toPath();
-  m = java.nio.file.Files.getFileStore(op);
+  t = string(java.nio.file.Files.getFileStore(op).type);
 end
-
-  t = m.type();
-
-  try %#ok<TRYNC>
-    t = string(t);
-  end
 
 end
 

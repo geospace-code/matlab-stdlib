@@ -4,11 +4,10 @@
 
 
 function isabs = is_absolute(p, use_java)
-% arguments
-%   p (1,1)
-%   use_java (1,1) logical = false
-% end
-if nargin < 2, use_java = false; end
+arguments
+  p (1,1) string
+  use_java (1,1) logical = false
+end
 
 if stdlib.isoctave()
   % not is_absolute_filename() because this is a stricter check for "c:" false
@@ -18,7 +17,6 @@ elseif use_java
   % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/File.html#isAbsolute()
   isabs = java.io.File(p).toPath().isAbsolute();
 else
-  p = string(p);
   L = strlength(p);
   if ispc
     s = "";

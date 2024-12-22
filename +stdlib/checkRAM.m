@@ -6,10 +6,10 @@
 % certainly CAN'T create an array without digging deep into swap or worse.
 
 function [OK,newSizeBytes,freebytes] = checkRAM(newSize, myclass)
-% arguments
-%   newSize (1,:) {mustBeNumeric}
-%   myclass (1,1) string
-% end
+arguments
+  newSize (1,:) {mustBeNumeric}
+  myclass (1,1) string
+end
 
 % get available RAM
 freebytes = stdlib.ram_free();

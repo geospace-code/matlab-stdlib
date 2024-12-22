@@ -1,12 +1,12 @@
 %% JOIN join two paths with posix file separator
 
 function p = join(base, other, use_java)
-% arguments
-%   base (1,1) string
-%   other (1,1) string
-%   use_java (1,1) logical = false
-% end
-if nargin < 3, use_java = false; end
+arguments
+  base (1,1) string
+  other (1,1) string
+  use_java (1,1) logical = false
+end
+
 
 b = stdlib.drop_slash(base);
 o = stdlib.drop_slash(other);

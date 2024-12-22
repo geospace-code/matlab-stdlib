@@ -11,11 +11,10 @@
 %
 
 function ok = exists(p, use_java)
-% arguments
-%   p (1,1) string
-%   use_java (1,1) logical = false
-% end
-if nargin < 2, use_java = false; end
+arguments
+  p (1,1) string
+  use_java (1,1) logical = false
+end
 
 if stdlib.isoctave()
   ok = javaObject("java.io.File", p).exists();

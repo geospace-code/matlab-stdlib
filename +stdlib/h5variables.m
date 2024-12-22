@@ -9,11 +9,10 @@
 % * names: variable names
 
 function names = h5variables(file, group)
-% arguments
-%   file (1,1) string {mustBeFile}
-%   group (1,1) string = ""
-% end
-if nargin < 2, group = ""; end
+arguments
+  file (1,1) string {mustBeFile}
+  group (1,1) string = ""
+end
 
 if ~stdlib.len(group)
   finf = h5info(file);
@@ -24,7 +23,7 @@ end
 ds = finf.Datasets;
 
 if ischar(file)
-  if isempty(ds)
+  if isempty(ds) %#ok<UNRCH>
     names = [];
   else
     names = {ds.Name};

@@ -22,7 +22,6 @@ else
   f = extractAfter(p, i(end));
 end
 
-
 end
 
 

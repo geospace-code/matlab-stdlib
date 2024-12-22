@@ -4,9 +4,9 @@
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isSymbolicLink(java.nio.file.Path)
 
 function ok = is_symlink(p)
-% arguments
-%   p (1,1) string
-% end
+arguments
+  p (1,1) string
+end
 
 if stdlib.isoctave()
   p = stdlib.absolute(p, "", false, true);
@@ -24,6 +24,8 @@ end
 end
 
 %!test
+%! if !ispc
 %! p = tempname();
 %! assert(create_symlink(mfilename("fullpath"), p))
 %! assert(is_symlink(p))
+%! endif

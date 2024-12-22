@@ -3,9 +3,9 @@
 % empty string if path is not a symlink
 
 function r = read_symlink(p)
-% arguments
-%   p (1,1) string
-% end
+arguments
+  p (1,1) string
+end
 
 r = "";
 
@@ -33,8 +33,10 @@ r = stdlib.posix(t);
 end
 
 %!test
+%! if !ispc
 %! p = tempname();
 %! this = strcat(mfilename("fullpath"), '.m');
 %! assert (read_symlink(p), "")
 %! assert (create_symlink(this, p))
 %! assert (read_symlink(p), this)
+%! endif

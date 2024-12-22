@@ -1,9 +1,10 @@
 %% TOUCH create file if not exists, else update modification time
 
 function ok = touch(p)
-% arguments
-%   p (1,1) string
-% end
+arguments
+  p (1,1) string
+end
+
 
 if stdlib.exists(p)
   ok = stdlib.set_modtime(p);

@@ -1,9 +1,9 @@
 %% GET_MODTIME get path modification time
 
 function t = get_modtime(p)
-% arguments
-%   p (1,1) string
-% end
+arguments
+  p (1,1) string
+end
 
 if stdlib.exists(p)
   if stdlib.isoctave()

@@ -14,13 +14,12 @@
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getCanonicalPath()
 
 function c = canonical(p, expand_tilde, use_java)
-% arguments
-%   p (1,1) string
-%   expand_tilde (1,1) logical = true
-%   use_java (1,1) logical = false
-% end
-if nargin < 2, expand_tilde = true; end
-if nargin < 3, use_java = false; end
+arguments
+  p (1,1) string
+  expand_tilde (1,1) logical = true
+  use_java (1,1) logical = false
+end
+
 
 if expand_tilde
   c = stdlib.expanduser(p, use_java);
@@ -61,6 +60,6 @@ c = stdlib.posix(c);
 
 end
 
-%!assert(canonical(""), "")
-%!assert(canonical("~"), homedir())
-%!assert(canonical("a/b/.."), "a")
+%!assert(canonical("", 1, 0), "")
+%!assert(canonical("~", 1, 0), homedir())
+%!assert(canonical("a/b/..", 1, 0), "a")

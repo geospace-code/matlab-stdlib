@@ -3,9 +3,9 @@
 % output is string like "rwxrwxr--"
 
 function p = get_permissions(f)
-% arguments
-%   f (1,1) string
-% end
+arguments
+  f (1,1) string
+end
 
 p = "";
 

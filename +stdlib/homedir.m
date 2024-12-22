@@ -5,10 +5,9 @@
 % * https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/System.html#getProperties()
 
 function h = homedir(use_java)
-% arguments
-%   use_java (1,1) logical = false
-% end
-if nargin < 1, use_java = false; end
+arguments
+  use_java (1,1) logical = false
+end
 
 if stdlib.isoctave()
   h = javaMethod("getProperty", "java.lang.System", "user.home");
@@ -18,10 +17,6 @@ elseif ispc
   h = getenv("USERPROFILE");
 else
   h = getenv("HOME");
-end
-
-try %#ok<TRYNC>
-  h = string(h);
 end
 
 h = stdlib.posix(h);

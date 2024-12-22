@@ -3,17 +3,17 @@
 % duplicated slashes are dropped
 
 function s = is_subdir(subdir, dir)
-% arguments
-%   subdir (1,1) string
-%   dir (1,1) string
-% end
+arguments
+  subdir (1,1) string
+  dir (1,1) string
+end
 
 
 s = stdlib.drop_slash(subdir);
 d = stdlib.drop_slash(dir);
 
 if ischar(subdir)
-  w = ~isempty(strfind(d, "..")) || ~isempty(strfind(s, "..")); %#ok<STREMP>
+  w = ~isempty(strfind(d, "..")) || ~isempty(strfind(s, "..")); %#ok<STREMP,UNRCH>
   s = strfind(s, d) == 1 && (length(s) > length(d));
 else
   w = contains(d, "..") || contains(s, "..");
