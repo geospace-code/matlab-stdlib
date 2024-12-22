@@ -15,7 +15,10 @@ if use_java
   file = stdlib.absolute(file, "", false, true);
 
   % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html#isWritable(java.nio.file.Path)
-  ok = java.nio.file.Files.isWritable(java.io.File(file).toPath());
+  %ok = java.nio.file.Files.isWritable(java.io.File(file).toPath());
+
+  % java.io.File().canWrite() is about twice as fast
+  ok = java.io.File(file).canWrite();
 else
   [status, v] = fileattrib(file);
 

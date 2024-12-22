@@ -15,7 +15,11 @@ if use_java
   file = stdlib.absolute(file, "", false, use_java);
 
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isReadable(java.nio.file.Path)
-  ok = java.nio.file.Files.isReadable(java.io.File(file).toPath());
+  %ok = java.nio.file.Files.isReadable(java.io.File(file).toPath());
+
+  % java.io.File().canRead() is about twice as fast as
+  % java.nio.file.Files.isReadable()
+  ok = java.io.File(file).canRead();
 else
   [status, v] = fileattrib(file);
 
