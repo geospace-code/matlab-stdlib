@@ -20,14 +20,14 @@ import matlab.unittest.constraints.IsFolder
 
 tc.assumeTrue(ispc, "Windows only")
 
-progdir = string(getenv("PROGRAMFILES"));
+progdir = stdlib.posix(getenv("PROGRAMFILES"));
 tc.assumeThat(progdir, IsFolder, "env:PROGRAMFILES is not a directory")
 
 short = stdlib.windows_shortname(progdir);
 
 tc.verifySubstring(short, "PROGRA~1")
 
-tc.verifyEqual(stdlib.canonical(short), stdlib.posix(progdir))
+tc.verifyEqual(stdlib.canonical(short), progdir)
 
 end
 

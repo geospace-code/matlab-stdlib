@@ -21,11 +21,10 @@ elseif isMATLABReleaseOlderThan("R2024b")
   r = stdlib.absolute(p, "", false, true);
 
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#readSymbolicLink(java.nio.file.Path)
-  t = string(java.nio.file.Files.readSymbolicLink(java.io.File(r).toPath()));
+  t = java.nio.file.Files.readSymbolicLink(java.io.File(r).toPath());
 else
   [ok, t] = isSymbolicLink(p);
   if ~ok, return, end
-  t = string(t);
 end
 
 r = stdlib.posix(t);

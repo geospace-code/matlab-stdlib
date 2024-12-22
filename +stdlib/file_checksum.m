@@ -11,7 +11,7 @@
 
 function hash = file_checksum(file, method)
 arguments
-  file (1,1) string {mustBeFile}
+  file (1,1) string
   method (1,1) string
 end
 
@@ -28,7 +28,7 @@ else
 end
 
 fid = fopen(file, 'r');
-assert(fid > 0, "could not open %s", file)
+assert(fid > 0, "could not open file %s", file)
 
 while ~feof(fid)
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#update(byte)
@@ -41,7 +41,7 @@ hash = typecast(inst.digest, 'uint8');
 
 hash = sprintf('%.2x', hash);
 
-try %#ok<TRYNC>
+if isa(file, "string")
   hash = string(hash);
 end
 

@@ -24,7 +24,7 @@ methods(Test)
 
 function test_absolute(tc)
 
-td = stdlib.posix(string(pwd()));
+td = stdlib.posix(pwd());
 
 tc.verifyEqual(stdlib.absolute(""), td)
 tc.verifyEqual(stdlib.absolute("",""), td)
@@ -46,7 +46,7 @@ function test_resolve_non_exist(tc)
 import matlab.unittest.constraints.StartsWithSubstring
 import matlab.unittest.constraints.ContainsSubstring
 
-td = stdlib.posix(string(pwd()));
+td = stdlib.posix(pwd());
 
 % all non-existing files
 
@@ -77,11 +77,11 @@ end
 
 function test_resolve_exist(tc)
 
-td = stdlib.posix(string(pwd()));
+td = stdlib.posix(pwd());
 
 r = stdlib.parent(mfilename('fullpath'));
 rp = stdlib.parent(r);
-tc.verifyEqual(stdlib.resolve(rp), string(stdlib.parent(r)))
+tc.verifyEqual(stdlib.resolve(rp), stdlib.parent(r))
 
 h = stdlib.homedir();
 tc.verifyEqual(stdlib.resolve("~"), h)

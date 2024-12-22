@@ -118,11 +118,11 @@ tc.verifyEqual(stdlib.join(p_join{1}, p_join{2}), p_join{3})
 end
 
 function test_filename(tc, p_filename)
-tc.verifyEqual(stdlib.filename(p_filename{1}), string(p_filename{2}))
+tc.verifyEqual(stdlib.filename(p_filename{1}), p_filename{2})
 end
 
 function test_suffix(tc, p_suffix)
-tc.verifyEqual(stdlib.suffix(p_suffix{1}), string(p_suffix{2}))
+tc.verifyEqual(stdlib.suffix(p_suffix{1}), p_suffix{2})
 end
 
 

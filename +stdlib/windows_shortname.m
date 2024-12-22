@@ -6,12 +6,12 @@
 %  https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/windows-scripting/ch28h2s7
 %  https://www.mathworks.com/matlabcentral/fileexchange/48950-short-path-name-on-windows-com-server
 
-function short = windows_shortname(p)
+function s = windows_shortname(p)
 arguments
   p (1,1) string
 end
 
-short = string.empty;
+s = string.empty;
 
 if ~ispc
   return
@@ -20,12 +20,12 @@ end
 fso = actxserver('Scripting.FileSystemObject');
 
 if isfolder(p)
-  short = fso.GetFolder(p).ShortPath;
+  s = fso.GetFolder(p).ShortPath;
 elseif isfile(p)
-  short = fso.GetFile(p).ShortPath;
+  s = fso.GetFile(p).ShortPath;
 end
 
-short = string(short);
+s = string(s);
 
 delete(fso);
 
