@@ -18,15 +18,10 @@ try
   ncinfo(file, variable);
   exists = true;
 catch e
-  if stdlib.isoctave()
-    disp(e)
-    if strcmp(e.identifier, "Octave:undefined-function") || isempty(strfind(e.message, 'No such file or directory'))
-      rethrow(e)
-    end
-  else
-    if ~any(contains(e.identifier, ["MATLAB:imagesci:netcdf:badLocationString", "MATLAB:imagesci:netcdf:unknownLocation"]))
-      rethrow(e)
-    end
+  if ~strcmp(e.identifier, "MATLAB:imagesci:netcdf:badLocationString") && ...
+     ~strcmp(e.identifier, "MATLAB:imagesci:netcdf:unknownLocation")
+
+    rethrow(e)
   end
 end
 
