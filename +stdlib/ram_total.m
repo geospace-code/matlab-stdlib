@@ -7,11 +7,7 @@
 
 function bytes = ram_total()
 
-if stdlib.isoctave()
-  b = javaMethod("getOperatingSystemMXBean", "java.lang.management.ManagementFactory");
-else
-  b = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
-end
+b = javaOSBean();
 
 if stdlib.java_api() < 14
   bytes = b.getTotalPhysicalMemorySize();
