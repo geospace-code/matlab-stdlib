@@ -14,13 +14,13 @@ if ispc || ~isfile(p)
   return
 end
 
+op = javaFileObject(p).toPath();
+
 if stdlib.isoctave()
   opt = javaMethod("values", "java.nio.file.LinkOption");
-  op = javaObject("java.io.File", p).toPath();
   c = javaMethod("getAttribute", "java.nio.file.Files", op, "unix:nlink", opt);
 else
   opt = java.nio.file.LinkOption.values;
-  op = java.io.File(p).toPath();
   c = java.nio.file.Files.getAttribute(op, "unix:nlink", opt);
 end
 

@@ -8,13 +8,13 @@ end
 % needs absolute()
 p = stdlib.absolute(p, "", false, true);
 
+op = java.io.File(p).toPath();
+
 if stdlib.isoctave()
   opt = javaMethod("values", "java.nio.file.LinkOption");
-  op = javaObject("java.io.File", p).toPath();
   r = javaMethod("isRegularFile", "java.nio.file.Files", op, opt);
 else
   opt = java.nio.file.LinkOption.values;
-  op = java.io.File(p).toPath();
   r = java.nio.file.Files.isRegularFile(op, opt);
 end
 

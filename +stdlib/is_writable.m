@@ -20,15 +20,7 @@ if use_java
   % file = stdlib.absolute(file, "", false, true);
   % ok = java.nio.file.Files.isWritable(java.io.File(file).toPath());
 
-try
-  ok = java.io.File(file).canWrite();
-catch e
-  if strcmp(e.identifier, "Octave:undefined-function")
-    ok = javaObject("java.io.File", file).canWrite();
-  else
-    rethrow(e);
-  end
-end
+ok = javaFileObject(file).canWrite();
 
 else
 

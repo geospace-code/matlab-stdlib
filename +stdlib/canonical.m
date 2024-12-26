@@ -51,7 +51,7 @@ end
 % like C++ filesystem weakly_canonical()
 
 if use_java
-  c = java.io.File(c).getCanonicalPath();
+  c = javaFileObject(c).getCanonicalPath();
 else
   c = stdlib.normalize(c, use_java);
 end

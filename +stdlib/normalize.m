@@ -15,11 +15,8 @@ arguments
 end
 
 
-if stdlib.isoctave()
-  o = javaObject("java.io.File", p).toPath().normalize();
-  n = jPosix(o);
-elseif use_java
-  o = java.io.File(p).toPath().normalize();
+if use_java
+  o = javaFileObject(p).toPath().normalize();
   n = jPosix(o);
 else
 

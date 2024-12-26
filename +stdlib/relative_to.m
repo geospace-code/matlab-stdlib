@@ -18,14 +18,17 @@ if strcmp(b1, o1)
   return
 end
 
-if stdlib.isoctave()
-  w = ~isempty(strfind(b1, "..")); %#ok<STREMP>
-  b = javaObject("java.io.File", b1).toPath();
-  o = javaObject("java.io.File", o1).toPath();
-else
+b = javaFileObject(b1).toPath();
+o = javaFileObject(o1).toPath();
+
+try
   w = contains(b1, "..");
-  b = java.io.File(b1).toPath();
-  o = java.io.File(o1).toPath();
+catch e
+  if strcmp(e.identifier, "Octave:undefined-function")
+    w = ~isempty(strfind(b1, "..")); %#ok<STREMP>
+  else
+    rethrow(e);
+  end
 end
 
 if w

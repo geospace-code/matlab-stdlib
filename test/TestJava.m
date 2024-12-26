@@ -102,10 +102,9 @@ end
 
 function test_touch_modtime(tc)
 fn = tempname;
-tc.verifyTrue(stdlib.touch(fn))
+tc.verifyTrue(stdlib.touch(fn, datetime("yesterday")))
 t0 = stdlib.get_modtime(fn);
 
-pause(1.)  % empirical to avoid failing >=.  0.4 failed intermittantly
 tc.verifyTrue(stdlib.set_modtime(fn))
 t1 = stdlib.get_modtime(fn);
 

@@ -7,11 +7,11 @@ arguments
   p (1,1) string
 end
 
+op = javaFileObject(p).toPath();
+
 if stdlib.isoctave()
-  op = javaObject("java.io.File", p).toPath();
   t = javaMethod("getFileStore", "java.nio.file.Files", op).type;
 else
-  op = java.io.File(p).toPath();
   t = string(java.nio.file.Files.getFileStore(op).type);
 end
 

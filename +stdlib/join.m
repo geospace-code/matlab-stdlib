@@ -11,12 +11,9 @@ end
 b = stdlib.drop_slash(base);
 o = stdlib.drop_slash(other);
 
-if stdlib.isoctave()
-  o = javaObject("java.io.File", b).toPath().resolve(o);
-  p = jPosix(o);
-elseif use_java
-  o = java.io.File(b).toPath().resolve(o);
-  p = jPosix(o);
+if use_java
+  r = javaFileObject(b).toPath().resolve(o);
+  p = jPosix(r);
 else
 
 if startsWith(o, "/") || (ispc && stdlib.is_absolute(o))

@@ -6,12 +6,8 @@ arguments
 end
 
 if stdlib.exists(p)
-  if stdlib.isoctave()
-    o = javaObject("java.io.File", p);
-  else
-    o = java.io.File(p);
-  end
-  utc = o.lastModified() / 1000;
+
+  utc = javaFileObject(p).lastModified() / 1000;
 
   try
     t = datetime(utc, "ConvertFrom", "PosixTime");

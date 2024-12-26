@@ -132,7 +132,8 @@ end
 
 
 function test_is_absolute(tc, p_is_absolute)
-tc.verifyEqual(stdlib.is_absolute(p_is_absolute{1}), p_is_absolute{2}, p_is_absolute{1})
+ok = stdlib.is_absolute(p_is_absolute{1}, stdlib.has_java());
+tc.verifyEqual(ok, p_is_absolute{2}, p_is_absolute{1})
 end
 
 

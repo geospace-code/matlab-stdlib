@@ -20,13 +20,7 @@ catch e
   end
 end
 
-if stdlib.isoctave()
-  o = javaObject("java.io.File", p);
-else
-  o = java.io.File(p);
-end
-
-ok = o.setLastModified(int64(utc) * 1000);
+ok = javaFileObject(p).setLastModified(int64(utc) * 1000);
 
 end
 

@@ -16,8 +16,6 @@ function test_which_name(tc)
 
 tc.verifyEmpty(stdlib.which(tempname))
 
-u = stdlib.has_java();
-
 if ispc
   n = "pwsh.exe";
 else
@@ -36,6 +34,8 @@ end
 function test_is_exe_which_fullpath(tc)
 import matlab.unittest.constraints.IsFile
 import matlab.unittest.constraints.EndsWithSubstring
+
+u = stdlib.has_java();
 
 tc.verifyFalse(stdlib.is_exe("", u))
 tc.verifyFalse(stdlib.is_exe(tempname, u))

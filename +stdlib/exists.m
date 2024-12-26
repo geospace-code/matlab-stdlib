@@ -16,10 +16,7 @@ arguments
   use_java (1,1) logical = false
 end
 
-if stdlib.isoctave()
-  ok = javaObject("java.io.File", p).exists();
-elseif use_java
-
+if use_java
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#exists(java.nio.file.Path,java.nio.file.LinkOption...)
 % this takes 2x longer than java.io.File.exists()
 % opt = java.nio.file.LinkOption.values;
@@ -27,7 +24,7 @@ elseif use_java
 
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#exists()
 % takes 2x longer than native Matlab isfile || isfolder
-  ok = java.io.File(p).exists();
+  ok = javaFileObject(p).exists();
 else
   ok = isfile(p) || isfolder(p);
 end

@@ -21,21 +21,25 @@ end
 methods (Test)
 
 function test_exists(tc, p_exists)
-tc.verifyEqual(stdlib.exists(p_exists{1}), p_exists{2})
+ok = stdlib.exists(p_exists{1}, stdlib.has_java());
+tc.verifyEqual(ok, p_exists{2})
 end
 
 function test_file_size(tc)
-tc.verifyGreaterThan(stdlib.file_size(mfilename("fullpath") + ".m"), 0)
+s = stdlib.file_size(mfilename("fullpath") + ".m", stdlib.has_java());
+tc.verifyGreaterThan(s, 0)
 end
 
 
 function test_is_readable(tc, p_exists)
-tc.verifyEqual(stdlib.is_readable(p_exists{1}, stdlib.has_java()), p_exists{2})
+ok = stdlib.is_readable(p_exists{1}, stdlib.has_java());
+tc.verifyEqual(ok, p_exists{2})
 end
 
 
 function test_is_writable(tc, p_is_writable)
-tc.verifyEqual(stdlib.is_writable(p_is_writable{1}, stdlib.has_java()), p_is_writable{2})
+ok = stdlib.is_writable(p_is_writable{1}, stdlib.has_java());
+tc.verifyEqual(ok, p_is_writable{2})
 end
 
 

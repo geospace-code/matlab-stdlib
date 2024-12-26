@@ -53,8 +53,7 @@ end
 
 if stdlib.len(cwd) > 0
   % https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/ProcessBuilder.html#directory(java.io.File)
-  o = javaObject("java.io.File", cwd);
-  proc.directory(o);
+  proc.directory(javaFileObject(cwd));
 end
 
 %% start process

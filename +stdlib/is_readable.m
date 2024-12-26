@@ -18,15 +18,8 @@ if use_java
   % needs absolute()
   % file = stdlib.absolute(file, "", false, true);
   % ok = java.nio.file.Files.isReadable(java.io.File(file).toPath());
-try
-  ok = java.io.File(file).canRead();
-catch e
-  if strcmp(e.identifier, "Octave:undefined-function")
-    ok = javaObject("java.io.File", file).canRead();
-  else
-    rethrow(e);
-  end
-end
+
+ok = javaFileObject(file).canRead();
 
 else % use_java
 

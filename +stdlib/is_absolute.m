@@ -9,14 +9,15 @@ arguments
   use_java (1,1) logical = false
 end
 
-if stdlib.isoctave()
-  % not is_absolute_filename() because this is a stricter check for "c:" false
-  isabs = javaObject("java.io.File", p).isAbsolute();
-elseif use_java
+% not Octave is_absolute_filename() because this is a stricter check for "c:" false
+
+if use_java
   % java is about 5x to 10x slower than intrinsic
   % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/File.html#isAbsolute()
-  isabs = java.io.File(p).toPath().isAbsolute();
+  isabs = javaFileObject(p).toPath().isAbsolute();
+
 else
+
   L = strlength(p);
   if ispc
     s = "";
@@ -27,6 +28,7 @@ else
   else
     isabs = L >= 1 && startsWith(p, "/");
   end
+
 end
 
 end

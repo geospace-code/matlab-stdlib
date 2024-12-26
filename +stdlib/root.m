@@ -10,11 +10,8 @@ arguments
 end
 
 
-if stdlib.isoctave()
-  o = javaObject("java.io.File", p).toPath().getRoot();
-  r = jPosix(o);
-elseif use_java
-  o = java.io.File(p).toPath().getRoot();
+if use_java
+  o = javaFileObject(p).toPath().getRoot();
   r = jPosix(o);
 else
 

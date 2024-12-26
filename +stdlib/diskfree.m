@@ -10,13 +10,7 @@ arguments
   d (1,1) string
 end
 
-if stdlib.isoctave()
-  o = javaObject("java.io.File", d);
-else
-  o = java.io.File(d);
-end
-
-f = o.getUsableSpace();
+f = javaFileObject(d).getUsableSpace();
 
 end
 
