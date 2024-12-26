@@ -3,8 +3,7 @@
 // useful to test Java functions before / while implementing in Matlab
 //
 // usage:
-// $ javac Filesystem.java
-// $ java -cp . Filesystem
+// % java Filesystem.java
 //
 // To install Java Development Kit (JDK): https://www.scivision.dev/install-jdk/
 
