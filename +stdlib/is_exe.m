@@ -6,7 +6,7 @@
 function ok = is_exe(p, use_java)
 arguments
   p (1,1) string
-  use_java (1,1) logical = false
+  use_java (1,1) logical = true
 end
 
 if ~isfile(p)
@@ -14,16 +14,21 @@ if ~isfile(p)
   return
 end
 
-if stdlib.isoctave()
-  ok = javaObject("java.io.File", p).canExecute();
-elseif use_java
+if use_java
 % about the same time as fileattrib
-% doesn't need absolute path like other Java functions
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/File.html#canExecute()
-  ok = java.io.File(p).canExecute();
-
 % more complicated
 % ok = java.nio.file.Files.isExecutable(java.io.File(stdlib.canonical(p)).toPath());
+
+try
+  ok = java.io.File(p).canExecute();
+catch e
+  if strcmp(e.identifier, "Octave:undefined-function")
+    ok = javaObject("java.io.File", p).canExecute();
+  else
+    rethrow(e);
+  end
+end
 
 else
 
