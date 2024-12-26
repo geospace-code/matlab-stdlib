@@ -31,7 +31,7 @@ if ~stdlib.len(c)
   return
 end
 
-if ispc && startsWith(c, "\\")
+if ispc && strncmp(c, "\\", 2)
   % UNC path is not canonicalized
   return
 end

@@ -25,7 +25,7 @@ else
   % use split to remove /../ and /./ and duplicated /
   parts = split(n, '/');
   i0 = 1;
-  if startsWith(n, "/")
+  if strncmp(n, "/", 1)
     n = "/";
   elseif ispc && strlength(n) >= 2 && strlength(stdlib.root_name(p))
     n = parts(1);
