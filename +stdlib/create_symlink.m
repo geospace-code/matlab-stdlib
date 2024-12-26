@@ -14,49 +14,46 @@ arguments
   link (1,1) string
 end
 
-if stdlib.isoctave()
 
-  [err, msg] = symlink(target, link);
-  ok = err == 0;
-  if ~ok
-    warning("create_symlink: %s", msg)
+ok = false;
+
+if stdlib.exists(link), return, end
+
+try
+  createSymbolicLink(link, target);
+  ok = true;
+catch e
+  if strcmp(e.identifier, "MATLAB:io:filesystem:symlink:NeedsAdminPerms") || ...
+      strcmp(e.identifier, 'MATLAB:UndefinedFunction')
+    % windows requires RunAsAdmin
+    % https://www.mathworks.com/help/releases/R2024b/matlab/ref/createsymboliclink.html
+    % ok = java.nio.file.Files.createSymbolicLink(java.io.File(link).toPath(), java.io.File(target).toPath());
+    % Matlab Java doesn't recognize the optional argument omitted.
+
+    if ispc
+      cmd = "pwsh -c " + '"' + "New-Item -ItemType SymbolicLink -Path " + link + ...
+            " -Target " + target + '"';
+    else
+      cmd = "ln -s " + target + " " + link;
+    end
+
+    % suppress output text on powershell
+    [stat, ~] = system(cmd);
+
+    ok = stat == 0;
+  elseif strcmp(e.identifier, "Octave:undefined-function")
+    [err, msg] = symlink(target, link);
+    ok = err == 0;
+    if ~ok
+      warning("create_symlink: %s", msg)
+    end
+  else
+    warning(e.identifier, "%s", e.message)
   end
-
-elseif ispc || isMATLABReleaseOlderThan("R2024b")
-% ok = java.nio.file.Files.createSymbolicLink(java.io.File(link).toPath(), java.io.File(target).toPath());
-% the above should work, but Matlab Java doesn't recognize the optional argument omitted.
-
-if stdlib.exists(link)
-  ok = false;
-  return
-end
-
-if ispc
-  cmd = "pwsh -c " + '"' + "New-Item -ItemType SymbolicLink -Path " + link + ...
-        " -Target " + target + '"';
-else
-  cmd = "ln -s " + target + " " + link;
-end
-
-% suppress output text on powershell
-[stat, ~] = system(cmd);
-
-ok = stat == 0;
-
-else
-% windows requires RunAsAdmin, so we don't use this on Windows
-% https://www.mathworks.com/help/releases/R2024b/matlab/ref/createsymboliclink.html
-
-  try
-    createSymbolicLink(link, target);
-    ok = true;
-  catch
-    ok = false;
-  end
-
 end
 
 end
+
 
 %!test
 %! if !ispc
