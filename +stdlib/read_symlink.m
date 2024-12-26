@@ -9,9 +9,14 @@ end
 
 r = "";
 
-if stdlib.isoctave()
+try
+  [ok, t] = isSymbolicLink(p);
+  if ~ok, return, end
+catch e
+
+if strcmp(e.identifier, "Octave:undefined-function")
   t = readlink(p);
-elseif isMATLABReleaseOlderThan("R2024b")
+elseif strcmp(e.identifier, 'MATLAB:UndefinedFunction')
   if ~stdlib.is_symlink(p)
     return
   end
@@ -22,9 +27,8 @@ elseif isMATLABReleaseOlderThan("R2024b")
 
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#readSymbolicLink(java.nio.file.Path)
   t = java.nio.file.Files.readSymbolicLink(java.io.File(r).toPath());
-else
-  [ok, t] = isSymbolicLink(p);
-  if ~ok, return, end
+end
+
 end
 
 r = stdlib.posix(t);
