@@ -9,10 +9,8 @@ arguments
   use_java (1,1) logical = false
 end
 
-if stdlib.isoctave()
-  h = javaMethod("getProperty", "java.lang.System", "user.home");
-elseif use_java
-  h = java.lang.System.getProperty("user.home");
+if use_java
+  h = javaSystemProperty("user.home");
 elseif ispc
   h = getenv("USERPROFILE");
 else

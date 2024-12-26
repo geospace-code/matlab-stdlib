@@ -2,11 +2,7 @@
 
 function n = get_username()
 
-if stdlib.isoctave()
-  n = javaMethod("getProperty", "java.lang.System", "user.name");
-else
-  n = string(java.lang.System.getProperty('user.name'));
-end
+n = javaSystemProperty("user.name");
 
 end
 

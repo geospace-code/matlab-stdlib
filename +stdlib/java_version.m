@@ -8,11 +8,7 @@
 
 function v = java_version()
 
-if stdlib.isoctave()
-  v = javaMethod("getProperty", "java.lang.System", "java.version");
-else
-  v = string(java.lang.System.getProperty("java.version"));
-end
+v = javaSystemProperty("java.version");
 
 end
 
