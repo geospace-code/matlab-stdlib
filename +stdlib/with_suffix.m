@@ -23,17 +23,11 @@ end
 
 if strcmp(r, '.')
   f = s;
-elseif ischar(r)
-  f = strcat(r, '/', s);
 else
-  f = r + "/" + s;
+  f = strcat(r, "/", s);
 end
 
-if ischar(r)
-  f = strcat(f, suffix);
-else
-  f = f + suffix;
-end
+f = strcat(f, suffix);
 
 end
 

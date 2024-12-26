@@ -16,16 +16,9 @@ end
 e = stdlib.drop_slash(p);
 
 L = stdlib.len(e);
-if ~L
+if ~L || ~strncmp(e, "~", 1) || (L > 1 && ~strncmp(e, "~/", 2))
   return
 end
-
-if ischar(e)
-  ng = e(1) ~= '~' || (L > 1 && e(1) == '~' && e(2) ~= '/');
-else
-  ng = ~startsWith(e, "~") || (L > 1 && ~startsWith(e, "~/"));
-end
-if ng, return, end
 
 home = stdlib.homedir(use_java);
 

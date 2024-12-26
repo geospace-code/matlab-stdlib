@@ -17,28 +17,28 @@ else
 
   r = stdlib.root_name(p);
 
-  if strlength(r) == 0
-    if startsWith(p, "/")
+  if ~stdlib.len(r)
+    if strncmp(p, "/", 1)
       r = "/";
     end
 
     return
   end
 
-  if ispc && r == p
+  if ispc && strcmp(r, p)
     return
   end
 
-  r = r + "/";
+  r = strcat(r, "/");
 
 end
 
-%!assert(root(''), '')
-%!assert(root('/'), '/')
+%!assert(root('',0), '')
+%!assert(root('/',0), '/')
 %!test
 %! if ispc
-%!   assert(root('C:\'), 'C:/')
-%!   assert(root('C:/'), 'C:/')
-%!   assert(root('C:'), 'C:')
-%!   assert(root('C'), '')
+%!   assert(root('C:\',0), 'C:/')
+%!   assert(root('C:/',0), 'C:/')
+%!   assert(root('C:',0), 'C:')
+%!   assert(root('C',0), '')
 %! endif

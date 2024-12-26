@@ -44,17 +44,9 @@ end
 b = stdlib.posix(b);
 
 if stdlib.is_absolute(b)
-  if ischar(c)
-    c = strcat(b, '/', c);
-  else
-    c = b + "/" + c;
-  end
+  c = strcat(b, "/", c);
 else
-  if ischar(c)
-    c = strcat(pwd(), '/', b, '/', c);
-  else
-    c = pwd() + "/" + b + "/" + c;
-  end
+  c = strcat(pwd(), "/", b, "/", c);
 end
 
 c = stdlib.drop_slash(c);

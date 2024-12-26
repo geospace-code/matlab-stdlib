@@ -14,11 +14,7 @@ p = stdlib.drop_slash(pth);
 if is_root_stub(p)
   % 2 or 3 char drive letter
   if stdlib.len(p) == 2
-    if ischar(p)
-      p = strcat(p, '/');
-    else
-      p = p + "/";
-    end
+    p = strcat(p, "/");
   end
   return
 end

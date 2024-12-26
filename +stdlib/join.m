@@ -16,7 +16,7 @@ else
 b = stdlib.drop_slash(base);
 o = stdlib.drop_slash(other);
 
-if startsWith(o, "/") || (ispc && stdlib.is_absolute(o, false))
+if strncmp(o, "/", 1) || (ispc && stdlib.is_absolute(o, false))
   p = o;
   return
 end
@@ -36,8 +36,8 @@ end
 
 end
 
-%!assert(join("", ""), "")
-%!assert(join("", "b"), "b")
-%!assert(join("a", ""), "a")
-%!assert(join("a", "b"), "a/b")
-%!assert(join("a", "/b/c"), "/b/c")
+%!assert(join("", "", 1), "")
+%!assert(join("", "b", 1), "b")
+%!assert(join("a", "", 1), "a")
+%!assert(join("a", "b", 1), "a/b")
+%!assert(join("a", "/b/c", 1), "/b/c")
