@@ -8,15 +8,15 @@ arguments
 end
 
 
-b = stdlib.drop_slash(base);
-o = stdlib.drop_slash(other);
-
 if use_java
-  r = javaFileObject(b).toPath().resolve(o);
+  r = javaFileObject(base).toPath().resolve(other);
   p = jPosix(r);
 else
 
-if startsWith(o, "/") || (ispc && stdlib.is_absolute(o))
+b = stdlib.drop_slash(base);
+o = stdlib.drop_slash(other);
+
+if startsWith(o, "/") || (ispc && stdlib.is_absolute(o, false))
   p = o;
   return
 end
