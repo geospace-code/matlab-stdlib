@@ -19,7 +19,8 @@ try
   exists = true;
 catch e
   if ~strcmp(e.identifier, "MATLAB:imagesci:netcdf:badLocationString") && ...
-     ~strcmp(e.identifier, "MATLAB:imagesci:netcdf:unknownLocation")
+     ~strcmp(e.identifier, "MATLAB:imagesci:netcdf:unknownLocation") && ...
+     ~strcmp(e.message, "NetCDF: Variable not found")
 
     rethrow(e)
   end
@@ -34,4 +35,5 @@ end
 %! ds = 'a';
 %! nccreate(fn, ds)
 %! assert(ncexists(fn, ds))
+%! assert(!ncexists(fn, 'b'))
 %! delete(fn)

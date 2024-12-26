@@ -18,15 +18,10 @@ try
   h5info(file, variable);
   exists = true;
 catch e
-  if stdlib.isoctave
-    disp(e.message)
-    if strcmp(e.identifier, "Octave:undefined-function") || isempty(strfind(e.message, 'does not exist'))
-      rethrow(e)
-    end
-  else
-    if ~strcmp(e.identifier, 'MATLAB:imagesci:h5info:unableToFind')
-      rethrow(e)
-    end
+  if ~strcmp(e.identifier, 'MATLAB:imagesci:h5info:unableToFind') && ...
+     ~strncmp(e.message, "h5info: location", 16)
+    disp(e)
+    rethrow(e)
   end
 end
 
@@ -38,4 +33,5 @@ end
 %! ds = '/a';
 %! h5create(fn, ds, [1])
 %! assert(h5exists(fn, ds))
+%! assert(!h5exists(fn, '/b'))
 %! delete(fn)
