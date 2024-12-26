@@ -21,7 +21,7 @@ arguments
   p (1,1) string
   base (1,1) string = ""
   expand_tilde (1,1) logical = true
-  use_java (1,1) logical = true
+  use_java (1,1) logical = false
 end
 
 if expand_tilde

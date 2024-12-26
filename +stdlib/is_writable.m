@@ -5,24 +5,37 @@
 function ok = is_writable(file, use_java)
 arguments
   file (1,1) string
-  use_java (1,1) logical = false
+  use_java (1,1) logical = true
 end
+
+ok = false;
+if ~stdlib.exists(file, use_java), return, end
+% exists() check speeds up by factor of 50x on macOS for Java or non-Java
 
 
 if use_java
-  % java is about 10x slower than fileattrib
-  % needs absolute()
-  file = stdlib.absolute(file, "", false, true);
-
   % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html#isWritable(java.nio.file.Path)
-  %ok = java.nio.file.Files.isWritable(java.io.File(file).toPath());
+  % java.nio.file.Files java is about 10x slower than fileattrib
+  % needs absolute()
+  % file = stdlib.absolute(file, "", false, true);
+  % ok = java.nio.file.Files.isWritable(java.io.File(file).toPath());
 
-  % java.io.File().canWrite() is about twice as fast
+try
   ok = java.io.File(file).canWrite();
-else
-  [status, v] = fileattrib(file);
+catch e
+  if strcmp(e.identifier, "Octave:undefined-function")
+    ok = javaObject("java.io.File", file).canWrite();
+  else
+    rethrow(e);
+  end
+end
 
-  ok = status ~= 0 && (v.UserWrite || (~isnan(v.GroupWrite) && v.GroupWrite) || (~isnan(v.OtherWrite) && v.OtherWrite));
+else
+
+[status, v] = fileattrib(file);
+
+ok = status ~= 0 && (v.UserWrite || (~isnan(v.GroupWrite) && v.GroupWrite) || (~isnan(v.OtherWrite) && v.OtherWrite));
+
 end
 
 end

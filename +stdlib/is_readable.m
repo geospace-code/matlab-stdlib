@@ -5,24 +5,35 @@
 function ok = is_readable(file, use_java)
 arguments
   file (1,1) string
-  use_java (1,1) logical = false
+  use_java (1,1) logical = true
 end
 
+ok = false;
+if ~stdlib.exists(file, use_java), return, end
+% exists() check speeds up by factor of 50x on macOS for Java or non-Java
+
 if use_java
-  % java is about 10x slower than fileattrib
-  % needs absolute()
-  file = stdlib.absolute(file, "", false, use_java);
-
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isReadable(java.nio.file.Path)
-  %ok = java.nio.file.Files.isReadable(java.io.File(file).toPath());
-
-  % java.io.File().canRead() is about twice as fast as
-  % java.nio.file.Files.isReadable()
+  % java.nio.file.Files is about 10x slower than fileattrib
+  % needs absolute()
+  % file = stdlib.absolute(file, "", false, true);
+  % ok = java.nio.file.Files.isReadable(java.io.File(file).toPath());
+try
   ok = java.io.File(file).canRead();
-else
-  [status, v] = fileattrib(file);
+catch e
+  if strcmp(e.identifier, "Octave:undefined-function")
+    ok = javaObject("java.io.File", file).canRead();
+  else
+    rethrow(e);
+  end
+end
 
-  ok = status ~= 0 && (v.UserRead || (~isnan(v.GroupRead) && v.GroupRead) || (~isnan(v.OtherRead) && v.OtherRead));
+else % use_java
+
+[status, v] = fileattrib(file);
+
+ok = status ~= 0 && (v.UserRead || (~isnan(v.GroupRead) && v.GroupRead) || (~isnan(v.OtherRead) && v.OtherRead));
+
 end
 
 end

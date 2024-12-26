@@ -30,12 +30,12 @@ end
 
 
 function test_is_readable(tc, p_exists)
-tc.verifyEqual(stdlib.is_readable(p_exists{1}), p_exists{2})
+tc.verifyEqual(stdlib.is_readable(p_exists{1}, stdlib.has_java()), p_exists{2})
 end
 
 
 function test_is_writable(tc, p_is_writable)
-tc.verifyEqual(stdlib.is_writable(p_is_writable{1}), p_is_writable{2})
+tc.verifyEqual(stdlib.is_writable(p_is_writable{1}, stdlib.has_java()), p_is_writable{2})
 end
 
 
