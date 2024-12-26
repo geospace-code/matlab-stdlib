@@ -9,12 +9,11 @@ end
 p = stdlib.absolute(p, "", false, true);
 
 op = java.io.File(p).toPath();
+opt = javaLinkOption();
 
 if stdlib.isoctave()
-  opt = javaMethod("values", "java.nio.file.LinkOption");
   r = javaMethod("isRegularFile", "java.nio.file.Files", op, opt);
 else
-  opt = java.nio.file.LinkOption.values;
   r = java.nio.file.Files.isRegularFile(op, opt);
 end
 
