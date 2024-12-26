@@ -1,15 +1,20 @@
 %% SET_MODTIME set modification time of path
 
-function ok = set_modtime(p)
+function ok = set_modtime(p, t)
 arguments
   p (1,1) string
+  t (1,1) datetime = datetime("now")
 end
 
 try
-  utc = convertTo(datetime("now", "TimeZone", "UTC"), "posixtime");
+  utc = convertTo(datetime(t, "TimeZone", "UTC"), "posixtime");
 catch e
   if strcmp(e.identifier, "Octave:undefined-function")
-    utc = time();
+    if nargin == 2
+      utc = t;
+    else
+      utc = time();
+    end
   else
     rethrow(e);
   end
