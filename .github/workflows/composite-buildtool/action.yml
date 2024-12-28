@@ -7,14 +7,14 @@ runs:
   steps:
 
   - name: Check task
-    if: ${{ matrix.release >= 'R2024b' || matrix.release == 'latest' || matrix.release == 'latest-including-prerelease' }}
+    if: ${{ matrix.release >= 'R2024b' || startsWith(matrix.release, 'latest') }}
     uses: matlab-actions/run-build@v2
     with:
       startup-options: ${{ matrix.startup-options }}
       tasks: check
 
   - name: Test task
-    if: ${{ matrix.release >= 'R2022b' || matrix.release == 'latest' || matrix.release == 'latest-including-prerelease' }}
+    if: ${{ matrix.release >= 'R2022b' || startsWith(matrix.release, 'latest') }}
     uses: matlab-actions/run-build@v2
     with:
       startup-options: ${{ matrix.startup-options }}
@@ -22,7 +22,9 @@ runs:
 
 
   - name: Run tests (manual)
-    if: ${{ matrix.release < 'R2022b' && matrix.release != 'latest' && matrix.release != 'latest-including-prerelease' }}
+    if: ${{ matrix.release < 'R2022b' && !startsWith(matrix.release, 'latest') }}
     uses: matlab-actions/run-tests@v2
     with:
+      source-folder: ${{ github.workspace }}
       select-by-folder: test
+      strict: true

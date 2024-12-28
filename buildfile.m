@@ -10,7 +10,9 @@ assert(isempty(issues.Issues), formattedDisplayText(issues.Issues))
 end
 
 function testTask(~)
-  r = runtests(IncludeSubfolders=true, strict=true, UseParallel=true);
+  addpath(fileparts(mfilename("fullpath")))
+
+  r = runtests(IncludeSubfolders=true, strict=true, UseParallel=true, OutputDetail="Detailed");
 
   assert(~isempty(r), "No tests were run")
   assertSuccess(r)

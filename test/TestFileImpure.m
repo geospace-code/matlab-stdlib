@@ -6,7 +6,7 @@ p_exists = {{pwd(), true}, {mfilename("fullpath") + ".m", true}, {"TestFileImpur
 
 p_is_writable = {{pwd(), true}, {"not-exists", false}};
 
-p_expand = {{"", ""}, {"~abc", "~abc"}, {"~", test_homedir()}, {"~/c", test_homedir() + "/c"}, {'~/////c', test_homedir() + "/c"}};
+p_expand = {{"", ""}, {"~abc", "~abc"}, {"~", stdlib.homedir()}, {"~/c", stdlib.homedir() + "/c"}, {'~/////c', stdlib.homedir() + "/c"}};
 
 p_same = {...
 {"","", false}, ...
