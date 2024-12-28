@@ -5,7 +5,6 @@ methods (Test)
 
 function test_not(tc)
 tc.verifyEmpty(stdlib.windows_shortname("not-exist"))
-
 end
 
 function test_short_folder(tc)
