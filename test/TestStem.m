@@ -1,0 +1,17 @@
+classdef TestStem < matlab.unittest.TestCase
+
+properties (TestParameter)
+
+p = {{"/a/b/c", "c"}, {"/a/b/c/", ""}, {"a/b/c/", ""}, ...
+{"a/b/c.txt", "c"}, {"a/b/c.txt.gz", "c.txt"}, ...
+{"a/b/.c", ".c"}}
+
+end
+
+methods (Test)
+function test(tc, p)
+tc.verifyEqual(stdlib.stem(p{1}), p{2})
+end
+end
+
+end

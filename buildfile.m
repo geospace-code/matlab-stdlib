@@ -12,7 +12,7 @@ end
 function testTask(~)
   addpath(fileparts(mfilename("fullpath")))
 
-  r = runtests(IncludeSubfolders=true, strict=true, UseParallel=true, OutputDetail="Detailed");
+  r = runtests(IncludeSubfolders=true, strict=true, UseParallel=true, OutputDetail="Concise");
 
   assert(~isempty(r), "No tests were run")
   assertSuccess(r)

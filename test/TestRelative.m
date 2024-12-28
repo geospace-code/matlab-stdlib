@@ -64,13 +64,13 @@ end
 methods (Test)
 
 function test_relative_to(tc, p_relative_to)
-tc.assumeTrue(stdlib.has_java)
+tc.assumeTrue(stdlib.has_java())
 tc.verifyEqual(stdlib.relative_to(p_relative_to{1}, p_relative_to{2}), p_relative_to{3}, "relative_to(" + p_relative_to{1} + "," + p_relative_to{2}+")")
 end
 
 
 function test_proximate_to(tc, p_proximate_to)
-tc.assumeTrue(stdlib.has_java)
+tc.assumeTrue(stdlib.has_java())
 tc.verifyEqual(stdlib.proximate_to(p_proximate_to{1}, p_proximate_to{2}), p_proximate_to{3}, "proximate_to(" + p_proximate_to{1} + "," + p_proximate_to{2}+")")
 end
 

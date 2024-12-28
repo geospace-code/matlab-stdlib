@@ -1,11 +1,15 @@
 classdef TestWhich < matlab.unittest.TestCase
 
+properties (TestParameter)
+use_java = num2cell(unique([stdlib.has_java(), false]))
+end
+
 
 methods (Test)
 
-function test_which_name(tc)
+function test_which_name(tc, use_java)
 
-tc.verifyEmpty(stdlib.which(tempname))
+tc.verifyEmpty(stdlib.which(tempname, getenv('PATH'), use_java))
 
 if ispc
   n = "pwsh.exe";
@@ -17,19 +21,17 @@ end
 % Unix-like OS may have Matlab as alias which is not visible to
 % stdlib.which()
 % virus scanners may block stdlib.which("cmd.exe") on Windows
-tc.verifyNotEmpty(stdlib.which(n))
+tc.verifyNotEmpty(stdlib.which(n, getenv('PATH'), use_java))
 
 end
 
 
-function test_is_exe_which_fullpath(tc)
+function test_is_exe_which_fullpath(tc, use_java)
 import matlab.unittest.constraints.IsFile
 import matlab.unittest.constraints.EndsWithSubstring
 
-u = stdlib.has_java();
-
-tc.verifyFalse(stdlib.is_exe("", u))
-tc.verifyFalse(stdlib.is_exe(tempname, u))
+tc.verifyFalse(stdlib.is_exe("", use_java))
+tc.verifyFalse(stdlib.is_exe(tempname, use_java))
 
 n = "matlab";
 %% is_exe test
@@ -39,9 +41,9 @@ if ispc
 else
   fp = p;
 end
-tc.verifyTrue(stdlib.is_exe(fp, u))
+tc.verifyTrue(stdlib.is_exe(fp, use_java))
 %% which: test absolute path
-exe = stdlib.which(p);
+exe = stdlib.which(p, getenv('PATH'), use_java);
 
 if ispc
   tc.verifyThat(exe, EndsWithSubstring(".exe"))
