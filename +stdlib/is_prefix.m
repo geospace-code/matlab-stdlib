@@ -11,20 +11,11 @@ end
 pr = stdlib.drop_slash(prefix);
 p = stdlib.drop_slash(pth);
 
-if ischar(pr)
-  w = ~isempty(strfind(p, "..")) || ~isempty(strfind(pr, "..")); %#ok<STREMP>
-  s = strfind(p, pr) == 1 && (length(p) >= length(pr));
-else
-  w = contains(p, "..") || contains(pr, "..");
-  s = startsWith(p, pr) && (strlength(p) >= strlength(pr));
-end
-
-if ~strcmp(pr, p) && w
-  warning("is_prefix: %s and/or %s is ambiguous input with '..'  consider using stdlib.canonical() first", pr, p)
-end
+s = startsWith(p, pr) && (stdlib.len(p) >= stdlib.len(pr));
 
 end
 
 %!assert(is_prefix("a", "a"))
 %!assert(is_prefix("a", "a/"))
 %!assert(is_prefix("a", "a/b"))
+%!assert(!is_prefix("a/b/c", "a/b"))

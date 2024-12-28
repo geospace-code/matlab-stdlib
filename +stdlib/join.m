@@ -22,11 +22,11 @@ if strncmp(o, "/", 1) || (ispc && stdlib.is_absolute(o, false))
 end
 
 p = b;
-if strlength(o)
+if stdlib.len(o)
   if endsWith(p, "/")
-    p = p + o;
-  elseif strlength(p)
-    p = p + "/" + o;
+    p = strcat(p, o);
+  elseif stdlib.len(p)
+    p = strcat(p, "/", o);
   else
     p = o;
   end
@@ -36,8 +36,8 @@ end
 
 end
 
-%!assert(join("", "", 1), "")
-%!assert(join("", "b", 1), "b")
-%!assert(join("a", "", 1), "a")
-%!assert(join("a", "b", 1), "a/b")
-%!assert(join("a", "/b/c", 1), "/b/c")
+%!assert(join("", "",0), "")
+%!assert(join("", "b",0), "b")
+%!assert(join("a", "",0), "a")
+%!assert(join("a", "b",0), "a/b")
+%!assert(join("a", "/b/c",0), "/b/c")

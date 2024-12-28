@@ -8,21 +8,10 @@ arguments
   dir (1,1) string
 end
 
-
 s = stdlib.drop_slash(subdir);
 d = stdlib.drop_slash(dir);
 
-if ischar(subdir)
-  w = ~isempty(strfind(d, "..")) || ~isempty(strfind(s, "..")); %#ok<STREMP,UNRCH>
-  s = strfind(s, d) == 1 && (length(s) > length(d));
-else
-  w = contains(d, "..") || contains(s, "..");
-  s = startsWith(s, d) && (strlength(s) > strlength(d));
-end
-
-if ~strcmp(s, d) && w
-  warning("is_subdir: %s and/or %s is ambiguous input with '..'  consider using stdlib.canonical() first", s, d)
-end
+s = startsWith(s, d) && (stdlib.len(s) > stdlib.len(d));
 
 end
 

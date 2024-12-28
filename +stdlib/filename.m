@@ -12,17 +12,16 @@ end
 
 p = stdlib.posix(p);
 
-i = strfind(p, "/");
+parts = strsplit(p, "/");
 
-if isempty(i)
-  f = p;
-elseif ischar(p)
-  f = p(i(end)+1:end);
-else
-  f = extractAfter(p, i(end));
+f = parts{end};
+
+try %#ok<TRYNC>
+  f = string(f);
 end
 
 end
 
 
 %!assert (filename('a/b/c.txt'), 'c.txt')
+%!assert (filename('a/b/'), '')
