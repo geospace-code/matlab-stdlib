@@ -5,10 +5,6 @@ TestData
 end
 
 methods (TestClassSetup)
-function setup_path(tc)
-top = fullfile(fileparts(mfilename("fullpath")), "..");
-tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
-end
 
 function setup_file(tc)
 import matlab.unittest.constraints.IsFile

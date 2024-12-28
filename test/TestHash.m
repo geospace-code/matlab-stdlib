@@ -6,14 +6,9 @@ hash = {"36c1bbbdfd8d04ef546ffb15b9c0a65767fd1fe9a6135a257847e3a51fb1426c", "d58
 end
 
 methods(TestClassSetup)
-
-function setup_path(tc)
-top = fullfile(fileparts(mfilename("fullpath")), "..");
-tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
-
-tc.assumeTrue(stdlib.has_java)
+function java_required(tc)
+tc.assumeTrue(stdlib.has_java())
 end
-
 end
 
 methods (Test, ParameterCombination = 'sequential')

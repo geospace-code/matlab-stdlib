@@ -4,16 +4,6 @@ properties (TestParameter)
 p_parent
 end
 
-methods (TestClassSetup)
-% TestClassSetup runs this once per class instead of TestMethodSetup that
-% runs once per test, which is much slower and unnecessary
-function setup_path(tc)
-top = fullfile(fileparts(mfilename("fullpath")), "..");
-tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
-end
-end
-
-
 methods(TestParameterDefinition, Static)
 
 function p_parent = init_parent()

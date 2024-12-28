@@ -1,12 +1,5 @@
 classdef TestWindowsCOM < matlab.unittest.TestCase
 
-methods (TestClassSetup)
-function setup_path(tc)
-top = fullfile(fileparts(mfilename("fullpath")), "..");
-tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
-end
-end
-
 
 methods (Test)
 
@@ -21,7 +14,7 @@ import matlab.unittest.constraints.IsFolder
 tc.assumeTrue(ispc, "Windows only")
 
 progdir = stdlib.posix(getenv("PROGRAMFILES"));
-tc.assumeThat(progdir, IsFolder, "env:PROGRAMFILES is not a directory")
+tc.assumeThat(progdir, IsFolder, "$Env:PROGRAMFILES is not a directory")
 
 short = stdlib.windows_shortname(progdir);
 

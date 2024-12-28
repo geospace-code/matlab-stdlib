@@ -2,12 +2,6 @@ classdef TestResolve < matlab.unittest.TestCase
 
 methods(TestClassSetup)
 
-function setup_path(tc)
-top = fullfile(fileparts(mfilename("fullpath")), "..");
-tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
-end
-
-
 function setup_workdir(tc)
 import matlab.unittest.constraints.IsFile
 import matlab.unittest.fixtures.TemporaryFolderFixture

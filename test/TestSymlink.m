@@ -10,10 +10,6 @@ end
 
 
 methods(TestClassSetup)
-function setup_path(tc)
-top = fullfile(fileparts(mfilename("fullpath")), "..");
-tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
-end
 
 function setup_symlink(tc)
 import matlab.unittest.fixtures.CurrentFolderFixture

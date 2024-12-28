@@ -1,15 +1,11 @@
 classdef TestJava < matlab.unittest.TestCase
 
 methods(TestClassSetup)
-
-function setup_path(tc)
-top = fullfile(fileparts(mfilename("fullpath")), "..");
-tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
-
-tc.assumeTrue(stdlib.has_java)
+function java_required(tc)
+tc.assumeTrue(stdlib.has_java())
+end
 end
 
-end
 
 methods(Test)
 

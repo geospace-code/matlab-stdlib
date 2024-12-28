@@ -4,12 +4,6 @@ properties (TestParameter)
 v = {{"3.19.0.33", "3.19.0", true}, {"3.19.0.33", "3.19.0.34", false}}
 end
 
-methods (TestClassSetup)
-function setup_path(tc)
-top = fullfile(fileparts(mfilename("fullpath")), "..");
-tc.applyFixture(matlab.unittest.fixtures.PathFixture(top))
-end
-end
 
 methods (Test)
 
