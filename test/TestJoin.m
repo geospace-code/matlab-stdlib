@@ -1,6 +1,8 @@
 classdef TestJoin < matlab.unittest.TestCase
 
 properties (TestParameter)
+use_java = num2cell(unique([stdlib.has_java(), false]))
+
 p = {{"", "", ""}, ...
 {"a", "", "a"}, ...
 {"", "a", "a"}, ...
@@ -19,8 +21,8 @@ p = {{"", "", ""}, ...
 end
 
 methods (Test)
-function test_join(tc, p)
-tc.verifyEqual(stdlib.join(p{1}, p{2}), p{3})
+function test_join(tc, p, use_java)
+tc.verifyEqual(stdlib.join(p{1}, p{2}, use_java), p{3})
 end
 end
 
