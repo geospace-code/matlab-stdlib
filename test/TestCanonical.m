@@ -5,8 +5,8 @@ use_java = num2cell(unique([stdlib.has_java(), false]))
 
 p = {{"", ""}, {"not-exist", "not-exist"}, {"a/../b", "b"}, ...
 {"~", stdlib.homedir()}, {"~/", stdlib.homedir()}, ...
-{"~/..", stdlib.parent(stdlib.homedir())}, ...f
-{mfilename("fullpath") + ".m/..", stdlib.parent(mfilename("fullpath"))}};
+{"~/..", stdlib.parent(stdlib.homedir())}, ...
+{mfilename("fullpath") + "/..", stdlib.parent(mfilename("fullpath"))}};
 end
 
 
