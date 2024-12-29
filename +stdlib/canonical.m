@@ -27,10 +27,6 @@ else
   c = p;
 end
 
-if ~stdlib.len(c)
-  return
-end
-
 if ispc && strncmp(c, "\\", 2)
   % UNC path is not canonicalized
   return
@@ -43,16 +39,7 @@ if stdlib.exists(c, use_java)
     % errors if path does not exist. Errors on leading ~
     c = builtin('_canonicalizepath', c);
   end
-
-  c = stdlib.posix(c);
-  return
-end
-
-% like C++ filesystem weakly_canonical()
-
-if use_java
-  c = javaFileObject(c).getCanonicalPath();
-else
+elseif stdlib.len(c)
   c = stdlib.normalize(c, use_java);
 end
 
