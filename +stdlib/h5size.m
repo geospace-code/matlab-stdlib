@@ -8,8 +8,8 @@
 
 function fsize = h5size(file, variable)
 arguments
-  file (1,1) string {mustBeFile}
-  variable (1,1) string {mustBeNonzeroLengthText}
+  file (1,1) string
+  variable (1,1) string
 end
 
 dsi = h5info(file, variable).Dataspace;

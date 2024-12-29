@@ -249,7 +249,6 @@ function test_real_only(tc)
 basic = tc.TestData.basic;
 
 tc.verifyError(@() stdlib.h5save(basic, "/bad_imag", 1j), 'MATLAB:validators:mustBeReal')
-tc.verifyError(@() stdlib.h5save(basic, "", 0), 'MATLAB:validators:mustBeNonzeroLengthText')
 tc.verifyError(@() stdlib.h5variables(basic, '/nothere'), 'MATLAB:imagesci:h5info:unableToFind')
 end
 

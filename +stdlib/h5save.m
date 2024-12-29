@@ -20,8 +20,8 @@
 
 function h5save(filename, varname, A, opts)
 arguments
-  filename (1,1) string {mustBeNonzeroLengthText}
-  varname (1,1) string {mustBeNonzeroLengthText}
+  filename (1,1) string
+  varname (1,1) string
   A {mustBeNonempty}
   opts.size (1,:) double {mustBeInteger,mustBeNonnegative} = []
   opts.type (1,1) string = ""

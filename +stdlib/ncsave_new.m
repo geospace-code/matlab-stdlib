@@ -2,6 +2,16 @@
 % normally users will use ncsave() instead of this function
 
 function ncsave_new(file, varname, A, sizeA, ncdims, compressLevel)
+arguments
+  file (1,1) string
+  varname (1,1) string
+  A {mustBeNonempty}
+  sizeA (1,:) double {mustBeInteger,mustBeNonnegative} = []
+  ncdims cell = {}
+  compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0
+end
+
+assert(stdlib.len(file) > 0, "stdlib:ncsave_new:file", "Empty filename")
 
 if isscalar(A)
   nccreate(file, varname, "Datatype", class(A), "Format", 'netcdf4')

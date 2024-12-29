@@ -7,8 +7,8 @@ function exists = h4exists(file, variable)
 %%% Outputs
 % * exists: boolean
 arguments
-  file (1,1) string {mustBeFile}
-  variable (1,1) string {mustBeNonzeroLengthText}
+  file (1,1) string
+  variable (1,1) string
 end
 
 exists = false;

@@ -4,7 +4,7 @@
 
 function makedir(d)
 arguments
-  d (1,1) string {mustBeNonzeroLengthText}
+  d (1,1) string
 end
 
 %% to avoid confusing making ./~/mydir

@@ -2,6 +2,13 @@
 % normally users will use h5save() instead of this function
 
 function h5save_new(filename, varname, A, sizeA, compressLevel)
+arguments
+  filename (1,1) string
+  varname (1,1) string
+  A {mustBeNonempty}
+  sizeA (1,:) double {mustBeInteger,mustBeNonnegative} = []
+  compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0
+end
 
 if isempty(sizeA)
   sizeA = defaultSize(A);
@@ -10,6 +17,8 @@ elseif all(sizeA > 0)
 elseif ~isscalar(sizeA)
   error('h5save:shape_error', "only scalar size may be 0")
 end
+
+assert(stdlib.len(filename) > 0, 'h5save:filename_error', "filename must be non-empty")
 
 if isscalar(sizeA)
   if sizeA == 0

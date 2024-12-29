@@ -210,7 +210,6 @@ function test_real_only(tc)
 basic = tc.TestData.basic;
 
 tc.verifyError(@() stdlib.ncsave(basic, "bad_imag", 1j), 'MATLAB:validators:mustBeReal')
-tc.verifyError(@() stdlib.ncsave(basic, "", 0), 'MATLAB:validators:mustBeNonzeroLengthText')
 end
 
 end

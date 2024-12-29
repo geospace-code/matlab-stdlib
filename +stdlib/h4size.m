@@ -8,8 +8,8 @@
 
 function fsize = h4size(file, variable)
 arguments
-  file (1,1) string {mustBeFile}
-  variable (1,1) string {mustBeNonzeroLengthText}
+  file (1,1) string
+  variable (1,1) string
 end
 
 sds = hdfinfo(file).SDS;

@@ -7,7 +7,7 @@
 
 function exe = which(filename, fpath, use_java)
 arguments
-  filename (1,1) string {mustBeNonzeroLengthText}
+  filename (1,1) string
   fpath (1,:) string = getenv('PATH')
   use_java (1,1) logical = false
 end
