@@ -3,7 +3,7 @@
 function s = file_size(p, use_java)
 arguments
   p (1,1) string {mustBeFile}
-  use_java (1,1) logical = true
+  use_java (1,1) logical = false
 end
 
 if use_java

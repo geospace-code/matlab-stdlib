@@ -6,7 +6,7 @@
 function ok = is_exe(p, use_java)
 arguments
   p (1,1) string
-  use_java (1,1) logical = true
+  use_java (1,1) logical = false
 end
 
 
