@@ -1,14 +1,15 @@
 classdef TestParent < matlab.unittest.TestCase
 
 properties (TestParameter)
-p_parent
+use_java = num2cell(unique([stdlib.has_java(), false]))
+p
 end
 
 methods(TestParameterDefinition, Static)
 
-function p_parent = init_parent()
+function p = init_parent()
 
-p_parent = {
+p = {
 {"", "."}, ...
 {".", "."}, ...
 {"..", "."}, ...
@@ -27,12 +28,12 @@ p_parent = {
 };
 
 if ispc
-p_parent{12}{2} = "c:/";
-p_parent{13}{2} = "c:/";
-p_parent{14}{2} = "c:/a";
-p_parent{15}{2} = "c:/a";
-p_parent{end+1} =  {"c:/a", "c:/"};
-p_parent{end+1} = {"c:", "c:/"};
+p{12}{2} = "c:/";
+p{13}{2} = "c:/";
+p{14}{2} = "c:/a";
+p{15}{2} = "c:/a";
+p{end+1} =  {"c:/a", "c:/"};
+p{end+1} = {"c:", "c:/"};
 
 end
 
@@ -41,8 +42,8 @@ end
 
 
 methods (Test)
-function test_parent(tc, p_parent)
-tc.verifyEqual(stdlib.parent(p_parent{1}), p_parent{2}, p_parent{1})
+function test_parent(tc, p, use_java)
+tc.verifyEqual(stdlib.parent(p{1}, use_java), p{2}, p{1})
 end
 end
 

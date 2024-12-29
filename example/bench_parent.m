@@ -1,8 +1,8 @@
 f = mfilename("fullpath") + ".m";
 %f = tempname;
 
-fno = @() stdlib.exists(f, false);
-fjava = @() stdlib.exists(f, true);
+fno = @() stdlib.parent(f, false);
+fjava = @() stdlib.parent(f, true);
 
 t_no = timeit(fno);
 t_java = timeit(fjava);
