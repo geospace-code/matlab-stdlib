@@ -1,5 +1,7 @@
 function s = jPosix(o)
 
+  s = o;
+
   if isempty(o)
     s = "";
   elseif isa(o, "java.io.File") || isa(o, "java.nio.file.Path") || ...
