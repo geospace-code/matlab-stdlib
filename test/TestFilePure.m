@@ -1,32 +1,21 @@
 classdef TestFilePure < matlab.unittest.TestCase
 
 properties (TestParameter)
-p_root
-p_root_name
+p
 end
 
 
 methods (TestParameterDefinition, Static)
 
-function [p_root, p_root_name] = init_relative_to()
+function p = init()
 
-p_root = {{"", ""}, ...
-{"a/b", ""}, ...
-{"./a/b", ""}, ...
-{"/etc", "/"}, ...
-{"c:", ""}, ...
-{"c:/etc", ""}};
-
-p_root_name = {{"", ""}, ...
+p = {{"", ""}, ...
 {"a/b", ""}, ...
 {"/etc", ""}, ...
 {"c:/etc", ""}};
 
 if ispc
-p_root{5}{2} = "c:";
-p_root{6}{2} = "c:/";
-
-p_root_name{4}{2} = "c:";
+  p{4}{2} = "c:";
 end
 
 end
@@ -46,8 +35,8 @@ if ispc
 end
 end
 
-function test_root(tc, p_root)
-tc.verifyEqual(stdlib.root(p_root{1}), p_root{2})
+function test_root_name(tc, p)
+tc.verifyEqual(stdlib.root_name(p{1}), p{2})
 end
 
 end
