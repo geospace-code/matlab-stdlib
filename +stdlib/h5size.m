@@ -24,6 +24,7 @@ end
 
 
 %!test
+%! if !isempty(pkg('list', 'hdf5oct'))
 %! pkg load hdf5oct
 %! fn = tempname();
 %! ds = '/a';
@@ -31,3 +32,4 @@ end
 %! h5save_new(fn, ds, a, size(a), 0)
 %! assert(h5size(fn, ds), uint64([1,2]))
 %! delete(fn)
+%! endif

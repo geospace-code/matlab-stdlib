@@ -30,6 +30,7 @@ end
 
 
 %!test
+%! if !isempty(pkg('list', 'netcdf'))
 %! pkg load netcdf
 %! fn = tempname();
 %! ds = 'a';
@@ -37,3 +38,4 @@ end
 %! assert(ncexists(fn, ds))
 %! assert(!ncexists(fn, 'b'))
 %! delete(fn)
+%! endif

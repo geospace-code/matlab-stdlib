@@ -16,6 +16,7 @@ end
 end
 
 %!test
+%! if !isempty(pkg('list', 'netcdf'))
 %! pkg load netcdf
 %! fn = tempname();
 %! ds = 'a';
@@ -25,3 +26,4 @@ end
 %! ncsave_exist(fn, ds, b, size(b))
 %! assert(ncread(fn, ds), b)
 %! delete(fn)
+%! endif

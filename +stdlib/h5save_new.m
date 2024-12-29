@@ -31,6 +31,7 @@ h5write(filename, varname, A)
 end
 
 %!test
+%! if !isempty(pkg('list', 'hdf5oct'))
 %! pkg load hdf5oct
 %! fn = tempname();
 %! ds = '/a';
@@ -38,3 +39,4 @@ end
 %! h5save_new(fn, ds, a, size(a), 0)
 %! assert(h5read(fn, ds), a)
 %! delete(fn)
+%! endif

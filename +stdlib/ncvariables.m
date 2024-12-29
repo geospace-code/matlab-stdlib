@@ -38,9 +38,11 @@ end
 
 
 %!test
+%! if !isempty(pkg('list', 'netcdf'))
 %! pkg load netcdf
 %! fn = tempname();
 %! ds = 'a';
 %! nccreate(fn, ds)
 %! assert(ncvariables(fn, ''), {'a'})
 %! delete(fn)
+%! endif

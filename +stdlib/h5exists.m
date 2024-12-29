@@ -28,6 +28,7 @@ end
 end
 
 %!test
+%! if !isempty(pkg('list', 'hdf5oct'))
 %! pkg load hdf5oct
 %! fn = tempname();
 %! ds = '/a';
@@ -35,3 +36,4 @@ end
 %! assert(h5exists(fn, ds))
 %! assert(!h5exists(fn, '/b'))
 %! delete(fn)
+%! endif
