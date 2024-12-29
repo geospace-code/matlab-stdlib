@@ -50,6 +50,17 @@ v = stdlib.java_api();
 tc.verifyGreaterThanOrEqual(v, 8, "Java API >= 8 is required for Matlab-stdlib")
 end
 
+function test_cpu_arch(tc)
+arch = stdlib.cpu_arch();
+tc.verifyNotEmpty(arch)
+end
+
+function test_os_version(tc)
+[os, ver] = stdlib.os_version();
+tc.verifyNotEmpty(os)
+tc.verifyNotEmpty(ver)
+end
+
 
 function test_hard_link_count(tc)
 fn = mfilename("fullpath") + ".m";
