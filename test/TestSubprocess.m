@@ -42,7 +42,7 @@ tc.assertEqual(s, 0, "status non-zero")
 tc.verifyGreaterThan(strlength(m), 0, "empty directory not expected")
 tc.verifyEqual(strlength(e), 0, e)
 
-[s, mc, e] = stdlib.subprocess_run(c, cwd=td);
+[s, mc, e] = stdlib.subprocess_run(c, "cwd", td);
 tc.assertEqual(s, 0, "status non-zero")
 tc.verifyNotEqual(m, mc, "expected different directory to have different contents")
 tc.verifyEqual(strlength(e), 0, e)

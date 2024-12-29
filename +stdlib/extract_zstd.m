@@ -15,7 +15,7 @@ if isempty(exe)
   extract_zstd_bin(archive, out_dir)
 end
 
-[ret, msg] = stdlib.subprocess_run([exe, "-E", "tar", "xf", archive], cwd=out_dir);
+[ret, msg] = stdlib.subprocess_run([exe, "-E", "tar", "xf", archive], "cwd", out_dir);
 assert(ret == 0, "problem extracting %s   %s", archive, msg)
 
 end
