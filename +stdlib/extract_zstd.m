@@ -3,8 +3,8 @@
 
 function extract_zstd(archive, out_dir)
 arguments
-  archive (1,1) string {mustBeFile}
-  out_dir (1,1) string {mustBeFolder}
+  archive (1,1) string
+  out_dir (1,1) string
 end
 
 archive = stdlib.absolute(archive);

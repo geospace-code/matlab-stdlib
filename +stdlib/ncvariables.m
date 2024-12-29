@@ -10,7 +10,7 @@
 
 function names = ncvariables(file, group)
 arguments
-  file (1,1) string {mustBeFile}
+  file (1,1) string
   group (1,1) string = ""
 end
 

@@ -8,7 +8,7 @@
 
 function exists = h5exists(file, variable)
 arguments
-  file (1,1) string {mustBeFile}
+  file (1,1) string
   variable (1,1) string
 end
 

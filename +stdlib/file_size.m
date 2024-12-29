@@ -2,17 +2,19 @@
 
 function s = file_size(p, use_java)
 arguments
-  p (1,1) string {mustBeFile}
+  p (1,1) string
   use_java (1,1) logical = false
 end
 
-if use_java
+s = [];
+
+if ~isfile(p)
+  return
+elseif use_java
   s = javaFileObject(p).length();
 else
   s = dir(p);
-  if isempty(s)
-    s = [];
-  else
+  if ~isempty(s)
     s = s.bytes;
   end
 end
