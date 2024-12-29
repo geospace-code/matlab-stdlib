@@ -51,8 +51,8 @@ if ~isempty(fieldnames(opt.env))
 end
 
 if strlength(opt.cwd) > 0
-  mustBeFolder(opt.cwd)
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html#directory(java.io.File)
+  assert(isfolder(opt.cwd), "directory %s does not exist", opt.cwd)
   proc.directory(java.io.File(opt.cwd));
 end
 %% start process
