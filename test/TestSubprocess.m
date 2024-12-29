@@ -85,7 +85,7 @@ else
   c = ["sleep", "3"];
 end
 
-[ret, ~, err] = stdlib.subprocess_run(c, timeout=timeout);
+[ret, ~, err] = stdlib.subprocess_run(c, "timeout", timeout);
 
 tc.verifyNotEqual(ret, 0, err)
 tc.verifyThat(err, StartsWithSubstring("Subprocess timeout"))

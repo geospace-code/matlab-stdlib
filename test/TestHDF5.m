@@ -44,15 +44,9 @@ stdlib.h5save(bf, '/A2', A2)
 stdlib.h5save(bf, '/A3', A3, "size", size(A3))
 stdlib.h5save(bf, '/A4', A4)
 
-try
-if ~isMATLABReleaseOlderThan("R2020b")
+if ~too_old("R2020b")
 stdlib.h5save(bf, "/utf", utf)
 stdlib.h5save(bf, "/utf2", utf2)
-end
-catch e
-  if e.identifier ~= "MATLAB:UndefinedFunction"
-    rethrow(e)
-  end
 end
 
 stdlib.h5save(bf, '/t/x', 12)
@@ -81,14 +75,8 @@ basic = tc.TestData.basic;
 v = stdlib.h5variables(basic);
 k = ["A0", "A1", "A2", "A3", "A4"];
 
-try
-if ~isMATLABReleaseOlderThan("R2020b")
+if ~too_old("R2020b")
   k = [k, "utf", "utf2"];
-end
-catch e
-  if e.identifier ~= "MATLAB:UndefinedFunction"
-    rethrow(e)
-  end
 end
 
 tc.verifyEqual(sort(v), k)
@@ -140,18 +128,12 @@ s = stdlib.h5size(basic, '/A4');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
 
-try
-if ~isMATLABReleaseOlderThan("R2020b")
+if ~too_old("R2020b")
 s = stdlib.h5size(basic, '/utf');
 tc.verifyEmpty(s)
 
 s = stdlib.h5size(basic, '/utf2');
 tc.verifyEqual(s, 2)
-end
-catch e
-  if e.identifier ~= "MATLAB:UndefinedFunction"
-    rethrow(e)
-  end
 end
 
 end
@@ -182,8 +164,7 @@ s = h5read(basic, '/A4');
 tc.verifyEqual(ndims(s), 4)
 tc.verifyEqual(s, tc.TestData.A4)
 
-try
-if ~isMATLABReleaseOlderThan("R2020b")
+if ~too_old("R2020b")
 s = h5read(basic, '/utf');
 tc.verifyTrue(ischar(s))
 tc.verifyEqual(s, tc.TestData.utf)
@@ -191,11 +172,6 @@ tc.verifyEqual(s, tc.TestData.utf)
 s = h5read(basic, '/utf2');
 tc.verifyThat(s, IsOfClass('string'))
 tc.verifyEqual(s, tc.TestData.utf2)
-end
-catch e
-  if e.identifier ~= "MATLAB:UndefinedFunction"
-    rethrow(e)
-  end
 end
 
 end
@@ -219,7 +195,11 @@ end
 function test_coerce(tc, type)
 basic = tc.TestData.basic;
 
-stdlib.h5save(basic, "/"+type, 0, "type",type)
+if any(type == ["string", "char"])
+  tc.assumeFalse(too_old("R2020b"))
+end
+
+stdlib.h5save(basic, "/" + type, 0, "type", type)
 
 switch type
 case "string", vt = 'char';
@@ -264,6 +244,8 @@ tc.verifyEqual(a, int8([1;2]))
 end
 
 function test_string(tc, str)
+
+tc.assumeFalse(too_old("R2020b"))
 
 basic = tc.TestData.basic;
 
