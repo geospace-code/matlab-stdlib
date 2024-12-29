@@ -27,7 +27,7 @@ else
   c = p;
 end
 
-if ispc && strncmp(c, "\\", 2)
+if ispc && (startsWith(c, "\\") || startsWith(c, "//"))
   % UNC path is not canonicalized
   return
 end

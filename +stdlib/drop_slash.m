@@ -1,4 +1,6 @@
 %% DROP_SLASH drop repeated and trailing slash
+%
+% on Windows, if leading double slash, do not drop
 
 function d = drop_slash(p)
 arguments
@@ -7,12 +9,17 @@ end
 
 s = stdlib.posix(p);
 
+uncslash = ispc && startsWith(s, "//");
+
 % drop repeated slashes inside string
 d = regexprep(s, "/+", "/");
 
 L = stdlib.len(d);
 
-if strcmp(d, '/') || ~L
+if L < 2
+  if uncslash
+    d = "//";
+  end
   return;
 end
 
@@ -26,10 +33,13 @@ if ~ispc || (L ~= 3 || ~strcmp(d, stdlib.root(s, false)))
   end
 end
 
+if uncslash
+  d = strcat("/", d);
+end
+
 end
 
 %!assert(drop_slash(''), '')
 %!assert(drop_slash('/'), '/')
-%!assert(drop_slash('//'), '/')
 %!assert(drop_slash('a//b'), 'a/b')
 %!assert(drop_slash('a//b/'), 'a/b')

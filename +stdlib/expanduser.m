@@ -16,7 +16,7 @@ end
 e = stdlib.drop_slash(p);
 
 L = stdlib.len(e);
-if ~L || ~strncmp(e, "~", 1) || (L > 1 && ~strncmp(e, "~/", 2))
+if ~L || ~startsWith(e, "~") || (L > 1 && ~startsWith(e, "~/"))
   return
 end
 

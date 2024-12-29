@@ -14,13 +14,14 @@ arguments
   use_java (1,1) logical = false
 end
 
-
 if use_java
   o = javaFileObject(p).toPath().normalize();
-  n = jPosix(o);
+  n = stdlib.drop_slash(jPosix(o));
 else
 
   n = stdlib.posix(p);
+
+  uncslash = ispc && startsWith(n, "//");
 
   % use split to remove /../ and /./ and duplicated /
   parts = split(n, '/');
@@ -57,6 +58,10 @@ else
         n = n + "/" + parts(i);
       end
     end
+  end
+
+  if uncslash
+    n = strcat("/", n);
   end
 
 end
