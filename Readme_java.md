@@ -13,14 +13,22 @@ version("-java")
 Get the Java API level:
 
 ```matlab
-stdlib.java_api
+stdlib.java_api()
+```
+
+Get the Java vendor:
+
+```matlab
+stdlib.java_vendor()
 ```
 
 Get the Java version:
 
 ```matlab
-stdlib.java_version
+stdlib.java_version()
 ```
+
+From before Matlab R2019b to at least Matlab R2024b, the Matlab factory Java version is 1.8, which is adequate for all Matlab-stdlib functionality.
 
 If desired (not used by Matlab-stdlib), one can use non-factory Java classes in
 [Matlab](](https://www.mathworks.com/help/matlab/matlab_external/static-path-of-java-class-path.html))
