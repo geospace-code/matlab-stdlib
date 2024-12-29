@@ -2,7 +2,8 @@ function s = jPosix(o)
 
   if isempty(o)
     s = "";
-  else
+  elseif isa(o, "java.io.File") || isa(o, "java.nio.file.Path") || ...
+         isa(o, "sun.nio.fs.UnixPath") || isa(o, "sun.nio.fs.WindowsPath")
     s = o.toString();
   end
 
