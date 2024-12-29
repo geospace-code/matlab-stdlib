@@ -1,40 +1,6 @@
 classdef TestResolve < matlab.unittest.TestCase
 
-methods(TestClassSetup)
-
-function setup_workdir(tc)
-import matlab.unittest.constraints.IsFile
-import matlab.unittest.fixtures.TemporaryFolderFixture
-import matlab.unittest.fixtures.CurrentFolderFixture
-
-workdir = tc.applyFixture(TemporaryFolderFixture).Folder;
-tc.applyFixture(CurrentFolderFixture(workdir))
-end
-
-end
-
-
-methods(Test)
-
-function test_absolute(tc)
-
-td = stdlib.posix(pwd());
-
-tc.verifyEqual(stdlib.absolute(""), td)
-tc.verifyEqual(stdlib.absolute("",""), td)
-
-r = td + "/hi";
-tc.verifyEqual(stdlib.absolute("hi"), r)
-tc.verifyEqual(stdlib.absolute("", "hi"), r)
-tc.verifyEqual(stdlib.absolute("hi", ""), r)
-
-tc.verifyEqual(stdlib.absolute("./hi"), td + "/./hi")
-tc.verifyEqual(stdlib.absolute("../hi"), td + "/../hi")
-
-tc.verifyEqual(stdlib.absolute("there", "hi"), td + "/hi/there")
-
-end
-
+methods (Test)
 
 function test_resolve_non_exist(tc)
 import matlab.unittest.constraints.StartsWithSubstring
