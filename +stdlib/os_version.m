@@ -10,3 +10,8 @@ os = javaSystemProperty("os.name");
 version = javaSystemProperty("os.version");
 
 end
+
+%!test
+%! [os, version] = os_version();
+%! assert(!isempty(os))
+%! assert(!isempty(version))

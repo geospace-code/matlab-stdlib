@@ -37,6 +37,12 @@ L = strlength(h);
 tc.verifyGreaterThan(L, 0, "expected non-empty hostname")
 end
 
+function test_java_vendor(tc)
+v = stdlib.java_vendor();
+L = strlength(v);
+tc.verifyGreaterThan(L, 0, "expected non-empty vendor")
+end
+
 
 function test_java_version(tc)
 v = stdlib.java_version();
@@ -52,15 +58,17 @@ end
 
 function test_cpu_arch(tc)
 arch = stdlib.cpu_arch();
-tc.verifyNotEmpty(arch)
+L = strlength(arch);
+tc.verifyGreaterThan(L, 0, "expected non-empty arch")
 end
 
 function test_os_version(tc)
 [os, ver] = stdlib.os_version();
-tc.verifyNotEmpty(os)
-tc.verifyNotEmpty(ver)
+Lo = strlength(os);
+Lv = strlength(ver);
+tc.verifyGreaterThan(Lo, 0, "expected non-empty os")
+tc.verifyGreaterThan(Lv, 0, "expected non-empty version")
 end
-
 
 function test_hard_link_count(tc)
 fn = mfilename("fullpath") + ".m";
