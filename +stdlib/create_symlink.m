@@ -29,6 +29,8 @@ catch e
     % https://www.mathworks.com/help/releases/R2024b/matlab/ref/createsymboliclink.html
     % ok = java.nio.file.Files.createSymbolicLink(java.io.File(link).toPath(), java.io.File(target).toPath());
     % Matlab Java doesn't recognize the optional argument omitted.
+    % see example/Filesystem.java for this working in plain Java.
+    % see example/javaCreateSymbolicLink.m for a non-working attempt in Matlab.
 
     if ispc
       cmd = "pwsh -c " + '"' + "New-Item -ItemType SymbolicLink -Path " + link + ...
