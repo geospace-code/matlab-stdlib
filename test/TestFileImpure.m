@@ -77,8 +77,11 @@ end
 
 function test_get_permissions(tc)
 import matlab.unittest.constraints.StartsWithSubstring
+import matlab.unittest.constraints.IsOfClass
+
 p = stdlib.get_permissions(".");
 tc.verifyThat(p, StartsWithSubstring("r"))
+tc.verifyThat(p, IsOfClass("char"))
 end
 
 function test_handle2filename(tc, ph)
