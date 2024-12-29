@@ -22,18 +22,14 @@ end
 
 ds = finf.Datasets;
 
-if ischar(file)
-  if isempty(ds) %#ok<UNRCH>
-    names = [];
-  else
-    names = {ds.Name};
-  end
+if isempty(ds)
+  names = [];
 else
-  if isempty(ds)
-    names = string.empty;
-  else
-    names = string({ds.Name});
-  end
+  names = {ds.Name};
+end
+
+try %#ok<TRYNC>
+  names = string(names);
 end
 
 end

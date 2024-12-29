@@ -6,9 +6,7 @@ function s = get_shell()
 
 s = getenv("SHELL");
 
-d = "";
-
-if isa(d, "string")
+try %#ok<TRYNC>
   s = string(s);
 end
 

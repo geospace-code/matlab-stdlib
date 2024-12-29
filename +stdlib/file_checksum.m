@@ -41,7 +41,7 @@ hash = typecast(inst.digest, 'uint8');
 
 hash = sprintf('%.2x', hash);
 
-if isa(file, "string")
+try %#ok<TRYNC>
   hash = string(hash);
 end
 
