@@ -35,8 +35,10 @@ end
 if stdlib.exists(c, use_java)
   if stdlib.isoctave()
     c = canonicalize_file_name(c);
+  elseif use_java
+    c = javaFileObject(c).getCanonicalPath();
   else
-    % errors if path does not exist. Errors on leading ~
+    % errors if any component of path does not exist. Errors on leading ~
     c = builtin('_canonicalizepath', c);
   end
 elseif stdlib.len(c)

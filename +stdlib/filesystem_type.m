@@ -1,6 +1,9 @@
 %% FILESYSTEM_TYPE tell type of filesystem
 %
 % example outputs: ntfs, ext4, apfs, ...
+%
+% if empty output or error, try specifying the drive root
+% like "/" or "C:/"
 
 function t = filesystem_type(p)
 arguments

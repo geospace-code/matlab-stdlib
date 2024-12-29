@@ -47,7 +47,7 @@ end
 
 function test_java_api(tc)
 v = stdlib.java_api();
-tc.verifyGreaterThanOrEqual(v, 8)
+tc.verifyGreaterThanOrEqual(v, 8, "Java API >= 8 is required for Matlab-stdlib")
 end
 
 
