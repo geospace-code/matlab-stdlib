@@ -3,24 +3,9 @@ classdef TestResolve < matlab.unittest.TestCase
 properties (TestParameter)
 use_java = num2cell(unique([stdlib.has_java(), false]))
 
-p
+p = init_resolve()
 end
 
-methods (TestParameterDefinition, Static)
-
-function p = init()
-c = stdlib.posix(pwd());
-p = {...
-{"", c}, {"not-exist", c + "/not-exist"}, ...
-{"a/../b", c + "/b"}, ...
-{"~", stdlib.homedir()}, {"~/", stdlib.homedir()}, ...
-{"~/..", stdlib.parent(stdlib.homedir())}, ...
-{mfilename("fullpath") + ".m/..", stdlib.parent(mfilename("fullpath"))}, ...
-{"~/not-exist/a/..", stdlib.homedir() + "/not-exist"}
-};
-end
-
-end
 
 methods (Test)
 
@@ -63,4 +48,19 @@ end
 
 end
 
+end
+
+
+function p = init_resolve()
+
+c = stdlib.posix(pwd());
+
+p = {...
+{"", c}, {"not-exist", c + "/not-exist"}, ...
+{"a/../b", c + "/b"}, ...
+{"~", stdlib.homedir()}, {"~/", stdlib.homedir()}, ...
+{"~/..", stdlib.parent(stdlib.homedir())}, ...
+{mfilename("fullpath") + ".m/..", stdlib.parent(mfilename("fullpath"))}, ...
+{"~/not-exist/a/..", stdlib.homedir() + "/not-exist"}
+};
 end

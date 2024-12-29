@@ -2,11 +2,19 @@ classdef TestNormalize < matlab.unittest.TestCase
 
 properties (TestParameter)
 use_java = num2cell(unique([stdlib.has_java(), false]))
-p
+p = init_norm()
 end
 
-methods (TestParameterDefinition, Static)
-function p = init()
+methods (Test)
+function test_normalize(tc, p, use_java)
+tc.verifyEqual(stdlib.normalize(p{1}, use_java), p{2})
+end
+end
+
+end
+
+function p = init_norm()
+
 p = {
   {"", "."}, ...
   {"a/..", "."}, ...
@@ -30,14 +38,4 @@ p = {
 if ispc
   p{3}{2} = "//a/b";
 end
-
-end
-end
-
-methods (Test)
-function test_normalize(tc, p, use_java)
-tc.verifyEqual(stdlib.normalize(p{1}, use_java), p{2})
-end
-end
-
 end

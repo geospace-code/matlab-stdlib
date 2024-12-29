@@ -1,16 +1,30 @@
 classdef TestRelative < matlab.unittest.TestCase
 
 properties (TestParameter)
-p_relative_to
-p_proximate_to
+p_relative_to = init_rel()
+p_proximate_to = init_prox()
 end
 
 
-methods (TestParameterDefinition, Static)
+methods (Test)
 
-function [p_relative_to, p_proximate_to] = init_relative_to()
+function test_relative_to(tc, p_relative_to)
+tc.assumeTrue(stdlib.has_java())
+tc.verifyEqual(stdlib.relative_to(p_relative_to{1}, p_relative_to{2}), p_relative_to{3}, "relative_to(" + p_relative_to{1} + "," + p_relative_to{2}+")")
+end
 
-p_relative_to = {{"", "", "."}, ...
+function test_proximate_to(tc, p_proximate_to)
+tc.assumeTrue(stdlib.has_java())
+tc.verifyEqual(stdlib.proximate_to(p_proximate_to{1}, p_proximate_to{2}), p_proximate_to{3}, "proximate_to(" + p_proximate_to{1} + "," + p_proximate_to{2}+")")
+end
+
+end
+end
+
+
+function p = init_rel()
+
+p = {{"", "", "."}, ...
 {"Hello", "Hello", "."}, ...
 {"Hello", "Hello/", "."}, ...
 {"a/./b", "a/b", "."}, ...
@@ -29,51 +43,32 @@ p_relative_to = {{"", "", "."}, ...
 {"this/one", "this/two", "../two"}};
 % NOTE: ".." in relative_to(base) is ambiguous including for python.pathlib, C++ <filesystem>, etc.
 
-p_proximate_to = p_relative_to;
-
-p_proximate_to{8}{3} = "/";
-p_proximate_to{12}{3} = "c";
-p_proximate_to{13}{3} = "/a/b";
-
 if ispc
-
-p_relative_to = [p_relative_to, ...
+p = [p, ...
 {{"c:\a\b", "c:/", "../.."}, ...
 {"c:\", "c:/a/b", "a/b"}, ...
 {"c:/a/b", "c:/a/b", "."}, ...
 {"c:/a/b", "c:/a", ".."}, ...
 {"c:\a/b\c/d", "c:/a\b", "../.."}, ...
 {"c:/path", "d:/path", ""}}];
+end
 
-p_proximate_to = p_relative_to;
+end
+
+function p = init_prox()
 % NOTE: ".." in proximate_to(base) is ambiguous including for python.pathlib, C++ <filesystem>, etc
 
-p_proximate_to{8}{3} = "/";
-p_proximate_to{12}{3} = "c";
-p_proximate_to{13}{3} = "/a/b";
+p = init_rel();
 
-p_proximate_to{end}{3} = "d:/path";
+p{8}{3} = "/";
+p{12}{3} = "c";
+p{13}{3} = "/a/b";
+
+if ispc
+p{8}{3} = "/";
+p{12}{3} = "c";
+p{13}{3} = "/a/b";
+
+p{end}{3} = "d:/path";
 end
-
-end
-
-end
-
-
-
-methods (Test)
-
-function test_relative_to(tc, p_relative_to)
-tc.assumeTrue(stdlib.has_java())
-tc.verifyEqual(stdlib.relative_to(p_relative_to{1}, p_relative_to{2}), p_relative_to{3}, "relative_to(" + p_relative_to{1} + "," + p_relative_to{2}+")")
-end
-
-
-function test_proximate_to(tc, p_proximate_to)
-tc.assumeTrue(stdlib.has_java())
-tc.verifyEqual(stdlib.proximate_to(p_proximate_to{1}, p_proximate_to{2}), p_proximate_to{3}, "proximate_to(" + p_proximate_to{1} + "," + p_proximate_to{2}+")")
-end
-
-end
-
 end

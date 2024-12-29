@@ -5,7 +5,7 @@ d
 end
 
 properties (TestParameter)
-p_is_symlink
+p = init_symlink()
 end
 
 
@@ -29,18 +29,11 @@ tc.assumeTrue(stdlib.create_symlink(tc.d.this, tc.d.link), ...
 end
 end
 
-methods(TestParameterDefinition, Static)
-
-function p_is_symlink = init_symlink()
-p_is_symlink = {{"not-exist", false}, {"my.lnk", true}, {mfilename("fullpath") + ".m", false}};
-end
-
-end
 
 methods (Test)
 
-function test_is_symlink(tc, p_is_symlink)
-tc.verifyEqual(stdlib.is_symlink(p_is_symlink{1}), p_is_symlink{2})
+function test_is_symlink(tc, p)
+tc.verifyEqual(stdlib.is_symlink(p{1}), p{2})
 end
 
 
@@ -66,7 +59,10 @@ tc.verifyTrue(stdlib.is_symlink("another.lnk"))
 
 end
 
-
+end
 end
 
+
+function p = init_symlink()
+p = {{"not-exist", false}, {"my.lnk", true}, {mfilename("fullpath") + ".m", false}};
 end

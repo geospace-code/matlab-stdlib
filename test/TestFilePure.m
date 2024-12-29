@@ -1,25 +1,7 @@
 classdef TestFilePure < matlab.unittest.TestCase
 
 properties (TestParameter)
-p
-end
-
-
-methods (TestParameterDefinition, Static)
-
-function p = init()
-
-p = {{"", ""}, ...
-{"a/b", ""}, ...
-{"/etc", ""}, ...
-{"c:/etc", ""}};
-
-if ispc
-  p{4}{2} = "c:";
-end
-
-end
-
+p = init_root_name()
 end
 
 
@@ -40,4 +22,18 @@ tc.verifyEqual(stdlib.root_name(p{1}), p{2})
 end
 
 end
+end
+
+
+function p = init_root_name()
+
+p = {{"", ""}, ...
+{"a/b", ""}, ...
+{"/etc", ""}, ...
+{"c:/etc", ""}};
+
+if ispc
+  p{4}{2} = "c:";
+end
+
 end
