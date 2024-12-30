@@ -1,7 +1,7 @@
 %% CANONICAL Canonicalize path
 % c = canonical(p);
 % If exists, canonical absolute path is returned.
-% if path does not exist, normalized relative path is returned.
+% if any component of path does not exist, normalized relative path is returned.
 % UNC paths are not canonicalized.
 %
 % This also resolves Windows short paths to long paths.
@@ -34,11 +34,13 @@ end
 
 if stdlib.exists(c, use_java)
   if stdlib.isoctave()
+    % empty if any component of path does not exist
     c = canonicalize_file_name(c);
   elseif use_java
+    % incorrect result if any component of path does not exist
     c = javaFileObject(c).getCanonicalPath();
   else
-    % errors if any component of path does not exist. Errors on leading ~
+    % errors if any component of path does not exist.
     c = builtin('_canonicalizepath', c);
   end
 elseif stdlib.len(c)
