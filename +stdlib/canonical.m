@@ -22,29 +22,37 @@ end
 
 
 if expand_tilde
-  c = stdlib.expanduser(p, use_java);
+  e = stdlib.expanduser(p, use_java);
 else
-  c = p;
+  e = p;
 end
 
-if ispc && (startsWith(c, "\\") || startsWith(c, "//"))
+c = "";
+
+if ~stdlib.len(e), return, end
+
+if ispc && (startsWith(e, "\\") || startsWith(e, "//"))
   % UNC path is not canonicalized
   return
 end
 
-if stdlib.exists(c, use_java)
-  if stdlib.isoctave()
-    % empty if any component of path does not exist
-    c = canonicalize_file_name(c);
-  elseif use_java
-    % incorrect result if any component of path does not exist
-    c = javaFileObject(c).getCanonicalPath();
-  else
-    % errors if any component of path does not exist.
-    c = builtin('_canonicalizepath', c);
+if stdlib.isoctave()
+% empty if any component of path does not exist
+  c = canonicalize_file_name(e);
+elseif use_java && stdlib.is_absolute(e, true)
+% incorrect result if relative path and any component of path does not exist
+% disp("java")
+  c = javaFileObject(e).getCanonicalPath();
+else
+% errors if any component of path does not exist.
+% disp("builtin")
+  try %#ok<TRYNC>
+    c = builtin('_canonicalizepath', e);
   end
-elseif stdlib.len(c)
-  c = stdlib.normalize(c, use_java);
+end
+
+if ~stdlib.len(c)
+  c = stdlib.normalize(e, use_java);
 end
 
 c = stdlib.posix(c);
