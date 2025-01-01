@@ -12,25 +12,17 @@ arguments
   use_java (1,1) logical = false
 end
 
-names = filename;
+exe = string.empty;
 
-if ispc
-  % Windows executable filename doesn't necessarily need .exe,
-  % particularly for WSL executables that is_exe() will detect from
-  % native Windows Matlab.
-  if ~endsWith(lower(filename), ".exe")
-    names(2) = filename + ".exe";
-  end
+if stdlib.is_exe(filename, use_java)
+  exe = stdlib.posix(filename);
+  return
 end
 
-% directory/filename given
-for exe = names
-
-  if stdlib.is_absolute(exe, use_java) && stdlib.is_exe(exe, use_java)
-    return
-  end
-
-end % for exe
+%  relative directory component, but path was not a file
+if stdlib.filename(filename) ~= filename
+  return
+end
 
 % path given
 
@@ -40,18 +32,13 @@ if isscalar(fpath)
 end
 fpath = fpath(strlength(fpath)>0);
 
-for name = names
-
-  for p = fpath
-    exe = stdlib.posix(p) + "/" + name;
-    if stdlib.is_exe(exe, use_java)
-      return
-    end
+for p = fpath
+  e = p + "/" + filename;
+  if stdlib.is_exe(e, use_java)
+    exe = stdlib.posix(e);
+    return
   end
-
-end % for name
-
-exe = string.empty;
+end
 
 end
 

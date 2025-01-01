@@ -35,13 +35,11 @@ tc.verifyFalse(stdlib.is_exe(tempname, use_java))
 
 n = "matlab";
 %% is_exe test
-p = fullfile(matlabroot, "bin", n);
+p = matlabroot + "/bin/" + n;
 if ispc
-  fp = p + ".exe";
-else
-  fp = p;
+  p = p + ".exe";
 end
-tc.verifyTrue(stdlib.is_exe(fp, use_java))
+tc.verifyTrue(stdlib.is_exe(p, use_java))
 %% which: test absolute path
 exe = stdlib.which(p, getenv('PATH'), use_java);
 
