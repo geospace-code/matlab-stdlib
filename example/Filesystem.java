@@ -55,6 +55,8 @@ public class Filesystem {
                 System.out.println(is_absolute(a1));
             } else if (command.equals("is_exe")) {
                 System.out.println(is_exe(a1));
+            } else if (command.equals("is_file")) {
+                System.out.println(new File(a1).isFile());
             } else if (command.equals("is_readable")) {
                 System.out.println(is_readable(a1));
             } else if (command.equals("ram_free")) {
