@@ -18,8 +18,8 @@ if strcmp(b1, o1)
   return
 end
 
-b = javaFileObject(b1).toPath();
-o = javaFileObject(o1).toPath();
+b = javaPathObject(b1);
+o = javaPathObject(o1);
 
 try
   w = contains(b1, "..");

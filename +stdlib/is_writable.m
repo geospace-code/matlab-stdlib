@@ -18,7 +18,7 @@ if use_java
   % java.nio.file.Files java is about 10x slower than fileattrib
   % needs absolute()
   % file = stdlib.absolute(file, "", false, true);
-  % ok = java.nio.file.Files.isWritable(java.io.File(file).toPath());
+  % ok = java.nio.file.Files.isWritable(javaPathObject(file));
 
 ok = javaFileObject(p).canWrite();
 

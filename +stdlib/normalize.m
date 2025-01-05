@@ -15,7 +15,7 @@ arguments
 end
 
 if use_java
-  o = javaFileObject(p).toPath().normalize();
+  o = javaPathObject(p).normalize();
   n = stdlib.drop_slash(jPosix(o));
 else
 

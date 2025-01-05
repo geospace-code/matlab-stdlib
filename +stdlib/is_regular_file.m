@@ -8,7 +8,7 @@ end
 % needs absolute()
 p = stdlib.absolute(p, "", false, true);
 
-op = java.io.File(p).toPath();
+op = javaPathObject(p);
 opt = javaLinkOption();
 
 if stdlib.isoctave()

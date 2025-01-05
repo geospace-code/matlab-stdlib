@@ -17,7 +17,7 @@ if use_java
   % java.nio.file.Files is about 10x slower than fileattrib
   % needs absolute()
   % file = stdlib.absolute(file, "", false, true);
-  % ok = java.nio.file.Files.isReadable(java.io.File(file).toPath());
+  % ok = java.nio.file.Files.isReadable(javaPathObject(file));
 
 ok = javaFileObject(p).canRead();
 

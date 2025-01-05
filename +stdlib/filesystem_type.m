@@ -10,7 +10,7 @@ arguments
   p (1,1) string
 end
 
-op = javaFileObject(p).toPath();
+op = javaPathObject(p);
 
 if stdlib.isoctave()
   t = javaMethod("getFileStore", "java.nio.file.Files", op).type;

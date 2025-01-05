@@ -8,7 +8,7 @@ end
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html#getOwner(java.nio.file.Path,java.nio.file.LinkOption...)
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/LinkOption.html
 
-op = javaFileObject(p).toPath();
+op = javaPathObject(p);
 opt = javaLinkOption();
 
 if stdlib.isoctave()

@@ -14,7 +14,7 @@ if ispc || ~isfile(p)
   return
 end
 
-op = javaFileObject(p).toPath();
+op = javaPathObject(p);
 opt = javaLinkOption();
 
 if stdlib.isoctave()

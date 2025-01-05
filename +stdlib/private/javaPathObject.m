@@ -1,0 +1,15 @@
+%% JAVAPATHOBJECT Return a Java nio.file.Path object for a given file path.
+function o = javaPathObject(p)
+
+try
+  o = java.nio.file.Paths.get(p, javaArray('java.lang.String', 0));
+  % o = javaFileObject(p).toPath();  % above way about 20% faster
+catch e
+  if strcmp(e.identifier, "Octave:undefined-function")
+    o = javafileObject(p).toPath();
+  else
+    rethrow(e);
+  end
+end
+
+end

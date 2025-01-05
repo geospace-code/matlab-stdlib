@@ -9,7 +9,7 @@ end
 
 
 if use_java
-  r = javaFileObject(base).toPath().resolve(other);
+  r = javaPathObject(base).resolve(other);
   p = jPosix(r);
 else
 

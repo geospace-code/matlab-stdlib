@@ -11,7 +11,7 @@ end
 
 
 if use_java
-  o = javaFileObject(p).toPath().getRoot();
+  o = javaPathObject(p).getRoot();
   r = jPosix(o);
 else
 
