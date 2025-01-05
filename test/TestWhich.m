@@ -9,7 +9,7 @@ methods (Test)
 
 function test_which_name(tc, use_java)
 
-tc.verifyEmpty(stdlib.which(tempname, getenv('PATH'), use_java))
+tc.verifyEmpty(stdlib.which(tempname, [], false, use_java))
 
 if ispc
   n = "pwsh.exe";
@@ -21,7 +21,7 @@ end
 % Unix-like OS may have Matlab as alias which is not visible to
 % stdlib.which()
 % virus scanners may block stdlib.which("cmd.exe") on Windows
-tc.verifyNotEmpty(stdlib.which(n, getenv('PATH'), use_java))
+tc.verifyNotEmpty(stdlib.which(n, [], false, use_java))
 
 end
 
@@ -38,7 +38,7 @@ if ispc
 end
 tc.assumeTrue(stdlib.is_exe(p, use_java), "Matlab not executable " + p)
 %% which: test absolute path
-exe = stdlib.which(p, [], use_java);
+exe = stdlib.which(p, [], false, use_java);
 
 if ispc
   tc.verifyThat(exe, EndsWithSubstring(".exe"))
