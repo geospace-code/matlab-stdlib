@@ -10,6 +10,10 @@
 import java.util.Scanner;
 import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.DosFileAttributes;
+import java.nio.file.LinkOption;
 
 
 public class Filesystem {
@@ -59,6 +63,12 @@ public class Filesystem {
                 System.out.println(new File(a1).isFile());
             } else if (command.equals("is_readable")) {
                 System.out.println(is_readable(a1));
+            } else if (command.equals("is_reparse_point")) {
+                System.out.println(is_reparse_point(a1));
+            } else if (command.equals("is_writable")) {
+                System.out.println(is_writable(a1));
+            } else if (command.equals("is_symlink")) {
+                System.out.println(is_symlink(a1));
             } else if (command.equals("ram_free")) {
                 System.out.println(ram_free());
             } else if (command.equals("cpu_count")) {
@@ -78,9 +88,13 @@ public class Filesystem {
         return f.getAbsolutePath();
     }
 
-    public static Boolean create_symlink(String target, String link) {
-        Path t = new File(target).toPath();
-        Path l = new File(link).toPath();
+    public static boolean is_windows() {
+        return System.getProperty("os.name").toLowerCase().contains("windows");
+    }
+
+    public static boolean create_symlink(String target, String link) {
+        Path t = Paths.get(target);
+        Path l = Paths.get(link);
         try {
             java.nio.file.Files.createSymbolicLink(l, t);
             return true;
@@ -106,18 +120,51 @@ public class Filesystem {
         }
     }
 
-    public static Boolean is_absolute(String path) {
+    public static boolean is_absolute(String path) {
         return new File(path).isAbsolute();
     }
 
-    public static Boolean is_exe(String path) {
+    public static boolean is_exe(String path) {
         File f = new File(path);
         return f.canExecute();
     }
 
-    public static Boolean is_readable(String path) {
+    public static boolean is_readable(String path) {
         return new File(path).canRead();
     }
+
+    public static boolean is_writable(String path) {
+        return new File(path).canWrite();
+    }
+
+    public static boolean is_symlink(String path) {
+        Path p = Paths.get(path);
+        return java.nio.file.Files.isSymbolicLink(p);
+    }
+
+    public static boolean is_reparse_point(String path) {
+// https://github.com/openjdk/jdk/blob/master/src/java.base/windows/classes/sun/nio/fs/WindowsFileAttributes.java
+// reflection to access WindowsFileAttributes
+// https://stackoverflow.com/a/29647840
+        if (!is_windows()) {
+            return false;
+        }
+
+        Path p = Paths.get(path);
+        try {
+            BasicFileAttributes attrs = java.nio.file.Files.readAttributes(p, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
+            if (DosFileAttributes.class.isInstance(attrs)) {
+                java.lang.reflect.Method m = attrs.getClass().getDeclaredMethod("isReparsePoint");
+                m.setAccessible(true);
+                return (boolean) m.invoke(attrs);
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+            System.err.println("Try running with --add-opens java.base/sun.nio.fs=ALL-UNNAMED");
+        }
+        return false;
+    }
+
 
     public static String parent(String path) {
         File f = new File(path);
@@ -125,8 +172,11 @@ public class Filesystem {
     }
 
     public static String root(String path) {
-        File f = new File(path);
-        return f.toPath().getRoot().toString();
+        Path r = Paths.get(path).getRoot();
+        if (r == null) {
+            return "";
+        }
+        return r.toString();
     }
 
     public static Long ram_free() {
