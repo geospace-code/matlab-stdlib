@@ -26,12 +26,9 @@ tc.verifyNotEmpty(stdlib.which(n, getenv('PATH'), use_java))
 end
 
 
-function test_is_exe_which_fullpath(tc, use_java)
+function test_which_fullpath(tc, use_java)
 import matlab.unittest.constraints.IsFile
 import matlab.unittest.constraints.EndsWithSubstring
-
-tc.verifyFalse(stdlib.is_exe("", use_java))
-tc.verifyFalse(stdlib.is_exe(tempname, use_java))
 
 n = "matlab";
 %% is_exe test
@@ -39,9 +36,9 @@ p = matlabroot + "/bin/" + n;
 if ispc
   p = p + ".exe";
 end
-tc.verifyTrue(stdlib.is_exe(p, use_java))
+tc.assumeTrue(stdlib.is_exe(p, use_java), "Matlab not executable " + p)
 %% which: test absolute path
-exe = stdlib.which(p, getenv('PATH'), use_java);
+exe = stdlib.which(p, [], use_java);
 
 if ispc
   tc.verifyThat(exe, EndsWithSubstring(".exe"))

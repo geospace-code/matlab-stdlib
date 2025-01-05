@@ -14,7 +14,7 @@ end
 
 exe = string.empty;
 
-if stdlib.is_exe(filename, use_java)
+if isfile(filename) && stdlib.is_exe(filename, use_java)
   exe = stdlib.posix(filename);
   return
 end
@@ -34,7 +34,7 @@ fpath = fpath(strlength(fpath)>0);
 
 for p = fpath
   e = p + "/" + filename;
-  if stdlib.is_exe(e, use_java)
+  if isfile(e) && stdlib.is_exe(e, use_java)
     exe = stdlib.posix(e);
     return
   end
