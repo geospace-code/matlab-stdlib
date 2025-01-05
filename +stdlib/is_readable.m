@@ -2,14 +2,14 @@
 %
 % non-existant file is false
 
-function ok = is_readable(file, use_java)
+function ok = is_readable(p, use_java)
 arguments
-  file (1,1) string
+  p (1,1) string
   use_java (1,1) logical = false
 end
 
 ok = false;
-if ~stdlib.exists(file, use_java), return, end
+if ~stdlib.exists(p), return, end
 % exists() check speeds up by factor of 50x on macOS for Java or non-Java
 
 if use_java
@@ -19,11 +19,11 @@ if use_java
   % file = stdlib.absolute(file, "", false, true);
   % ok = java.nio.file.Files.isReadable(java.io.File(file).toPath());
 
-ok = javaFileObject(file).canRead();
+ok = javaFileObject(p).canRead();
 
 else % use_java
 
-[status, v] = fileattrib(file);
+[status, v] = fileattrib(p);
 
 ok = status ~= 0 && (v.UserRead || (~isnan(v.GroupRead) && v.GroupRead) || (~isnan(v.OtherRead) && v.OtherRead));
 

@@ -9,6 +9,8 @@ arguments
   use_java (1,1) logical = false
 end
 
+ok = false;
+if ~stdlib.exists(p), return, end
 
 if use_java
 % about the same time as fileattrib
@@ -19,11 +21,6 @@ if use_java
 ok = javaFileObject(p).canExecute();
 
 else
-
-if ~stdlib.len(p)
-  ok = false;
-  return
-end
 
 [status, v] = fileattrib(p);
 

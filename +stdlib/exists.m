@@ -17,6 +17,7 @@ arguments
 end
 
 if use_java
+  % Windows: does NOT detect App Execution Aliases
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#exists(java.nio.file.Path,java.nio.file.LinkOption...)
 % this takes 2x longer than java.io.File.exists()
 % opt = javaLinkOption();
