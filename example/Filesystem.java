@@ -112,7 +112,7 @@ public class Filesystem {
 
     public static Boolean is_exe(String path) {
         File f = new File(path);
-        return f.isFile() && f.canExecute();
+        return f.canExecute();
     }
 
     public static Boolean is_readable(String path) {
