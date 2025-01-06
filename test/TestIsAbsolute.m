@@ -2,12 +2,11 @@ classdef TestIsAbsolute < matlab.unittest.TestCase
 
 properties (TestParameter)
 p = init_is_absolute()
-use_java = num2cell(unique([stdlib.has_java(), false]))
 end
 
 methods (Test)
-function test_is_absolute(tc, p, use_java)
-ok = stdlib.is_absolute(p{1}, use_java);
+function test_is_absolute(tc, p)
+ok = stdlib.is_absolute(p{1});
 tc.verifyEqual(ok, p{2}, p{1})
 end
 end

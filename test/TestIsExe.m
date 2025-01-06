@@ -2,12 +2,11 @@ classdef TestIsExe < matlab.unittest.TestCase
 
 properties (TestParameter)
 p = init_is_exe()
-use_java = num2cell(unique([stdlib.has_java(), false]))
 end
 
 methods(Test)
-function test_is_exe(tc, p, use_java)
-tc.verifyEqual(stdlib.is_exe(p{1}, use_java), p{2})
+function test_is_exe(tc, p)
+tc.verifyEqual(stdlib.is_exe(p{1}), p{2})
 end
 end
 end

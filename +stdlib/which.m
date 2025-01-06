@@ -7,17 +7,16 @@
 %
 % find_all option finds all executables specified under PATH, instead of only the first
 
-function exe = which(filename, fpath, find_all, use_java)
+function exe = which(filename, fpath, find_all)
 arguments
   filename (1,1) string
   fpath (1,:) string = string.empty
   find_all (1,1) logical = false
-  use_java (1,1) logical = false
 end
 
 exe = string.empty;
 
-if isfile(filename) && stdlib.is_exe(filename, use_java)
+if isfile(filename) && stdlib.is_exe(filename)
   exe = stdlib.posix(filename);
   return
 end
@@ -39,7 +38,7 @@ fpath = fpath(strlength(fpath)>0);
 
 for p = fpath.'
   e = p + "/" + filename;
-  if isfile(e) && stdlib.is_exe(e, use_java)
+  if isfile(e) && stdlib.is_exe(e)
     if find_all
       exe(end+1) = stdlib.posix(e); %#ok<AGROW>
     else

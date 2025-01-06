@@ -23,7 +23,7 @@ if L < 2
   return;
 end
 
-if ~ispc || (L ~= 3 || ~strcmp(d, stdlib.root(s, false)))
+if ~ispc || (L ~= 3 || ~strcmp(d, stdlib.root(s)))
   if ischar(s)
     if d(end) == '/'
       d = d(1:end-1);

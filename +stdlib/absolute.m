@@ -16,16 +16,15 @@
 % does not normalize path
 % non-existant path is made absolute relative to pwd
 
-function c = absolute(p, base, expand_tilde, use_java)
+function c = absolute(p, base, expand_tilde)
 arguments
   p (1,1) string
   base (1,1) string = ""
   expand_tilde (1,1) logical = true
-  use_java (1,1) logical = false
 end
 
 if expand_tilde
-  c = stdlib.expanduser(p, use_java);
+  c = stdlib.expanduser(p);
 else
   c = stdlib.posix(p);
 end
@@ -37,7 +36,7 @@ end
 if stdlib.len(base) == 0
   b = pwd();
 elseif expand_tilde
-  b = stdlib.expanduser(base, use_java);
+  b = stdlib.expanduser(base);
 else
   b = base;
 end

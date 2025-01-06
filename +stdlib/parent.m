@@ -1,10 +1,9 @@
 %% PARENT parent directory of path
 %
 
-function p = parent(pth, use_java)
+function p = parent(pth)
 arguments
   pth (1,1) string
-  use_java (1,1) logical = false
 end
 
 p = stdlib.drop_slash(pth);
@@ -18,17 +17,10 @@ elseif is_root_stub(p)
     p = strcat(p, "/");
   end
   return
-elseif strcmp(p, stdlib.root(p, use_java))
+elseif strcmp(p, stdlib.root(p))
   return
 end
 
-
-if use_java
-% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getParent()
-% Java is about 20x slower than pure Matlab
-p = jPosix(javaFileObject(p).getParent());
-
-else
 
 j = strfind(p, '/');
 if isempty(j)
@@ -40,13 +32,11 @@ else
 end
 
 if is_root_stub(p)
-  p = stdlib.root(pth, false);
+  p = stdlib.root(pth);
   return
 end
 
 p = stdlib.posix(p);
-
-end
 
 if ~stdlib.len(p)
   p = ".";

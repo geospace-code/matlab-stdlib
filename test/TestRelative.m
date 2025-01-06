@@ -1,21 +1,25 @@
 classdef TestRelative < matlab.unittest.TestCase
 
 properties (TestParameter)
-p_relative_to = init_rel()
-p_proximate_to = init_prox()
+pr = init_rel()
+pp = init_prox()
+end
+
+methods(TestClassSetup)
+function java_required(tc)
+tc.assumeTrue(stdlib.has_java())
+end
 end
 
 
 methods (Test)
 
-function test_relative_to(tc, p_relative_to)
-tc.assumeTrue(stdlib.has_java())
-tc.verifyEqual(stdlib.relative_to(p_relative_to{1}, p_relative_to{2}), p_relative_to{3}, "relative_to(" + p_relative_to{1} + "," + p_relative_to{2}+")")
+function test_relative_to(tc, pr)
+tc.verifyEqual(stdlib.relative_to(pr{1}, pr{2}), pr{3}, "relative_to(" + pr{1} + "," + pr{2}+")")
 end
 
-function test_proximate_to(tc, p_proximate_to)
-tc.assumeTrue(stdlib.has_java())
-tc.verifyEqual(stdlib.proximate_to(p_proximate_to{1}, p_proximate_to{2}), p_proximate_to{3}, "proximate_to(" + p_proximate_to{1} + "," + p_proximate_to{2}+")")
+function test_proximate_to(tc, pp)
+tc.verifyEqual(stdlib.proximate_to(pp{1}, pp{2}), pp{3}, "proximate_to(" + pp{1} + "," + pp{2}+")")
 end
 
 end

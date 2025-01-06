@@ -20,3 +20,5 @@ catch e
 end
 
 end
+
+%!assert (too_old())

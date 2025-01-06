@@ -1,22 +1,16 @@
 %% JOIN join two paths with posix file separator
 
-function p = join(base, other, use_java)
+function p = join(base, other)
 arguments
   base (1,1) string
   other (1,1) string
-  use_java (1,1) logical = false
 end
 
-
-if use_java
-  r = javaPathObject(base).resolve(other);
-  p = jPosix(r);
-else
 
 b = stdlib.drop_slash(base);
 o = stdlib.drop_slash(other);
 
-if strncmp(o, "/", 1) || (ispc && stdlib.is_absolute(o, false))
+if strncmp(o, "/", 1) || (ispc && stdlib.is_absolute(o))
   p = o;
   return
 end
@@ -34,10 +28,8 @@ end
 
 end
 
-end
-
-%!assert(join("", "",0), "")
-%!assert(join("", "b",0), "b")
-%!assert(join("a", "",0), "a")
-%!assert(join("a", "b",0), "a/b")
-%!assert(join("a", "/b/c",0), "/b/c")
+%!assert(join("", ""), "")
+%!assert(join("", "b"), "b")
+%!assert(join("a", ""), "a")
+%!assert(join("a", "b"), "a/b")
+%!assert(join("a", "/b/c"), "/b/c")

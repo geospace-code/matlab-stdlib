@@ -7,16 +7,10 @@ end
 
 if stdlib.exists(p)
 
-  utc = javaFileObject(p).lastModified() / 1000;
+  t = javaFileObject(p).lastModified() / 1000;
 
-  try
-    t = datetime(utc, "ConvertFrom", "PosixTime");
-  catch e
-    if strcmp(e.identifier, "Octave:undefined-function")
-      t = utc;
-    else
-      rethrow(e);
-    end
+  try %#ok<TRYNC>
+    t = datetime(t, "ConvertFrom", "PosixTime");
   end
 else
   try

@@ -3,33 +3,26 @@
 % root is the root_name + root_directory.
 
 
-function r = root(p, use_java)
+function r = root(p)
 arguments
   p (1,1) string
-  use_java (1,1) logical = false
 end
 
+r = stdlib.root_name(p);
 
-if use_java
-  o = javaPathObject(p).getRoot();
-  r = jPosix(o);
-else
-
-  r = stdlib.root_name(p);
-
-  if ~stdlib.len(r)
-    if strncmp(p, "/", 1)
-      r = "/";
-    end
-
-    return
+if ~stdlib.len(r)
+  if strncmp(p, "/", 1)
+    r = "/";
   end
 
-  if ispc && strcmp(r, p)
-    return
-  end
+  return
+end
 
-  r = strcat(r, "/");
+if ispc && strcmp(r, p)
+  return
+end
+
+r = strcat(r, "/");
 
 end
 

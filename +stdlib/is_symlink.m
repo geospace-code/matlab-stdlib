@@ -11,7 +11,7 @@ try
 catch e
   % must be absolute path
   % NOT .canonical or symlink is gobbled!
-  p = stdlib.absolute(p, "", false, true);
+  p = stdlib.absolute(p, "", false);
   op = javaPathObject(p);
 
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isSymbolicLink(java.nio.file.Path)

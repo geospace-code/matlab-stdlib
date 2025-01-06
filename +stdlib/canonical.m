@@ -11,18 +11,16 @@
 % * expand_tilde: expand ~ to username if present
 %%% Outputs
 % * c: canonical path, if determined
-% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getCanonicalPath()
 
-function c = canonical(p, expand_tilde, use_java)
+function c = canonical(p, expand_tilde)
 arguments
   p (1,1) string
   expand_tilde (1,1) logical = true
-  use_java (1,1) logical = false
 end
 
 
 if expand_tilde
-  e = stdlib.expanduser(p, use_java);
+  e = stdlib.expanduser(p);
 else
   e = p;
 end
@@ -39,10 +37,6 @@ end
 if stdlib.isoctave()
 % empty if any component of path does not exist
   c = canonicalize_file_name(e);
-elseif use_java && stdlib.is_absolute(e, true)
-% incorrect result if relative path and any component of path does not exist
-% disp("java")
-  c = javaFileObject(e).getCanonicalPath();
 else
 % errors if any component of path does not exist.
 % disp("builtin")
@@ -52,7 +46,7 @@ else
 end
 
 if ~stdlib.len(c)
-  c = stdlib.normalize(e, use_java);
+  c = stdlib.normalize(e);
 end
 
 c = stdlib.posix(c);

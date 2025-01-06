@@ -9,16 +9,15 @@
 % distinct from canonical(), resolve() always returns absolute path
 % non-existant path is made absolute relative to pwd
 
-function r = resolve(p, expand_tilde, use_java)
+function r = resolve(p, expand_tilde)
 arguments
   p (1,1) string
   expand_tilde (1,1) logical = true
-  use_java (1,1) logical = false
 end
 
 
-r = stdlib.canonical(stdlib.absolute(p, "", expand_tilde, use_java), false, use_java);
+r = stdlib.canonical(stdlib.absolute(p, "", expand_tilde), false);
 
 end
 
-%!assert (resolve('', 1, 0), stdlib.posix(pwd()))
+%!assert (resolve('', 1), stdlib.posix(pwd()))

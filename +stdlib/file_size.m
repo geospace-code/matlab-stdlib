@@ -1,17 +1,14 @@
 % FILE_SIZE size in bytes of file
 
-function s = file_size(p, use_java)
+function s = file_size(p)
 arguments
   p (1,1) string
-  use_java (1,1) logical = false
 end
 
 s = [];
 
 if ~isfile(p)
   return
-elseif use_java
-  s = javaFileObject(p).length();
 else
   s = dir(p);
   if ~isempty(s)

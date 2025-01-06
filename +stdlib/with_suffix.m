@@ -17,7 +17,7 @@ r = stdlib.parent(p);
 s = stdlib.stem(p);
 
 if stdlib.len(s) == 0
-  f = stdlib.join(p, suffix, false);
+  f = stdlib.join(p, suffix);
   return
 end
 

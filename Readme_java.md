@@ -1,10 +1,18 @@
-# Matlab-Stdlib Java implementation
+# Matlab-Stdlib Java functions
 
-Matlab has used Java since before Matlab R2006a.
-GNU Octave also can [use Java](https://docs.octave.org/latest/Set-up-the-JVM.html).
-Matlab-Stdlib uses only factory JRE classes.
+Some Matlab-Stdlib functions use the factory JRE, and have been tested with JVM versions 8 and 17 and newer.
 
-Tell JVM version
+In general, Java's java.io.File() and java.nio.file don't work with Windows App Execution Aliases.
+However, Matlab's intrinsic file functions do work with Windows App Execution Aliases.
+
+Matlab's Java interface was
+[introduced in Matlab 6.0 R12](http://www.ece.northwestern.edu/local-apps/matlabhelp/base/relnotes/matlab/matlab124.html#20684)
+in the year 2000.
+GNU Octave also can
+[use Java](https://docs.octave.org/latest/Set-up-the-JVM.html).
+Matlab-Stdlib uses only factory JRE classes where intrinsic Matlab code isn't easily capable of provided the needed algorithms.
+
+Tell JVM version:
 
 ```matlab
 version("-java")
@@ -74,7 +82,8 @@ matlab_jenv factory
 
 ## Configure GNU Octave JVM
 
-GNU [Octave JVM](https://docs.octave.org/latest/Set-up-the-JVM.html)
+GNU
+[Octave JVM](https://docs.octave.org/latest/Set-up-the-JVM.html)
 can be configured with the JAVA_HOME environment variable.
 Some install packages don't include Java.
 For example, with Homebrew:

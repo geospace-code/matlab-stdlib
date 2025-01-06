@@ -7,10 +7,9 @@
 %%% Outputs
 % * e: expanded path
 
-function e = expanduser(p, use_java)
+function e = expanduser(p)
 arguments
   p (1,1) string
-  use_java (1,1) logical = false
 end
 
 e = stdlib.drop_slash(p);
@@ -20,7 +19,7 @@ if ~L || ~startsWith(e, "~") || (L > 1 && ~startsWith(e, "~/"))
   return
 end
 
-home = stdlib.homedir(use_java);
+home = stdlib.homedir();
 
 if stdlib.len(home) == 0
   return
@@ -41,9 +40,9 @@ end
 end
 
 
-%!assert(expanduser('', 0), '')
-%!assert(expanduser("~", 0), homedir())
-%!assert(expanduser("~/", 0), homedir())
-%!assert(expanduser("~user", 0), "~user")
-%!assert(expanduser("~user/", 0), "~user")
-%!assert(expanduser("~///c", 0), strcat(homedir(), "/c"))
+%!assert(expanduser(''), '')
+%!assert(expanduser("~"), homedir())
+%!assert(expanduser("~/"), homedir())
+%!assert(expanduser("~user"), "~user")
+%!assert(expanduser("~user/"), "~user")
+%!assert(expanduser("~///c"), strcat(homedir(), "/c"))

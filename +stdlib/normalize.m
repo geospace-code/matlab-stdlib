@@ -6,64 +6,55 @@
 % * p: path to normalize
 %%% Outputs
 % * c: normalized path
-% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Path.html#normalize()
 
-function n = normalize(p, use_java)
+function n = normalize(p)
 arguments
   p (1,1) string
-  use_java (1,1) logical = false
 end
 
-if use_java
-  o = javaPathObject(p).normalize();
-  n = stdlib.drop_slash(jPosix(o));
+n = stdlib.posix(p);
+
+uncslash = ispc && startsWith(n, "//");
+
+% use split to remove /../ and /./ and duplicated /
+parts = split(n, '/');
+i0 = 1;
+if strncmp(n, "/", 1)
+  n = "/";
+elseif ispc && strlength(n) >= 2 && strlength(stdlib.root_name(p))
+  n = parts(1);
+  i0 = 2;
 else
+  n = "";
+end
 
-  n = stdlib.posix(p);
-
-  uncslash = ispc && startsWith(n, "//");
-
-  % use split to remove /../ and /./ and duplicated /
-  parts = split(n, '/');
-  i0 = 1;
-  if strncmp(n, "/", 1)
-    n = "/";
-  elseif ispc && strlength(n) >= 2 && strlength(stdlib.root_name(p))
-    n = parts(1);
-    i0 = 2;
-  else
-    n = "";
-  end
-
-  for i = i0:length(parts)
-    if parts(i) == ".."
-      if n == ""
-        n = parts(i);
-      elseif endsWith(n, "..")
-        n = n + "/" + parts(i);
+for i = i0:length(parts)
+  if parts(i) == ".."
+    if n == ""
+      n = parts(i);
+    elseif endsWith(n, "..")
+      n = n + "/" + parts(i);
+    else
+      j = strfind(n, "/");
+      if isempty(j)
+        n = "";
       else
-        j = strfind(n, "/");
-        if isempty(j)
-          n = "";
-        else
-          n = extractBefore(n, j(end));
-        end
-      end
-    elseif all(parts(i) ~= [".", ""])
-      if n == ""
-        n = parts(i);
-      elseif n == "/"
-        n = n + parts(i);
-      else
-        n = n + "/" + parts(i);
+        n = extractBefore(n, j(end));
       end
     end
+  elseif all(parts(i) ~= [".", ""])
+    if n == ""
+      n = parts(i);
+    elseif n == "/"
+      n = n + parts(i);
+    else
+      n = n + "/" + parts(i);
+    end
   end
+end
 
-  if uncslash
-    n = strcat("/", n);
-  end
-
+if uncslash
+  n = strcat("/", n);
 end
 
 
@@ -74,10 +65,10 @@ end
 end
 
 
-%!assert(normalize(".",1), ".")
-%!assert(normalize("./",1), ".")
-%!assert(normalize("a/..",1), ".")
-%!assert(normalize("a/../b",1), "b")
-%!assert(normalize("a/./b",1), "a/b")
-%!assert(normalize("a/./b/..",1), "a")
-%!assert(normalize("",1), ".")
+%!assert(normalize("."), ".")
+%!assert(normalize("./"), ".")
+%!assert(normalize("a/.."), ".")
+%!assert(normalize("a/../b"), "b")
+%!assert(normalize("a/./b"), "a/b")
+%!assert(normalize("a/./b/.."), "a")
+%!assert(normalize(""), ".")

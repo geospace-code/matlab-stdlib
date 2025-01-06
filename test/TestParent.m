@@ -1,13 +1,12 @@
 classdef TestParent < matlab.unittest.TestCase
 
 properties (TestParameter)
-use_java = num2cell(unique([stdlib.has_java(), false]))
 p = init_parent()
 end
 
 methods (Test)
-function test_parent(tc, p, use_java)
-tc.verifyEqual(stdlib.parent(p{1}, use_java), p{2}, p{1})
+function test_parent(tc, p)
+tc.verifyEqual(stdlib.parent(p{1}), p{2}, p{1})
 end
 end
 

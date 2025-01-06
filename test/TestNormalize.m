@@ -1,13 +1,12 @@
 classdef TestNormalize < matlab.unittest.TestCase
 
 properties (TestParameter)
-use_java = num2cell(unique([stdlib.has_java(), false]))
 p = init_norm()
 end
 
 methods (Test)
-function test_normalize(tc, p, use_java)
-tc.verifyEqual(stdlib.normalize(p{1}, use_java), p{2})
+function test_normalize(tc, p)
+tc.verifyEqual(stdlib.normalize(p{1}), p{2})
 end
 end
 

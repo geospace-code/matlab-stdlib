@@ -7,3 +7,5 @@ function v = h5get_version()
 v = sprintf("%d.%d.%d", major, minor, rel);
 
 end
+
+%!testif 0

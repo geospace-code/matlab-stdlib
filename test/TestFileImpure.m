@@ -1,8 +1,6 @@
 classdef TestFileImpure < matlab.unittest.TestCase
 
 properties(TestParameter)
-use_java = num2cell(unique([stdlib.has_java(), false]))
-
 p_exists = {{pwd(), true}, {mfilename("fullpath") + ".m", true}, {"TestFileImpure.m", true} {tempname, false}}
 % on CI matlabroot can be writable!
 
@@ -22,31 +20,31 @@ end
 
 methods (Test)
 
-function test_exists(tc, p_exists, use_java)
-ok = stdlib.exists(p_exists{1}, use_java);
+function test_exists(tc, p_exists)
+ok = stdlib.exists(p_exists{1});
 tc.verifyEqual(ok, p_exists{2})
 end
 
-function test_file_size(tc, use_java)
-s = stdlib.file_size(mfilename("fullpath") + ".m", use_java);
+function test_file_size(tc)
+s = stdlib.file_size(mfilename("fullpath") + ".m");
 tc.verifyGreaterThan(s, 0)
 end
 
 
-function test_is_readable(tc, p_exists, use_java)
-ok = stdlib.is_readable(p_exists{1}, use_java);
+function test_is_readable(tc, p_exists)
+ok = stdlib.is_readable(p_exists{1});
 tc.verifyEqual(ok, p_exists{2})
 end
 
 
-function test_is_writable(tc, p_is_writable, use_java)
-ok = stdlib.is_writable(p_is_writable{1}, use_java);
+function test_is_writable(tc, p_is_writable)
+ok = stdlib.is_writable(p_is_writable{1});
 tc.verifyEqual(ok, p_is_writable{2})
 end
 
 
-function test_expanduser(tc, p_expand, use_java)
-tc.verifyEqual(stdlib.expanduser(p_expand{1}), p_expand{2}, use_java)
+function test_expanduser(tc, p_expand)
+tc.verifyEqual(stdlib.expanduser(p_expand{1}), p_expand{2})
 end
 
 
