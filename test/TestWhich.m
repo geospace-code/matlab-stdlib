@@ -25,15 +25,14 @@ function test_which_fullpath(tc)
 import matlab.unittest.constraints.IsFile
 import matlab.unittest.constraints.EndsWithSubstring
 
-n = "matlab";
 %% is_exe test
-p = matlabroot + "/bin/" + n;
-if ispc
-  p = p + ".exe";
-end
+p = matlabroot + "/bin/" + matlab_name();
+
 tc.assumeTrue(stdlib.is_exe(p), "Matlab not executable " + p)
 %% which: test absolute path
 exe = stdlib.which(p);
+
+tc.verifyNotEmpty(exe, "Matlab not found " + p)
 
 if ispc
   tc.verifyThat(exe, EndsWithSubstring(".exe"))
@@ -44,6 +43,29 @@ tc.verifyThat(exe, IsFile)
 
 end
 
+function test_which_multipath(tc)
+
+n = matlab_name();
+
+paths = string(getenv("PATH"));
+paths = split(paths, pathsep);
+paths(end+1) = matlabroot + "/bin";
+
+exe = stdlib.which(n, paths);
+
+tc.verifyNotEmpty(exe, "Matlab not found by which()")
+
 end
 
+end
+
+end
+
+
+function n = matlab_name()
+
+n = "matlab";
+if ispc
+  n = n + ".exe";
+end
 end
