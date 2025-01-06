@@ -1,6 +1,4 @@
 %% IS_SYMLINK is path a symbolic link
-% on Windows, distinguishes between symlinks and App Execution Aliases,
-% which are not symlinks.
 
 function ok = is_symlink(p)
 arguments

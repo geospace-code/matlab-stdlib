@@ -24,11 +24,10 @@ ok = javaFileObject(p).canWrite();
 
 else
 
-[status, v] = fileattrib(p);
+a = file_attributes(p);
+if isempty(a), return, end
 
-ok = status ~= 0 && (v.UserWrite || (~isnan(v.GroupWrite) && v.GroupWrite) || (~isnan(v.OtherWrite) && v.OtherWrite));
-
-end
+ok = a.UserWrite || v.GroupWrite || v.OtherWrite;
 
 end
 

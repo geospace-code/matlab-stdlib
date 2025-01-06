@@ -22,15 +22,14 @@ ok = javaFileObject(p).canExecute();
 
 else
 
-[status, v] = fileattrib(p);
+a = file_attributes(p);
+if isempty(a), return, end
 
-ok = status ~= 0 && (v.UserExecute || (~isnan(v.GroupExecute) && v.GroupExecute) || (~isnan(v.OtherExecute) && v.OtherExecute));
+ok = a.UserExecute || a.GroupExecute || a.OtherExecute;
 
 end
 
-end
-
-%!assert (!is_exe(''))
-%!assert (!is_exe(tempname))
-%!assert (is_exe("."))
-%!assert (is_exe(program_invocation_name))
+%!assert (!is_exe('', 0))
+%!assert (!is_exe(tempname, 0))
+%!assert (is_exe(".", 0))
+%!assert (is_exe(program_invocation_name, 0))
