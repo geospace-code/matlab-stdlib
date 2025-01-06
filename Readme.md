@@ -5,8 +5,10 @@
 [![ci](https://github.com/geospace-code/matlab-stdlib/actions/workflows/ci.yml/badge.svg)](https://github.com/geospace-code/matlab-stdlib/actions/workflows/ci.yml)
 [![ci-nojvm](https://github.com/geospace-code/matlab-stdlib/actions/workflows/ci-nojvm.yml/badge.svg)](https://github.com/geospace-code/matlab-stdlib/actions/workflows/ci-nojvm.yml)
 
-Matlab or GNU Octave users coming from other languages often notice the missing functionality contained within this user-developed, unofficial "stdlib" standard library of functions.
-These system, filesystem, and HDF5 / HDF4 / NetCDF functions are useful across several of our own and others projects.
+Matlab or
+[GNU Octave](./Readme_octave.md)
+users coming from other languages will benefit from the functionality contained within this user-developed, unofficial "stdlib" standard library of functions.
+These system, filesystem, and HDF5 / HDF4 / NetCDF functions are used across numerous projects.
 
 Matlab &ge; R2021a has full functionality.
 Matlab R2019b is the minimum required due to use of

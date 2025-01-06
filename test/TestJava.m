@@ -132,9 +132,12 @@ tc.assertTrue(islogical(stdlib.checkRAM(1, "double")))
 end
 
 
-function test_diskfree(tc)
-tc.assertTrue(isnumeric(stdlib.diskfree('/')))
-tc.assertTrue(stdlib.diskfree('/') > 0, 'diskfree')
+function test_disk_available(tc)
+tc.assertGreaterThan(stdlib.disk_available('/'), 0)
+end
+
+function test_disk_capacity(tc)
+tc.assertGreaterThan(stdlib.disk_capacity('/'), 0)
 end
 
 end
