@@ -5,19 +5,13 @@ arguments
   p (1,1) string
 end
 
-if stdlib.exists(p)
+t = [];
+if ~stdlib.exists(p), return, end
 
-  t = javaFileObject(p).lastModified() / 1000;
+t = javaFileObject(p).lastModified() / 1000;
 
-  try %#ok<TRYNC>
-    t = datetime(t, "ConvertFrom", "PosixTime");
-  end
-else
-  try
-    t = datetime.empty();
-  catch
-    t = [];
-  end
+try %#ok<TRYNC>
+  t = datetime(t, "ConvertFrom", "PosixTime");
 end
 
 end

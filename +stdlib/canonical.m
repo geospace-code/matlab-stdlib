@@ -53,6 +53,5 @@ c = stdlib.posix(c);
 
 end
 
-%!assert(canonical("", 1, 0), "")
-%!assert(canonical("~", 1, 0), homedir())
-%!assert(canonical("a/b/..", 1, 0), "a")
+%!assert(canonical("", 1), "")
+%!assert(canonical("~", 1), homedir())

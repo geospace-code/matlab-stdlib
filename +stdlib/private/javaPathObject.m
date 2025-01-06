@@ -6,7 +6,7 @@ try
   % o = javaFileObject(p).toPath();  % above way about 20% faster
 catch e
   if strcmp(e.identifier, "Octave:undefined-function")
-    o = javafileObject(p).toPath();
+    o = javaFileObject(p).toPath();
   else
     rethrow(e);
   end

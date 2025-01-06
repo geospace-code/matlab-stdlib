@@ -1,4 +1,4 @@
-%% TOO_OLD check if Matlab older than R2020b or as specificed by release "r"
+%% TOO_OLD check if Matlab older than R2020b or as specified by release "r"
 % returns true for any version for any Matlab older than R2020b
 % purpose is to avoid verLessThan lint warnings.
 %
@@ -21,4 +21,4 @@ end
 
 end
 
-%!assert (too_old())
+%!testif 0

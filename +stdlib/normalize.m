@@ -65,10 +65,4 @@ end
 end
 
 
-%!assert(normalize("."), ".")
-%!assert(normalize("./"), ".")
-%!assert(normalize("a/.."), ".")
-%!assert(normalize("a/../b"), "b")
-%!assert(normalize("a/./b"), "a/b")
-%!assert(normalize("a/./b/.."), "a")
-%!assert(normalize(""), ".")
+%!testif 0

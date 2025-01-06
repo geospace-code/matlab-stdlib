@@ -26,12 +26,12 @@ r = strcat(r, "/");
 
 end
 
-%!assert(root('',0), '')
-%!assert(root('/',0), '/')
+%!assert(root(''), '')
+%!assert(root('/'), '/')
 %!test
 %! if ispc
-%!   assert(root('C:\',0), 'C:/')
-%!   assert(root('C:/',0), 'C:/')
-%!   assert(root('C:',0), 'C:')
-%!   assert(root('C',0), '')
+%!   assert(root('C:\'), 'C:/')
+%!   assert(root('C:/'), 'C:/')
+%!   assert(root('C:'), 'C:')
+%!   assert(root('C'), '')
 %! endif

@@ -7,7 +7,7 @@ arguments
   varname (1,1) string
   A {mustBeNonempty}
   sizeA (1,:) double {mustBeInteger,mustBeNonnegative} = []
-  ncdims cell = {}
+  ncdims (1,:) cell = {}
   compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0
 end
 

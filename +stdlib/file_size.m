@@ -19,5 +19,5 @@ end
 end
 
 
-%!assert (file_size(''), 0)
+%!assert (isempty(file_size('')))
 %!assert (file_size('file_size.m') > 0)
