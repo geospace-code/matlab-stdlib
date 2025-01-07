@@ -1,14 +1,15 @@
 %% ISCYGWIN  Detect if running under Cygwin
 
-function iscyg = iscygwin()
+function y = iscygwin()
 
-if ispc || ismac
-  iscyg = false;
-elseif isunix
+y = false;
+
+if isunix && ~ismac
   fid = fopen('/proc/version');
+  if fid < 0, return, end
   v = fscanf(fid,'%s');
   fclose(fid);
-  iscyg = contains(v, 'CYGWIN');
+  y = ~isempty(strfind(v, 'CYGWIN')); %#ok<STREMP>
 end
 
 end
