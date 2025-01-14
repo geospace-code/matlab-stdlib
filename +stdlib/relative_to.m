@@ -6,6 +6,10 @@ arguments
   other (1,1) string
 end
 
+r = "";
+
+if stdlib.is_url(base) || stdlib.is_url(other), return, end
+
 % must remove trailing slashes
 b1 = stdlib.drop_slash(base);
 o1 = stdlib.drop_slash(other);

@@ -15,11 +15,13 @@ end
 methods (Test)
 
 function test_relative_to(tc, pr)
-tc.verifyEqual(stdlib.relative_to(pr{1}, pr{2}), pr{3}, "relative_to(" + pr{1} + "," + pr{2}+")")
+tc.verifyEqual(stdlib.relative_to(pr{1}, pr{2}), pr{3}, ...
+  "relative_to(" + pr{1} + "," + pr{2}+")")
 end
 
 function test_proximate_to(tc, pp)
-tc.verifyEqual(stdlib.proximate_to(pp{1}, pp{2}), pp{3}, "proximate_to(" + pp{1} + "," + pp{2}+")")
+tc.verifyEqual(stdlib.proximate_to(pp{1}, pp{2}), pp{3}, ...
+  "proximate_to(" + pp{1} + "," + pp{2}+")")
 end
 
 end
@@ -75,4 +77,7 @@ p{13}{3} = "/a/b";
 
 p{end}{3} = "d:/path";
 end
+
+p{end+1} = {"file:///", "file:///", ""};
+
 end

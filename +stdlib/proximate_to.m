@@ -8,7 +8,7 @@ end
 
 r = stdlib.relative_to(base, other);
 
-if ~stdlib.len(r)
+if ~stdlib.len(r) && ~stdlib.is_url(other)
   r = other;
 end
 
