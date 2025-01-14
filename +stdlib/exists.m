@@ -9,12 +9,16 @@
 %%% Outputs
 % * ok: true if exists
 
-function ok = exists(p)
+function y = exists(p)
 arguments
   p (1,1) string
 end
 
-ok = isfile(p) || isfolder(p);
+% Matlab >= R2024b allowed URLs to act like files or folders.
+% fileattrib() does not consider URLs to be a file or folder
+% at least through Matlab R2025a.
+
+y = stdlib.len(p) && fileattrib(p) == 1;
 
 end
 
