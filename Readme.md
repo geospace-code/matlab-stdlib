@@ -21,6 +21,8 @@ Self-tests can be run from that matlab-stdlib/ directory:
 buildtool
 ```
 
+URLs (e.g. https://, s3:// and similar) are treated as not existing.
+
 [API Documentation](https://geospace-code.github.io/matlab-stdlib)
 
 Most Matlab-stdlib filesystem functions work without the
