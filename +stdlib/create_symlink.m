@@ -50,8 +50,6 @@ catch e
     if ~ok
       warning("create_symlink: %s", msg)
     end
-  else
-    warning(e.identifier, "%s", e.message)
   end
 end
 
