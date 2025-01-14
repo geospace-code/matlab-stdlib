@@ -1,10 +1,13 @@
 classdef TestWindowsCOM < matlab.unittest.TestCase
 
+properties (TestParameter)
+Pn = {"", "not-exist", "file:///"}
+end
 
 methods (Test)
 
-function test_not(tc)
-tc.verifyEmpty(stdlib.windows_shortname("not-exist"))
+function test_not(tc, Pn)
+tc.verifyEmpty(stdlib.windows_shortname(Pn))
 end
 
 function test_short_folder(tc)

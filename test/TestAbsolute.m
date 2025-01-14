@@ -25,12 +25,12 @@ function p = init1arg()
 td = stdlib.posix(pwd());
 r = td + "/hi";
 
-p = {{"", td}, {"hi", r}, {"./hi", td + "/./hi"}, {"../hi", td + "/../hi"}};
+p = {{"", td}, {"hi", r}, {"./hi", td + "/./hi"}, {"../hi", td + "/../hi"}, {"file:///", ""}};
 end
 
 function p = init2arg()
 td = stdlib.posix(pwd());
 r = td + "/hi";
 
-p = {{"", "", td}, {"", "hi", r}, {"hi", "", r}, {"there", "hi", td + "/hi/there"}};
+p = {{"", "", td}, {"", "hi", r}, {"hi", "", r}, {"there", "hi", td + "/hi/there"}, {"file:///", "file:///", ""}};
 end

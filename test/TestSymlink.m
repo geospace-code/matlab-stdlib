@@ -40,6 +40,8 @@ end
 function test_read_symlink(tc)
 import matlab.unittest.constraints.IsOfClass
 
+tc.verifyEqual(stdlib.read_symlink(""), "")
+tc.verifyEqual(stdlib.read_symlink("file:///"), "")
 tc.verifyEqual(stdlib.read_symlink("not-exist"), "")
 tc.verifyEqual(stdlib.read_symlink(tc.d.this), "")
 
@@ -53,6 +55,8 @@ end
 
 function test_create_symlink(tc)
 
+tc.verifyFalse(stdlib.create_symlink("", tempname))
+tc.verifyFalse(stdlib.create_symlink("file:///", tempname))
 tc.verifyFalse(stdlib.create_symlink(tc.d.this, tc.d.link))
 tc.verifyTrue(stdlib.create_symlink(tc.d.this, "another.lnk"))
 tc.verifyTrue(stdlib.is_symlink("another.lnk"))
@@ -64,5 +68,8 @@ end
 
 
 function p = init_symlink()
-p = {{"not-exist", false}, {"my.lnk", true}, {mfilename("fullpath") + ".m", false}};
+p = {{"not-exist", false}, {"my.lnk", true}, ...
+  {mfilename("fullpath") + ".m", false}, ...
+  {"", false}, ...
+  {"file:///", false}};
 end

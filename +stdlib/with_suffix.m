@@ -12,8 +12,11 @@ arguments
   suffix (1,1) string
 end
 
+f = "";
 
 r = stdlib.parent(p);
+if ~stdlib.len(r), return, end
+
 s = stdlib.stem(p);
 
 if stdlib.len(s) == 0
