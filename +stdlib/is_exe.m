@@ -7,13 +7,9 @@ arguments
   p (1,1) string
 end
 
-ok = false;
-if ~stdlib.exists(p), return, end
-
 a = file_attributes(p);
-if isempty(a), return, end
 
-ok = a.UserExecute || a.GroupExecute || a.OtherExecute;
+ok = ~isempty(a) && (a.UserExecute || a.GroupExecute || a.OtherExecute);
 
 end
 

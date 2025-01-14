@@ -7,12 +7,9 @@ arguments
   p (1,1) string
 end
 
-ok = false;
-
 a = file_attributes(p);
-if isempty(a), return, end
 
-ok = a.UserRead || v.GroupRead || v.OtherRead;
+ok = ~isempty(a) && (a.UserRead || v.GroupRead || v.OtherRead);
 
 end
 
