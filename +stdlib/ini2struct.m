@@ -55,7 +55,7 @@ end
 function i = is_comment(line)
 % a comment line detected
 
-i = isempty(line) || any(startsWith(line, [";", "#"]));
+i = isempty(line) || startsWith(line, [";", "#"]);
 
 end
 
