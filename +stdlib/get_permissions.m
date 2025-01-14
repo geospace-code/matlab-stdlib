@@ -46,7 +46,16 @@ catch e
   if v.UserWrite, p(2) = 'w'; end
 end
 
-if v.UserExecute, p(3) = 'x'; end
+% on Windows, any readable file has executable permission
+if ispc
+  if p(1) == 'r'
+    p(3) = 'x';
+  end
+else
+  if v.UserExecute, p(3) = 'x'; end
+end
+
+% Windows doesn't have these permissions
 
 try
   if v.GroupRead,     p(4) = 'r'; end
@@ -58,6 +67,7 @@ try
 catch e
   if ~strcmp(e.identifier, "MATLAB:nologicalnan") && ...
      ~strcmp(e.identifier, "MATLAB:nonExistentField") && ...
+     ~strcmp(e.identifier, "MATLAB:noSuchMethodOrField") && ...
       ~strcmp(e.message, "invalid conversion from NaN to logical")
     rethrow(e)
   end
