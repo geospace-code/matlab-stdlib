@@ -70,6 +70,7 @@ function test_hash_empty(tc)
 
 tc.verifyEmpty(stdlib.file_checksum("file:///", "sha256"))
 tc.verifyEmpty(stdlib.file_checksum("", "sha256"))
+tc.verifyEmpty(stdlib.file_checksum("/", "sha256"))
 
 end
 
