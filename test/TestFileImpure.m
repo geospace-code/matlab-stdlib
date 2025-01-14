@@ -64,7 +64,7 @@ end
 
 %%
 function test_samepath(tc, p_same)
-tc.verifyEqual(stdlib.samepath(p_same{1}, p_same{2}), p_same{3})
+tc.verifyEqual(stdlib.samepath(p_same{1}, p_same{2}), p_same{3}, "samepath(" + p_same{1} + "," + p_same{2} + ")")
 end
 
 
@@ -80,6 +80,9 @@ import matlab.unittest.constraints.IsOfClass
 p = stdlib.get_permissions(".");
 tc.verifyThat(p, StartsWithSubstring("r"))
 tc.verifyThat(p, IsOfClass("char"))
+
+p = stdlib.get_permissions(tempname);
+tc.verifyEmpty(p)
 end
 
 function test_handle2filename(tc, ph)
