@@ -1,5 +1,9 @@
 classdef TestJava < matlab.unittest.TestCase
 
+properties (TestParameter)
+Ps = {".", tempname, "", "not-exist"}
+end
+
 methods(TestClassSetup)
 function java_required(tc)
 tc.assumeTrue(stdlib.has_java())
@@ -9,48 +13,55 @@ end
 
 methods(Test)
 
-function test_filesystem_type(tc)
+function test_filesystem_type(tc, Ps)
 import matlab.unittest.constraints.IsOfClass
 
-t = stdlib.filesystem_type(".");
+s = stdlib.filesystem_type(Ps);
+tc.verifyThat(s, IsOfClass('string'))
+L = strlength(s);
 
-tc.verifyThat(t, IsOfClass('string'))
+if strlength(Ps) == 0 || stdlib.exists(Ps)
+  tc.verifyGreaterThan(L, 0)
+else
+  tc.verifyEqual(L, 0)
+end
 end
 
 
-function test_owner(tc)
-owner = stdlib.get_owner('.');
-tc.verifyGreaterThan(strlength(owner), 0, "expected non-empty username")
+function test_owner(tc, Ps)
+import matlab.unittest.constraints.IsOfClass
 
-owner = stdlib.get_owner(tempname);
-tc.verifyEqual(strlength(owner), 0, "expected empty owner")
+s = stdlib.get_owner(Ps);
+tc.verifyThat(s, IsOfClass('string'))
+L = strlength(s);
 
+if stdlib.exists(Ps)
+  tc.verifyGreaterThan(L, 0)
+else
+  tc.verifyEqual(L, 0)
+end
 end
 
 
 function test_username(tc)
 u = stdlib.get_username();
-L = strlength(u);
-tc.verifyGreaterThan(L, 0, "expected non-empty username")
+tc.verifyGreaterThan(strlength(u), 0)
 end
 
 function test_hostname(tc)
 h = stdlib.hostname();
-L = strlength(h);
-tc.verifyGreaterThan(L, 0, "expected non-empty hostname")
+tc.verifyGreaterThan(strlength(h), 0)
 end
 
 function test_java_vendor(tc)
 v = stdlib.java_vendor();
-L = strlength(v);
-tc.verifyGreaterThan(L, 0, "expected non-empty vendor")
+tc.verifyGreaterThan(strlength(v), 0)
 end
 
 
 function test_java_version(tc)
 v = stdlib.java_version();
-L = strlength(v);
-tc.verifyGreaterThanOrEqual(L, 4)
+tc.verifyGreaterThanOrEqual(strlength(v), 4)
 end
 
 
@@ -61,16 +72,13 @@ end
 
 function test_cpu_arch(tc)
 arch = stdlib.cpu_arch();
-L = strlength(arch);
-tc.verifyGreaterThan(L, 0, "expected non-empty arch")
+tc.verifyGreaterThan(strlength(arch), 0)
 end
 
 function test_os_version(tc)
 [os, ver] = stdlib.os_version();
-Lo = strlength(os);
-Lv = strlength(ver);
-tc.verifyGreaterThan(Lo, 0, "expected non-empty os")
-tc.verifyGreaterThan(Lv, 0, "expected non-empty version")
+tc.verifyGreaterThan(strlength(os), 0, "expected non-empty os")
+tc.verifyGreaterThan(strlength(ver), 0, "expected non-empty version")
 end
 
 function test_hard_link_count(tc)
@@ -130,17 +138,35 @@ tc.verifyGreaterThanOrEqual(t1, t0)
 end
 
 
+function test_get_modtime(tc)
+tc.verifyEmpty(stdlib.get_modtime(""))
+end
+
+function test_set_modtime(tc)
+tc.verifyEqual(stdlib.set_modtime(""), false)
+end
+
+
 function test_checkRAM(tc)
-tc.assertTrue(islogical(stdlib.checkRAM(1, "double")))
+import matlab.unittest.constraints.IsOfClass
+tc.verifyThat(stdlib.checkRAM(1, "double"), IsOfClass("logical"))
 end
 
 
-function test_disk_available(tc)
-tc.assertGreaterThan(stdlib.disk_available('/'), 0)
+function test_disk_available(tc, Ps)
+if stdlib.exists(Ps)
+  tc.verifyGreaterThan(stdlib.disk_available(Ps), 0)
+else
+  tc.verifyEqual(stdlib.disk_available(Ps), 0)
+end
 end
 
-function test_disk_capacity(tc)
-tc.assertGreaterThan(stdlib.disk_capacity('/'), 0)
+function test_disk_capacity(tc, Ps)
+if stdlib.exists(Ps)
+  tc.verifyGreaterThan(stdlib.disk_capacity(Ps), 0)
+else
+  tc.verifyEqual(stdlib.disk_capacity(Ps), 0)
+end
 end
 
 end

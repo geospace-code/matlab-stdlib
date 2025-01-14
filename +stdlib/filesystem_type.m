@@ -7,8 +7,12 @@
 
 function t = filesystem_type(p)
 arguments
-  p (1,1) string
+  p (1,1) string = ""
 end
+
+t = "";
+
+if stdlib.len(p) && ~stdlib.exists(p), return, end
 
 op = javaPathObject(p);
 
