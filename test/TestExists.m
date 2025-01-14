@@ -1,7 +1,9 @@
 classdef TestExists < matlab.unittest.TestCase
 
 properties(TestParameter)
-Ps = {{pwd(), true}, {mfilename("fullpath") + ".m", true}, {"TestFileImpure.m", true} {tempname, false}, {"file:///", false}}
+Ps = {{pwd(), true}, {mfilename("fullpath") + ".m", true}, ...
+      {"TestFileImpure.m", true} {tempname, false}, {"file:///", false}, ...
+      {"", false}}
 % on CI matlabroot can be writable!
 end
 

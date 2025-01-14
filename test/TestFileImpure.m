@@ -1,7 +1,7 @@
 classdef TestFileImpure < matlab.unittest.TestCase
 
 properties(TestParameter)
-p_is_writable = {{pwd(), true}, {"not-exists", false}};
+p_is_writable = {{pwd(), true}, {"not-exists", false}, {"file:///", false}, {"", false}};
 
 p_expand = {{"", ""}, {"~abc", "~abc"}, {"~", stdlib.homedir()}, {"~/c", stdlib.homedir() + "/c"}, {'~/////c', stdlib.homedir() + "/c"}};
 
@@ -9,17 +9,24 @@ p_same = {...
 {"","", false}, ...
 {tempname, tempname, false}, ...
 {"..", "./..", true}, ...
-{"..", pwd() + "/..", true}}
+{"..", pwd() + "/..", true}, ...
+{"file:///", "file:///", false}}
 
 ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname), ""}}
+
+p_file_size = {mfilename("fullpath") + ".m", "", "file:///", pwd()}
 end
 
 
 methods (Test)
 
-function test_file_size(tc)
-s = stdlib.file_size(mfilename("fullpath") + ".m");
-tc.verifyGreaterThan(s, 0)
+function test_file_size(tc, p_file_size)
+s = stdlib.file_size(p_file_size);
+if isfile(p_file_size)
+  tc.verifyGreaterThan(s, 0)
+else
+  tc.verifyEmpty(s)
+end
 end
 
 
@@ -50,7 +57,8 @@ end
 
 %%
 function test_samepath(tc, p_same)
-tc.verifyEqual(stdlib.samepath(p_same{1}, p_same{2}), p_same{3}, "samepath(" + p_same{1} + "," + p_same{2} + ")")
+tc.verifyEqual(stdlib.samepath(p_same{1}, p_same{2}), p_same{3}, ...
+  "samepath(" + p_same{1} + "," + p_same{2} + ")")
 end
 
 
