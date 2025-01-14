@@ -65,6 +65,14 @@ tc.verifyEqual(stdlib.file_checksum(fn, "sha256"), "2cf24dba5fb0a30e26e83b2ac5b9
 
 end
 
+
+function test_hash_empty(tc)
+
+tc.verifyEmpty(stdlib.file_checksum("file:///", "sha256"))
+tc.verifyEmpty(stdlib.file_checksum("", "sha256"))
+
+end
+
 end
 
 end

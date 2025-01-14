@@ -15,7 +15,9 @@ arguments
   method (1,1) string
 end
 
-assert(~stdlib.is_url(file), "file_checksum does not accept URLs")
+hash = [];
+
+if stdlib.is_url(file), return, end
 
 if strcmp(method, "sha256") || strcmp(method, "SHA256")
   method = "SHA-256";
@@ -30,7 +32,7 @@ else
 end
 
 fid = fopen(file, 'r');
-assert(fid > 0, "could not open file %s", file)
+if fid < 1, return, end
 
 while ~feof(fid)
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#update(byte)
