@@ -20,8 +20,11 @@ end
 
 function test_owner(tc)
 owner = stdlib.get_owner('.');
-L = strlength(owner);
-tc.verifyGreaterThan(L, 0, "expected non-empty username")
+tc.verifyGreaterThan(strlength(owner), 0, "expected non-empty username")
+
+owner = stdlib.get_owner(tempname);
+tc.verifyEqual(strlength(owner), 0, "expected empty owner")
+
 end
 
 
