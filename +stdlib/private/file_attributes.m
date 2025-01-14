@@ -5,9 +5,7 @@ end
 
 a = [];
 
-if stdlib.len(p) == 0
-  return
-end
+if stdlib.len(p) == 0, return, end
 
 [status, a] = fileattrib(p);
 if status ~= 1

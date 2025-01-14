@@ -1,4 +1,9 @@
-% FILE_SIZE size in bytes of file
+%% FILE_SIZE size in bytes of file
+%
+%%% Inputs
+% * p: path to file
+%%% Outputs
+% * s: size in bytes, or empty if file does not exist
 
 function s = file_size(p)
 arguments
@@ -7,9 +12,9 @@ end
 
 s = [];
 
-if ~isfile(p)
-  return
-else
+if stdlib.is_url(p), return, end
+
+if isfile(p)
   s = dir(p);
   if ~isempty(s)
     s = s.bytes;

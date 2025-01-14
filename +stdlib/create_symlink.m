@@ -14,8 +14,9 @@ arguments
   link (1,1) string
 end
 
-
 ok = false;
+
+if stdlib.is_url(target) || stdlib.is_url(link), return; end
 
 if stdlib.exists(link), return, end
 
@@ -56,7 +57,7 @@ end
 
 end
 
-
+%!assert (create_symlink("https://invalid", "https://invalid"), false)
 %!test
 %! if !ispc
 %!   assert(create_symlink(tempname, tempname))

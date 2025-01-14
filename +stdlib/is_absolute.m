@@ -10,6 +10,9 @@ end
 % not Octave is_absolute_filename() because this is a stricter check for "c:" false
 
 y = false;
+
+if stdlib.is_url(p), return, end
+
 L = stdlib.len(p);
 if ~L || (ispc && L < 3)
   return

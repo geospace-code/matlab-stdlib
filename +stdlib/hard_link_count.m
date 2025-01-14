@@ -9,7 +9,7 @@ arguments
   p (1,1) string
 end
 
-if ispc || ~isfile(p)
+if ispc || stdlib.is_url(p) || ~isfile(p)
   c = [];
   return
 end

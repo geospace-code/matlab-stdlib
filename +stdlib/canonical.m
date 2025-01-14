@@ -18,14 +18,15 @@ arguments
   expand_tilde (1,1) logical = true
 end
 
+c = "";
+
+if stdlib.is_url(p), return; end
 
 if expand_tilde
   e = stdlib.expanduser(p);
 else
   e = p;
 end
-
-c = "";
 
 if ~stdlib.len(e), return, end
 

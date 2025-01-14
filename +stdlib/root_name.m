@@ -10,12 +10,9 @@ arguments
   p (1,1) string
 end
 
-
 r = "";
 
-if ~ispc || stdlib.len(p) < 2
-  return
-end
+if ~ispc || stdlib.len(p) < 2 || stdlib.is_url(p), return, end
 
 if ischar(p)
   if p(2) == ':' && isletter(p(1)) %#ok<UNRCH>

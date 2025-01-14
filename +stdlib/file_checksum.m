@@ -2,7 +2,7 @@
 % read in chunks to avoid excessive RAM use
 %
 %%% Inputs
-% * file: file to hash
+% * file: file or to hash
 % * method:  "MD5", "SHA-1", "SHA-256", etc.
 %%% Outputs
 % * hash: string hash
@@ -14,6 +14,8 @@ arguments
   file (1,1) string
   method (1,1) string
 end
+
+assert(~stdlib.is_url(file), "file_checksum does not accept URLs")
 
 if strcmp(method, "sha256") || strcmp(method, "SHA256")
   method = "SHA-256";

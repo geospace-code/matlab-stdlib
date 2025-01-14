@@ -13,6 +13,7 @@ arguments
 end
 
 n = stdlib.posix(p);
+if ~stdlib.len(n) && stdlib.is_url(p), return, end
 
 uncslash = ispc && startsWith(n, "//");
 

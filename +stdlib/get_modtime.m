@@ -1,4 +1,9 @@
 %% GET_MODTIME get path modification time
+%
+%%% Inputs
+% * p: path to examine
+%%% Outputs
+% * t: modification time, or empty if path does not exist
 
 function t = get_modtime(p)
 arguments

@@ -13,7 +13,7 @@ end
 
 s = string.empty;
 
-if ~ispc
+if ~ispc || stdlib.is_url(p)
   return
 end
 

@@ -8,6 +8,9 @@ arguments
   p (1,1) string
 end
 
+r = "";
+if stdlib.is_url(p), return, end
+
 if ispc
   r = strrep(p, '\', '/');
 else

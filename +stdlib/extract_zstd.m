@@ -7,6 +7,8 @@ arguments
   out_dir (1,1) string
 end
 
+assert(~stdlib.is_url(archive) && ~stdlib.is_url(out_dir), "archive and out_dir must not be URLs")
+
 archive = stdlib.absolute(archive);
 out_dir = stdlib.absolute(out_dir);
 
