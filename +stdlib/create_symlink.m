@@ -16,9 +16,7 @@ end
 
 ok = false;
 
-if stdlib.is_url(target) || stdlib.is_url(link), return; end
-
-if stdlib.exists(link), return, end
+if stdlib.exists(link) || ~stdlib.exists(target) || stdlib.is_url(link), return, end
 
 try
   createSymbolicLink(link, target);
