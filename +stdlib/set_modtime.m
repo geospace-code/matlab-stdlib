@@ -10,11 +10,7 @@ try
   utc = convertTo(datetime(t, "TimeZone", "UTC"), "posixtime");
 catch e
   if strcmp(e.identifier, "Octave:undefined-function")
-    if nargin == 2
-      utc = t;
-    else
-      utc = time();
-    end
+    utc = t;
   else
     rethrow(e);
   end
@@ -26,6 +22,7 @@ end
 
 %!test
 %! p = tempname();
-%! assert(touch(p))
-%! assert(set_modtime(p))
+%! t = time()
+%! assert(touch(p, t))
+%! assert(set_modtime(p, t))
 %! delete(p)

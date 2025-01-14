@@ -21,5 +21,6 @@ end
 
 %!test
 %! f = tempname();
-%! assert (touch(f))
+%! t = time();
+%! assert (touch(f, t))
 %! assert (isfile(f))
