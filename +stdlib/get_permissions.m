@@ -10,20 +10,18 @@ end
 p = '';
 
 try
-  perms = filePermissions(f);
-  p = perm2char(perms);
+  v = filePermissions(f);
 catch e
   if ~strcmp(e.identifier, "MATLAB:UndefinedFunction") && ...
       ~strcmp(e.identifier, "Octave:undefined-function")
     rethrow(e)
   end
 
-  [status, v] = fileattrib(f);
-  if status == 0
-    return
-  end
-  p = perm2char(v);
+  v = file_attributes(f);
+  if isempty(v), return, end
 end
+
+p = perm2char(v);
 
 end
 
@@ -32,45 +30,36 @@ function p = perm2char(v)
 
 p = '---------';
 
-try
-  % filePermissions object
+if isa(v, "matlab.io.WindowsPermissions") || isa(v, "matlab.io.UnixPermissions")
   if v.Readable,  p(1) = 'r'; end
   if v.Writable,  p(2) = 'w'; end
-catch e
-  if ~strcmp(e.identifier, "MATLAB:nonExistentField") && ...
-      ~strcmp(e.identifier, "Octave:invalid-indexing")
-    rethrow(e)
-  end
-
+elseif isstruct(v)
   if v.UserRead,  p(1) = 'r'; end
   if v.UserWrite, p(2) = 'w'; end
-end
-
-% on Windows, any readable file has executable permission
-if ispc
-  if p(1) == 'r'
-    p(3) = 'x';
-  end
 else
-  if v.UserExecute, p(3) = 'x'; end
+  % cloud / remote locations we don't handle
+  p = [];
+  return
 end
 
-% Windows doesn't have these permissions
 
-try
+if isfield(v, 'UserExecute') || isa(v, "matlab.io.UnixPermissions")
+  if v.UserExecute, p(3) = 'x'; end
+elseif ispc && (isstruct(v) || isa(v, "matlab.io.WindowsPermissions"))
+  % on Windows, any readable file has executable permission
+  if p(1) == 'r',     p(3) = 'x'; end
+end
+
+
+if isstruct(v) || isa(v, "matlab.io.UnixPermissions")
+
   if v.GroupRead,     p(4) = 'r'; end
   if v.GroupWrite,    p(5) = 'w'; end
   if v.GroupExecute,  p(6) = 'x'; end
   if v.OtherRead,     p(7) = 'r'; end
   if v.OtherWrite,    p(8) = 'w'; end
   if v.OtherExecute,  p(9) = 'x'; end
-catch e
-  if ~strcmp(e.identifier, "MATLAB:nologicalnan") && ...
-     ~strcmp(e.identifier, "MATLAB:nonExistentField") && ...
-     ~strcmp(e.identifier, "MATLAB:noSuchMethodOrField") && ...
-      ~strcmp(e.message, "invalid conversion from NaN to logical")
-    rethrow(e)
-  end
+
 end
 
 end

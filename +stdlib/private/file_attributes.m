@@ -11,6 +11,7 @@ end
 
 [status, a] = fileattrib(p);
 if status ~= 1
+  % matlab puts the error message in the struct
   a = [];
   return
 end
