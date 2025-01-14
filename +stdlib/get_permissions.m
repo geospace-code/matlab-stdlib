@@ -10,6 +10,7 @@ end
 p = '';
 
 try
+  if ~stdlib.exists(f), return, end
   v = filePermissions(f);
 catch e
   if strcmp(e.identifier, "MATLAB:io:filesystem:filePermissions:CannotFindLocation")
