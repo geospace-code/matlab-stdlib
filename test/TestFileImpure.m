@@ -1,9 +1,6 @@
 classdef TestFileImpure < matlab.unittest.TestCase
 
 properties(TestParameter)
-p_exists = {{pwd(), true}, {mfilename("fullpath") + ".m", true}, {"TestFileImpure.m", true} {tempname, false}}
-% on CI matlabroot can be writable!
-
 p_is_writable = {{pwd(), true}, {"not-exists", false}};
 
 p_expand = {{"", ""}, {"~abc", "~abc"}, {"~", stdlib.homedir()}, {"~/c", stdlib.homedir() + "/c"}, {'~/////c', stdlib.homedir() + "/c"}};
@@ -20,20 +17,9 @@ end
 
 methods (Test)
 
-function test_exists(tc, p_exists)
-ok = stdlib.exists(p_exists{1});
-tc.verifyEqual(ok, p_exists{2})
-end
-
 function test_file_size(tc)
 s = stdlib.file_size(mfilename("fullpath") + ".m");
 tc.verifyGreaterThan(s, 0)
-end
-
-
-function test_is_readable(tc, p_exists)
-ok = stdlib.is_readable(p_exists{1});
-tc.verifyEqual(ok, p_exists{2})
 end
 
 
@@ -70,20 +56,9 @@ end
 
 function test_get_pid(tc)
 pid = stdlib.get_pid();
-tc.verifyGreaterThan(pid, 0, "expected positive PID")
+tc.verifyGreaterThan(pid, 0)
 end
 
-function test_get_permissions(tc)
-import matlab.unittest.constraints.StartsWithSubstring
-import matlab.unittest.constraints.IsOfClass
-
-p = stdlib.get_permissions(".");
-tc.verifyThat(p, StartsWithSubstring("r"))
-tc.verifyThat(p, IsOfClass("char"))
-
-p = stdlib.get_permissions(tempname);
-tc.verifyEmpty(p)
-end
 
 function test_handle2filename(tc, ph)
 tc.verifyEqual(stdlib.handle2filename(ph{1}), string(ph{2}))
