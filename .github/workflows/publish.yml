@@ -21,6 +21,7 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+
 jobs:
 
   deploy:
@@ -33,7 +34,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v4
