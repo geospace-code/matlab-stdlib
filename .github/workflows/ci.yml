@@ -14,11 +14,12 @@ jobs:
     runs-on: ${{ matrix.os }}
 
 # R2022b has a bug with test parameter {"h"} syntax
+# R2022a and older has a runner-only (not real computer) path bug where it looks inside example/java despite not being told to
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-22.04]
-        release: [R2021a, R2023a, R2023b, R2024a, R2024b]
+        release: [R2023a, R2023b, R2024a, R2024b]
         include:
         - os: macos-latest
           release: R2024b
@@ -50,13 +51,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
-    # fixes `GLIBCXX_3.4.32' not found on run
-    - name: g++-10 for Linux
-      if: runner.os == 'Linux'
-      run: |
-        echo "CXX=g++-10" >> $GITHUB_ENV
-        echo "CC=gcc-10" >> $GITHUB_ENV
 
     - uses: ./.github/workflows/composite-install-matlab
 
