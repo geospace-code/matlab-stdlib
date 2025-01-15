@@ -18,7 +18,12 @@ function ispar = is_parallel_worker()
 
 ispar = false;
 
-addons = matlab.addons.installedAddons();
+try
+  addons = matlab.addons.installedAddons();
+catch
+  return
+end
+
 if any(contains(addons.Name, 'Parallel Computing Toolbox'))
   ispar = ~isempty(getCurrentWorker());
 end
