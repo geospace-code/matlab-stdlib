@@ -9,22 +9,21 @@ end
 try
   ok = isSymbolicLink(p);
 catch e
-  % must be absolute path
-  % NOT .canonical or symlink is gobbled!
-  p = stdlib.absolute(p, "", false);
-  op = javaPathObject(p);
-
-% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isSymbolicLink(java.nio.file.Path)
-% https://dev.java/learn/java-io/file-system/links/
-
   if strcmp(e.identifier, "MATLAB:UndefinedFunction")
-    ok = java.nio.file.Files.isSymbolicLink(op);
+    try
+      ok = is_symlink_mex(p);
+    catch e
+      if strcmp(e.identifier, "MATLAB:UndefinedFunction")
+        ok = java.nio.file.Files.isSymbolicLink(javaPathObject(stdlib.absolute(p, "", false)));
+      else
+        rethrow(e)
+      end
+    end
   elseif strcmp(e.identifier, "Octave:undefined-function")
-    ok = javaMethod("isSymbolicLink", "java.nio.file.Files", op);
+    ok = S_ISLNK(stat(p).mode);
   else
     rethrow(e)
   end
-
 end
 
 end

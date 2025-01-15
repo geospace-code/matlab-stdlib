@@ -16,8 +16,6 @@ if ~isMATLABReleaseOlderThan("R2024b")
 
   msvc = startsWith(cxx.ShortName, "MSVCPP");
 
-  % disp("Mex using: " + cxx.Name + " " + cxx.Version)
-
   std = "-std=c++17";
   compiler_id = "";
   % FIXME: Windows oneAPI
@@ -34,7 +32,7 @@ if ~isMATLABReleaseOlderThan("R2024b")
       if s == 0
         compiler_id = "CXX=g++-10";
       else
-        warning("GCC 10 not found, using default, may fail on runtime")
+        warning("GCC 10 not found, using default GCC " + cxx.Version + " may fail on runtime")
       end
     end
   end
@@ -51,7 +49,15 @@ if ~isMATLABReleaseOlderThan("R2024b")
 
   plan("clean") = matlab.buildtool.tasks.CleanTask;
 
-  plan("mex:is_char_device") = matlab.buildtool.tasks.MexTask("is_char_device.cpp", bindir, ...
+  plan("mex:is_char_device_mex") = matlab.buildtool.tasks.MexTask("src/is_char_device.cpp", bindir, ...
+    Options=[compiler_id, compiler_opt]);
+
+  is_symlink_src = ["src/is_symlink.cpp"];
+  if ispc
+    is_symlink_src(end+1) = "src/windows.cpp";
+  end
+
+  plan("mex:is_symlink_mex") = matlab.buildtool.tasks.MexTask(is_symlink_src, bindir, ...
     Options=[compiler_id, compiler_opt]);
 
   plan("test").Dependencies = "mex";
