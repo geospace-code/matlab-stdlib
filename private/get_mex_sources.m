@@ -3,7 +3,7 @@ arguments
   top (1,1) string  % package directory
 end
 
-win = "";
+win = string.empty;
 if ispc
 win = fullfile(top, "src/windows.cpp");
 end
