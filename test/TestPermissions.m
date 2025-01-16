@@ -26,7 +26,6 @@ end
 function test_set_permissions(tc)
 
 import matlab.unittest.constraints.StartsWithSubstring
-import matlab.unittest.fixtures.TemporaryFolderFixture
 import matlab.unittest.fixtures.CurrentFolderFixture
 
 tc.applyFixture(CurrentFolderFixture(".."))
@@ -34,9 +33,9 @@ tc.applyFixture(CurrentFolderFixture(".."))
 
 tc.assumeEqual(exist("+stdlib/set_permissions", "file"), 3)
 
-fixture = tc.applyFixture(TemporaryFolderFixture);
+tf = stdlib.posix(tc.createTemporaryFolder());
 
-nr = fullfile(fixture.Folder, "no-read");
+nr = fullfile(tf, "no-read");
 
 tc.verifyTrue(stdlib.touch(nr))
 tc.verifyTrue(stdlib.set_permissions(nr, -1, 0, 0))
@@ -46,7 +45,7 @@ if ~ispc
 tc.verifyThat(p, StartsWithSubstring("-"), "no-read permission failed to set")
 end
 
-nw = fullfile(fixture.Folder, "no-write");
+nw = fullfile(tf, "no-write");
 
 tc.verifyTrue(stdlib.touch(nw))
 tc.verifyTrue(stdlib.set_permissions(nw, 0, -1, 0))

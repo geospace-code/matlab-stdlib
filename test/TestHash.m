@@ -1,9 +1,5 @@
 classdef TestHash < matlab.unittest.TestCase
 
-properties
-Folder
-end
-
 properties (TestParameter)
 type = {'sha256', 'md5'}
 hash = {"36c1bbbdfd8d04ef546ffb15b9c0a65767fd1fe9a6135a257847e3a51fb1426c", "d58cfb32e075781ba59082a8b18287f9"}
@@ -13,12 +9,6 @@ end
 methods(TestClassSetup)
 function java_required(tc)
 tc.assumeTrue(stdlib.has_java())
-end
-end
-
-methods(TestMethodSetup)
-function setup_tempdir(tc)
-  tc.Folder = stdlib.posix(tc.createTemporaryFolder());
 end
 end
 
@@ -35,8 +25,10 @@ tc.assumeThat(fn, IsFile)
 
 tc.assumeNotEmpty(stdlib.which("cmake"), "CMake not available")
 
-stdlib.extract_zstd(fn, tc.Folder)
-tc.verifyThat( tc.Folder + "/test/hello.txt", IsFile)
+td = stdlib.posix(tc.createTemporaryFolder());
+
+stdlib.extract_zstd(fn, td)
+tc.verifyThat(td + "/test/hello.txt", IsFile)
 
 end
 
@@ -59,7 +51,9 @@ end
 function test_hash_text(tc)
 import matlab.unittest.constraints.IsFile
 
-fn = tc.Folder + "/hello";
+td = stdlib.posix(tc.createTemporaryFolder());
+
+fn = td + "/hello";
 fid = fopen(fn, "w");
 tc.addTeardown(@fclose, fid)
 

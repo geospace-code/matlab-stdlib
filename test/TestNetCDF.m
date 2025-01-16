@@ -8,9 +8,8 @@ methods (TestClassSetup)
 
 function setup_file(tc)
 import matlab.unittest.constraints.IsFile
-import matlab.unittest.fixtures.TemporaryFolderFixture
 
-fixture = tc.applyFixture(TemporaryFolderFixture);
+td = stdlib.posix(tc.createTemporaryFolder());
 
 A0 = 42.;
 A1 = [42.; 43.];
@@ -31,7 +30,7 @@ tc.TestData.utf0 = utf0;
 tc.TestData.utf1 = utf1;
 tc.TestData.utf2 = utf2;
 
-basic = stdlib.posix(fixture.Folder) + "/basic.nc";
+basic = td + "/basic.nc";
 tc.TestData.basic = basic;
 
 % create test data first, so that parallel tests works

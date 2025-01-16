@@ -26,7 +26,6 @@ end
 
 
 function test_cwd(tc)
-import matlab.unittest.fixtures.TemporaryFolderFixture
 
 if ispc
   c = ["cmd", "/c", "dir"];
@@ -34,13 +33,12 @@ else
   c = ["ls", "-l"];
 end
 
-fixture = tc.applyFixture(TemporaryFolderFixture);
-td = fixture.Folder;
-
 [s, m, e] = stdlib.subprocess_run(c);
 tc.assertEqual(s, 0, "status non-zero")
 tc.verifyGreaterThan(strlength(m), 0, "empty directory not expected")
 tc.verifyEqual(strlength(e), 0, e)
+
+td = stdlib.posix(tc.createTemporaryFolder());
 
 [s, mc, e] = stdlib.subprocess_run(c, "cwd", td);
 tc.assertEqual(s, 0, "status non-zero")

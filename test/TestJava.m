@@ -127,11 +127,10 @@ end
 
 
 function test_touch_modtime(tc)
-import matlab.unittest.fixtures.TemporaryFolderFixture
 
-fixture = tc.applyFixture(TemporaryFolderFixture);
+tf = stdlib.posix(tc.createTemporaryFolder());
 
-fn = fullfile(fixture.Folder, "modtime.txt");
+fn = fullfile(tf, "modtime.txt");
 
 tc.verifyTrue(stdlib.touch(fn, datetime("yesterday")))
 t0 = stdlib.get_modtime(fn);
