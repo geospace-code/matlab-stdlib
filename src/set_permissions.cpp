@@ -71,11 +71,8 @@ public:
       matlabPtr->feval(u"error", 0,
         std::vector<matlab::data::Array>({ factory.createScalar("Four inputs required") }));
     }
-    if (inputs[0].getType() != matlab::data::ArrayType::MATLAB_STRING) {
-      matlabPtr->feval(u"error", 0,
-        std::vector<matlab::data::Array>({ factory.createScalar("Input must be a string") }));
-    }
-    if (inputs[0].getNumberOfElements() != 1) {
+    if (inputs[0].getType() != matlab::data::ArrayType::MATLAB_STRING ||
+        inputs[0].getNumberOfElements() != 1) {
       matlabPtr->feval(u"error", 0,
         std::vector<matlab::data::Array>({ factory.createScalar("Input must be a scalar string") }));
     }
