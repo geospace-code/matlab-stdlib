@@ -7,7 +7,7 @@ end
 methods (Test)
 
 function test_not(tc, Pn)
-tc.verifyEmpty(stdlib.windows_shortname(Pn))
+tc.verifyEqual(stdlib.windows_shortname(Pn), "")
 end
 
 function test_short_folder(tc)

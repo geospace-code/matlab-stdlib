@@ -11,7 +11,7 @@ arguments
   p (1,1) string
 end
 
-s = string.empty;
+s = "";
 
 if ~ispc || stdlib.is_url(p)
   return

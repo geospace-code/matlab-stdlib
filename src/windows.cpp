@@ -1,5 +1,6 @@
 #include <string>
 #include <cstddef>
+#include <cstdlib> // for _MAX_PATH
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -117,4 +118,21 @@ bool fs_win32_is_symlink(std::string path)
   return (reparseTag == IO_REPARSE_TAG_SYMLINK) ||
          (reparseTag == IO_REPARSE_TAG_MOUNT_POINT);
 
+}
+
+
+std::string fs_shortname(std::string in)
+{
+// https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getshortpathnamew
+// the path must exist
+
+  std::string out(_MAX_PATH, '\0');
+// size does not include null terminator
+  if(auto L = GetShortPathNameA(in.data(), out.data(), static_cast<DWORD>(out.size()));
+      L > 0 && L < out.length()){
+    out.resize(L);
+    return out;
+  }
+
+  return {};
 }
