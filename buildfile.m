@@ -9,59 +9,37 @@ if ~isMATLABReleaseOlderThan("R2023b")
   plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true);
 end
 
-if ~isMATLABReleaseOlderThan("R2024b")
-
-  cxx = mex.getCompilerConfigurations('c++');
-  flags = cxx.Details.CompilerFlags;
-
-  msvc = startsWith(cxx.ShortName, "MSVCPP");
-
-  std = "-std=c++17";
-  compiler_id = "";
-  % FIXME: Windows oneAPI
-  if msvc
-    std = "/std:c++17";
-  elseif ismac
-    % keep for if-logic
-  elseif isunix && cxx.ShortName == "g++"
-    % FIXME: update when desired GCC != 10 for newer Matlab
-    if isMATLABReleaseOlderThan("R2025b") && ~startsWith(cxx.Version, "10")
-      % https://www.mathworks.com/help/matlab/matlab_external/choose-c-or-c-compilers.html
-      % https://www.mathworks.com/help/matlab/matlab_external/change-default-gcc-compiler-on-linux-system.html
-      [s, ~] = system("which g++-10");
-      if s == 0
-        compiler_id = "CXX=g++-10";
-      else
-        warning("GCC 10 not found, using default GCC " + cxx.Version + " may fail on runtime")
-      end
-    end
-  end
-
-  opt = flags + " " + std;
-  if msvc
-    compiler_opt = "COMPFLAGS=" + opt;
-  else
-    compiler_opt = "CXXFLAGS=" + opt;
-  end
-
-  root = plan.RootFolder;
-  bindir = fullfile(root, pkg_name);
-
-  plan("clean") = matlab.buildtool.tasks.CleanTask;
-
-  plan("mex:is_char_device_mex") = matlab.buildtool.tasks.MexTask("src/is_char_device.cpp", bindir, ...
-    Options=[compiler_id, compiler_opt]);
-
-  is_symlink_src = ["src/is_symlink.cpp"];
-  if ispc
-    is_symlink_src(end+1) = "src/windows.cpp";
-  end
-
-  plan("mex:is_symlink_mex") = matlab.buildtool.tasks.MexTask(is_symlink_src, bindir, ...
-    Options=[compiler_id, compiler_opt]);
+if isMATLABReleaseOlderThan("R2024b")
+  plan("test").Dependencies = "legacyMex";
+else
 
   plan("test").Dependencies = "mex";
+  plan("clean") = matlab.buildtool.tasks.CleanTask;
+
+  [compiler_id, compiler_opt] = get_compiler_options();
+
+  srcs = get_mex_sources(plan.RootFolder);
+
+  bindir = fullfile(plan.RootFolder, pkg_name);
+
+  for s = srcs
+    src = s{1};
+    [~, name] = fileparts(src(1));
+
+    plan("mex:" + name) = matlab.buildtool.tasks.MexTask(src, bindir, ...
+      Options=[compiler_id, compiler_opt]);
+  end
+
 end
+
+end
+
+
+function legacyMexTask(context)
+
+pkg_name = "+stdlib";
+
+legacy_mex_build(context.Plan.RootFolder, fullfile(context.Plan.RootFolder, pkg_name))
 
 end
 
@@ -80,11 +58,13 @@ function testTask(~)
   assertSuccess(r)
 end
 
+
 function coverageTask(~)
   cwd = fileparts(mfilename('fullpath'));
 
   coverage_run("stdlib", fullfile(cwd, "test"))
 end
+
 
 function publishTask(~)
   cwd = fileparts(mfilename('fullpath'));
