@@ -3,9 +3,7 @@ classdef TestMex < matlab.unittest.TestCase
 methods (Test)
 
 function test_is_char_device(tc)
-import matlab.unittest.fixtures.CurrentFolderFixture
-
-tc.applyFixture(CurrentFolderFixture(".."))
+tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(".."))
 % matlab exist() doesn't work for MEX detection with ".." leading path
 
 tc.assumeEqual(exist("+stdlib/is_char_device", "file"), 3)
@@ -18,7 +16,14 @@ else
 end
 
 tc.verifyTrue(stdlib.is_char_device(n))
+end
 
+
+function test_is_admin(tc)
+tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(".."))
+
+tc.assumeEqual(exist("+stdlib/is_admin", "file"), 3)
+tc.verifyClass(stdlib.is_admin(), "logical")
 end
 
 end
