@@ -10,6 +10,7 @@ t = fullfile(r, "+stdlib");
 %% specific source
 srcs = {
 fullfile(d, "is_rosetta.cpp"), ...
+fullfile(d, "is_admin.cpp"), ...
 };
 
 
@@ -18,5 +19,6 @@ for s = srcs
   src = s{1};
   [~, n] = fileparts(src);
 
-  mkoctfile(src,"-v", ["-I", inc], "--output", fullfile(t, n))
+  disp(["mkoctfile: ", src, " => ", n, ".oct"])
+  mkoctfile(src, ["-I", inc], "--output", fullfile(t, n))
 end

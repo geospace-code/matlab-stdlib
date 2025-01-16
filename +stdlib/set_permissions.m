@@ -9,3 +9,7 @@
 % * ok (1,1) logical
 %
 % This function is written in C++ using STL <filesystem> and is only available in Matlab.
+
+function set_permissions(~, ~, ~, ~)
+error("need to 'buildtool mex' or 'legacy_mex_build()' first")
+end

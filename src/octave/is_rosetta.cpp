@@ -4,7 +4,7 @@
 
 
 DEFUN_DLD (is_rosetta, args, nargout,
-           "Hello World Help String")
+           "is the process running under macOS Rosetta")
 {
   if (args.length() != 0){
     octave_stdout << "is_rosetta: No input required\n";
