@@ -18,16 +18,32 @@ syntax.
 Self-tests can be run from that matlab-stdlib/ directory:
 
 ```matlab
-buildtool
+buildtool test
+```
+
+## MEX C++
+
+Several functions are sped up with C++ Matlab MEX build.
+A couple functions are only available with C++ MEX build.
+
+```matlab
+buildtool mex
+```
+
+or for older Matlab:
+
+```matlab
+legacy_mex_build()
 ```
 
 URLs (e.g. https://, s3:// and similar) are treated as not existing.
 
 [API Documentation](https://geospace-code.github.io/matlab-stdlib)
 
+## Java-based functions
+
 Most Matlab-stdlib filesystem functions work without the
 [Java interface](./Readme_java.md).
-
 If Matlab was started without Java using
 [-nojvm](https://www.mathworks.com/help/matlab/matlab_env/commonly-used-startup-options.html),
 most Matlab-stdlib functions still work.
