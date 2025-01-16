@@ -1,6 +1,8 @@
-%% IS_ABSOLUTE is path absolute?
-% on Windows, absolute paths must be at least 3 character long, starting with a root name followed by a slash
-% on non-Windows, absolute paths must start with a slash
+%% IS_ABSOLUTE is path absolute
+%
+% * Windows, absolute paths must be at least 3 character long, starting with a root name followed by a slash
+%
+% * non-Windows, absolute paths must start with a slash
 
 function y = is_absolute(p)
 arguments
