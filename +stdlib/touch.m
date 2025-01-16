@@ -3,24 +3,34 @@
 function ok = touch(p, t)
 arguments
   p (1,1) string
-  t (1,1) datetime = datetime("now")
+  t datetime {mustBeScalarOrEmpty} = datetime.empty
 end
 
 ok = false;
 
 if ~stdlib.exists(p)
   fid = fopen(p, "w");
-  if fid < 0 || fclose(fid) ~= 0
+  ok = fid > 0 && fclose(fid) == 0;
+  if isempty(t)
     return
   end
 end
 
-ok = stdlib.set_modtime(p, t);
+if isempty(t)
+  t = datetime("now");
+end
+
+try
+  ok = stdlib.set_modtime(p, t);
+catch e
+  if ~strcmp(e.identifier, "MATLAB:undefinedVarOrClass")
+    rethrow(e)
+  end
+end
 
 end
 
 %!test
 %! f = tempname();
-%! t = time();
-%! assert (touch(f, t))
+%! assert (touch(f, []))
 %! assert (isfile(f))

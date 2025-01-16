@@ -136,7 +136,7 @@ fn = fullfile(fixture.Folder, "modtime.txt");
 tc.verifyTrue(stdlib.touch(fn, datetime("yesterday")))
 t0 = stdlib.get_modtime(fn);
 
-tc.verifyTrue(stdlib.set_modtime(fn))
+tc.verifyTrue(stdlib.set_modtime(fn, datetime("now")))
 t1 = stdlib.get_modtime(fn);
 
 tc.verifyGreaterThanOrEqual(t1, t0)
@@ -148,7 +148,7 @@ tc.verifyEmpty(stdlib.get_modtime(""))
 end
 
 function test_set_modtime(tc)
-tc.verifyEqual(stdlib.set_modtime(""), false)
+tc.verifyEqual(stdlib.set_modtime("", datetime("now")), false)
 end
 
 

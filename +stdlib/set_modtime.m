@@ -3,7 +3,7 @@
 function ok = set_modtime(p, t)
 arguments
   p (1,1) string
-  t (1,1) datetime = datetime("now")
+  t (1,1) datetime
 end
 
 try
@@ -23,6 +23,6 @@ end
 %!test
 %! p = tempname();
 %! t = time()
-%! assert(touch(p, t))
+%! assert(touch(p, []))
 %! assert(set_modtime(p, t))
 %! delete(p)

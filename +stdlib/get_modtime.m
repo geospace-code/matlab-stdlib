@@ -23,7 +23,6 @@ end
 
 %!test
 %! p = tempname();
-%! t = time();
-%! assert(touch(p, t))
+%! assert(touch(p, []))
 %! assert(get_modtime(p) > 0)
 %! delete(p)
