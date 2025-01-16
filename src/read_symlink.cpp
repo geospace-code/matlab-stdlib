@@ -5,15 +5,11 @@
 #include "mexAdapter.hpp"
 
 #include <string>
-// note: <string_view> causes compile failures with MSVC at least
 
 #include <vector>
 #include <memory>
 
-#if defined(_WIN32)
-#include "win32_fs.h"
-#endif
-
+#include "symlink_fs.h"
 
 class MexFunction : public matlab::mex::Function {
 public:
@@ -22,8 +18,7 @@ public:
     std::shared_ptr<matlab::engine::MATLABEngine> matlabEng = getEngine();
 
     matlab::data::ArrayFactory factory;
-
-// wrangle Inputs
+// wrangle inputs
     std::string in;
 
     if (inputs.size() != 1) {
@@ -42,10 +37,7 @@ public:
     }
 
 // actual function algorithm / computation
-  std::string out = "";
-#if defined(_WIN32)
-  out = fs_shortname(in);
-#endif
+    std::string out = fs_read_symlink(in);
 
 // convert to Matlab output
     outputs[0] = factory.createScalar(out);

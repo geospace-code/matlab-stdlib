@@ -1,11 +1,13 @@
 #include <string>
 #include <cstddef>
-#include <cstdlib> // for _MAX_PATH
+#include <cstdlib>
+#include <algorithm> // for std::replace
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <winioctl.h>
 
+#include "limits_fs.h"
 #include "win32_fs.h"
 
 
@@ -55,6 +57,18 @@ typedef struct _REPARSE_DATA_BUFFER
 } REPARSE_DATA_BUFFER, *PREPARSE_DATA_BUFFER;
 
 
+std::string fs_as_posix(std::string path)
+{
+  std::string s(path);
+
+#if defined(_WIN32)
+    std::replace(s.begin(), s.end(), '\\', '/');
+#endif
+
+  return s;
+}
+
+
 static bool fs_win32_get_reparse_buffer(std::string path, std::byte* buffer)
 {
 // this function is adapted from
@@ -97,6 +111,48 @@ static bool fs_win32_get_reparse_buffer(std::string path, std::byte* buffer)
 }
 
 
+std::string fs_win32_final_path(std::string path)
+{
+  // resolves Windows symbolic links (reparse points and junctions)
+  // it also resolves the case insensitivity of Windows paths to the disk case
+  // PATH MUST EXIST
+  //
+  // References:
+  // https://stackoverflow.com/a/50182947
+  // https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilea
+  // https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfinalpathnamebyhandlea
+
+#if defined(_WIN32)
+  // dwDesiredAccess=0 to allow getting parameters even without read permission
+  // FILE_FLAG_BACKUP_SEMANTICS required to open a directory
+  HANDLE h = CreateFileA(path.data(), GENERIC_READ, FILE_SHARE_READ, nullptr,
+              OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, nullptr);
+  if(h == INVALID_HANDLE_VALUE)
+    return {};
+
+  std::string r(fs_get_max_path(), '\0');
+
+  const DWORD L = GetFinalPathNameByHandleA(h, r.data(), static_cast<DWORD>(r.size()), FILE_NAME_NORMALIZED);
+  CloseHandle(h);
+  if(L == 0)
+    return {};
+
+  r.resize(L);
+
+#ifdef __cpp_lib_starts_ends_with  // C++20
+  if (r.starts_with("\\\\?\\"))
+#else  // C++98
+  if (r.substr(0, 4) == "\\\\?\\")
+#endif
+    r = r.substr(4);
+
+  return fs_as_posix(r);
+#else
+  return std::string(path);
+#endif
+}
+
+
 bool fs_win32_is_symlink(std::string path)
 {
 // distinguish between Windows symbolic links and reparse points as
@@ -126,7 +182,7 @@ std::string fs_shortname(std::string in)
 // https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getshortpathnamew
 // the path must exist
 
-  std::string out(_MAX_PATH, '\0');
+  std::string out(fs_get_max_path(), '\0');
 // size does not include null terminator
   if(auto L = GetShortPathNameA(in.data(), out.data(), static_cast<DWORD>(out.size()));
       L > 0 && L < out.length()){
