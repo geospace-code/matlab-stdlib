@@ -44,9 +44,9 @@ legacy_mex_build(context.Plan.RootFolder, fullfile(context.Plan.RootFolder, pkg_
 end
 
 
-function testTask(~)
-  t = fileparts(mfilename("fullpath"));
-  addpath(t)
+function testTask(context)
+
+  addpath(context.Plan.RootFolder)
 
   r = runtests("test", ...
     IncludeSubfolders=true, ...
@@ -59,16 +59,15 @@ function testTask(~)
 end
 
 
-function coverageTask(~)
-  cwd = fileparts(mfilename('fullpath'));
+function coverageTask(context)
 
-  coverage_run("stdlib", fullfile(cwd, "test"))
+  coverage_run("stdlib", fullfile(context.Plan.RootFolder, "test"))
 end
 
 
-function publishTask(~)
-  cwd = fileparts(mfilename('fullpath'));
-  outdir = fullfile(cwd, "docs");
+function publishTask(context)
+
+  outdir = fullfile(context.Plan.RootFolder, "docs");
 
   publish_gen_index_html("stdlib", ...
     "A standard library of functions for Matlab.", ...

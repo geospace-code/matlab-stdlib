@@ -43,6 +43,7 @@ for sub = pkg.m.'
 
 s = sub{1};
 [~, name] = fileparts(s);
+
 doc_fn = publish(pkg_name + "." + name, evalCode=false, outputDir=outdir);
 disp(doc_fn)
 
