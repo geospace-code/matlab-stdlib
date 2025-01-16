@@ -10,7 +10,7 @@ Matlab or
 users coming from other languages will benefit from the functionality contained within this user-developed, unofficial "stdlib" standard library of functions.
 These system, filesystem, and HDF5 / HDF4 / NetCDF functions are used across numerous projects.
 
-Matlab &ge; R2021a has full functionality.
+Matlab &ge; R2022a is required to run the self-test suite.
 Matlab R2019b is the minimum required due to use of
 [arguments](https://www.mathworks.com/help/matlab/ref/arguments.html)
 syntax.
@@ -21,10 +21,8 @@ Self-tests can be run from that matlab-stdlib/ directory:
 buildtool test
 ```
 
-## MEX C++
-
-Several functions are sped up with C++ Matlab MEX build.
-A couple functions are only available with C++ MEX build.
+Functions requiring or optionally benefiting from MEX are indicated in the
+[API Documentation](https://geospace-code.github.io/matlab-stdlib).
 
 ```matlab
 buildtool mex
@@ -38,7 +36,6 @@ legacy_mex_build()
 
 URLs (e.g. https://, s3:// and similar) are treated as not existing.
 
-[API Documentation](https://geospace-code.github.io/matlab-stdlib)
 
 ## Java-based functions
 
