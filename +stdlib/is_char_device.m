@@ -1,4 +1,4 @@
-%% IS_CHAR_DEVICE is path a character device
+%% IS_CHAR_DEVICE is path a character device (Matlab requires MEX)
 % e.g. NUL, /dev/null
 % false if file does not exist
 

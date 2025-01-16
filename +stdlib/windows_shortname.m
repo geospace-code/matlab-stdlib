@@ -1,4 +1,5 @@
-%% WINDOWS_SHORTNAME Retrieves the Windows short name (8.3 character) form
+%% WINDOWS_SHORTNAME Retrieves the Windows short name (Matlab optional MEX)
+% (8.3 character) filename
 %
 %  Example of using a COM server (Scripting.FileSystemObject) in Windows
 %

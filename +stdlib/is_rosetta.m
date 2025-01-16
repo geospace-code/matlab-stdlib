@@ -1,5 +1,5 @@
-%% IS_ROSETTA is running on Apple Silicon using Rosetta
-% this would be true if Matlab is build for Intel x86_64
+%% IS_ROSETTA on Apple Silicon via Rosetta (Matlab optional MEX)
+% true if Matlab on Apple Silicon CPU is built for Intel x86_64
 
 function r = is_rosetta()
 r = false;
