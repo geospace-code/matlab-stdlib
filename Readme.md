@@ -14,6 +14,7 @@ Matlab &ge; R2022a is required to run the self-test suite.
 Matlab R2019b is the minimum required due to use of
 [arguments](https://www.mathworks.com/help/matlab/ref/arguments.html)
 syntax.
+URLs (e.g. https://, s3:// and similar) are treated as not existing.
 
 Self-tests can be run from that matlab-stdlib/ directory:
 
@@ -23,6 +24,10 @@ buildtool test
 
 Functions requiring or optionally benefiting from MEX are indicated in the
 [API Documentation](https://geospace-code.github.io/matlab-stdlib).
+
+To build the optional high-performance
+[MEX](https://www.mathworks.com/help/matlab/cpp-mex-file-applications.html)
+functions:
 
 ```matlab
 buildtool mex
@@ -34,7 +39,7 @@ or for older Matlab:
 legacy_mex_build()
 ```
 
-URLs (e.g. https://, s3:// and similar) are treated as not existing.
+If just building MEX functions for the first time, to ensure the MEX functions are used instead of the plain Matlab script, one-time do a `clear all` in Matlab.
 
 
 ## Java-based functions

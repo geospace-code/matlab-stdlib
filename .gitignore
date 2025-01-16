@@ -4,4 +4,6 @@ test-results/
 .buildtool/
 *.asv
 docs/
+
 *.mex*
+*.oct
