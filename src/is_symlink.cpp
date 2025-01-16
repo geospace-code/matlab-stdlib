@@ -67,10 +67,10 @@ public:
 // actual function algorithm / computation
     bool y = fs_is_symlink(inputStr);
 
-// convert to Matlab output -- even scalars are arrays in Matlab
+// convert to Matlab output
 // https://www.mathworks.com/help/matlab/matlab_external/create-matlab-array-with-matlab-data-cpp-api.html
 // https://www.mathworks.com/help/matlab/apiref/matlab.data.arrayfactory.html
 
-    outputs[0] =  factory.createArray<bool>({1,1}, {y});
+    outputs[0] = factory.createScalar<bool>(y);
   }
 };
