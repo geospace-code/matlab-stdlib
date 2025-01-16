@@ -7,63 +7,7 @@
 #include <vector>
 #include <memory>
 
-#if defined(_WIN32)
-# define WIN32_LEAN_AND_MEAN
-# include <windows.h>
-#else
-# include <unistd.h> // for symlink()
-#endif
-
-#if __has_include(<filesystem>)
-# include <filesystem>
-# include <system_error>
-#endif
-
-
-bool fs_create_symlink(std::string target, std::string link)
-{
-  // confusing program errors if target is "" -- we'd never make such a symlink in real use.
-  if(target.empty())
-    return false;
-
-  // macOS needs empty check to avoid SIGABRT
-  if(link.empty())
-    return false;
-
-#if defined(__MINGW32__) || (defined(_WIN32) && !defined(__cpp_lib_filesystem))
-
-  const DWORD attr = GetFileAttributesA(target.data());
-// https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfileattributesa
-// https://learn.microsoft.com/en-us/windows/win32/fileio/file-attribute-constants
-
-  if (attr == INVALID_FILE_ATTRIBUTES)
-    return false;
-
-  DWORD p = SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;
-  if(attr & FILE_ATTRIBUTE_DIRECTORY)
-    p |= SYMBOLIC_LINK_FLAG_DIRECTORY;
-
-  return CreateSymbolicLinkA(link.data(), target.data(), p);
-#elif defined(__cpp_lib_filesystem)
-  std::error_code ec;
-  std::filesystem::path t(target);
-
-  bool isdir = std::filesystem::is_directory(t, ec);
-  if (ec)
-    return false;
-
-  isdir
-    ? std::filesystem::create_directory_symlink(t, link, ec)
-    : std::filesystem::create_symlink(t, link, ec);
-
-  return !ec;
-#else
-  // https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/symlink.2.html
-  // https://linux.die.net/man/3/symlink
-  return symlink(target.data(), link.data()) == 0;
-#endif
-
-}
+#include "symlink_fs.h"
 
 
 class MexFunction : public matlab::mex::Function {

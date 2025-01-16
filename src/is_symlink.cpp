@@ -10,35 +10,7 @@
 #include <vector>
 #include <memory>
 
-#if defined(_WIN32)
-# include "win32_fs.h"
-#endif
-
-#if __has_include(<filesystem>)
-# include <filesystem>
-# include <system_error>
-#endif
-
-#include <sys/types.h>
-#include <sys/stat.h>
-
-
-static bool fs_is_symlink(std::string path)
-{
-
-#if defined(__MINGW32__) || (defined(_WIN32) && !defined(__cpp_lib_filesystem))
-  return fs_win32_is_symlink(path);
-#elif defined(__cpp_lib_filesystem)
-// std::filesystem::symlink_status doesn't detect symlinks on MinGW
-  std::error_code ec;
-  const auto s = std::filesystem::symlink_status(path, ec);
-  return !ec && std::filesystem::is_symlink(s);
-#else
-  struct stat s;
-  return lstat(path.data(), &s) == 0 && S_ISLNK(s.st_mode);
-#endif
-}
-
+#include "symlink_fs.h"
 
 class MexFunction : public matlab::mex::Function {
 public:
