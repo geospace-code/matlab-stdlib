@@ -13,18 +13,32 @@ runs:
       startup-options: ${{ matrix.startup-options }}
       tasks: check
 
-  - name: Test task
-    if: ${{ matrix.release >= 'R2022b' || startsWith(matrix.release, 'latest') }}
+  - name: Legacy Mex Test
+    if: ${{ matrix.release >= 'R2022b' && matrix.release < 'R2024b' }}
+    uses: matlab-actions/run-build@v2
+    with:
+      startup-options: ${{ matrix.startup-options }}
+      tasks: legacyMex test
+
+  - name: Non-Mex Test
+    if: ${{ matrix.release >= 'R2024b' || startsWith(matrix.release, 'latest') }}
     uses: matlab-actions/run-build@v2
     with:
       startup-options: ${{ matrix.startup-options }}
       tasks: test
 
-
-  - name: Run tests (manual)
-    if: ${{ matrix.release < 'R2022b' && !startsWith(matrix.release, 'latest') }}
-    uses: matlab-actions/run-tests@v2
+  - name: Mex Group Test
+    if: ${{ matrix.release >= 'R2024b' || startsWith(matrix.release, 'latest') }}
+    uses: matlab-actions/run-build@v2
     with:
-      source-folder: ${{ github.workspace }}
-      select-by-folder: test
-      strict: true
+      startup-options: ${{ matrix.startup-options }}
+      tasks: mex test
+
+
+  # - name: Run tests (manual)
+  #   if: ${{ matrix.release < 'R2022b' && !startsWith(matrix.release, 'latest') }}
+  #   uses: matlab-actions/run-tests@v2
+  #   with:
+  #     source-folder: ${{ github.workspace }}
+  #     select-by-folder: test
+  #     strict: true

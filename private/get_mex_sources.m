@@ -3,30 +3,22 @@ arguments
   top (1,1) string  % package directory
 end
 
-%% source C++
+win = "";
+if ispc
+win = fullfile(top, "src/windows.cpp");
+end
 
-% Matlab and Java don't have these functions
+mac = fullfile(top, "src/macos.cpp");
+
 srcs = {fullfile(top, "src/is_char_device.cpp"), ...
   fullfile(top, "src/set_permissions.cpp"), ...
-  fullfile(top, "src/is_rosetta.cpp"), ...
+  [fullfile(top, "src/is_rosetta.cpp"), mac], ...
+  [fullfile(top, "src/windows_shortname.cpp"), win]
 };
 
-s = fullfile(top, "src/windows_shortname.cpp");
-if ispc
-  s(end+1) = fullfile(top, "src/windows.cpp");
-end
-srcs{end+1} = s;
-
-
-% isSymbolicLink() new in R2024b
+%% isSymbolicLink() new in R2024b
 if ~isMATLABReleaseOlderThan("R2024b")
-
-s = fullfile(top, "src/is_symlink.cpp");
-if ispc
-  s(end+1) = fullfile(top, "src/windows.cpp");
-end
-srcs{end+1} = s;
-
+srcs{end+1} = [fullfile(top, "src/is_symlink.cpp"), win];
 end
 
 end

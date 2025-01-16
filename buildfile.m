@@ -9,11 +9,8 @@ if ~isMATLABReleaseOlderThan("R2023b")
   plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true);
 end
 
-if isMATLABReleaseOlderThan("R2024b")
-  plan("test").Dependencies = "legacyMex";
-else
+if ~isMATLABReleaseOlderThan("R2024b")
 
-  plan("test").Dependencies = "mex";
   plan("clean") = matlab.buildtool.tasks.CleanTask;
 
   [compiler_id, compiler_opt] = get_compiler_options();
