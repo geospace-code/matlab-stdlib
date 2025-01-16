@@ -7,6 +7,7 @@ end
 methods (Test)
 
 function test_get_permissions(tc, Ps)
+
 import matlab.unittest.constraints.StartsWithSubstring
 import matlab.unittest.constraints.IsOfClass
 
@@ -17,6 +18,36 @@ if stdlib.exists(Ps)
   tc.verifyThat(p, IsOfClass("char"))
 else
   tc.verifyEmpty(p)
+end
+
+end
+
+
+function test_set_permissions(tc)
+
+import matlab.unittest.constraints.StartsWithSubstring
+import matlab.unittest.fixtures.TemporaryFolderFixture
+
+fixture = tc.applyFixture(TemporaryFolderFixture);
+
+nr = fullfile(fixture.Folder, "no-read");
+
+tc.verifyTrue(stdlib.touch(nr))
+tc.verifyTrue(stdlib.set_permissions(nr, -1, 0, 0))
+p = stdlib.get_permissions(nr);
+
+if ~ispc
+tc.verifyThat(p, StartsWithSubstring("-"), "no-read permission failed to set")
+end
+
+nw = fullfile(fixture.Folder, "no-write");
+
+tc.verifyTrue(stdlib.touch(nw))
+tc.verifyTrue(stdlib.set_permissions(nw, 0, -1, 0))
+p = stdlib.get_permissions(nw);
+
+if ~ispc
+tc.verifyThat(p, StartsWithSubstring("r-"), "no-write permission failed to set")
 end
 
 end

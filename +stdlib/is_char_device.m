@@ -4,13 +4,13 @@
 
 function ok = is_char_device(p)
 arguments
-    p (1,1) string
+  p (1,1) string
 end
 
 if stdlib.isoctave()
   ok = S_ISCHR(stat(p).mode);
 else
-  ok = is_char_device_mex(p);
+  error("need to 'buildtool mex' or 'legacy_mex_build()' first")
 end
 
 end
