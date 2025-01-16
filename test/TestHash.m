@@ -7,6 +7,7 @@ end
 properties (TestParameter)
 type = {'sha256', 'md5'}
 hash = {"36c1bbbdfd8d04ef546ffb15b9c0a65767fd1fe9a6135a257847e3a51fb1426c", "d58cfb32e075781ba59082a8b18287f9"}
+Pe = {"file:///", "", "/"}
 end
 
 methods(TestClassSetup)
@@ -73,12 +74,8 @@ tc.verifyEqual(stdlib.file_checksum(fn, "sha256"), "2cf24dba5fb0a30e26e83b2ac5b9
 end
 
 
-function test_hash_empty(tc)
-
-tc.verifyEmpty(stdlib.file_checksum("file:///", "sha256"))
-tc.verifyEmpty(stdlib.file_checksum("", "sha256"))
-tc.verifyEmpty(stdlib.file_checksum("/", "sha256"))
-
+function test_hash_empty(tc, Pe)
+tc.verifyEmpty(stdlib.file_checksum(Pe, "sha256"))
 end
 
 end

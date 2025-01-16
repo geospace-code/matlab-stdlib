@@ -63,31 +63,35 @@ class MexFunction : public matlab::mex::Function {
 public:
   void operator()(matlab::mex::ArgumentList outputs, matlab::mex::ArgumentList inputs) {
 // boilerplate engine & ArrayFactory setup
-    std::shared_ptr<matlab::engine::MATLABEngine> matlabPtr = getEngine();
+    std::shared_ptr<matlab::engine::MATLABEngine> matlabEng = getEngine();
 
     matlab::data::ArrayFactory factory;
-// boilerplate input checks
+// wrangle inputs
+    std::string in;
+
     if (inputs.size() != 4) {
-      matlabPtr->feval(u"error", 0,
+      matlabEng->feval(u"error", 0,
         std::vector<matlab::data::Array>({ factory.createScalar("Four inputs required") }));
     }
-    if (inputs[0].getType() != matlab::data::ArrayType::MATLAB_STRING ||
-        inputs[0].getNumberOfElements() != 1) {
-      matlabPtr->feval(u"error", 0,
-        std::vector<matlab::data::Array>({ factory.createScalar("Input must be a scalar string") }));
+    if ((inputs[0].getType() == matlab::data::ArrayType::MATLAB_STRING && inputs[0].getNumberOfElements() == 1)){
+        matlab::data::TypedArray<matlab::data::MATLABString> stringArr = inputs[0];
+        in = stringArr[0];
+    } else if (inputs[0].getType() == matlab::data::ArrayType::CHAR){
+        matlab::data::CharArray charArr = inputs[0];
+        in.assign(charArr.begin(), charArr.end());
+    } else {
+        matlabEng->feval(u"error", 0,
+        std::vector<matlab::data::Array>({ factory.createScalar("Mex: First input must be a scalar string or char vector") }));
     }
     if (inputs[1].getType() != matlab::data::ArrayType::DOUBLE ||
         inputs[2].getType() != matlab::data::ArrayType::DOUBLE ||
         inputs[3].getType() != matlab::data::ArrayType::DOUBLE) {
-      matlabPtr->feval(u"error", 0,
-        std::vector<matlab::data::Array>({ factory.createScalar("Permission inputs must be doubles") }));
+      matlabEng->feval(u"error", 0,
+        std::vector<matlab::data::Array>({ factory.createScalar("Mex: Permission inputs must be scalar doubles") }));
     }
 
-// Matlab strings are an array, so we use [0][0] to get the first element
-    std::string inputStr = inputs[0][0];
-
 // actual function algorithm / computation
-    bool y = fs_set_permissions(inputStr, inputs[1][0], inputs[2][0], inputs[3][0]);
+    bool y = fs_set_permissions(in, inputs[1][0], inputs[2][0], inputs[3][0]);
 
 // convert to Matlab output
 // https://www.mathworks.com/help/matlab/matlab_external/create-matlab-array-with-matlab-data-cpp-api.html

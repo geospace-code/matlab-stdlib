@@ -11,13 +11,13 @@ class MexFunction : public matlab::mex::Function {
 public:
   void operator()(matlab::mex::ArgumentList outputs, matlab::mex::ArgumentList inputs) {
 // boilerplate engine & ArrayFactory setup
-    std::shared_ptr<matlab::engine::MATLABEngine> matlabPtr = getEngine();
+    std::shared_ptr<matlab::engine::MATLABEngine> matlabEng = getEngine();
 
     matlab::data::ArrayFactory factory;
 // boilerplate input checks
     if (inputs.size() != 0) {
-      matlabPtr->feval(u"error", 0,
-        std::vector<matlab::data::Array>({ factory.createScalar("No input required") }));
+      matlabEng->feval(u"error", 0,
+        std::vector<matlab::data::Array>({ factory.createScalar("Mex: No input required") }));
     }
 
 // actual function algorithm / computation
