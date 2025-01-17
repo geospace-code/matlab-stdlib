@@ -5,7 +5,6 @@
 #include "mexAdapter.hpp"
 
 #include <string>
-// note: <string_view> causes compile failures with MSVC at least
 
 #include <vector>
 #include <memory>

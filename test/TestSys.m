@@ -1,19 +1,20 @@
 classdef TestSys < matlab.unittest.TestCase
 
+properties (TestParameter)
+fun = {stdlib.iscygwin, stdlib.isoctave, stdlib.is_rosetta, stdlib.isinteractive}
+fi32 = {stdlib.is_wsl}
+end
+
 
 methods (Test)
 
-function test_platform(tc)
-import matlab.unittest.constraints.IsOfClass
+function test_platform_logical(tc, fun)
 
-tc.verifyThat(stdlib.iscygwin(), IsOfClass('logical'))
-tc.verifyThat(stdlib.isoctave(), IsOfClass('logical'))
+tc.verifyClass(fun, 'logical')
+end
 
-tc.verifyThat(stdlib.is_wsl(), IsOfClass('logical'))
-
-tc.verifyThat(stdlib.is_rosetta(), IsOfClass('logical'))
-
-tc.verifyThat(stdlib.isinteractive(), IsOfClass('logical'))
+function test_platform_int32(tc, fi32)
+tc.verifyClass(fi32, 'int32')
 end
 
 end

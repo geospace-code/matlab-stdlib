@@ -1,4 +1,4 @@
-%% IS_SYMLINK is path a symbolic link (Matlab optional MEX)
+%% IS_SYMLINK is path a symbolic link (optional MEX)
 
 function ok = is_symlink(p)
 arguments

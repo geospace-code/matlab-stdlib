@@ -9,13 +9,12 @@ methods (Test)
 function test_get_permissions(tc, Ps)
 
 import matlab.unittest.constraints.StartsWithSubstring
-import matlab.unittest.constraints.IsOfClass
 
 p = stdlib.get_permissions(Ps);
 
 if stdlib.exists(Ps)
   tc.verifyThat(p, StartsWithSubstring("r"))
-  tc.verifyThat(p, IsOfClass("char"))
+  tc.verifyClass(p, "char")
 else
   tc.verifyEmpty(p)
 end

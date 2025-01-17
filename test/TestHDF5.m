@@ -141,7 +141,7 @@ end
 
 function test_read(tc)
 import matlab.unittest.constraints.IsScalar
-import matlab.unittest.constraints.IsOfClass
+
 basic = tc.TestData.basic;
 
 s = h5read(basic, '/A0');
@@ -170,7 +170,7 @@ tc.verifyTrue(ischar(s))
 tc.verifyEqual(s, tc.TestData.utf)
 
 s = h5read(basic, '/utf2');
-tc.verifyThat(s, IsOfClass('string'))
+tc.verifyClass(s, 'string')
 tc.verifyEqual(s, tc.TestData.utf2)
 end
 

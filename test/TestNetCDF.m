@@ -160,21 +160,20 @@ tc.verifyEqual(s, tc.TestData.A4)
 end
 
 function test_read_string(tc)
-import matlab.unittest.constraints.IsOfClass
 basic = tc.TestData.basic;
 
 tc.assumeFalse(isMATLABReleaseOlderThan('R2021b'), "NetCDF4 string requires Matlab >= R2021b")
 
 s = ncread(basic, 'utf0');
-tc.verifyThat(s, IsOfClass('string'))
+tc.verifyClass(s, 'string')
 tc.verifyEqual(s, string(tc.TestData.utf0))
 
 s = ncread(basic, 'utf1');
-tc.verifyThat(s, IsOfClass('string'))
+tc.verifyClass(s, 'string')
 tc.verifyEqual(s, tc.TestData.utf1)
 
 s = ncread(basic, 'utf2');
-tc.verifyThat(s, IsOfClass('string'))
+tc.verifyClass(s, 'string')
 tc.verifyEqual(s, tc.TestData.utf2)
 end
 

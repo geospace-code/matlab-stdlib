@@ -34,7 +34,6 @@ end
 
 
 function test_read_symlink(tc)
-import matlab.unittest.constraints.IsOfClass
 
 tc.verifyEqual(stdlib.read_symlink(""), "")
 tc.verifyEqual(stdlib.read_symlink("file:///"), "")
@@ -43,7 +42,7 @@ tc.verifyEqual(stdlib.read_symlink(tc.target), "")
 
 t = stdlib.read_symlink(tc.link);
 tc.verifyNotEmpty(t)
-tc.verifyThat(t, IsOfClass('string'))
+tc.verifyClass(t, 'string')
 tc.verifyEqual(tc.target, t)
 
 end

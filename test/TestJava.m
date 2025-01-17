@@ -14,10 +14,9 @@ end
 methods(Test)
 
 function test_filesystem_type(tc, Ps)
-import matlab.unittest.constraints.IsOfClass
 
 s = stdlib.filesystem_type(Ps);
-tc.verifyThat(s, IsOfClass('string'))
+tc.verifyClass(s, 'string')
 L = strlength(s);
 
 if strlength(Ps) == 0 || stdlib.exists(Ps)
@@ -29,10 +28,9 @@ end
 
 
 function test_owner(tc, Ps)
-import matlab.unittest.constraints.IsOfClass
 
 s = stdlib.get_owner(Ps);
-tc.verifyThat(s, IsOfClass('string'))
+tc.verifyClass(s, 'string')
 L = strlength(s);
 
 if stdlib.exists(Ps)
@@ -95,8 +93,7 @@ end
 
 
 function test_is_parallel(tc)
-import matlab.unittest.constraints.IsOfClass
-tc.verifyThat(stdlib.is_parallel_worker, IsOfClass('logical'))
+tc.verifyClass(stdlib.is_parallel_worker, 'logical')
 end
 
 
@@ -152,8 +149,7 @@ end
 
 
 function test_checkRAM(tc)
-import matlab.unittest.constraints.IsOfClass
-tc.verifyThat(stdlib.checkRAM(1, "double"), IsOfClass("logical"))
+tc.verifyClass(stdlib.checkRAM(1, "double"), "logical")
 end
 
 
