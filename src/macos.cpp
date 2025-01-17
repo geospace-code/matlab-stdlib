@@ -3,7 +3,7 @@
 #include <sys/sysctl.h>
 #endif
 
-#include "macos_fs.h"
+#include "ffilesystem.h"
 
 
 bool fs_is_rosetta()

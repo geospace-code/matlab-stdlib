@@ -5,7 +5,7 @@
 #include <sys/utsname.h>
 #endif
 
-#include "linux_fs.h"
+#include "ffilesystem.h"
 
 
 int fs_is_wsl()

@@ -6,7 +6,7 @@
 #include <vector>
 #include <memory>
 
-#include "symlink_fs.h"
+#include "ffilesystem.h"
 
 
 class MexFunction : public matlab::mex::Function {
@@ -21,7 +21,7 @@ public:
 
     if (inputs.size() != 2) {
       matlabEng->feval(u"error", 0,
-        std::vector<matlab::data::Array>({ factory.createScalar("Two inputs required") }));
+        std::vector<matlab::data::Array>({ factory.createScalar("Mex: Two inputs required") }));
     }
 
     if ((inputs[0].getType() == matlab::data::ArrayType::MATLAB_STRING && inputs[0].getNumberOfElements() == 1)){

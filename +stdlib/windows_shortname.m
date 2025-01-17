@@ -13,22 +13,23 @@ arguments
 end
 
 s = "";
+if stdlib.is_url(p), return, end
 
-if ~ispc || stdlib.is_url(p)
-  return
-end
+s = p;
+if ispc
+  fso = actxserver('Scripting.FileSystemObject');
 
-fso = actxserver('Scripting.FileSystemObject');
+  if isfolder(p)
+    s = fso.GetFolder(p).ShortPath;
+  elseif isfile(p)
+    s = fso.GetFile(p).ShortPath;
+  end
 
-if isfolder(p)
-  s = fso.GetFolder(p).ShortPath;
-elseif isfile(p)
-  s = fso.GetFile(p).ShortPath;
+  delete(fso);
 end
 
 s = string(s);
 
-delete(fso);
 
 end
 

@@ -1,6 +1,3 @@
-// C++ Matlab MEX function using C++17 <filesystem>
-// https://www.mathworks.com/help/matlab/matlab_external/data-types-for-passing-mex-function-data-1.html
-
 #include "mex.hpp"
 #include "mexAdapter.hpp"
 
@@ -9,9 +6,7 @@
 #include <vector>
 #include <memory>
 
-#if defined(_WIN32)
-#include "win32_fs.h"
-#endif
+#include "ffilesystem.h"
 
 
 class MexFunction : public matlab::mex::Function {
@@ -27,7 +22,7 @@ public:
 
     if (inputs.size() != 1) {
       matlabEng->feval(u"error", 0,
-        std::vector<matlab::data::Array>({ factory.createScalar("One input required") }));
+        std::vector<matlab::data::Array>({ factory.createScalar("Mex: One input required") }));
     }
     if ((inputs[0].getType() == matlab::data::ArrayType::MATLAB_STRING && inputs[0].getNumberOfElements() == 1)){
         matlab::data::TypedArray<matlab::data::MATLABString> stringArr = inputs[0];
@@ -41,12 +36,9 @@ public:
     }
 
 // actual function algorithm / computation
-  std::string out = "";
-#if defined(_WIN32)
-  out = fs_shortname(in);
-#endif
+    std::string out = fs_shortname(in);
 
-// convert to Matlab output
+
     outputs[0] = factory.createScalar(out);
   }
 };

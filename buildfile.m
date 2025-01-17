@@ -83,12 +83,10 @@ end
 
 function srcs = get_mex_sources()
 
-limits = "src/limits_fs.cpp";
+pure = "src/pure.cpp";
+normal = ["src/normalize.cpp", pure];
 
-win = limits;
-if ispc
-win(end+1) = "src/windows.cpp";
-end
+win = [pure, "src/windows.cpp"];
 
 mac = "src/macos.cpp";
 linux = "src/linux_fs.cpp";
@@ -103,6 +101,7 @@ srcs = {
 "src/set_permissions.cpp", ...
 ["src/is_rosetta.cpp", mac], ...
 ["src/windows_shortname.cpp", win], ...
+["src/drop_slash.cpp", normal], ...
 };
 
 %%  new in R2024b

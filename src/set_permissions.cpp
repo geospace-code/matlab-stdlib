@@ -1,6 +1,3 @@
-// C++ Matlab MEX function using C++17 <filesystem>
-// https://www.mathworks.com/help/matlab/matlab_external/data-types-for-passing-mex-function-data-1.html
-
 #include "mex.hpp"
 #include "mexAdapter.hpp"
 
@@ -10,15 +7,12 @@
 #include <vector>
 #include <memory>
 
-#if __has_include(<filesystem>)
-# include <filesystem>
-# include <system_error>
-#endif
+#include <filesystem>
+#include <system_error>
 
 
 static bool fs_set_permissions(std::string_view path, int readable, int writable, int executable)
 {
-#ifdef __cpp_lib_filesystem
 
 #if defined(__cpp_using_enum)  // C++20
   using enum std::filesystem::perms;
@@ -49,12 +43,7 @@ static bool fs_set_permissions(std::string_view path, int readable, int writable
       (executable > 0) ? std::filesystem::perm_options::add : std::filesystem::perm_options::remove,
       ec);
 
-  if(!ec)
-    return true;
-
-#endif
-  return false;
-
+  return !ec;
 }
 
 
@@ -71,7 +60,7 @@ public:
 
     if (inputs.size() != 4) {
       matlabEng->feval(u"error", 0,
-        std::vector<matlab::data::Array>({ factory.createScalar("Four inputs required") }));
+        std::vector<matlab::data::Array>({ factory.createScalar("Mex: Four inputs required") }));
     }
     if ((inputs[0].getType() == matlab::data::ArrayType::MATLAB_STRING && inputs[0].getNumberOfElements() == 1)){
         matlab::data::TypedArray<matlab::data::MATLABString> stringArr = inputs[0];

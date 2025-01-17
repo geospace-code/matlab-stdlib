@@ -1,20 +1,24 @@
 #include <string>
-#include <cstddef>
+#include <string_view>
 #include <cstdlib>
-#include <algorithm> // for std::replace
 
+#if defined(_WIN32)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <winioctl.h>
+#endif
 
-#include "limits_fs.h"
-#include "win32_fs.h"
+#include <filesystem>
+#include <system_error>
+
+#include "ffilesystem.h"
 
 
 // create type PREPARSE_DATA_BUFFER
 // from ntifs.h, which can only be used by drivers
 // typedef is copied from https://gitlab.kitware.com/utils/kwsys/-/blob/master/SystemTools.cxx
 // that has a BSD 3-clause license
+#if defined(_WIN32)
 typedef struct _REPARSE_DATA_BUFFER
 {
   ULONG ReparseTag;
@@ -57,17 +61,6 @@ typedef struct _REPARSE_DATA_BUFFER
 } REPARSE_DATA_BUFFER, *PREPARSE_DATA_BUFFER;
 
 
-std::string fs_as_posix(std::string_view path)
-{
-  std::string s(path);
-
-#if defined(_WIN32)
-    std::replace(s.begin(), s.end(), '\\', '/');
-#endif
-
-  return s;
-}
-
 
 static bool fs_win32_get_reparse_buffer(std::string_view path, std::byte* buffer)
 {
@@ -109,7 +102,7 @@ static bool fs_win32_get_reparse_buffer(std::string_view path, std::byte* buffer
 
   return ok;
 }
-
+#endif
 
 std::string fs_win32_final_path(std::string_view path)
 {
@@ -153,7 +146,7 @@ std::string fs_win32_final_path(std::string_view path)
 }
 
 
-bool fs_win32_is_symlink(std::string_view path)
+bool fs_win32_is_symlink([[maybe_unused]] std::string_view path)
 {
 // distinguish between Windows symbolic links and reparse points as
 // reparse points can be unlike symlinks.
@@ -161,7 +154,7 @@ bool fs_win32_is_symlink(std::string_view path)
 // this function is adapted from
 // https://gitlab.kitware.com/utils/kwsys/-/blob/master/SystemTools.cxx
 // that has a BSD 3-clause license
-
+#if defined(_WIN32)
   std::byte buffer[MAXIMUM_REPARSE_DATA_BUFFER_SIZE];
   // Since FILE_ATTRIBUTE_REPARSE_POINT is set this file must be
   // a symbolic link if it is not a reparse point.
@@ -173,7 +166,9 @@ bool fs_win32_is_symlink(std::string_view path)
 
   return (reparseTag == IO_REPARSE_TAG_SYMLINK) ||
          (reparseTag == IO_REPARSE_TAG_MOUNT_POINT);
-
+#else
+  return false;
+#endif
 }
 
 
@@ -182,6 +177,10 @@ std::string fs_shortname(std::string_view in)
 // https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getshortpathnamew
 // the path must exist
 
+  if (fs_is_url(in))
+    return {};
+
+#if defined(_WIN32)
   std::string out(fs_get_max_path(), '\0');
 // size does not include null terminator
   if(auto L = GetShortPathNameA(in.data(), out.data(), static_cast<DWORD>(out.size()));
@@ -191,4 +190,8 @@ std::string fs_shortname(std::string_view in)
   }
 
   return {};
+#else
+  std::error_code ec;
+  return std::filesystem::exists(in, ec) && !ec ? std::string(in) : std::string();
+#endif
 }

@@ -6,7 +6,7 @@
 #include <sys/types.h>  // geteuid, pid_t
 #endif
 
-#include "admin_fs.h"
+#include "ffilesystem.h"
 
 
 bool fs_is_admin(){

@@ -16,7 +16,8 @@ public:
     std::shared_ptr<matlab::engine::MATLABEngine> matlabEng = getEngine();
 
     matlab::data::ArrayFactory factory;
-// wrangle inputs
+
+// wrangle Inputs
     std::string in;
 
     if (inputs.size() != 1) {
@@ -35,12 +36,8 @@ public:
     }
 
 // actual function algorithm / computation
-    bool y = fs_is_symlink(in);
+    std::string out = fs_drop_slash(in);
 
-// convert to Matlab output
-// https://www.mathworks.com/help/matlab/matlab_external/create-matlab-array-with-matlab-data-cpp-api.html
-// https://www.mathworks.com/help/matlab/apiref/matlab.data.arrayfactory.html
-
-    outputs[0] = factory.createScalar<bool>(y);
+    outputs[0] = factory.createScalar(out);
   }
 };
