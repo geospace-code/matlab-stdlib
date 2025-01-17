@@ -27,17 +27,13 @@ Functions requiring or optionally benefiting from MEX are indicated in the
 
 To build the optional high-performance
 [MEX](https://www.mathworks.com/help/matlab/cpp-mex-file-applications.html)
-functions:
+functions from the Matlab prompt:
 
 ```matlab
 buildtool mex
 ```
 
-or for older Matlab:
-
-```matlab
-legacy_mex_build()
-```
+For Matlab R2022a and older, instead do: `legacy_mex_build()`
 
 If just building MEX functions for the first time, to ensure the MEX functions are used instead of the plain Matlab script, one-time do a `clear all` in Matlab.
 

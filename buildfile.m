@@ -5,12 +5,19 @@ plan.DefaultTasks = "test";
 
 pkg_name = "+stdlib";
 
-if ~isMATLABReleaseOlderThan("R2023b")
+addpath(plan.RootFolder)
+
+if isMATLABReleaseOlderThan("R2023b")
+  plan("test") = matlab.buildtool.Task(Actions=@legacyTestTask);
+else
   plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true);
+  plan("test") = matlab.buildtool.tasks.TestTask("test", Strict=true);
 end
 
-if ~isMATLABReleaseOlderThan("R2024b")
 
+if isMATLABReleaseOlderThan("R2024b")
+  plan("mex") = matlab.buildtool.Task(Actions=@legacyMexTask);
+else
   plan("clean") = matlab.buildtool.tasks.CleanTask;
 
   [compiler_id, compiler_opt] = get_compiler_options();
@@ -33,41 +40,29 @@ end
 
 
 function legacyMexTask(context)
-
-pkg_name = "+stdlib";
-
-legacy_mex_build(context.Plan.RootFolder, fullfile(context.Plan.RootFolder, pkg_name))
-
+legacy_mex_build(context.Plan.RootFolder, fullfile(context.Plan.RootFolder, "+stdlib"))
 end
 
 
-function testTask(context)
+function legacyTestTask(context)
+r = runtests(fullfile(context.Plan.RootFolder, "test"), Strict=true);
+% Parallel Computing Toolbox takes more time to startup than is worth it for this task
 
-  addpath(context.Plan.RootFolder)
-
-  r = runtests("test", ...
-    IncludeSubfolders=true, ...
-    strict=true, ...
-    UseParallel=false);
-  % Parallel Computing Toolbox takes more time to startup than is worth it for this task
-
-  assert(~isempty(r), "No tests were run")
-  assertSuccess(r)
+assert(~isempty(r), "No tests were run")
+assertSuccess(r)
 end
 
 
 function coverageTask(context)
-
-  coverage_run("stdlib", fullfile(context.Plan.RootFolder, "test"))
+coverage_run("stdlib", fullfile(context.Plan.RootFolder, "test"))
 end
 
 
 function publishTask(context)
+outdir = fullfile(context.Plan.RootFolder, "docs");
 
-  outdir = fullfile(context.Plan.RootFolder, "docs");
-
-  publish_gen_index_html("stdlib", ...
-    "A standard library of functions for Matlab.", ...
-    "https://github.com/geospace-code/matlab-stdlib", ...
-    outdir)
+publish_gen_index_html("stdlib", ...
+  "A standard library of functions for Matlab.", ...
+  "https://github.com/geospace-code/matlab-stdlib", ...
+  outdir)
 end
