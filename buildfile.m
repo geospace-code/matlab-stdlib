@@ -12,6 +12,9 @@ if isMATLABReleaseOlderThan("R2023b")
 else
   plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true);
   plan("test") = matlab.buildtool.tasks.TestTask("test", Strict=true);
+  % can't use SourceFiles= if "mex" Task was run, even if
+  % plan("test").DisableIncremental = true;
+  % this means incremental tests can't be used with MEX files (as of R2024b)
 end
 
 if ~isMATLABReleaseOlderThan("R2024a")
