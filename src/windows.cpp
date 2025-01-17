@@ -57,7 +57,7 @@ typedef struct _REPARSE_DATA_BUFFER
 } REPARSE_DATA_BUFFER, *PREPARSE_DATA_BUFFER;
 
 
-std::string fs_as_posix(std::string path)
+std::string fs_as_posix(std::string_view path)
 {
   std::string s(path);
 
@@ -69,7 +69,7 @@ std::string fs_as_posix(std::string path)
 }
 
 
-static bool fs_win32_get_reparse_buffer(std::string path, std::byte* buffer)
+static bool fs_win32_get_reparse_buffer(std::string_view path, std::byte* buffer)
 {
 // this function is adapted from
 // https://gitlab.kitware.com/utils/kwsys/-/blob/master/SystemTools.cxx
@@ -111,7 +111,7 @@ static bool fs_win32_get_reparse_buffer(std::string path, std::byte* buffer)
 }
 
 
-std::string fs_win32_final_path(std::string path)
+std::string fs_win32_final_path(std::string_view path)
 {
   // resolves Windows symbolic links (reparse points and junctions)
   // it also resolves the case insensitivity of Windows paths to the disk case
@@ -153,7 +153,7 @@ std::string fs_win32_final_path(std::string path)
 }
 
 
-bool fs_win32_is_symlink(std::string path)
+bool fs_win32_is_symlink(std::string_view path)
 {
 // distinguish between Windows symbolic links and reparse points as
 // reparse points can be unlike symlinks.
@@ -177,7 +177,7 @@ bool fs_win32_is_symlink(std::string path)
 }
 
 
-std::string fs_shortname(std::string in)
+std::string fs_shortname(std::string_view in)
 {
 // https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getshortpathnamew
 // the path must exist

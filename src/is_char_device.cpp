@@ -9,7 +9,7 @@
 #include "mexAdapter.hpp"
 
 #include <string>
-// note: <string_view> causes compile failures with MSVC at least
+#include <string_view>
 
 #include <vector>
 #include <memory>
@@ -25,7 +25,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-static int fs_st_mode(std::string path)
+static int fs_st_mode(std::string_view path)
 {
 // https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/stat-functions
   struct stat s;
@@ -34,7 +34,7 @@ static int fs_st_mode(std::string path)
 }
 
 
-static bool fs_is_char_device(std::string path)
+static bool fs_is_char_device(std::string_view path)
 {
 // character device like /dev/null or CONIN$
 #if defined(_MSC_VER)

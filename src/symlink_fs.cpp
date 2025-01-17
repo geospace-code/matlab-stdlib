@@ -5,6 +5,7 @@
 #endif
 
 #include <string>
+#include <string_view>
 
 #if __has_include(<filesystem>)
 # include <filesystem>
@@ -19,7 +20,7 @@
 
 
 
-bool fs_create_symlink(std::string target, std::string link)
+bool fs_create_symlink(std::string_view target, std::string_view link)
 {
   // confusing program errors if target is "" -- we'd never make such a symlink in real use.
   if(target.empty())
@@ -64,7 +65,7 @@ bool fs_create_symlink(std::string target, std::string link)
 }
 
 
-bool fs_is_symlink(std::string path)
+bool fs_is_symlink(std::string_view path)
 {
 
 #if defined(__MINGW32__) || (defined(_WIN32) && !defined(__cpp_lib_filesystem))
@@ -81,7 +82,7 @@ bool fs_is_symlink(std::string path)
 }
 
 
-std::string fs_read_symlink(std::string path)
+std::string fs_read_symlink(std::string_view path)
 {
 
   if(!fs_is_symlink(path))

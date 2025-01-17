@@ -5,6 +5,7 @@
 #include "mexAdapter.hpp"
 
 #include <string>
+#include <string_view>
 
 #include <vector>
 #include <memory>
@@ -15,7 +16,7 @@
 #endif
 
 
-static bool fs_set_permissions(std::string path, int readable, int writable, int executable)
+static bool fs_set_permissions(std::string_view path, int readable, int writable, int executable)
 {
 #ifdef __cpp_lib_filesystem
 
