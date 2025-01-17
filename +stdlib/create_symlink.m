@@ -31,7 +31,7 @@ catch e
     % see example/Filesystem.java for this working in plain Java.
     % see example/javaCreateSymbolicLink.m for a non-working attempt in Matlab.
 
-    disp("use 'buildtool mex' or 'legacy_mex_build()' for faster symlink creation")
+    disp("'buildtool mex' for faster symlink creation")
 
     if ispc
       cmd = "pwsh -c " + '"' + "New-Item -ItemType SymbolicLink -Path " + link + ...
