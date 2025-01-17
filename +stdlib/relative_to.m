@@ -25,17 +25,7 @@ end
 b = javaPathObject(b1);
 o = javaPathObject(o1);
 
-try
-  w = contains(b1, "..");
-catch e
-  if strcmp(e.identifier, "Octave:undefined-function")
-    w = ~isempty(strfind(b1, "..")); %#ok<STREMP>
-  else
-    rethrow(e);
-  end
-end
-
-if w
+if ~isempty(strfind(b1, "..")) %#ok<STREMP>
   warning("relative_to(%s) is ambiguous base with '..'  consider using stdlib.canonical() first", b1)
 end
 
