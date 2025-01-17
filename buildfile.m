@@ -1,5 +1,5 @@
 function plan = buildfile
-plan = buildplan(localfunctions);
+plan = buildplan();
 
 plan.DefaultTasks = "test";
 
@@ -13,6 +13,12 @@ else
   plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true);
   plan("test") = matlab.buildtool.tasks.TestTask("test", Strict=true);
 end
+
+if ~isMATLABReleaseOlderThan("R2024a")
+ plan("coverage") = matlab.buildtool.tasks.TestTask(Description="code coverage", Dependencies="clean", SourceFiles="test", Strict=true, CodeCoverageResults="code-coverage.xml");
+end
+
+plan("publish") = matlab.buildtool.Task(Description="HTML inline doc generate", Actions=@publishTask);
 
 
 if isMATLABReleaseOlderThan("R2024b")
@@ -33,8 +39,9 @@ else
     plan("mex:" + name) = matlab.buildtool.tasks.MexTask(src, bindir, ...
       Options=[compiler_id, compiler_opt]);
   end
-
 end
+
+plan("mex").Description = "MEX build";
 
 end
 
@@ -50,11 +57,6 @@ r = runtests(fullfile(context.Plan.RootFolder, "test"), Strict=true);
 
 assert(~isempty(r), "No tests were run")
 assertSuccess(r)
-end
-
-
-function coverageTask(context)
-coverage_run("stdlib", fullfile(context.Plan.RootFolder, "test"))
 end
 
 

@@ -1,6 +1,7 @@
 Filesystem.class
-code-coverage/
-test-results/
+
+code-coverage.xml
+
 .buildtool/
 *.asv
 docs/
