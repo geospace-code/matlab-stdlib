@@ -33,10 +33,7 @@ functions from the Matlab prompt:
 buildtool mex
 ```
 
-For Matlab R2022a and older, instead do: `legacy_mex_build()`
-
 If just building MEX functions for the first time, to ensure the MEX functions are used instead of the plain Matlab script, one-time do a `clear all` in Matlab.
-
 
 ## Java-based functions
 

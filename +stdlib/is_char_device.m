@@ -10,7 +10,7 @@ end
 if stdlib.isoctave()
   ok = S_ISCHR(stat(p).mode);
 else
-  error("need to 'buildtool mex' or 'legacy_mex_build()' first")
+  error("buildtool mex")
 end
 
 end
