@@ -4,7 +4,7 @@
 #include <filesystem>
 
 #include "pure.cpp"
-#include "normalize.cpp"
+#include "normalize_fs.cpp"
 
 
 DEFUN_DLD (parent, args, nargout,

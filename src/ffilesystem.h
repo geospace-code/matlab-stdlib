@@ -6,6 +6,7 @@ bool fs_is_windows();
 std::size_t fs_get_max_path();
 std::string fs_as_posix(std::string_view);
 std::string fs_drop_slash(std::string_view);
+std::string fs_normalize(std::string_view path);
 std::string fs_as_posix(std::string_view);
 
 bool fs_is_url(std::string_view);
