@@ -5,7 +5,8 @@ on:
     paths:
     - "**.m"
     - ".github/workflows/ci.yml"
-
+    - "!private/publish_gen_index_html.m"
+    - "!octave_build.m"
 
 jobs:
 
