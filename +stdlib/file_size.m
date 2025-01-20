@@ -11,10 +11,14 @@ arguments
 end
 
 s = [];
+if ~isfile(p), return, end
 
-if stdlib.is_url(p), return, end
-
-if isfile(p)
+if stdlib.isoctave()
+  s = stat(p);
+  if ~isempty(s)
+    s = s.size;
+  end
+else
   s = dir(p);
   if ~isempty(s)
     s = s.bytes;
