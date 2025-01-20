@@ -22,5 +22,5 @@ if ispc
 end
 
 
-p = {{"", false}, {tempname, false}, {".", true}, {f, true}};
+p = {{"", false}, {tempname(), false}, {".", true}, {f, true}};
 end

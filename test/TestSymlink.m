@@ -48,7 +48,7 @@ end
 
 
 function test_create_symlink(tc)
-tc.verifyFalse(stdlib.create_symlink("", tempname))
+tc.verifyFalse(stdlib.create_symlink("", tempname()))
 tc.verifyFalse(stdlib.create_symlink(tc.target, tc.link), "should fail for existing symlink")
 
 ano = tc.tempDir + "/another.lnk";

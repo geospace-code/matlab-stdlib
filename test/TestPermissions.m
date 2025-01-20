@@ -1,7 +1,7 @@
 classdef TestPermissions < matlab.unittest.TestCase
 
 properties (TestParameter)
-Ps = {".", tempname, "", "not-exist"}
+Ps = {".", tempname(), "", "not-exist"}
 end
 
 methods (Test)

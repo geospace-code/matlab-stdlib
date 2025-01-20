@@ -8,11 +8,11 @@ p_expand = {{"", ""}, {"~abc", "~abc"}, {"~", stdlib.homedir()}, ...
 
 p_same = {...
 {"","", false}, ...
-{tempname, tempname, false}, ...
+{tempname(), tempname(), false}, ...
 {"..", "./..", true}, ...
 {"..", pwd() + "/..", true}}
 
-ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname), ""}}
+ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname()), ""}}
 
 p_file_size = {mfilename("fullpath") + ".m", "", pwd()}
 end
@@ -50,9 +50,10 @@ end
 
 function test_makedir(tc)
 import matlab.unittest.constraints.IsFolder
-d = tempname;
+d = tempname();
 stdlib.makedir(d)
 tc.assertThat(d, IsFolder)
+rmdir(d)
 end
 
 %%

@@ -1,7 +1,7 @@
 classdef TestJava < matlab.unittest.TestCase
 
 properties (TestParameter)
-Ps = {".", tempname, "", "not-exist"}
+Ps = {".", "", "not-exist"}
 end
 
 methods(TestClassSetup)
@@ -88,7 +88,7 @@ else
     tc.verifyGreaterThanOrEqual(stdlib.hard_link_count(fn), 1)
 end
 
-tc.verifyEmpty(stdlib.hard_link_count(tempname))
+tc.verifyEmpty(stdlib.hard_link_count(tempname()))
 end
 
 

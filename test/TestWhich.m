@@ -4,7 +4,7 @@ methods (Test)
 
 function test_which_name(tc)
 
-tc.verifyEmpty(stdlib.which(tempname))
+tc.verifyEmpty(stdlib.which(tempname()))
 
 if ispc
   n = "pwsh.exe";
