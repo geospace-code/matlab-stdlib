@@ -11,13 +11,23 @@ arguments
   p (1,1) string
 end
 
-t = [];
-if ~stdlib.exists(p), return, end
+
+if stdlib.isoctave()
+  s = stat(p);
+  if isempty(s)
+    t = [];
+  else
+    t = s.mtime;
+  end
+  return
+end
 
 t = javaFileObject(p).lastModified() / 1000;
 
-try %#ok<TRYNC>
+if t > 0
   t = datetime(t, "ConvertFrom", "PosixTime");
+else
+  t = datetime.empty;
 end
 
 end
