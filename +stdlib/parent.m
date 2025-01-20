@@ -1,5 +1,11 @@
 %% PARENT parent directory of path
+% optional: mex
 %
+%% Examples:
+% parent("a/b/c") == "a/b"
+% parent("a/b/c/") == "a/b"
+%
+% MEX is about 10x faster than plain Matlab for this function
 
 function p = parent(pth)
 arguments

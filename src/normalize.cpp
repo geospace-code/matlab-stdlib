@@ -10,8 +10,6 @@
 std::string fs_drop_slash(std::string_view in)
 {
   // drop all trailing "/" and duplicated internal "/"
-  if (fs_is_url(in))
-    return {};
 
   std::filesystem::path p(in);
 

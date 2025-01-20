@@ -46,6 +46,11 @@ std::string fs_as_posix(std::string_view path)
   return p.generic_string();
 }
 
+std::string fs_root_name(std::string_view path)
+{
+  return std::filesystem::path(path).root_name().generic_string();
+}
+
 
 bool fs_is_url(std::string_view path)
 {
