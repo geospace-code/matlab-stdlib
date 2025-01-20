@@ -10,18 +10,17 @@ arguments
   p (1,1) string
 end
 
-if ispc || stdlib.is_url(p) || ~isfile(p)
-  c = [];
-  return
-end
-
-op = javaPathObject(p);
-opt = javaLinkOption();
+c = [];
 
 if stdlib.isoctave()
-  c = javaMethod("getAttribute", "java.nio.file.Files", op, "unix:nlink", opt);
+  s = stat(p);
+  if ~isempty(s)
+    c = s.nlink;
+  end
+elseif ispc || ~isfile(p)
+  return
 else
-  c = java.nio.file.Files.getAttribute(op, "unix:nlink", opt);
+  c = java.nio.file.Files.getAttribute(javaPathObject(p), "unix:nlink", javaLinkOption());
 end
 
 end
