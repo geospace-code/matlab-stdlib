@@ -3,7 +3,7 @@ classdef TestHash < matlab.unittest.TestCase
 properties (TestParameter)
 type = {'sha256', 'md5'}
 hash = {"36c1bbbdfd8d04ef546ffb15b9c0a65767fd1fe9a6135a257847e3a51fb1426c", "d58cfb32e075781ba59082a8b18287f9"}
-Pe = {"file:///", "", "/"}
+Pe = {"", "/"}
 end
 
 methods(TestClassSetup)

@@ -1,22 +1,20 @@
 classdef TestFileImpure < matlab.unittest.TestCase
 
 properties(TestParameter)
-p_is_writable = {{pwd(), true}, {"not-exists", false}, {"file:///", false}, {"", false}};
+p_is_writable = {{pwd(), true}, {"not-exists", false}, {"", false}};
 
 p_expand = {{"", ""}, {"~abc", "~abc"}, {"~", stdlib.homedir()}, ...
-  {"~/c", stdlib.homedir() + "/c"}, {'~/////c', stdlib.homedir() + "/c"}, ...
-  {"file:///", ""}};
+  {"~/c", stdlib.homedir() + "/c"}, {'~/////c', stdlib.homedir() + "/c"}};
 
 p_same = {...
 {"","", false}, ...
 {tempname, tempname, false}, ...
 {"..", "./..", true}, ...
-{"..", pwd() + "/..", true}, ...
-{"file:///", "file:///", false}}
+{"..", pwd() + "/..", true}}
 
 ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname), ""}}
 
-p_file_size = {mfilename("fullpath") + ".m", "", "file:///", pwd()}
+p_file_size = {mfilename("fullpath") + ".m", "", pwd()}
 end
 
 

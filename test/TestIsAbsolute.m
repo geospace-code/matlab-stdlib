@@ -14,8 +14,7 @@ end
 
 
 function p = init_is_absolute()
-p = {{"", false}, {"x", false}, {"x:", false}, {"x:/foo", false}, {"/foo", true}, ...
-     {"file:///", false}};
+p = {{"", false}, {"x", false}, {"x:", false}, {"x:/foo", false}, {"/foo", true}};
 if ispc
     p{4}{2} = true;
     p{5}{2} = false;

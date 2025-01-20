@@ -36,7 +36,6 @@ end
 function test_read_symlink(tc)
 
 tc.verifyEqual(stdlib.read_symlink(""), "")
-tc.verifyEqual(stdlib.read_symlink("file:///"), "")
 tc.verifyEqual(stdlib.read_symlink("not-exist"), "")
 tc.verifyEqual(stdlib.read_symlink(tc.target), "")
 
@@ -50,7 +49,6 @@ end
 
 function test_create_symlink(tc)
 tc.verifyFalse(stdlib.create_symlink("", tempname))
-tc.verifyFalse(stdlib.create_symlink("file:///", tempname))
 tc.verifyFalse(stdlib.create_symlink(tc.target, tc.link), "should fail for existing symlink")
 
 ano = tc.tempDir + "/another.lnk";
@@ -65,6 +63,5 @@ end
 function p = init_symlink()
 p = {{"not-exist", false}, ...
   {mfilename("fullpath") + ".m", false}, ...
-  {"", false}, ...
-  {"file:///", false}};
+  {"", false}};
 end

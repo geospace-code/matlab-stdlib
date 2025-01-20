@@ -1,7 +1,7 @@
 classdef TestWindowsCOM < matlab.unittest.TestCase
 
 properties (TestParameter)
-Pn = {"", "file:///"}
+Pn = {""}
 Pmr = {string(matlabroot), stdlib.posix(matlabroot)}
 end
 

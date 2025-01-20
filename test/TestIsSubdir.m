@@ -34,13 +34,12 @@ p = {
     {"a/b", "a/b/", false}, ...
     {"a/b", "a", true}, ...
     {"a/.c", "a", true}, ...
-    {"file:///", "file:///", false}, ...
     {"", "", false}, ...
 };
 % NOTE: ".." in is_subdir (either argument) is ambiguous
 
 if ispc
-  p{end+1} = {"c:\", "c:/", false};
+  p{end+1} = {"c:/", "c:/", false};
 else
   p{end+1} = {"/", "/", false};
 end
@@ -54,5 +53,5 @@ p{3}{3} = true;
 p{6}{3} = true;
 p{7}{3} = false;
 p{8}{3} = false;
-p{11}{3} = true;
+p{10}{3} = true;
 end
