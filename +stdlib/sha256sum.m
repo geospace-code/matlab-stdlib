@@ -1,4 +1,5 @@
 %% SHA256SUM compute sha256 hash of file
+% requires: java
 
 function hash = sha256sum(file)
 arguments

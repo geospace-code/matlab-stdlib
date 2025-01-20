@@ -1,4 +1,5 @@
 %% HARD_LINK_COUNT get the number of hard links to a file
+% requires: java
 %
 % Ref:
 % * https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#getPosixFileAttributes(java.nio.file.Path,java.nio.file.LinkOption...)

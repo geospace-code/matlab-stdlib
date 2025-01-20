@@ -106,7 +106,6 @@ srcs = {
 ["src/drop_slash.cpp", normal], ...
 };
 
-%%  new in R2024b
 if isMATLABReleaseOlderThan("R2024b")
 srcs{end+1} = ["src/is_symlink.cpp", win, sym];
 srcs{end+1} = ["src/create_symlink.cpp", win, sym];

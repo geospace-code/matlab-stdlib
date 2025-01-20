@@ -1,4 +1,5 @@
 %% GET_OWNER owner of file or directory
+% requires: java
 %
 %%% Inputs
 % * p: path to examine

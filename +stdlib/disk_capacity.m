@@ -1,4 +1,5 @@
 %% DISK_CAPACITY disk total capacity (bytes)
+% requires: java
 %
 % example:  stdlib.disk_capacity('/')
 

@@ -1,4 +1,5 @@
-%% RELATIVE_TO relative path to base (requires MEX)
+%% RELATIVE_TO relative path to base
+% requires: mex
 %
 %%% Inputs
 % * base (1,1) string

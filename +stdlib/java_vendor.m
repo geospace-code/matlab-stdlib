@@ -1,4 +1,5 @@
 %% JAVA_VENDOR get vendor of Java Virtual Machine
+% requires: java
 
 function v = java_vendor()
 

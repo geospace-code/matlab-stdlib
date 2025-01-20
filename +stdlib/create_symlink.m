@@ -1,4 +1,5 @@
 %% CREATE_SYMLINK create symbolic link
+% optional: mex
 %
 %%% Inputs
 % * target: path to link to

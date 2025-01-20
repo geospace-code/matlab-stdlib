@@ -1,5 +1,6 @@
-%% PROXIMATE_TO relative path to base (requires MEX)
-%
+%% PROXIMATE_TO relative path to base
+% requires: mex
+
 %%% Inputs
 % * base (1,1) string
 % * other (1,1) string

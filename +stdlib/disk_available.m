@@ -1,4 +1,5 @@
 %% DISK_AVAILABLE disk available space (bytes)
+% requires: java
 %
 % example:  stdlib.disk_available('/')
 %

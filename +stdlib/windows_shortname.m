@@ -1,4 +1,6 @@
-%% WINDOWS_SHORTNAME Retrieves the Windows short name (optional MEX)
+%% WINDOWS_SHORTNAME Retrieves the Windows short name
+% optional: mex
+%
 % (8.3 character) filename
 %
 %  Example of using a COM server (Scripting.FileSystemObject) in Windows

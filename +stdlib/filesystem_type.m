@@ -1,4 +1,5 @@
 %% FILESYSTEM_TYPE tell type of filesystem
+% requires: java
 %
 % example outputs: ntfs, ext4, apfs, ...
 %

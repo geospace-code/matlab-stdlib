@@ -1,4 +1,5 @@
-%% SET_PERMISSIONS set path permissions (Matlab requires MEX)
+%% SET_PERMISSIONS set path permissions
+% requires: mex
 %
 %%% Inputs
 % * path (1,1) string

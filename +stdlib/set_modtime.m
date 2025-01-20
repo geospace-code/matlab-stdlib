@@ -1,4 +1,5 @@
 %% SET_MODTIME set modification time of path
+% requires: java
 
 function ok = set_modtime(p, t)
 arguments

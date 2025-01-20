@@ -1,4 +1,6 @@
 %% CPU_LOAD get total physical CPU load
+% requires: java
+%
 % Returns the "recent cpu usage" for the whole system.
 %
 % This value is a double in the [0.0,1.0] interval.

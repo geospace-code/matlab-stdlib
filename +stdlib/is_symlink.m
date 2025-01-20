@@ -1,4 +1,5 @@
-%% IS_SYMLINK is path a symbolic link (optional MEX)
+%% IS_SYMLINK is path a symbolic link
+% optional: mex
 
 function ok = is_symlink(p)
 arguments

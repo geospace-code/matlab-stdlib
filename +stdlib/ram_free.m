@@ -1,4 +1,6 @@
 %% RAM_FREE get free physical RAM
+% requires: java
+%
 % get free physical RAM across operating systems
 % https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getFreeMemorySize()
 %

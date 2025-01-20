@@ -1,4 +1,5 @@
 %% GET_MODTIME get path modification time
+% requires: java
 %
 %%% Inputs
 % * p: path to examine

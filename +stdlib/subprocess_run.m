@@ -1,4 +1,6 @@
 %% SUBPROCESS_RUN run process for Matlab only
+% requires: java
+%
 % with optional cwd, env. vars, stdin, timeout
 %
 % handles command lines with spaces
