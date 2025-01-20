@@ -32,19 +32,9 @@ catch e
     % see example/Filesystem.java for this working in plain Java.
     % see example/javaCreateSymbolicLink.m for a non-working attempt in Matlab.
 
-    disp("'buildtool mex' for faster symlink creation")
+    warning(e.identifier, "buildtool mex  \n%s", e.message)
 
-    if ispc
-      cmd = "pwsh -c " + '"' + "New-Item -ItemType SymbolicLink -Path " + link + ...
-            " -Target " + target + '"';
-    else
-      cmd = "ln -s " + target + " " + link;
-    end
-
-    % suppress output text on powershell
-    [stat, ~] = system(cmd);
-
-    ok = stat == 0;
+    ok = false;
   elseif strcmp(e.identifier, "Octave:undefined-function")
     [err, msg] = symlink(target, link);
     ok = err == 0;
