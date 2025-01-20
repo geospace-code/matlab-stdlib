@@ -8,7 +8,7 @@
 %%% Outputs
 % * ok (1,1) logical
 %
-% This function is written in C++ using STL <filesystem> and is only available in Matlab.
+% This function is written in C++ using STL <filesystem>
 
 function set_permissions(~, ~, ~, ~)
 error("buildtool mex")

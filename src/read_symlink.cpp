@@ -36,7 +36,6 @@ public:
 // actual function algorithm / computation
     std::string out = fs_read_symlink(in);
 
-// convert to Matlab output
     outputs[0] = factory.createScalar(out);
   }
 };

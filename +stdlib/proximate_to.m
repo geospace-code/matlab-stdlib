@@ -1,20 +1,13 @@
-%% PROXIMATE_TO proximate path to base
+%% PROXIMATE_TO relative path to base
+%
+%%% Inputs
+% * base (1,1) string
+% * other (1,1) string
+%%% Outputs
+% * rel (1,1) string
+%
+% This function is written in C++ using STL <filesystem>
 
-function r = proximate_to(base, other)
-arguments
-  base (1,1) string
-  other (1,1) string
+function proximate_to(~,~)
+error("buildtool mex")
 end
-
-r = stdlib.relative_to(base, other);
-
-if ~stdlib.len(r) && ~stdlib.is_url(other)
-  r = other;
-end
-
-end
-
-%!assert(proximate_to("/a/b", "/a/b"), ".")
-%!assert(proximate_to("/a/b", "/a/b/c"), "c")
-%!assert(proximate_to("/a/b", "/a/b/c/"), "c")
-%!assert(proximate_to("/a/b", "d"), "d")
