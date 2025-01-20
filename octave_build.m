@@ -20,6 +20,11 @@ fullfile(d, "proximate_to.cpp"), ...
 fullfile(d, "relative_to.cpp"), ...
 };
 
+% need this for loop below
+unlink_bin = fullfile(t, "unlink.oct");
+if ~isfile(unlink_bin)
+  mkoctfile(fullfile(d, "unlink.cpp"), ["-I", inc], "--output", unlink_bin)
+end
 
 %% build C+ Octave
 for s = srcs
@@ -32,6 +37,8 @@ for s = srcs
   end
 
   disp(["mkoctfile: ", src, " => ", bin])
-  delete(bin)
+  if isfile(bin)
+    assert(stdlib.unlink(bin))
+  end
   mkoctfile(src, ["-I", inc], "--output", bin)
 end
