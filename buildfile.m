@@ -40,8 +40,6 @@ else
   end
 end
 
-plan("mex").Description = "MEX build";
-
 end
 
 
@@ -81,7 +79,10 @@ publish_gen_index_html("stdlib", ...
 end
 
 
-function srcs = get_mex_sources()
+function srcs = get_mex_sources(build_all)
+arguments
+  build_all (1,1) logical = false
+end
 
 pure = "src/pure.cpp";
 normal = ["src/normalize_fs.cpp", pure];
@@ -111,7 +112,7 @@ srcs = {
 ["src/drop_slash.cpp", normal], ...
 };
 
-if isMATLABReleaseOlderThan("R2024b")
+if isMATLABReleaseOlderThan("R2024b") || build_all
 srcs{end+1} = ["src/is_symlink.cpp", win, sym];
 srcs{end+1} = ["src/create_symlink.cpp", win, sym];
 srcs{end+1} = ["src/read_symlink.cpp", win, sym];
