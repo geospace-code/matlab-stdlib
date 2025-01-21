@@ -17,9 +17,11 @@ arguments
   method (1,1) string
 end
 
-hash = [];
-
-if stdlib.is_url(file), return, end
+try
+  hash = string.empty;
+catch
+  hash = [];
+end
 
 if strcmp(method, "sha256") || strcmp(method, "SHA256")
   method = "SHA-256";
@@ -34,7 +36,11 @@ else
 end
 
 fid = fopen(file, 'r');
-if fid < 1, return, end
+if fid < 1
+  warning(strcat("could not open ", file))
+  return
+end
+disp(strcat("computing ", method, " hash of ", file))
 
 while ~feof(fid)
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#update(byte)
