@@ -15,7 +15,7 @@ methods(TestClassSetup)
 function setup_file(tc)
 import matlab.unittest.constraints.IsFile
 
-td = stdlib.posix(tc.createTemporaryFolder());
+td = tc.createTemporaryFolder();
 
 A0 = 42.;
 A1 = [42.; 43.];

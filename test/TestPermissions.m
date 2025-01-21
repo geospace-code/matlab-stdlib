@@ -32,7 +32,7 @@ tc.applyFixture(CurrentFolderFixture(".."))
 
 tc.assumeEqual(exist("+stdlib/set_permissions", "file"), 3)
 
-tf = stdlib.posix(tc.createTemporaryFolder());
+tf = tc.createTemporaryFolder();
 
 nr = fullfile(tf, "no-read");
 

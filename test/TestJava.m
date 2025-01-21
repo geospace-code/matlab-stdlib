@@ -125,7 +125,7 @@ end
 
 function test_touch_modtime(tc)
 
-tf = stdlib.posix(tc.createTemporaryFolder());
+tf = tc.createTemporaryFolder();
 
 fn = fullfile(tf, "modtime.txt");
 

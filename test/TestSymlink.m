@@ -13,7 +13,7 @@ end
 
 methods(TestClassSetup)
 function setup_symlink(tc)
-tc.tempDir = stdlib.posix(tc.createTemporaryFolder());
+tc.tempDir = tc.createTemporaryFolder();
 
 tc.link = tc.tempDir + "/my.lnk";
 
