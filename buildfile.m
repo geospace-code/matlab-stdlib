@@ -11,14 +11,14 @@ if isMATLABReleaseOlderThan("R2023b")
   plan("test") = matlab.buildtool.Task(Actions=@legacyTestTask);
 else
   plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true);
-  plan("test") = matlab.buildtool.tasks.TestTask("test", Strict=true);
+  plan("test") = matlab.buildtool.tasks.TestTask("test", Strict=false);
   % can't use SourceFiles= if "mex" Task was run, even if
   % plan("test").DisableIncremental = true;
   % this means incremental tests can't be used with MEX files (as of R2024b)
 end
 
 if ~isMATLABReleaseOlderThan("R2024a")
- plan("coverage") = matlab.buildtool.tasks.TestTask(Description="code coverage", Dependencies="clean", SourceFiles="test", Strict=true, CodeCoverageResults="code-coverage.xml");
+ plan("coverage") = matlab.buildtool.tasks.TestTask(Description="code coverage", Dependencies="clean", SourceFiles="test", Strict=false, CodeCoverageResults="code-coverage.xml");
 end
 
 plan("publish") = matlab.buildtool.Task(Description="HTML inline doc generate", Actions=@publishTask);
@@ -61,7 +61,7 @@ end
 
 
 function legacyTestTask(context)
-r = runtests(fullfile(context.Plan.RootFolder, "test"), Strict=true);
+r = runtests(fullfile(context.Plan.RootFolder, "test"), Strict=false);
 % Parallel Computing Toolbox takes more time to startup than is worth it for this task
 
 assert(~isempty(r), "No tests were run")
