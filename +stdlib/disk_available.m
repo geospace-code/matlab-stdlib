@@ -1,5 +1,5 @@
 %% DISK_AVAILABLE disk available space (bytes)
-% requires: java
+% requires: mex or java
 %
 % example:  stdlib.disk_available('/')
 %
@@ -11,6 +11,8 @@ arguments
 end
 
 f = javaFileObject(d).getUsableSpace();
+
+f = uint64(f);
 
 end
 

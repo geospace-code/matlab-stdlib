@@ -1,5 +1,5 @@
 %% DISK_CAPACITY disk total capacity (bytes)
-% requires: java
+% requires: mex or java
 %
 % example:  stdlib.disk_capacity('/')
 
@@ -9,6 +9,8 @@ arguments
 end
 
 f = javaFileObject(d).getTotalSpace();
+
+f = uint64(f);
 
 end
 

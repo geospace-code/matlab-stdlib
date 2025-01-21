@@ -2,11 +2,14 @@
 #include "mexAdapter.hpp"
 
 #include <string>
+#include <string_view>
 
 #include <vector>
 #include <memory>
 
-#include "ffilesystem.h"
+#include <cstdint>
+#include <filesystem>
+#include <system_error>
 
 
 class MexFunction : public matlab::mex::Function {
@@ -18,6 +21,12 @@ public:
 
     matlab::data::ArrayFactory factory;
 
-    outputs[0] = factory.createScalar(fs_drop_slash(matlab_1string_input(inputs)));
+    std::error_code ec;
+    std::uintmax_t s = std::filesystem::space(matlab_1string_input(inputs), ec).available;
+
+    if (ec)
+      s = 0;
+
+    outputs[0] = factory.createScalar(s);
   }
 };

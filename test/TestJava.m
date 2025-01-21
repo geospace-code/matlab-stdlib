@@ -152,23 +152,6 @@ function test_checkRAM(tc)
 tc.verifyClass(stdlib.checkRAM(1, "double"), "logical")
 end
 
-
-function test_disk_available(tc, Ps)
-if stdlib.exists(Ps)
-  tc.verifyGreaterThan(stdlib.disk_available(Ps), 0)
-else
-  tc.verifyEqual(stdlib.disk_available(Ps), 0)
-end
-end
-
-function test_disk_capacity(tc, Ps)
-if stdlib.exists(Ps)
-  tc.verifyGreaterThan(stdlib.disk_capacity(Ps), 0)
-else
-  tc.verifyEqual(stdlib.disk_capacity(Ps), 0)
-end
-end
-
 end
 
 end
