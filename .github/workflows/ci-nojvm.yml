@@ -10,6 +10,12 @@ on:
     - "!private/publish_gen_index_html.m"
     - "!octave_build.m"
 
+# avoid wasted runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+
 jobs:
 
   NoJVM:
