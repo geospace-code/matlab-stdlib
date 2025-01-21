@@ -11,16 +11,9 @@ arguments
   variable (1,1) string
 end
 
-exists = false;
+sds = hdfinfo(file).SDS;
+i = string(sds.Name) == variable;
+exists = any(i);
 
-try
-  sds = hdfinfo(file).SDS;
-  i = string(sds.Name) == variable;
-  exists = any(i);
-catch e
-  if e.identifier ~= "MATLAB:imagesci:h5info:unableToFind"
-    rethrow(e)
-  end
-end
 
 %!testif 0
