@@ -15,6 +15,8 @@ else
   % can't use SourceFiles= if "mex" Task was run, even if
   % plan("test").DisableIncremental = true;
   % this means incremental tests can't be used with MEX files (as of R2024b)
+
+  plan("clean") = matlab.buildtool.tasks.CleanTask;
 end
 
 if ~isMATLABReleaseOlderThan("R2024a")
@@ -23,40 +25,45 @@ end
 
 plan("publish") = matlab.buildtool.Task(Description="HTML inline doc generate", Actions=@publishTask);
 
+%% MexTask
 bindir = fullfile(plan.RootFolder, pkg_name);
+[compiler_id, compiler_opt] = get_compiler_options();
+
 if isMATLABReleaseOlderThan("R2024b")
-  plan("mex") = matlab.buildtool.Task(Actions=@(~)legacyMexTask(bindir));
-else
-  plan("clean") = matlab.buildtool.tasks.CleanTask;
+  % dummy task to allow "buildtool mex" to build all MEX targets
+  plan("mex") = matlab.buildtool.Task();
+  mex_deps = string.empty;
+end
 
-  [compiler_id, compiler_opt] = get_compiler_options();
+for s = get_mex_sources()
+  src = s{1};
+  [~, name] = fileparts(src(1));
 
-  for s = get_mex_sources()
-    src = s{1};
-    [~, name] = fileparts(src(1));
-
+  % name of MEX target function is name of first source file
+  if isMATLABReleaseOlderThan("R2024b")
+    mex_name = "mex_" + name;
+    % specifying .Inputs and .Outputs enables incremental builds
+    % https://www.mathworks.com/help/matlab/matlab_prog/improve-performance-with-incremental-builds.html
+    plan(mex_name) = matlab.buildtool.Task(Actions=@(context) legacyMexTask(context, compiler_id, compiler_opt));
+    plan(mex_name).Inputs = src;
+    plan(mex_name).Outputs = fullfile(bindir, name + "." + mexext());
+    mex_deps(end+1) = mex_name; %#ok<AGROW>
+  else
     plan("mex:" + name) = matlab.buildtool.tasks.MexTask(src, bindir, ...
       Options=[compiler_id, compiler_opt]);
   end
 end
 
+if isMATLABReleaseOlderThan("R2024b")
+  plan("mex").Dependencies = mex_deps;
+end
+
 end
 
 
-function legacyMexTask(bindir)
-
-[compiler_id, compiler_opt] = get_compiler_options();
-
-srcs = get_mex_sources();
-
-%% build C++ mex
-% https://www.mathworks.com/help/matlab/ref/mex.html
-for s = srcs
-  src = s{1};
-  [~, name] = fileparts(src(1));
-  disp("Building MEX target: " + name)
-  mex(s{1}{:}, "-outdir", bindir, compiler_id, compiler_opt)
-end
+function legacyMexTask(context, compiler_id, compiler_opt)
+bindir = fileparts(context.Task.Outputs.Path);
+mex(context.Task.Inputs.Path, "-outdir", bindir, compiler_id, compiler_opt)
 end
 
 
