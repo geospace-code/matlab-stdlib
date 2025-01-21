@@ -21,7 +21,6 @@ jobs:
     timeout-minutes: 15
     runs-on: ${{ matrix.os }}
 
-# R2022b and older has a runner-only (not real computer) path bug where it looks inside example/java despite not being told to
     strategy:
       fail-fast: false
       matrix:
