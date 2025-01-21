@@ -1,4 +1,6 @@
 function plan = buildfile
+assert(~isMATLABReleaseOlderThan("R2023a"), "MATLAB R2023a or newer is required for this buildfile")
+
 plan = buildplan();
 
 plan.DefaultTasks = "test";

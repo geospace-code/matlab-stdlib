@@ -15,7 +15,7 @@ Matlab R2019b is the minimum required due to use of
 syntax.
 URLs (e.g. https://, s3:// and similar) are treated as not existing.
 
-Self-tests can be run from that matlab-stdlib/ directory with Matlab R2022b or newer:
+Self-tests can be run from the matlab-stdlib/ directory with Matlab R2023a or newer:
 
 ```matlab
 buildtool test
@@ -26,7 +26,7 @@ Functions requiring or optionally benefiting from MEX are indicated in the
 
 Build the optional high-performance
 [MEX](https://www.mathworks.com/help/matlab/cpp-mex-file-applications.html)
-functions from the Matlab prompt in Matlab R2022b or newer:
+functions from the Matlab prompt in Matlab R2023a or newer:
 
 ```matlab
 buildtool mex
