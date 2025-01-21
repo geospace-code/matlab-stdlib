@@ -27,6 +27,8 @@ function test_set_permissions(tc)
 import matlab.unittest.constraints.StartsWithSubstring
 import matlab.unittest.fixtures.CurrentFolderFixture
 
+tc.assumeFalse(isMATLABReleaseOlderThan("R2022a"))
+
 tc.applyFixture(CurrentFolderFixture(".."))
 % matlab exist() doesn't work for MEX detection with ".." leading path
 

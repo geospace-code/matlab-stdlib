@@ -15,10 +15,16 @@ Matlab R2019b is the minimum required due to use of
 syntax.
 URLs (e.g. https://, s3:// and similar) are treated as not existing.
 
-Self-tests can be run from the matlab-stdlib/ directory with Matlab R2023a or newer:
+Self-tests can be run from the matlab-stdlib/ directory:
 
 ```matlab
+%% Matlab R2023a or newer
 buildtool test
+
+
+%% Matlab R2021a or newer
+addpath .
+runtests("test")
 ```
 
 Functions requiring or optionally benefiting from MEX are indicated in the

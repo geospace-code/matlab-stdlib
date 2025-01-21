@@ -7,7 +7,8 @@ end
 methods (TestClassSetup)
 
 function setup_file(tc)
-import matlab.unittest.constraints.IsFile
+
+tc.assumeFalse(isMATLABReleaseOlderThan("R2022a"))
 
 td = tc.createTemporaryFolder();
 
@@ -50,7 +51,7 @@ stdlib.ncsave(basic, '/t/x', 12)
 stdlib.ncsave(basic, '/t/y', 13)
 stdlib.ncsave(basic, '/j/a/b', 6)
 
-tc.assumeThat(basic, IsFile)
+tc.assumeThat(basic, matlab.unittest.constraints.IsFile)
 end
 end
 
@@ -194,13 +195,11 @@ end
 
 
 function test_rewrite(tc)
-import matlab.unittest.constraints.IsFile
 basic = tc.TestData.basic;
 
 A2 = 3*magic(4);
 stdlib.ncsave(basic, "A2", A2, "dims", {'x2', size(A2,1), 'y2', size(A2,2)})
 
-tc.assumeThat(basic, IsFile)
 tc.verifyEqual(ncread(basic, 'A2'), 3*magic(4))
 end
 

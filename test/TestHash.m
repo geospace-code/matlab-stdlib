@@ -16,7 +16,7 @@ methods (Test)
 
 
 function test_hash_text(tc, Ph)
-import matlab.unittest.constraints.IsFile
+tc.assumeFalse(isMATLABReleaseOlderThan("R2022a"))
 
 td = tc.createTemporaryFolder();
 
@@ -27,7 +27,7 @@ tc.assumeGreaterThan(fid, 0);
 fprintf(fid, "hello");
 fclose(fid);
 
-tc.assumeThat(fn, IsFile)
+tc.assumeThat(fn, matlab.unittest.constraints.IsFile)
 
 tc.verifyEqual(stdlib.file_checksum(fn, Ph{1}), Ph{2})
 
