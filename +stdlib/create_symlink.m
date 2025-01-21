@@ -15,9 +15,6 @@ arguments
   link (1,1) string
 end
 
-ok = false;
-
-if stdlib.exists(link) || ~stdlib.exists(target) || stdlib.is_url(link), return, end
 
 try
   createSymbolicLink(link, target);
@@ -41,6 +38,9 @@ catch e
     if ~ok
       warning("create_symlink: %s", msg)
     end
+  else
+    warning(e.identifier, "%s", e.message)
+    ok = false;
   end
 end
 
