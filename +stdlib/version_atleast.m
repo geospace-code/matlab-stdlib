@@ -20,23 +20,53 @@ if stdlib.isoctave()
   return
 end
 
-in = split(in, ' ');
-in = split(in(1), '.');
+inp = split(in, ' ');
+in_str = split(inp(1), ".");
 
-ref = split(ref, '.');
+refp = split(ref, ' ');
+ref_str = split(refp(1), ".");
 
-for i = 1:min(length(in), length(ref))
-  if in(i) > ref(i)
+% Compare numeric parts first
+for i = 1:min(length(in_str), length(ref_str))
+  in_num = double(in_str(i));
+  ref_num = double(ref_str(i));
+
+  if isnan(in_num) || isnan(ref_num)
+    % assume values are leading integer with trailing string
+    % extract integer part and compare
+    in_num = double(regexp(in_str(i), "\d+", "match", "once"));
+    ref_num = double(regexp(ref_str(i), "\d+", "match", "once"));
+
+    if isnan(in_num) || isnan(ref_num) || in_num == ref_num
+      % compare string parts
+      in_str_part = regexp(in_str(i), "\D+", "match", "once");
+      ref_str_part = regexp(ref_str(i), "\D+", "match", "once");
+      if in_str_part > ref_str_part
+        r = true;
+        return
+      elseif in_str_part < ref_str_part
+        r = false;
+        return
+      end
+
+      continue
+    end
+  end
+
+  % Compare numerically
+  if in_num > ref_num
     r = true;
     return
-  elseif in(i) < ref(i)
+  elseif in_num < ref_num
     r = false;
     return
   end
 end
 
-r = in(end) >= ref(end);
+% If all compared parts are equal, compare lengths
+r = length(in_str) >= length(ref_str);
 
 end
 
 %!assert(version_atleast("1.2.3", "1.2"))
+%!assert(version_atleast("20.11a", "20.3b"))
