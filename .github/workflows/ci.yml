@@ -30,7 +30,7 @@ jobs:
         - os: macos-latest
           release: R2024b
         - os: macos-latest
-          release: R2023a
+          release: R2023b
         - os: windows-latest
           release: R2024b
         - os: windows-latest

@@ -139,11 +139,16 @@ msvc = startsWith(cxx.ShortName, "MSVCPP");
 
 std = "-std=c++17";
 compiler_id = "";
-% FIXME: Windows oneAPI
+
 if msvc
   std = "/std:c++17";
+  % on Windows, Matlab doesn't register unsupported MSVC or oneAPI
 elseif ismac
-  % keep for if-logic
+  if cxx.Name == "Xcode Clang++"
+    if isMATLABReleaseOlderThan("R2023b") && stdlib.version_atleast(cxx.Version, "15.0")
+      warning("Xcode Clang++ " + cxx.Version + " may not support this Matlab version")
+    end
+  end
 elseif isunix && cxx.ShortName == "g++"
   % FIXME: update when desired GCC != 10 for newer Matlab
   if isMATLABReleaseOlderThan("R2025b") && ~startsWith(cxx.Version, "10")
@@ -153,7 +158,7 @@ elseif isunix && cxx.ShortName == "g++"
     if s == 0
       compiler_id = "CXX=g++-10";
     else
-      warning("GCC 10 not found, using default GCC " + cxx.Version + " may fail on runtime")
+      warning("GCC 10 not found. GCC " + cxx.Version + " may fail on runtime")
     end
   end
 end
