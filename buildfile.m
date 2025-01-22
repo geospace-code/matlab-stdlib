@@ -29,7 +29,7 @@ plan("publish") = matlab.buildtool.Task(Description="HTML inline doc generate", 
 
 %% MexTask
 bindir = fullfile(plan.RootFolder, pkg_name);
-[compiler_id, compiler_opt] = get_compiler_options();
+[compiler_id, compiler_opt, linker_opt] = get_compiler_options();
 
 if isMATLABReleaseOlderThan("R2024b")
   % dummy task to allow "buildtool mex" to build all MEX targets
@@ -46,13 +46,13 @@ for s = get_mex_sources()
     mex_name = "mex_" + name;
     % specifying .Inputs and .Outputs enables incremental builds
     % https://www.mathworks.com/help/matlab/matlab_prog/improve-performance-with-incremental-builds.html
-    plan(mex_name) = matlab.buildtool.Task(Actions=@(context) legacyMexTask(context, compiler_id, compiler_opt));
+    plan(mex_name) = matlab.buildtool.Task(Actions=@(context) legacyMexTask(context, compiler_id, compiler_opt, linker_opt));
     plan(mex_name).Inputs = src;
     plan(mex_name).Outputs = fullfile(bindir, name + "." + mexext());
     mex_deps(end+1) = mex_name; %#ok<AGROW>
   else
     plan("mex:" + name) = matlab.buildtool.tasks.MexTask(src, bindir, ...
-      Options=[compiler_id, compiler_opt]);
+      Options=[compiler_id, compiler_opt, linker_opt]);
   end
 end
 
@@ -63,9 +63,9 @@ end
 end
 
 
-function legacyMexTask(context, compiler_id, compiler_opt)
+function legacyMexTask(context, compiler_id, compiler_opt, linker_opt)
 bindir = fileparts(context.Task.Outputs.Path);
-mex(context.Task.Inputs.Path, "-outdir", bindir, compiler_id, compiler_opt)
+mex(context.Task.Inputs.Path, "-outdir", bindir, compiler_id, compiler_opt, linker_opt)
 end
 
 
@@ -130,7 +130,7 @@ end
 end
 
 
-function [compiler_id, compiler_opt] = get_compiler_options()
+function [compiler_id, compiler_opt, linker_opt] = get_compiler_options()
 
 cxx = mex.getCompilerConfigurations('c++');
 flags = cxx.Details.CompilerFlags;
@@ -138,8 +138,9 @@ flags = cxx.Details.CompilerFlags;
 msvc = startsWith(cxx.ShortName, "MSVCPP");
 
 std = "-std=c++17";
+% mex() can't handle string.empty
 compiler_id = "";
-
+linker_opt = "";
 if msvc
   std = "/std:c++17";
   % on Windows, Matlab doesn't register unsupported MSVC or oneAPI
@@ -149,17 +150,9 @@ elseif ismac
       warning("Xcode Clang++ " + cxx.Version + " may not support this Matlab version")
     end
   end
-elseif isunix && cxx.ShortName == "g++"
-  % FIXME: update when desired GCC != 10 for newer Matlab
-  if isMATLABReleaseOlderThan("R2025b") && ~startsWith(cxx.Version, "10")
-    % https://www.mathworks.com/help/matlab/matlab_external/choose-c-or-c-compilers.html
-    % https://www.mathworks.com/help/matlab/matlab_external/change-default-gcc-compiler-on-linux-system.html
-    [s, ~] = system("which g++-10");
-    if s == 0
-      compiler_id = "CXX=g++-10";
-    else
-      warning("GCC 10 not found. GCC " + cxx.Version + " may fail on runtime")
-    end
+elseif isunix
+  if cxx.ShortName == "g++" && ~stdlib.version_atleast(cxx.Version, "9")
+    linker_opt = "-lstdc++fs";
   end
 end
 
