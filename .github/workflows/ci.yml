@@ -42,23 +42,8 @@ jobs:
 
     - uses: ./.github/workflows/composite-install-matlab
 
-    - uses: ./.github/workflows/composite-buildtool
-
-
-  prerelease:
-    if: false
-    timeout-minutes: 15
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-22.04, macos-latest, windows-latest]
-        release: [latest-including-prerelease]
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - uses: ./.github/workflows/composite-install-matlab
+    - name: Linux CXX
+      if: ${{ matrix.os == 'ubuntu-22.04' }}
+      run: echo "CXXMEX=g++-10" >> $GITHUB_ENV
 
     - uses: ./.github/workflows/composite-buildtool

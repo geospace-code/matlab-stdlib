@@ -29,7 +29,7 @@ plan("publish") = matlab.buildtool.Task(Description="HTML inline doc generate", 
 
 %% MexTask
 bindir = fullfile(plan.RootFolder, pkg_name);
-[compiler_id, compiler_opt, linker_opt] = get_compiler_options();
+[compiler_opt, linker_opt] = get_compiler_options();
 
 if isMATLABReleaseOlderThan("R2024b")
   % dummy task to allow "buildtool mex" to build all MEX targets
@@ -46,13 +46,13 @@ for s = get_mex_sources()
     mex_name = "mex_" + name;
     % specifying .Inputs and .Outputs enables incremental builds
     % https://www.mathworks.com/help/matlab/matlab_prog/improve-performance-with-incremental-builds.html
-    plan(mex_name) = matlab.buildtool.Task(Actions=@(context) legacyMexTask(context, compiler_id, compiler_opt, linker_opt));
+    plan(mex_name) = matlab.buildtool.Task(Actions=@(context) legacyMexTask(context, compiler_opt, linker_opt));
     plan(mex_name).Inputs = src;
     plan(mex_name).Outputs = fullfile(bindir, name + "." + mexext());
     mex_deps(end+1) = mex_name; %#ok<AGROW>
   else
     plan("mex:" + name) = matlab.buildtool.tasks.MexTask(src, bindir, ...
-      Options=[compiler_id, compiler_opt, linker_opt]);
+      Options=[compiler_opt, linker_opt]);
   end
 end
 
@@ -63,9 +63,9 @@ end
 end
 
 
-function legacyMexTask(context, compiler_id, compiler_opt, linker_opt)
+function legacyMexTask(context, compiler_opt, linker_opt)
 bindir = fileparts(context.Task.Outputs.Path);
-mex(context.Task.Inputs.Path, "-outdir", bindir, compiler_id, compiler_opt, linker_opt)
+mex(context.Task.Inputs.Path, "-outdir", bindir, compiler_opt{:}, linker_opt)
 end
 
 
@@ -130,7 +130,7 @@ end
 end
 
 
-function [compiler_id, compiler_opt, linker_opt] = get_compiler_options()
+function [compiler_opt, linker_opt] = get_compiler_options()
 
 cxx = mex.getCompilerConfigurations('c++');
 flags = cxx.Details.CompilerFlags;
@@ -141,6 +141,14 @@ std = "-std=c++17";
 % mex() can't handle string.empty
 compiler_id = "";
 linker_opt = "";
+
+% this override is mostly for CI. Ensure auto-compiler flags are still correct if using this.
+cxxenv = getenv("CXXMEX");
+if ~isempty(cxxenv)
+  compiler_id = "CXX=" + cxxenv;
+  disp("MEX compiler override: " + compiler_id)
+end
+
 if msvc
   std = "/std:c++17";
   % on Windows, Matlab doesn't register unsupported MSVC or oneAPI
@@ -151,7 +159,7 @@ elseif ismac
     end
   end
 elseif isunix
-  if cxx.ShortName == "g++" && ~stdlib.version_atleast(cxx.Version, "9")
+  if ~strlength(compiler_id) && cxx.ShortName == "g++" && ~stdlib.version_atleast(cxx.Version, "9")
     linker_opt = "-lstdc++fs";
   end
 end
@@ -161,6 +169,10 @@ if msvc
   compiler_opt = "COMPFLAGS=" + opt;
 else
   compiler_opt = "CXXFLAGS=" + opt;
+end
+
+if strlength(compiler_id)
+  compiler_opt = [compiler_id, compiler_opt];
 end
 
 end
