@@ -1,7 +1,7 @@
 function plan = buildfile
 assert(~isMATLABReleaseOlderThan("R2023a"), "MATLAB R2023a or newer is required for this buildfile")
 
-plan = buildplan();
+plan = buildplan(localfunctions);
 
 plan.DefaultTasks = "test";
 
@@ -10,12 +10,13 @@ pkg_name = "+stdlib";
 addpath(plan.RootFolder)
 
 if isMATLABReleaseOlderThan("R2023b")
-  plan("test") = matlab.buildtool.Task(Actions=@legacyTestTask);
+  plan("test") = matlab.buildtool.Task(Actions=@legacy_test);
 else
-  plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true);
+  plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true, ...
+    WarningThreshold=0);
+
   plan("test") = matlab.buildtool.tasks.TestTask("test", Strict=false);
-  % can't use SourceFiles= if "mex" Task was run, even if
-  % plan("test").DisableIncremental = true;
+  % can't use SourceFiles= if "mex" Task was run, even if plan("test").DisableIncremental = true;
   % this means incremental tests can't be used with MEX files (as of R2024b)
 
   plan("clean") = matlab.buildtool.tasks.CleanTask;
@@ -24,8 +25,6 @@ end
 if ~isMATLABReleaseOlderThan("R2024a")
  plan("coverage") = matlab.buildtool.tasks.TestTask(Description="code coverage", Dependencies="clean", SourceFiles="test", Strict=false, CodeCoverageResults="code-coverage.xml");
 end
-
-plan("publish") = matlab.buildtool.Task(Description="HTML inline doc generate", Actions=@publishTask);
 
 %% MexTask
 bindir = fullfile(plan.RootFolder, pkg_name);
@@ -46,7 +45,7 @@ for s = get_mex_sources()
     mex_name = "mex_" + name;
     % specifying .Inputs and .Outputs enables incremental builds
     % https://www.mathworks.com/help/matlab/matlab_prog/improve-performance-with-incremental-builds.html
-    plan(mex_name) = matlab.buildtool.Task(Actions=@(context) legacyMexTask(context, compiler_opt, linker_opt));
+    plan(mex_name) = matlab.buildtool.Task(Actions=@(context) legacy_mex(context, compiler_opt, linker_opt));
     plan(mex_name).Inputs = src;
     plan(mex_name).Outputs = fullfile(bindir, name + "." + mexext());
     mex_deps(end+1) = mex_name; %#ok<AGROW>
@@ -63,13 +62,13 @@ end
 end
 
 
-function legacyMexTask(context, compiler_opt, linker_opt)
+function legacy_mex(context, compiler_opt, linker_opt)
 bindir = fileparts(context.Task.Outputs.Path);
 mex(context.Task.Inputs.Path, "-outdir", bindir, compiler_opt{:}, linker_opt)
 end
 
 
-function legacyTestTask(context)
+function legacy_test(context)
 r = runtests(fullfile(context.Plan.RootFolder, "test"), Strict=false);
 % Parallel Computing Toolbox takes more time to startup than is worth it for this task
 
@@ -79,6 +78,7 @@ end
 
 
 function publishTask(context)
+% publish HTML inline documentation strings to individual HTML files
 outdir = fullfile(context.Plan.RootFolder, "docs");
 
 publish_gen_index_html("stdlib", ...
