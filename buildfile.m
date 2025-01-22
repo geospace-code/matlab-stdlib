@@ -152,14 +152,16 @@ end
 if msvc
   std = "/std:c++17";
   % on Windows, Matlab doesn't register unsupported MSVC or oneAPI
-elseif ismac
-  if cxx.Name == "Xcode Clang++"
-    if isMATLABReleaseOlderThan("R2023b") && stdlib.version_atleast(cxx.Version, "15.0")
-      warning("Xcode Clang++ " + cxx.Version + " may not support this Matlab version")
-    end
+elseif cxx.Name == "Xcode Clang++"
+  if isMATLABReleaseOlderThan("R2023b") && stdlib.version_atleast(cxx.Version, "15.0")
+    warning("Xcode Clang++ " + cxx.Version + " may not support this Matlab version")
   end
-elseif isunix
-  if ~strlength(compiler_id) && cxx.ShortName == "g++" && ~stdlib.version_atleast(cxx.Version, "9")
+elseif ~strlength(compiler_id) && cxx.ShortName == "g++"
+  if ~stdlib.version_atleast(cxx.Version, "8")
+    warning("g++ 8 or newer is required for MEX, detected g++" + cxx.Version)
+  end
+
+  if ~stdlib.version_atleast(cxx.Version, "9")
     linker_opt = "-lstdc++fs";
   end
 end
