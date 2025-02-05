@@ -13,8 +13,6 @@ end
 
 y = false;
 
-if stdlib.is_url(p), return, end
-
 L = stdlib.len(p);
 if ~L || (ispc && L < 3)
   return

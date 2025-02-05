@@ -7,11 +7,18 @@ runs:
   steps:
 
   - name: Check task
-    if: ${{ matrix.release >= 'R2024b' || startsWith(matrix.release, 'latest') }}
+    if: ${{ matrix.release >= 'R2024a' || startsWith(matrix.release, 'latest') }}
     uses: matlab-actions/run-build@v2
     with:
       startup-options: ${{ matrix.startup-options }}
       tasks: check
+
+  - name: Upload CodeIssues
+    if: failure()
+    uses: actions/upload-artifact@v4
+    with:
+      name: ${{ matrix.release }}-${{ runner.os }}-codeissues
+      path: CodeIssues.sarif
 
   - name: Non-Mex Test
     if: ${{ matrix.release >= 'R2024b' || startsWith(matrix.release, 'latest') }}

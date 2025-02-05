@@ -38,9 +38,6 @@ bool fs_is_windows()
 
 std::string fs_as_posix(std::string_view path)
 {
-  if (fs_is_url(path))
-    return {};
-
   std::filesystem::path p(path);
 
   return p.generic_string();

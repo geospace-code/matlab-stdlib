@@ -20,8 +20,6 @@ end
 
 c = "";
 
-if stdlib.is_url(p), return; end
-
 if expand_tilde
   e = stdlib.expanduser(p);
 else

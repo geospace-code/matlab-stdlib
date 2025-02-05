@@ -12,9 +12,6 @@ addpath(plan.RootFolder)
 if isMATLABReleaseOlderThan("R2023b")
   plan("test") = matlab.buildtool.Task(Actions=@legacy_test);
 else
-  plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true, ...
-    WarningThreshold=0);
-
   plan("test") = matlab.buildtool.tasks.TestTask("test", Strict=false);
   % can't use SourceFiles= if "mex" Task was run, even if plan("test").DisableIncremental = true;
   % this means incremental tests can't be used with MEX files (as of R2024b)
@@ -23,6 +20,8 @@ else
 end
 
 if ~isMATLABReleaseOlderThan("R2024a")
+  plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true, ...
+    WarningThreshold=0, Results="CodeIssues.sarif");
  plan("coverage") = matlab.buildtool.tasks.TestTask(Description="code coverage", Dependencies="clean", SourceFiles="test", Strict=false, CodeCoverageResults="code-coverage.xml");
 end
 

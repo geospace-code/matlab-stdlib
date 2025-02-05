@@ -23,10 +23,6 @@ arguments
   expand_tilde (1,1) logical = true
 end
 
-c = "";
-
-if stdlib.is_url(p), return; end
-
 if expand_tilde
   c = stdlib.expanduser(p);
 else

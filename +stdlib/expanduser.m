@@ -12,10 +12,6 @@ arguments
   p (1,1) string
 end
 
-e = "";
-
-if stdlib.is_url(p), return; end
-
 e = stdlib.drop_slash(p);
 
 L = stdlib.len(e);

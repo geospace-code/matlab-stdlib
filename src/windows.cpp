@@ -177,9 +177,6 @@ std::string fs_shortname(std::string_view in)
 // https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getshortpathnamew
 // the path must exist
 
-  if (fs_is_url(in))
-    return {};
-
 #if defined(_WIN32)
   std::string out(fs_get_max_path(), '\0');
 // size does not include null terminator

@@ -14,9 +14,6 @@ arguments
   p (1,1) string
 end
 
-s = "";
-if stdlib.is_url(p), return, end
-
 s = p;
 if ispc
   fso = actxserver('Scripting.FileSystemObject');

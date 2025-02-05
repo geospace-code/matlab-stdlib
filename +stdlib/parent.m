@@ -15,9 +15,7 @@ end
 p = stdlib.drop_slash(pth);
 
 if ~stdlib.len(p)
-  if ~stdlib.is_url(pth)
-    p = ".";
-  end
+  p = ".";
   return
 elseif is_root_stub(p)
   % 2 or 3 char drive letter
