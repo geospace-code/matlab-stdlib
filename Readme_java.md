@@ -91,3 +91,24 @@ For example, with Homebrew:
 ```sh
 brew install octave openjdk
 ```
+
+If OpenJDK version updates, GNU Octave might not automatically find the new version:
+
+> libjvm: failed to load
+
+To correct this, find the path to the new JVM.
+Windows installs Java with Octave, so this usually isn't needed.
+For example, on macOS:
+
+```sh
+gfind $(brew --prefix) -name libjvm.dylib
+```
+
+Within Octave, tell Octave the directory that libjvm is under.
+This setting is not persistent.
+If it works, add the setenv() command to
+[.octaverc](https://docs.octave.org/interpreter/Startup-Files.html)
+
+```octave
+setenv("JAVA_HOME", "/path/to/openjdk/")
+```
