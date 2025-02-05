@@ -40,15 +40,18 @@ elseif expand_tilde
 else
   b = base;
 end
-b = stdlib.posix(b);
 
-if stdlib.is_absolute(b)
-  c = strcat(b, "/", c);
-else
-  c = strcat(pwd(), "/", b, "/", c);
+if ~stdlib.is_absolute(b)
+  b = strcat(pwd(), "/", b);
 end
 
-c = stdlib.drop_slash(c);
+b = stdlib.posix(b);
+
+if stdlib.len(c) == 0
+  c = b;
+else
+  c = strcat(b, "/", c);
+end
 
 end
 
