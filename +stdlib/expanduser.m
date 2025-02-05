@@ -12,7 +12,7 @@ arguments
   p (1,1) string
 end
 
-e = stdlib.drop_slash(p);
+e = stdlib.posix(p);
 
 L = stdlib.len(e);
 if ~L || ~startsWith(e, "~") || (L > 1 && ~startsWith(e, "~/"))
@@ -20,21 +20,17 @@ if ~L || ~startsWith(e, "~") || (L > 1 && ~startsWith(e, "~/"))
 end
 
 home = stdlib.homedir();
+if ~stdlib.len(home), return, end
 
-if stdlib.len(home) == 0
-  return
-end
-
-d = home;
 if L < 2
-  e = d;
+  e = home;
   return
 end
 
 if ischar(e)
-  e = strcat(d, '/', e(3:end));
+  e = strcat(home, '/', e(3:end));
 else
-  e = d + "/" + extractAfter(e, 2);
+  e = home + "/" + extractAfter(e, 2);
 end
 
 end
