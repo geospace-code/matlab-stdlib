@@ -9,18 +9,32 @@ end
 
 methods (Test)
 
-function test_simple_run(tc)
+function test_exe_c(tc)
+import matlab.unittest.constraints.IsFile
 
-if ispc
-  c = ["cmd", "/c", "dir"];
-else
-  c = 'ls';
+cwd = fileparts(mfilename('fullpath'));
+exe = cwd + "/printer_c.exe";
+tc.assumeThat(exe, IsFile, exe + " not found")
+
+[status, msg, err] = stdlib.subprocess_run(exe);
+tc.assertEqual(status, 0, err)
+tc.verifyEqual(msg, "stdout")
+tc.verifyEqual(err, "stderr")
+
 end
 
-[status, msg, err] = stdlib.subprocess_run(c);
+
+function test_exe_fortran(tc)
+import matlab.unittest.constraints.IsFile
+
+cwd = fileparts(mfilename('fullpath'));
+exe = cwd + "/printer_fortran.exe";
+tc.assumeThat(exe, IsFile, exe + " not found")
+
+[status, msg, err] = stdlib.subprocess_run(exe);
 tc.assertEqual(status, 0, err)
-tc.verifyGreaterThan(strlength(msg),  0)
-tc.verifyEqual(strlength(err), 0)
+tc.verifyEqual(msg, "stdout")
+tc.verifyEqual(err, "stderr")
 
 end
 
@@ -41,7 +55,7 @@ tc.verifyEqual(strlength(e), 0, e)
 
 td = tc.createTemporaryFolder();
 
-[s, mc, e] = stdlib.subprocess_run(c, "cwd", td);
+[s, mc, e] = stdlib.subprocess_run(c, cwd=td);
 tc.assertEqual(s, 0, "status non-zero")
 tc.verifyNotEqual(m, mc, "expected different directory to have different contents")
 tc.verifyEqual(strlength(e), 0, e)

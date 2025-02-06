@@ -1,6 +1,6 @@
 Filesystem.class
 CodeIssues.sarif
-
+TestResults.xml
 code-coverage.xml
 
 .buildtool/
@@ -9,3 +9,6 @@ docs/
 
 *.mex*
 *.oct
+
+test/printer_c.exe
+test/printer_fortran.exe

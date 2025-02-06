@@ -46,4 +46,8 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-22.04' }}
       run: echo "CXXMEX=g++-10" >> $GITHUB_ENV
 
+    - name: Fortran FC
+      if: runner.os == 'macOS'
+      run: echo "FC=gfortran-14" >> $GITHUB_ENV
+
     - uses: ./.github/workflows/composite-buildtool

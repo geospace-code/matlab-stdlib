@@ -57,6 +57,17 @@ if strlength(opt.cwd) > 0
   assert(isfolder(opt.cwd), "directory %s does not exist", opt.cwd)
   proc.directory(java.io.File(opt.cwd));
 end
+%% Gfortran streams
+% https://www.mathworks.com/matlabcentral/answers/91919-why-does-the-output-of-my-fortran-script-not-show-up-in-the-matlab-command-window-when-i-execute-it#answer_101270
+% Matlab grabs the stdout, stderr, stdin handles of a Gfortran program, even when it's using Java.
+% We must disable this behavior for the duration the running process.
+
+outold = getenv("GFORTRAN_STDOUT_UNIT");
+setenv("GFORTRAN_STDOUT_UNIT", "6");
+errold = getenv("GFORTRAN_STDERR_UNIT");
+setenv("GFORTRAN_STDERR_UNIT", "0");
+inold = getenv("GFORTRAN_STDIN_UNIT");
+setenv("GFORTRAN_STDIN_UNIT", "5");
 %% start process
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html#start()
 h = proc.start();
@@ -68,6 +79,10 @@ if strlength(opt.stdin) > 0
   writer.flush()
   writer.close()
 end
+
+%% read stdout, stderr pipes
+stdout = read_stream(h.getInputStream());
+stderr = read_stream(h.getErrorStream());
 
 %% wait for process to complete
 % https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Process.html#waitFor()
@@ -88,12 +103,12 @@ else
   status = h.waitFor();
 end
 
-%% read stdout, stderr pipes
-stdout = read_stream(h.getInputStream());
-stderr = read_stream(h.getErrorStream());
-
-%% close process
+%% close process and restore Gfortran streams
 h.destroy()
+
+setenv("GFORTRAN_STDOUT_UNIT", outold);
+setenv("GFORTRAN_STDERR_UNIT", errold);
+setenv("GFORTRAN_STDIN_UNIT", inold);
 
 stderr = tmsg + stderr;
 
@@ -110,9 +125,14 @@ end % function subprocess_run
 function msg = read_stream(stream)
 
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/BufferedReader.html
-reader = java.io.BufferedReader(java.io.InputStreamReader(stream));
-line = reader.readLine();
+
 msg = "";
+
+% don't check stream.available() as it may arbitrarily return 0
+
+reader = java.io.BufferedReader(java.io.InputStreamReader(stream));
+
+line = reader.readLine();
 while ~isempty(line)
   msg = append(msg, string(line), newline);
   line = reader.readLine();

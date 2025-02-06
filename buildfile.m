@@ -11,13 +11,21 @@ addpath(plan.RootFolder)
 
 if isMATLABReleaseOlderThan("R2023b")
   plan("test") = matlab.buildtool.Task(Actions=@legacy_test);
-else
+elseif isMATLABReleaseOlderThan("R2024a")
   plan("test") = matlab.buildtool.tasks.TestTask("test", Strict=false);
+else
   % can't use SourceFiles= if "mex" Task was run, even if plan("test").DisableIncremental = true;
   % this means incremental tests can't be used with MEX files (as of R2024b)
+  plan("test") = matlab.buildtool.tasks.TestTask("test", Strict=false, TestResults="TestResults.xml");
+end
 
+if ~isMATLABReleaseOlderThan("R2023b")
   plan("clean") = matlab.buildtool.tasks.CleanTask;
 end
+
+plan("build_c") = matlab.buildtool.Task(Actions=@subprocess_build_c);
+plan("build_fortran") = matlab.buildtool.Task(Actions=@subprocess_build_fortran);
+plan("test").Dependencies = ["build_c", "build_fortran"];
 
 if ~isMATLABReleaseOlderThan("R2024a")
   plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true, ...
@@ -68,7 +76,7 @@ end
 
 
 function legacy_test(context)
-r = runtests(fullfile(context.Plan.RootFolder, "test"), Strict=false);
+r = runtests(context.Plan.RootFolder + "/test", Strict=false);
 % Parallel Computing Toolbox takes more time to startup than is worth it for this task
 
 assert(~isempty(r), "No tests were run")
@@ -78,12 +86,74 @@ end
 
 function publishTask(context)
 % publish HTML inline documentation strings to individual HTML files
-outdir = fullfile(context.Plan.RootFolder, "docs");
+outdir = context.Plan.RootFolder + "/docs";
 
 publish_gen_index_html("stdlib", ...
   "A standard library of functions for Matlab.", ...
   "https://github.com/geospace-code/matlab-stdlib", ...
   outdir)
+end
+
+
+function subprocess_build_c(context)
+
+td = context.Plan.RootFolder + "/test";
+src_c = td + "/main.c";
+exe = td + "/printer_c.exe";
+
+ccObj = mex.getCompilerConfigurations('c');
+
+cc = ccObj.Details.CompilerExecutable;
+
+outFlag = "-o";
+shell = "";
+shell_arg = "";
+msvcLike = ispc && endsWith(cc, "cl");
+if msvcLike
+  shell = strtrim(ccObj.Details.CommandLineShell);
+  shell_arg = ccObj.Details.CommandLineShellArg;
+  outFlag = "/link /out:";
+end
+
+cmd = join([cc, src_c, outFlag, exe]);
+if shell ~= ""
+  cmd = join([shell, shell_arg, cmd]);
+end
+
+[r, m] = system(cmd);
+if r ~= 0
+  warning("failed to build TestSubprocess printer_c.exe " + m)
+end
+
+end
+
+
+function subprocess_build_fortran(context)
+
+td = context.Plan.RootFolder + "/test";
+src = td + "/main.f90";
+exe = td + "/printer_fortran.exe";
+
+fcObj = mex.getCompilerConfigurations('Fortran');
+if isempty(fcObj)
+  fc = getenv("FC");
+  if isempty(fc)
+    warning("set FC environment variable to the Fortran compiler executable, or do 'mex -setup fortran' to configure the Fortran compiler")
+    return
+  end
+else
+  fc = fcObj.Details.CompilerExecutable;
+end
+
+outFlag = "-o";
+
+cmd = join([fc, src, outFlag, exe]);
+
+[r, m] = system(cmd);
+if r ~= 0
+  warning("failed to build TestSubprocess printer_fortran.exe " + m)
+end
+
 end
 
 
