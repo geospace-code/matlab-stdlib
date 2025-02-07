@@ -99,27 +99,12 @@ end
 function subprocess_build_c(context)
 
 td = context.Plan.RootFolder + "/test";
-src_c = td + "/main.c";
+src = td + "/main.c";
 exe = td + "/printer_c.exe";
 
-ccObj = mex.getCompilerConfigurations('c');
-
-cc = ccObj.Details.CompilerExecutable;
-
-outFlag = "-o";
-shell = "";
-shell_arg = "";
-msvcLike = ispc && endsWith(cc, "cl");
-if msvcLike
-  shell = strtrim(ccObj.Details.CommandLineShell);
-  shell_arg = ccObj.Details.CommandLineShellArg;
-  outFlag = "/link /out:";
-end
-
-cmd = join([cc, src_c, outFlag, exe]);
-if shell ~= ""
-  cmd = join([shell, shell_arg, cmd]);
-end
+cmd = get_build_cmd("c", src);
+if isempty(cmd), return, end
+cmd = join([cmd, exe]);
 
 [r, m] = system(cmd);
 if r ~= 0
@@ -135,24 +120,9 @@ td = context.Plan.RootFolder + "/test";
 src = td + "/sleep.cpp";
 exe = td + "/sleep.exe";
 
-co = mex.getCompilerConfigurations('c++');
-
-cpp = co.Details.CompilerExecutable;
-
-outFlag = "-o";
-shell = "";
-shell_arg = "";
-msvcLike = ispc && endsWith(cpp, "cl");
-if msvcLike
-  shell = strtrim(co.Details.CommandLineShell);
-  shell_arg = co.Details.CommandLineShellArg;
-  outFlag = "/link /out:";
-end
-
-cmd = join([cpp, src, outFlag, exe]);
-if shell ~= ""
-  cmd = join([shell, shell_arg, cmd]);
-end
+cmd = get_build_cmd("c++", src);
+if isempty(cmd), return, end
+cmd = join([cmd, exe]);
 
 [r, m] = system(cmd);
 if r ~= 0
@@ -168,24 +138,49 @@ td = context.Plan.RootFolder + "/test";
 src = td + "/main.f90";
 exe = td + "/printer_fortran.exe";
 
-fcObj = mex.getCompilerConfigurations('Fortran');
-if isempty(fcObj)
-  fc = getenv("FC");
-  if isempty(fc)
-    warning("set FC environment variable to the Fortran compiler executable, or do 'mex -setup fortran' to configure the Fortran compiler")
-    return
-  end
-else
-  fc = fcObj.Details.CompilerExecutable;
-end
-
-outFlag = "-o";
-
-cmd = join([fc, src, outFlag, exe]);
+cmd = get_build_cmd("Fortran", src);
+if isempty(cmd), return, end
+cmd = join([cmd, exe]);
 
 [r, m] = system(cmd);
 if r ~= 0
-  warning("failed to build TestSubprocess printer_fortran.exe " + m)
+  warning("failed to build TestSubprocess " + exe + " " + m)
+end
+
+end
+
+
+function cmd = get_build_cmd(lang, src)
+
+cmd = string.empty;
+
+co = mex.getCompilerConfigurations(lang);
+if isempty(co)
+  if lang == "Fortran"
+    fc = getenv("FC");
+    if isempty(fc)
+      warning("set FC environment variable to the Fortran compiler executable, or do 'mex -setup fortran' to configure the Fortran compiler")
+    end
+  end
+  warning(lang + " compiler not found")
+  return
+else
+  comp = co.Details.CompilerExecutable;
+end
+
+outFlag = "-o";
+shell = "";
+shell_arg = "";
+msvcLike = ispc && endsWith(comp, "cl");
+if msvcLike
+  shell = strtrim(co.Details.CommandLineShell);
+  shell_arg = co.Details.CommandLineShellArg;
+  outFlag = "/link /out:";
+end
+
+cmd = join([comp, src, outFlag]);
+if shell ~= ""
+  cmd = join([shell, shell_arg, cmd]);
 end
 
 end
