@@ -89,16 +89,13 @@ end
 
 function test_timeout(tc)
 import matlab.unittest.constraints.StartsWithSubstring
+import matlab.unittest.constraints.IsFile
 
-timeout = 1;
+cwd = fileparts(mfilename('fullpath'));
+exe = cwd + "/sleep.exe";
+tc.assumeThat(exe, IsFile, exe + " not found")
 
-if ispc
-  c = ["powershell", "-command", "Start-Sleep -s 3"];
-else
-  c = ["sleep", "3"];
-end
-
-[ret, ~, err] = stdlib.subprocess_run(c, "timeout", timeout);
+[ret, ~, err] = stdlib.subprocess_run(exe, timeout=1, outpipe=false);
 
 tc.verifyNotEqual(ret, 0, err)
 tc.verifyThat(err, StartsWithSubstring("Subprocess timeout"))

@@ -11,8 +11,9 @@
 % * cmd_array: vector of string to compose a command line
 % * opt.env: environment variable struct to set
 % * opt.cwd: working directory to use while running command
-% * opt.stdin: string to pass to subprocess stdin pipe
+% * opt.stdin: string to pass to subprocess stdin pipe - OK to use with timeout
 % * opt.timeout: time to wait for process to complete before erroring (seconds)
+% * opt.outpipe: logical to indicate whether to use pipe for stdout and stderr (mutually exclusive with timeout option)
 %%% Outputs
 % * status: 0 is generally success. -1 if timeout. Other codes as per the
 % program / command run
@@ -37,6 +38,11 @@ arguments
   opt.cwd (1,1) string = ""
   opt.stdin (1,1) string = ""
   opt.timeout (1,1) int64 = 0
+  opt.outpipe (1,1) logical = true
+end
+
+if opt.outpipe && opt.timeout > 0
+  error("outpipe and timeout options are mutually exclusive")
 end
 
 %% process instantiation
@@ -81,9 +87,16 @@ if strlength(opt.stdin) > 0
 end
 
 %% read stdout, stderr pipes
-stdout = read_stream(h.getInputStream());
-stderr = read_stream(h.getErrorStream());
-
+% like Python subprocess.run, this may block or deadlock if the process writes
+% large amounts of data to stdout or stderr.
+% A better approach is to read each of the streams in a separate thread.
+if opt.outpipe
+  stdout = read_stream(h.getInputStream());
+  stderr = read_stream(h.getErrorStream());
+else
+  stdout = "";
+  stderr = "";
+end
 %% wait for process to complete
 % https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Process.html#waitFor()
 
@@ -139,6 +152,7 @@ while ~isempty(line)
 end
 msg = strip(msg);
 reader.close()
+stream.close()
 
 end
 

@@ -24,8 +24,9 @@ if ~isMATLABReleaseOlderThan("R2023b")
 end
 
 plan("build_c") = matlab.buildtool.Task(Actions=@subprocess_build_c);
+plan("build_cpp") = matlab.buildtool.Task(Actions=@subprocess_build_cpp);
 plan("build_fortran") = matlab.buildtool.Task(Actions=@subprocess_build_fortran);
-plan("test").Dependencies = ["build_c", "build_fortran"];
+plan("test").Dependencies = ["build_c", "build_cpp", "build_fortran"];
 
 if ~isMATLABReleaseOlderThan("R2024a")
   plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true, ...
@@ -123,6 +124,39 @@ end
 [r, m] = system(cmd);
 if r ~= 0
   warning("failed to build TestSubprocess printer_c.exe " + m)
+end
+
+end
+
+
+function subprocess_build_cpp(context)
+
+td = context.Plan.RootFolder + "/test";
+src = td + "/sleep.cpp";
+exe = td + "/sleep.exe";
+
+co = mex.getCompilerConfigurations('c++');
+
+cpp = co.Details.CompilerExecutable;
+
+outFlag = "-o";
+shell = "";
+shell_arg = "";
+msvcLike = ispc && endsWith(cpp, "cl");
+if msvcLike
+  shell = strtrim(co.Details.CommandLineShell);
+  shell_arg = co.Details.CommandLineShellArg;
+  outFlag = "/link /out:";
+end
+
+cmd = join([cpp, src, outFlag, exe]);
+if shell ~= ""
+  cmd = join([shell, shell_arg, cmd]);
+end
+
+[r, m] = system(cmd);
+if r ~= 0
+  warning("failed to build TestSubprocess " + exe + " " + m)
 end
 
 end

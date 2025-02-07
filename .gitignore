@@ -12,3 +12,4 @@ docs/
 
 test/printer_c.exe
 test/printer_fortran.exe
+test/sleep.exe
