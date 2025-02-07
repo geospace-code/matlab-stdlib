@@ -35,6 +35,8 @@ end
 
 
 function test_hash_empty(tc, Pe)
+tc.applyFixture(matlab.unittest.fixtures.SuppressedWarningsFixture("stdlib:file_checksum:ioerror"))
+
 tc.verifyEmpty(stdlib.file_checksum(Pe, "sha256"))
 end
 

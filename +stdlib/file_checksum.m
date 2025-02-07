@@ -37,10 +37,9 @@ end
 
 fid = fopen(file, 'r');
 if fid < 1
-  warning(strcat("could not open ", file))
+  warning("stdlib:file_checksum:ioerror", strcat("could not open ", file))
   return
 end
-disp(strcat("computing ", method, " hash of ", file))
 
 while ~feof(fid)
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#update(byte)

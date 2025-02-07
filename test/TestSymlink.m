@@ -50,6 +50,8 @@ end
 
 
 function test_create_symlink(tc)
+tc.applyFixture(matlab.unittest.fixtures.SuppressedWarningsFixture(["MATLAB:io:filesystem:symlink:TargetNotFound","MATLAB:io:filesystem:symlink:FileExists"]))
+
 tc.verifyFalse(stdlib.create_symlink("", tempname()))
 tc.verifyFalse(stdlib.create_symlink(tc.target, tc.link), "should fail for existing symlink")
 
