@@ -81,7 +81,12 @@ h = proc.start();
 %% stdin pipe
 if strlength(opt.stdin) > 0
   writer = java.io.BufferedWriter(java.io.OutputStreamWriter(h.getOutputStream()));
-  writer.write(opt.stdin);
+  stdin_text = opt.stdin;
+  if ~endsWith(stdin_text, newline)
+    % Fortran (across compilers) needs a \n at the end of stdin.
+    stdin_text = stdin_text + newline;
+  end
+  writer.write(stdin_text);
   writer.flush()
   writer.close()
 end

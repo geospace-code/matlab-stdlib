@@ -99,16 +99,23 @@ end
 function subprocess_build_c(context)
 
 td = context.Plan.RootFolder + "/test";
-src = td + "/main.c";
-exe = td + "/printer_c.exe";
+src = td + "/stdout_stderr_c.c";
 
-cmd = get_build_cmd("c", src);
-if isempty(cmd), return, end
-cmd = join([cmd, exe]);
+for s = src
+  [~, n] = fileparts(s);
+  exe = fullfile(td, n + ".exe");
+  if stdlib.get_modtime(s) < stdlib.get_modtime(exe)
+    continue
+  end
 
-[r, m] = system(cmd);
-if r ~= 0
-  warning("failed to build TestSubprocess printer_c.exe " + m)
+  cmd = get_build_cmd("c++", s);
+  if isempty(cmd), return, end
+  cmd = cmd + exe;
+  disp(cmd)
+  [r, m] = system(cmd);
+  if r ~= 0
+    disp("failed to build TestSubprocess " + exe + " " + m)
+  end
 end
 
 end
@@ -117,16 +124,23 @@ end
 function subprocess_build_cpp(context)
 
 td = context.Plan.RootFolder + "/test";
-src = td + "/sleep.cpp";
-exe = td + "/sleep.exe";
+src = [td + "/sleep.cpp", td + "/stdin_cpp.cpp"];
 
-cmd = get_build_cmd("c++", src);
-if isempty(cmd), return, end
-cmd = join([cmd, exe]);
+for s = src
+  [~, n] = fileparts(s);
+  exe = fullfile(td, n + ".exe");
+  if stdlib.get_modtime(s) < stdlib.get_modtime(exe)
+    continue
+  end
 
-[r, m] = system(cmd);
-if r ~= 0
-  warning("failed to build TestSubprocess " + exe + " " + m)
+  cmd = get_build_cmd("c++", s);
+  if isempty(cmd), return, end
+  cmd = cmd + exe;
+  disp(cmd)
+  [r, m] = system(cmd);
+  if r ~= 0
+    disp("failed to build TestSubprocess " + exe + " " + m)
+  end
 end
 
 end
@@ -135,16 +149,23 @@ end
 function subprocess_build_fortran(context)
 
 td = context.Plan.RootFolder + "/test";
-src = td + "/main.f90";
-exe = td + "/printer_fortran.exe";
+src = [td + "/stdout_stderr_fortran.f90", td + "/stdin_fortran.f90"];
 
-cmd = get_build_cmd("Fortran", src);
-if isempty(cmd), return, end
-cmd = join([cmd, exe]);
+for s = src
+  [~, n] = fileparts(s);
+  exe = fullfile(td, n + ".exe");
+  if stdlib.get_modtime(s) < stdlib.get_modtime(exe)
+    continue
+  end
 
-[r, m] = system(cmd);
-if r ~= 0
-  warning("failed to build TestSubprocess " + exe + " " + m)
+  cmd = get_build_cmd("Fortran", s);
+  if isempty(cmd), return, end
+  cmd = cmd + exe;
+  disp(cmd)
+  [r, m] = system(cmd);
+  if r ~= 0
+    disp("failed to build TestSubprocess " + exe + " " + m)
+  end
 end
 
 end
@@ -159,28 +180,27 @@ if isempty(co)
   if lang == "Fortran"
     fc = getenv("FC");
     if isempty(fc)
-      warning("set FC environment variable to the Fortran compiler executable, or do 'mex -setup fortran' to configure the Fortran compiler")
+      disp("set FC environment variable to the Fortran compiler executable, or do 'mex -setup fortran' to configure the Fortran compiler")
     end
   end
-  warning(lang + " compiler not found")
+  disp(lang + " compiler not found")
   return
 else
   comp = co.Details.CompilerExecutable;
 end
 
 outFlag = "-o";
-shell = "";
-shell_arg = "";
-msvcLike = ispc && endsWith(comp, "cl");
+shell = string.empty;
+msvcLike = ispc && (contains(co.Name, "Visual Studio"));
 if msvcLike
-  shell = strtrim(co.Details.CommandLineShell);
-  shell_arg = co.Details.CommandLineShellArg;
-  outFlag = "/link /out:";
+  shell = join([strcat('"',string(co.Details.CommandLineShell),'"'), ...
+                co.Details.CommandLineShellArg], " ");
+  outFlag = "/Fo" + tempdir + " /link /out:";
 end
 
 cmd = join([comp, src, outFlag]);
-if shell ~= ""
-  cmd = join([shell, shell_arg, cmd]);
+if ~isempty(shell)
+  cmd = join([shell, "&&", cmd]);
 end
 
 end

@@ -1,5 +1,10 @@
 classdef TestSubprocess < matlab.unittest.TestCase
 
+properties (TestParameter)
+lang_out = {"c", "fortran"}
+lang_in = {"cpp", "fortran"}
+end
+
 methods(TestClassSetup)
 function java_required(tc)
 tc.assumeTrue(stdlib.has_java())
@@ -9,33 +14,32 @@ end
 
 methods (Test)
 
-function test_exe_c(tc)
+function test_stdout_stderr(tc, lang_out)
 import matlab.unittest.constraints.IsFile
 
 cwd = fileparts(mfilename('fullpath'));
-exe = cwd + "/printer_c.exe";
+exe = cwd + "/stdout_stderr_" + lang_out + ".exe";
 tc.assumeThat(exe, IsFile, exe + " not found")
 
 [status, msg, err] = stdlib.subprocess_run(exe);
 tc.assertEqual(status, 0, err)
 tc.verifyEqual(msg, "stdout")
 tc.verifyEqual(err, "stderr")
-
 end
 
 
-function test_exe_fortran(tc)
+function test_stdin(tc, lang_in)
 import matlab.unittest.constraints.IsFile
 
 cwd = fileparts(mfilename('fullpath'));
-exe = cwd + "/printer_fortran.exe";
+exe = cwd + "/stdin_" + lang_in + ".exe";
 tc.assumeThat(exe, IsFile, exe + " not found")
 
-[status, msg, err] = stdlib.subprocess_run(exe);
-tc.assertEqual(status, 0, err)
-tc.verifyEqual(msg, "stdout")
-tc.verifyEqual(err, "stderr")
+[status, msg, err] = stdlib.subprocess_run(exe, stdin="1 2");
 
+tc.assertEqual(status, 0, err)
+tc.verifyEqual(msg, "3")
+tc.verifyEqual(err, "")
 end
 
 
