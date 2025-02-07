@@ -71,6 +71,10 @@ if stdlib.len(stdin) > 0
   writer.close()
 end
 
+%% read stdout, stderr pipes
+stdout = read_stream(h.getInputStream());
+stderr = read_stream(h.getErrorStream());
+
 %% wait for process to complete
 % https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Process.html#waitFor()
 
@@ -90,10 +94,6 @@ else
   % returns 0 if process completed successfully
   status = h.waitFor();
 end
-
-%% read stdout, stderr pipes
-stdout = read_stream(h.getInputStream());
-stderr = read_stream(h.getErrorStream());
 
 %% close process
 h.destroy();
@@ -156,7 +156,7 @@ end
 %!   assert(length(e) == 0)
 %! end
 %!test
-%! if ispc, c = {'powershell', '-command', 'Start-Sleep -s 3'}; else, c = {'sleep', '3'}; end
+%! c = "../test/sleep.exe";
 %! [r, m, e] = subprocess_run_octave(c, [], [], [], 1);
 %! assert(r == -1)
 %! assert(length(m) == 0)
