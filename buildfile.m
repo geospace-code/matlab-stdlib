@@ -9,6 +9,7 @@ pkg_name = "+stdlib";
 
 addpath(plan.RootFolder)
 
+%% Self-test setup
 if isMATLABReleaseOlderThan("R2023b")
   plan("test") = matlab.buildtool.Task(Actions=@legacy_test);
 elseif isMATLABReleaseOlderThan("R2024a")
@@ -19,19 +20,25 @@ else
   plan("test") = matlab.buildtool.tasks.TestTask("test", Strict=false, TestResults="TestResults.xml");
 end
 
+td = plan.RootFolder + "/test";
+srcs = [td+"/stdout_stderr_c.c", td+"/stdin_cpp.cpp", td+"/printenv.cpp", td+"/sleep.cpp"];
+exes = [td+"/stdout_stderr_c.exe", td+"/stdin_cpp.exe", td+"/printenv.exe", td+"/sleep.exe"];
+if ~isempty(get_compiler("fortran"))
+  srcs = [srcs, td + "/stdout_stderr_fortran.f90", td + "/stdin_fortran.f90"];
+  exes = [exes, td+"/stdout_stderr_fortran.exe", td+"/stdin_fortran.exe"];
+end
+plan("exe") = matlab.buildtool.Task(Inputs=srcs, Outputs=exes, Actions=@build_exe);
+plan("test").Dependencies = "exe";
+
 if ~isMATLABReleaseOlderThan("R2023b")
   plan("clean") = matlab.buildtool.tasks.CleanTask;
 end
 
-plan("build_c") = matlab.buildtool.Task(Actions=@subprocess_build_c);
-plan("build_cpp") = matlab.buildtool.Task(Actions=@subprocess_build_cpp);
-plan("build_fortran") = matlab.buildtool.Task(Actions=@subprocess_build_fortran);
-plan("test").Dependencies = ["build_c", "build_cpp", "build_fortran"];
-
 if ~isMATLABReleaseOlderThan("R2024a")
   plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true, ...
     WarningThreshold=0, Results="CodeIssues.sarif");
- plan("coverage") = matlab.buildtool.tasks.TestTask(Description="code coverage", Dependencies="clean", SourceFiles="test", Strict=false, CodeCoverageResults="code-coverage.xml");
+
+  plan("coverage") = matlab.buildtool.tasks.TestTask(Description="code coverage", Dependencies="clean", SourceFiles="test", Strict=false, CodeCoverageResults="code-coverage.xml");
 end
 
 %% MexTask
@@ -51,11 +58,8 @@ for s = get_mex_sources()
   % name of MEX target function is name of first source file
   if isMATLABReleaseOlderThan("R2024b")
     mex_name = "mex_" + name;
-    % specifying .Inputs and .Outputs enables incremental builds
-    % https://www.mathworks.com/help/matlab/matlab_prog/improve-performance-with-incremental-builds.html
-    plan(mex_name) = matlab.buildtool.Task(Actions=@(context) legacy_mex(context, compiler_opt, linker_opt));
-    plan(mex_name).Inputs = src;
-    plan(mex_name).Outputs = fullfile(bindir, name + "." + mexext());
+    plan(mex_name) = matlab.buildtool.Task(Inputs=src, Outputs=fullfile(bindir, name + "." + mexext()), ...
+      Actions=@(context) legacy_mex(context, compiler_opt, linker_opt));
     mex_deps(end+1) = mex_name; %#ok<AGROW>
   else
     plan("mex:" + name) = matlab.buildtool.tasks.MexTask(src, bindir, ...
@@ -96,112 +100,90 @@ publish_gen_index_html("stdlib", ...
 end
 
 
-function subprocess_build_c(context)
+function build_exe(context)
 
-td = context.Plan.RootFolder + "/test";
-src = td + "/stdout_stderr_c.c";
+for i = 1:length(context.Task.Inputs)
+  src = context.Task.Inputs(i);
+  exe = context.Task.Outputs(i).paths;
+  exe = exe(1);
 
-for s = src
-  [~, n] = fileparts(s);
-  exe = fullfile(td, n + ".exe");
-  if stdlib.get_modtime(s) < stdlib.get_modtime(exe)
-    continue
+  [~,~,ext] = fileparts(src.paths);
+  switch ext
+    case ".c", lang = "c";
+    case ".cpp", lang = "c++";
+    case ".f90", lang = "fortran";
+    otherwise, error("unknown code suffix " + ext)
   end
 
-  cmd = get_build_cmd("c++", s);
-  if isempty(cmd), return, end
-  cmd = cmd + exe;
+  [comp, shell, outFlag] = get_build_cmd(lang);
+  if isempty(comp), return, end
+
+  cmd = join([comp, src.paths, outFlag + exe]);
+  if ~isempty(shell)
+    cmd = join([shell, "&&", cmd]);
+  end
+
   disp(cmd)
-  [r, m] = system(cmd);
-  if r ~= 0
-    disp("failed to build TestSubprocess " + exe + " " + m)
-  end
+  system(cmd);
 end
 
 end
 
 
-function subprocess_build_cpp(context)
+function [comp, shell] = get_compiler(lang)
 
-td = context.Plan.RootFolder + "/test";
-src = [td + "/sleep.cpp", td + "/stdin_cpp.cpp"];
-
-for s = src
-  [~, n] = fileparts(s);
-  exe = fullfile(td, n + ".exe");
-  if stdlib.get_modtime(s) < stdlib.get_modtime(exe)
-    continue
-  end
-
-  cmd = get_build_cmd("c++", s);
-  if isempty(cmd), return, end
-  cmd = cmd + exe;
-  disp(cmd)
-  [r, m] = system(cmd);
-  if r ~= 0
-    disp("failed to build TestSubprocess " + exe + " " + m)
-  end
-end
-
-end
-
-
-function subprocess_build_fortran(context)
-
-td = context.Plan.RootFolder + "/test";
-src = [td + "/stdout_stderr_fortran.f90", td + "/stdin_fortran.f90"];
-
-for s = src
-  [~, n] = fileparts(s);
-  exe = fullfile(td, n + ".exe");
-  if stdlib.get_modtime(s) < stdlib.get_modtime(exe)
-    continue
-  end
-
-  cmd = get_build_cmd("Fortran", s);
-  if isempty(cmd), return, end
-  cmd = cmd + exe;
-  disp(cmd)
-  [r, m] = system(cmd);
-  if r ~= 0
-    disp("failed to build TestSubprocess " + exe + " " + m)
-  end
-end
-
-end
-
-
-function cmd = get_build_cmd(lang, src)
-
-cmd = string.empty;
+lang = lower(lang);
 
 co = mex.getCompilerConfigurations(lang);
+
 if isempty(co)
-  if lang == "Fortran"
-    fc = getenv("FC");
-    if isempty(fc)
-      disp("set FC environment variable to the Fortran compiler executable, or do 'mex -setup fortran' to configure the Fortran compiler")
-    end
+  switch lang
+    case "fortran"
+      comp = getenv("FC");
+      if isempty(comp)
+        disp("set FC environment variable to the Fortran compiler path, or do 'mex -setup fortran'")
+      end
+    case "c++"
+      comp = getenv("CXX");
+      if isempty(comp)
+        disp("set CXX environment variable to the C++ compiler path, or do 'mex -setup c++")
+      end
+    case "c"
+      comp = getenv("CC");
+      if isempty(comp)
+        disp("set CC environment variable to the C compiler path, or do 'mex -setup c'")
+      end
+    otherwise, error("language not known " + lang)
   end
-  disp(lang + " compiler not found")
-  return
 else
   comp = co.Details.CompilerExecutable;
+  disp(lang + " compiler: " + co.ShortName + " " + co.Name + " " + co.Version + " " + comp)
 end
 
-outFlag = "-o";
+
 shell = string.empty;
-msvcLike = ispc && (contains(co.Name, "Visual Studio"));
-if msvcLike
-  shell = join([strcat('"',string(co.Details.CommandLineShell),'"'), ...
+if ispc && ~isempty(co)
+  disp("Shell: " + co.Details.CommandLineShell)
+
+  if any(startsWith(co.ShortName, ["INTEL", "MSVC"]))
+    shell = join([strcat('"',string(co.Details.CommandLineShell),'"'), ...
                 co.Details.CommandLineShellArg], " ");
+  end
+end
+
+end
+
+
+function [comp, shell, outFlag] = get_build_cmd(lang)
+
+outFlag = "-o";
+
+[comp, shell] = get_compiler(lang);
+
+if ~isempty(shell)
   outFlag = "/Fo" + tempdir + " /link /out:";
 end
 
-cmd = join([comp, src, outFlag]);
-if ~isempty(shell)
-  cmd = join([shell, "&&", cmd]);
-end
 
 end
 

@@ -34,4 +34,8 @@ jobs:
 
     - uses: ./.github/workflows/composite-install-matlab
 
+    - name: Fortran FC
+      if: runner.os == 'macOS'
+      run: echo "FC=gfortran-14" >> $GITHUB_ENV
+
     - uses: ./.github/workflows/composite-buildtool

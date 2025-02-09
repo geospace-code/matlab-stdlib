@@ -10,6 +10,7 @@ docs/
 *.mex*
 *.oct
 
+test/printenv.exe
 test/stdout_stderr_c.exe
 test/stdout_stderr_fortran.exe
 test/stdin_cpp.exe
