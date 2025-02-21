@@ -3,6 +3,7 @@ CodeIssues.sarif
 TestResults.xml
 code-coverage.xml
 
+resources/
 .buildtool/
 *.asv
 docs/
