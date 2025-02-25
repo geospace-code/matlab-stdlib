@@ -1,9 +1,9 @@
 %% UNLINK delete file or empty directory
-% requires: mex
+% optional: mex
 %
 % Matlab or GNU Octave delete() has trouble with not being able to delete
-% open files on Windows, this function overcomes that.
-% Also, this function returns boolean success status, which factory
+% open files on Windows. This MEX function overcomes that limitation.
+% This function returns a boolean success status, which
 % delete() does not.
 %
 %%% Inputs
@@ -13,6 +13,17 @@
 %
 % This function is written in C++ using STL <filesystem>
 
-function unlink(~)
-error("buildtool mex")
+function ok = unlink(apath)
+arguments
+  apath (1,1) string
+end
+
+%% fallback for if MEX not compiled
+try
+  delete(apath);
+  ok = true;
+catch
+  ok = false;
+end
+
 end
