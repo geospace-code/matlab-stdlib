@@ -15,17 +15,16 @@ catch e
   if strcmp(e.identifier, "MATLAB:io:filesystem:filePermissions:CannotFindLocation")
     return
   elseif strcmp(e.identifier, "Octave:undefined-function")
-    s = stat(f);
-    if ~isempty(s)
-      p = s.modestr;
+    try  %#ok<TRYNC>
+      p = stat(f).modestr;
     end
     return
-  elseif ~strcmp(e.identifier, "MATLAB:UndefinedFunction")
+  elseif strcmp(e.identifier, "MATLAB:UndefinedFunction")
+    v = file_attributes(f);
+    if isempty(v), return, end
+  else
     rethrow(e)
   end
-
-  v = file_attributes(f);
-  if isempty(v), return, end
 end
 
 p = perm2char(v);
