@@ -9,7 +9,7 @@ end
 
 a = file_attributes(p);
 
-ok = ~isempty(a) && (a.UserWrite || v.GroupWrite || v.OtherWrite);
+ok = ~isempty(a) && (a.UserWrite || a.GroupWrite || a.OtherWrite);
 
 end
 
