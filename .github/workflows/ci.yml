@@ -9,6 +9,7 @@ on:
     - ".github/workflows/ci.yml"
     - "!private/publish_gen_index_html.m"
     - "!octave_build.m"
+    - "!scripts/**"
 
 # avoid wasted runs
 concurrency:
