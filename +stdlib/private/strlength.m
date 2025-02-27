@@ -10,6 +10,9 @@ if ischar(s)
   L = length(s);
 elseif isstring(s)
   L = builtin('strlength', char(s));
+  % bug in Matlab at least through R2025a confirmed by Xinyue Xia of Mathworks Technical Support
+  % only works for char and scalar strings until fixed by Mathworks.
+  % once fixed, wouldn't need char(s) conversion.
 end
 
 end
