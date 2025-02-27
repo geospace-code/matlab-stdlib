@@ -62,7 +62,7 @@ if uncslash
 end
 
 
-if ~stdlib.len(n)
+if ~strlength(n)
   n = ".";
 end
 

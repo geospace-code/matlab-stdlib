@@ -15,7 +15,7 @@ uncslash = ispc && startsWith(s, "//");
 % drop repeated slashes inside string
 d = regexprep(s, "/+", "/");
 
-L = stdlib.len(d);
+L = strlength(d);
 
 if L < 2
   if uncslash

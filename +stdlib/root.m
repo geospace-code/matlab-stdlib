@@ -10,7 +10,7 @@ end
 
 r = stdlib.root_name(p);
 
-if ~stdlib.len(r)
+if ~strlength(r)
   if strncmp(p, "/", 1)
     r = "/";
   end

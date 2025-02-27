@@ -15,11 +15,11 @@ end
 f = "";
 
 r = stdlib.parent(p);
-if ~stdlib.len(r), return, end
+if ~strlength(r), return, end
 
 s = stdlib.stem(p);
 
-if stdlib.len(s) == 0
+if strlength(s) == 0
   f = stdlib.join(p, suffix);
   return
 end

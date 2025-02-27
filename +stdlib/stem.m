@@ -7,7 +7,7 @@ end
 
 [~, n, s] = fileparts(p);
 
-if stdlib.len(n)
+if strlength(n)
   st = n;
 else
   st = s;

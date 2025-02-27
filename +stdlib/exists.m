@@ -18,7 +18,7 @@ end
 % fileattrib() does not consider URLs to be a file or folder
 % at least through Matlab R2025a.
 
-y = stdlib.len(p) && fileattrib(p) == 1;
+y = strlength(p) && fileattrib(p) == 1;
 
 end
 

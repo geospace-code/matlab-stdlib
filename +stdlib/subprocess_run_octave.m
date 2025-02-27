@@ -53,7 +53,7 @@ if ~isempty(fieldnames(env))
   end
 end
 
-if stdlib.len(cwd) > 0
+if strlength(cwd) > 0
   % https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/ProcessBuilder.html#directory(java.io.File)
   proc.directory(javaFileObject(cwd));
 end
@@ -63,7 +63,7 @@ end
 h = proc.start();
 
 %% stdin pipe
-if stdlib.len(stdin) > 0
+if strlength(stdin) > 0
   os = javaObject("java.io.OutputStream", h.getOutputStream());
   writer = javaObject("java.io.BufferedWriter", os);
   writer.write(stdin);
@@ -100,10 +100,10 @@ h.destroy();
 
 stderr = strcat(tmsg, stderr);
 
-if nargout < 2 && stdlib.len(stdout) > 0
+if nargout < 2 && strlength(stdout) > 0
   disp(stdout)
 end
-if nargout < 3 && stdlib.len(stderr) > 0
+if nargout < 3 && strlength(stderr) > 0
   warning(stderr)
 end
 
@@ -123,7 +123,7 @@ while ~isempty(line)
   line = reader.readLine();
 end
 
-if stdlib.len(msg) > 0 && msg(end) == newline
+if strlength(msg) > 0 && msg(end) == newline
   msg(end) = [];
 end
 

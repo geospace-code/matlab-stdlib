@@ -12,7 +12,7 @@ end
 
 r = "";
 
-if ~ispc || stdlib.len(p) < 2, return, end
+if ~ispc || strlength(p) < 2, return, end
 
 if ischar(p)
   if p(2) == ':' && isletter(p(1)) %#ok<UNRCH>

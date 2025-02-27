@@ -13,7 +13,7 @@ end
 
 y = false;
 
-L = stdlib.len(p);
+L = strlength(p);
 if ~L || (ispc && L < 3)
   return
 end
@@ -24,7 +24,7 @@ if ispc
   else
     s = extractBetween(p, 3, 3);
   end
-  y = stdlib.len(stdlib.root_name(p)) && (strcmp(s, '/') || strcmp(s, '\'));
+  y = strlength(stdlib.root_name(p)) && (strcmp(s, '/') || strcmp(s, '\'));
 else
   y = strncmp(p, "/", 1);
 end

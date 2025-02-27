@@ -18,7 +18,7 @@ elseif ~isscalar(sizeA)
   error('h5save:shape_error', "only scalar size may be 0")
 end
 
-assert(stdlib.len(filename) > 0, 'h5save:filename_error', "filename must be non-empty")
+assert(strlength(filename) > 0, 'h5save:filename_error', "filename must be non-empty")
 
 if isscalar(sizeA)
   if sizeA == 0

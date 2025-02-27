@@ -14,13 +14,13 @@ end
 
 e = stdlib.posix(p);
 
-L = stdlib.len(e);
+L = strlength(e);
 if ~L || ~startsWith(e, "~") || (L > 1 && ~startsWith(e, "~/"))
   return
 end
 
 home = stdlib.homedir();
-if ~stdlib.len(home), return, end
+if ~strlength(home), return, end
 
 if L < 2
   e = home;

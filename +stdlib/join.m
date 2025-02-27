@@ -16,10 +16,10 @@ if startsWith(o, "/") || (ispc && stdlib.is_absolute(o))
 end
 
 p = b;
-if stdlib.len(o)
+if strlength(o)
   if endsWith(p, "/")
     p = strcat(p, o);
-  elseif stdlib.len(p)
+  elseif strlength(p)
     p = strcat(p, "/", o);
   else
     p = o;

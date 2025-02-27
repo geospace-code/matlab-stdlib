@@ -27,16 +27,17 @@ if stdlib.filename(filename) ~= filename
 end
 
 % path given
-if isempty(fpath) || all(strlength(fpath) == 0)
+if isempty(fpath)
   fpath = string(getenv("PATH"));
 end
 
 if isscalar(fpath)
   fpath = split(fpath, pathsep).';
 end
-fpath = fpath(strlength(fpath)>0);
 
 for p = fpath
+  if ~strlength(p), continue, end
+
   e = p + "/" + filename;
   if isfile(e) && stdlib.is_exe(e)
     if find_all

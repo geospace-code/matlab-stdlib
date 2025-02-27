@@ -11,9 +11,9 @@ end
 pr = stdlib.drop_slash(prefix);
 p = stdlib.drop_slash(pth);
 
-Lp = stdlib.len(p);
+Lp = strlength(p);
 
-s = Lp && startsWith(p, pr) && (Lp >= stdlib.len(pr));
+s = Lp && startsWith(p, pr) && (Lp >= strlength(pr));
 
 end
 

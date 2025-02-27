@@ -26,7 +26,7 @@ else
   e = p;
 end
 
-if ~stdlib.len(e), return, end
+if ~strlength(e), return, end
 
 if ispc && (startsWith(e, "\\") || startsWith(e, "//"))
   % UNC path is not canonicalized
@@ -44,7 +44,7 @@ else
   end
 end
 
-if ~stdlib.len(c)
+if ~strlength(c)
   c = stdlib.normalize(e);
 end
 

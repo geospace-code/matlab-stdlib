@@ -33,7 +33,7 @@ if stdlib.is_absolute(c)
  return
 end
 
-if stdlib.len(base) == 0
+if strlength(base) == 0
   b = pwd();
 elseif expand_tilde
   b = stdlib.expanduser(base);
@@ -47,7 +47,7 @@ end
 
 b = stdlib.posix(b);
 
-if stdlib.len(c) == 0
+if strlength(c) == 0
   c = b;
 else
   c = strcat(b, "/", c);

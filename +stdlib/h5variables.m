@@ -14,7 +14,7 @@ arguments
   group (1,1) string = ""
 end
 
-if ~stdlib.len(group)
+if ~strlength(group)
   finf = h5info(file);
 else
   finf = h5info(file, group);

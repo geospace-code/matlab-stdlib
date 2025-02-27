@@ -11,7 +11,7 @@ end
 s = stdlib.drop_slash(subdir);
 d = stdlib.drop_slash(dir);
 
-s = startsWith(s, d) && (stdlib.len(s) > stdlib.len(d));
+s = startsWith(s, d) && (strlength(s) > strlength(d));
 
 end
 

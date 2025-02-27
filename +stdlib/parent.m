@@ -14,12 +14,12 @@ end
 
 p = stdlib.drop_slash(pth);
 
-if ~stdlib.len(p)
+if ~strlength(p)
   p = ".";
   return
 elseif is_root_stub(p)
   % 2 or 3 char drive letter
-  if stdlib.len(p) == 2
+  if strlength(p) == 2
     p = strcat(p, "/");
   end
   return
@@ -44,7 +44,7 @@ end
 
 p = stdlib.posix(p);
 
-if ~stdlib.len(p)
+if ~strlength(p)
   p = ".";
 end
 
@@ -52,7 +52,7 @@ end
 
 
 function s = is_root_stub(p)
-  s = ispc() && any(stdlib.len(p) == [2,3]) && stdlib.len(stdlib.root_name(p));
+  s = ispc() && any(strlength(p) == [2,3]) && strlength(stdlib.root_name(p));
 end
 
 

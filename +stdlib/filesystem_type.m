@@ -13,7 +13,7 @@ end
 
 t = "";
 
-if stdlib.len(p) && ~stdlib.exists(p), return, end
+if strlength(p) && ~stdlib.exists(p), return, end
 
 op = javaPathObject(p);
 

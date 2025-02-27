@@ -15,7 +15,7 @@ arguments
 end
 
 
-if stdlib.len(group) == 0
+if strlength(group) == 0
   finf = ncinfo(file);
 else
   finf = ncinfo(file, group);
