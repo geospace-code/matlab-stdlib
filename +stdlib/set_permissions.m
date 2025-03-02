@@ -1,5 +1,5 @@
 %% SET_PERMISSIONS set path permissions
-% requires: mex
+% optional: mex
 %
 %%% Inputs
 % * path (1,1) string
@@ -8,12 +8,37 @@
 % * executable (1,1) int (-1 remove execute permission, 0 no change, 1 add execute permission)
 %%% Outputs
 % * ok (1,1) logical
-%
-% This function is written in C++ using STL <filesystem>
-%
-% TODO: R2025a final release add setPermissions
-% https://www.mathworks.com/help/releases/R2025a/matlab/ref/matlab.io.filesystementrypermissions.setpermissions.html
 
-function set_permissions(~, ~, ~, ~)
-error("buildtool mex")
+function ok = set_permissions(path, readable, writable, executable)
+arguments
+  path (1,1) string {mustBeFile}
+  readable (1,1) int8
+  writable (1,1) int8
+  executable (1,1) int8
+end
+
+ok = false;
+
+try
+  p = filePermissions(path);
+catch e
+  switch e.identifier
+    case "MATLAB:UndefinedFunction", error("buildtool mex")
+    case "MATLAB:io:filesystem:filePermissions:CannotFindLocation", return
+    otherwise, rethrow(e)
+  end
+end
+
+ok = true;
+
+if readable ~= 0
+  ok = ok && setPermissions(p, "Readable", readable > 0);
+end
+if writable ~= 0
+  ok = ok && setPermissions(p, "Writable", writable > 0);
+end
+if executable ~= 0
+  ok = ok && setPermissions(p, "Executable", executable > 0);
+end
+
 end
