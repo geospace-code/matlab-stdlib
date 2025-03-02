@@ -13,22 +13,21 @@ try
   [ok, t] = isSymbolicLink(p);
   if ~ok, return, end
 catch e
+  switch e.identifier
+    case "Octave:undefined-function", t = readlink(p);
+    case "MATLAB:UndefinedFunction"
+      if ~stdlib.is_symlink(p)
+        return
+      end
 
-if strcmp(e.identifier, "Octave:undefined-function")
-  t = readlink(p);
-elseif strcmp(e.identifier, 'MATLAB:UndefinedFunction')
-  if ~stdlib.is_symlink(p)
-    return
+      % must be absolute path
+      % must not be .canonical or symlink is gobbled!
+      r = stdlib.absolute(p, "", false);
+
+      % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#readSymbolicLink(java.nio.file.Path)
+      t = java.nio.file.Files.readSymbolicLink(javaPathObject(r));
+    otherwise, rethrow(e)
   end
-
-  % must be absolute path
-  % must not be .canonical or symlink is gobbled!
-  r = stdlib.absolute(p, "", false);
-
-  % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#readSymbolicLink(java.nio.file.Path)
-  t = java.nio.file.Files.readSymbolicLink(javaPathObject(r));
-end
-
 end
 
 r = stdlib.posix(t);

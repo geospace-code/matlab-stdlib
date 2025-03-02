@@ -5,12 +5,10 @@ function pid = get_pid()
 try
   pid = matlabProcessID;
 catch e
-  if strcmp(e.identifier, "MATLAB:UndefinedFunction")
-    pid = uint64(feature("getpid"));
-  elseif strcmp(e.identifier, "Octave:undefined-function")
-    pid = uint64(getpid());
-  else
-    rethrow(e)
+  switch e.identifier
+    case "MATLAB:UndefinedFunction", pid = uint64(feature("getpid"));
+    case "Octave:undefined-function", pid = uint64(getpid());
+    otherwise, rethrow(e)
   end
 end
 

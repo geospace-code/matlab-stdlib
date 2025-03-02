@@ -6,8 +6,6 @@
 % * link: path to create link at
 %%% Outputs
 % * ok: true if successful
-%
-% Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#createSymbolicLink(java.nio.file.Path,java.nio.file.Path,java.nio.file.attribute.FileAttribute...)
 
 function ok = create_symlink(target, link)
 arguments
@@ -20,27 +18,22 @@ try
   createSymbolicLink(link, target);
   ok = true;
 catch e
-  if strcmp(e.identifier, "MATLAB:io:filesystem:symlink:NeedsAdminPerms") || ...
-      strcmp(e.identifier, 'MATLAB:UndefinedFunction')
+  switch e.identifier
+    case {"MATLAB:io:filesystem:symlink:NeedsAdminPerms", "MATLAB:UndefinedFunction"}
     % windows requires RunAsAdmin
     % https://www.mathworks.com/help/releases/R2024b/matlab/ref/createsymboliclink.html
     % ok = java.nio.file.Files.createSymbolicLink(java.io.File(link).toPath(), java.io.File(target).toPath());
     % Matlab Java doesn't recognize the optional argument omitted.
     % see example/Filesystem.java for this working in plain Java.
     % see example/javaCreateSymbolicLink.m for a non-working attempt in Matlab.
-
-    warning(e.identifier, "buildtool mex  \n%s", e.message)
-
-    ok = false;
-  elseif strcmp(e.identifier, "Octave:undefined-function")
-    [err, msg] = symlink(target, link);
-    ok = err == 0;
-    if ~ok
-      warning("create_symlink: %s", msg)
-    end
-  else
-    warning(e.identifier, "%s", e.message)
-    ok = false;
+      warning(e.identifier, "buildtool mex  \n%s", e.message)
+      ok = false;
+    case "Octave:undefined-function"
+      err = symlink(target, link);
+      ok = err == 0;
+    otherwise
+      warning(e.identifier, "%s", e.message)
+      ok = false;
   end
 end
 

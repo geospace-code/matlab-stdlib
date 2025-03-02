@@ -12,18 +12,17 @@ p = '';
 try
   v = filePermissions(f);
 catch e
-  if strcmp(e.identifier, "MATLAB:io:filesystem:filePermissions:CannotFindLocation")
-    return
-  elseif strcmp(e.identifier, "Octave:undefined-function")
-    try  %#ok<TRYNC>
-      p = stat(f).modestr;
-    end
-    return
-  elseif strcmp(e.identifier, "MATLAB:UndefinedFunction")
-    v = file_attributes(f);
-    if isempty(v), return, end
-  else
-    rethrow(e)
+  switch e.identifier
+    case "MATLAB:io:filesystem:filePermissions:CannotFindLocation", return
+    case "Octave:undefined-function"
+      try  %#ok<TRYNC>
+        p = stat(f).modestr;
+      end
+      return
+    case "MATLAB:UndefinedFunction"
+      v = file_attributes(f);
+      if isempty(v), return, end
+    otherwise, rethrow(e)
   end
 end
 

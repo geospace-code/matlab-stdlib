@@ -10,12 +10,10 @@ end
 try
   ok = isSymbolicLink(p);
 catch e
-  if strcmp(e.identifier, "MATLAB:UndefinedFunction")
-    ok = java.nio.file.Files.isSymbolicLink(javaPathObject(stdlib.absolute(p, "", false)));
-  elseif strcmp(e.identifier, "Octave:undefined-function")
-    ok = S_ISLNK(stat(p).mode);
-  else
-    rethrow(e)
+  switch e.identifier
+    case "MATLAB:UndefinedFunction", ok = java.nio.file.Files.isSymbolicLink(javaPathObject(stdlib.absolute(p, "", false)));
+    case "Octave:undefined-function", ok = S_ISLNK(stat(p).mode);
+    otherwise, rethrow(e)
   end
 end
 
