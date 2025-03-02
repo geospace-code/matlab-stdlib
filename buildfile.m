@@ -221,8 +221,12 @@ srcs = {
 
 if isMATLABReleaseOlderThan("R2024b") || build_all
 srcs{end+1} = ["src/is_symlink.cpp", win, sym];
-srcs{end+1} = ["src/create_symlink.cpp", win, sym];
 srcs{end+1} = ["src/read_symlink.cpp", win, sym];
+end
+
+if isMATLABReleaseOlderThan("R2024b") || build_all || ispc
+% so that we dont't need to run matlab AsAdmin on Windows
+srcs{end+1} = ["src/create_symlink.cpp", win, sym];
 end
 
 end

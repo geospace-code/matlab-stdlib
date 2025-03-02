@@ -38,7 +38,7 @@ functions from the Matlab prompt in Matlab R2023a or newer:
 buildtool mex
 ```
 
-If just building MEX functions for the first time, to ensure the MEX functions are used instead of the plain Matlab script, one-time do a `clear all` in Matlab.
+If just building MEX functions for the first time, to ensure the MEX functions are used instead of the plain Matlab script, one-time type `clear functions` in Matlab.
 
 ## Java-based functions
 
