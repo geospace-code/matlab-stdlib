@@ -13,7 +13,8 @@
 % * opt.cwd: working directory to use while running command
 % * opt.stdin: string to pass to subprocess stdin pipe - OK to use with timeout
 % * opt.timeout: time to wait for process to complete before erroring (seconds)
-% * opt.outpipe: logical to indicate whether to use pipe for stdout and stderr (mutually exclusive with timeout option)
+% * opt.stdout: logical to indicate whether to use pipe for stdout
+% * opt.stderr: logical to indicate whether to use pipe for stderr
 %%% Outputs
 % * status: 0 is generally success. -1 if timeout. Other codes as per the
 % program / command run
@@ -38,11 +39,12 @@ arguments
   opt.cwd (1,1) string = ""
   opt.stdin (1,1) string = ""
   opt.timeout (1,1) int64 = 0
-  opt.outpipe (1,1) logical = true
+  opt.stdout (1,1) logical = true
+  opt.stderr (1,1) logical = true
 end
 
-if opt.outpipe && opt.timeout > 0
-  error("outpipe and timeout options are mutually exclusive")
+if (opt.stdout || opt.stderr) && opt.timeout > 0
+  error("stderr or stdout and timeout options are mutually exclusive")
 end
 
 %% process instantiation
@@ -95,17 +97,18 @@ end
 % like Python subprocess.run, this may block or deadlock if the process writes
 % large amounts of data to stdout or stderr.
 % A better approach is to read each of the streams in a separate thread.
-if opt.outpipe
+
+stdout = "";
+stderr = "";
+if opt.stdout && nargout > 1
   stdout = read_stream(h.getInputStream());
+end
+if opt.stderr && nargout > 2
   stderr = read_stream(h.getErrorStream());
-else
-  stdout = "";
-  stderr = "";
 end
 %% wait for process to complete
 % https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Process.html#waitFor()
 
-tmsg = "";
 if opt.timeout > 0
   % returns true if process completed successfully
   % returns false if process did not complete within timeout
@@ -113,7 +116,7 @@ if opt.timeout > 0
   if b
     status = 0;
   else
-    tmsg = "Subprocess timeout";
+    stderr = "Subprocess timeout";
     status = -1;
   end
 else
@@ -128,12 +131,10 @@ setenv("GFORTRAN_STDOUT_UNIT", outold);
 setenv("GFORTRAN_STDERR_UNIT", errold);
 setenv("GFORTRAN_STDIN_UNIT", inold);
 
-stderr = tmsg + stderr;
-
-if nargout < 2 && strlength(stdout) > 0
+if nargout < 2 && opt.stdout && strlength(stdout) > 0
   disp(stdout)
 end
-if nargout < 3 && strlength(stderr) > 0
+if nargout < 3 && opt.stderr && strlength(stderr) > 0
   warning(stderr)
 end
 

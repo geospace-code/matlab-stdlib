@@ -96,7 +96,7 @@ cwd = fileparts(mfilename('fullpath'));
 exe = cwd + "/sleep.exe";
 tc.assumeThat(exe, IsFile, exe + " not found")
 
-[ret, ~, err] = stdlib.subprocess_run(exe, timeout=1, outpipe=false);
+[ret, ~, err] = stdlib.subprocess_run(exe, timeout=1, stdout=false, stderr=false);
 
 tc.verifyNotEqual(ret, 0, err)
 tc.verifyThat(err, StartsWithSubstring("Subprocess timeout"))

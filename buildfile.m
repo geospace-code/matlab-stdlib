@@ -3,8 +3,6 @@ assert(~isMATLABReleaseOlderThan("R2023a"), "MATLAB R2023a or newer is required 
 
 plan = buildplan(localfunctions);
 
-plan.DefaultTasks = "test";
-
 pkg_name = "+stdlib";
 
 addpath(plan.RootFolder)
