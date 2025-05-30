@@ -11,12 +11,12 @@
 
 function r = resolve(p, expand_tilde)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
   expand_tilde (1,1) logical = true
 end
 
 
-r = stdlib.canonical(stdlib.absolute(p, "", expand_tilde), false);
+r = stdlib.canonical(stdlib.absolute(p, '', expand_tilde), false);
 
 end
 
