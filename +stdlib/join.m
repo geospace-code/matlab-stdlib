@@ -2,25 +2,25 @@
 
 function p = join(base, other)
 arguments
-  base (1,1) string
-  other (1,1) string
+  base {mustBeTextScalar}
+  other {mustBeTextScalar}
 end
 
 
 b = stdlib.posix(base);
 o = stdlib.posix(other);
 
-if startsWith(o, "/") || (ispc && stdlib.is_absolute(o))
+if startsWith(o, '/') || (ispc && stdlib.is_absolute(o))
   p = o;
   return
 end
 
 p = b;
 if strlength(o)
-  if endsWith(p, "/")
+  if endsWith(p, '/')
     p = strcat(p, o);
   elseif strlength(p)
-    p = strcat(p, "/", o);
+    p = strcat(p, '/', o);
   else
     p = o;
   end
