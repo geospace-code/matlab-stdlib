@@ -7,21 +7,23 @@
 
 function r = root_name(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 r = "";
 
-if ~ispc || strlength(p) < 2, return, end
+if ~ispc || strlength(p) < 2
+  return
+end
 
-if ischar(p)
-  if p(2) == ':' && isletter(p(1)) %#ok<UNRCH>
-    r = p(1:2);
-  end
-else
-  if extractBetween(p, 2, 2) == ":" && isletter(extractBetween(p, 1, 1))
-    r = extractBetween(p, 1, 2);
-  end
+c = char(p);
+
+if c(2) == ':' && isletter(c(1))
+  r = c(1:2);
+end
+
+if isstring(p)
+  r = string(r);
 end
 
 end

@@ -24,7 +24,7 @@ assert(~isempty(pkg), pkg_name + " is not detected as a Matlab directory or pack
 
 %% Git info
 repo = gitrepo(pkg.path);
-git_txt = "Git branch / commit: " + repo.CurrentBranch.Name + " " + extractBefore(repo.LastCommit.ID, 8);
+git_txt = "Git branch / commit: " + repo.CurrentBranch.Name + " " + repo.LastCommit.ID{1}(1:8);
 
 %% generate docs
 readme = fullfile(outdir, "index.html");

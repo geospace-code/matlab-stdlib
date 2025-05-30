@@ -30,7 +30,7 @@ end
 if ischar(e)
   e = strcat(home, '/', e(3:end));
 else
-  e = home + "/" + extractAfter(e, 2);
+  e = home + "/" + e{1}(3:end);
 end
 
 end

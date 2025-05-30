@@ -43,7 +43,7 @@ for i = i0:length(parts)
       if isempty(j)
         n = "";
       else
-        n = extractBefore(n, j(end));
+        n = n{1}(1:j(end)-1);
       end
     end
   elseif all(parts(i) ~= [".", ""])

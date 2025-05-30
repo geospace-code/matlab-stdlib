@@ -22,7 +22,7 @@ if ispc
   if ischar(p)
     s = p(3); %#ok<UNRCH>
   else
-    s = extractBetween(p, 3, 3);
+    s = p{1}(3);
   end
   y = strlength(stdlib.root_name(p)) && (strcmp(s, '/') || strcmp(s, '\'));
 else

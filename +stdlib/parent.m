@@ -34,7 +34,7 @@ if isempty(j)
 elseif ischar(p)
   p = p(1:j(end)-1);
 else
-  p = extractBefore(p, j(end));
+  p = p{1}(1:j(end)-1);
 end
 
 if is_root_stub(p)

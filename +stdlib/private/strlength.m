@@ -3,12 +3,13 @@
 % for GNU Octave until it builds in strlength
 
 function L = strlength(s)
-
-L = [];
+arguments
+  s {mustBeTextScalar}
+end
 
 if ischar(s)
   L = length(s);
-elseif isstring(s)
+else
   L = builtin('strlength', char(s));
   % bug in Matlab at least through R2025a confirmed by Xinyue Xia of Mathworks Technical Support
   % only works for char and scalar strings until fixed by Mathworks.
