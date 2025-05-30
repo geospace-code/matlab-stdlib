@@ -13,14 +13,8 @@
 
 function hash = file_checksum(file, method)
 arguments
-  file (1,1) string
-  method (1,1) string
-end
-
-try
-  hash = string.empty;
-catch
-  hash = [];
+  file {mustBeFile}
+  method {mustBeTextScalar}
 end
 
 if strcmp(method, "sha256") || strcmp(method, "SHA256")
@@ -36,10 +30,7 @@ else
 end
 
 fid = fopen(file, 'r');
-if fid < 1
-  warning("stdlib:file_checksum:ioerror", strcat("could not open ", file))
-  return
-end
+assert(fid > 1, "could not open file %s", file)
 
 while ~feof(fid)
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#update(byte)
@@ -51,10 +42,6 @@ fclose(fid);
 hash = typecast(inst.digest, 'uint8');
 
 hash = sprintf('%.2x', hash);
-
-try %#ok<TRYNC>
-  hash = string(hash);
-end
 
 end
 
