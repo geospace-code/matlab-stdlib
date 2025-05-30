@@ -18,8 +18,8 @@
 
 function c = absolute(p, base, expand_tilde)
 arguments
-  p (1,1) string
-  base (1,1) string = ""
+  p {mustBeTextScalar}
+  base {mustBeTextScalar} = ''
   expand_tilde (1,1) logical = true
 end
 
@@ -42,7 +42,7 @@ else
 end
 
 if ~stdlib.is_absolute(b)
-  b = strcat(pwd(), "/", b);
+  b = strcat(pwd(), '/', b);
 end
 
 b = stdlib.posix(b);
@@ -50,7 +50,11 @@ b = stdlib.posix(b);
 if strlength(c) == 0
   c = b;
 else
-  c = strcat(b, "/", c);
+  c = strcat(b, '/', c);
+end
+
+if isstring(p)
+  c = string(c);
 end
 
 end
