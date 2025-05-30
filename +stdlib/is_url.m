@@ -3,7 +3,7 @@
 
 function y = is_url(s)
 arguments
-  s (1,1) string
+  s {mustBeTextScalar}
 end
 
 try

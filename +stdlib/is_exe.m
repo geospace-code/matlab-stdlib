@@ -4,7 +4,7 @@
 
 function ok = is_exe(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 a = file_attributes(p);

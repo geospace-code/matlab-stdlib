@@ -4,8 +4,8 @@
 
 function s = is_prefix(prefix, pth)
 arguments
-  prefix (1,1) string
-  pth (1,1) string
+  prefix {mustBeTextScalar}
+  pth {mustBeTextScalar}
 end
 
 pr = stdlib.drop_slash(prefix);

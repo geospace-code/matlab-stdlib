@@ -4,7 +4,7 @@
 
 function ok = is_writable(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 a = file_attributes(p);

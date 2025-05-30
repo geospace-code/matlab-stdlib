@@ -6,7 +6,7 @@
 
 function ok = is_char_device(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 if stdlib.isoctave()

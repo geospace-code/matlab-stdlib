@@ -3,11 +3,11 @@
 
 function r = is_regular_file(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 % needs absolute()
-p = stdlib.absolute(p, "", false);
+p = stdlib.absolute(p, '', false);
 
 op = javaPathObject(p);
 opt = javaLinkOption();

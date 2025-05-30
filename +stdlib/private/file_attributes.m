@@ -1,6 +1,6 @@
 function a = file_attributes(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 a = [];

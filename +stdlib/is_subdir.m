@@ -4,8 +4,8 @@
 
 function s = is_subdir(subdir, dir)
 arguments
-  subdir (1,1) string
-  dir (1,1) string
+  subdir {mustBeTextScalar}
+  dir {mustBeTextScalar}
 end
 
 s = stdlib.drop_slash(subdir);
