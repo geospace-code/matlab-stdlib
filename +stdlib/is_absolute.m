@@ -6,7 +6,7 @@
 
 function y = is_absolute(p)
 arguments
-  p (1,1) string
+  p (1,:) char
 end
 
 % not Octave is_absolute_filename() because this is a stricter check for "c:" false
@@ -19,14 +19,9 @@ if ~L || (ispc && L < 3)
 end
 
 if ispc
-  if ischar(p)
-    s = p(3); %#ok<UNRCH>
-  else
-    s = p{1}(3);
-  end
-  y = strlength(stdlib.root_name(p)) && (strcmp(s, '/') || strcmp(s, '\'));
+  y = strlength(stdlib.root_name(p)) && any(p(3) == ['/', '\']);
 else
-  y = strncmp(p, "/", 1);
+  y = p(1) == '/';
 end
 
 end
