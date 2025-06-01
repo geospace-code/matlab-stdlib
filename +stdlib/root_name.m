@@ -10,16 +10,16 @@ arguments
   p {mustBeTextScalar}
 end
 
-r = "";
+r = '';
 
 if ~ispc || strlength(p) < 2
-  return
-end
+  % noop
+else
+  c = char(p);
 
-c = char(p);
-
-if c(2) == ':' && isletter(c(1))
-  r = c(1:2);
+  if c(2) == ':' && isletter(c(1))
+    r = c(1:2);
+  end
 end
 
 if isstring(p)
