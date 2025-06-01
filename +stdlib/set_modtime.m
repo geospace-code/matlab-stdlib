@@ -3,7 +3,7 @@
 
 function ok = set_modtime(p, t)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
   t (1,1) datetime
 end
 

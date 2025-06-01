@@ -2,7 +2,7 @@
 
 function st = stem(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 [~, n, s] = fileparts(p);

@@ -2,20 +2,12 @@
 % optional: mex
 %
 % Matlab or GNU Octave delete() has trouble with not being able to delete
-% open files on Windows. This MEX function overcomes that limitation.
-% This function returns a boolean success status, which
-% delete() does not.
-%
-%%% Inputs
-% * path (1,1) string
-%%% Outputs
-% * ok (1,1) logical
-%
-% This function is written in C++ using STL <filesystem>
+% open files on Windows. This function overcomes that limitation by returning
+% a boolean success status.
 
 function ok = unlink(apath)
 arguments
-  apath (1,1) string
+  apath {mustBeTextScalar}
 end
 
 %% fallback for if MEX not compiled

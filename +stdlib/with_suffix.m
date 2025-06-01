@@ -8,8 +8,8 @@
 
 function f = with_suffix(p, suffix)
 arguments
-  p (1,1) string
-  suffix (1,1) string
+  p {mustBeTextScalar}
+  suffix {mustBeTextScalar}
 end
 
 f = "";
@@ -27,7 +27,7 @@ end
 if strcmp(r, '.')
   f = s;
 else
-  f = strcat(r, "/", s);
+  f = strcat(r, '/', s);
 end
 
 f = strcat(f, suffix);
