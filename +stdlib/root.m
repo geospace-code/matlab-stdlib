@@ -5,24 +5,22 @@
 
 function r = root(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 r = stdlib.root_name(p);
 
 if ~strlength(r)
-  if strncmp(p, "/", 1)
-    r = "/";
+  if strncmp(p, '/', 1)
+    r = '/';
   end
-
-  return
+elseif ~(ispc && strcmp(r, p))
+  r = strcat(r, '/');
 end
 
-if ispc && strcmp(r, p)
-  return
+if isstring(p)
+  r = string(r);
 end
-
-r = strcat(r, "/");
 
 end
 
