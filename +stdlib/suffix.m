@@ -2,7 +2,7 @@
 
 function s = suffix(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 [~, ~, s] = fileparts(p);
