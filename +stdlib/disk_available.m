@@ -7,7 +7,7 @@
 
 function f = disk_available(d)
 arguments
-  d (1,1) string
+  d {mustBeTextScalar}
 end
 
 f = javaFileObject(d).getUsableSpace();

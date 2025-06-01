@@ -1,7 +1,7 @@
 classdef TestJava < matlab.unittest.TestCase
 
 properties (TestParameter)
-Ps = {".", "", "not-exist"}
+Ps = {"."}
 end
 
 methods(TestClassSetup)

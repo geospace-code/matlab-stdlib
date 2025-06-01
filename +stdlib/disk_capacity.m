@@ -5,7 +5,7 @@
 
 function f = disk_capacity(d)
 arguments
-  d (1,1) string
+  d {mustBeTextScalar}
 end
 
 f = javaFileObject(d).getTotalSpace();

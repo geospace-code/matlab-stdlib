@@ -8,19 +8,17 @@
 
 function t = filesystem_type(p)
 arguments
-  p (1,1) string = ""
+  p {mustBeTextScalar} = ''
 end
 
-t = "";
-
-if strlength(p) && ~stdlib.exists(p), return, end
+assert(stdlib.exists(p), "Path does not exist: %s", p);
 
 op = javaPathObject(p);
 
 if stdlib.isoctave()
   t = javaMethod("getFileStore", "java.nio.file.Files", op).type;
 else
-  t = string(java.nio.file.Files.getFileStore(op).type);
+  t = java.nio.file.Files.getFileStore(op).type.string;
 end
 
 end

@@ -11,7 +11,7 @@
 
 function y = exists(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 % Matlab >= R2024b allowed URLs to act like files or folders.

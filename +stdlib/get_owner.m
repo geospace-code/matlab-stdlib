@@ -7,14 +7,13 @@
 % * n: owner, or empty if path does not exist
 function n = get_owner(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html#getOwner(java.nio.file.Path,java.nio.file.LinkOption...)
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/LinkOption.html
 
-n = "";
-if ~stdlib.exists(p), return, end
+assert(stdlib.exists(p), "Path %s does not exist.", p)
 
 op = javaPathObject(p);
 opt = javaLinkOption();
@@ -22,7 +21,7 @@ opt = javaLinkOption();
 if stdlib.isoctave()
   n = javaMethod("getOwner", "java.nio.file.Files", op, opt).toString();
 else
-  n = string(java.nio.file.Files.getOwner(op, opt));
+  n = java.nio.file.Files.getOwner(op, opt).string;
 end
 
 end
