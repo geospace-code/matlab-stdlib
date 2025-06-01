@@ -5,37 +5,32 @@
 
 function d = drop_slash(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 s = stdlib.posix(p);
 
-uncslash = ispc && startsWith(s, "//");
+uncslash = ispc && startsWith(s, '//');
 
 % drop repeated slashes inside string
-d = regexprep(s, "/+", "/");
+d = regexprep(s, '/+', '/');
 
 L = strlength(d);
 
 if L < 2
   if uncslash
-    d = "//";
+    d = '//';
   end
-  return;
-end
-
-if ~ispc || (L ~= 3 || ~strcmp(d, stdlib.root(s)))
-  if ischar(s)
-    if d(end) == '/'
-      d = d(1:end-1);
-    end
-  else
-    d = strip(d, "right", "/");
-  end
+elseif ~ispc || (L ~= 3 || ~strcmp(d, stdlib.root(s)))
+  d = regexprep(d, '/$', '');
 end
 
 if uncslash
-  d = strcat("/", d);
+  d = strcat('/', d);
+end
+
+if isstring(p)
+  d = string(d);
 end
 
 end
