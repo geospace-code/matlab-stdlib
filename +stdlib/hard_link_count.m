@@ -7,7 +7,7 @@
 
 function c = hard_link_count(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 c = [];

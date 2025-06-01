@@ -4,7 +4,7 @@
 
 function makedir(d)
 arguments
-  d (1,1) string
+  d {mustBeTextScalar}
 end
 
 %% to avoid confusing making ./~/mydir

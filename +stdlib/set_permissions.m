@@ -2,7 +2,7 @@
 % optional: mex
 %
 %%% Inputs
-% * path (1,1) string
+% * path {mustBeTextScalar}
 % * readable (1,1) int (-1 remove read permission, 0 no change, 1 add read permission)
 % * writable (1,1) int (-1 remove write permission, 0 no change, 1 add write permission)
 % * executable (1,1) int (-1 remove execute permission, 0 no change, 1 add execute permission)
@@ -11,7 +11,7 @@
 
 function ok = set_permissions(path, readable, writable, executable)
 arguments
-  path (1,1) string {mustBeFile}
+  path {mustBeTextScalar,mustBeFile}
   readable (1,1) int8
   writable (1,1) int8
   executable (1,1) int8

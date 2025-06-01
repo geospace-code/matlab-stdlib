@@ -2,10 +2,10 @@
 % requires: mex
 
 %%% Inputs
-% * base (1,1) string
-% * other (1,1) string
+% * base {mustBeTextScalar}
+% * other {mustBeTextScalar}
 %%% Outputs
-% * rel (1,1) string
+% * rel {mustBeTextScalar}
 %
 % This function is written in C++ using STL <filesystem>
 
