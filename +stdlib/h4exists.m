@@ -7,8 +7,8 @@ function exists = h4exists(file, variable)
 %%% Outputs
 % * exists: boolean
 arguments
-  file (1,1) string
-  variable (1,1) string
+  file {mustBeTextScalar}
+  variable {mustBeTextScalar}
 end
 
 sds = hdfinfo(file).SDS;

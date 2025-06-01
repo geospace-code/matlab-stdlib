@@ -5,7 +5,7 @@
 
 function Struct = ini2struct(filename)
 arguments
-  filename (1,1) string
+  filename {mustBeTextScalar,mustBeFile}
 end
 
 f = fopen(filename,'r');                    % open file

@@ -4,7 +4,7 @@
 
 function r = read_symlink(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 r = "";

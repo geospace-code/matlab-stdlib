@@ -3,8 +3,8 @@
 
 function h5save_exist(filename, varname, A, sizeA)
 arguments
-  filename (1,1) string
-  varname (1,1) string
+  filename {mustBeTextScalar}
+  varname {mustBeTextScalar}
   A {mustBeNonempty}
   sizeA (1,:) double {mustBeInteger,mustBeNonnegative} = []
 end

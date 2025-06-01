@@ -8,7 +8,7 @@
 
 function t = get_modtime(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 

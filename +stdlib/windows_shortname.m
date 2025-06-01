@@ -11,7 +11,7 @@
 
 function s = windows_shortname(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 s = p;

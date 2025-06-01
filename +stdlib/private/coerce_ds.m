@@ -2,7 +2,7 @@ function A = coerce_ds(A, dtype)
 % used by h5save and ncsave
 arguments
   A
-  dtype (1,1) string
+  dtype {mustBeTextScalar}
 end
 
 if ischar(A)
@@ -12,12 +12,6 @@ end
 
 if strlength(dtype) == 0
   return
-end
-
-if dtype == "float64"
-  dtype = "double";
-elseif dtype == "float32"
-  dtype = "single";
 end
 
 switch dtype

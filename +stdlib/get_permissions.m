@@ -4,7 +4,7 @@
 
 function p = get_permissions(f)
 arguments
-  f (1,1) string
+  f {mustBeTextScalar}
 end
 
 p = '';

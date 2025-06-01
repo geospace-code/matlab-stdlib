@@ -12,11 +12,11 @@
 
 function ncsave(filename, varname, A, opts)
 arguments
-  filename (1,1) string
-  varname (1,1) string
+  filename {mustBeTextScalar}
+  varname {mustBeTextScalar}
   A {mustBeNonempty}
   opts.dims cell = {}
-  opts.type (1,1) string = ""
+  opts.type {mustBeTextScalar} = ''
   opts.compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0
 end
 

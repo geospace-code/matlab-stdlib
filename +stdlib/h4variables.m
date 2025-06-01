@@ -10,7 +10,7 @@
 
 function names = h4variables(file)
 arguments
-  file (1,1) string
+  file {mustBeTextScalar}
 end
 
 finf = hdfinfo(file);

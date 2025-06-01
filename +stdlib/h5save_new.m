@@ -3,8 +3,8 @@
 
 function h5save_new(filename, varname, A, sizeA, compressLevel)
 arguments
-  filename (1,1) string
-  varname (1,1) string
+  filename {mustBeTextScalar}
+  varname {mustBeTextScalar}
   A {mustBeNonempty}
   sizeA (1,:) double {mustBeInteger,mustBeNonnegative} = []
   compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0

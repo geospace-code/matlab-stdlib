@@ -2,7 +2,7 @@
 
 function ok = touch(p, t)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
   t datetime {mustBeScalarOrEmpty} = datetime.empty
 end
 

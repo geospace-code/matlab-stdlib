@@ -9,8 +9,8 @@
 
 function fsize = ncsize(file, variable)
 arguments
-  file (1,1) string
-  variable (1,1) string
+  file {mustBeTextScalar}
+  variable {mustBeTextScalar}
 end
 
 dsi = ncinfo(file, variable);

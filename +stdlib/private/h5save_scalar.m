@@ -3,7 +3,7 @@ function h5save_scalar(file, hpath, A)
 %  h5create doesn't support scalars
 arguments
   file (1,1)
-  hpath (1,1) string
+  hpath {mustBeTextScalar}
   A (1,1)
 end
 
