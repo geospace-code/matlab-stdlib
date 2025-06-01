@@ -14,7 +14,7 @@ p_same = {...
 
 ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname()), ""}}
 
-p_file_size = {mfilename("fullpath") + ".m", "", pwd()}
+p_file_size = {mfilename("fullpath") + ".m"}
 end
 
 
@@ -22,11 +22,7 @@ methods (Test)
 
 function test_file_size(tc, p_file_size)
 s = stdlib.file_size(p_file_size);
-if isfile(p_file_size)
-  tc.verifyGreaterThan(s, 0)
-else
-  tc.verifyEmpty(s)
-end
+tc.verifyGreaterThan(s, 0)
 end
 
 

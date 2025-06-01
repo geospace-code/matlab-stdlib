@@ -7,11 +7,8 @@
 
 function s = file_size(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar,mustBeFile}
 end
-
-s = [];
-if ~isfile(p), return, end
 
 if stdlib.isoctave()
   s = stat(p);
