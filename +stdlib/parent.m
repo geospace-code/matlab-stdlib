@@ -9,43 +9,44 @@
 
 function p = parent(pth)
 arguments
-  pth (1,1) string
+  pth {mustBeTextScalar}
 end
 
 p = stdlib.drop_slash(pth);
 
 if ~strlength(p)
-  p = ".";
-  return
+  p = '.';
 elseif is_root_stub(p)
   % 2 or 3 char drive letter
   if strlength(p) == 2
-    p = strcat(p, "/");
+    p = strcat(p, '/');
   end
-  return
 elseif strcmp(p, stdlib.root(p))
-  return
-end
-
-
-j = strfind(p, '/');
-if isempty(j)
-  p = "";
-elseif ischar(p)
-  p = p(1:j(end)-1);
+  % noop
 else
-  p = p{1}(1:j(end)-1);
-end
+  j = strfind(p, '/');
+  if isempty(j)
+    p = '';
+  elseif ischar(p)
+    p = p(1:j(end)-1);
+  else
+    p = p{1}(1:j(end)-1);
+  end
 
-if is_root_stub(p)
-  p = stdlib.root(pth);
-  return
+  if is_root_stub(p)
+    p = stdlib.root(pth);
+    return
+  end
 end
 
 p = stdlib.posix(p);
 
 if ~strlength(p)
-  p = ".";
+  p = '.';
+end
+
+if isstring(pth)
+  p = string(p);
 end
 
 end

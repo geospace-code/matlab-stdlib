@@ -6,7 +6,7 @@ arguments
   fileHandle (1,1) {mustBeInteger}
 end
 
-n = "";
+n = '';
 
 if fileHandle >= 0
   n = stdlib.posix(fopen(fileHandle));

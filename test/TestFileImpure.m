@@ -3,16 +3,13 @@ classdef TestFileImpure < matlab.unittest.TestCase
 properties(TestParameter)
 p_is_writable = {{pwd(), true}, {"not-exists", false}, {"", false}};
 
-p_expand = {{"", ""}, {"~abc", "~abc"}, {"~", stdlib.homedir()}, ...
-  {"~/c", stdlib.homedir() + "/c"}, {'~//c', stdlib.homedir() + "//c"}};
-
 p_same = {...
 {"","", false}, ...
 {tempname(), tempname(), false}, ...
 {"..", "./..", true}, ...
 {"..", pwd() + "/..", true}}
 
-ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname()), ""}}
+ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname()), ''}}
 
 p_file_size = {mfilename("fullpath") + ".m"}
 end
@@ -29,11 +26,6 @@ end
 function test_is_writable(tc, p_is_writable)
 ok = stdlib.is_writable(p_is_writable{1});
 tc.verifyEqual(ok, p_is_writable{2})
-end
-
-
-function test_expanduser(tc, p_expand)
-tc.verifyEqual(stdlib.expanduser(p_expand{1}), p_expand{2})
 end
 
 
@@ -66,7 +58,7 @@ end
 
 
 function test_handle2filename(tc, ph)
-tc.verifyEqual(stdlib.handle2filename(ph{1}), string(ph{2}))
+tc.verifyEqual(stdlib.handle2filename(ph{1}), ph{2})
 end
 
 end

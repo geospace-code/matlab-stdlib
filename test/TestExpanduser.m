@@ -1,0 +1,23 @@
+classdef TestExpanduser < matlab.unittest.TestCase
+
+properties(TestParameter)
+
+p = {{'', ''}, {"", ""}, ...
+{"~abc", "~abc"}, ...
+{'~', stdlib.homedir()},...
+{"~", string(stdlib.homedir())}, ...
+{'~/', strcat(stdlib.homedir(), '/')},...
+{"~/", stdlib.homedir() + "/"}, ...
+{"~/c", stdlib.homedir() + "/c"}, ...
+{"~//c", stdlib.homedir() + "//c"}};
+end
+
+methods(Test)
+
+function test_expanduser(tc, p)
+tc.verifyEqual(stdlib.expanduser(p{1}), p{2})
+end
+
+end
+
+end

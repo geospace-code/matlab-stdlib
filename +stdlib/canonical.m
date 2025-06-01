@@ -14,7 +14,7 @@
 
 function c = canonical(p, expand_tilde)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
   expand_tilde (1,1) logical = true
 end
 
@@ -26,9 +26,7 @@ else
   e = p;
 end
 
-if ~strlength(e), return, end
-
-if ispc && (startsWith(e, "\\") || startsWith(e, "//"))
+if ~strlength(e) || (ispc && (startsWith(e, "\\") || startsWith(e, "//")))
   % UNC path is not canonicalized
   return
 end
@@ -48,7 +46,7 @@ if ~strlength(c)
   c = stdlib.normalize(e);
 end
 
-c = stdlib.posix(c);
+c = string(stdlib.posix(c));
 
 end
 

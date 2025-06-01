@@ -9,28 +9,27 @@
 
 function e = expanduser(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
-e = stdlib.posix(p);
+e = stdlib.posix(char(p));
 
-L = strlength(e);
-if ~L || ~startsWith(e, "~") || (L > 1 && ~startsWith(e, "~/"))
-  return
-end
-
-home = stdlib.homedir();
-if ~strlength(home), return, end
-
-if L < 2
-  e = home;
-  return
-end
-
-if ischar(e)
-  e = strcat(home, '/', e(3:end));
+L = length(e);
+if L == 0 || e(1) ~= '~' || (L > 1 && ~strcmp(e(1:2), '~/'))
+  % noop
 else
-  e = home + "/" + e{1}(3:end);
+  home = stdlib.homedir();
+  if isempty(home)
+    % noop
+  elseif L < 2
+    e = home;
+  else
+    e = strcat(home, '/', e(3:end));
+  end
+end
+
+if isstring(p)
+  e = string(e);
 end
 
 end

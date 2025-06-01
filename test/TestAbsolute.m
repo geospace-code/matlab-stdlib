@@ -27,7 +27,7 @@ end
 methods(TestClassSetup)
 function set_cwd(tc)
 import matlab.unittest.fixtures.CurrentFolderFixture
-tc.td = stdlib.posix(tc.createTemporaryFolder());
+tc.td = string(stdlib.posix(tc.createTemporaryFolder()));
 tc.applyFixture(CurrentFolderFixture(tc.td))
 end
 end

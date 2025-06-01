@@ -5,7 +5,7 @@
 
 function r = posix(p)
 arguments
-  p (1,1) string
+  p {mustBeTextScalar}
 end
 
 if ispc
