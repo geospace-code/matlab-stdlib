@@ -12,10 +12,10 @@
 
 function publish_gen_index_html(pkg_name, tagline, project_url, outdir)
 arguments
-  pkg_name (1,1) string
-  tagline (1,1) string
-  project_url (1,1) string
-  outdir (1,1) string
+  pkg_name {mustBeTextScalar}
+  tagline {mustBeTextScalar}
+  project_url {mustBeTextScalar}
+  outdir {mustBeTextScalar}
 end
 
 pkg = what("+" + pkg_name);

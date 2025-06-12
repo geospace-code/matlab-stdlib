@@ -41,14 +41,14 @@ else
   end
 end
 
-if isfile(filename)
-  if stdlib.ncexists(filename, varname)
-    stdlib.ncsave_exist(filename, varname, A, sizeA)
-  else
+try
+  stdlib.ncsave_exist(filename, varname, A, sizeA)
+catch e
+  if any(e.identifier == ["MATLAB:imagesci:netcdf:unableToOpenFileforRead", "MATLAB:imagesci:netcdf:unknownLocation"])
     stdlib.ncsave_new(filename, varname, A, sizeA, opts.dims, opts.compressLevel)
+  else
+    rethrow(e)
   end
-else
-  stdlib.ncsave_new(filename, varname, A, sizeA, opts.dims, opts.compressLevel)
 end
 
 end
