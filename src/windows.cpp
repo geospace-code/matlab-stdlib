@@ -137,9 +137,7 @@ std::string fs_win32_final_path(std::string_view path)
 #else  // C++98
   if (r.substr(0, 4) == "\\\\?\\")
 #endif
-    r = r.substr(4);
-
-  return fs_as_posix(r);
+    return r.substr(4);
 #else
   return std::string(path);
 #endif

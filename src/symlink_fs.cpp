@@ -76,7 +76,7 @@ std::string fs_read_symlink(std::string_view path)
 #else
   std::error_code ec;
   if(auto p = std::filesystem::read_symlink(path, ec); !ec)
-    return p.generic_string();
+    return p.string();
 #endif
 
   return {};

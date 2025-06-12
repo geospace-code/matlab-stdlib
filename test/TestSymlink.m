@@ -17,9 +17,9 @@ tc.assumeFalse(isMATLABReleaseOlderThan("R2022a"))
 
 tc.tempDir = tc.createTemporaryFolder();
 
-tc.link = tc.tempDir + "/my.lnk";
+tc.link = fullfile(tc.tempDir, "my.lnk");
 
-tc.target = stdlib.posix(mfilename("fullpath") + ".m");
+tc.target = mfilename("fullpath") + ".m";
 
 tc.assumeTrue(stdlib.create_symlink(tc.target, tc.link), ...
     "failed to create test link " + tc.link)

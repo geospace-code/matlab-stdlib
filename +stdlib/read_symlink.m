@@ -7,30 +7,27 @@ arguments
   p {mustBeTextScalar}
 end
 
-r = "";
 
 try
-  [ok, t] = isSymbolicLink(p);
-  if ~ok, return, end
+  [ok, r] = isSymbolicLink(p);
+  if ~ok, r = ""; end
 catch e
   switch e.identifier
-    case "Octave:undefined-function", t = readlink(p);
+    case "Octave:undefined-function", r = readlink(p);
     case "MATLAB:UndefinedFunction"
-      if ~stdlib.is_symlink(p)
-        return
+      if stdlib.is_symlink(p)
+        % must be absolute path
+        % must not be .canonical or symlink is gobbled!
+        r = stdlib.absolute(p, "", false);
+
+        % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#readSymbolicLink(java.nio.file.Path)
+        r = java.nio.file.Files.readSymbolicLink(javaPathObject(r)).string;
+      else
+        r = "";
       end
-
-      % must be absolute path
-      % must not be .canonical or symlink is gobbled!
-      r = stdlib.absolute(p, "", false);
-
-      % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#readSymbolicLink(java.nio.file.Path)
-      t = java.nio.file.Files.readSymbolicLink(javaPathObject(r));
     otherwise, rethrow(e)
   end
 end
-
-r = stdlib.posix(t);
 
 end
 
