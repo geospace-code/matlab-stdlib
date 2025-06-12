@@ -8,7 +8,7 @@ function w = is_wsl()
 
 w = 0;
 
-if isunix && ~ismac
+if isunix() && ~ismac()
   fid = fopen('/proc/version');
   if fid >= 1
     v = fscanf(fid, '%s');

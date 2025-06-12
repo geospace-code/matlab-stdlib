@@ -6,7 +6,7 @@
 function r = is_rosetta()
 r = false;
 
-if ~ismac
+if ~ismac()
   return
 end
 
@@ -19,6 +19,6 @@ end
 
 %!assert(islogical(is_rosetta()))
 %!test
-%! if ~ismac
+%! if ~ismac()
 %!  assert(!is_rosetta())
 %! endif

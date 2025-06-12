@@ -17,7 +17,7 @@ if stdlib.isoctave()
   if ~isempty(s)
     c = s.nlink;
   end
-elseif ispc || ~isfile(p)
+elseif ispc() || ~isfile(p)
   return
 else
   c = java.nio.file.Files.getAttribute(javaPathObject(p), "unix:nlink", javaLinkOption());

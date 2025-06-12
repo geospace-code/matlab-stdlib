@@ -18,14 +18,14 @@ end
 
 n = stdlib.posix(p);
 
-uncslash = ispc && startsWith(n, "//");
+uncslash = ispc() && startsWith(n, "//");
 
 % use split to remove /../ and /./ and duplicated /
 parts = split(n, '/');
 i0 = 1;
 if strncmp(n, "/", 1)
   n = "/";
-elseif ispc && strlength(n) >= 2 && strlength(stdlib.root_name(p))
+elseif ispc() && strlength(n) >= 2 && strlength(stdlib.root_name(p))
   n = parts(1);
   i0 = 2;
 else

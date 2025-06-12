@@ -4,7 +4,7 @@ function y = iscygwin()
 
 y = false;
 
-if isunix && ~ismac
+if isunix() && ~ismac()
   fid = fopen('/proc/version');
   if fid < 0, return, end
   v = fscanf(fid,'%s');

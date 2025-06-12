@@ -26,7 +26,7 @@ else
   e = p;
 end
 
-if ~strlength(e) || (ispc && (startsWith(e, "\\") || startsWith(e, "//")))
+if ~strlength(e) || (ispc() && (startsWith(e, "\\") || startsWith(e, "//")))
   % UNC path is not canonicalized
   return
 end

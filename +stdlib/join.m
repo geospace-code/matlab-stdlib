@@ -10,7 +10,7 @@ end
 b = stdlib.posix(base);
 o = stdlib.posix(other);
 
-if startsWith(o, '/') || (ispc && stdlib.is_absolute(o))
+if startsWith(o, '/') || (ispc() && stdlib.is_absolute(o))
   p = o;
   return
 end

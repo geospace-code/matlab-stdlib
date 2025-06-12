@@ -50,7 +50,7 @@ end
 
 if isfield(v, 'UserExecute') || isa(v, "matlab.io.UnixPermissions")
   if v.UserExecute, p(3) = 'x'; end
-elseif ispc && (isstruct(v) || isa(v, "matlab.io.WindowsPermissions"))
+elseif ispc() && (isstruct(v) || isa(v, "matlab.io.WindowsPermissions"))
   % on Windows, any readable file has executable permission
   if p(1) == 'r',     p(3) = 'x'; end
 end

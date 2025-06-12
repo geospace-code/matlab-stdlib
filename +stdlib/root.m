@@ -14,7 +14,7 @@ if ~strlength(r)
   if strncmp(p, '/', 1)
     r = '/';
   end
-elseif ~(ispc && strcmp(r, p))
+elseif ~(ispc() && strcmp(r, p))
   r = strcat(r, '/');
 end
 

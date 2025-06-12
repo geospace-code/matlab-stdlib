@@ -14,7 +14,7 @@ end
 y = false;
 
 L = strlength(p);
-if ~L || (ispc && L < 3)
+if ~L || (ispc() && L < 3)
   return
 end
 

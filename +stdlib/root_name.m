@@ -12,7 +12,7 @@ end
 
 r = '';
 
-if ~ispc || strlength(p) < 2
+if ~ispc() || strlength(p) < 2
   % noop
 else
   c = char(p);
