@@ -6,29 +6,22 @@
 
 function y = is_absolute(p)
 arguments
-  p (1,:) char
+  p {mustBeTextScalar}
 end
 
 % not Octave is_absolute_filename() because this is a stricter check for "c:" false
 
-y = false;
+y = strlength(stdlib.root_dir(p)) > 0;
 
-L = strlength(p);
-if ~L || (ispc() && L < 3)
-  return
-end
-
-if ispc
-  y = strlength(stdlib.root_name(p)) && any(p(3) == ['/', '\']);
-else
-  y = p(1) == '/';
+if ispc()
+  y = y && strlength(stdlib.root_name(p)) > 0;
 end
 
 end
 
 %!assert(is_absolute(''), false)
 %!test
-%! if ispc
+%! if ispc()
 %!   assert(is_absolute('C:\'))
 %!   assert(is_absolute('C:/'))
 %!   assert(!is_absolute('C:'))

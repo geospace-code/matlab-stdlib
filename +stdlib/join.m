@@ -6,24 +6,38 @@ arguments
   other {mustBeTextScalar}
 end
 
+rno = stdlib.root_name(other);
+rnb = stdlib.root_name(base);
+rdo = stdlib.root_dir(other);
 
-b = stdlib.posix(base);
-o = stdlib.posix(other);
+if stdlib.is_absolute(other) || (strlength(rno) && ~strcmp(rnb, rno))
 
-if startsWith(o, '/') || (ispc() && stdlib.is_absolute(o))
-  p = o;
-  return
-end
+  p = other;
 
-p = b;
-if strlength(o)
-  if endsWith(p, '/')
-    p = strcat(p, o);
-  elseif strlength(p)
-    p = strcat(p, '/', o);
+elseif strlength(rdo)
+
+  if strlength(rnb)
+    p = strcat(rnb, '/', other);
   else
-    p = o;
+    p = other;
   end
+
+elseif strlength(base)
+
+  if strlength(other)
+    if endsWith(base, {'/', filesep})
+      p = strcat(base, other);
+    else
+      p = strcat(base, '/', other);
+    end
+  else
+    p = base;
+  end
+
+else
+
+  p = other;
+
 end
 
 end
