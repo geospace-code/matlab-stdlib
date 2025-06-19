@@ -163,7 +163,7 @@ shell = string.empty;
 if ispc() && ~isempty(co)
   disp("Shell: " + co.Details.CommandLineShell)
 
-  if any(startsWith(co.ShortName, ["INTEL", "MSVC"]))
+  if startsWith(co.ShortName, ["INTEL", "MSVC"])
     shell = join([strcat('"',string(co.Details.CommandLineShell),'"'), ...
                 co.Details.CommandLineShellArg], " ");
   end
