@@ -59,7 +59,10 @@ Matlab function.
 Tell JVM details:
 
 ```matlab
-jenv
+je = jenv
+
+% Tell the JAVA_HOME directory
+disp(je.Home)
 ```
 
 For example, to use the
@@ -91,23 +94,55 @@ For example, with Homebrew:
 brew install octave openjdk
 ```
 
+On Windows install JDK as like Matlab above.
+
+```octave
+setenv("JAVA_HOME", "/path/to/openjdk/")
+```
+
+This `setenv()` is not persistent.
+If it works, add the working `setenv()` command to
+[.octaverc](https://docs.octave.org/interpreter/Startup-Files.html)
+
+### Use Matlab JRE in GNU Octave
+
+If Matlab is installed, GNU Octave can use the same JRE as Matlab.
+Do so like:
+
+```matlab
+je = jenv();
+% Tell the JAVA_HOME directory
+disp(je.Home)
+```
+
+Then set the JAVA_HOME environment variable to the JRE directory in Octave:
+
+```octave
+setenv("JAVA_HOME", "value from je.Home")
+```
+
+Be sure on Windows to use file separator "/" as "\" will not work.
+Within Octave:
+
+```octave
+setenv("JAVA_HOME", "C:/Program Files/MATLAB/R2025a/sys/java/jre/win64/jre")
+
+version("-java")
+```
+
+> ans = Java 1.8.0_202-b08 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM mixed mode
+
+### Troubleshooting
+
 If OpenJDK version updates, GNU Octave might not automatically find the new version:
 
 > libjvm: failed to load
 
-To correct this, find the path to the new JVM.
-Windows installs Java with Octave, so this usually isn't needed.
+To correct this, find the path to the new JVM..
 For example, on macOS:
 
 ```sh
 gfind $(brew --prefix) -name libjvm.dylib
 ```
 
-Within Octave, tell Octave the directory that libjvm is under.
-This setting is not persistent.
-If it works, add the setenv() command to
-[.octaverc](https://docs.octave.org/interpreter/Startup-Files.html)
-
-```octave
-setenv("JAVA_HOME", "/path/to/openjdk/")
-```
+Within Octave, tell Octave the directory that libjvm is under by `setenv("JAVA_HOME", "<path to libjvm directory>")`.
