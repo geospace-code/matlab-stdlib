@@ -14,12 +14,18 @@ end
 % because by our definition, a trailing directory component is not part of the filename
 % this is like C++17 filesystem::path::filename
 
-parts = strsplit(stdlib.posix(p), '/');
+if isunix()
+  pat = '[^/]*$';
+else
+  pat = ['[^/\\]*$'];
+end
 
-f = parts{end};
+m = regexp(p, pat, 'match', 'once');
 
-if isstring(p)
-  f = string(f);
+if isstring(p) && ismissing(m)
+  f = "";
+else
+  f = m;
 end
 
 end
