@@ -12,10 +12,10 @@ arguments
   p {mustBeTextScalar}
 end
 
-e = stdlib.posix(char(p));
+e = char(p);
 
 L = length(e);
-if L == 0 || e(1) ~= '~' || (L > 1 && ~strcmp(e(1:2), '~/'))
+if L == 0 || e(1) ~= '~' || (L > 1 && ~startsWith(e(1:2), {'~/', ['~', filesep()]}))
   % noop
 else
   home = stdlib.homedir();

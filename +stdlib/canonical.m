@@ -42,11 +42,15 @@ else
   end
 end
 
+c =stdlib.posix(c);
+
 if ~strlength(c)
   c = stdlib.normalize(e);
 end
 
-c = string(stdlib.posix(c));
+if isstring(p)
+  c = string(c);
+end
 
 end
 
