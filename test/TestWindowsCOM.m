@@ -15,15 +15,17 @@ function test_short_folder(tc)
 import matlab.unittest.constraints.IsFolder
 
 progdir = stdlib.posix(getenv("PROGRAMFILES"));
-tc.assumeThat(progdir, IsFolder, "$Env:PROGRAMFILES is not a directory")
+if ispc()
+  tc.assertThat(progdir, IsFolder, "$Env:PROGRAMFILES is not a directory")
+end
 
 short = stdlib.windows_shortname(progdir);
 
 if ispc
   tc.verifySubstring(short, "PROGRA~1")
-  tc.verifyEqual(stdlib.canonical(short), string(progdir))
+  tc.verifyTrue(stdlib.samepath(short, string(progdir)))
 else
-  tc.verifyEqual(short, progdir)
+  tc.verifyEqual(strlength(short), 0)
 end
 
 end
