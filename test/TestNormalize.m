@@ -5,6 +5,7 @@ p = init_norm()
 d = init_drop_slash()
 end
 
+
 methods (Test)
 function test_normalize(tc, p)
 tc.verifyEqual(stdlib.normalize(p{1}), p{2}, ...
@@ -68,6 +69,7 @@ if ispc()
   };
   d = [d, dd];
 end
+
 if ~isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/drop_slash." + mexext)
 
 dd = {...
@@ -77,4 +79,5 @@ dd = {...
 d = [d, dd];
 
 end
+
 end
