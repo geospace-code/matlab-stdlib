@@ -119,15 +119,13 @@ line = reader.readLine();
 msg = '';
 while ~isempty(line)
   msg = strcat(msg, line, newline);
-
   line = reader.readLine();
 end
 
-if strlength(msg) > 0 && msg(end) == newline
-  msg(end) = [];
-end
+msg = strtrim(msg);
 
 reader.close();
+stream.close();
 
 end
 
@@ -157,7 +155,9 @@ end
 %! end
 %!test
 %! c = "../test/sleep.exe";
+%! if isfile(c)
 %! [r, m, e] = subprocess_run_octave(c, [], [], [], 1);
 %! assert(r == -1)
 %! assert(length(m) == 0)
 %! assert(strncmp(e, 'Subprocess timeout', 17))
+%! end
