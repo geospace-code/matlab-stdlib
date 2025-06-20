@@ -5,17 +5,21 @@ p_is_prefix = init_is_prefix()
 p_is_subdir = init_is_subdir()
 end
 
+properties
+is_mex = stdlib.is_mex_fun("stdlib.drop_slash")
+end
+
 
 methods (Test)
 
 function test_is_subdir(tc, p_is_subdir)
 tc.verifyEqual(stdlib.is_subdir(p_is_subdir{1}, p_is_subdir{2}), p_is_subdir{3}, ...
-  "subdir(" + p_is_subdir{1} + "," + p_is_subdir{2} + ")")
+ sprintf("subdir(%s, %s)  mex: %d", p_is_subdir{1}, p_is_subdir{2}, tc.is_mex))
 end
 
 function test_is_prefix(tc, p_is_prefix)
 tc.verifyEqual(stdlib.is_prefix(p_is_prefix{1}, p_is_prefix{2}), p_is_prefix{3}, ...
-  "prefix(" + p_is_prefix{1} + "," + p_is_prefix{2} + ")")
+  sprintf("prefix(%s, %s)  mex: %d", p_is_prefix{1}, p_is_prefix{2}, tc.is_mex))
 end
 
 end
