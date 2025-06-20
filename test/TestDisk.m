@@ -7,8 +7,7 @@ end
 methods (Test)
 
 function test_disk_available(tc, Ps)
-tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(".."))
-tc.assumeEqual(exist("+stdlib/disk_available", "file"), 3)
+tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/disk_available." + mexext))
 
 zero = uint64(0);
 
@@ -20,8 +19,7 @@ end
 end
 
 function test_disk_capacity(tc, Ps)
-tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(".."))
-tc.assumeEqual(exist("+stdlib/disk_capacity", "file"), 3)
+tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/disk_capacity." + mexext))
 
 zero = uint64(0);
 

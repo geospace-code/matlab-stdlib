@@ -25,12 +25,8 @@ end
 function test_set_permissions(tc)
 
 import matlab.unittest.constraints.StartsWithSubstring
-import matlab.unittest.fixtures.CurrentFolderFixture
 
-tc.applyFixture(CurrentFolderFixture(".."))
-% matlab exist() doesn't work for MEX detection with ".." leading path
-
-tc.assumeEqual(exist("+stdlib/set_permissions", "file"), 3)
+tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/set_permissions." + mexext))
 
 tf = tc.createTemporaryFolder();
 

@@ -3,9 +3,8 @@ classdef TestMex < matlab.unittest.TestCase
 methods (Test)
 
 function test_is_char_device(tc)
-tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(".."))
-% matlab exist() doesn't work for MEX detection with ".." leading path
-tc.assumeEqual(exist("+stdlib/is_char_device", "file"), 3)
+
+tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/is_char_device." + mexext))
 
 % /dev/stdin may not be available on CI systems
 if ispc
@@ -19,16 +18,14 @@ end
 
 
 function test_is_admin(tc)
-tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(".."))
-tc.assumeEqual(exist("+stdlib/is_admin", "file"), 3)
+tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/is_admin." + mexext))
 
 tc.verifyClass(stdlib.is_admin(), "logical")
 end
 
 
 function test_unlink_file(tc)
-tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(".."))
-tc.assumeEqual(exist("+stdlib/unlink", "file"), 3)
+tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/unlink." + mexext))
 
 d = tc.createTemporaryFolder();
 
@@ -42,8 +39,7 @@ end
 
 
 function test_unlink_empty_dir(tc)
-tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(".."))
-tc.assumeEqual(exist("+stdlib/unlink", "file"), 3)
+tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/unlink." + mexext))
 
 d = tc.createTemporaryFolder();
 
@@ -52,8 +48,7 @@ end
 
 
 function test_unlink_recursive(tc)
-tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(".."))
-tc.assumeEqual(exist("+stdlib/unlink", "file"), 3)
+tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/unlink." + mexext))
 
 d = tc.createTemporaryFolder();
 

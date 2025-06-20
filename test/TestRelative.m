@@ -7,13 +7,8 @@ end
 
 methods(TestClassSetup)
 function mex_required(tc)
-import matlab.unittest.fixtures.CurrentFolderFixture
-
-tc.applyFixture(CurrentFolderFixture(".."))
-% matlab exist() doesn't work for MEX detection with ".." leading path
-
-tc.assumeEqual(exist("+stdlib/relative_to", "file"), 3)
-tc.assumeEqual(exist("+stdlib/proximate_to", "file"), 3)
+tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/relative_to." + mexext))
+tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/proximate_to." + mexext))
 end
 end
 
