@@ -26,7 +26,7 @@ end
 if expand_tilde
   c = stdlib.expanduser(p);
 else
-  c = stdlib.posix(p);
+  c = p;
 end
 
 if stdlib.is_absolute(c)
@@ -45,8 +45,6 @@ if ~stdlib.is_absolute(b)
   b = strcat(pwd(), '/', b);
 end
 
-b = stdlib.posix(b);
-
 if strlength(c) == 0
   c = b;
 else
@@ -60,5 +58,5 @@ end
 end
 
 
-%!assert(absolute('', '', false), posix(pwd))
-%!assert(absolute('a/b', '', false), posix(strcat(pwd(), '/a/b')))
+%!assert(absolute('', '', false), pwd)
+%!assert(absolute('a/b', '', false), strcat(pwd(), '/a/b'))
