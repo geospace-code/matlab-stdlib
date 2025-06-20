@@ -42,7 +42,7 @@ else
   end
 end
 
-c =stdlib.posix(c);
+c = stdlib.posix(c);
 
 if ~strlength(c)
   c = stdlib.normalize(e);

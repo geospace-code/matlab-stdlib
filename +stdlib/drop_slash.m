@@ -8,16 +8,25 @@ arguments
   p {mustBeTextScalar}
 end
 
-% drop repeated slashes inside string
-d = regexprep(char(p), '/+', '/');
+s = stdlib.posix(p);
 
-% drop trailing slash "/" or "\", but preserve a single slash if that's the only character
-while strlength(d) > 1 && endsWith(d, {'/', '\'})
-  d = d(1:end-1);
+uncslash = ispc() && startsWith(s, '//');
+
+% drop repeated slashes inside string
+d = regexprep(s, '/+', '/');
+
+L = strlength(d);
+
+if L < 2
+  if uncslash
+    d = '//';
+  end
+elseif ~ispc() || (L ~= 3 || ~strcmp(d, stdlib.root(s)))
+  d = regexprep(d, '/$', '');
 end
 
-if ispc() && ~isempty(d) && strcmp(d, stdlib.root_name(p))
-  d = strcat(d, '/');
+if uncslash
+  d = strcat('/', d);
 end
 
 if isstring(p)

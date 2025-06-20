@@ -43,7 +43,6 @@ If desired (not used by Matlab-stdlib), one can use non-factory Java classes in
 and
 [GNU Octave](https://docs.octave.org/interpreter/Making-Java-Classes-Available.html).
 
-
 ## Configure Matlab JVM
 
 The Matlab Java interface is like other Matlab external languages such as Python.
