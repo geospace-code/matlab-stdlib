@@ -16,7 +16,8 @@ DEFUN_DLD (relative_to, args, nargout,
   std::error_code ec;
 
   std::string out = std::filesystem::relative(args(1).string_value(),
-                                             args(0).string_value(), ec).generic_string();
+                                              args(0).string_value(),
+                                              ec).generic_string();
 
   if(ec)
     octave_stdout << ec.message() << "\n";

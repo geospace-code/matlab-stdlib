@@ -43,9 +43,14 @@ std::string fs_as_posix(std::string_view path)
   return p.generic_string();
 }
 
+std::string fs_root_dir(std::string_view path)
+{
+  return std::filesystem::path(path).root_directory().string();
+}
+
 std::string fs_root_name(std::string_view path)
 {
-  return std::filesystem::path(path).root_name().generic_string();
+  return std::filesystem::path(path).root_name().string();
 }
 
 

@@ -13,11 +13,16 @@ bool fs_is_url(std::string_view);
 int fs_is_wsl();
 bool fs_is_rosetta();
 bool fs_is_admin();
+
+bool fs_is_absolute(std::string_view);
+
 bool fs_is_symlink(std::string_view);
 bool fs_create_symlink(std::string_view, std::string_view);
 std::string fs_read_symlink(std::string_view);
 
 std::string fs_parent(std::string_view);
+
+std::string fs_root_dir(std::string_view);
 std::string fs_root_name(std::string_view);
 
 bool fs_win32_is_symlink(std::string_view);
