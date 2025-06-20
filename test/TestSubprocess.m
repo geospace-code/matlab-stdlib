@@ -44,7 +44,6 @@ end
 
 
 function test_cwd(tc)
-tc.assumeFalse(isMATLABReleaseOlderThan("R2022a"))
 
 if ispc
   c = ["cmd", "/c", "dir"];

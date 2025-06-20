@@ -124,7 +124,6 @@ end
 
 
 function test_touch_modtime(tc)
-tc.assumeFalse(isMATLABReleaseOlderThan("R2022a"))
 
 tf = tc.createTemporaryFolder();
 

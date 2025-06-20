@@ -13,7 +13,6 @@ end
 
 methods(TestClassSetup)
 function setup_symlink(tc)
-tc.assumeFalse(isMATLABReleaseOlderThan("R2022a"))
 
 tc.tempDir = tc.createTemporaryFolder();
 

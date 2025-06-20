@@ -27,7 +27,6 @@ end
 
 
 function test_unlink_file(tc)
-tc.assumeFalse(isMATLABReleaseOlderThan("R2022a"))
 tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(".."))
 tc.assumeEqual(exist("+stdlib/unlink", "file"), 3)
 
@@ -43,7 +42,6 @@ end
 
 
 function test_unlink_empty_dir(tc)
-tc.assumeFalse(isMATLABReleaseOlderThan("R2022a"))
 tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(".."))
 tc.assumeEqual(exist("+stdlib/unlink", "file"), 3)
 
@@ -54,7 +52,6 @@ end
 
 
 function test_unlink_recursive(tc)
-tc.assumeFalse(isMATLABReleaseOlderThan("R2022a"))
 tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(".."))
 tc.assumeEqual(exist("+stdlib/unlink", "file"), 3)
 

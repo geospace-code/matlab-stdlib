@@ -16,7 +16,6 @@ methods (Test)
 
 
 function test_hash_text(tc, Ph)
-tc.assumeFalse(isMATLABReleaseOlderThan("R2022a"))
 
 td = tc.createTemporaryFolder();
 

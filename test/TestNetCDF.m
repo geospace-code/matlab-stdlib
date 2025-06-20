@@ -8,8 +8,6 @@ methods (TestClassSetup)
 
 function setup_file(tc)
 
-tc.assumeFalse(isMATLABReleaseOlderThan("R2022a"))
-
 td = tc.createTemporaryFolder();
 
 A0 = 42.;
