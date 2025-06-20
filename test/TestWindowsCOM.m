@@ -23,7 +23,7 @@ short = stdlib.windows_shortname(progdir);
 
 if ispc
   tc.verifySubstring(short, "PROGRA~1")
-  tc.verifyTrue(stdlib.samepath(short, string(progdir)))
+  tc.verifyTrue(stdlib.samepath(short, progdir))
 else
   tc.verifyEqual(strlength(short), 0)
 end
@@ -40,7 +40,7 @@ if ispc
   if contains(Pmr, " ")
     tc.verifySubstring(s, "~")
   end
-  tc.verifyEqual(stdlib.canonical(s), string(stdlib.posix(Pmr)), "shortname didn't resolve same as canonical")
+  tc.verifyEqual(stdlib.canonical(s), stdlib.posix(Pmr), "shortname didn't resolve same as canonical")
 else
   tc.verifyEqual(s, string(Pmr))
 end

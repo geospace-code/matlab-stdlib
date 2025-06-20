@@ -15,7 +15,6 @@ arguments
 end
 
 s = p;
-
 if ispc
   fso = actxserver('Scripting.FileSystemObject');
 
@@ -26,10 +25,10 @@ if ispc
   end
 
   delete(fso);
+end
 
-  if isstring(p)
-    s = string(s);
-  end
+if isstring(p)
+  s = string(s);
 end
 
 end
