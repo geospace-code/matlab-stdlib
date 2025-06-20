@@ -1,20 +1,20 @@
 classdef TestWindowsCOM < matlab.unittest.TestCase
 
 properties (TestParameter)
-Pn = {""}
+Pn = {{"", ""}}
 Pmr = {matlabroot, stdlib.posix(matlabroot)}
 end
 
 methods (Test)
 
 function test_not(tc, Pn)
-tc.verifyEqual(stdlib.windows_shortname(Pn), "")
+tc.verifyEqual(stdlib.windows_shortname(Pn{1}), Pn{2})
 end
 
 function test_short_folder(tc)
 import matlab.unittest.constraints.IsFolder
 
-progdir = stdlib.posix(getenv("PROGRAMFILES"));
+progdir = getenv("PROGRAMFILES");
 if ispc()
   tc.assertThat(progdir, IsFolder, "$Env:PROGRAMFILES is not a directory")
 end
@@ -32,7 +32,6 @@ end
 
 
 function test_short_file(tc, Pmr)
-import matlab.unittest.constraints.IsFile
 
 s = stdlib.windows_shortname(Pmr);
 
@@ -40,10 +39,12 @@ if ispc
   if contains(Pmr, " ")
     tc.verifySubstring(s, "~")
   end
-  tc.verifyEqual(stdlib.canonical(s), stdlib.posix(Pmr), "shortname didn't resolve same as canonical")
-else
-  tc.verifyEqual(s, string(Pmr))
+
+  tc.verifyLessThanOrEqual(strlength(s), strlength(Pmr))
 end
+
+tc.verifyTrue(stdlib.samepath(s, Pmr),...
+  sprintf("mex: %d", stdlib.is_mex_fun("stdlib.windows_shortname")))
 
 end
 
