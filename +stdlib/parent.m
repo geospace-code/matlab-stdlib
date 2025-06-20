@@ -39,8 +39,6 @@ else
   end
 end
 
-p = stdlib.posix(p);
-
 if ~strlength(p)
   p = '.';
 end
@@ -66,7 +64,7 @@ end
 %!test
 %! if ispc
 %!   assert(parent('c:/a'), 'c:/')
-%!   assert(parent('c:\a\'), 'c:/')
+%!   assert(parent('c:\a\'), 'c:\')
 %!   assert(parent('c:\'), 'c:/')
 %!   assert(parent('c:'), 'c:/')
 %! end

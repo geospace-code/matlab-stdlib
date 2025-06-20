@@ -15,7 +15,14 @@ DEFUN_DLD (parent, args, nargout,
     return octave_value("");
   }
 
-  std::string out = std::filesystem::path(fs_drop_slash(args(0).string_value())).parent_path().generic_string();
+  auto par = std::filesystem::path(fs_drop_slash(args(0).string_value())).parent_path();
 
-  return octave_value(out);
+  if (par.empty())
+    return ".";
+
+  // need this for <filesystem> or _splitpath_s to make x: x:/
+  if (fs_is_windows() && par == par.root_name())
+    par += '/';
+
+  return octave_value(par.string());
 }
