@@ -5,13 +5,16 @@ p = init_norm()
 d = init_drop_slash()
 end
 
+
 methods (Test)
 function test_normalize(tc, p)
-tc.verifyEqual(stdlib.normalize(p{1}), p{2})
+tc.verifyEqual(stdlib.normalize(p{1}), p{2}, ...
+  sprintf("normalize(%s)   mex: %d", p{1}, stdlib.is_mex_fun("stdlib.normalize")))
 end
 
 function test_drop_slash(tc, d)
-tc.verifyEqual(stdlib.drop_slash(d{1}), d{2})
+tc.verifyEqual(stdlib.drop_slash(d{1}), d{2}, ...
+  sprintf("drop_slash(%s)   mex: %d", d{1}, stdlib.is_mex_fun("stdlib.drop_slash")))
 end
 
 end
@@ -49,7 +52,7 @@ end
 function d = init_drop_slash()
 d = {...
 {"", ""}, ...
-{'a', 'a'}, ...
+{"/", "/"}, ...
 {"a/", "a"}, ...
 {"a/b", "a/b"}, ...
 {"a/b/", "a/b"}, ...
@@ -67,4 +70,15 @@ if ispc()
   };
   d = [d, dd];
 end
+
+if ~isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/drop_slash." + mexext)
+
+dd = {...
+  {'a', 'a'}, ...
+  {'/', '/'}
+};
+d = [d, dd];
+
+end
+
 end

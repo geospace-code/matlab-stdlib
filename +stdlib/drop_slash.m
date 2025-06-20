@@ -10,23 +10,12 @@ end
 
 s = stdlib.posix(p);
 
-uncslash = ispc() && startsWith(s, '//');
-
 % drop repeated slashes inside string
 d = regexprep(s, '/+', '/');
 
-L = strlength(d);
-
-if L < 2
-  if uncslash
-    d = '//';
-  end
-elseif ~ispc() || (L ~= 3 || ~strcmp(d, stdlib.root(s)))
+% drop all trailing slashes
+if ~strcmp(d, '/') && ~strcmp(d, stdlib.root(s))
   d = regexprep(d, '/$', '');
-end
-
-if uncslash
-  d = strcat('/', d);
 end
 
 if isstring(p)

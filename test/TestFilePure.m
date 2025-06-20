@@ -2,7 +2,6 @@ classdef TestFilePure < matlab.unittest.TestCase
 
 properties (TestParameter)
 p = init_root_name()
-pds = {{'/', '/'}, {'a//b', 'a/b'}, {'a//b/', 'a/b'}, {'a//b/c', 'a/b/c'}};
 end
 
 
@@ -18,11 +17,6 @@ if ispc
 end
 end
 
-
-function test_drop_slash(tc, pds)
-import matlab.unittest.constraints.Matches
-tc.verifyThat(stdlib.drop_slash(pds{1}), Matches(pds{2}))
-end
 
 function test_root_name(tc, p)
 tc.verifyEqual(stdlib.root_name(p{1}), p{2})
