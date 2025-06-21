@@ -140,6 +140,9 @@ if isempty(co)
       comp = getenv("FC");
       if isempty(comp)
         disp("set FC environment variable to the Fortran compiler path, or do 'mex -setup fortran'")
+        if ismac()
+          disp("on macOS, environment variables propagate in to GUI programs like Matlab by using 'launchctl setenv FC' and a reboot. Or by using 'FC=gfortran matlab -batch buildtool exe'")
+        end
       end
     case "c++"
       comp = getenv("CXX");

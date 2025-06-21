@@ -27,11 +27,13 @@ jobs:
       matrix:
         os: [ubuntu-22.04]
         release: [R2022a, R2022b, R2023a, R2023b, R2024a, R2024b, R2025a]
+# on Linux, even R2025a needs GCC 10.x and hence Github Actions runner ubuntu-22.04
         include:
         - os: macos-latest
           release: R2025a
         - os: macos-latest
           release: R2023b
+# macOS R2023b to be compatible with Xcode version on Github Actions runner
         - os: windows-latest
           release: R2025a
         - os: windows-latest
