@@ -9,54 +9,41 @@
 %%% Inputs
 % * p: path to make absolute
 % * base: if present, base on this instead of cwd
-% * expand_tilde: expand ~ to username if present
 %%% Outputs
 % * c: absolute path
 %
 % does not normalize path
 % non-existant path is made absolute relative to pwd
 
-function c = absolute(p, base, expand_tilde)
+function c = absolute(p, base)
 arguments
   p {mustBeTextScalar}
-  base {mustBeTextScalar} = ''
-  expand_tilde (1,1) logical = true
+  base {mustBeTextScalar} = pwd()
 end
 
-if expand_tilde
-  c = stdlib.expanduser(p);
-else
-  c = p;
-end
-
+c = p;
 if stdlib.is_absolute(c)
  return
 end
 
-if strlength(base) == 0
+if strlength(base)
+  b = stdlib.absolute(base);
+else
   b = pwd();
-elseif expand_tilde
-  b = stdlib.expanduser(base);
-else
-  b = base;
 end
 
-if ~stdlib.is_absolute(b)
-  b = strcat(pwd(), '/', b);
-end
-
-if strlength(c) == 0
-  c = b;
-else
+if strlength(c)
   c = strcat(b, '/', c);
+else
+  c = b;
 end
 
-if isstring(p)
+if isstring(p) || isstring(base)
   c = string(c);
 end
 
 end
 
 
-%!assert(absolute('', '', false), pwd)
-%!assert(absolute('a/b', '', false), strcat(pwd(), '/a/b'))
+%!assert(absolute('', ''), pwd)
+%!assert(absolute('a/b', ''), strcat(pwd(), '/a/b'))

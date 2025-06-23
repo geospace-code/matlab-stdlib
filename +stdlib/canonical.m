@@ -8,44 +8,36 @@
 %
 %%% Inputs
 % * p: path to make canonical
-% * expand_tilde: expand ~ to username if present
 %%% Outputs
 % * c: canonical path, if determined
 
-function c = canonical(p, expand_tilde)
+function c = canonical(p)
 arguments
   p {mustBeTextScalar}
-  expand_tilde (1,1) logical = true
 end
 
 c = "";
 
-if expand_tilde
-  e = stdlib.expanduser(p);
-else
-  e = p;
-end
-
-if ~strlength(e) || (ispc() && (startsWith(e, {'\\', '//'})))
+if ~strlength(p) || (ispc() && (startsWith(p, {'\\', '//'})))
   % UNC path is not canonicalized
   return
 end
 
 if stdlib.isoctave()
 % empty if any component of path does not exist
-  c = canonicalize_file_name(e);
+  c = canonicalize_file_name(p);
 else
 % errors if any component of path does not exist.
 % disp("builtin")
   try %#ok<TRYNC>
-    c = builtin('_canonicalizepath', e);
+    c = builtin('_canonicalizepath', p);
   end
 end
 
 c = stdlib.posix(c);
 
 if ~strlength(c)
-  c = stdlib.normalize(e);
+  c = stdlib.normalize(p);
 end
 
 if isstring(p)
@@ -54,5 +46,5 @@ end
 
 end
 
-%!assert(canonical("", 1), "")
-%!assert(canonical("~", 1), homedir())
+%!assert(canonical(""), "")
+%!assert(canonical("~"), homedir())

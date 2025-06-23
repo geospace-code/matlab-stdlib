@@ -49,7 +49,7 @@ if strlength(p2{1})
   r = strcat(r, '/', p2{1});
 end
 
-if isstring(p2{1})
+if isstring(p2{1}) || isstring(p2{2})
   r = string(r);
 end
 

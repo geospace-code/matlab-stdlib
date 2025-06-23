@@ -7,7 +7,7 @@ arguments
 end
 
 % needs absolute()
-p = stdlib.absolute(p, '', false);
+p = stdlib.absolute(p);
 
 op = javaPathObject(p);
 opt = javaLinkOption();

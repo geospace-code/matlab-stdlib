@@ -3,21 +3,18 @@
 % effectively canonical(absolute(p))
 %%% Inputs
 % * p: path to make absolute
-% * expand_tilde: expand ~ to username if present
 %%% Outputs
 % * c: resolved path
 % distinct from canonical(), resolve() always returns absolute path
 % non-existant path is made absolute relative to pwd
 
-function r = resolve(p, expand_tilde)
+function r = resolve(p)
 arguments
   p {mustBeTextScalar}
-  expand_tilde (1,1) logical = true
 end
 
-
-r = stdlib.canonical(stdlib.absolute(p, '', expand_tilde), false);
+r = stdlib.canonical(stdlib.absolute(p));
 
 end
 
-%!assert (resolve('', 1), stdlib.posix(pwd()))
+%!assert (resolve(''), stdlib.posix(pwd()))
