@@ -1,5 +1,10 @@
 classdef TestWhich < matlab.unittest.TestCase
 
+properties (TestParameter)
+mexe = {matlabroot + "/bin/" + matlab_name(), ...
+        fullfile(matlabroot, 'bin', matlab_name())}
+end
+
 methods (Test)
 
 function test_which_name(tc)
@@ -7,9 +12,9 @@ function test_which_name(tc)
 tc.verifyEmpty(stdlib.which(tempname()))
 
 if ispc
-  n = "pwsh.exe";
+  n = 'pwsh.exe';
 else
-  n = "ls";
+  n = 'ls';
 end
 %% which: Matlab in environment variable PATH
 % MacOS Matlab does not source .zshrc so Matlab is not on internal Matlab PATH
@@ -21,34 +26,16 @@ tc.verifyNotEmpty(stdlib.which(n))
 end
 
 
-function test_which_fullpath(tc)
-import matlab.unittest.constraints.IsFile
-import matlab.unittest.constraints.EndsWithSubstring
-
-%% is_exe test
-p = matlabroot + "/bin/" + matlab_name();
-
-tc.assumeTrue(stdlib.is_exe(p), "Matlab not executable " + p)
-%% which: test absolute path
-exe = stdlib.which(p);
-
-tc.verifyNotEmpty(exe, "Matlab not found " + p)
-
-if ispc
-  tc.verifyThat(exe, EndsWithSubstring(".exe"))
-else
-  tc.verifyThat(exe, ~EndsWithSubstring(".exe"))
+function test_which_absolute(tc, mexe)
+tc.verifyEqual(stdlib.which(mexe), mexe)
 end
-tc.verifyThat(exe, IsFile)
 
-end
 
 function test_which_multipath(tc)
 
 n = matlab_name();
 
-paths = string(getenv("PATH"));
-paths = split(paths, pathsep);
+paths = split(string(getenv('PATH')), pathsep);
 paths(end+1) = matlabroot + "/bin";
 
 exe = stdlib.which(n, paths);
@@ -64,8 +51,8 @@ end
 
 function n = matlab_name()
 
-n = "matlab";
+n = 'matlab';
 if ispc
-  n = n + ".exe";
+  n = strcat(n, '.exe');
 end
 end

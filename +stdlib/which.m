@@ -9,12 +9,16 @@
 
 function exe = which(filename, fpath, find_all)
 arguments
-  filename (1,1) string
+  filename {mustBeTextScalar}
   fpath (1,:) string = string.empty
   find_all (1,1) logical = false
 end
 
-exe = string.empty;
+if find_all
+  exe = string.empty;
+else
+  exe = '';
+end
 
 if isfile(filename) && stdlib.is_exe(filename)
   exe = filename;
@@ -22,23 +26,29 @@ if isfile(filename) && stdlib.is_exe(filename)
 end
 
 %  relative directory component, but path was not a file
-if stdlib.filename(filename) ~= filename
+if ~strcmp(stdlib.filename(filename), filename)
   return
 end
 
 % path given
 if isempty(fpath)
-  fpath = string(getenv("PATH"));
+  fpath = getenv("PATH");
 end
 
-if isscalar(fpath)
-  fpath = split(fpath, pathsep).';
+if isscalar(fpath) || ischar(fpath)
+  fpath = strsplit(fpath, pathsep);
 end
 
-for p = fpath
+for fp = fpath
+  if iscell(fp)
+    p = fp{1};
+  else
+    p = fp;
+  end
+
   if ~strlength(p), continue, end
 
-  e = p + "/" + filename;
+  e = strcat(p, '/', filename);
   if isfile(e) && stdlib.is_exe(e)
     if find_all
       exe(end+1) = e; %#ok<AGROW>
@@ -51,4 +61,4 @@ end
 
 end
 
-%!testif 0
+%!assert(~isempty(which("octave", [], false)))
