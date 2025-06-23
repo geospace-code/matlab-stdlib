@@ -43,7 +43,9 @@ end
 bindir = fullfile(plan.RootFolder, pkg_name);
 [compiler_opt, linker_opt] = get_compiler_options();
 
-if isMATLABReleaseOlderThan("R2024b")
+use_legacy_mex = isMATLABReleaseOlderThan("R2024b");
+
+if use_legacy_mex
   % dummy task to allow "buildtool mex" to build all MEX targets
   plan("mex") = matlab.buildtool.Task();
   mex_deps = string.empty;
@@ -51,13 +53,15 @@ end
 
 for s = get_mex_sources()
   src = s{1};
-  [~, name] = fileparts(src(1));
+  name = stdlib.stem(src(1));
 
   % name of MEX target function is name of first source file
-  if isMATLABReleaseOlderThan("R2024b")
+  if use_legacy_mex
     mex_name = "mex_" + name;
-    plan(mex_name) = matlab.buildtool.Task(Inputs=src, Outputs=fullfile(bindir, name + "." + mexext()), ...
-      Actions=@(context) legacy_mex(context, compiler_opt, linker_opt));
+    plan(mex_name) = matlab.buildtool.Task(Inputs=src, ...
+      Outputs=fullfile(bindir, name + "." + mexext()), ...
+      Actions=@(context) legacy_mex(context, compiler_opt, linker_opt), ...
+      Description="Legacy MEX");
     mex_deps(end+1) = mex_name; %#ok<AGROW>
   else
     plan("mex:" + name) = matlab.buildtool.tasks.MexTask(src, bindir, ...
@@ -65,7 +69,7 @@ for s = get_mex_sources()
   end
 end
 
-if isMATLABReleaseOlderThan("R2024b")
+if use_legacy_mex
   plan("mex").Dependencies = mex_deps;
 end
 
@@ -105,7 +109,7 @@ for i = 1:length(context.Task.Inputs)
   exe = context.Task.Outputs(i).paths;
   exe = exe(1);
 
-  [~,~,ext] = fileparts(src.paths);
+  ext = stdlib.suffix(src.paths);
   switch ext
     case ".c", lang = "c";
     case ".cpp", lang = "c++";
@@ -145,7 +149,7 @@ if isempty(co)
           for fc = ["flang", "gfortran"]
             comp = stdlib.which(fc, p);
             if ~isempty(comp)
-              disp("found " + fc + " compiler: " + comp)
+              % disp(lang + " compiler: " + comp)
               setenv("FC", comp);
               return
             end
@@ -167,7 +171,7 @@ if isempty(co)
   end
 else
   comp = co.Details.CompilerExecutable;
-  disp(lang + " compiler: " + co.ShortName + " " + co.Name + " " + co.Version + " " + comp)
+  % disp(lang + " compiler: " + co.ShortName + " " + co.Name + " " + co.Version + " " + comp)
 end
 
 
@@ -186,11 +190,11 @@ end
 
 function [comp, shell, outFlag] = get_build_cmd(lang)
 
-outFlag = "-o";
-
 [comp, shell] = get_compiler(lang);
 
-if ~isempty(shell)
+if isempty(shell)
+  outFlag = "-o";
+else
   outFlag = "/Fo" + tempdir + " /link /out:";
 end
 
