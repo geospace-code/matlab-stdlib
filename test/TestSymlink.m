@@ -37,7 +37,8 @@ end
 function test_read_symlink(tc)
 
 tc.verifyEqual(stdlib.read_symlink(""), "")
-tc.verifyEqual(stdlib.read_symlink("not-exist"), "")
+tc.verifyEqual(stdlib.read_symlink(''), '')
+tc.verifyEqual(stdlib.read_symlink(tempname), '')
 tc.verifyEqual(stdlib.read_symlink(tc.target), "")
 
 t = stdlib.read_symlink(tc.link);
@@ -51,7 +52,7 @@ end
 function test_create_symlink(tc)
 tc.applyFixture(matlab.unittest.fixtures.SuppressedWarningsFixture(["MATLAB:io:filesystem:symlink:TargetNotFound","MATLAB:io:filesystem:symlink:FileExists"]))
 
-tc.verifyFalse(stdlib.create_symlink("", tempname()))
+tc.verifyFalse(stdlib.create_symlink('', tempname()))
 tc.verifyFalse(stdlib.create_symlink(tc.target, tc.link), "should fail for existing symlink")
 
 ano = tc.tempDir + "/another.lnk";

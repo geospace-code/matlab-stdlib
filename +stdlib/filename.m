@@ -17,7 +17,7 @@ end
 if isunix()
   pat = '[^/]*$';
 else
-  pat = ['[^/\\]*$'];
+  pat = '[^/\\]*$';
 end
 
 m = regexp(p, pat, 'match', 'once');
