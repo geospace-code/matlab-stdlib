@@ -1,4 +1,5 @@
 %% WITH_SUFFIX switch file extension
+% optional: mex
 %
 %%% Inputs
 % * p: path to modify
@@ -12,7 +13,7 @@ arguments
   suffix {mustBeTextScalar}
 end
 
-f = "";
+f = '';
 
 r = stdlib.parent(p);
 if ~strlength(r), return, end
