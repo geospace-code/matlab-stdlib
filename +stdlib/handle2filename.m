@@ -9,7 +9,7 @@ end
 n = '';
 
 if fileHandle >= 0
-  n = stdlib.posix(fopen(fileHandle));
+  n = fopen(fileHandle);
 end
 
 end

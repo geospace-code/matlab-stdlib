@@ -7,7 +7,7 @@ function test_example(tc)
 import matlab.unittest.constraints.IsFile
 
 cwd = fileparts(mfilename('fullpath'));
-example = stdlib.posix(cwd) + "/example.ini";
+example = cwd + "/example.ini";
 
 tc.assumeThat(example, IsFile)
 

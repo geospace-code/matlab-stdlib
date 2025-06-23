@@ -17,7 +17,7 @@ end
 exe = string.empty;
 
 if isfile(filename) && stdlib.is_exe(filename)
-  exe = stdlib.posix(filename);
+  exe = filename;
   return
 end
 
@@ -41,9 +41,9 @@ for p = fpath
   e = p + "/" + filename;
   if isfile(e) && stdlib.is_exe(e)
     if find_all
-      exe(end+1) = stdlib.posix(e); %#ok<AGROW>
+      exe(end+1) = e; %#ok<AGROW>
     else
-      exe = stdlib.posix(e);
+      exe = e;
       return
     end
   end
