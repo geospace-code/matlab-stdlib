@@ -17,6 +17,12 @@ public:
 
     matlab::data::ArrayFactory factory;
 
-    outputs[0] = factory.createScalar(fs_read_symlink(matlab_1string_input(inputs)));
+    std::string p = fs_read_symlink(matlab_1string_input(inputs));
+
+    if (p.empty()) {
+      outputs[0] = factory.createArray<matlab::data::MATLABString>({0, 0});
+    } else {
+      outputs[0] = factory.createScalar(p);
+    }
   }
 };
