@@ -141,6 +141,15 @@ if isempty(co)
       if isempty(comp)
         disp("set FC environment variable to the Fortran compiler path, or do 'mex -setup fortran'")
         if ismac()
+          p = '/opt/homebrew/bin/';
+          for fc = ["flang", "gfortran"]
+            comp = stdlib.which(fc, p);
+            if ~isempty(comp)
+              disp("found " + fc + " compiler: " + comp)
+              setenv("FC", comp);
+              return
+            end
+          end
           disp("on macOS, environment variables propagate in to GUI programs like Matlab by using 'launchctl setenv FC' and a reboot. Or by using 'FC=gfortran matlab -batch buildtool exe'")
         end
       end
