@@ -33,4 +33,9 @@ end
 
 end
 
-%!testif 0
+%!test
+%! if ispc
+%! pkg load windows
+%! c = getenv('ProgramFiles');
+%! assert(strlength(windows_shortname(c)) == 11)
+%! endif
