@@ -16,28 +16,16 @@ arguments
   p {mustBeTextScalar}
 end
 
-c = "";
-
-if ~strlength(p) || (ispc() && (startsWith(p, {'\\', '//'})))
-  % UNC path is not canonicalized
-  return
-end
-
-if stdlib.isoctave()
-% empty if any component of path does not exist
-  c = canonicalize_file_name(p);
+if strempty(p)
+  c = '';
 else
-% errors if any component of path does not exist.
-% disp("builtin")
-  try %#ok<TRYNC>
-    c = builtin('_canonicalizepath', p);
+  [s, r] = fileattrib(p);
+
+  if s == 1
+    c = stdlib.posix(r.Name);
+  else
+    c = stdlib.normalize(p);
   end
-end
-
-c = stdlib.posix(c);
-
-if ~strlength(c)
-  c = stdlib.normalize(p);
 end
 
 if isstring(p)
@@ -47,4 +35,4 @@ end
 end
 
 %!assert(canonical(""), "")
-%!assert(canonical("~"), homedir())
+%!assert(canonical("."), pwd())
