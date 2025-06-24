@@ -3,3 +3,5 @@
 function y = is_mex_fun(name)
   y = endsWith(which(name), mexext());
 end
+
+%!testif 0

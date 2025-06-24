@@ -4,7 +4,7 @@
 #include <filesystem>
 
 
-DEFUN_DLD (unlink, args, nargout,
+DEFUN_DLD (remove, args, nargout,
            "delete file or empty directory")
 {
   if (args.length() != 1){

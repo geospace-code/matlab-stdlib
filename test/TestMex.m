@@ -24,36 +24,36 @@ tc.verifyClass(stdlib.is_admin(), "logical")
 end
 
 
-function test_unlink_file(tc)
-tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/unlink." + mexext))
+function test_remove_file(tc)
+tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/remove." + mexext))
 
 d = tc.createTemporaryFolder();
 
 f = tempname(d);
 
-tc.verifyFalse(stdlib.unlink(f), "should not succeed at unlinking non-existant path")
+tc.verifyFalse(stdlib.remove(f), "should not succeed at removing non-existant path")
 
 tc.assumeTrue(stdlib.touch(f))
-tc.verifyTrue(stdlib.unlink(f), "failed to unlink file")
+tc.verifyTrue(stdlib.remove(f), "failed to remove file")
 end
 
 
-function test_unlink_empty_dir(tc)
-tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/unlink." + mexext))
+function test_remove_empty_dir(tc)
+tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/remove." + mexext))
 
 d = tc.createTemporaryFolder();
 
-tc.verifyTrue(stdlib.unlink(d), "failed to unlink empty directory")
+tc.verifyTrue(stdlib.remove(d), "failed to remove empty directory")
 end
 
 
-function test_unlink_recursive(tc)
-tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/unlink." + mexext))
+function test_remove_recursive(tc)
+tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/remove." + mexext))
 
 d = tc.createTemporaryFolder();
 
 tc.assumeTrue(stdlib.touch(fullfile(d, "junk.txt")))
-tc.verifyFalse(stdlib.unlink(d), "should not unlink directory recursively")
+tc.verifyFalse(stdlib.remove(d), "should not remove directory recursively")
 end
 
 end

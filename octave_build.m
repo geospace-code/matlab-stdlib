@@ -24,9 +24,9 @@ fullfile(d, "relative_to.cpp"), ...
 };
 
 % need this for loop below
-unlink_bin = fullfile(t, "unlink.oct");
-if ~isfile(unlink_bin)
-  mkoctfile(fullfile(d, "unlink.cpp"), ["-I", inc], "--output", unlink_bin)
+remove_bin = fullfile(t, "remove.oct");
+if ~isfile(remove_bin)
+  mkoctfile(fullfile(d, "remove.cpp"), ["-I", inc], "--output", remove_bin)
 end
 
 %% build C+ Octave
@@ -41,7 +41,7 @@ for s = srcs
 
   disp(["mkoctfile: ", src, " => ", bin])
   if isfile(bin)
-    assert(stdlib.unlink(bin))
+    assert(stdlib.remove(bin))
   end
   mkoctfile(src, ["-I", inc], "--output", bin)
 end

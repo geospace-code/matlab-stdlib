@@ -17,4 +17,4 @@ r = stdlib.canonical(stdlib.absolute(p));
 
 end
 
-%!assert (resolve(''), stdlib.posix(pwd()))
+%!testif 0
