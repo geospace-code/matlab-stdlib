@@ -56,8 +56,10 @@ jobs:
     - name: Check CodeIssues
       uses: ./.github/workflows/composite-check
 
+# https://www.mathworks.com/support/requirements/openjdk.html
+# old matlab may segfault with too-new JDK
     - name: matlab_jenv JDK 11
-      if: ${{ matrix.release < 'R2025a' && !startsWith(matrix.release, 'latest') }}
+      if: ${{ matrix.release >= 'R2023a' && matrix.release < 'R2025a' && !startsWith(matrix.release, 'latest') }}
       run: matlab_jenv ${JAVA_HOME_11_X64}
 
     - name: Matlab tell Java Version

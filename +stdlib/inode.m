@@ -15,11 +15,10 @@ if stdlib.exists(path)
     if err == 0
       i = s.ino;
     end
-  else
+  elseif stdlib.has_java() && stdlib.java_api() >= 11
+    % Java 1.8 is buggy in some corner cases, so we require at least 11.
     i = java.nio.file.Files.getAttribute(javaPathObject(path), "unix:ino", javaLinkOption());
   end
-else
-  i = [];
 end
 
 end

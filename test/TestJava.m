@@ -15,6 +15,7 @@ methods(Test)
 
 function test_inode(tc)
 tc.assumeFalse(ispc(), "not for Windows")
+tc.assumeGreaterThanOrEqual(stdlib.java_api(), 11)
 
 tc.verifyEqual(stdlib.inode("."), stdlib.inode(pwd()))
 tc.verifyEmpty(stdlib.inode(tempname))
@@ -23,6 +24,7 @@ end
 
 function test_device(tc)
 tc.assumeFalse(ispc(), "not for Windows")
+tc.assumeGreaterThanOrEqual(stdlib.java_api(), 11)
 
 tc.verifyEqual(stdlib.device("."), stdlib.device(pwd()))
 tc.verifyEmpty(stdlib.device(tempname))

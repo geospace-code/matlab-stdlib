@@ -36,7 +36,8 @@ Get the Java version:
 stdlib.java_version()
 ```
 
-From before Matlab R2019b to at least Matlab R2025a, the Matlab factory Java version is 1.8, which is adequate for all Matlab-stdlib functionality.
+From before Matlab R2019b to at least Matlab R2025a, the Matlab factory Java version is 1.8, which is adequate for most Matlab-stdlib functionality.
+Java 11 or newer is recommended for more robustness if relying on Java functionality.
 
 If desired (not used by Matlab-stdlib), one can use non-factory Java classes in
 [Matlab](](https://www.mathworks.com/help/matlab/matlab_external/static-path-of-java-class-path.html))

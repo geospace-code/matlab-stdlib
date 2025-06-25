@@ -9,7 +9,7 @@ v = stdlib.java_version();
 
 a = strsplit(v, '.');
 if(isempty(a))
-  api = 0;
+  api = [];
   return
 end
 
@@ -22,4 +22,4 @@ end
 end
 
 
-%!assert(java_api() > 0)
+%!assert(!isempty(java_api()))

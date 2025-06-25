@@ -28,9 +28,9 @@ if ~ispc() && stdlib.isoctave()
   y = e1 == 0 && e2 == 0 && ...
       r1.ino == r2.ino && r1.dev == r2.dev;
 
-elseif stdlib.has_java()
+elseif stdlib.has_java() && stdlib.java_api() >= 11
 % https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/nio/file/Files.html#isSameFile(java.nio.file.Path,java.nio.file.Path)
-
+% Java 1.8 is buggy in some corner cases, so we require at least 11.
   y = java.nio.file.Files.isSameFile(javaPathObject(path1), javaPathObject(path2));
 
 else
