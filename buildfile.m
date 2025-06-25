@@ -11,6 +11,7 @@ addpath(plan.RootFolder)
 %% Self-test setup
 plan("clean") = matlab.buildtool.tasks.CleanTask;
 
+
 cnomex = ~HasTag("exe") & ~HasTag("mex");
 if isMATLABReleaseOlderThan("R2024b")
   cnomex = cnomex & ~HasTag("symlink");
@@ -35,23 +36,24 @@ elseif isMATLABReleaseOlderThan("R2025a")
   plan("test:nojavamex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnojavamex), Dependencies="clean");
 
 else
-  % can't use SourceFiles= if "mex" Task was run, even if plan("test").DisableIncremental = true;
-  % this means incremental tests can't be used with MEX files (as of R2024b)
-  plan("test:exe")   = matlab.buildtool.tasks.TestTask("test", Tag="exe", ...
+  plan("test:exe")   = matlab.buildtool.tasks.TestTask("test", Tag="exe", Description="test subprocess",...
+                         SourceFiles=["+stdlib/", "test/*.cpp", "test/*.c", "test/*.f90"], ...
+                         RunOnlyImpactedTests=true,...
                          Dependencies="exe", TestResults="TestResults_exe.xml", Strict=false);
 
-  plan("test:nomex") = matlab.buildtool.tasks.TestTask("test", ...
-                         Selector=cnomex, ...
-                         Dependencies="clean", TestResults="TestResults_nomex.xml", Strict=false);
+  plan("test:nomex") = matlab.buildtool.tasks.TestTask("test", Description="Test non-MEX targets",...
+                         Selector=cnomex, SourceFiles="+stdlib/", RunOnlyImpactedTests=true,...
+                         dependencies="clean_mex", TestResults="TestResults_nomex.xml", Strict=false);
 
-  plan("test:mex")   = matlab.buildtool.tasks.TestTask("test", ...
-                         Selector=cmex, ...
+  plan("test:mex")   = matlab.buildtool.tasks.TestTask("test", Description="Test mex targts",...
+                         Selector=cmex, SourceFiles=["+stdlib/", "src/"], RunOnlyImpactedTests=true,...
                          Dependencies="mex", TestResults="TestResults_mex.xml", Strict=false);
 
-  plan("test:nojavamex") = matlab.buildtool.tasks.TestTask("test", ...
-                         Selector=cnojavamex, ...
-                         Dependencies="clean", TestResults="TestResults_nojavamex.xml", Strict=false);
+  plan("test:nojavamex") = matlab.buildtool.tasks.TestTask("test", Description="test non-Java targets", ...
+                         Selector=cnojavamex, SourceFiles="+stdlib/", RunOnlyImpactedTests=true,...
+                         Dependencies="clean_mex", TestResults="TestResults_nojavamex.xml", Strict=false);
 
+  plan("clean_mex") = matlab.buildtool.Task(Actions=@clean_mex, Description="Clean only MEX files to enable incremental tests");
 end
 
 td = plan.RootFolder + "/test";
@@ -61,7 +63,8 @@ if ~isempty(get_compiler("fortran"))
   srcs = [srcs, td + "/stdout_stderr_fortran.f90", td + "/stdin_fortran.f90"];
   exes = [exes, td+"/stdout_stderr_fortran.exe", td+"/stdin_fortran.exe"];
 end
-plan("exe") = matlab.buildtool.Task(Inputs=srcs, Outputs=exes, Actions=@build_exe);
+plan("exe") = matlab.buildtool.Task(Inputs=srcs, Outputs=exes, Actions=@build_exe, ...
+                 Description="build test exe's for test subprocess");
 
 if ~isMATLABReleaseOlderThan("R2024a")
   plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true, ...
@@ -96,6 +99,7 @@ for s = get_mex_sources()
     mex_deps(end+1) = mex_name; %#ok<AGROW>
   else
     plan("mex:" + name) = matlab.buildtool.tasks.MexTask(src, bindir, ...
+      Description="Build MEX target " + name, ...
       Options=[compiler_opt, linker_opt]);
   end
 end
@@ -104,6 +108,11 @@ if use_legacy_mex
   plan("mex").Dependencies = mex_deps;
 end
 
+end
+
+
+function clean_mex(context)
+run(context.Plan, "clean", {"mex"});
 end
 
 
