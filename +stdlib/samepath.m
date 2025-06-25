@@ -1,4 +1,5 @@
 %% SAMEPATH is path the same
+% optional: java
 %
 % true if inputs resolve to same path.
 % Both paths must exist.
@@ -16,9 +17,6 @@ arguments
   path2 {mustBeTextScalar}
 end
 
-% simpler our way than
-% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#isSameFile(java.nio.file.Path,java.nio.file.Path)
-
 y = stdlib.exists(path1) && stdlib.exists(path2);
 
 if ~y, return; end
@@ -30,8 +28,15 @@ if ~ispc() && stdlib.isoctave()
   y = e1 == 0 && e2 == 0 && ...
       r1.ino == r2.ino && r1.dev == r2.dev;
 
+elseif stdlib.has_java()
+% https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/nio/file/Files.html#isSameFile(java.nio.file.Path,java.nio.file.Path)
+
+  y = java.nio.file.Files.isSameFile(javaPathObject(path1), javaPathObject(path2));
+
 else
+
   y = strcmp(stdlib.canonical(path1), stdlib.canonical(path2));
+
 end
 
 %!assert(samepath(".", "."))
