@@ -17,19 +17,37 @@ arguments
 end
 
 if strempty(p)
-  c = '';
-else
-  [s, r] = fileattrib(p);
+  c = "";
+  return
+end
 
-  if s == 1
-    c = stdlib.posix(r.Name);
-  else
+if stdlib.isoctave() || isMATLABReleaseOlderThan('R2024a')
+  c = acanon(p);
+else
+  pth = matlab.io.internal.filesystem.resolvePath(p);
+  c = pth.ResolvedPath;
+  if strempty(c)
     c = stdlib.normalize(p);
   end
 end
 
-if isstring(p)
+try %#ok<*TRYNC>
   c = string(c);
+end
+
+end
+
+
+function c = acanon(p)
+
+if strempty(p), c = ''; return, end
+
+[s, r] = fileattrib(p);
+
+if s == 1
+  c = r.Name;
+else
+  c = stdlib.normalize(p);
 end
 
 end
