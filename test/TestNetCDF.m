@@ -39,11 +39,9 @@ stdlib.ncsave(basic, 'A2', A2, "dims", {'x2', size(A2,1), 'y2', size(A2,2)})
 stdlib.ncsave(basic, 'A3', A3, "dims", {'x3', size(A3,1), 'y3', size(A3,2), 'z3', size(A3,3)})
 stdlib.ncsave(basic, 'A4', A4, "dims", {'x4', size(A4,1), 'y4', size(A4,2), 'z4', size(A4,3), 'w4', size(A4,4)})
 
-if ~isMATLABReleaseOlderThan('R2021b')
-  stdlib.ncsave(basic, "utf0", utf0)
-  stdlib.ncsave(basic, "utf1", utf1, "dims", {'s1', size(utf1, 1)})
-  stdlib.ncsave(basic, "utf2", utf2, "dims", {'s1', size(utf2, 1), 't1', size(utf2, 2)})
-end
+stdlib.ncsave(basic, "utf0", utf0)
+stdlib.ncsave(basic, "utf1", utf1, "dims", {'s1', size(utf1, 1)})
+stdlib.ncsave(basic, "utf2", utf2, "dims", {'s1', size(utf2, 1), 't1', size(utf2, 2)})
 
 stdlib.ncsave(basic, '/t/x', 12)
 stdlib.ncsave(basic, '/t/y', 13)
@@ -58,11 +56,7 @@ methods (Test)
 function test_get_variables(tc)
 basic = tc.TestData.basic;
 
-k = ["A0", "A1", "A2", "A3", "A4"];
-
-if ~isMATLABReleaseOlderThan('R2021b')
-  k = [k, ["utf0", "utf1", "utf2"]];
-end
+k = ["A0", "A1", "A2", "A3", "A4", "utf0", "utf1", "utf2"];
 
 tc.verifyEqual(sort(stdlib.ncvariables(basic)), k)
 
@@ -120,8 +114,6 @@ end
 function test_size_string(tc)
 basic = tc.TestData.basic;
 
-tc.assumeFalse(isMATLABReleaseOlderThan('R2021b'), "NetCDF4 string requires Matlab >= R2021b")
-
 s = stdlib.ncsize(basic, 'utf0');
 tc.verifyEmpty(s)
 
@@ -160,8 +152,6 @@ end
 
 function test_read_string(tc)
 basic = tc.TestData.basic;
-
-tc.assumeFalse(isMATLABReleaseOlderThan('R2021b'), "NetCDF4 string requires Matlab >= R2021b")
 
 s = ncread(basic, 'utf0');
 tc.verifyClass(s, 'string')
