@@ -7,7 +7,12 @@
 
 std::string fs_parent(std::string_view in)
 {
-  auto par = std::filesystem::path(fs_drop_slash(in)).parent_path();
+
+  std::string s(in);
+  while (s.length() > 1 && (s.back() == '/' || (fs_is_windows() && s.back() == '\\')))
+    s.pop_back();
+
+  auto par = std::filesystem::path(s).parent_path();
 
   if (par.empty())
     return ".";

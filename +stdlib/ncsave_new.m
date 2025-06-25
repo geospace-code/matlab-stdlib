@@ -11,7 +11,7 @@ arguments
   compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0
 end
 
-assert(strlength(file) > 0, "stdlib:ncsave_new:file", "Empty filename")
+assert(~strempty(file), "stdlib:ncsave_new:file", "Empty filename")
 
 if isscalar(A)
   nccreate(file, varname, "Datatype", class(A), "Format", 'netcdf4')

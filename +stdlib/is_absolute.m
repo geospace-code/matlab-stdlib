@@ -11,10 +11,10 @@ end
 
 % not Octave is_absolute_filename() because this is a stricter check for "c:" false
 
-y = strlength(stdlib.root_dir(p)) > 0;
+y = ~strempty(stdlib.root_dir(p));
 
 if ispc()
-  y = y && strlength(stdlib.root_name(p)) > 0;
+  y = y && ~strempty(stdlib.root_name(p));
 end
 
 end

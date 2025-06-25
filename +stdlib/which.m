@@ -46,7 +46,7 @@ for fp = fpath
     p = fp;
   end
 
-  if ~strlength(p), continue, end
+  if strempty(p), continue, end
 
   e = strcat(p, '/', filename);
   if isfile(e) && stdlib.is_exe(e)

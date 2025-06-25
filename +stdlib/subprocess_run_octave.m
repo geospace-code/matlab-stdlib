@@ -53,7 +53,7 @@ if ~isempty(fieldnames(env))
   end
 end
 
-if strlength(cwd) > 0
+if ~strempty(cwd)
   % https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/ProcessBuilder.html#directory(java.io.File)
   proc.directory(javaFileObject(cwd));
 end
@@ -63,7 +63,7 @@ end
 h = proc.start();
 
 %% stdin pipe
-if strlength(stdin) > 0
+if ~strempty(stdin)
   os = javaObject("java.io.OutputStream", h.getOutputStream());
   writer = javaObject("java.io.BufferedWriter", os);
   writer.write(stdin);
@@ -100,10 +100,10 @@ h.destroy();
 
 stderr = strcat(tmsg, stderr);
 
-if nargout < 2 && strlength(stdout) > 0
+if nargout < 2 && ~strempty(stdout)
   disp(stdout)
 end
-if nargout < 3 && strlength(stderr) > 0
+if nargout < 3 && ~strempty(stderr)
   warning(stderr)
 end
 

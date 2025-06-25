@@ -5,7 +5,7 @@ end
 
 a = [];
 
-if strlength(p) == 0, return, end
+if strempty(p), return, end
 
 [status, a] = fileattrib(p);
 if status ~= 1

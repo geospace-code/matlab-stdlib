@@ -1,5 +1,4 @@
 %% PARENT parent directory of path
-% optional: mex
 %
 %% Examples:
 % parent("a/b/c") == "a/b"
@@ -12,35 +11,17 @@ arguments
   pth {mustBeTextScalar}
 end
 
-p = stdlib.drop_slash(pth);
-
-if ~strlength(p)
-  p = '.';
-elseif is_root_stub(p)
-  % 2 or 3 char drive letter
-  if strlength(p) == 2
-    p = strcat(p, '/');
-  end
-elseif strcmp(p, stdlib.root(p))
-  % noop
-else
-  j = strfind(p, '/');
-  if isempty(j)
-    p = '';
-  elseif ischar(p)
-    p = p(1:j(end)-1);
-  else
-    p = p{1}(1:j(end)-1);
-  end
-
-  if is_root_stub(p)
-    p = stdlib.root(pth);
-    return
-  end
+f = fullfile(char(pth));
+if endsWith(f, {'/', filesep}) && ~strcmp(f, stdlib.root(f))
+  f = f(1:end-1);
 end
 
-if ~strlength(p)
+p = fileparts(f);
+
+if strempty(p)
   p = '.';
+elseif ispc() && strcmp(p, stdlib.root_name(pth))
+  p = strcat(p, filesep);
 end
 
 if isstring(pth)
@@ -48,12 +29,6 @@ if isstring(pth)
 end
 
 end
-
-
-function s = is_root_stub(p)
-  s = ispc() && any(strlength(p) == [2,3]) && strlength(stdlib.root_name(p));
-end
-
 
 %!assert(parent("/a/b/c"), "/a/b")
 %!assert(parent("/a/b/c/"), "/a/b")

@@ -60,7 +60,7 @@ if ~isempty(fieldnames(opt.env))
   end
 end
 
-if strlength(opt.cwd) > 0
+if ~strempty(opt.cwd)
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html#directory(java.io.File)
   assert(isfolder(opt.cwd), "directory %s does not exist", opt.cwd)
   proc.directory(java.io.File(opt.cwd));
@@ -81,7 +81,7 @@ setenv("GFORTRAN_STDIN_UNIT", "5");
 h = proc.start();
 
 %% stdin pipe
-if strlength(opt.stdin) > 0
+if ~strempty(opt.stdin)
   writer = java.io.BufferedWriter(java.io.OutputStreamWriter(h.getOutputStream()));
   stdin_text = opt.stdin;
   if ~endsWith(stdin_text, newline)
@@ -131,10 +131,10 @@ setenv("GFORTRAN_STDOUT_UNIT", outold);
 setenv("GFORTRAN_STDERR_UNIT", errold);
 setenv("GFORTRAN_STDIN_UNIT", inold);
 
-if nargout < 2 && opt.stdout && strlength(stdout) > 0
+if nargout < 2 && opt.stdout && ~strempty(stdout)
   disp(stdout)
 end
-if nargout < 3 && opt.stderr && strlength(stderr) > 0
+if nargout < 3 && opt.stderr && ~strempty(stderr)
   warning(stderr)
 end
 

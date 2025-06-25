@@ -10,7 +10,7 @@ if ischar(A)
   return
 end
 
-if strlength(dtype) == 0
+if strempty(dtype)
   return
 end
 

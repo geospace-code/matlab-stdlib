@@ -7,10 +7,10 @@ end
 
 [~, n, s] = fileparts(p);
 
-if strlength(n)
-  st = n;
-else
+if strempty(n)
   st = s;
+else
+  st = n;
 end
 
 end

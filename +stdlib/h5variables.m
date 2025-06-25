@@ -14,7 +14,7 @@ arguments
   group {mustBeTextScalar} = ''
 end
 
-if ~strlength(group)
+if strempty(group)
   finf = h5info(file);
 else
   finf = h5info(file, group);

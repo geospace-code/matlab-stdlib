@@ -1,5 +1,4 @@
 %% WITH_SUFFIX switch file extension
-% optional: mex
 %
 %%% Inputs
 % * p: path to modify
@@ -16,11 +15,11 @@ end
 f = '';
 
 r = stdlib.parent(p);
-if ~strlength(r), return, end
+if strempty(r), return, end
 
 s = stdlib.stem(p);
 
-if strlength(s) == 0
+if strempty(s)
   f = stdlib.join(p, suffix);
   return
 end
@@ -28,7 +27,7 @@ end
 if strcmp(r, '.')
   f = s;
 else
-  f = strcat(r, '/', s);
+  f = strcat(r, filesep, s);
 end
 
 f = strcat(f, suffix);

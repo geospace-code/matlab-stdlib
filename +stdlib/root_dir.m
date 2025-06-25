@@ -18,7 +18,7 @@ pc = char(p);
 
 if startsWith(p, {'/', filesep})
   r = pc(1);
-elseif strlength(p) > 2 && strlength(stdlib.root_name(p))
+elseif strlength(p) > 2 && ~strempty(stdlib.root_name(p))
   if any(pc(3) == ['/', filesep])
     r = pc(3);
   end

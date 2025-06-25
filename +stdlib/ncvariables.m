@@ -15,7 +15,7 @@ arguments
 end
 
 
-if strlength(group) == 0
+if strempty(group)
   finf = ncinfo(file);
 else
   finf = ncinfo(file, group);

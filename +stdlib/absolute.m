@@ -26,13 +26,13 @@ if stdlib.is_absolute(c)
  return
 end
 
-if strlength(base)
+if ~strempty(base)
   b = stdlib.absolute(base);
 else
   b = pwd();
 end
 
-if strlength(c)
+if ~strempty(c)
   c = strcat(b, '/', c);
 else
   c = b;

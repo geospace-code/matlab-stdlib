@@ -10,21 +10,21 @@ rno = stdlib.root_name(other);
 rnb = stdlib.root_name(base);
 rdo = stdlib.root_dir(other);
 
-if stdlib.is_absolute(other) || (strlength(rno) && ~strcmp(rnb, rno))
+if stdlib.is_absolute(other) || (~strempty(rno) && ~strcmp(rnb, rno))
 
   p = other;
 
-elseif strlength(rdo)
+elseif ~strempty(rdo)
 
-  if strlength(rnb)
+  if ~strempty(rnb)
     p = strcat(rnb, '/', other);
   else
     p = other;
   end
 
-elseif strlength(base)
+elseif ~strempty(base)
 
-  if strlength(other)
+  if ~strempty(other)
     if endsWith(base, {'/', filesep})
       p = strcat(base, other);
     else

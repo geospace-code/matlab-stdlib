@@ -25,7 +25,7 @@ parts = split(n, '/');
 i0 = 1;
 if strncmp(n, "/", 1)
   n = "/";
-elseif ispc() && strlength(n) >= 2 && strlength(stdlib.root_name(p))
+elseif ispc() && strlength(n) >= 2 && ~strempty(stdlib.root_name(p))
   n = parts(1);
   i0 = 2;
 else
@@ -62,7 +62,7 @@ if uncslash
 end
 
 
-if ~strlength(n)
+if strempty(n)
   n = ".";
 end
 
