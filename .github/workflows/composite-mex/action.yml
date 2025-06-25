@@ -1,0 +1,14 @@
+name: "matlab-mex"
+
+runs:
+
+  using: "composite"
+
+  steps:
+
+  - name: Mex Test
+    if: ${{ matrix.release >= 'R2023a' || startsWith(matrix.release, 'latest') }}
+    uses: matlab-actions/run-build@v2
+    with:
+      startup-options: ${{ matrix.startup-options }} -logfile ${{ matrix.release }}-${{ runner.os }}-test.log
+      tasks: mex test

@@ -53,4 +53,11 @@ jobs:
       if: runner.os == 'macOS'
       run: echo "FC=gfortran-14" >> $GITHUB_ENV
 
-    - uses: ./.github/workflows/composite-buildtool
+    - name: Check CodeIssues
+      uses: ./.github/workflows/composite-check
+
+    - name: Non-MEX tests
+      uses: ./.github/workflows/composite-nomex
+
+    - name: MEX tests
+      uses: ./.github/workflows/composite-mex
