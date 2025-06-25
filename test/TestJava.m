@@ -13,6 +13,22 @@ end
 
 methods(Test)
 
+function test_inode(tc)
+tc.assumeFalse(ispc(), "not for Windows")
+
+tc.verifyEqual(stdlib.inode("."), stdlib.inode(pwd()))
+tc.verifyEmpty(stdlib.inode(tempname))
+end
+
+
+function test_device(tc)
+tc.assumeFalse(ispc(), "not for Windows")
+
+tc.verifyEqual(stdlib.device("."), stdlib.device(pwd()))
+tc.verifyEmpty(stdlib.device(tempname))
+end
+
+
 function test_filesystem_type(tc, Ps)
 
 s = stdlib.filesystem_type(Ps);

@@ -36,7 +36,7 @@ Get the Java version:
 stdlib.java_version()
 ```
 
-From before Matlab R2019b to at least Matlab R2024b, the Matlab factory Java version is 1.8, which is adequate for all Matlab-stdlib functionality.
+From before Matlab R2019b to at least Matlab R2025a, the Matlab factory Java version is 1.8, which is adequate for all Matlab-stdlib functionality.
 
 If desired (not used by Matlab-stdlib), one can use non-factory Java classes in
 [Matlab](](https://www.mathworks.com/help/matlab/matlab_external/static-path-of-java-class-path.html))
@@ -72,6 +72,12 @@ Tell Matlab to use this JDK from the Matlab console by:
 
 ```matlab
 jenv("/path/to/jdk-17/Contents/Home")
+```
+
+Or for the Amazon Corretto JDK 11 on macOS:
+
+```matlab
+jenv("/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home/")
 ```
 
 To

@@ -4,10 +4,8 @@ properties(TestParameter)
 p_is_writable = {{pwd(), true}, {"not-exists", false}, {"", false}};
 
 p_same = {...
-{"","", false}, ...
-{tempname(), tempname(), false}, ...
-{"..", "./..", true}, ...
-{"..", pwd() + "/..", true}}
+{"..", "./.."}, ...
+{"..", pwd() + "/.."}}
 
 ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname()), ''}}
 
@@ -46,8 +44,13 @@ end
 
 %%
 function test_samepath(tc, p_same)
-tc.verifyEqual(stdlib.samepath(p_same{1}, p_same{2}), p_same{3}, ...
-  "samepath(" + p_same{1} + "," + p_same{2} + ")")
+tc.verifyTrue(stdlib.samepath(p_same{1}, p_same{2}))
+end
+
+function test_samepath_notexist(tc)
+tc.verifyFalse(stdlib.samepath("", ""))
+t = tempname();
+tc.verifyFalse(stdlib.samepath(t, t))
 end
 
 
