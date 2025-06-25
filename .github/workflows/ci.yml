@@ -7,6 +7,7 @@ on:
     - "**.h"
     - "**.cpp"
     - ".github/workflows/ci.yml"
+    - ".github/workflows/*/action.yml"
     - "!private/publish_gen_index_html.m"
     - "!octave_build.m"
     - "!scripts/**"
@@ -37,7 +38,7 @@ jobs:
         - os: windows-latest
           release: R2025a
         - os: windows-latest
-          release: R2023a
+          release: R2023b
 
 
     steps:

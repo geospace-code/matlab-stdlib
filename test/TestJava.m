@@ -4,14 +4,8 @@ properties (TestParameter)
 Ps = {"."}
 end
 
-methods(TestClassSetup)
-function java_required(tc)
-tc.assumeTrue(stdlib.has_java())
-end
-end
 
-
-methods(Test)
+methods(Test, TestTags="java")
 
 function test_inode(tc)
 tc.assumeFalse(ispc(), "not for Windows")

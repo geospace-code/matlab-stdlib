@@ -7,6 +7,7 @@ on:
     - "**.h"
     - "**.cpp"
     - ".github/workflows/ci-nojvm.yml"
+    - ".github/workflows/*/action.yml"
     - "!private/publish_gen_index_html.m"
     - "!octave_build.m"
     - "!scripts/**"
@@ -41,6 +42,3 @@ jobs:
 
     - name: No Java, no Mex tests
       uses: ./.github/workflows/composite-nomex
-
-    - name: No Java, with MEX tests
-      uses: ./.github/workflows/composite-mex

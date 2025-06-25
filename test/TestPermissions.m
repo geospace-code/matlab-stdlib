@@ -4,10 +4,10 @@ properties (TestParameter)
 Ps = {".", tempname(), "", "not-exist"}
 end
 
+
 methods (Test)
 
 function test_get_permissions(tc, Ps)
-
 import matlab.unittest.constraints.StartsWithSubstring
 
 p = stdlib.get_permissions(Ps);
@@ -21,12 +21,15 @@ end
 
 end
 
+end
+
+
+
+methods(Test, TestTags = "mex")
 
 function test_set_permissions(tc)
 
 import matlab.unittest.constraints.StartsWithSubstring
-
-tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/set_permissions." + mexext))
 
 tf = tc.createTemporaryFolder();
 

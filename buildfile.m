@@ -1,5 +1,6 @@
 function plan = buildfile
-assert(~isMATLABReleaseOlderThan("R2023a"), "MATLAB R2023a or newer is required for this buildfile")
+import matlab.unittest.selectors.HasTag
+assert(~isMATLABReleaseOlderThan("R2023b"), "MATLAB R2023b or newer is required for this buildfile")
 
 plan = buildplan(localfunctions);
 
@@ -8,14 +9,49 @@ pkg_name = "+stdlib";
 addpath(plan.RootFolder)
 
 %% Self-test setup
-if isMATLABReleaseOlderThan("R2023b")
-  plan("test") = matlab.buildtool.Task(Actions=@legacy_test);
-elseif isMATLABReleaseOlderThan("R2024a")
-  plan("test") = matlab.buildtool.tasks.TestTask("test", Strict=false);
+plan("clean") = matlab.buildtool.tasks.CleanTask;
+
+cnomex = ~HasTag("exe") & ~HasTag("mex");
+if isMATLABReleaseOlderThan("R2024b")
+  cnomex = cnomex & ~HasTag("symlink");
+end
+
+cmex = ~HasTag("exe") & HasTag("mex");
+cnojavamex = ~HasTag("java") & cnomex;
+
+
+if isMATLABReleaseOlderThan("R2024b")
+
+  plan("test_exe") = matlab.buildtool.tasks.TestTask("test", Tag="exe", Dependencies="exe");
+  plan("test_nomex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnomex), Dependencies="clean");
+  plan("test_mex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cmex), Dependencies="mex");
+  plan("test_nojavamex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnojavamex), Dependencies="clean");
+
+elseif isMATLABReleaseOlderThan("R2025a")
+
+  plan("test:exe")   = matlab.buildtool.tasks.TestTask("test", Tag="exe", Dependencies="exe");
+  plan("test:nomex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnomex), Dependencies="clean");
+  plan("test:mex")   = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cmex), Dependencies="mex");
+  plan("test:nojavamex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnojavamex), Dependencies="clean");
+
 else
   % can't use SourceFiles= if "mex" Task was run, even if plan("test").DisableIncremental = true;
   % this means incremental tests can't be used with MEX files (as of R2024b)
-  plan("test") = matlab.buildtool.tasks.TestTask("test", Strict=false, TestResults="TestResults.xml");
+  plan("test:exe")   = matlab.buildtool.tasks.TestTask("test", Tag="exe", ...
+                         Dependencies="exe", TestResults="TestResults_exe.xml", Strict=false);
+
+  plan("test:nomex") = matlab.buildtool.tasks.TestTask("test", ...
+                         Selector=cnomex, ...
+                         Dependencies="clean", TestResults="TestResults_nomex.xml", Strict=false);
+
+  plan("test:mex")   = matlab.buildtool.tasks.TestTask("test", ...
+                         Selector=cmex, ...
+                         Dependencies="mex", TestResults="TestResults_mex.xml", Strict=false);
+
+  plan("test:nojavamex") = matlab.buildtool.tasks.TestTask("test", ...
+                         Selector=cnojavamex, ...
+                         Dependencies="clean", TestResults="TestResults_nojavamex.xml", Strict=false);
+
 end
 
 td = plan.RootFolder + "/test";
@@ -26,11 +62,6 @@ if ~isempty(get_compiler("fortran"))
   exes = [exes, td+"/stdout_stderr_fortran.exe", td+"/stdin_fortran.exe"];
 end
 plan("exe") = matlab.buildtool.Task(Inputs=srcs, Outputs=exes, Actions=@build_exe);
-plan("test").Dependencies = "exe";
-
-if ~isMATLABReleaseOlderThan("R2023b")
-  plan("clean") = matlab.buildtool.tasks.CleanTask;
-end
 
 if ~isMATLABReleaseOlderThan("R2024a")
   plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true, ...
@@ -82,9 +113,15 @@ mex(context.Task.Inputs.Path, "-outdir", bindir, compiler_opt{:}, linker_opt)
 end
 
 
-function legacy_test(context)
-r = runtests(context.Plan.RootFolder + "/test", Strict=false);
-% Parallel Computing Toolbox takes more time to startup than is worth it for this task
+function legacy_test(context, sel)
+import matlab.unittest.TestSuite
+
+suite = TestSuite.fromFolder(context.Plan.RootFolder + "/test");
+suite = suite.selectIf(sel);
+
+runner = testrunner();
+
+r = run(runner, suite);
 
 assert(~isempty(r), "No tests were run")
 assertSuccess(r)
@@ -256,10 +293,6 @@ end
 if msvc
   std = "/std:c++17";
   % on Windows, Matlab doesn't register unsupported MSVC or oneAPI
-elseif cxx.Name == "Xcode Clang++"
-  if isMATLABReleaseOlderThan("R2023b") && stdlib.version_atleast(cxx.Version, "15.0")
-    warning("Xcode Clang++ " + cxx.Version + " may not support this Matlab version")
-  end
 elseif ~strlength(compiler_id) && cxx.ShortName == "g++"
   if ~stdlib.version_atleast(cxx.Version, "8")
     warning("g++ 8 or newer is required for MEX, detected g++" + cxx.Version)

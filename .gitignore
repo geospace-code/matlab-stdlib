@@ -1,7 +1,6 @@
 Filesystem.class
 CodeIssues.sarif
-TestResults.xml
-code-coverage.xml
+*.xml
 
 resources/
 .buildtool/

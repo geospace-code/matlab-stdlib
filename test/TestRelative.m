@@ -5,22 +5,20 @@ pr = init_rel()
 pp = init_prox()
 end
 
-methods(TestClassSetup)
-function mex_required(tc)
-tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/relative_to." + mexext))
-tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/proximate_to." + mexext))
-end
-end
-
-
-methods (Test)
+methods (Test, TestTags = "mex")
 
 function test_relative_to(tc, pr)
+import matlab.unittest.constraints.IsFile
+tc.assertThat(fileparts(mfilename("fullpath")) + "/../+stdlib/relative_to." + mexext, IsFile)
+
 tc.verifyEqual(stdlib.relative_to(pr{1}, pr{2}), pr{3}, ...
   "relative_to(" + pr{1} + "," + pr{2}+")")
 end
 
 function test_proximate_to(tc, pp)
+import matlab.unittest.constraints.IsFile
+tc.assertThat(fileparts(mfilename("fullpath")) + "/../+stdlib/proximate_to." + mexext, IsFile)
+
 tc.verifyEqual(stdlib.proximate_to(pp{1}, pp{2}), pp{3}, ...
   "proximate_to(" + pp{1} + "," + pp{2}+")")
 end

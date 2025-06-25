@@ -1,11 +1,8 @@
 classdef TestMex < matlab.unittest.TestCase
 
-methods (Test)
+methods (Test, TestTags = "mex")
 
 function test_is_char_device(tc)
-
-tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/is_char_device." + mexext))
-
 % /dev/stdin may not be available on CI systems
 if ispc
   n = "NUL";
@@ -18,14 +15,13 @@ end
 
 
 function test_is_admin(tc)
-tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/is_admin." + mexext))
-
 tc.verifyClass(stdlib.is_admin(), "logical")
 end
 
 
 function test_remove_file(tc)
-tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/remove." + mexext))
+import matlab.unittest.constraints.IsFile
+tc.assertThat(fileparts(mfilename("fullpath")) + "/../+stdlib/remove." + mexext, IsFile)
 
 d = tc.createTemporaryFolder();
 
@@ -39,7 +35,8 @@ end
 
 
 function test_remove_empty_dir(tc)
-tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/remove." + mexext))
+import matlab.unittest.constraints.IsFile
+tc.assertThat(fileparts(mfilename("fullpath")) + "/../+stdlib/remove." + mexext, IsFile)
 
 d = tc.createTemporaryFolder();
 
@@ -48,7 +45,8 @@ end
 
 
 function test_remove_recursive(tc)
-tc.assumeTrue(isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/remove." + mexext))
+import matlab.unittest.constraints.IsFile
+tc.assertThat(fileparts(mfilename("fullpath")) + "/../+stdlib/remove." + mexext, IsFile)
 
 d = tc.createTemporaryFolder();
 

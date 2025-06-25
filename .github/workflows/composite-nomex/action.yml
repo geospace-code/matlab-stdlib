@@ -7,22 +7,29 @@ runs:
   steps:
 
   - name: Non-Mex Test
-    if: ${{ matrix.release >= 'R2023a' || startsWith(matrix.release, 'latest') }}
+    if: ${{ matrix.release >= 'R2024b' || startsWith(matrix.release, 'latest') }}
     uses: matlab-actions/run-build@v2
     with:
       startup-options: ${{ matrix.startup-options }}
-      tasks: test
+      tasks: ${{ contains(matrix.startup-options, '-nojvm') && 'test:nojavamex' || 'test:nomex' }}
+
+
+  - name: Non-Mex Test (< R2024b)
+    if: ${{ matrix.release >= 'R2023b' && matrix.release < 'R2024b' && !startsWith(matrix.release, 'latest') }}
+    uses: matlab-actions/run-build@v2
+    with:
+      startup-options: ${{ matrix.startup-options }}
+      tasks: test_nomex
+
 
 # note: "source-folder" is necessary, but watch out as it adds all subfolders to path too
 # https://github.com/matlab-actions/run-tests?tab=readme-ov-file#run-matlab-tests
-  - name: Run tests (manual)
-    if: ${{ matrix.release < 'R2023a' && !startsWith(matrix.release, 'latest') }}
-    uses: matlab-actions/run-tests@v2
+  - name: Non-mex tests (< R2023b)
+    if: ${{ matrix.release < 'R2023b' && !startsWith(matrix.release, 'latest') }}
+    uses: matlab-actions/run-command@v2
     with:
-      source-folder: ${{ github.workspace }}
-      select-by-folder: test
-      strict: false
-      startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test.log
+      command: addpath("${{ github.workspace }}"), test_nomex
+      startup-options: -sd ./test -logfile ${{ matrix.release }}-${{ runner.os }}-test.log
 
 
   - name: upload logfile
