@@ -14,18 +14,13 @@
 %
 % ans = logical 1
 
+
 function ispar = is_parallel_worker()
 
-ispar = false;
-
 try
-  addons = matlab.addons.installedAddons();
+  ispar = matlab.internal.parallel.isPCTInstalled() && ~isempty(getCurrentWorker());
 catch
-  return
-end
-
-if any(contains(addons.Name, 'Parallel Computing Toolbox'))
-  ispar = ~isempty(getCurrentWorker());
+  ispar = false;
 end
 
 end
