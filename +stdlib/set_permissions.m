@@ -32,13 +32,13 @@ end
 ok = true;
 
 if readable ~= 0
-  ok = ok && setPermissions(p, "Readable", readable > 0);
+  setPermissions(p, "Readable", readable > 0);
 end
 if writable ~= 0
-  ok = ok && setPermissions(p, "Writable", writable > 0);
+  setPermissions(p, "Writable", writable > 0);
 end
 if executable ~= 0
-  ok = ok && setPermissions(p, "Executable", executable > 0);
+  setPermissions(p, "Executable", executable > 0);
 end
 
 end
