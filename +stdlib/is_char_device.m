@@ -10,7 +10,8 @@ arguments
 end
 
 if stdlib.isoctave()
-  ok = S_ISCHR(stat(p).mode);
+  [s, err] = stat(p);
+  ok = err == 0 && S_ISCHR(s.mode);
 else
   error("buildtool mex")
 end

@@ -10,15 +10,17 @@ arguments
   p {mustBeTextScalar,mustBeFile}
 end
 
+s = [];
+
 if stdlib.isoctave()
-  s = stat(p);
-  if ~isempty(s)
-    s = s.size;
+  [st, err] = stat(p);
+  if err == 0
+    s = st.size;
   end
 else
-  s = dir(p);
-  if ~isempty(s)
-    s = s.bytes;
+  d = dir(p);
+  if ~isempty(d)
+    s = d.bytes;
   end
 end
 

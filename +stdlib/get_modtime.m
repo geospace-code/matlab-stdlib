@@ -13,11 +13,11 @@ end
 
 
 if stdlib.isoctave()
-  s = stat(p);
-  if isempty(s)
-    t = [];
-  else
+  [s, err] = stat(p);
+  if err == 0
     t = s.mtime;
+  else
+    t = [];
   end
   return
 end

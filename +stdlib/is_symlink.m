@@ -12,7 +12,9 @@ try
 catch e
   switch e.identifier
     case "MATLAB:UndefinedFunction", ok = java.nio.file.Files.isSymbolicLink(javaPathObject(stdlib.absolute(p)));
-    case "Octave:undefined-function", ok = S_ISLNK(stat(p).mode);
+    case "Octave:undefined-function"
+      [s, err] = stat(p);
+      ok = err == 0 && S_ISLNK(s.mode);
     otherwise, rethrow(e)
   end
 end

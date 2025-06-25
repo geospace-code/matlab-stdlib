@@ -13,8 +13,8 @@ end
 c = [];
 
 if stdlib.isoctave()
-  s = stat(p);
-  if ~isempty(s)
+  [s, err] = stat(p);
+  if err == 0
     c = s.nlink;
   end
 elseif ispc() || ~isfile(p)

@@ -15,8 +15,9 @@ catch e
   switch e.identifier
     case "MATLAB:io:filesystem:filePermissions:CannotFindLocation", return
     case "Octave:undefined-function"
-      try  %#ok<TRYNC>
-        p = stat(f).modestr;
+      [s, err] = stat(f);
+      if err == 0
+        p = s.modestr;
       end
       return
     case "MATLAB:UndefinedFunction"
