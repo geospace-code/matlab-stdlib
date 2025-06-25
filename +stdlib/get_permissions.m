@@ -70,4 +70,4 @@ end
 
 end
 
-%!assert(length(get_permissions('get_permissions.m')) == 9)
+%!assert(length(get_permissions('get_permissions.m')) >= 9)

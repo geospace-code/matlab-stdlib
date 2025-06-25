@@ -22,3 +22,6 @@ if stdlib.exists(path)
 end
 
 end
+
+%!assert(inode(pwd) >= 0);
+%!assert(isempty(inode(tempname())));

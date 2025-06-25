@@ -29,3 +29,5 @@ if isstring(p)
 end
 
 end
+
+%!assert(root_dir(pwd()) == '/')

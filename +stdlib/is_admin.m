@@ -4,3 +4,5 @@
 function is_admin()
 error("buildtool mex")
 end
+
+%!testif 0

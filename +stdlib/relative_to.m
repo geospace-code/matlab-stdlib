@@ -15,3 +15,5 @@
 function relative_to(~,~)
 error("buildtool mex")
 end
+
+%!testif 0

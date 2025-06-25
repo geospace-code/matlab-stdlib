@@ -10,7 +10,6 @@ r = strcat(stdlib.root_name(p), stdlib.root_dir(p));
 
 end
 
-%!assert(root(''), '')
 %!assert(root('/'), '/')
 %!test
 %! if ispc

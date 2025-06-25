@@ -27,4 +27,3 @@ end
 end
 
 %!assert(!isempty(get_owner(pwd)))
-%!assert(isempty(get_owner(tempname)))

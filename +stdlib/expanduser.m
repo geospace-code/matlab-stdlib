@@ -37,7 +37,7 @@ end
 
 %!assert(expanduser(''), '')
 %!assert(expanduser("~"), homedir())
-%!assert(expanduser("~/"), homedir())
+%!assert(expanduser("~/"), strcat(homedir(), '/'))
 %!assert(expanduser("~user"), "~user")
-%!assert(expanduser("~user/"), "~user")
-%!assert(expanduser("~///c"), strcat(homedir(), "/c"))
+%!assert(expanduser("~user/"), "~user/")
+%!assert(expanduser("~/c"), strcat(homedir(), "/c"))

@@ -22,3 +22,6 @@ if stdlib.exists(path)
 end
 
 end
+
+%!assert(device(pwd) >= 0);
+%!assert(isempty(device(tempname())));

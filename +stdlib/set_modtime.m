@@ -10,10 +10,9 @@ end
 try
   utc = convertTo(datetime(t, "TimeZone", "UTC"), "posixtime");
 catch e
-  if strcmp(e.identifier, "Octave:undefined-function")
-    utc = t;
-  else
-    rethrow(e);
+  switch e.identifier
+    case "Octave:undefined-function", utc = t;
+    otherwise, rethrow(e);
   end
 end
 
@@ -23,7 +22,7 @@ end
 
 %!test
 %! p = tempname();
-%! t = time()
-%! assert(touch(p, []))
+%! t = now();
+%! assert(touch(p, t))
 %! assert(set_modtime(p, t))
 %! delete(p)
