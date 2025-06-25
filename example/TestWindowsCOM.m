@@ -8,7 +8,7 @@ end
 methods (Test)
 
 function test_not(tc, Pn)
-tc.verifyEqual(stdlib.windows_shortname(Pn{1}), Pn{2})
+tc.verifyEqual(windows_shortname(Pn{1}), Pn{2})
 end
 
 function test_short_folder(tc)
@@ -19,7 +19,7 @@ if ispc()
   tc.assertThat(progdir, IsFolder, "$Env:PROGRAMFILES is not a directory")
 end
 
-short = stdlib.windows_shortname(progdir);
+short = windows_shortname(progdir);
 
 if ispc
   tc.verifySubstring(short, "PROGRA~1")
@@ -33,7 +33,7 @@ end
 
 function test_short_file(tc, Pmr)
 
-s = stdlib.windows_shortname(Pmr);
+s = windows_shortname(Pmr);
 
 if ispc
   if contains(Pmr, " ")
@@ -43,8 +43,7 @@ if ispc
   tc.verifyLessThanOrEqual(strlength(s), strlength(Pmr))
 end
 
-tc.verifyTrue(stdlib.samepath(s, Pmr),...
-  sprintf("mex: %d", stdlib.is_mex_fun("stdlib.windows_shortname")))
+tc.verifyTrue(stdlib.samepath(s, Pmr))
 
 end
 
