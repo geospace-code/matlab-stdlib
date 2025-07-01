@@ -5,6 +5,8 @@ arguments
   name {mustBeTextScalar}
 end
 
+% this method is 4x faster than using inmem() and processing strings
+
 y = endsWith(which(name), mexext());
 
 end
