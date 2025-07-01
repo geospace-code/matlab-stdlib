@@ -52,7 +52,8 @@ end
 end
 
 
-methods (Test)
+methods (Test, TestTags="netcdf")
+
 function test_get_variables(tc)
 basic = tc.TestData.basic;
 

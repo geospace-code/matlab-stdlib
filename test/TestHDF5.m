@@ -55,7 +55,7 @@ end
 end
 
 
-methods (Test)
+methods (Test, TestTags="hdf5")
 
 function test_auto_chunk_size(tc)
 
