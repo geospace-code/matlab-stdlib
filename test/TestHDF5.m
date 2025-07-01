@@ -50,7 +50,7 @@ stdlib.h5save(bf, '/t/x', 12)
 stdlib.h5save(bf, '/t/y', 13)
 stdlib.h5save(bf, '/j/a/b', 6)
 
-tc.assumeThat(bf, matlab.unittest.constraints.IsFile)
+tc.assertThat(bf, matlab.unittest.constraints.IsFile)
 end
 end
 

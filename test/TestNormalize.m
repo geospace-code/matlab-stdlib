@@ -71,7 +71,7 @@ if ispc()
   d = [d, dd];
 end
 
-if ~isfile(fileparts(mfilename("fullpath")) + "/../+stdlib/drop_slash." + mexext)
+if ~stdlib.is_mex_fun("stdlib.normalize")
 
 dd = {...
   {'a', 'a'}, ...

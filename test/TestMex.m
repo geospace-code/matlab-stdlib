@@ -20,7 +20,7 @@ end
 
 
 function test_remove_file(tc)
-tc.assertThat(stdlib.is_mex_fun("stdlib.remove"))
+tc.assertTrue(stdlib.is_mex_fun("stdlib.remove"))
 
 d = tc.createTemporaryFolder();
 
@@ -34,8 +34,7 @@ end
 
 
 function test_remove_empty_dir(tc)
-import matlab.unittest.constraints.IsFile
-tc.assertThat(fileparts(mfilename("fullpath")) + "/../+stdlib/remove." + mexext, IsFile)
+tc.assertTrue(stdlib.is_mex_fun("stdlib.remove"))
 
 d = tc.createTemporaryFolder();
 
@@ -44,8 +43,7 @@ end
 
 
 function test_remove_recursive(tc)
-import matlab.unittest.constraints.IsFile
-tc.assertThat(fileparts(mfilename("fullpath")) + "/../+stdlib/remove." + mexext, IsFile)
+tc.assertTrue(stdlib.is_mex_fun("stdlib.remove"))
 
 d = tc.createTemporaryFolder();
 

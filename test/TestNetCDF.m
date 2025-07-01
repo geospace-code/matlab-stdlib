@@ -47,7 +47,7 @@ stdlib.ncsave(basic, '/t/x', 12)
 stdlib.ncsave(basic, '/t/y', 13)
 stdlib.ncsave(basic, '/j/a/b', 6)
 
-tc.assumeThat(basic, matlab.unittest.constraints.IsFile)
+tc.assertThat(basic, matlab.unittest.constraints.IsFile)
 end
 end
 

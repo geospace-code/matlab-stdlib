@@ -7,13 +7,11 @@ end
 methods(Test, TestTags = "mex")
 
 function test_mex_disk_available(tc)
-import matlab.unittest.constraints.IsFile
-tc.assertThat(fileparts(mfilename("fullpath")) + "/../+stdlib/disk_available." + mexext, IsFile)
+tc.assertTrue(stdlib.is_mex_fun("stdlib.disk_available"))
 end
 
 function test_mex_disk_capacity(tc)
-import matlab.unittest.constraints.IsFile
-tc.assertThat(fileparts(mfilename("fullpath")) + "/../+stdlib/disk_capacity." + mexext, IsFile)
+tc.assertTrue(stdlib.is_mex_fun("stdlib.disk_capacity"))
 end
 
 end

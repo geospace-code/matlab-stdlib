@@ -12,7 +12,7 @@ tc.assumeThat(tc.TestData.basic, IsFile)
 end
 end
 
-methods (Test)
+methods (Test, TestTags="hdf4")
 
 function test_exists(tc)
 import matlab.unittest.constraints.IsScalar

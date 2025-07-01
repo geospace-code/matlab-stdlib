@@ -20,7 +20,7 @@ tc.assumeGreaterThan(fid, 0);
 fprintf(fid, "hello");
 fclose(fid);
 
-tc.assumeThat(fn, matlab.unittest.constraints.IsFile)
+tc.assertThat(fn, matlab.unittest.constraints.IsFile)
 
 tc.verifyEqual(stdlib.file_checksum(fn, Ph{1}), Ph{2})
 

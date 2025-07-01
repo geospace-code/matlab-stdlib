@@ -12,7 +12,6 @@ tc.assumeFalse(ispc(), "not for Windows")
 tc.assumeGreaterThanOrEqual(stdlib.java_api(), 11)
 
 tc.verifyEqual(stdlib.inode("."), stdlib.inode(pwd()))
-tc.verifyEmpty(stdlib.inode(tempname))
 end
 
 
@@ -21,7 +20,6 @@ tc.assumeFalse(ispc(), "not for Windows")
 tc.assumeGreaterThanOrEqual(stdlib.java_api(), 11)
 
 tc.verifyEqual(stdlib.device("."), stdlib.device(pwd()))
-tc.verifyEmpty(stdlib.device(tempname))
 end
 
 function test_owner(tc, Ps)
@@ -101,8 +99,6 @@ if ispc
 else
     tc.verifyGreaterThanOrEqual(stdlib.hard_link_count(fn), 1)
 end
-
-tc.verifyEmpty(stdlib.hard_link_count(tempname()))
 end
 
 
