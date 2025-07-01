@@ -16,8 +16,11 @@ cnomex = ~HasTag("exe") & ~HasTag("mex");
 if isMATLABReleaseOlderThan("R2024b")
   cnomex = cnomex & ~HasTag("symlink");
 end
+if ispc()
+  cnomex = cnomex & ~HasTag("unix");
+end
 
-cmex = ~HasTag("exe") & HasTag("mex");
+cmex = HasTag("mex");
 cnojavamex = ~HasTag("java") & cnomex;
 
 

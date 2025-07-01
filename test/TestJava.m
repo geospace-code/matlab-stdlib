@@ -5,7 +5,7 @@ Ps = {"."}
 end
 
 
-methods(Test, TestTags="java")
+methods (Test, TestTags=["java", "unix"])
 
 function test_inode(tc)
 tc.assumeFalse(ispc(), "not for Windows")
@@ -24,21 +24,6 @@ tc.verifyEqual(stdlib.device("."), stdlib.device(pwd()))
 tc.verifyEmpty(stdlib.device(tempname))
 end
 
-
-function test_filesystem_type(tc, Ps)
-
-s = stdlib.filesystem_type(Ps);
-tc.verifyClass(s, 'string')
-L = strlength(s);
-
-if strlength(Ps) == 0 || stdlib.exists(Ps)
-  tc.verifyGreaterThan(L, 0)
-else
-  tc.verifyEqual(L, 0)
-end
-end
-
-
 function test_owner(tc, Ps)
 
 s = stdlib.get_owner(Ps);
@@ -52,6 +37,23 @@ else
 end
 end
 
+end
+
+
+methods(Test, TestTags="java")
+
+function test_filesystem_type(tc, Ps)
+
+s = stdlib.filesystem_type(Ps);
+tc.verifyClass(s, 'string')
+L = strlength(s);
+
+if strlength(Ps) == 0 || stdlib.exists(Ps)
+  tc.verifyGreaterThan(L, 0)
+else
+  tc.verifyEqual(L, 0)
+end
+end
 
 function test_username(tc)
 u = stdlib.get_username();
