@@ -8,7 +8,7 @@
 % * varname: variable name to save
 % * A: data to write
 % * opts.dims: name and size of dimensions
-% * opts.type: class of variable e.g. int32, float32
+% * opts.type: class of variable e.g. int32, single
 
 function ncsave(filename, varname, A, opts)
 arguments

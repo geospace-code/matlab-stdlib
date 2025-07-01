@@ -8,7 +8,7 @@
 % * varname: variable name to save
 % * A: data to write
 % * opts.size: variable shape -- helps write scalar or vectors especially
-% * opts.type: class of variable e.g. int32, float32
+% * opts.type: class of variable e.g. int32, single
 %
 % The shape of the dataset can be controlled by specifying the "size" argument.
 % This is particularly useful when writing HDF5 files to be used in other programming languages where dimensional shapes are important.

@@ -188,8 +188,6 @@ stdlib.h5save(basic, "/" + type, 0, "type", type)
 
 switch type
 case "string", vt = 'char';
-case "float64", vt = 'double';
-case "float32", vt = 'single';
 otherwise, vt = type;
 end
 
