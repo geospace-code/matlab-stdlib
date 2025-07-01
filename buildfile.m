@@ -12,7 +12,7 @@ addpath(plan.RootFolder)
 plan("clean") = matlab.buildtool.tasks.CleanTask;
 
 
-cnomex = ~HasTag("exe") & ~HasTag("mex");
+cnomex = ~HasTag("exe") & ~HasTag("mex") & ~HasTag("java");
 if isMATLABReleaseOlderThan("R2024b")
   cnomex = cnomex & ~HasTag("symlink");
 end
@@ -21,22 +21,26 @@ if ispc()
 end
 
 cmex = HasTag("mex");
-cnojavamex = ~HasTag("java") & cnomex;
+
+cjava = HasTag("java") & ~HasTag("exe");
+if ispc()
+  cjava = cjava & ~HasTag("unix");
+end
 
 
 if isMATLABReleaseOlderThan("R2024b")
 
+  plan("test_java") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cjava));
   plan("test_exe") = matlab.buildtool.tasks.TestTask("test", Tag="exe", Dependencies="exe");
   plan("test_nomex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnomex), Dependencies="clean");
   plan("test_mex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cmex), Dependencies="mex");
-  plan("test_nojavamex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnojavamex), Dependencies="clean");
 
 elseif isMATLABReleaseOlderThan("R2025a")
 
+  plan("test:java")  = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cjava));
   plan("test:exe")   = matlab.buildtool.tasks.TestTask("test", Tag="exe", Dependencies="exe");
   plan("test:nomex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnomex), Dependencies="clean");
   plan("test:mex")   = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cmex), Dependencies="mex");
-  plan("test:nojavamex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnojavamex), Dependencies="clean");
 
 else
   plan("test:exe")   = matlab.buildtool.tasks.TestTask("test", Tag="exe", Description="test subprocess",...
@@ -52,9 +56,9 @@ else
                          Selector=cmex, SourceFiles=["+stdlib/", "src/"], RunOnlyImpactedTests=true,...
                          Dependencies="mex", TestResults="TestResults_mex.xml", Strict=false);
 
-  plan("test:nojavamex") = matlab.buildtool.tasks.TestTask("test", Description="test non-Java targets", ...
-                         Selector=cnojavamex, SourceFiles="+stdlib/", RunOnlyImpactedTests=true,...
-                         Dependencies="clean_mex", TestResults="TestResults_nojavamex.xml", Strict=false);
+  plan("test:java") = matlab.buildtool.tasks.TestTask("test", Description="test Java targets", ...
+                         Selector=cjava, SourceFiles="+stdlib/", RunOnlyImpactedTests=true,...
+                         TestResults="TestResults_java.xml", Strict=false);
 
   plan("clean_mex") = matlab.buildtool.Task(Actions=@clean_mex, Description="Clean only MEX files to enable incremental tests");
 end

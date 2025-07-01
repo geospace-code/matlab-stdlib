@@ -11,7 +11,7 @@ runs:
     uses: matlab-actions/run-build@v2
     with:
       startup-options: ${{ matrix.startup-options }}
-      tasks: ${{ contains(matrix.startup-options, '-nojvm') && 'test:nojavamex' || 'test:nomex' }}
+      tasks: test:nomex
 
 
   - name: Non-Mex Test (< R2024b)
