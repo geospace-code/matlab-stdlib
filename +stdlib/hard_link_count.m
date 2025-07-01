@@ -17,9 +17,7 @@ if stdlib.isoctave()
   if err == 0
     c = s.nlink;
   end
-elseif ispc() || ~isfile(p)
-  return
-else
+elseif isunix() && stdlib.has_java()
   c = java.nio.file.Files.getAttribute(javaPathObject(p), "unix:nlink", javaLinkOption());
 end
 
