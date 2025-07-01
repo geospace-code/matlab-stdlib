@@ -25,7 +25,7 @@ end
 t = javaFileObject(p).lastModified() / 1000;
 
 if t > 0
-  t = datetime(t, "ConvertFrom", "PosixTime");
+  t = datetime(t, ConvertFrom="PosixTime");
 else
   t = datetime.empty;
 end

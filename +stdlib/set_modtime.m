@@ -8,7 +8,7 @@ arguments
 end
 
 try
-  utc = convertTo(datetime(t, "TimeZone", "UTC"), "posixtime");
+  utc = convertTo(datetime(t, TimeZone="UTC"), "posixtime");
 catch e
   switch e.identifier
     case "Octave:undefined-function", utc = t;
