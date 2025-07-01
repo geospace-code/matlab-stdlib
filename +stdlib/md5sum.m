@@ -2,7 +2,7 @@
 % requires: java
 function hash = md5sum(file)
 arguments
-  file {mustBeScalarText}
+  file {mustBeTextScalar}
 end
 
 hash = stdlib.file_checksum(file, "md5");

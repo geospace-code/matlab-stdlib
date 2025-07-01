@@ -24,6 +24,9 @@ tc.assertThat(fn, matlab.unittest.constraints.IsFile)
 
 tc.verifyEqual(stdlib.file_checksum(fn, Ph{1}), Ph{2})
 
+switch Ph{1}
+  case 'md5', tc.verifyEqual(stdlib.md5sum(fn), Ph{2})
+  case 'sha-256', tc.verifyEqual(stdlib.sha256sum(fn), Ph{2})
 end
 
 
