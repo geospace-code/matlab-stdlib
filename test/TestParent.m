@@ -9,7 +9,7 @@ methods (Test)
 function test_parent(tc, p)
   r = p{2};
 
-  tc.verifyEqual(stdlib.parent(p{1}), r)
+  tc.verifyEqual(stdlib.parent(p{1}), r, sprintf("mex: %d", stdlib.is_mex_fun("stdlib.parent")))
 end
 
 end
