@@ -124,12 +124,7 @@ end
 
 
 function test_is_regular_file(tc)
-import matlab.unittest.constraints.IsFile
-if ~ispc
-  tc.assumeThat(stdlib.null_file, IsFile)
-end
-tc.verifyFalse(stdlib.is_regular_file(stdlib.null_file), "null file is not a regular file")
-
+tc.verifyFalse(stdlib.is_regular_file(stdlib.null_file()), "null file is not a regular file")
 end
 
 
