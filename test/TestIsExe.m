@@ -1,19 +1,15 @@
 classdef TestIsExe < matlab.unittest.TestCase
 
 properties (TestParameter)
-p = init_is_exe()
+p = {{"", false}, {tempname(), false}, {".", true}}
 end
 
-methods(Test)
+methods(Test, TestTags="impure")
 function test_is_exe(tc, p)
 tc.verifyEqual(stdlib.is_exe(p{1}), p{2})
 end
-end
-end
 
-
-function p = init_is_exe()
-
+function test_matlabroot(tc)
 n = "matlab";
 
 f = matlabroot + "/bin/" + n;
@@ -21,6 +17,8 @@ if ispc
   f = f + ".exe";
 end
 
+tc.verifyEqual(stdlib.is_exe(f), true)
+end
 
-p = {{"", false}, {tempname(), false}, {".", true}, {f, true}};
+end
 end

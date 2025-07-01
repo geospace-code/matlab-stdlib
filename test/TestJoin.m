@@ -17,7 +17,7 @@ p = {{"", "", ""}, ...
 }
 end
 
-methods (Test)
+methods (Test, TestTags="pure")
 function test_join(tc, p)
 tc.verifyEqual(stdlib.join(p{1}, p{2}), p{3})
 end

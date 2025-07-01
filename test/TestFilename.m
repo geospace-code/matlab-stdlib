@@ -11,7 +11,7 @@ p = {
 };
 end
 
-methods (Test)
+methods (Test, TestTags="pure")
 function test_filename(tc, p)
 tc.verifyEqual(stdlib.filename(p{1}), p{2})
 end

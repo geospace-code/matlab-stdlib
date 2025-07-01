@@ -6,7 +6,7 @@ rn = init_root_name()
 rd = init_root_dir()
 end
 
-methods (Test)
+methods (Test, TestTags="pure")
 
 function test_root(tc, p)
 tc.verifyEqual(stdlib.root(p{1}), p{2})

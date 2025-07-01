@@ -6,7 +6,7 @@ d = init_drop_slash()
 end
 
 
-methods (Test)
+methods (Test, TestTags="pure")
 function test_normalize(tc, p)
 tc.verifyEqual(stdlib.normalize(p{1}), p{2}, ...
   sprintf("normalize(%s)   mex: %d", p{1}, stdlib.is_mex_fun("stdlib.normalize")))

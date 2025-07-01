@@ -4,7 +4,7 @@ properties (TestParameter)
 Ps = {".", "", "not-exist"}
 end
 
-methods(Test, TestTags = "mex")
+methods(Test, TestTags = ["mex"])
 
 function test_mex_disk_available(tc)
 tc.assertTrue(stdlib.is_mex_fun("stdlib.disk_available"))
@@ -16,7 +16,7 @@ end
 
 end
 
-methods (Test, TestTags = "java")
+methods (Test, TestTags = ["java"])
 
 function test_disk_available(tc, Ps)
 

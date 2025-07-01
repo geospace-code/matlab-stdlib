@@ -19,7 +19,7 @@ end
 end
 
 
-methods(Test)
+methods(Test, TestTags="pure")
 
 function test_absolute1arg(tc, p1)
 

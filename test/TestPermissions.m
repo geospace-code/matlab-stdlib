@@ -5,7 +5,7 @@ Ps = {".", tempname(), "", "not-exist"}
 end
 
 
-methods (Test)
+methods (Test, TestTags="impure")
 
 function test_get_permissions(tc, Ps)
 import matlab.unittest.constraints.StartsWithSubstring

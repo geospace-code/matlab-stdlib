@@ -5,7 +5,7 @@ mexe = {matlabroot + "/bin/" + matlab_name(), ...
         fullfile(matlabroot, 'bin', matlab_name())}
 end
 
-methods (Test)
+methods (Test, TestTags="impure")
 
 function test_which_name(tc)
 

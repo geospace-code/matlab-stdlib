@@ -17,7 +17,7 @@ end
 end
 
 
-methods (Test)
+methods (Test, TestTags="impure")
 
 function test_resolve_relative(tc)
 import matlab.unittest.constraints.StartsWithSubstring

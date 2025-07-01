@@ -14,7 +14,7 @@ p = {...
 
 end
 
-methods (Test)
+methods (Test, TestTags="pure")
 function test(tc, p)
 tc.verifyEqual(stdlib.stem(p{1}), p{2})
 end

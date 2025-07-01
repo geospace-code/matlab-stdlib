@@ -13,7 +13,7 @@ p = {{'', ""}, ...
 end
 
 
-methods(Test)
+methods(Test, TestTags="impure")
 
 function test_canonical(tc, p)
 tc.verifyEqual(stdlib.canonical(p{1}), p{2})

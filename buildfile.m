@@ -60,9 +60,6 @@ else
                          Selector=cjava, ...
                          TestResults="TestResults_java.xml", Strict=true);
 
-  plan("test:hdf4") = matlab.buildtool.tasks.TestTask("test", Tag="hdf4", Strict=true);
-  plan("test:hdf5") = matlab.buildtool.tasks.TestTask("test", Tag="hdf5", Strict=true);
-
   plan("clean_mex") = matlab.buildtool.Task(Actions=@clean_mex, Description="Clean only MEX files to enable incremental tests");
 end
 

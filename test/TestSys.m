@@ -6,7 +6,7 @@ fi32 = {stdlib.is_wsl}
 end
 
 
-methods (Test)
+methods (Test, TestTags="impure")
 
 function test_platform_logical(tc, fun)
 

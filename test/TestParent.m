@@ -4,7 +4,7 @@ properties (TestParameter)
 p = init_parent()
 end
 
-methods (Test)
+methods (Test, TestTags="pure")
 
 function test_parent(tc, p)
   r = p{2};

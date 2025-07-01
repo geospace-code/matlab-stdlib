@@ -8,7 +8,7 @@ p = {{"", ""}, {"/a/b/c", ""}, ...
   {'.stat.txt', '.txt'}}
 end
 
-methods (Test)
+methods (Test, TestTags="pure")
 function test(tc, p)
 tc.verifyEqual(stdlib.suffix(p{1}), p{2})
 end

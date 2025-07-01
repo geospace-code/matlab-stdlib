@@ -26,7 +26,7 @@ end
 end
 
 
-methods (Test, TestTags="symlink")
+methods (Test, TestTags=["impure", "symlink"])
 
 function test_is_symlink(tc, p)
 fprintf("is_symlink  mex: %d\n", stdlib.is_mex_fun("stdlib.is_symlink"))

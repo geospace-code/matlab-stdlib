@@ -13,7 +13,7 @@ p_file_size = {mfilename("fullpath") + ".m"}
 end
 
 
-methods (Test)
+methods (Test, TestTags="impure")
 
 function test_file_size(tc, p_file_size)
 s = stdlib.file_size(p_file_size);

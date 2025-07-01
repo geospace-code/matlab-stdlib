@@ -13,7 +13,7 @@ v = {{"11.1", "9.3", true}, ...
 end
 
 
-methods (Test)
+methods (Test, TestTags="pure")
 
 function test_version(tc, v)
 tc.verifyEqual(stdlib.version_atleast(v{1}, v{2}), v{3})

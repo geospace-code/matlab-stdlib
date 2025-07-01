@@ -12,7 +12,7 @@ p = {{'', ''}, {"", ""}, ...
 {"~//c", stdlib.homedir() + "//c"}};
 end
 
-methods(Test)
+methods(Test, TestTags="impure")
 
 function test_expanduser(tc, p)
 tc.verifyEqual(stdlib.expanduser(p{1}), p{2})

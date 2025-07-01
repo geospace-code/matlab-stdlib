@@ -14,7 +14,7 @@ p = {{"foo.h5", ".nc", "foo.nc"},...
 {'a/b', '.nc', fullfile('a', 'b.nc')}};
 end
 
-methods (Test)
+methods (Test, TestTags="true")
 function test_with_suffix(tc, p)
 
 if tc.is_mex

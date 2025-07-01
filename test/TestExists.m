@@ -7,7 +7,7 @@ Ps = {{pwd(), true}, {mfilename("fullpath") + ".m", true}, ...
 % on CI matlabroot can be writable!
 end
 
-methods (Test)
+methods (Test, TestTags="impure")
 
 function test_exists(tc, Ps)
 ok = stdlib.exists(Ps{1});

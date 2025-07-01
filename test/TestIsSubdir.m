@@ -10,7 +10,7 @@ is_mex = stdlib.is_mex_fun("stdlib.drop_slash")
 end
 
 
-methods (Test)
+methods (Test, TestTags="pure")
 
 function test_is_subdir(tc, p_is_subdir)
 tc.verifyEqual(stdlib.is_subdir(p_is_subdir{1}, p_is_subdir{2}), p_is_subdir{3}, ...
