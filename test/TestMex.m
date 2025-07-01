@@ -20,8 +20,7 @@ end
 
 
 function test_remove_file(tc)
-import matlab.unittest.constraints.IsFile
-tc.assertThat(fileparts(mfilename("fullpath")) + "/../+stdlib/remove." + mexext, IsFile)
+tc.assertThat(stdlib.is_mex_fun("stdlib.remove"))
 
 d = tc.createTemporaryFolder();
 
