@@ -11,8 +11,6 @@ arguments
   p {mustBeTextScalar} = ''
 end
 
-assert(stdlib.exists(p), "Path does not exist: %s", p);
-
 op = javaPathObject(p);
 
 if stdlib.isoctave()
