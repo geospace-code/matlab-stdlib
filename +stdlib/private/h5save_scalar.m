@@ -1,15 +1,16 @@
-function h5save_scalar(file, hpath, A)
+function h5save_scalar(filename, hpath, A)
 %% write HDF5 scalar as a scalar
 %  h5create doesn't support scalars
 arguments
-  file (1,1)
+  filename (1,1) string
   hpath {mustBeTextScalar}
   A (1,1)
 end
+% filename must be a scalar string--char does not work
 
 dcpl = 'H5P_DEFAULT';
 
-fid = stdlib.h5create_group(file, hpath);
+fid = stdlib.h5create_group(filename, hpath);
 
 space_id = H5S.create('H5S_SCALAR');
 if isstring(A)

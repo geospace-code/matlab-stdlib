@@ -18,8 +18,6 @@ elseif ~isscalar(sizeA)
   error('h5save:shape_error', "only scalar size may be 0")
 end
 
-assert(~strempty(filename), 'h5save:filename_error', "filename must be non-empty")
-
 if isscalar(sizeA)
   if sizeA == 0
     h5save_scalar(filename, varname, A)
