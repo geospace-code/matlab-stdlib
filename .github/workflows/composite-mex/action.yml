@@ -11,4 +11,4 @@ runs:
     uses: matlab-actions/run-build@v2
     with:
       startup-options: ${{ matrix.startup-options }} -logfile ${{ matrix.release }}-${{ runner.os }}-test.log
-      tasks: ${{ matrix.release < 'R2024b' && !startsWith(matrix.release, 'latest') && 'test_mex test_exe' || 'test:mex test:exe' }}
+      tasks: ${{ (matrix.release < 'R2024b' && !startsWith(matrix.release, 'latest')) && 'test_mex test_exe' || 'test:mex test:exe' }}
