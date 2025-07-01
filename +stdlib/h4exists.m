@@ -12,8 +12,9 @@ arguments
 end
 
 sds = hdfinfo(file).SDS;
-i = string(sds.Name) == variable;
-exists = any(i);
+exists = ismember(variable, sds.Name);
+
+end
 
 
 %!testif 0

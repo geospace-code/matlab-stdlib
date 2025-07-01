@@ -41,7 +41,7 @@ A = coerce_ds(A, opts.type);
 try
   stdlib.h5save_exist(filename, varname, A, opts.size)
 catch e
-  if any(e.identifier == ["MATLAB:imagesci:hdf5io:resourceNotFound", "MATLAB:imagesci:h5info:unableToFind"])
+  if ismember(e.identifier, ["MATLAB:imagesci:hdf5io:resourceNotFound", "MATLAB:imagesci:h5info:unableToFind"])
     stdlib.h5save_new(filename, varname, A, opts.size, opts.compressLevel)
   else
     rethrow(e)

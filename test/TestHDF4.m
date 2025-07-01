@@ -38,10 +38,12 @@ end
 
 
 function test_vars(tc)
+import matlab.unittest.constraints.AnyElementOf
+import matlab.unittest.constraints.IsEqualTo
 basic = tc.TestData.basic;
 
 v = stdlib.h4variables(basic);
-tc.verifyTrue(any(contains(v, "Example SDS")))
+tc.verifyThat(AnyElementOf(v), IsEqualTo("Example SDS"))
 end
 
 
