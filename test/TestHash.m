@@ -29,6 +29,7 @@ switch Ph{1}
   case 'sha-256', tc.verifyEqual(stdlib.sha256sum(fn), Ph{2})
 end
 
+end
 
 end
 
