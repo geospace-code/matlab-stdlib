@@ -28,7 +28,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-22.04, macos-latest, windows-latest]
-        release: [latest]
+        release: [R2023b, R2025a]
         startup-options: ["-nojvm"]
 
     steps:
