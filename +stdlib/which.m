@@ -7,9 +7,9 @@
 %
 % find_all option finds all executables specified under PATH, instead of only the first
 
-function exe = which(filename, fpath, find_all)
+function exe = which(cmd, fpath, find_all)
 arguments
-  filename {mustBeTextScalar}
+  cmd {mustBeTextScalar}
   fpath (1,:) string = string.empty
   find_all (1,1) logical = false
 end
@@ -20,13 +20,21 @@ else
   exe = '';
 end
 
-if isfile(filename) && stdlib.is_exe(filename)
-  exe = filename;
+%% on Windows, append .exe if not suffix is given
+if ispc() && strempty(stdlib.suffix(cmd))
+  pathext = '.exe';
+  if ~endsWith(cmd, pathext, IgnoreCase=true)
+    cmd = strcat(cmd, pathext);
+  end
+end
+%% full filename was given
+if isfile(cmd) && stdlib.is_exe(cmd)
+  exe = cmd;
   return
 end
 
 %  relative directory component, but path was not a file
-if ~strcmp(stdlib.filename(filename), filename)
+if ~strcmp(stdlib.filename(cmd), cmd)
   return
 end
 
@@ -48,7 +56,7 @@ for fp = fpath
 
   if strempty(p), continue, end
 
-  e = strcat(p, '/', filename);
+  e = strcat(p, '/', cmd);
   if isfile(e) && stdlib.is_exe(e)
     if find_all
       exe(end+1) = e; %#ok<AGROW>

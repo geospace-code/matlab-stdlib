@@ -1,8 +1,8 @@
 classdef TestWhich < matlab.unittest.TestCase
 
 properties (TestParameter)
-mexe = {matlabroot + "/bin/" + matlab_name(), ...
-        fullfile(matlabroot, 'bin', matlab_name())}
+mexe = {matlabroot + "/bin/matlab", ...
+        fullfile(matlabroot, 'bin', 'matlab')}
 end
 
 methods (Test, TestTags="impure")
@@ -12,47 +12,54 @@ function test_which_name(tc)
 tc.verifyEmpty(stdlib.which(tempname()))
 
 if ispc
-  n = 'pwsh.exe';
+  names = ["pwsh", "pwsh.exe"];
 else
-  n = 'ls';
+  names = "ls";
 end
 %% which: Matlab in environment variable PATH
 % MacOS Matlab does not source .zshrc so Matlab is not on internal Matlab PATH
 % Unix-like OS may have Matlab as alias which is not visible to
 % stdlib.which()
 % virus scanners may block stdlib.which("cmd.exe") on Windows
-tc.verifyNotEmpty(stdlib.which(n))
+for n = names
+  exe = stdlib.which(n);
+  tc.verifyNotEmpty(exe, "Executable not found: " + n)
+  tc.verifyTrue(isfile(exe), "Executable is not a file: " + n)
+  tc.verifyTrue(stdlib.is_exe(exe), "Executable is not executable: " + n)
+end
 
 end
 
 
 function test_which_absolute(tc, mexe)
-tc.verifyEqual(stdlib.which(mexe), mexe)
+
+r = mexe;
+if ispc()
+  r = strcat(r, '.exe');
+end
+
+tc.verifyEqual(stdlib.which(mexe), r)
+
+end
+
+
+function test_which_onepath(tc)
+
+tc.verifyNotEmpty(stdlib.which("matlab", fullfile(matlabroot, 'bin')), ...
+    "Matlab not found by which() given specific path=")
+
 end
 
 
 function test_which_multipath(tc)
 
-n = matlab_name();
-
 paths = split(string(getenv('PATH')), pathsep);
-paths(end+1) = matlabroot + "/bin";
+paths(end+1) = fullfile(matlabroot, 'bin');
 
-exe = stdlib.which(n, paths);
-
-tc.verifyNotEmpty(exe, "Matlab not found by which()")
+tc.verifyNotEmpty(stdlib.which("matlab", paths), "Matlab not found by which()")
 
 end
 
 end
 
-end
-
-
-function n = matlab_name()
-
-n = 'matlab';
-if ispc
-  n = strcat(n, '.exe');
-end
 end

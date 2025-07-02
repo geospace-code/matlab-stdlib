@@ -10,10 +10,9 @@ tc.verifyEqual(stdlib.is_exe(p{1}), p{2})
 end
 
 function test_matlabroot(tc)
-n = "matlab";
 
-f = matlabroot + "/bin/" + n;
-if ispc
+f = fullfile(matlabroot, "bin", "matlab");
+if ispc()
   f = f + ".exe";
 end
 
