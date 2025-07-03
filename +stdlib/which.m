@@ -22,10 +22,7 @@ end
 
 %% on Windows, append .exe if not suffix is given
 if ispc() && strempty(stdlib.suffix(cmd))
-  pathext = '.exe';
-  if ~endsWith(cmd, pathext, IgnoreCase=true)
-    cmd = strcat(cmd, pathext);
-  end
+  cmd = strcat(cmd, '.exe');
 end
 %% full filename was given
 if isfile(cmd) && stdlib.is_exe(cmd)
