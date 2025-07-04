@@ -62,7 +62,7 @@ end
 
 if ~strempty(opt.cwd)
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html#directory(java.io.File)
-  assert(isfolder(opt.cwd), "directory %s does not exist", opt.cwd)
+  mustBeFolder(opt.cwd)
   proc.directory(java.io.File(opt.cwd));
 end
 %% Gfortran streams

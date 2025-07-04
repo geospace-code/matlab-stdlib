@@ -18,7 +18,6 @@ if isa(file, 'H5ML.id')
 else
   % avoid confusing creating file ./~/a.h5
   file = stdlib.expanduser(file);
-  assert(~strempty(file), 'h5create_group:filename_error', "filename must be non-empty")
   dcpl = 'H5P_DEFAULT';
   if isfile(file)
     fid = H5F.open(file, 'H5F_ACC_RDWR', dcpl);
