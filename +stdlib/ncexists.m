@@ -18,9 +18,8 @@ try
   ncinfo(file, variable);
   exists = true;
 catch e
-  if ~strcmp(e.identifier, "MATLAB:imagesci:netcdf:badLocationString") && ...
-     ~strcmp(e.identifier, "MATLAB:imagesci:netcdf:unknownLocation") && ...
-     ~strcmp(e.message, "NetCDF: Variable not found")
+  if ~any(strcmp(e.identifier, {'MATLAB:imagesci:netcdf:badLocationString', 'MATLAB:imagesci:netcdf:unknownLocation'})) && ...
+     strcmp(e.message, {'NetCDF: Variable not found'})
 
     rethrow(e)
   end
