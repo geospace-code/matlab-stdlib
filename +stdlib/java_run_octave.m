@@ -1,4 +1,4 @@
-%% SUBPROCESS_RUN_OCTAVE run process for GNU Octave only
+%% JAVA_RUN_OCTAVE run process for GNU Octave only
 % requires: java
 %
 % with optional cwd, env. vars, stdin, timeout
@@ -28,7 +28,7 @@
 % uses Java ProcessBuilder interface to run subprocess and use stdin/stdout pipes
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html
 
-function [status, stdout, stderr] = subprocess_run_octave(cmd, env, cwd, stdin, timeout)
+function [status, stdout, stderr] = java_run_octave(cmd, env, cwd, stdin, timeout)
 if ischar(cmd), cmd = {cmd}; end
 if nargin < 2 || isempty(env), env = struct(); end
 if nargin < 3, cwd = ''; end
