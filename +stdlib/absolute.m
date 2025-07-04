@@ -33,7 +33,7 @@ else
 end
 
 if ~strempty(c)
-  c = strcat(b, '/', c);
+  c = fullfile(b, c);
 else
   c = b;
 end
@@ -46,4 +46,4 @@ end
 
 
 %!assert(absolute('', ''), pwd)
-%!assert(absolute('a/b', ''), strcat(pwd(), '/a/b'))
+%!assert(absolute('a/b', ''), fullfile(pwd(), 'a/b'))

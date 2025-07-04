@@ -7,7 +7,7 @@ if ispc()
   cmd = "(dir 2>&1 *`|echo CMD);&<# rem #>echo ($PSVersionTable).PSEdition";
 else
 % https://askubuntu.com/a/1349538
-  cmd = strcat("lsof -p ", '"$$"', " | grep -m 1 txt | xargs -n 1 | tail -n +9");
+  cmd = strjoin({'lsof -p', '"$$"', '|','grep -m 1 txt', '|', 'xargs -n 1', '|', 'tail -n +9'});
 end
 
 [r, msg] = system(cmd);

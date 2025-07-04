@@ -8,8 +8,6 @@ else
   h = getenv("HOME");
 end
 
-h = stdlib.posix(h);
-
 end
 
 %!assert(!isempty(homedir()))

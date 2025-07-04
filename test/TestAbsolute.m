@@ -26,7 +26,7 @@ function test_absolute1arg(tc, p1)
 r = tc.td;
 
 if strlength(p1)
-  r = strcat(r, '/', p1);
+  r = fullfile(r, p1);
 end
 
 if isstring(p1)
@@ -42,11 +42,11 @@ function test_absolute2arg(tc, p2)
 r = tc.td;
 
 if strlength(p2{2})
-  r = strcat(r, '/', p2{2});
+  r = fullfile(r, p2{2});
 end
 
 if strlength(p2{1})
-  r = strcat(r, '/', p2{1});
+  r = fullfile(r, p2{1});
 end
 
 if isstring(p2{1}) || isstring(p2{2})

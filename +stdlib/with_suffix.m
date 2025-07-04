@@ -27,7 +27,7 @@ end
 if strcmp(r, '.')
   f = s;
 else
-  f = strcat(r, filesep, s);
+  f = fullfile(r, s);
 end
 
 f = strcat(f, suffix);

@@ -24,7 +24,7 @@ else
   elseif L < 2
     e = home;
   else
-    e = strcat(home, '/', e(3:end));
+    e = fullfile(home, e(3:end));
   end
 end
 
@@ -40,4 +40,4 @@ end
 %!assert(expanduser("~/"), strcat(homedir(), '/'))
 %!assert(expanduser("~user"), "~user")
 %!assert(expanduser("~user/"), "~user/")
-%!assert(expanduser("~/c"), strcat(homedir(), "/c"))
+%!assert(expanduser("~/c"), fullfile(homedir(), "c"))

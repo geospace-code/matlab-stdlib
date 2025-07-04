@@ -17,7 +17,7 @@ if stdlib.is_absolute(other) || (~strempty(rno) && ~strcmp(rnb, rno))
 elseif ~strempty(rdo)
 
   if ~strempty(rnb)
-    p = strcat(rnb, '/', other);
+    p = fullfile(rnb, other);
   else
     p = other;
   end
@@ -25,11 +25,7 @@ elseif ~strempty(rdo)
 elseif ~strempty(base)
 
   if ~strempty(other)
-    if endsWith(base, {'/', filesep})
-      p = strcat(base, other);
-    else
-      p = strcat(base, '/', other);
-    end
+    p = fullfile(base, other);
   else
     p = base;
   end

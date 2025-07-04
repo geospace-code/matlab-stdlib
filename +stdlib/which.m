@@ -53,7 +53,7 @@ for fp = fpath
 
   if strempty(p), continue, end
 
-  e = strcat(p, '/', cmd);
+  e = fullfile(p, cmd);
   if isfile(e) && stdlib.is_exe(e)
     if find_all
       exe(end+1) = e; %#ok<AGROW>
