@@ -17,7 +17,7 @@ arguments
   method {mustBeTextScalar}
 end
 
-if strcmp(method, "sha256") || strcmp(method, "SHA256")
+if any(strcmp(method, {'sha256', 'SHA256'}))
   method = "SHA-256";
 end
 
