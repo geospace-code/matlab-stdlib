@@ -63,13 +63,18 @@ else
   plan("clean_mex") = matlab.buildtool.Task(Actions=@clean_mex, Description="Clean only MEX files to enable incremental tests");
 end
 
-td = plan.RootFolder + "/test";
-srcs = [td+"/stdout_stderr_c.c", td+"/stdin_cpp.cpp", td+"/printenv.cpp", td+"/sleep.cpp"];
-exes = [td+"/stdout_stderr_c.exe", td+"/stdin_cpp.exe", td+"/printenv.exe", td+"/sleep.exe"];
+td = fullfile(plan.RootFolder, 'test');
+
+srcs = ["stdout_stderr_c.c", "stdin_cpp.cpp", "printenv.cpp", "sleep.cpp"];
+exes = ["stdout_stderr_c.exe", "stdin_cpp.exe", "printenv.exe", "sleep.exe"];
 if ~isempty(get_compiler("fortran"))
-  srcs = [srcs, td + "/stdout_stderr_fortran.f90", td + "/stdin_fortran.f90"];
-  exes = [exes, td+"/stdout_stderr_fortran.exe", td+"/stdin_fortran.exe"];
+  srcs = [srcs, "stdout_stderr_fortran.f90", "stdin_fortran.f90"];
+  exes = [exes, "stdout_stderr_fortran.exe", "stdin_fortran.exe"];
 end
+
+srcs = fullfile(td, srcs);
+exes = fullfile(td, exes);
+
 plan("exe") = matlab.buildtool.Task(Inputs=srcs, Outputs=exes, Actions=@build_exe, ...
                  Description="build test exe's for test subprocess");
 
@@ -132,7 +137,7 @@ end
 function legacy_test(context, sel)
 import matlab.unittest.TestSuite
 
-suite = TestSuite.fromFolder(context.Plan.RootFolder + "/test");
+suite = TestSuite.fromFolder(fullfile(context.Plan.RootFolder, 'test'));
 suite = suite.selectIf(sel);
 
 runner = testrunner();
@@ -146,7 +151,7 @@ end
 
 function publishTask(context)
 % publish HTML inline documentation strings to individual HTML files
-outdir = context.Plan.RootFolder + "/docs";
+outdir = fullfile(context.Plan.RootFolder, 'docs');
 
 publish_gen_index_html("stdlib", ...
   "A standard library of functions for Matlab.", ...
