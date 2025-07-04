@@ -38,6 +38,9 @@ bf = tc.TestData.basic;
 
 % create test data first, so that parallel tests works
 stdlib.h5save(bf, '/A0', A0)
+
+tc.assertTrue(stdlib.is_hdf5(bf))
+
 stdlib.h5save(bf, '/A1', A1)
 stdlib.h5save(bf, '/A2', A2)
 stdlib.h5save(bf, '/A3', A3, "size", size(A3))
