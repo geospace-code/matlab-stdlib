@@ -3,9 +3,6 @@
 % for GNU Octave until it builds in strlength
 
 function L = strlength(s)
-arguments
-  s {mustBeTextScalar}
-end
 
 if ischar(s)
   L = length(s);

@@ -1,7 +1,4 @@
 function a = file_attributes(p)
-arguments
-  p {mustBeTextScalar}
-end
 
 a = [];
 
