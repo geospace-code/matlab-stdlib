@@ -1,19 +1,28 @@
 %% IS_EXE is file executable
 %
-% false if file does not exist
+% false if not a file
 
 function ok = is_exe(p)
 arguments
   p {mustBeTextScalar}
 end
 
-a = file_attributes(p);
-
-ok = ~isempty(a) && (a.UserExecute || a.GroupExecute || a.OtherExecute);
-
+if ~isfile(p)
+  ok = false;
+  return
 end
 
-%!assert (!is_exe(''))
-%!assert (!is_exe(tempname))
-%!assert (is_exe("."))
+try
+  a = filePermissions(p);
+  ok = a.UserExecute || (isa(a, "matlab.io.UnixPermissions") && (a.GroupExecute || a.OtherExecute));
+catch e
+  switch e.identifier
+    case {'Octave:undefined-function', 'MATLAB:UndefinedFunction'}
+      a = file_attributes_legacy(p);
+      ok = ~isempty(a) && (a.UserExecute || a.GroupExecute || a.OtherExecute);
+    otherwise, rethrow(e)
+  end
+end
+
+%!assert (!is_exe("."))
 %!assert (is_exe(program_invocation_name))

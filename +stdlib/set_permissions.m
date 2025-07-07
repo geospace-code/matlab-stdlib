@@ -9,7 +9,7 @@
 %%% Outputs
 % * ok (1,1) logical
 
-function ok = set_permissions(path, readable, writable, executable)
+function set_permissions(path, readable, writable, executable)
 arguments
   path {mustBeTextScalar,mustBeFile}
   readable (1,1) int8
@@ -17,19 +17,14 @@ arguments
   executable (1,1) int8
 end
 
-ok = false;
-
 try
   p = filePermissions(path);
 catch e
   switch e.identifier
     case "MATLAB:UndefinedFunction", error("buildtool mex")
-    case "MATLAB:io:filesystem:filePermissions:CannotFindLocation", return
     otherwise, rethrow(e)
   end
 end
-
-ok = true;
 
 if readable ~= 0
   setPermissions(p, "Readable", readable > 0);

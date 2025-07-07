@@ -13,16 +13,13 @@ try
   v = filePermissions(f);
 catch e
   switch e.identifier
-    case "MATLAB:io:filesystem:filePermissions:CannotFindLocation", return
+    case "MATLAB:UndefinedFunction", v = file_attributes_legacy(f);
     case "Octave:undefined-function"
       [s, err] = stat(f);
       if err == 0
         p = s.modestr;
       end
       return
-    case "MATLAB:UndefinedFunction"
-      v = file_attributes(f);
-      if isempty(v), return, end
     otherwise, rethrow(e)
   end
 end

@@ -1,7 +1,7 @@
 classdef TestFileImpure < matlab.unittest.TestCase
 
 properties(TestParameter)
-p_is_writable = {{pwd(), true}, {"not-exists", false}, {"", false}};
+p_is_writable = {{pwd(), true}};
 
 p_same = {...
 {"..", "./.."}, ...

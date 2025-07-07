@@ -86,6 +86,9 @@ public:
 // https://www.mathworks.com/help/matlab/matlab_external/create-matlab-array-with-matlab-data-cpp-api.html
 // https://www.mathworks.com/help/matlab/apiref/matlab.data.arrayfactory.html
 
-    outputs[0] = factory.createScalar<bool>(y);
+    if (!y) {
+      matlabEng->feval(u"error", 0,
+        std::vector<matlab::data::Array>({ factory.createScalar("Mex: Failed to set permissions") }));
+    }
   }
 };
