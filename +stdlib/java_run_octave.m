@@ -20,7 +20,7 @@
 % * stderr: stderr from process
 %
 %% Example
-% subprocess_run({'mpiexec', '-help2'})
+% java_run_octave({'mpiexec', '-help2'})
 %
 % NOTE: if cwd option used, any paths must be absolute or relative to cwd.
 % otherwise, they are relative to pwd.
@@ -107,7 +107,7 @@ if nargout < 3 && ~strempty(stderr)
   warning(stderr)
 end
 
-end % function subprocess_run
+end
 
 
 function msg = read_stream(stream)
@@ -131,11 +131,11 @@ end
 
 %!test
 %! if ispc, c = "dir"; else, c = "ls"; end
-%! [r, m, e] = subprocess_run_octave(c);
+%! [r, m, e] = java_run_octave(c);
 %! assert(r == 0)
 %! assert(length(m) > 0)
 %! assert(length(e) == 0)
-%! [r, mc, e] = subprocess_run_octave(c, [], '/');
+%! [r, mc, e] = java_run_octave(c, [], '/');
 %! assert(r == 0)
 %! assert(!strcmp(m, mc))
 %!testif 0
@@ -148,7 +148,7 @@ end
 %!   else
 %!     c = {"echo", strcat('$', names{i})};
 %!   end
-%!   [r, m, e] = subprocess_run_octave(c, env);
+%!   [r, m, e] = java_run_octave(c, env);
 %!   assert(r == 0)
 %!   assert(strcmp(m, vals{i}), '%s != %s', m, vals{i})
 %!   assert(length(e) == 0)
@@ -156,7 +156,7 @@ end
 %!test
 %! c = "../test/sleep.exe";
 %! if isfile(c)
-%! [r, m, e] = subprocess_run_octave(c, [], [], [], 1);
+%! [r, m, e] = java_run_octave(c, [], [], [], 1);
 %! assert(r == -1)
 %! assert(length(m) == 0)
 %! assert(strncmp(e, 'Subprocess timeout', 17))

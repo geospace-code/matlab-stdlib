@@ -41,6 +41,6 @@ end
 %! fn = tempname();
 %! ds = '/a';
 %! h5create(fn, ds, [1])
-%! assert(h5variables(fn, ''), {'/a'})
+%! assert(h5variables(fn, ''), {ds})
 %! delete(fn)
 %! endif

@@ -37,7 +37,7 @@ h5write(filename, varname, A)
 
 end
 
-%!test
+%!testif 0
 %! if !isempty(pkg('list', 'hdf5oct'))
 %! pkg load hdf5oct
 %! fn = tempname();

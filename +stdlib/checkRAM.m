@@ -14,6 +14,9 @@ end
 % get available RAM
 freebytes = stdlib.ram_free();
 
+limit_bytes = inf; % no limit set
+
+if ~stdlib.isoctave()
 % get user set preference for memory limit
 s = settings;
 ws = s.matlab.desktop.workspace;
@@ -21,8 +24,7 @@ ws = s.matlab.desktop.workspace;
 % Check if the maximum array size limit is enabled
 if ws.ArraySizeLimitEnabled.ActiveValue
   limit_bytes = double(ws.ArraySizeLimit.ActiveValue) / 100 * stdlib.ram_total();
-else
-  limit_bytes = inf; % no limit set
+end
 end
 
 limit_bytes = min(limit_bytes, freebytes);

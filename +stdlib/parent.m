@@ -30,16 +30,16 @@ end
 
 end
 
-%!assert(parent("/a/b/c"), "/a/b")
-%!assert(parent("/a/b/c/"), "/a/b")
-%!assert(parent('/a///b'), '/a')
+%!assert(parent("/a/b/c"), fullfile('/a','b'))
+%!assert(parent("/a/b/c/"), fullfile('/a','b'))
+%!assert(parent('/a///b'), fullfile('/a'))
 %!assert(parent('a/b/'), 'a')
 %!assert(parent('a//b/'), 'a')
 %!assert(parent('a//b'), 'a')
 %!test
 %! if ispc
-%!   assert(parent('c:/a'), 'c:/')
+%!   assert(parent('c:/a'), 'c:\')
 %!   assert(parent('c:\a\'), 'c:\')
-%!   assert(parent('c:\'), 'c:/')
-%!   assert(parent('c:'), 'c:/')
+%!   assert(parent('c:\'), 'c:\')
+%!   assert(parent('c:'), 'c:\')
 %! end

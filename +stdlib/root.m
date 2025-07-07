@@ -13,8 +13,8 @@ end
 %!assert(root('/'), '/')
 %!test
 %! if ispc
-%!   assert(root('C:\'), 'C:/')
+%!   assert(root('C:\'), 'C:\')
 %!   assert(root('C:/'), 'C:/')
 %!   assert(root('C:'), 'C:')
-%!   assert(root('C'), '')
+%!   assert(isempty(root('C')))
 %! endif

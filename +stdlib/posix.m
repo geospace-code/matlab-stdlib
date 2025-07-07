@@ -17,3 +17,8 @@ end
 end
 
 %!assert (posix('/'), '/')
+%!test
+%! if ispc
+%!   assert(posix('C:\'), 'C:/')
+%!   assert(posix('C:/'), 'C:/')
+%! end

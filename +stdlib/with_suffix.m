@@ -38,4 +38,4 @@ end
 %!assert(with_suffix("ab", ".nc"), "ab.nc")
 %!assert(with_suffix("ab.h5", ""), "ab")
 %!assert(with_suffix("ab", ""), "ab")
-%!assert(with_suffix("ab/.h5", ".nc"), "ab/.h5.nc")
+%!assert(with_suffix("ab/.h5", ".nc"), fullfile("ab", ".h5.nc"))

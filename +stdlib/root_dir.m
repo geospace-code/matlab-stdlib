@@ -30,4 +30,4 @@ end
 
 end
 
-%!assert(root_dir(pwd()) == '/')
+%!assert(root_dir(pwd()), filesep)

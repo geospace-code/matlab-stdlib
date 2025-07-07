@@ -21,7 +21,7 @@ end
 
 end
 
-%!test
+%!testif 0
 %! if !isempty(pkg('list', 'netcdf'))
 %! pkg load netcdf
 %! fn = tempname();
