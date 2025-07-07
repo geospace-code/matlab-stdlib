@@ -8,3 +8,5 @@ end
 is_hdf5 = H5F.is_hdf5(filename) == 1;
 
 end
+
+%!testif 0
