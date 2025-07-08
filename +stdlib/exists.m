@@ -10,15 +10,8 @@
 % * ok: true if exists
 
 function y = exists(p)
-arguments
-  p {mustBeTextScalar}
-end
 
-% Matlab >= R2024b allowed URLs to act like files or folders.
-% fileattrib() does not consider URLs to be a file or folder
-% at least through Matlab R2025a.
-
-y = ~strempty(p) && fileattrib(p) == 1;
+y = isfile(p) | isfolder(p);
 
 end
 
