@@ -1,20 +1,17 @@
 %% IS_WRITABLE is path writable
 
 function ok = is_writable(p)
-arguments
-  p {mustBeTextScalar}
-end
 
-try
-  a = filePermissions(p);
-  ok = a.Writable || (isa(a, "matlab.io.UnixPermissions") && (a.GroupWrite || a.OtherWrite));
-catch e
-  switch e.identifier
-    case {'Octave:undefined-function', 'MATLAB:UndefinedFunction'}
-      a = file_attributes_legacy(p);
-      ok = ~isempty(a) && (a.UserWrite || a.GroupWrite || a.OtherWrite);
-    otherwise, rethrow(e)
+if ~stdlib.isoctave() && ~isMATLABReleaseOlderThan('R2025a')
+  props = "Writable";
+  if isunix
+    props = [props, "GroupWrite", "OtherWrite"];
   end
+  t = getPermissions(filePermissions(p), props);
+  ok = any(t{:,:}, 2);
+else
+  a = file_attributes_legacy(p);
+  ok = a.UserWrite || a.GroupWrite || a.OtherWrite;
 end
 
 end

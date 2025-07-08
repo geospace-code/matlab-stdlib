@@ -1,4 +1,7 @@
 function a = file_attributes_legacy(p)
+arguments
+  p {mustBeTextScalar}
+end
 
 assert(~strempty(p), 'Path must not be empty.')
 
