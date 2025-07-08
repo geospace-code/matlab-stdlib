@@ -1,14 +1,14 @@
 classdef TestHDF4 < matlab.unittest.TestCase
 
 properties
-TestData
+file
 end
 
 methods (TestClassSetup)
 function setup_file(tc)
 import matlab.unittest.constraints.IsFile
-tc.TestData.basic = fullfile(matlabroot, "toolbox/matlab/demos/example.hdf");
-tc.assumeThat(tc.TestData.basic, IsFile)
+tc.file = fullfile(matlabroot, "toolbox/matlab/demos/example.hdf");
+tc.assumeThat(tc.file, IsFile)
 end
 end
 
@@ -16,22 +16,20 @@ methods (Test, TestTags="hdf4")
 
 function test_exists(tc)
 import matlab.unittest.constraints.IsScalar
-basic = tc.TestData.basic;
 
-e = stdlib.h4exists(basic, "Example SDS");
+e = stdlib.h4exists(tc.file, "Example SDS");
 
 tc.verifyThat(e, IsScalar)
 tc.verifyTrue(e);
 
-tc.verifyFalse(stdlib.h4exists(basic, "/j"))
+tc.verifyFalse(stdlib.h4exists(tc.file, "/j"))
 
 end
 
 
 function test_size(tc)
-basic = tc.TestData.basic;
 
-s = stdlib.h4size(basic, "Example SDS");
+s = stdlib.h4size(tc.file, "Example SDS");
 tc.verifyEqual(s, [16, 5])
 
 end
@@ -40,9 +38,8 @@ end
 function test_vars(tc)
 import matlab.unittest.constraints.AnyElementOf
 import matlab.unittest.constraints.IsEqualTo
-basic = tc.TestData.basic;
 
-v = stdlib.h4variables(basic);
+v = stdlib.h4variables(tc.file);
 tc.verifyThat(AnyElementOf(v), IsEqualTo("Example SDS"))
 end
 

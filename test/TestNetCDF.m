@@ -1,7 +1,15 @@
 classdef TestNetCDF < matlab.unittest.TestCase
 
 properties
-TestData
+file
+A0
+A1
+A2
+A3
+A4
+utf0
+utf1
+utf2
 end
 
 methods (TestClassSetup)
@@ -10,44 +18,35 @@ function setup_file(tc)
 
 td = tc.createTemporaryFolder();
 
-A0 = 42.;
-A1 = [42.; 43.];
-A2 = magic(4);
-A3 = A2(:,1:3,1);
-A3(:,:,2) = 2*A3;
-A4(:,:,:,5) = A3;
-utf0 = 'Hello There 😄';
-utf1 = [utf0; "☎"];
-utf2 = [utf0, "☎"; "📞", "👋"];
+tc.A0 = 42.;
+tc.A1 = [42.; 43.];
+tc.A2 = magic(4);
+tc.A3 = tc.A2(:,1:3,1);
+tc.A3(:,:,2) = 2*tc.A3;
+tc.A4(:,:,:,5) = tc.A3;
+tc.utf0 = 'Hello There 😄';
+tc.utf1 = [tc.utf0; "☎"];
+tc.utf2 = [tc.utf0, "☎"; "📞", "👋"];
 
-tc.TestData.A0 = A0;
-tc.TestData.A1 = A1;
-tc.TestData.A2 = A2;
-tc.TestData.A3 = A3;
-tc.TestData.A4 = A4;
-tc.TestData.utf0 = utf0;
-tc.TestData.utf1 = utf1;
-tc.TestData.utf2 = utf2;
 
-basic = td + "/basic.nc";
-tc.TestData.basic = basic;
+tc.file = td + "/basic.nc";
 
 % create test data first, so that parallel tests works
-stdlib.ncsave(basic, 'A0', A0)
-stdlib.ncsave(basic, 'A1', A1, "dims", {'x1', size(A1,1)})
-stdlib.ncsave(basic, 'A2', A2, "dims", {'x2', size(A2,1), 'y2', size(A2,2)})
-stdlib.ncsave(basic, 'A3', A3, "dims", {'x3', size(A3,1), 'y3', size(A3,2), 'z3', size(A3,3)})
-stdlib.ncsave(basic, 'A4', A4, "dims", {'x4', size(A4,1), 'y4', size(A4,2), 'z4', size(A4,3), 'w4', size(A4,4)})
+stdlib.ncsave(tc.file, 'A0', tc.A0)
+stdlib.ncsave(tc.file, 'A1', tc.A1, "dims", {'x1', size(tc.A1,1)})
+stdlib.ncsave(tc.file, 'A2', tc.A2, "dims", {'x2', size(tc.A2,1), 'y2', size(tc.A2,2)})
+stdlib.ncsave(tc.file, 'A3', tc.A3, "dims", {'x3', size(tc.A3,1), 'y3', size(tc.A3,2), 'z3', size(tc.A3,3)})
+stdlib.ncsave(tc.file, 'A4', tc.A4, "dims", {'x4', size(tc.A4,1), 'y4', size(tc.A4,2), 'z4', size(tc.A4,3), 'w4', size(tc.A4,4)})
 
-stdlib.ncsave(basic, "utf0", utf0)
-stdlib.ncsave(basic, "utf1", utf1, "dims", {'s1', size(utf1, 1)})
-stdlib.ncsave(basic, "utf2", utf2, "dims", {'s1', size(utf2, 1), 't1', size(utf2, 2)})
+stdlib.ncsave(tc.file, "utf0", tc.utf0)
+stdlib.ncsave(tc.file, "utf1", tc.utf1, "dims", {'s1', size(tc.utf1, 1)})
+stdlib.ncsave(tc.file, "utf2", tc.utf2, "dims", {'s1', size(tc.utf2, 1), 't1', size(tc.utf2, 2)})
 
-stdlib.ncsave(basic, '/t/x', 12)
-stdlib.ncsave(basic, '/t/y', 13)
-stdlib.ncsave(basic, '/j/a/b', 6)
+stdlib.ncsave(tc.file, '/t/x', 12)
+stdlib.ncsave(tc.file, '/t/y', 13)
+stdlib.ncsave(tc.file, '/j/a/b', 6)
 
-tc.assertThat(basic, matlab.unittest.constraints.IsFile)
+tc.assertThat(tc.file, matlab.unittest.constraints.IsFile)
 end
 end
 
@@ -55,148 +54,148 @@ end
 methods (Test, TestTags="netcdf")
 
 function test_get_variables(tc)
-basic = tc.TestData.basic;
+
 
 k = ["A0", "A1", "A2", "A3", "A4", "utf0", "utf1", "utf2"];
 
-tc.verifyEqual(sort(stdlib.ncvariables(basic)), k)
+tc.verifyEqual(sort(stdlib.ncvariables(tc.file)), k)
 
 % 1-level group
-v = stdlib.ncvariables(basic, "/t");
+v = stdlib.ncvariables(tc.file, "/t");
 tc.verifyEqual(sort(v), ["x", "y"])
 
 % traversal
-tc.verifyEmpty(stdlib.ncvariables(basic, "/j") )
+tc.verifyEmpty(stdlib.ncvariables(tc.file, "/j") )
 
-tc.verifyEqual(stdlib.ncvariables(basic, "/j/a") , "b")
+tc.verifyEqual(stdlib.ncvariables(tc.file, "/j/a") , "b")
 end
 
 
 function test_exists(tc)
 import matlab.unittest.constraints.IsScalar
-basic = tc.TestData.basic;
 
-e = stdlib.ncexists(basic, "");
+
+e = stdlib.ncexists(tc.file, "");
 
 tc.verifyThat(e, IsScalar)
 tc.verifyFalse(e)
 
-tc.verifyTrue(stdlib.ncexists(basic, "A1"))
-tc.verifyFalse(stdlib.ncexists(basic, "not-exist"))
+tc.verifyTrue(stdlib.ncexists(tc.file, "A1"))
+tc.verifyFalse(stdlib.ncexists(tc.file, "not-exist"))
 
 end
 
 
 function test_size(tc)
 import matlab.unittest.constraints.IsScalar
-basic = tc.TestData.basic;
 
-s = stdlib.ncsize(basic, 'A0');
+
+s = stdlib.ncsize(tc.file, 'A0');
 tc.verifyEmpty(s)
 
-s = stdlib.ncsize(basic, 'A1');
+s = stdlib.ncsize(tc.file, 'A1');
 tc.verifyThat(s, IsScalar)
 tc.verifyEqual(s, 2)
 
-s = stdlib.ncsize(basic, 'A2');
+s = stdlib.ncsize(tc.file, 'A2');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,4])
 
-s = stdlib.ncsize(basic, 'A3');
+s = stdlib.ncsize(tc.file, 'A3');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2])
 
-s = stdlib.ncsize(basic, 'A4');
+s = stdlib.ncsize(tc.file, 'A4');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
 
 end
 
 function test_size_string(tc)
-basic = tc.TestData.basic;
 
-s = stdlib.ncsize(basic, 'utf0');
+
+s = stdlib.ncsize(tc.file, 'utf0');
 tc.verifyEmpty(s)
 
-s = stdlib.ncsize(basic, 'utf1');
+s = stdlib.ncsize(tc.file, 'utf1');
 tc.verifyEqual(s, 2)
 
-s = stdlib.ncsize(basic, 'utf2');
+s = stdlib.ncsize(tc.file, 'utf2');
 tc.verifyEqual(s, [2, 2])
 end
 
 
 function test_read(tc)
 import matlab.unittest.constraints.IsScalar
-basic = tc.TestData.basic;
 
-s = ncread(basic, 'A0');
+
+s = ncread(tc.file, 'A0');
 tc.verifyThat(s, IsScalar)
 tc.verifyEqual(s, 42)
 
-s = ncread(basic, 'A1');
+s = ncread(tc.file, 'A1');
 tc.verifyTrue(isvector(s))
-tc.verifyEqual(s, tc.TestData.A1)
+tc.verifyEqual(s, tc.A1)
 
-s = ncread(basic, 'A2');
+s = ncread(tc.file, 'A2');
 tc.verifyTrue(ismatrix(s))
-tc.verifyEqual(s, tc.TestData.A2)
+tc.verifyEqual(s, tc.A2)
 
-s = ncread(basic, 'A3');
+s = ncread(tc.file, 'A3');
 tc.verifyEqual(ndims(s), 3)
-tc.verifyEqual(s, tc.TestData.A3)
+tc.verifyEqual(s, tc.A3)
 
-s = ncread(basic, 'A4');
+s = ncread(tc.file, 'A4');
 tc.verifyEqual(ndims(s), 4)
-tc.verifyEqual(s, tc.TestData.A4)
+tc.verifyEqual(s, tc.A4)
 end
 
 function test_read_string(tc)
-basic = tc.TestData.basic;
 
-s = ncread(basic, 'utf0');
-tc.verifyClass(s, 'string')
-tc.verifyEqual(s, string(tc.TestData.utf0))
 
-s = ncread(basic, 'utf1');
+s = ncread(tc.file, 'utf0');
 tc.verifyClass(s, 'string')
-tc.verifyEqual(s, tc.TestData.utf1)
+tc.verifyEqual(s, string(tc.utf0))
 
-s = ncread(basic, 'utf2');
+s = ncread(tc.file, 'utf1');
 tc.verifyClass(s, 'string')
-tc.verifyEqual(s, tc.TestData.utf2)
+tc.verifyEqual(s, tc.utf1)
+
+s = ncread(tc.file, 'utf2');
+tc.verifyClass(s, 'string')
+tc.verifyEqual(s, tc.utf2)
 end
 
 
 function test_coerce(tc)
-basic = tc.TestData.basic;
+
 
 for type = ["single", "double", ...
             "int8", "int16", "int32", "int64", ...
             "uint8", "uint16", "uint32", "uint64"]
 
-  stdlib.ncsave(basic, type, 0, "type", type)
+  stdlib.ncsave(tc.file, type, 0, "type", type)
 
-  tc.verifyClass(ncread(basic, type), type)
+  tc.verifyClass(ncread(tc.file, type), type)
 end
 
 end
 
 
 function test_rewrite(tc)
-basic = tc.TestData.basic;
 
-A2 = 3*magic(4);
-stdlib.ncsave(basic, "A2", A2, "dims", {'x2', size(A2,1), 'y2', size(A2,2)})
 
-tc.verifyEqual(ncread(basic, 'A2'), 3*magic(4))
+tc.A2 = 3*magic(4);
+stdlib.ncsave(tc.file, "A2", tc.A2, "dims", {'x2', size(tc.A2,1), 'y2', size(tc.A2,2)})
+
+tc.verifyEqual(ncread(tc.file, 'A2'), 3*magic(4))
 end
 
 
 function test_real_only(tc)
-basic = tc.TestData.basic;
 
-tc.verifyError(@() stdlib.ncsave(basic, "bad_imag", 1j), 'MATLAB:validators:mustBeReal')
+
+tc.verifyError(@() stdlib.ncsave(tc.file, "bad_imag", 1j), 'MATLAB:validators:mustBeReal')
 end
 
 end
