@@ -29,10 +29,7 @@ else
   names = {ds.Name};
 end
 
-try %#ok<TRYNC>
-  names = string(names);
-end
-
+names = string(names);
 
 end
 

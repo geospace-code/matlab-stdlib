@@ -8,7 +8,7 @@ arguments
 end
 % need to have string array type for p(:)
 
-if ~stdlib.isoctave() && ~isMATLABReleaseOlderThan('R2025a')
+try
   if isunix
     props = ["UserExecute", "GroupExecute", "OtherExecute"];
   else
@@ -16,9 +16,13 @@ if ~stdlib.isoctave() && ~isMATLABReleaseOlderThan('R2025a')
   end
   t = getPermissions(filePermissions(p), props);
   ok = isfile(p(:)) & any(t{:,:}, 2);
-else
-  a = file_attributes_legacy(p);
-  ok = isfile(p) && (a.UserExecute || a.GroupExecute || a.OtherExecute);
+catch e
+  switch e.identifier
+    case {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}
+      a = file_attributes_legacy(p);
+      ok = isfile(p) && (a.UserExecute || a.GroupExecute || a.OtherExecute);
+    otherwise, rethrow(e)
+  end
 end
 
 end

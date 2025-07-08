@@ -21,19 +21,21 @@ if strempty(p)
   return
 end
 
-if stdlib.isoctave() || isMATLABReleaseOlderThan('R2024a')
-  c = acanon(p);
-else
+try
   pth = matlab.io.internal.filesystem.resolvePath(p);
   c = pth.ResolvedPath;
   if strempty(c)
     c = stdlib.normalize(p);
   end
+catch e
+  if strcmp(e.identifier, 'MATLAB:undefinedVarOrClass') || startsWith(e.message, 'member')
+    c = acanon(p);
+  else
+    rethrow(e)
+  end
 end
 
-try %#ok<*TRYNC>
-  c = string(c);
-end
+c = string(c);
 
 end
 

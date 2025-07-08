@@ -2,9 +2,6 @@
 % e.g. https://example.invalid is true
 
 function y = is_url(s)
-arguments
-  s {mustBeTextScalar}
-end
 
 y = startsWith(s, alphanumericsPattern + "://");
 

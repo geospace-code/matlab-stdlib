@@ -2,10 +2,6 @@
 % optional: mex
 
 function ok = is_symlink(p)
-arguments
-  p {mustBeTextScalar}
-end
-
 
 try
   ok = isSymbolicLink(p);
