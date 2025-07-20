@@ -14,8 +14,11 @@ elseif ispc()
   identity = System.Security.Principal.WindowsIdentity.GetCurrent();
   principal = System.Security.Principal.WindowsPrincipal(identity);
   y = principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
-else
+elseif stdlib.has_java()
   y = com.sun.security.auth.module.UnixSystem().getUid() == 0;
+else
+  [s, r] = system('id -u');
+  y = s == 0 && strip(r) == "0";
 end
 
 end

@@ -61,9 +61,7 @@ end
 
 
 function test_is_admin(tc)
-  tc.assumeTrue(ispc() || stdlib.has_java() || stdlib.is_mex_fun("stdlib.is_admin"))
-
-  tc.verifyClass(stdlib.is_admin(), "logical")
+tc.verifyClass(stdlib.is_admin(), "logical")
 end
 
 
