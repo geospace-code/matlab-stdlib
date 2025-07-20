@@ -60,6 +60,13 @@ tc.verifyGreaterThan(pid, 0)
 end
 
 
+function test_is_admin(tc)
+  tc.assumeTrue(ispc() || stdlib.has_java() || stdlib.is_mex_fun("stdlib.is_admin"))
+
+  tc.verifyClass(stdlib.is_admin(), "logical")
+end
+
+
 function test_handle2filename(tc, ph)
 tc.verifyEqual(stdlib.handle2filename(ph{1}), ph{2})
 end

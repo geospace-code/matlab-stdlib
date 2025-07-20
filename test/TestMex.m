@@ -14,11 +14,6 @@ tc.verifyTrue(stdlib.is_char_device(n))
 end
 
 
-function test_is_admin(tc)
-tc.verifyClass(stdlib.is_admin(), "logical")
-end
-
-
 function test_remove_file(tc)
 tc.assertTrue(stdlib.is_mex_fun("stdlib.remove"))
 
