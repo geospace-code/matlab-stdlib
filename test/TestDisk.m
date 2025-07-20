@@ -4,21 +4,11 @@ properties (TestParameter)
 Ps = {".", "", "not-exist"}
 end
 
-methods(Test, TestTags = ["mex"])
-
-function test_mex_disk_available(tc)
-tc.assertTrue(stdlib.is_mex_fun("stdlib.disk_available"))
-end
-
-function test_mex_disk_capacity(tc)
-tc.assertTrue(stdlib.is_mex_fun("stdlib.disk_capacity"))
-end
-
-end
-
-methods (Test, TestTags = ["java"])
+methods (Test)
 
 function test_disk_available(tc, Ps)
+
+tc.assumeTrue(ispc() || stdlib.has_java() || stdlib.is_mex_fun("stdlib.disk_available"))
 
 zero = uint64(0);
 
@@ -29,7 +19,10 @@ else
 end
 end
 
+
 function test_disk_capacity(tc, Ps)
+
+tc.assumeTrue(ispc() || stdlib.has_java() || stdlib.is_mex_fun("stdlib.disk_capacity"))
 
 zero = uint64(0);
 

@@ -1,5 +1,5 @@
 %% DISK_AVAILABLE disk available space (bytes)
-% requires: mex or java
+% optional: mex
 %
 % example:  stdlib.disk_available('/')
 %
@@ -10,10 +10,14 @@ arguments
   d {mustBeTextScalar}
 end
 
-f = javaFileObject(d).getUsableSpace();
+f = uint64(0);
+if ~stdlib.exists(d), return, end
 
-f = uint64(f);
-
+if ispc()
+  f = System.IO.DriveInfo(stdlib.absolute(d)).AvailableFreeSpace();
+else
+  f = javaFileObject(d).getUsableSpace();
+  f = uint64(f);
 end
 
 %!assert (disk_available('.') > 0)

@@ -1,5 +1,5 @@
 %% DISK_CAPACITY disk total capacity (bytes)
-% requires: mex or java
+% optional: mex
 %
 % example:  stdlib.disk_capacity('/')
 
@@ -8,9 +8,15 @@ arguments
   d {mustBeTextScalar}
 end
 
-f = javaFileObject(d).getTotalSpace();
+f = uint64(0);
+if ~stdlib.exists(d), return, end
 
-f = uint64(f);
+if ispc()
+  f = System.IO.DriveInfo(stdlib.absolute(d)).TotalSize();
+else
+  f = javaFileObject(d).getTotalSpace();
+  f = uint64(f);
+end
 
 end
 
