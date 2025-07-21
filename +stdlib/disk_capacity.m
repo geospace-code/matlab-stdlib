@@ -11,10 +11,10 @@ end
 f = uint64(0);
 if ~stdlib.exists(d), return, end
 
-if NET.isNETSupported
+if stdlib.has_dotnet()
   f = System.IO.DriveInfo(stdlib.absolute(d)).TotalSize();
-else
-  f = javaMethod("getTotalSpace", "java.io.File", d);
+elseif stdlib.has_java()
+  f = javaObject("java.io.File", d).getTotalSpace();
   f = uint64(f);
 end
 

@@ -3,9 +3,11 @@
 %
 function n = get_username()
 
-if NET.isNETSupported
+n = '';
+
+if stdlib.has_dotnet()
   n = System.Environment.UserName;
-else
+elseif stdlib.has_java()
   n = javaMethod("getProperty", "java.lang.System", "user.name");
 end
 

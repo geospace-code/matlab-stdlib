@@ -9,13 +9,15 @@
 
 function bytes = ram_total()
 
+bytes = uint64(0);
+
 % .NET is about 10 times SLOWER than Java
-% if ispc() && ~stdlib.isoctave()
-%   h = NET.addAssembly('Microsoft.VisualBasic');
-%   ci = Microsoft.VisualBasic.Devices.ComputerInfo();
-%   bytes = ci.TotalPhysicalMemory;
-%   delete(h);
-% else
+if ispc() && ~stdlib.has_java() && stdlib.has_dotnet()
+  h = NET.addAssembly('Microsoft.VisualBasic');
+  ci = Microsoft.VisualBasic.Devices.ComputerInfo();
+  bytes = ci.TotalPhysicalMemory;
+  delete(h);
+elseif stdlib.has_java()
   b = javaOSBean();
 
   if stdlib.java_api() < 14
@@ -24,7 +26,7 @@ function bytes = ram_total()
     bytes = b.getTotalMemorySize();
   end
   bytes = uint64(bytes);
-% end
+end
 
 % https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getTotalMemorySize()
 

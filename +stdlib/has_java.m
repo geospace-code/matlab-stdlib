@@ -1,5 +1,4 @@
 %% HAS_JAVA detect if JVM is available
-% requires: java
 
 function y = has_java()
 

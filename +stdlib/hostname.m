@@ -6,12 +6,18 @@
 
 function n = hostname()
 
-if NET.isNETSupported
-  n = string(System.Environment.MachineName);
+n = '';
+
+if stdlib.has_dotnet()
+  n = System.Environment.MachineName;
 elseif stdlib.isoctave()
   n = gethostname();
-else
-  n = string(java.net.InetAddress.getLocalHost().getHostName());
+elseif stdlib.has_java()
+  n = java.net.InetAddress.getLocalHost().getHostName();
+end
+
+try  %#ok<*TRYNC>
+  n = string(n);
 end
 
 end

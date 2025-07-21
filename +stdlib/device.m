@@ -8,7 +8,7 @@ end
 
 i = [];
 
-if ispc()
+if ispc() && stdlib.has_dotnet()
   h = NET.addAssembly('System.Management');
 
   r = stdlib.root_name(path);

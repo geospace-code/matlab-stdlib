@@ -11,16 +11,18 @@ end
 t = "";
 if ~stdlib.exists(p), return, end
 
-if NET.isNETSupported
-  t = string(System.IO.DriveInfo(stdlib.absolute(p)).DriveFormat);
-else
+if stdlib.has_dotnet()
+  t = System.IO.DriveInfo(stdlib.absolute(p)).DriveFormat;
+elseif stdlib.has_java()
   op = javaPathObject(p);
 
-  if stdlib.isoctave()
-    t = javaMethod("getFileStore", "java.nio.file.Files", op).type;
-  else
-    t = java.nio.file.Files.getFileStore(op).type.string;
-  end
+  t = javaMethod("getFileStore", "java.nio.file.Files", op).type;
+end
+
+try  %#ok<*TRYNC>
+  t = string(t);
+end
+
 end
 
 %!assert(!isempty(filesystem_type(pwd)))
