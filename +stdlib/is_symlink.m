@@ -2,17 +2,45 @@
 % optional: mex
 
 function ok = is_symlink(p)
+arguments
+  p {mustBeTextScalar}
+end
 
 try
   ok = isSymbolicLink(p);
 catch e
   switch e.identifier
-    case "MATLAB:UndefinedFunction", ok = java.nio.file.Files.isSymbolicLink(javaPathObject(stdlib.absolute(p)));
+    case "MATLAB:UndefinedFunction"
+      if stdlib.has_dotnet()
+        ok = is_symlink_dotnet(p);
+      elseif stdlib.has_java()
+        ok = java.nio.file.Files.isSymbolicLink(javaPathObject(stdlib.absolute(p)));
+      else
+        rethrow(e)
+      end
     case "Octave:undefined-function"
       % use lstat() to work with a broken symlink, like Matlab isSymbolicLink
       [s, err] = lstat(p);
       ok = err == 0 && S_ISLNK(s.mode);
     otherwise, rethrow(e)
+  end
+end
+
+end
+
+
+function ok = is_symlink_dotnet(p)
+
+try
+  ok = ~isempty(System.IO.FileInfo(p).LinkTarget);
+catch e
+  if strcmp(e.identifier, "MATLAB:noSuchMethodOrField")
+   attr = string(System.IO.File.GetAttributes(p).ToString());
+   % https://learn.microsoft.com/en-us/dotnet/api/system.io.fileattributesN
+   % ReparsePoint is for Linux, macOS, and Windows
+   ok = contains(attr, 'ReparsePoint');
+  else
+    rethrow(e)
   end
 end
 
