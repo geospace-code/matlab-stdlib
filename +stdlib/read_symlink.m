@@ -8,6 +8,7 @@ arguments
   p {mustBeTextScalar}
 end
 
+r = string.empty;
 
 try
   [ok, r] = isSymbolicLink(p);
@@ -16,15 +17,16 @@ catch e
   switch e.identifier
     case "Octave:undefined-function", r = readlink(p);
     case "MATLAB:UndefinedFunction"
-      if stdlib.is_symlink(p)
+      if ~stdlib.is_symlink(p), return, end
+
+      if stdlib.has_dotnet() && stdlib.dotnet_api() >= 6
+        r = System.IO.FileInfo(p).LinkTarget;
+      elseif stdlib.has_java()
         % must be absolute path
         % must not be .canonical or symlink is gobbled!
         r = stdlib.absolute(p);
-
         % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#readSymbolicLink(java.nio.file.Path)
         r = java.nio.file.Files.readSymbolicLink(javaPathObject(r)).string;
-      else
-        r = string.empty;
       end
     otherwise, rethrow(e)
   end
