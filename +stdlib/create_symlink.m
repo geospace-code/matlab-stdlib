@@ -26,8 +26,12 @@ catch e
     % Matlab Java doesn't recognize the optional argument omitted.
     % see example/Filesystem.java for this working in plain Java.
     % see example/javaCreateSymbolicLink.m for a non-working attempt in Matlab.
-      warning(e.identifier, "buildtool mex  \n%s", e.message)
-      ok = false;
+      if stdlib.has_dotnet()
+        System.IO.File.CreateSymbolicLink(link, target);
+        ok = true;
+      else
+        ok = false;
+      end
     case "Octave:undefined-function"
       err = symlink(target, link);
       ok = err == 0;
