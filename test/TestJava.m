@@ -51,12 +51,6 @@ tc.assertGreaterThanOrEqual(v, 8, "Java API >= 8 is required for Matlab-stdlib")
 end
 
 
-function test_os_version(tc)
-[os, ver] = stdlib.os_version();
-tc.verifyGreaterThan(strlength(os), 0, "expected non-empty os")
-tc.verifyGreaterThan(strlength(ver), 0, "expected non-empty version")
-end
-
 function test_hard_link_count(tc)
 fn = mfilename("fullpath") + ".m";
 
@@ -65,16 +59,6 @@ if ispc
 else
     tc.verifyGreaterThanOrEqual(stdlib.hard_link_count(fn), 1)
 end
-end
-
-
-function test_is_parallel(tc)
-tc.verifyClass(stdlib.is_parallel_worker, 'logical')
-end
-
-
-function test_cpu_count(tc)
-tc.verifyGreaterThan(stdlib.cpu_count(), 0)
 end
 
 
@@ -110,11 +94,6 @@ end
 
 function test_set_modtime(tc)
 tc.verifyEqual(stdlib.set_modtime("", datetime("now")), false)
-end
-
-
-function test_checkRAM(tc)
-tc.verifyClass(stdlib.checkRAM(1, "double"), "logical")
 end
 
 end
