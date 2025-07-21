@@ -23,11 +23,7 @@ end
 
 file_chunk = 10e6;  % arbitrary (bytes) didn't seem to be very sensitive for speed
 
-if stdlib.isoctave()
-  inst = javaMethod("getInstance", "java.security.MessageDigest", method);
-else
-  inst = java.security.MessageDigest.getInstance(method);
-end
+inst = javaMethod("getInstance", "java.security.MessageDigest", method);
 
 fid = fopen(file, 'r');
 assert(fid > 1, "could not open file %s", file)
