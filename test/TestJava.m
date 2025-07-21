@@ -73,12 +73,6 @@ tc.verifyClass(stdlib.is_parallel_worker, 'logical')
 end
 
 
-function test_ram(tc)
-tc.verifyGreaterThan(stdlib.ram_total(), 0)
-tc.verifyGreaterThan(stdlib.ram_free(), 0)
-end
-
-
 function test_cpu_count(tc)
 tc.verifyGreaterThan(stdlib.cpu_count(), 0)
 end

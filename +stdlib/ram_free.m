@@ -6,24 +6,28 @@
 %
 %%% Outputs
 % * freebytes: free physical RAM [bytes]
+%
+% This is done using Java on non-Windows platforms.
+% VisualBasic (needs Windows) is needed to do this with .NET, so we use builtin memory() on Windows.
 
-function freebytes = ram_free()
+function bytes = ram_free()
 
 try
   % memory() was added cross-platform to Octave ~ 2021.
   % Matlab memory() at least through R2025a is still Windows only.
   m = memory();
-  freebytes = m.MemAvailableAllArrays;
+  bytes = uint64(m.MemAvailableAllArrays);
 catch e
   switch e.identifier
     case {'MATLAB:memory:unsupported', 'Octave:undefined-function'}
       b = javaOSBean();
 
       if stdlib.java_api() < 14
-        freebytes = b.getFreePhysicalMemorySize();
+        bytes = b.getFreePhysicalMemorySize();
       else
-        freebytes = b.getFreeMemorySize();
+        bytes = b.getFreeMemorySize();
       end
+      bytes = uint64(bytes);
     otherwise, rethrow(e)
   end
 end

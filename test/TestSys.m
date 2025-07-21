@@ -30,12 +30,26 @@ u = stdlib.get_username();
 tc.verifyGreaterThan(strlength(u), 0)
 end
 
-
 function test_cpu_arch(tc)
 tc.assumeTrue(ispc() || stdlib.has_java())
 
 arch = stdlib.cpu_arch();
 tc.verifyGreaterThan(strlength(arch), 0)
+end
+
+function test_ram(tc)
+tc.assumeTrue(ispc() || stdlib.has_java())
+
+t = stdlib.ram_total();
+f = stdlib.ram_free();
+
+tc.verifyGreaterThan(t, 0)
+tc.verifyGreaterThan(f, 0)
+
+tc.verifyLessThanOrEqual(f, t)
+
+tc.verifyClass(t, 'uint64')
+tc.verifyClass(f, 'uint64')
 end
 
 end
