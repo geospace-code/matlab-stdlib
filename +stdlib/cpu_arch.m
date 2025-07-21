@@ -1,12 +1,16 @@
 %% CPU_ARCH get the CPU architecture
 % optional: java
 
-function arch = cpu_arch()
+function a = cpu_arch()
 
 if NET.isNETSupported()
-  arch = string(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture);
+  a = System.Runtime.InteropServices.RuntimeInformation.OSArchitecture;
 else
-  arch = javaSystemProperty("os.arch");
+  a = javaMethod("getProperty", "java.lang.System", "os.arch");
+end
+
+try  %#ok<*TRYNC>
+  a = string(a);
 end
 
 end

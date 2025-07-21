@@ -4,9 +4,13 @@
 function n = get_username()
 
 if NET.isNETSupported()
-  n = string(System.Environment.UserName);
+  n = System.Environment.UserName;
 else
-  n = javaSystemProperty("user.name");
+  n = javaMethod("getProperty", "java.lang.System", "user.name");
+end
+
+try  %#ok<*TRYNC>
+  n = string(n);
 end
 
 end

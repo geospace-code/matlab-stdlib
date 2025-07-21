@@ -3,7 +3,11 @@
 
 function v = java_vendor()
 
-v = javaSystemProperty("java.vendor");
+v = javaMethod("getProperty", "java.lang.System", "java.vendor");
+
+try  %#ok<*TRYNC>
+  v = string(v);
+end
 
 end
 
