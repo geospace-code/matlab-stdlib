@@ -1,5 +1,4 @@
 %% PROXIMATE_TO relative path to base
-% optional: mex
 %
 %%% Inputs
 % * base {mustBeTextScalar}
