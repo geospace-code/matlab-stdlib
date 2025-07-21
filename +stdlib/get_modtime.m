@@ -12,17 +12,7 @@ arguments
 end
 
 
-if stdlib.isoctave()
-  [s, err] = stat(p);
-  if err == 0
-    t = s.mtime;
-  else
-    t = [];
-  end
-  return
-end
-
-t = javaFileObject(p).lastModified() / 1000;
+t = javaObject("java.io.File", p).lastModified() / 1000;
 
 if t > 0
   t = datetime(t, ConvertFrom="PosixTime");

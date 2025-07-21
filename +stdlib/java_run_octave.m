@@ -55,7 +55,7 @@ end
 
 if ~strempty(cwd)
   % https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/ProcessBuilder.html#directory(java.io.File)
-  proc.directory(javaFileObject(cwd));
+  proc.directory(javaObject("java.io.File", cwd));
 end
 
 %% start process

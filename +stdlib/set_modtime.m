@@ -16,7 +16,7 @@ catch e
   end
 end
 
-ok = javaFileObject(p).setLastModified(int64(utc) * 1000);
+ok = javaObject("java.io.File", p).setLastModified(int64(utc) * 1000);
 
 end
 

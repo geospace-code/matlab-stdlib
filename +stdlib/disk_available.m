@@ -16,7 +16,7 @@ if ~stdlib.exists(d), return, end
 if NET.isNETSupported
   f = System.IO.DriveInfo(stdlib.absolute(d)).AvailableFreeSpace();
 else
-  f = javaFileObject(d).getUsableSpace();
+  f = javaMethod("getUsableSpace", "java.io.File", d);
   f = uint64(f);
 end
 

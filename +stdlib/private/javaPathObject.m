@@ -2,10 +2,10 @@
 function o = javaPathObject(p)
 
 if stdlib.isoctave()
-  o = javaFileObject(p).toPath();
+  o = javaObject("java.io.File", p).toPath();
 else
   o = java.nio.file.Paths.get(p, javaArray('java.lang.String', 0));
-  % o = javaFileObject(p).toPath();  % above way about 20% faster
+  % o = javaObject("java.io.File", p).toPath();  % above way about 20% faster
 end
 
 end
