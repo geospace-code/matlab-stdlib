@@ -10,7 +10,7 @@
 
 function L = cpu_load()
 
-b = javaOSBean();
+b = javaMethod("getOperatingSystemMXBean", "java.lang.management.ManagementFactory");
 
 if stdlib.java_api() < 14
   % https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getSystemCpuLoad()

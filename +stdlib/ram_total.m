@@ -18,7 +18,7 @@ if ispc() && ~stdlib.has_java() && stdlib.has_dotnet()
   bytes = ci.TotalPhysicalMemory;
   delete(h);
 elseif stdlib.has_java()
-  b = javaOSBean();
+  b = javaMethod("getOperatingSystemMXBean", "java.lang.management.ManagementFactory");
 
   if stdlib.java_api() < 14
     bytes = b.getTotalPhysicalMemorySize();
