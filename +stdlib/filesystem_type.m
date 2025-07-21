@@ -11,7 +11,7 @@ end
 t = "";
 if ~stdlib.exists(p), return, end
 
-if ispc()
+if NET.isNETSupported()
   t = string(System.IO.DriveInfo(stdlib.absolute(p)).DriveFormat);
 else
   op = javaPathObject(p);

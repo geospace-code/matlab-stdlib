@@ -13,7 +13,7 @@ end
 f = uint64(0);
 if ~stdlib.exists(d), return, end
 
-if ispc()
+if NET.isNETSupported()
   f = System.IO.DriveInfo(stdlib.absolute(d)).AvailableFreeSpace();
 else
   f = javaFileObject(d).getUsableSpace();

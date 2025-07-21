@@ -3,7 +3,7 @@
 %
 function n = get_username()
 
-if ispc()
+if NET.isNETSupported()
   n = string(System.Environment.UserName);
 else
   n = javaSystemProperty("user.name");

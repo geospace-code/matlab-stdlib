@@ -3,7 +3,7 @@
 
 function arch = cpu_arch()
 
-if ispc()
+if NET.isNETSupported()
   arch = string(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture);
 else
   arch = javaSystemProperty("os.arch");
