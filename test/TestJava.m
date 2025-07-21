@@ -40,19 +40,6 @@ end
 
 methods(Test, TestTags="java")
 
-function test_filesystem_type(tc, Ps)
-
-s = stdlib.filesystem_type(Ps);
-tc.verifyClass(s, 'string')
-L = strlength(s);
-
-if strlength(Ps) == 0 || stdlib.exists(Ps)
-  tc.verifyGreaterThan(L, 0)
-else
-  tc.verifyEqual(L, 0)
-end
-end
-
 function test_username(tc)
 u = stdlib.get_username();
 tc.verifyGreaterThan(strlength(u), 0)

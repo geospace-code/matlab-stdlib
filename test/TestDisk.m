@@ -33,5 +33,21 @@ else
 end
 end
 
+
+function test_filesystem_type(tc, Ps)
+
+tc.assumeTrue(ispc() || stdlib.has_java())
+
+s = stdlib.filesystem_type(Ps);
+tc.verifyClass(s, 'string')
+L = strlength(s);
+
+if stdlib.exists(Ps)
+  tc.verifyGreaterThan(L, 0)
+else
+  tc.verifyEqual(L, 0)
+end
+end
+
 end
 end
