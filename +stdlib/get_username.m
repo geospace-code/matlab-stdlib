@@ -1,9 +1,13 @@
 %% GET_USERNAME tell username of current user
-% requires: java
+% optional: java
 %
 function n = get_username()
 
-n = javaSystemProperty("user.name");
+if ispc()
+  n = string(System.Environment.UserName);
+else
+  n = javaSystemProperty("user.name");
+end
 
 end
 

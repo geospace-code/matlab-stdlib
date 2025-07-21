@@ -18,8 +18,16 @@ end
 
 function test_hostname(tc)
 tc.assumeTrue(ispc() || stdlib.has_java())
+
 h = stdlib.hostname();
 tc.verifyGreaterThan(strlength(h), 0)
+end
+
+function test_username(tc)
+tc.assumeTrue(ispc() || stdlib.has_java())
+
+u = stdlib.get_username();
+tc.verifyGreaterThan(strlength(u), 0)
 end
 
 end
