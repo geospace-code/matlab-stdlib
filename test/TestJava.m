@@ -7,13 +7,6 @@ end
 
 methods (Test, TestTags=["java", "unix"])
 
-function test_inode(tc)
-tc.assumeFalse(ispc(), "not for Windows")
-tc.assumeGreaterThanOrEqual(stdlib.java_api(), 11)
-
-tc.verifyEqual(stdlib.inode("."), stdlib.inode(pwd()))
-end
-
 
 function test_owner(tc, Ps)
 

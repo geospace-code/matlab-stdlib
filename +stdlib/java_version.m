@@ -12,8 +12,10 @@ function v = java_version()
 
 v = javaMethod("getProperty", "java.lang.System", "java.version");
 
-try  %#ok<*TRYNC>
+try %#ok<*TRYNC>
   v = string(v);
+end
+
 end
 
 %!assert(!isempty(java_version()))
