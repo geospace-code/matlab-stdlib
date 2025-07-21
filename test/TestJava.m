@@ -38,11 +38,6 @@ u = stdlib.get_username();
 tc.verifyGreaterThan(strlength(u), 0)
 end
 
-function test_hostname(tc)
-h = stdlib.hostname();
-tc.verifyGreaterThan(strlength(h), 0)
-end
-
 function test_java_vendor(tc)
 v = stdlib.java_vendor();
 tc.verifyGreaterThan(strlength(v), 0)

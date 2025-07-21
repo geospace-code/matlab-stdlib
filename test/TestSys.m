@@ -9,12 +9,17 @@ end
 methods (Test, TestTags="impure")
 
 function test_platform_logical(tc, fun)
-
 tc.verifyClass(fun, 'logical')
 end
 
 function test_platform_int32(tc, fi32)
 tc.verifyClass(fi32, 'int32')
+end
+
+function test_hostname(tc)
+tc.assumeTrue(ispc() || stdlib.has_java())
+h = stdlib.hostname();
+tc.verifyGreaterThan(strlength(h), 0)
 end
 
 end
