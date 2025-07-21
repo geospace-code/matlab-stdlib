@@ -1,16 +1,24 @@
 %% PROXIMATE_TO relative path to base
-% requires: mex
-
+% optional: mex
+%
 %%% Inputs
 % * base {mustBeTextScalar}
 % * other {mustBeTextScalar}
 %%% Outputs
 % * rel {mustBeTextScalar}
-%
-% This function is written in C++ using STL <filesystem>
 
-function proximate_to(~,~)
-error("buildtool mex")
+function rel = proximate_to(base, other)
+arguments
+  base {mustBeTextScalar}
+  other {mustBeTextScalar}
+end
+
+rel = stdlib.relative_to(base, other);
+if strempty(rel)
+  rel = fullfile(other);
+end
+
+
 end
 
 %!testif 0

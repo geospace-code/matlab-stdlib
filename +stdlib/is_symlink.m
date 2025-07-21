@@ -12,7 +12,7 @@ catch e
   switch e.identifier
     case "MATLAB:UndefinedFunction"
       if stdlib.has_dotnet()
-        if stdlib.dotnet_api >= 6
+        if stdlib.dotnet_api() >= 6
           ok = ~isempty(System.IO.FileInfo(p).LinkTarget);
         else
            attr = string(System.IO.File.GetAttributes(p).ToString());

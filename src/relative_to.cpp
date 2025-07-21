@@ -28,7 +28,7 @@ public:
     matlab_2string(inputs, &base, &other);
 
     std::error_code ec;
-    std::string out = std::filesystem::relative(other, base, ec).generic_string();
+    std::string out = std::filesystem::relative(other, base, ec).string();
 
     if(ec)
       matlabEng->feval(u"error", 0,

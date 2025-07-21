@@ -1,5 +1,5 @@
 %% FILE_CHECKSUM compute hash of file
-% requires: java
+% optional: java
 %
 % read in chunks to avoid excessive RAM use
 %
