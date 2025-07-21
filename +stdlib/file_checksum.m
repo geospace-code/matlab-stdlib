@@ -23,21 +23,36 @@ end
 
 file_chunk = 10e6;  % arbitrary (bytes) didn't seem to be very sensitive for speed
 
-inst = javaMethod("getInstance", "java.security.MessageDigest", method);
-
 fid = fopen(file, 'r');
 assert(fid > 1, "could not open file %s", file)
 
-while ~feof(fid)
-  % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#update(byte)
-  inst.update(fread(fid, file_chunk, '*uint8'));
+
+if stdlib.has_dotnet()
+  inst = System.Security.Cryptography.HashAlgorithm.Create(method);
+  while ~feof(fid)
+    % https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.hashalgorithm.computehash
+    inst.ComputeHash(fread(fid, file_chunk, '*uint8'));
+  end
+elseif stdlib.has_java()
+  inst = javaMethod("getInstance", "java.security.MessageDigest", method);
+  while ~feof(fid)
+    % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#update(byte)
+    inst.update(fread(fid, file_chunk, '*uint8'));
+  end
+else
+  error('no supported hash method found, please install .NET or Java')
 end
+
 fclose(fid);
 
-% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#digest()
-hash = typecast(inst.digest, 'uint8');
+if stdlib.has_dotnet()
+  h = uint8(inst.Hash);
+elseif stdlib.has_java()
+  % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#digest()
+  h = typecast(inst.digest, 'uint8');
+end
 
-hash = sprintf('%.2x', hash);
+hash = sprintf('%.2x', h);
 
 end
 
