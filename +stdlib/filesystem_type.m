@@ -13,6 +13,7 @@ if ~stdlib.exists(p), return, end
 
 if stdlib.has_dotnet()
   t = System.IO.DriveInfo(stdlib.absolute(p)).DriveFormat;
+  % https://learn.microsoft.com/en-us/dotnet/api/system.io.driveinfo.driveformat
 elseif stdlib.has_java()
   t = javaMethod("getFileStore", "java.nio.file.Files", javaPathObject(p)).type;
 end

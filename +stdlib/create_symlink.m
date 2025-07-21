@@ -26,10 +26,12 @@ catch e
     % Matlab Java doesn't recognize the optional argument omitted.
     % see example/Filesystem.java for this working in plain Java.
     % see example/javaCreateSymbolicLink.m for a non-working attempt in Matlab.
-      if stdlib.has_dotnet()
+      if stdlib.has_dotnet() && stdlib.dotnet_api() >= 6
+        % https://learn.microsoft.com/en-us/dotnet/api/system.io.file.createsymboliclink
         System.IO.File.CreateSymbolicLink(link, target);
         ok = true;
       else
+        warning(e.identifier, "%s", e.message)
         ok = false;
       end
     case "Octave:undefined-function"

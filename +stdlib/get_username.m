@@ -7,6 +7,7 @@ n = '';
 
 if stdlib.has_dotnet()
   n = System.Environment.UserName;
+  % https://learn.microsoft.com/en-us/dotnet/api/system.environment.username
 elseif stdlib.has_java()
   n = javaMethod("getProperty", "java.lang.System", "user.name");
 end

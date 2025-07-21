@@ -10,6 +10,7 @@ n = '';
 
 if stdlib.has_dotnet()
   n = System.Environment.MachineName;
+  % https://learn.microsoft.com/en-us/dotnet/api/system.environment.machinename
 elseif stdlib.isoctave()
   n = gethostname();
 elseif stdlib.has_java()
