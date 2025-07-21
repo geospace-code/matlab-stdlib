@@ -16,7 +16,7 @@ catch e
           ok = ~isempty(System.IO.FileInfo(p).LinkTarget);
         else
            attr = string(System.IO.File.GetAttributes(p).ToString());
-           % https://learn.microsoft.com/en-us/dotnet/api/system.io.fileattributesN
+           % https://learn.microsoft.com/en-us/dotnet/api/system.io.fileattributes
            % ReparsePoint is for Linux, macOS, and Windows
            ok = contains(attr, 'ReparsePoint');
         end

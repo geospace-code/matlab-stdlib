@@ -5,7 +5,8 @@ p_is_writable = {{pwd(), true}};
 
 p_same = {...
 {"..", "./.."}, ...
-{"..", pwd() + "/.."}}
+{"..", pwd() + "/.."}, ...
+{pwd(), pwd() + "/."}}
 
 ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname()), ''}}
 
