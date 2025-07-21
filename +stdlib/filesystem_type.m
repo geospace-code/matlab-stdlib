@@ -14,9 +14,7 @@ if ~stdlib.exists(p), return, end
 if stdlib.has_dotnet()
   t = System.IO.DriveInfo(stdlib.absolute(p)).DriveFormat;
 elseif stdlib.has_java()
-  op = javaPathObject(p);
-
-  t = javaMethod("getFileStore", "java.nio.file.Files", op).type;
+  t = javaMethod("getFileStore", "java.nio.file.Files", javaPathObject(p)).type;
 end
 
 try  %#ok<*TRYNC>

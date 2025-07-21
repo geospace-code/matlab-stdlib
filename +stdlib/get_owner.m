@@ -13,10 +13,14 @@ end
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html#getOwner(java.nio.file.Path,java.nio.file.LinkOption...)
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/LinkOption.html
 
-op = javaPathObject(p);
 opt = javaMethod("values", "java.nio.file.LinkOption");
 
-n = javaMethod("getOwner", "java.nio.file.Files", op, opt).toString();
+n = javaMethod("getOwner", "java.nio.file.Files", javaPathObject(p), opt).toString();
+% .toString() needed for Octave
+
+try %#ok<*TRYNC>
+  n = string(n);
+end
 
 end
 
