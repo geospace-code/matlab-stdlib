@@ -12,7 +12,14 @@ catch e
   switch e.identifier
     case "MATLAB:UndefinedFunction"
       if stdlib.has_dotnet()
-        ok = is_symlink_dotnet(p);
+        if stdlib.dotnet_api >= 6
+          ok = ~isempty(System.IO.FileInfo(p).LinkTarget);
+        else
+           attr = string(System.IO.File.GetAttributes(p).ToString());
+           % https://learn.microsoft.com/en-us/dotnet/api/system.io.fileattributesN
+           % ReparsePoint is for Linux, macOS, and Windows
+           ok = contains(attr, 'ReparsePoint');
+        end
       elseif stdlib.has_java()
         ok = java.nio.file.Files.isSymbolicLink(javaPathObject(stdlib.absolute(p)));
       else
@@ -28,23 +35,6 @@ end
 
 end
 
-
-function ok = is_symlink_dotnet(p)
-
-try
-  ok = ~isempty(System.IO.FileInfo(p).LinkTarget);
-catch e
-  if strcmp(e.identifier, "MATLAB:noSuchMethodOrField")
-   attr = string(System.IO.File.GetAttributes(p).ToString());
-   % https://learn.microsoft.com/en-us/dotnet/api/system.io.fileattributesN
-   % ReparsePoint is for Linux, macOS, and Windows
-   ok = contains(attr, 'ReparsePoint');
-  else
-    rethrow(e)
-  end
-end
-
-end
 
 %!test
 %! if !ispc
