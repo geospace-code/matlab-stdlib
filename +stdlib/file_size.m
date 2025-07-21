@@ -12,16 +12,9 @@ end
 
 s = [];
 
-if stdlib.isoctave()
-  [st, err] = stat(p);
-  if err == 0
-    s = st.size;
-  end
-else
-  d = dir(p);
-  if ~isempty(d)
-    s = d.bytes;
-  end
+d = dir(p);
+if ~isempty(d)
+  s = d.bytes;
 end
 
 end
