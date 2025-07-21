@@ -6,7 +6,7 @@
 
 function n = hostname()
 
-if NET.isNETSupported()
+if NET.isNETSupported
   n = string(System.Environment.MachineName);
 elseif stdlib.isoctave()
   n = gethostname();

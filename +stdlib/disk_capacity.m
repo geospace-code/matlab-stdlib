@@ -11,7 +11,7 @@ end
 f = uint64(0);
 if ~stdlib.exists(d), return, end
 
-if NET.isNETSupported()
+if NET.isNETSupported
   f = System.IO.DriveInfo(stdlib.absolute(d)).TotalSize();
 else
   f = javaFileObject(d).getTotalSpace();

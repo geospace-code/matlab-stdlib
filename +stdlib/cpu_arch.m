@@ -3,7 +3,7 @@
 
 function a = cpu_arch()
 
-if NET.isNETSupported()
+if NET.isNETSupported
   a = System.Runtime.InteropServices.RuntimeInformation.OSArchitecture;
 else
   a = javaMethod("getProperty", "java.lang.System", "os.arch");
