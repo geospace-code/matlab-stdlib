@@ -14,13 +14,9 @@ end
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/LinkOption.html
 
 op = javaPathObject(p);
-opt = javaLinkOption();
+opt = javaMethod("values", "java.nio.file.LinkOption");
 
-if stdlib.isoctave()
-  n = javaMethod("getOwner", "java.nio.file.Files", op, opt).toString();
-else
-  n = java.nio.file.Files.getOwner(op, opt).string;
-end
+n = javaMethod("getOwner", "java.nio.file.Files", op, opt).toString();
 
 end
 

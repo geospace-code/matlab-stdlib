@@ -16,7 +16,8 @@ if stdlib.isoctave()
   end
 elseif isunix() && stdlib.java_api() >= 11
   % Java 1.8 is buggy in some corner cases, so we require at least 11.
-  i = java.nio.file.Files.getAttribute(javaPathObject(path), "unix:ino", javaLinkOption());
+  opt = javaMethod("values", "java.nio.file.LinkOption");
+  i = java.nio.file.Files.getAttribute(javaPathObject(path), "unix:ino", opt);
 end
 
 end
