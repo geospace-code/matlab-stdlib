@@ -1,6 +1,5 @@
 %% DEVICE filesystem device index of path
-% requires: java
-% Windows always returns 0, Unix returns device number.
+% optional: java
 
 function i = device(path)
 arguments
@@ -9,7 +8,30 @@ end
 
 i = [];
 
-if stdlib.isoctave()
+if ispc()
+  h = NET.addAssembly('System.Management');
+
+  r = stdlib.root_name(path);
+  queryLogicalDisk = sprintf('SELECT VolumeSerialNumber FROM Win32_LogicalDisk WHERE Caption = ''%s''', r);
+
+  % Create a ManagementObjectSearcher instance
+  searcher = System.Management.ManagementObjectSearcher(queryLogicalDisk);
+
+  % Get the collection of ManagementObject instances
+  logicalDisks = searcher.Get();
+
+  % Get the first result (should be at most one for a drive letter)
+  logicalDiskEnumerator = logicalDisks.GetEnumerator();
+  if logicalDiskEnumerator.MoveNext()
+    logicalDisk = logicalDiskEnumerator.Current;
+
+    % Get the VolumeSerialNumber property
+    % This property is a string in WMI, representing a 32-bit hexadecimal integer.
+    i = hex2dec(char(logicalDisk.GetPropertyValue('VolumeSerialNumber')));
+  end
+
+  delete(h)
+elseif stdlib.isoctave()
   [s, err] = stat(path);
   if err == 0
     i = s.dev;

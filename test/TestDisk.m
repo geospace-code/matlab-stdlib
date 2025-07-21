@@ -49,5 +49,19 @@ else
 end
 end
 
+
+function test_device(tc)
+
+tc.assumeTrue(ispc() || stdlib.has_java())
+
+if ispc()
+  tc.verifyGreaterThan(stdlib.device(pwd()), 0)
+else
+  tc.assumeGreaterThanOrEqual(stdlib.java_api(), 11)
+
+  tc.verifyEqual(stdlib.device("."), stdlib.device(pwd()))
+end
+end
+
 end
 end

@@ -15,13 +15,6 @@ tc.verifyEqual(stdlib.inode("."), stdlib.inode(pwd()))
 end
 
 
-function test_device(tc)
-tc.assumeFalse(ispc(), "not for Windows")
-tc.assumeGreaterThanOrEqual(stdlib.java_api(), 11)
-
-tc.verifyEqual(stdlib.device("."), stdlib.device(pwd()))
-end
-
 function test_owner(tc, Ps)
 
 s = stdlib.get_owner(Ps);
