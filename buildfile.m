@@ -257,8 +257,6 @@ normal = ["src/normalize_fs.cpp", pure];
 
 win = [pure, "src/windows.cpp"];
 
-mac = "src/macos.cpp";
-
 sym = "src/symlink_fs.cpp";
 
 
@@ -272,8 +270,6 @@ srcs = {
 "src/disk_available.cpp", ...
 "src/disk_capacity.cpp", ...
 "src/set_permissions.cpp", ...
-["src/is_rosetta.cpp", mac], ...
-["src/drop_slash.cpp", normal], ...
 };
 
 if (isMATLABReleaseOlderThan("R2024b") && ~stdlib.has_dotnet()) || build_all
