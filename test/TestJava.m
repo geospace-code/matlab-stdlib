@@ -50,10 +50,6 @@ v = stdlib.java_api();
 tc.assertGreaterThanOrEqual(v, 8, "Java API >= 8 is required for Matlab-stdlib")
 end
 
-function test_cpu_arch(tc)
-arch = stdlib.cpu_arch();
-tc.verifyGreaterThan(strlength(arch), 0)
-end
 
 function test_os_version(tc)
 [os, ver] = stdlib.os_version();

@@ -1,9 +1,13 @@
 %% CPU_ARCH get the CPU architecture
-% requires: java
+% optional: java
 
 function arch = cpu_arch()
 
-arch = javaSystemProperty("os.arch");
+if ispc()
+  arch = string(System.Runtime.InteropServices.RuntimeInformation.OSArchitecture);
+else
+  arch = javaSystemProperty("os.arch");
+end
 
 end
 

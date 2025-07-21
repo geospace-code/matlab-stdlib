@@ -30,5 +30,13 @@ u = stdlib.get_username();
 tc.verifyGreaterThan(strlength(u), 0)
 end
 
+
+function test_cpu_arch(tc)
+tc.assumeTrue(ispc() || stdlib.has_java())
+
+arch = stdlib.cpu_arch();
+tc.verifyGreaterThan(strlength(arch), 0)
+end
+
 end
 end
