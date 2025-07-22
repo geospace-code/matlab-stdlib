@@ -12,6 +12,7 @@ arguments
   link {mustBeTextScalar}
 end
 
+ok = false;
 
 try
   createSymbolicLink(link, target);
@@ -26,22 +27,27 @@ catch e
     % see example/Filesystem.java for this working in plain Java.
     % see example/javaCreateSymbolicLink.m for a non-working attempt in Matlab.
       if stdlib.has_python()
-        py.pathlib.Path(link).symlink_to(target);
-        ok = true;
+        try
+          py.pathlib.Path(link).symlink_to(target);
+          ok = true;
+        catch e
+          warning(e.identifier, "%s", e.message)
+        end
       elseif stdlib.dotnet_api() >= 6
         % https://learn.microsoft.com/en-us/dotnet/api/system.io.file.createsymboliclink
-        System.IO.File.CreateSymbolicLink(link, target);
-        ok = true;
+        try
+          System.IO.File.CreateSymbolicLink(link, target);
+          ok = true;
+        catch e
+          warning(e.identifier, "%s", e.message)
+        end
       else
         warning(e.identifier, "%s", e.message)
-        ok = false;
       end
     case "Octave:undefined-function"
       err = symlink(target, link);
       ok = err == 0;
-    otherwise
-      warning(e.identifier, "%s", e.message)
-      ok = false;
+    otherwise, warning(e.identifier, "%s", e.message)
   end
 end
 
