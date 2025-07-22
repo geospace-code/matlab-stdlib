@@ -87,9 +87,15 @@ tc.assumeTrue(ispc() || stdlib.has_java())
 f = stdlib.ram_free();
 tc.verifyGreaterThan(f, 0)
 tc.verifyClass(f, 'uint64')
+end
 
-tc.verifyLessThanOrEqual(f, stdlib.ram_total(), ...
-    "Free RAM should be less than or equal to total RAM")
+function test_ram_free_vs_total(tc)
+t = stdlib.ram_total();
+tc.assumeGreaterThan(t, 0)
+f = stdlib.ram_free();
+tc.assumeGreaterThan(f, 0)
+
+tc.verifyLessThanOrEqual(f, t, "Free RAM should be less than or equal to total RAM")
 end
 
 end

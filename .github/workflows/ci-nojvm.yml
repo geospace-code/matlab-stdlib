@@ -35,6 +35,11 @@ jobs:
 
     - uses: ./.github/workflows/composite-install-matlab
 
+    - name: Matlab tell External Language Interface versions
+      uses: matlab-actions/run-command@v2
+      with:
+        command: stdlib.platform_tell()
+
     - name: Fortran FC
       if: runner.os == 'macOS'
       run: echo "FC=gfortran-14" >> $GITHUB_ENV
