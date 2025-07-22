@@ -8,14 +8,14 @@ end
 methods (Test)
 
 function test_relative_to(tc, pr)
-tc.assumeTrue((stdlib.dotnet_api() >= 5) || stdlib.is_mex_fun("stdlib.relative_to"))
+tc.assumeTrue(stdlib.has_python() || (stdlib.dotnet_api() >= 5) || stdlib.is_mex_fun("stdlib.relative_to"))
 
 tc.verifyEqual(stdlib.relative_to(pr{1}, pr{2}), pr{3}, ...
   "relative_to(" + pr{1} + "," + pr{2}+")")
 end
 
 function test_proximate_to(tc, pp)
-tc.assumeTrue((stdlib.dotnet_api() >= 5) || stdlib.is_mex_fun("stdlib.proximate_to"))
+tc.assumeTrue(stdlib.has_python() || (stdlib.dotnet_api() >= 5) || stdlib.is_mex_fun("stdlib.proximate_to"))
 
 tc.verifyEqual(stdlib.proximate_to(pp{1}, pp{2}), pp{3}, ...
   "proximate_to(" + pp{1} + ", " + pp{2}+")")
