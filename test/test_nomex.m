@@ -2,15 +2,18 @@ function test_nomex()
 import matlab.unittest.TestSuite
 import matlab.unittest.selectors.HasTag
 
-suite = TestSuite.fromFolder(fileparts(mfilename('fullpath')));
+cwd = fileparts(mfilename('fullpath'));
 
-sel = ~HasTag("exe") & ~HasTag("mex") & ~HasTag("symlink");
+root = fileparts(cwd);
+addpath(root)
+
+suite = TestSuite.fromFolder(cwd);
+
+sel = ~HasTag("exe") & ~HasTag("mex");
 
 suite = suite.selectIf(sel);
 
-runner = testrunner();
-
-r = run(runner, suite);
+r = run(testrunner(), suite);
 
 assert(~isempty(r), "No tests were run")
 assertSuccess(r)
