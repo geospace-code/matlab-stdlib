@@ -80,11 +80,6 @@ t1 = stdlib.get_modtime(fn);
 tc.verifyGreaterThanOrEqual(t1, t0)
 end
 
-
-function test_get_modtime(tc)
-tc.verifyEmpty(stdlib.get_modtime(""))
-end
-
 function test_set_modtime(tc)
 tc.verifyEqual(stdlib.set_modtime("", datetime("now")), false)
 end

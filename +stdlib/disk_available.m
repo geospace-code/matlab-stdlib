@@ -1,5 +1,4 @@
 %% DISK_AVAILABLE disk available space (bytes)
-% optional: mex
 %
 % example:  stdlib.disk_available('/')
 %
@@ -13,7 +12,10 @@ end
 f = uint64(0);
 if ~stdlib.exists(d), return, end
 
-if stdlib.has_dotnet()
+if stdlib.has_python()
+  di = py.shutil.disk_usage(d);
+  f = uint64(di.free);
+elseif stdlib.has_dotnet()
   f = System.IO.DriveInfo(stdlib.absolute(d)).AvailableFreeSpace();
   % https://learn.microsoft.com/en-us/dotnet/api/system.io.driveinfo.availablefreespace
 elseif stdlib.has_java()
