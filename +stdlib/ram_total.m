@@ -1,5 +1,4 @@
 %% RAM_TOTAL get total physical RAM
-% requires: java
 %
 % get total physical RAM across operating systems
 % https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getTotalPhysicalMemorySize()
@@ -12,13 +11,14 @@ function bytes = ram_total()
 bytes = uint64(0);
 
 
-if ispc() && stdlib.has_dotnet()
-  % about the same speed as the Java version below.
-  h = NET.addAssembly('Microsoft.VisualBasic');
-  ci = Microsoft.VisualBasic.Devices.ComputerInfo();
-  bytes = ci.TotalPhysicalMemory;
-  delete(h)
+if stdlib.dotnet_api() >= 3
+  % .NET is 2-3x faster than Java for this
+  % https://learn.microsoft.com/en-us/dotnet/api/system.gcmemoryinfo.totalavailablememorybytes
+  bytes = System.GC.GetGCMemoryInfo().TotalAvailableMemoryBytes;
 elseif stdlib.has_java()
+
+  % https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getTotalMemorySize()
+
   b = javaMethod("getOperatingSystemMXBean", "java.lang.management.ManagementFactory");
 
   if stdlib.java_api() < 14
@@ -26,10 +26,10 @@ elseif stdlib.has_java()
   else
     bytes = b.getTotalMemorySize();
   end
-  bytes = uint64(bytes);
 end
 
-% https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getTotalMemorySize()
+bytes = uint64(bytes);
+
 
 end
 

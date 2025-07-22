@@ -1,5 +1,4 @@
 %% JAVA_API Java API version
-% requires: java
 
 function api = java_api()
 

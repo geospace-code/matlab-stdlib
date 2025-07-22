@@ -1,5 +1,4 @@
 %% JAVA_VERSION get version of Java Virtual Machine
-% requires: java
 %
 % this gives a long string with more detail
 % version("-java")

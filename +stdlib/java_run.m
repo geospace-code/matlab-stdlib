@@ -1,5 +1,4 @@
 %% JAVA_RUN run process for Matlab only
-% requires: java
 %
 % with optional cwd, env. vars, stdin, timeout
 %

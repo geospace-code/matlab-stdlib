@@ -73,18 +73,17 @@ tc.verifyGreaterThan(strlength(arch), 0)
 end
 
 function test_ram(tc)
-tc.assumeTrue(ispc() || stdlib.has_java())
+tc.assumeTrue(stdlib.has_dotnet() || stdlib.has_java())
 
 t = stdlib.ram_total();
-f = stdlib.ram_free();
-
 tc.verifyGreaterThan(t, 0)
+tc.verifyClass(t, 'uint64')
+
+f = stdlib.ram_free();
 tc.verifyGreaterThan(f, 0)
+tc.verifyClass(f, 'uint64')
 
 tc.verifyLessThanOrEqual(f, t)
-
-tc.verifyClass(t, 'uint64')
-tc.verifyClass(f, 'uint64')
 end
 
 end

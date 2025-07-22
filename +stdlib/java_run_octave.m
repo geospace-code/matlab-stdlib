@@ -1,5 +1,4 @@
 %% JAVA_RUN_OCTAVE run process for GNU Octave only
-% requires: java
 %
 % with optional cwd, env. vars, stdin, timeout
 %
