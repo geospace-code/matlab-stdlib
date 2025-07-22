@@ -33,10 +33,16 @@ jobs:
         - os: macos-latest
           release: R2025a
         - os: macos-latest
+          release: R2024b
+        - os: macos-latest
+          release: R2024a
+        - os: macos-latest
           release: R2023b
 # macOS R2023b to be compatible with Xcode version on Github Actions runner
         - os: windows-latest
           release: R2025a
+        - os: windows-latest
+          release: R2024b
         - os: windows-latest
           release: R2024a
         - os: windows-latest
