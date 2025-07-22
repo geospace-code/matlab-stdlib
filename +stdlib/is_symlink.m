@@ -11,14 +11,7 @@ catch e
   switch e.identifier
     case "MATLAB:UndefinedFunction"
       if stdlib.has_dotnet()
-        if stdlib.dotnet_api() >= 6
-          ok = ~isempty(System.IO.FileInfo(p).LinkTarget);
-        else
-          attr = string(System.IO.File.GetAttributes(p).ToString());
-          % https://learn.microsoft.com/en-us/dotnet/api/system.io.fileattributes
-          % ReparsePoint is for Linux, macOS, and Windows
-          ok = contains(attr, 'ReparsePoint');
-        end
+        ok = is_symlink_dotnet(p);
       elseif stdlib.has_java()
         ok = java.nio.file.Files.isSymbolicLink(javaPathObject(stdlib.absolute(p)));
       elseif stdlib.has_python()
@@ -30,6 +23,28 @@ catch e
       % use lstat() to work with a broken symlink, like Matlab isSymbolicLink
       [s, err] = lstat(p);
       ok = err == 0 && S_ISLNK(s.mode);
+    otherwise, rethrow(e)
+  end
+end
+
+end
+
+
+function y = is_symlink_dotnet(p)
+
+try
+  if stdlib.dotnet_api() >= 6
+    y = ~isempty(System.IO.FileInfo(p).LinkTarget);
+  else
+    attr = string(System.IO.File.GetAttributes(p).ToString());
+    % https://learn.microsoft.com/en-us/dotnet/api/system.io.fileattributes
+    % ReparsePoint is for Linux, macOS, and Windows
+    y = contains(attr, 'ReparsePoint');
+  end
+catch e
+  switch e.identifier
+    case {'MATLAB:NET:CLRException:CreateObject', 'MATLAB:NET:CLRException:MethodInvoke'}
+      y = false;
     otherwise, rethrow(e)
   end
 end
