@@ -4,7 +4,18 @@
 function y = is_admin()
 
 
-if stdlib.isoctave()
+if stdlib.has_python()
+  if isunix()
+    y = py.os.getuid() == 0;
+  else
+    shell32 = py.ctypes.WinDLL('shell32');
+
+    % this is a key step vs. simply py.ctypes.windll.shell32.IsUserAnAdmin()
+    f = py.getattr(shell32, 'IsUserAnAdmin');
+
+    y = logical(f());
+  end
+elseif stdlib.isoctave()
   y = getuid() == 0;
 elseif ispc() && stdlib.has_dotnet()
   % com.sun.security.auth.module.NTSystem().getGroupIDs();
