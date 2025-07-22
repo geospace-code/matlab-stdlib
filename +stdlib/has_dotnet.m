@@ -5,12 +5,14 @@
 
 function y = has_dotnet()
 
-y = false;
-
-if stdlib.isoctave, return, end
-
-if ~ispc() && isMATLABReleaseOlderThan('R2024b'), return, end
-
-y = NET.isNETSupported;
+try
+  y = (ispc() || ~isMATLABReleaseOlderThan('R2024b')) && NET.isNETSupported;
+catch e
+  switch e.identifier
+    case {'MATLAB:scriptNotAFunction', 'MATLAB:undefinedVarOrClass', 'Octave:undefined-function'}
+      y = false;
+    otherwise, rethrow(e)
+  end
+end
 
 end
