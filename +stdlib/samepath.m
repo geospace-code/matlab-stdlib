@@ -1,5 +1,4 @@
 %% SAMEPATH is path the same
-% optional: java
 %
 % true if inputs resolve to same path.
 % Both paths must exist.

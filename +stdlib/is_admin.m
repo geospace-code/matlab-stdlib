@@ -1,5 +1,4 @@
 %% IS_ADMIN is the process run as root / admin
-% optional: mex
 
 function y = is_admin()
 

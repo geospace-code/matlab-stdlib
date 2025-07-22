@@ -1,6 +1,5 @@
 
 %% HOSTNAME get hostname of local machine
-% optional: java
 %
 % Ref: https://docs.oracle.com/javase/8/docs/api/java/net/InetAddress.html#getHostName--
 

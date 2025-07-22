@@ -1,5 +1,4 @@
 %% GET_USERNAME tell username of current user
-% optional: java
 %
 function n = get_username()
 

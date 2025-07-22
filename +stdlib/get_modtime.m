@@ -1,5 +1,4 @@
 %% GET_MODTIME get path modification time
-% requires: java
 %
 %%% Inputs
 % * p: path to examine
@@ -11,13 +10,17 @@ arguments
   p {mustBeTextScalar}
 end
 
+finf = dir(p);
+if isfolder(p)
+  % find which index of the struct array has member name == '.'
+  i = find(strcmp({finf.name}, '.'), 1);
+  finf = finf(i);
+end
 
-t = javaObject("java.io.File", p).lastModified() / 1000;
-
-if t > 0
-  t = datetime(t, ConvertFrom="PosixTime");
-else
+if isempty(finf)
   t = datetime.empty;
+else
+  t = datetime(finf.datenum, ConvertFrom='datenum');
 end
 
 end

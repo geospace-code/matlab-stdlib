@@ -1,5 +1,4 @@
 %% DROP_SLASH drop repeated and trailing slash
-% optional: mex
 %
 % on Windows, if leading double slash, do not drop
 

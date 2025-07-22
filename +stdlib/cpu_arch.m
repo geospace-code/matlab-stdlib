@@ -1,5 +1,4 @@
 %% CPU_ARCH get the CPU architecture
-% optional: java
 
 function a = cpu_arch()
 

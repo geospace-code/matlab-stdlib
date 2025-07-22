@@ -1,5 +1,4 @@
 %% DEVICE filesystem device index of path
-% optional: java
 
 function i = device(path)
 arguments

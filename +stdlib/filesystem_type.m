@@ -1,5 +1,4 @@
 %% FILESYSTEM_TYPE tell type of filesystem
-% optional: java
 %
 % example outputs: NTFS, ext4, apfs, ...
 
