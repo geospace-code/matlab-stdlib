@@ -1,5 +1,4 @@
 %% IS_CHAR_DEVICE is path a character device
-% requires: mex
 %
 % e.g. NUL, /dev/null
 % false if file does not exist
@@ -9,11 +8,13 @@ arguments
   p {mustBeTextScalar}
 end
 
-if stdlib.isoctave()
+if stdlib.has_python()
+  ok = py.pathlib.Path(p).is_char_device();
+elseif stdlib.isoctave()
   [s, err] = stat(p);
   ok = err == 0 && S_ISCHR(s.mode);
 else
-  error("buildtool mex")
+  ok = logical.empty;
 end
 
 end
