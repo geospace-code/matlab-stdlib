@@ -1,4 +1,4 @@
-%% GET_OWNER owner of file or directory
+%% GET_OWNER owner name of file or directory
 %
 %%% Inputs
 % * p: path to examine

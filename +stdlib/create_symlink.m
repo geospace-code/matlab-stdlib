@@ -28,7 +28,7 @@ catch e
       if stdlib.has_python()
         py.pathlib.Path(link).symlink_to(target);
         ok = true;
-      elseif stdlib.has_dotnet() && stdlib.dotnet_api() >= 6
+      elseif stdlib.dotnet_api() >= 6
         % https://learn.microsoft.com/en-us/dotnet/api/system.io.file.createsymboliclink
         System.IO.File.CreateSymbolicLink(link, target);
         ok = true;

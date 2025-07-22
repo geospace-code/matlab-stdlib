@@ -17,7 +17,7 @@ arguments
 end
 
 
-if stdlib.has_dotnet() && stdlib.dotnet_api() >= 5
+if stdlib.dotnet_api() >= 5
 
   if strempty(base) && strempty(other), rel = "."; return, end
 

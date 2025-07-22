@@ -22,7 +22,7 @@ catch e
       if stdlib.has_python()
         % https://docs.python.org/3/library/pathlib.html#pathlib.Path.readlink
         r = string(py.str(py.pathlib.Path(p).readlink()));
-      elseif stdlib.has_dotnet() && stdlib.dotnet_api() >= 6
+      elseif stdlib.dotnet_api() >= 6
         r = System.IO.FileInfo(p).LinkTarget;
       elseif stdlib.has_java()
         % must be absolute path
