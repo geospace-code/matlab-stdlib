@@ -6,15 +6,19 @@ function y = is_admin()
 if stdlib.has_python()
   if isunix()
     y = py.os.getuid() == 0;
-  else
+    return
+  elseif ~isMATLABReleaseOlderThan('R2024a')
     shell32 = py.ctypes.WinDLL('shell32');
 
     % this is a key step vs. simply py.ctypes.windll.shell32.IsUserAnAdmin()
     f = py.getattr(shell32, 'IsUserAnAdmin');
 
     y = logical(f());
+    return
   end
-elseif stdlib.isoctave()
+end
+
+if stdlib.isoctave()
   y = getuid() == 0;
 elseif ispc() && stdlib.has_dotnet()
   % com.sun.security.auth.module.NTSystem().getGroupIDs();
