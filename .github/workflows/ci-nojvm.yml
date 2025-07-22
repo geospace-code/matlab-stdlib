@@ -25,7 +25,6 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
-      fail-fast: false
       matrix:
         os: [ubuntu-22.04, macos-latest, windows-latest]
         release: [R2023b, R2025a]
