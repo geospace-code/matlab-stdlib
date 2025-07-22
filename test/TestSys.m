@@ -1,7 +1,8 @@
 classdef TestSys < matlab.unittest.TestCase
 
 properties (TestParameter)
-fun = {stdlib.iscygwin, stdlib.isoctave, stdlib.is_rosetta, stdlib.isinteractive}
+fun = {stdlib.iscygwin, stdlib.isoctave, stdlib.is_rosetta, stdlib.isinteractive, stdlib.has_dotnet, ...
+       stdlib.has_java, stdlib.has_python}
 fi32 = {stdlib.is_wsl}
 end
 
@@ -14,6 +15,18 @@ end
 
 function test_platform_int32(tc, fi32)
 tc.verifyClass(fi32, 'int32')
+end
+
+function test_dotnet_version(tc)
+tc.assumeTrue(stdlib.has_dotnet())
+v = stdlib.dotnet_version();
+tc.verifyGreaterThan(v, "4.0", ".NET version should be greater than 4.0")
+end
+
+function test_has_python(tc)
+tc.assumeTrue(stdlib.has_python())
+v = stdlib.python_version();
+tc.verifyGreaterThan(strlength(v), 0, "expected non-empty Python version")
 end
 
 function test_os_version(tc)
