@@ -43,11 +43,11 @@ tc.verifyEmpty(stdlib.read_symlink(tempname))
 tc.verifyEmpty(stdlib.read_symlink(tc.target))
 
 
-t = stdlib.read_symlink(tc.link);
+link_read = stdlib.read_symlink(tc.link);
 
 targ = string(tc.target);
 
-tc.verifyEqual(targ, t)
+tc.verifyEqual(link_read, targ)
 
 end
 

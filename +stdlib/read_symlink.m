@@ -21,7 +21,10 @@ catch e
 
       if stdlib.has_python()
         % https://docs.python.org/3/library/pathlib.html#pathlib.Path.readlink
-        r = string(py.str(py.pathlib.Path(p).readlink()));
+        r = string(py.os.readlink(p));
+        if ispc() && startsWith(r, '\\?\')
+          r = extractAfter(r, '\\?\');
+        end
       elseif stdlib.dotnet_api() >= 6
         r = System.IO.FileInfo(p).LinkTarget;
       elseif stdlib.has_java()
