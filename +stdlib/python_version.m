@@ -2,7 +2,11 @@
 
 function v = python_version()
 
-pe = pyenv();
-v = pe.Version;
+try
+  pe = pyenv();
+  v = pe.Version;
+catch
+  v = "";
+end
 
 end

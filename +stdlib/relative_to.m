@@ -47,7 +47,7 @@ bis = stdlib.is_absolute(base);
 ois = stdlib.is_absolute(other);
 
 if bis ~= ois
-  rel = ""; 
+  rel = "";
   return
 end
 
@@ -68,7 +68,7 @@ function rel = relative_to_python(base, other)
 
 try
   bp = py.pathlib.Path(other);
-  if stdlib.python_version() >= "3.12"
+  if stdlib.version_atleast(stdlib.python_version(), "3.12")
     r = bp.relative_to(base, pyargs(walk_up=true));
   else
     r = bp.relative_to(base);

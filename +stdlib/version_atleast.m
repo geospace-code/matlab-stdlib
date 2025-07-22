@@ -1,6 +1,6 @@
 %% VERSION_ATLEAST compare two string verions: major.minor.rev.patch
 % compare two string verions: major.minor.rev.patch
-% uses strings to compare so mixed number/string is OK
+% numeric portions only.
 %
 %% Inputs
 % * in: version to examine (string)
@@ -10,8 +10,8 @@
 
 function r = version_atleast(in, ref)
 arguments
-  in (1,1) string
-  ref (1,1) string
+  in {mustBeTextScalar}
+  ref {mustBeTextScalar}
 end
 
 
@@ -20,51 +20,27 @@ if stdlib.isoctave()
   return
 end
 
-inp = split(in, ' ');
-in_str = split(inp(1), ".");
+parts1 = str2double(strsplit(in, '.'));
+parts2 = str2double(strsplit(ref, '.'));
 
-refp = split(ref, ' ');
-ref_str = split(refp(1), ".");
+r = true;
 
-% Compare numeric parts first
-for i = 1:min(length(in_str), length(ref_str))
-  in_num = double(in_str(i));
-  ref_num = double(ref_str(i));
-
-  if isnan(in_num) || isnan(ref_num)
-    % assume values are leading integer with trailing string
-    % extract integer part and compare
-    in_num = double(regexp(in_str(i), "\d+", "match", "once"));
-    ref_num = double(regexp(ref_str(i), "\d+", "match", "once"));
-
-    if isnan(in_num) || isnan(ref_num) || in_num == ref_num
-      % compare string parts
-      in_str_part = regexp(in_str(i), "\D+", "match", "once");
-      ref_str_part = regexp(ref_str(i), "\D+", "match", "once");
-      if in_str_part > ref_str_part
-        r = true;
-        return
-      elseif in_str_part < ref_str_part
-        r = false;
-        return
-      end
-
-      continue
-    end
-  end
-
-  % Compare numerically
-  if in_num > ref_num
-    r = true;
-    return
-  elseif in_num < ref_num
+for i = 1:min(length(parts1), length(parts2))
+  if parts1(i) < parts2(i)
     r = false;
+    return
+  elseif parts1(i) > parts2(i)
     return
   end
 end
 
-% If all compared parts are equal, compare lengths
-r = length(in_str) >= length(ref_str);
+% If all common parts are equal, check for longer versions
+% If "ref" is longer and its remaining parts are not all zeros, then "in" is less.
+if length(parts1) < length(parts2)
+  if any(parts2(length(parts1)+1:end) > 0)
+    r = false;
+  end
+end
 
 end
 

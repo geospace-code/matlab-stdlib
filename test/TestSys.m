@@ -20,13 +20,13 @@ end
 function test_dotnet_version(tc)
 tc.assumeTrue(stdlib.has_dotnet())
 v = stdlib.dotnet_version();
-tc.verifyGreaterThan(v, "4.0", ".NET version should be greater than 4.0")
+tc.verifyTrue(stdlib.version_atleast(v, "4.0"), ".NET version should be greater than 4.0")
 end
 
 function test_has_python(tc)
 tc.assumeTrue(stdlib.has_python())
 v = stdlib.python_version();
-tc.verifyGreaterThan(strlength(v), 0, "expected non-empty Python version")
+tc.verifyTrue(stdlib.version_atleast(v, "3.8"), "expected Python >= 3.8")
 end
 
 function test_os_version(tc)
