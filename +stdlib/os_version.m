@@ -1,5 +1,4 @@
 %% OS_VERSION Get operating system name and version.
-% requires: java
 %
 % Note: for Windows 11, need new-enough Java version to show Windows 11
 % instead of Windows 10.

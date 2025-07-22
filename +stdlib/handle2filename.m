@@ -1,6 +1,4 @@
 %% HANDLE2FILENAME Convert a file handle to a filename
-% requires: java
-
 function n = handle2filename(fileHandle)
 arguments
   fileHandle (1,1) {mustBeInteger}
