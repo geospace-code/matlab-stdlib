@@ -68,5 +68,15 @@ tc.assumeTrue(stdlib.has_python() || (~ispc() && stdlib.has_java() && stdlib.jav
 tc.verifyEqual(stdlib.inode("."), stdlib.inode(pwd()))
 end
 
+
+function test_owner(tc)
+tc.assumeTrue((~ispc() && stdlib.has_python()) || stdlib.has_java())
+
+s = stdlib.get_owner(".");
+
+tc.verifyClass(s, 'string')
+tc.verifyGreaterThan(strlength(s), 0)
+end
+
 end
 end

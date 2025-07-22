@@ -1,28 +1,5 @@
 classdef TestJava < matlab.unittest.TestCase
 
-properties (TestParameter)
-Ps = {"."}
-end
-
-
-methods (Test, TestTags=["java", "unix"])
-
-
-function test_owner(tc, Ps)
-
-s = stdlib.get_owner(Ps);
-tc.verifyClass(s, 'string')
-L = strlength(s);
-
-if stdlib.exists(Ps)
-  tc.verifyGreaterThan(L, 0)
-else
-  tc.verifyEqual(L, 0)
-end
-end
-
-end
-
 
 methods(Test, TestTags="java")
 
