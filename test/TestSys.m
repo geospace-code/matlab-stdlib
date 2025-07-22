@@ -72,19 +72,26 @@ arch = stdlib.cpu_arch();
 tc.verifyGreaterThan(strlength(arch), 0)
 end
 
-function test_ram(tc)
+function test_ram_total(tc)
 tc.assumeTrue(stdlib.has_dotnet() || stdlib.has_java())
 
 t = stdlib.ram_total();
 tc.verifyGreaterThan(t, 0)
 tc.verifyClass(t, 'uint64')
+end
+
+
+function test_ram_free(tc)
+tc.assumeTrue(ispc() || stdlib.has_java())
 
 f = stdlib.ram_free();
 tc.verifyGreaterThan(f, 0)
 tc.verifyClass(f, 'uint64')
 
-tc.verifyLessThanOrEqual(f, t)
+tc.verifyLessThanOrEqual(f, stdlib.ram_total(), ...
+    "Free RAM should be less than or equal to total RAM")
 end
 
 end
+
 end

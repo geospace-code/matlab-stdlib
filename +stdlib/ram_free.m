@@ -15,21 +15,30 @@ try
   % memory() was added cross-platform to Octave ~ 2021.
   % Matlab memory() at least through R2025a is still Windows only.
   m = memory();
-  bytes = uint64(m.MemAvailableAllArrays);
+
+  bytes = m.MemAvailableAllArrays;
+
 catch e
   switch e.identifier
     case {'MATLAB:memory:unsupported', 'Octave:undefined-function'}
-      b = javaMethod("getOperatingSystemMXBean", "java.lang.management.ManagementFactory");
+      if stdlib.has_java()
+        b = javaMethod("getOperatingSystemMXBean", "java.lang.management.ManagementFactory");
 
-      if stdlib.java_api() < 14
-        bytes = b.getFreePhysicalMemorySize();
+        if stdlib.java_api() < 14
+          bytes = b.getFreePhysicalMemorySize();
+        else
+          bytes = b.getFreeMemorySize();
+        end
       else
-        bytes = b.getFreeMemorySize();
+
+        bytes = 0;
+
       end
-      bytes = uint64(bytes);
     otherwise, rethrow(e)
   end
 end
+
+bytes = uint64(bytes);
 
 end
 
