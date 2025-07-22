@@ -1,5 +1,4 @@
 %% DISK_CAPACITY disk total capacity (bytes)
-% optional: mex
 %
 % example:  stdlib.disk_capacity('/')
 

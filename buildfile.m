@@ -273,7 +273,7 @@ srcs{end+1} = "src/disk_available.cpp";
 srcs{end+1} = "src/disk_capacity.cpp";
 end
 
-if (isMATLABReleaseOlderThan("R2024b") && ~stdlib.has_dotnet()) || build_all
+if (isMATLABReleaseOlderThan("R2024b") && ~stdlib.has_dotnet() && ~stdlib.has_java() && ~stdlib.has_python()) || build_all
 srcs{end+1} = ["src/is_symlink.cpp", win, sym];
 end
 
