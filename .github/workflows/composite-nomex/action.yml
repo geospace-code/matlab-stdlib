@@ -38,13 +38,13 @@ runs:
       tasks: test_java
 
 
-# note: "source-folder" is necessary, but watch out as it adds all subfolders to path too
+# note: "source-folder" adds all subfolders to Matlab path
 # https://github.com/matlab-actions/run-tests?tab=readme-ov-file#run-matlab-tests
   - name: Non-mex tests (< R2023b)
     if: ${{ matrix.release < 'R2023b' }}
     uses: matlab-actions/run-command@v2
     with:
-      command: addpath("${{ github.workspace }}"), test_nomex
+      command: addpath("${{ github.workspace }}"), assertSuccess(runtests('test_nomex'))
       startup-options: -sd ./test -logfile ${{ matrix.release }}-${{ runner.os }}-test.log
 
 

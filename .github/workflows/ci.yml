@@ -74,7 +74,17 @@ jobs:
     - name: Matlab tell Java Version
       uses: matlab-actions/run-command@v2
       with:
-        command: "disp(stdlib.java_vendor()); disp(stdlib.java_version())"
+        command: "disp(stdlib.java_vendor()), disp(stdlib.java_version())"
+
+    - name: Matlab tell .NET version
+      uses: matlab-actions/run-command@v2
+      with:
+        command: "disp(stdlib.dotnet_version())"
+
+    - name: Matlab tell Python version
+      uses: matlab-actions/run-command@v2
+      with:
+        command: "disp(stdlib.python_version())"
 
     - name: Non-MEX tests
       uses: ./.github/workflows/composite-nomex
