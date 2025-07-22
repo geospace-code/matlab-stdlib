@@ -21,17 +21,6 @@ tc.assertGreaterThanOrEqual(v, 8, "Java API >= 8 is required for Matlab-stdlib")
 end
 
 
-function test_hard_link_count(tc)
-fn = mfilename("fullpath") + ".m";
-
-if ispc
-    tc.verifyEmpty(stdlib.hard_link_count(fn))
-else
-    tc.verifyGreaterThanOrEqual(stdlib.hard_link_count(fn), 1)
-end
-end
-
-
 function test_cpu_load(tc)
 tc.verifyGreaterThanOrEqual(stdlib.cpu_load(), 0)
 end

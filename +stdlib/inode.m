@@ -1,5 +1,5 @@
 %% INODE filesystem inode of path
-% requires: java
+%
 % Windows always returns 0, Unix returns inode number.
 
 function i = inode(path)

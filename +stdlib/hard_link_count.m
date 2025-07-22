@@ -1,5 +1,5 @@
 %% HARD_LINK_COUNT get the number of hard links to a file
-% requires: java
+%
 %
 % Ref:
 % * https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#getPosixFileAttributes(java.nio.file.Path,java.nio.file.LinkOption...)
@@ -12,12 +12,14 @@ end
 
 c = [];
 
-if stdlib.isoctave()
+if stdlib.has_python()
+  c = uint64(py.pathlib.Path(p).stat().st_nlink);
+elseif stdlib.isoctave()
   [s, err] = stat(p);
   if err == 0
     c = s.nlink;
   end
-elseif isunix()
+elseif isunix() && stdlib.has_java()
   opt = javaMethod("values", "java.nio.file.LinkOption");
   c = java.nio.file.Files.getAttribute(javaPathObject(p), "unix:nlink", opt);
 end

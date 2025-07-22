@@ -34,6 +34,14 @@ end
 end
 
 
+function test_hard_link_count(tc)
+tc.assumeTrue(stdlib.has_python() || (isunix() && stdlib.has_java()))
+fn = mfilename("fullpath") + ".m";
+
+tc.verifyGreaterThanOrEqual(stdlib.hard_link_count(fn), 1)
+end
+
+
 function test_filesystem_type(tc, Ps)
 
 tc.assumeTrue(stdlib.has_dotnet() || stdlib.has_java())
