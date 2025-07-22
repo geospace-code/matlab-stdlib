@@ -2,8 +2,11 @@
 
 function v = dotnet_version()
 
-vs = System.Environment.Version;
-
-v = sprintf('%d.%d.%d', vs.Major, vs.Minor, vs.Build);
+try
+  vs = System.Environment.Version;
+  v = sprintf('%d.%d.%d', vs.Major, vs.Minor, vs.Build);
+catch
+  v = '';
+end
 
 end
