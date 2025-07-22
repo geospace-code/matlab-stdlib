@@ -6,7 +6,7 @@ function y = has_python()
 
 try
   pe = pyenv();
-  y = ~isempty(pe.Version);
+  y = strlength(pe.Version) > 0;
 catch
   y = false;
 end

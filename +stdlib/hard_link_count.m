@@ -13,7 +13,7 @@ end
 c = [];
 
 if stdlib.has_python()
-  c = uint64(py.pathlib.Path(p).stat().st_nlink);
+  c = uint64(int64(py.os.stat(p).st_nlink)); % int64 first is for Matlab <= R2022a
 elseif stdlib.isoctave()
   [s, err] = stat(p);
   if err == 0

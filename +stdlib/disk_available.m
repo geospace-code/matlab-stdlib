@@ -14,7 +14,7 @@ if ~stdlib.exists(d), return, end
 
 if stdlib.has_python()
   di = py.shutil.disk_usage(d);
-  f = uint64(di.free);
+  f = uint64(int64(di.free)); % int64 first is for Matlab <= R2022a
 elseif stdlib.has_dotnet()
   f = System.IO.DriveInfo(stdlib.absolute(d)).AvailableFreeSpace();
   % https://learn.microsoft.com/en-us/dotnet/api/system.io.driveinfo.availablefreespace

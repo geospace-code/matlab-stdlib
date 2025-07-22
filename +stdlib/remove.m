@@ -5,20 +5,20 @@
 % open files on Windows. This function mitigates that limitation by returning
 % a boolean success status.
 
-function ok = remove(apath)
+function ok = remove(p)
 arguments
-  apath {mustBeTextScalar}
+  p {mustBeTextScalar}
 end
 
 ok = false;
 
-if stdlib.isoctave() && ~stdlib.exists(apath)
+if stdlib.isoctave() && ~stdlib.exists(p)
   return
 end
 
 %% fallback for if MEX not compiled
 try %#ok<*TRYNC>
-  delete(apath);
+  delete(p);
   ok = true;
 end
 

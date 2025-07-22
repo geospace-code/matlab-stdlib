@@ -1,25 +1,25 @@
 %% DEVICE filesystem device index of path
 
-function i = device(path)
+function i = device(p)
 arguments
-  path {mustBeTextScalar}
+  p {mustBeTextScalar}
 end
 
 i = [];
 
 if stdlib.has_python()
-  i = uint64(py.pathlib.Path(path).stat().st_dev);
+  i = uint64(int64(py.os.stat(p).st_dev)); % int64 first is for Matlab <= R2022a
 elseif ispc() && stdlib.has_dotnet()
-  i = device_dotnet(path);
+  i = device_dotnet(p);
 elseif stdlib.isoctave()
-  [s, err] = stat(path);
+  [s, err] = stat(p);
   if err == 0
     i = s.dev;
   end
 elseif isunix() && stdlib.java_api() >= 11
   % Java 1.8 is buggy in some corner cases, so we require at least 11.
   opt = javaMethod("values", "java.nio.file.LinkOption");
-  i = java.nio.file.Files.getAttribute(javaPathObject(path), "unix:dev", opt);
+  i = java.nio.file.Files.getAttribute(javaPathObject(p), "unix:dev", opt);
 end
 
 end
