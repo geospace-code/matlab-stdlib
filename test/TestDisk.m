@@ -1,5 +1,9 @@
 classdef TestDisk < matlab.unittest.TestCase
 
+properties
+disk_fun = stdlib.has_python() || stdlib.has_dotnet() || stdlib.has_java()
+end
+
 properties (TestParameter)
 Ps = {".", "", "not-exist"}
 end
@@ -8,7 +12,7 @@ methods (Test)
 
 function test_disk_available(tc, Ps)
 
-tc.assumeTrue(stdlib.has_dotnet() || stdlib.has_java() || stdlib.is_mex_fun("stdlib.disk_available"))
+tc.assumeTrue(tc.disk_fun || stdlib.is_mex_fun("stdlib.disk_available"))
 
 zero = uint64(0);
 
@@ -22,7 +26,7 @@ end
 
 function test_disk_capacity(tc, Ps)
 
-tc.assumeTrue(stdlib.has_dotnet() || stdlib.has_java() || stdlib.is_mex_fun("stdlib.disk_capacity"))
+tc.assumeTrue(tc.disk_fun || stdlib.is_mex_fun("stdlib.disk_capacity"))
 
 zero = uint64(0);
 
@@ -60,7 +64,7 @@ end
 
 function test_device(tc)
 
-tc.assumeTrue(stdlib.has_python() || (isunix() && stdlib.java_api() >= 11))
+tc.assumeTrue(stdlib.has_python() || (ispc() && stdlib.has_dotnet()) || (isunix() && stdlib.java_api() >= 11))
 
 if ispc()
   tc.verifyGreaterThan(stdlib.device(pwd()), 0)
@@ -71,7 +75,7 @@ end
 
 
 function test_inode(tc)
-tc.assumeTrue(stdlib.has_python() || (~ispc() && stdlib.java_api() >= 11))
+tc.assumeTrue(stdlib.has_python() || (isunix() && stdlib.java_api() >= 11))
 
 tc.verifyEqual(stdlib.inode("."), stdlib.inode(pwd()))
 end
