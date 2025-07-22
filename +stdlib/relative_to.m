@@ -16,6 +16,11 @@ arguments
   other {mustBeTextScalar}
 end
 
+if strempty(base) && strempty(other)
+  rel = ".";
+  return
+end
+
 if stdlib.has_python()
   rel = relative_to_python(base, other);
 elseif stdlib.dotnet_api() >= 5
@@ -28,11 +33,6 @@ end
 
 
 function rel = relative_to_dotnet(base, other)
-
-if strempty(base) && strempty(other)
-  rel = ".";
-  return
-end
 
 if strempty(other)
   rel = base;
@@ -67,13 +67,7 @@ end
 function rel = relative_to_python(base, other)
 
 try
-  bp = py.pathlib.Path(other);
-  if stdlib.version_atleast(stdlib.python_version(), "3.12")
-    r = bp.relative_to(base, pyargs(walk_up=true));
-  else
-    r = bp.relative_to(base);
-  end
-  rel = string(py.str(r));
+  rel = string(py.os.path.relpath(other, base));
 catch e
   if e.identifier == "MATLAB:Python:PyException" && startsWith(e.message, 'Python Error: ValueError')
     rel = "";
