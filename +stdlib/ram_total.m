@@ -11,7 +11,7 @@ function bytes = ram_total()
 bytes = uint64(0);
 
 
-if stdlib.dotnet_api() >= 3
+if stdlib.dotnet_api() >= 6
   % .NET is 2-3x faster than Java for this
   % https://learn.microsoft.com/en-us/dotnet/api/system.gcmemoryinfo.totalavailablememorybytes
   bytes = System.GC.GetGCMemoryInfo().TotalAvailableMemoryBytes;

@@ -73,7 +73,7 @@ tc.verifyGreaterThan(strlength(arch), 0)
 end
 
 function test_ram_total(tc)
-tc.assumeTrue(stdlib.has_dotnet() || stdlib.has_java())
+tc.assumeTrue(stdlib.dotnet_api() >= 6 || stdlib.has_java())
 
 t = stdlib.ram_total();
 tc.verifyGreaterThan(t, 0)
