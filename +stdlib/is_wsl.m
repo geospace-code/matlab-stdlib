@@ -11,9 +11,8 @@ if isunix() && ~ismac()
   fid = fopen('/proc/version');
   if fid >= 1
     v = fscanf(fid, '%s');
-    if fclose(fid) ~= 0
-      w = -1;
-    elseif endsWith(v, "microsoft-standard-WSL2")
+    fclose(fid);
+    if endsWith(v, "microsoft-standard-WSL2")
       w = 2;
     elseif endsWith(v, "-Microsoft")
       w = 1;

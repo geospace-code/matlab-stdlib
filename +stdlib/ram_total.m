@@ -11,12 +11,13 @@ function bytes = ram_total()
 
 bytes = uint64(0);
 
-% .NET is about 10 times SLOWER than Java
-if ispc() && ~stdlib.has_java() && stdlib.has_dotnet()
+
+if ispc() && stdlib.has_dotnet()
+  % about the same speed as the Java version below.
   h = NET.addAssembly('Microsoft.VisualBasic');
   ci = Microsoft.VisualBasic.Devices.ComputerInfo();
   bytes = ci.TotalPhysicalMemory;
-  delete(h);
+  delete(h)
 elseif stdlib.has_java()
   b = javaMethod("getOperatingSystemMXBean", "java.lang.management.ManagementFactory");
 
