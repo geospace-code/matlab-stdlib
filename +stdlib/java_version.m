@@ -9,7 +9,11 @@
 
 function v = java_version()
 
-v = javaMethod("getProperty", "java.lang.System", "java.version");
+try
+  v = javaMethod("getProperty", "java.lang.System", "java.version");
+catch
+  v = '';
+end
 
 try %#ok<*TRYNC>
   v = string(v);

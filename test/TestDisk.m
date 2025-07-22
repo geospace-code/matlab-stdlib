@@ -60,7 +60,7 @@ end
 
 function test_device(tc)
 
-tc.assumeTrue(stdlib.has_python() || (isunix() && stdlib.has_java() && stdlib.java_api() >= 11))
+tc.assumeTrue(stdlib.has_python() || (isunix() && stdlib.java_api() >= 11))
 
 if ispc()
   tc.verifyGreaterThan(stdlib.device(pwd()), 0)
@@ -71,7 +71,7 @@ end
 
 
 function test_inode(tc)
-tc.assumeTrue(stdlib.has_python() || (~ispc() && stdlib.has_java() && stdlib.java_api() >= 11))
+tc.assumeTrue(stdlib.has_python() || (~ispc() && stdlib.java_api() >= 11))
 
 tc.verifyEqual(stdlib.inode("."), stdlib.inode(pwd()))
 end

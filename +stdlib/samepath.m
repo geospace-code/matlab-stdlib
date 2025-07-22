@@ -32,7 +32,7 @@ elseif stdlib.has_dotnet()
   f1 = System.IO.Path.GetFullPath(path1).TrimEnd(separators);
   f2 = System.IO.Path.GetFullPath(path2).TrimEnd(separators);
   y = System.String.Equals(f1, f2, System.StringComparison.OrdinalIgnoreCase);
-elseif stdlib.has_java() && stdlib.java_api() >= 11
+elseif stdlib.java_api() >= 11
 % https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/nio/file/Files.html#isSameFile(java.nio.file.Path,java.nio.file.Path)
 % Java 1.8 is buggy in some corner cases, so we require at least 11.
   y = java.nio.file.Files.isSameFile(javaPathObject(path1), javaPathObject(path2));
