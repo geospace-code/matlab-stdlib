@@ -64,20 +64,10 @@ jobs:
       if: ${{ matrix.release >= 'R2023a' && matrix.release < 'R2025a' }}
       run: matlab_jenv ${JAVA_HOME_11_X64}
 
-    - name: Matlab tell Java Version
+    - name: Matlab tell External Language Interface versions
       uses: matlab-actions/run-command@v2
       with:
-        command: "disp(stdlib.java_vendor()), disp(stdlib.java_version())"
-
-    - name: Matlab tell .NET version
-      uses: matlab-actions/run-command@v2
-      with:
-        command: "disp(stdlib.dotnet_version())"
-
-    - name: Matlab tell Python version
-      uses: matlab-actions/run-command@v2
-      with:
-        command: "disp(stdlib.python_version())"
+        command: stdlib.platform_tell()
 
     - name: Non-MEX tests
       uses: ./.github/workflows/composite-nomex
