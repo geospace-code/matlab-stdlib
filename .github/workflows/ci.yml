@@ -38,6 +38,8 @@ jobs:
         - os: windows-latest
           release: R2025a
         - os: windows-latest
+          release: R2024a
+        - os: windows-latest
           release: R2023b
 
 
