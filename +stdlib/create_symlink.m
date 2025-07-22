@@ -1,5 +1,4 @@
 %% CREATE_SYMLINK create symbolic link
-% optional: mex
 %
 %%% Inputs
 % * target: path to link to
@@ -26,7 +25,10 @@ catch e
     % Matlab Java doesn't recognize the optional argument omitted.
     % see example/Filesystem.java for this working in plain Java.
     % see example/javaCreateSymbolicLink.m for a non-working attempt in Matlab.
-      if stdlib.has_dotnet() && stdlib.dotnet_api() >= 6
+      if stdlib.has_python()
+        py.pathlib.Path(link).symlink_to(target);
+        ok = true;
+      elseif stdlib.has_dotnet() && stdlib.dotnet_api() >= 6
         % https://learn.microsoft.com/en-us/dotnet/api/system.io.file.createsymboliclink
         System.IO.File.CreateSymbolicLink(link, target);
         ok = true;

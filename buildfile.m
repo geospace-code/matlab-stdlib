@@ -281,7 +281,7 @@ if (isMATLABReleaseOlderThan("R2024b") && ~stdlib.has_dotnet() || stdlib.dotnet_
 srcs{end+1} = ["src/read_symlink.cpp", win, sym];
 end
 
-if (isMATLABReleaseOlderThan("R2024b") && ~stdlib.has_dotnet() || stdlib.dotnet_api() < 6) || build_all
+if (isMATLABReleaseOlderThan("R2024b") && ~stdlib.has_python() && ~stdlib.has_dotnet() || stdlib.dotnet_api() < 6) || build_all
 % so that we don't need to run matlab AsAdmin on Windows
 srcs{end+1} = ["src/create_symlink.cpp", win, sym];
 end
