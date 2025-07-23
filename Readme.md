@@ -10,19 +10,22 @@ Matlab or
 users coming from other languages will benefit from the functionality contained within this user-developed, unofficial "stdlib" standard library of functions.
 These system, filesystem, and HDF5 / HDF4 / NetCDF functions are used across numerous projects.
 
-Matlab R2019b is the minimum required due to use of
+Matlab R2020b is the minimum required due to use of
 [arguments](https://www.mathworks.com/help/matlab/ref/arguments.html)
+and
+[mustBeTextScalar](https://www.mathworks.com/help/matlab/ref/mustbetextscalar.html)
 syntax.
 URLs (e.g. https://, s3:// and similar) are treated as not existing.
-The self-tests require at least Matlab R2021a and can be run from the matlab-stdlib/ directory.
+The self-tests require at least Matlab R2020b and can be run from the matlab-stdlib/ directory.
 
 ```matlab
 %% Matlab >= R2023a
 buildtool test
 ```
 
+or for older Matlab:
+
 ```matlab
-%% Matlab >= R2021b
 run('test/test_nomex.m')
 ```
 
