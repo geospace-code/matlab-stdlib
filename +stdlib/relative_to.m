@@ -16,8 +16,9 @@ arguments
   other {mustBeTextScalar}
 end
 
-if strempty(base) && strempty(other)
-  rel = ".";
+if (strempty(base) && strempty(other)) || ...
+   (stdlib.is_absolute(base) ~= stdlib.is_absolute(other))
+  rel = "";
   return
 end
 
@@ -43,18 +44,10 @@ if strempty(base)
   return
 end
 
-bis = stdlib.is_absolute(base);
-ois = stdlib.is_absolute(other);
-
-if bis ~= ois
-  rel = "";
-  return
-end
-
 base = fullfile(base);
 other = fullfile(other);
 
-if bis && ~(startsWith(base, other) || startsWith(other, base))
+if stdlib.is_absolute(base) && ~(startsWith(base, other) || startsWith(other, base))
   rel = "";
 else
   % https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getrelativepath
