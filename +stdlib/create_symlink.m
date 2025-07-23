@@ -26,24 +26,46 @@ catch e
     % Matlab Java doesn't recognize the optional argument omitted.
     % see example/Filesystem.java for this working in plain Java.
     % see example/javaCreateSymbolicLink.m for a non-working attempt in Matlab.
+      if strempty(target) || strempty(link), return, end
+
       if stdlib.has_python()
         ok = py_create_symlink(target, link);
       elseif stdlib.dotnet_api() >= 6
-        % https://learn.microsoft.com/en-us/dotnet/api/system.io.file.createsymboliclink
-        try
-          System.IO.File.CreateSymbolicLink(link, target);
-          ok = true;
-        catch e
-          warning(e.identifier, "%s", e.message)
-        end
+        ok = dotnet_create_symlink(target, link);
       else
-        warning(e.identifier, "%s", e.message)
+        ok = system_create_symlink(target, link);
       end
-    case "Octave:undefined-function"
-      err = symlink(target, link);
-      ok = err == 0;
+    case "Octave:undefined-function", ok = symlink(target, link) == 0;
     otherwise, warning(e.identifier, "%s", e.message)
   end
+end
+
+end
+
+
+function ok = system_create_symlink(target, link)
+
+if ispc
+  cmd = sprintf('pwsh -c "New-Item -ItemType SymbolicLink -Path "%s" -Target "%s""', link, target);
+else
+  cmd = sprintf('ln -s "%s" "%s"', target, link);
+end
+
+% suppress output text on powershell
+[stat, ~] = system(cmd);
+
+ok = stat == 0;
+end
+
+
+function ok = dotnet_create_symlink(target, link)
+
+% https://learn.microsoft.com/en-us/dotnet/api/system.io.file.createsymboliclink
+try
+  System.IO.File.CreateSymbolicLink(link, target);
+  ok = true;
+catch e
+  warning(e.identifier, "%s", e.message)
 end
 
 end

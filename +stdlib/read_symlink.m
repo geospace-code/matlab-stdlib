@@ -19,9 +19,7 @@ catch e
     case "MATLAB:UndefinedFunction"
       if ~stdlib.is_symlink(p), return, end
 
-      if stdlib.has_python()
-        r = py_read_symlink(p);
-      elseif stdlib.dotnet_api() >= 6
+      if stdlib.dotnet_api() >= 6
         r = System.IO.FileInfo(p).LinkTarget;
       elseif stdlib.has_java()
         % must be absolute path
@@ -29,6 +27,14 @@ catch e
         r = stdlib.absolute(p);
         % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#readSymbolicLink(java.nio.file.Path)
         r = java.nio.file.Files.readSymbolicLink(javaPathObject(r)).string;
+      elseif stdlib.has_python()
+        r = py_read_symlink(p);
+      elseif isunix()
+        [s, m] = system(sprintf('readlink -fn %s', p));
+        if s == 0, r = string(m); end
+      elseif ispc()
+        [s, m] = system(sprintf('pwsh -command "(Get-Item -Path %s).Target"', p));
+        if s == 0, r = string(strip(m)); end
       end
     otherwise, rethrow(e)
   end

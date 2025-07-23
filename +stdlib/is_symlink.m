@@ -16,8 +16,11 @@ catch e
         ok = java.nio.file.Files.isSymbolicLink(javaPathObject(stdlib.absolute(p)));
       elseif stdlib.has_python()
         ok = py_is_symlink(p);
-      else
-        ok = logical.empty;
+      elseif isunix()
+        ok = system(sprintf('test -L %s', p)) == 0;
+      elseif ispc()
+        [s, m] = system(sprintf('pwsh -command "(Get-Item -Path %s).Attributes"', p));
+        ok = s == 0 && contains(m, 'ReparsePoint');
       end
     case "Octave:undefined-function"
       % use lstat() to work with a broken symlink, like Matlab isSymbolicLink

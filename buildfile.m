@@ -13,9 +13,6 @@ plan("clean") = matlab.buildtool.tasks.CleanTask;
 
 
 cnomex = ~HasTag("exe") & ~HasTag("mex") & ~HasTag("java");
-if isMATLABReleaseOlderThan("R2024b")
-  cnomex = cnomex & ~HasTag("symlink");
-end
 if ispc()
   cnomex = cnomex & ~HasTag("unix");
 end
