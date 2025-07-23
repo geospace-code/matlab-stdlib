@@ -74,4 +74,5 @@ jobs:
       uses: ./.github/workflows/composite-nomex
 
     - name: MEX tests
+      if: ${{ matrix.release >= 'R2023b' }}
       uses: ./.github/workflows/composite-mex
