@@ -10,10 +10,12 @@ n = '';
 if stdlib.has_dotnet()
   n = System.Environment.MachineName;
   % https://learn.microsoft.com/en-us/dotnet/api/system.environment.machinename
+elseif stdlib.has_java()
+  n = javaMethod("getLocalHost", "java.net.InetAddress").getHostName();
+elseif stdlib.has_python()
+  n = py_hostname();
 elseif stdlib.isoctave()
   n = gethostname();
-elseif stdlib.has_java()
-  n = java.net.InetAddress.getLocalHost().getHostName();
 end
 
 try  %#ok<*TRYNC>
