@@ -20,7 +20,7 @@ end
 if isempty(finf)
   t = datetime.empty;
 else
-  t = datetime(finf.datenum, ConvertFrom='datenum');
+  t = datetime(finf.datenum, 'ConvertFrom', 'datenum');
 end
 
 end
