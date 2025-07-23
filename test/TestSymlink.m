@@ -37,7 +37,8 @@ end
 methods(TestClassTeardown)
 function remove_temp_wd(tc)
 if isMATLABReleaseOlderThan('R2022a')
-  rmdir(tc.td, 's');
+  [s, m, i] = rmdir(tc.td, 's');
+  if ~s, warning(i, "Failed to remove temporary directory %s: %s", tc.td, m); end
 end
 end
 end
