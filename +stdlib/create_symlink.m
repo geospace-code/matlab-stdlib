@@ -28,7 +28,7 @@ catch e
     % see example/javaCreateSymbolicLink.m for a non-working attempt in Matlab.
       if stdlib.has_python()
         try
-          py.pathlib.Path(link).symlink_to(target);
+          py.os.symlink(target, link);
           ok = true;
         catch e
           warning(e.identifier, "%s", e.message)
