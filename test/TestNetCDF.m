@@ -10,13 +10,21 @@ A4
 utf0
 utf1
 utf2
+td
 end
 
 methods (TestClassSetup)
 
-function setup_file(tc)
+function set_temp_wd(tc)
+if isMATLABReleaseOlderThan('R2022a')
+  tc.td = tempname();
+  mkdir(tc.td);
+else
+  tc.td = tc.createTemporaryFolder();
+end
+end
 
-td = tc.createTemporaryFolder();
+function setup_file(tc)
 
 tc.A0 = 42.;
 tc.A1 = [42.; 43.];
@@ -29,7 +37,7 @@ tc.utf1 = [tc.utf0; "☎"];
 tc.utf2 = [tc.utf0, "☎"; "📞", "👋"];
 
 
-tc.file = td + "/basic.nc";
+tc.file = tc.td + "/basic.nc";
 
 % create test data first, so that parallel tests works
 stdlib.ncsave(tc.file, 'A0', tc.A0)
@@ -47,6 +55,15 @@ stdlib.ncsave(tc.file, '/t/y', 13)
 stdlib.ncsave(tc.file, '/j/a/b', 6)
 
 tc.assertThat(tc.file, matlab.unittest.constraints.IsFile)
+end
+end
+
+
+methods(TestClassTeardown)
+function remove_temp_wd(tc)
+if isMATLABReleaseOlderThan('R2022a')
+  rmdir(tc.td, 's');
+end
 end
 end
 

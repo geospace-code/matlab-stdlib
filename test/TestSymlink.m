@@ -3,7 +3,7 @@ classdef TestSymlink < matlab.unittest.TestCase
 properties
 target
 link
-tempDir
+td
 end
 
 properties (TestParameter)
@@ -12,16 +12,33 @@ end
 
 
 methods(TestClassSetup)
+
+function set_temp_wd(tc)
+if isMATLABReleaseOlderThan('R2022a')
+  tc.td = tempname();
+  mkdir(tc.td);
+else
+  tc.td = tc.createTemporaryFolder();
+end
+end
+
 function setup_symlink(tc)
 
-tc.tempDir = tc.createTemporaryFolder();
-
-tc.link = fullfile(tc.tempDir, 'my.lnk');
+tc.link = fullfile(tc.td, 'my.lnk');
 
 tc.target = strcat(mfilename("fullpath"), '.m');
 
 tc.assumeTrue(stdlib.create_symlink(tc.target, tc.link), ...
     "failed to create test link " + tc.link)
+end
+end
+
+
+methods(TestClassTeardown)
+function remove_temp_wd(tc)
+if isMATLABReleaseOlderThan('R2022a')
+  rmdir(tc.td, 's');
+end
 end
 end
 
@@ -60,7 +77,7 @@ tc.applyFixture(matlab.unittest.fixtures.SuppressedWarningsFixture(["MATLAB:io:f
 tc.verifyFalse(stdlib.create_symlink('', tempname()))
 tc.verifyFalse(stdlib.create_symlink(tc.target, tc.link), "should fail for existing symlink")
 
-ano = tc.tempDir + "/another.lnk";
+ano = tc.td + "/another.lnk";
 tc.verifyTrue(stdlib.create_symlink(tc.target, ano))
 tc.verifyTrue(stdlib.is_symlink(ano))
 end

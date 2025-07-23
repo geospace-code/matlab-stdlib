@@ -1,7 +1,32 @@
 classdef TestPermissions < matlab.unittest.TestCase
 
+properties
+td
+end
+
+
 properties (TestParameter)
 Ps = {".", pwd()}
+end
+
+
+methods(TestClassSetup)
+function set_temp_wd(tc)
+if isMATLABReleaseOlderThan('R2022a')
+  tc.td = tempname();
+  mkdir(tc.td);
+else
+  tc.td = tc.createTemporaryFolder();
+end
+end
+end
+
+methods(TestClassTeardown)
+function remove_temp_wd(tc)
+if isMATLABReleaseOlderThan('R2022a')
+  rmdir(tc.td, 's');
+end
+end
 end
 
 
@@ -27,9 +52,7 @@ function test_set_permissions(tc)
 
 import matlab.unittest.constraints.StartsWithSubstring
 
-tf = tc.createTemporaryFolder();
-
-nr = fullfile(tf, "no-read");
+nr = fullfile(tc.td, "no-read");
 
 tc.verifyTrue(stdlib.touch(nr))
 stdlib.set_permissions(nr, -1, 0, 0)
@@ -39,7 +62,7 @@ if ~ispc
 tc.verifyThat(p, StartsWithSubstring("-"), "no-read permission failed to set")
 end
 
-nw = fullfile(tf, "no-write");
+nw = fullfile(tc.td, "no-write");
 
 tc.verifyTrue(stdlib.touch(nw))
 stdlib.set_permissions(nw, 0, -1, 0)

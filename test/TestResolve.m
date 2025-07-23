@@ -9,10 +9,22 @@ p = {'', "", ".", ".."}
 end
 
 methods(TestClassSetup)
-function set_cwd(tc)
-import matlab.unittest.fixtures.CurrentFolderFixture
-tc.td = tc.createTemporaryFolder();
-tc.applyFixture(CurrentFolderFixture(tc.td))
+function set_temp_wd(tc)
+if isMATLABReleaseOlderThan('R2022a')
+  tc.td = tempname();
+  mkdir(tc.td);
+else
+  tc.td = tc.createTemporaryFolder();
+end
+tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(tc.td))
+end
+end
+
+methods(TestClassTeardown)
+function remove_temp_wd(tc)
+if isMATLABReleaseOlderThan('R2022a')
+  rmdir(tc.td, 's');
+end
 end
 end
 

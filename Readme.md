@@ -12,21 +12,17 @@ These system, filesystem, and HDF5 / HDF4 / NetCDF functions are used across num
 
 Matlab R2020b is the minimum required version.
 URLs (e.g. https://, s3:// and similar) are treated as not existing.
-The self-tests require at least Matlab R2022a and can be run from the matlab-stdlib/ directory.
+The self-tests require at least Matlab R2021b and can be run from the matlab-stdlib/ directory.
 
 ```matlab
-%% Matlab R2023a or newer
+%% Matlab >= R2023a
 buildtool test
 ```
 
 ```matlab
-%% Matlab R2022a or newer
-addpath .
-runtests("test")
+%% Matlab >= R2021b
+run('test/test_nomex.m')
 ```
-
-Functions requiring or optionally benefiting from MEX are indicated in the
-[API Documentation](https://geospace-code.github.io/matlab-stdlib).
 
 Build the optional high-performance
 [MEX](https://www.mathworks.com/help/matlab/cpp-mex-file-applications.html)

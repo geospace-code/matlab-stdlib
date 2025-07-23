@@ -1,8 +1,31 @@
 classdef TestSubprocess < matlab.unittest.TestCase
 
+properties
+td
+end
+
 properties (TestParameter)
 lang_out = {"c", "fortran"}
 lang_in = {"cpp", "fortran"}
+end
+
+methods(TestClassSetup)
+function set_temp_wd(tc)
+if isMATLABReleaseOlderThan('R2022a')
+  tc.td = tempname();
+  mkdir(tc.td);
+else
+  tc.td = tc.createTemporaryFolder();
+end
+end
+end
+
+methods(TestClassTeardown)
+function remove_temp_wd(tc)
+if isMATLABReleaseOlderThan('R2022a')
+  rmdir(tc.td, 's');
+end
+end
 end
 
 methods (Test, TestTags=["exe"])
@@ -124,9 +147,7 @@ tc.assertEqual(s, 0, "status non-zero")
 tc.verifyGreaterThan(strlength(m), 0, "empty directory not expected")
 tc.verifyEqual(strlength(e), 0, e)
 
-td = tc.createTemporaryFolder();
-
-[s, mc, e] = stdlib.java_run(c, cwd=td);
+[s, mc, e] = stdlib.java_run(c, cwd=tc.td);
 tc.assertEqual(s, 0, "status non-zero")
 tc.verifyNotEqual(m, mc, "expected different directory to have different contents")
 tc.verifyEqual(strlength(e), 0, e)

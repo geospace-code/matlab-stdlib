@@ -1,19 +1,40 @@
 classdef TestHash < matlab.unittest.TestCase
 
+properties
+td
+end
+
 properties (TestParameter)
 Ph = {{'md5', '5d41402abc4b2a76b9719d911017c592'}, ...
       {'sha-256', '2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824'}}
 end
 
 
-methods (Test, TestTags="java")
+methods(TestMethodSetup)
+function set_temp_wd(tc)
+if isMATLABReleaseOlderThan('R2022a')
+  tc.td = tempname();
+  mkdir(tc.td);
+else
+  tc.td = tc.createTemporaryFolder();
+end
+end
+end
 
+methods(TestMethodTeardown)
+function remove_temp_wd(tc)
+if isMATLABReleaseOlderThan('R2022a')
+  rmdir(tc.td, 's');
+end
+end
+end
+
+methods (Test)
 
 function test_hash_text(tc, Ph)
+tc.assumeTrue(stdlib.has_dotnet() || stdlib.has_java())
 
-td = tc.createTemporaryFolder();
-
-fn = td + "/hello";
+fn = tc.td + "/hello";
 fid = fopen(fn, "w");
 
 tc.assumeGreaterThan(fid, 0);

@@ -9,6 +9,7 @@ A3
 A4
 utf
 utf2
+td
 end
 
 properties (TestParameter)
@@ -19,9 +20,17 @@ type = {"single", "double", ...
 end
 
 methods(TestClassSetup)
-function setup_file(tc)
 
-td = tc.createTemporaryFolder();
+function set_temp_wd(tc)
+if isMATLABReleaseOlderThan('R2022a')
+  tc.td = tempname();
+  mkdir(tc.td);
+else
+  tc.td = tc.createTemporaryFolder();
+end
+end
+
+function setup_file(tc)
 
 tc.A0 = 42.;
 tc.A1 = [42.; 43.];
@@ -32,7 +41,7 @@ tc.A4(:,:,:,5) = tc.A3;
 tc.utf = 'Hello There 😄';
 tc.utf2 = [tc.utf; "☎"];
 
-tc.file = td + "/basic.h5";
+tc.file = tc.td + "/basic.h5";
 
 % create test data first, so that parallel tests works
 stdlib.h5save(tc.file, '/A0', tc.A0)
@@ -52,6 +61,15 @@ stdlib.h5save(tc.file, '/t/y', 13)
 stdlib.h5save(tc.file, '/j/a/b', 6)
 
 tc.assertThat(tc.file, matlab.unittest.constraints.IsFile)
+end
+
+end
+
+methods(TestClassTeardown)
+function remove_temp_wd(tc)
+if isMATLABReleaseOlderThan('R2022a')
+  rmdir(tc.td, 's');
+end
 end
 end
 
