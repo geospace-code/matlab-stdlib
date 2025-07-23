@@ -1,6 +1,6 @@
 function plan = buildfile
 import matlab.unittest.selectors.HasTag
-assert(~isMATLABReleaseOlderThan("R2023b"), "MATLAB R2023b or newer is required for this buildfile")
+assert(~isMATLABReleaseOlderThan("R2022b"), "MATLAB R2022b or newer is required for this buildfile")
 
 plan = buildplan(localfunctions);
 
@@ -8,9 +8,11 @@ pkg_name = "+stdlib";
 
 addpath(plan.RootFolder)
 
-%% Self-test setup
-plan("clean") = matlab.buildtool.tasks.CleanTask;
-
+if isMATLABReleaseOlderThan("R2023b")
+  plan("clean") =matlab.buildtool.Task();
+else
+  plan("clean") = matlab.buildtool.tasks.CleanTask;
+end
 
 cnomex = ~HasTag("exe") & ~HasTag("mex") & ~HasTag("java");
 if ispc()
@@ -24,11 +26,15 @@ if ispc()
   cjava = cjava & ~HasTag("unix");
 end
 
+if isMATLABReleaseOlderThan("R2023b")
+  plan("test_exe") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, HasTag("exe")), Dependencies="exe");
+elseif isMATLABReleaseOlderThan("R2024b")
+  plan("test_exe") = matlab.buildtool.tasks.TestTask("test", Tag="exe", Dependencies="exe");
+end
 
 if isMATLABReleaseOlderThan("R2024b")
 
   plan("test_java") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cjava));
-  plan("test_exe") = matlab.buildtool.tasks.TestTask("test", Tag="exe", Dependencies="exe");
   plan("test_nomex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnomex), Dependencies="clean");
   plan("test_mex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cmex), Dependencies="mex");
 
@@ -59,6 +65,8 @@ else
 
   plan("clean_mex") = matlab.buildtool.Task(Actions=@clean_mex, Description="Clean only MEX files to enable incremental tests");
 end
+
+if isMATLABReleaseOlderThan("R2023a"), return, end
 
 td = fullfile(plan.RootFolder, 'test');
 

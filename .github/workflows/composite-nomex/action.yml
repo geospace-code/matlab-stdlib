@@ -15,7 +15,7 @@ runs:
 
 
   - name: Non-Mex Test (< R2024b)
-    if: ${{ matrix.release >= 'R2023b' && matrix.release < 'R2024b' }}
+    if: ${{ matrix.release >= 'R2022b' && matrix.release < 'R2024b' }}
     uses: matlab-actions/run-build@v2
     with:
       startup-options: ${{ matrix.startup-options }}
@@ -31,7 +31,7 @@ runs:
 
 
   - name: Java Test (< R2024b)
-    if: ${{ !contains(matrix.startup-options, '-nojvm') && matrix.release >= 'R2023b' && matrix.release < 'R2024b' }}
+    if: ${{ !contains(matrix.startup-options, '-nojvm') && matrix.release >= 'R2022b' && matrix.release < 'R2024b' }}
     uses: matlab-actions/run-build@v2
     with:
       startup-options: ${{ matrix.startup-options }}
@@ -40,8 +40,8 @@ runs:
 
 # note: "source-folder" adds all subfolders to Matlab path
 # https://github.com/matlab-actions/run-tests?tab=readme-ov-file#run-matlab-tests
-  - name: Non-mex tests (< R2023b)
-    if: ${{ matrix.release < 'R2023b' }}
+  - name: Non-buildtool tests (< R2022b)
+    if: ${{ matrix.release < 'R2022b' }}
     uses: matlab-actions/run-command@v2
     with:
       command: run('test/test_nomex.m')

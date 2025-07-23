@@ -16,22 +16,44 @@ and
 [mustBeTextScalar](https://www.mathworks.com/help/matlab/ref/mustbetextscalar.html)
 syntax.
 URLs (e.g. https://, s3:// and similar) are treated as not existing.
+
+## Self-tests
+
 The self-tests require at least Matlab R2020b and can be run from the matlab-stdlib/ directory.
 
+Matlab R2024b and newer:
+
 ```matlab
-%% Matlab >= R2023a
 buildtool test
 ```
 
-or for older Matlab:
+Matlab R2023a..R2024a, inclusive:
+
+```matlab
+buildtool test_nomex
+buildtool test_java
+buildtool test_exe
+buildtool test_mex
+```
+
+Matlab R2022b:
+
+```matlab
+buildtool test_nomex
+buildtool test_java
+```
+
+Matlab older than R2022b:
 
 ```matlab
 run('test/test_nomex.m')
 ```
 
-Build the optional high-performance
+## MEX functions
+
+With Matlab R2023a and newer, optionally build high-performance
 [MEX](https://www.mathworks.com/help/matlab/cpp-mex-file-applications.html)
-functions from the Matlab prompt in Matlab R2023a or newer:
+functions (the same functions are provided by default without MEX) from the Matlab prompt in Matlab R2023a or newer:
 
 ```matlab
 buildtool mex
