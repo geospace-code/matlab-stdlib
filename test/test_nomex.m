@@ -1,23 +1,25 @@
 function test_nomex()
+import matlab.unittest.TestRunner
 import matlab.unittest.selectors.HasTag
 
-cwd = fileparts(mfilename('fullpath'));
+sel = ~HasTag("exe") & ~HasTag("mex");
 
+cwd = fileparts(mfilename('fullpath'));
 root = fileparts(cwd);
 addpath(root)
 
 if isMATLABReleaseOlderThan('R2022b')
   suite = testsuite(cwd);
 else
-  suite = testsuite(cwd, InvalidFileFoundAction="error");
+  suite = testsuite(cwd, 'InvalidFileFoundAction', "error");
 end
-
-sel = ~HasTag("exe") & ~HasTag("mex");
 
 suite = suite.selectIf(sel);
 
-r = run(testrunner(), suite);
+runner = TestRunner.withTextOutput;
+r = runner.run(suite);
 
 assert(~isempty(r), "No tests were run")
 assertSuccess(r)
+
 end

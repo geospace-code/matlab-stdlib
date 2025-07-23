@@ -44,8 +44,8 @@ runs:
     if: ${{ matrix.release < 'R2023b' }}
     uses: matlab-actions/run-command@v2
     with:
-      command: test_nomex
-      startup-options: -sd ${{ github.workspace }}/test -logfile ${{ matrix.release }}-${{ runner.os }}-test.log
+      command: run('test/test_nomex.m')
+      startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test.log
     # test/test_nomex.m adds path internally
 
   - name: upload logfile
