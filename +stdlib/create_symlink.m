@@ -27,12 +27,7 @@ catch e
     % see example/Filesystem.java for this working in plain Java.
     % see example/javaCreateSymbolicLink.m for a non-working attempt in Matlab.
       if stdlib.has_python()
-        try
-          py.os.symlink(target, link);
-          ok = true;
-        catch e
-          warning(e.identifier, "%s", e.message)
-        end
+        ok = py_create_symlink(target, link);
       elseif stdlib.dotnet_api() >= 6
         % https://learn.microsoft.com/en-us/dotnet/api/system.io.file.createsymboliclink
         try
