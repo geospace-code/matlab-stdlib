@@ -6,26 +6,20 @@
 % where the environment has changed since pyenv() was set. For example
 % HPC with "module load python3..."
 
-function v = python_version()
+function v = python_version(force)
+arguments
+  force (1,1) logical = false
+end
 
 v = [];
 
-try
-  pe = pyenv();
-  vs = pe.Version;
-  if strlength(vs) == 0, return, end
-
-  vi = py.sys.version_info;
-  v = [double(vi.major), double(vi.minor), double(vi.micro)];
-
-  vv = strsplit(vs, '.');
-  assert(str2double(vv{1}) == v(1), "stdlib:python_version:ValueError", "Python major version %s did not match pyenv %d", vv{1}, v(1))
-  assert(str2double(vv{2}) == v(2), "stdlib:python_version:ValueError", "Python minor version %s did not match pyenv %d", vv{1}, v(1))
-catch e
-  switch e.identifier
-    case {'Octave:undefined-function', 'MATLAB:Python:PythonUnavailable'}  % pass
-    otherwise, rethrow(e)
-  end
+if isMATLABReleaseOlderThan('R2022a') && ~force
+  return
 end
+
+% we use a separate function because the JIT compiler in Matlab < R2022a
+% breaks try-catch for any py.* command
+
+v = pvt_get_python_version();
 
 end
