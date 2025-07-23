@@ -12,13 +12,13 @@ end
 f = uint64(0);
 if ~stdlib.exists(d), return, end
 
-if stdlib.has_python()
-  f = py_disk_available(d);
-elseif stdlib.has_dotnet()
+if stdlib.has_dotnet()
   f = System.IO.DriveInfo(stdlib.absolute(d)).AvailableFreeSpace();
   % https://learn.microsoft.com/en-us/dotnet/api/system.io.driveinfo.availablefreespace
 elseif stdlib.has_java()
   f = javaObject("java.io.File", d).getUsableSpace();
+elseif stdlib.has_python()
+  f = py_disk_available(d);
 end
 
 f = uint64(f);
