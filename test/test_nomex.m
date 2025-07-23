@@ -1,5 +1,4 @@
 function test_nomex()
-import matlab.unittest.TestSuite
 import matlab.unittest.selectors.HasTag
 
 cwd = fileparts(mfilename('fullpath'));
@@ -7,7 +6,11 @@ cwd = fileparts(mfilename('fullpath'));
 root = fileparts(cwd);
 addpath(root)
 
-suite = TestSuite.fromFolder(cwd);
+if isMATLABReleaseOlderThan('R2022b')
+  suite = testsuite(cwd);
+else
+  suite = testsuite(cwd, InvalidFileFoundAction="error");
+end
 
 sel = ~HasTag("exe") & ~HasTag("mex");
 

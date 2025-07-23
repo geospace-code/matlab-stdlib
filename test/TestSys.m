@@ -26,7 +26,7 @@ end
 function test_has_python(tc)
 tc.assumeTrue(stdlib.has_python())
 v = stdlib.python_version();
-tc.verifyTrue(stdlib.version_atleast(v, "3.8"), "expected Python >= 3.8")
+tc.verifyTrue(all(v >= [3, 8, 0]), "expected Python >= 3.8")
 end
 
 function test_os_version(tc)

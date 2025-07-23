@@ -26,8 +26,10 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-22.04, windows-2022]
-        release: [R2022a, R2022b, R2023a, R2023b, R2024a, R2024b, R2025a]
-# on Linux, even R2025a needs GCC 10.x and hence Github Actions runner ubuntu-22.04
+        release: [R2021b, R2022a, R2022b, R2023a, R2023b, R2024a, R2024b, R2025a]
+# on Linux, even R2025a needs GCC 10.x and hence Github Actions runner ubuntu-22.04.
+# R2021b, R2022a officially need Ubuntu 20.04,
+# which is no longer available on Github Actions
         include:
         - os: macos-latest
           release: R2025a

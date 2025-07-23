@@ -13,8 +13,9 @@ if stdlib.has_dotnet()
   fprintf('.NET: %s\n', stdlib.dotnet_version());
 end
 
-if stdlib.has_python()
-  fprintf('Python: %s  Home: %s\n', stdlib.python_version(), stdlib.python_home());
+pv = stdlib.python_version();
+if ~isempty(pv)
+  fprintf('Python: %d.%d.%d  Home: %s\n', pv(1), pv(2), pv(3), stdlib.python_home());
 end
 
 if ismac()

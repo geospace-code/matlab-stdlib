@@ -4,11 +4,6 @@
 
 function y = has_python()
 
-try
-  pe = pyenv();
-  y = strlength(pe.Version) > 0;
-catch
-  y = false;
-end
+y = ~isempty(stdlib.python_version);
 
 end
