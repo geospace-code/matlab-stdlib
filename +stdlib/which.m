@@ -27,7 +27,7 @@ if stdlib.is_exe(cmd)
   return
 end
 
-%  relative directory component, but path was not a file
+%  relative directory component, but path was not an executable file
 if ~strcmp(stdlib.filename(cmd), cmd)
   return
 end

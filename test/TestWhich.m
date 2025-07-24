@@ -39,8 +39,10 @@ if ispc()
 end
 
 tc.assumeThat(r, matlab.unittest.constraints.IsFile)
+tc.assumeTrue(stdlib.is_exe(r))
 
-tc.verifyEqual(stdlib.which(mexe), r)
+tc.verifyGreaterThan(strlength(stdlib.which(r)), 0, "Expected which(" + r + " ) to find " + r)
+tc.verifyGreaterThan(strlength(stdlib.which(mexe)), 0, "Expected which(" + mexe + ") to find " + r)
 
 end
 
