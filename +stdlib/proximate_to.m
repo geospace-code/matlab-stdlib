@@ -14,7 +14,7 @@ end
 
 rel = stdlib.relative_to(base, other);
 if strempty(rel)
-  rel = fullfile(other);
+  rel = other;
 end
 
 
