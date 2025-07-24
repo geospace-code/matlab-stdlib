@@ -1,20 +1,26 @@
-%% STEM file name without directory or suffix
+%% STEM base file name without directory or suffix
+% STEM Extracts the file name without directory or suffix from a path.
+%   s = stem(p) returns the stem (base name) of the file specified by the path p.
+%   leading dot filenames are allowed.
+%
+%   Input:
+%     p - Character vector or string scalar specifying the file path.
+%
+%   Output:
+%     s - Character vector or string scalar containing the file name without directory or suffix.
 
-function st = stem(p)
+function s = stem(p)
 arguments
-  p {mustBeTextScalar}
+  p string
 end
 
-[~, n, s] = fileparts(p);
+p0 = asManyOfPattern(wildcardPattern + ("/" | filesep));
+% p1 matches a file extension (e.g., '.txt') or the end of the string
+p1 = ("." + alphanumericsPattern + textBoundary('end')) | textBoundary('end');
 
-if strempty(n)
-  % leading dot filename
-  st = s;
-else
-  st = n;
+s = extractBetween(p, p0, p1);
+
+i = strempty(s);
+s(i) = extractAfter(p(i), p0);
+
 end
-
-end
-
-%!assert(stem('/a/b.c'), 'b')
-%!assert(stem("a/b/.c"), ".c")
