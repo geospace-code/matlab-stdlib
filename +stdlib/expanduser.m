@@ -14,20 +14,25 @@ arguments
   p {mustBeTextScalar}
 end
 
-e = char(p);
 
-L = length(e);
-if L == 0 || e(1) ~= '~' || (L > 1 && ~startsWith(e(1:2), {'~/', ['~', filesep()]}))
-  % noop
+pat = ['~[/\', filesep(), ']+|^~$'];
+
+[i0, i1] = regexp(p, pat, 'once');
+
+if isempty(i0)
+  % no leading ~ or it's ~user, which we don't handle
+  e = p;
+  return
+end
+
+home = stdlib.homedir();
+
+if i1 - i0 == 0 || strlength(p) == i1
+  e = home;
+elseif isstring(p)
+  e = strjoin([home, extractAfter(p, i1)], filesep());
 else
-  home = stdlib.homedir();
-  if isempty(home)
-    % noop
-  elseif L < 2
-    e = home;
-  else
-    e = fullfile(home, e(3:end));
-  end
+  e = strjoin({home, p(i1:end)}, filesep());
 end
 
 if isstring(p)
