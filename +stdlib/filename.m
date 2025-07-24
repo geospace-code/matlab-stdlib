@@ -10,19 +10,9 @@ arguments
   p {mustBeTextScalar}
 end
 
-if isunix()
-  pat = '[^/]*$';
-else
-  pat = '[^/\\]*$';
-end
+[~, n, s] = fileparts(p);
 
-m = regexp(p, pat, 'match', 'once');
-
-if isstring(p) && ismissing(m)
-  f = "";
-else
-  f = m;
-end
+f = strcat(n, s);
 
 end
 
