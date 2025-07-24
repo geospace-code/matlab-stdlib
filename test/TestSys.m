@@ -52,7 +52,7 @@ tc.verifyClass(stdlib.is_parallel_worker(), 'logical')
 end
 
 function test_hostname(tc)
-tc.assumeTrue(stdlib.has_dotnet() || stdlib.has_java())
+tc.assumeTrue(stdlib.has_dotnet() || stdlib.has_java() || stdlib.has_python())
 
 h = stdlib.hostname();
 tc.verifyGreaterThan(strlength(h), 0)
@@ -66,14 +66,12 @@ tc.verifyGreaterThan(strlength(u), 0)
 end
 
 function test_cpu_arch(tc)
-tc.assumeTrue(stdlib.has_dotnet() || stdlib.has_java())
 
 arch = stdlib.cpu_arch();
 tc.verifyGreaterThan(strlength(arch), 0, "CPU architecture should not be empty")
 end
 
 function test_ram_total(tc)
-tc.assumeTrue(stdlib.dotnet_api() >= 6 || stdlib.has_java())
 
 t = stdlib.ram_total();
 tc.verifyGreaterThan(t, 0)
@@ -82,7 +80,6 @@ end
 
 
 function test_ram_free(tc)
-tc.assumeTrue(ispc() || stdlib.has_java())
 
 f = stdlib.ram_free();
 tc.verifyGreaterThan(f, 0)
