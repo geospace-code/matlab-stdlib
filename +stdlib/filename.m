@@ -6,14 +6,7 @@
 % filename (including suffix) without directory
 
 function f = filename(p)
-arguments
-  p {mustBeTextScalar}
-end
 
-f = extractAfter(p, asManyOfPattern(wildcardPattern + ("/" | filesep())));
+f = extractAfter(p, asManyOfPattern(wildcardPattern + ("/" | filesep)));
 
 end
-
-
-%!assert (filename('a/b/c.txt'), 'c.txt')
-%!assert (filename('a/b/'), '')

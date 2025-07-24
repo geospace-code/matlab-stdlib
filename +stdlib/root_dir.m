@@ -13,7 +13,7 @@ arguments
   p {mustBeTextScalar}
 end
 
-sep = characterListPattern("/" + filesep());
+sep = characterListPattern("/" + filesep);
 pat = (textBoundary + sep);
 if ispc()
   pat = pat | (lookBehindBoundary(lettersPattern(1) + ":") + sep);

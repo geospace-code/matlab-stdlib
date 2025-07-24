@@ -15,7 +15,7 @@ arguments
 end
 
 
-pat = ['~[/\', filesep(), ']+|^~$'];
+pat = ['~[/\', filesep, ']+|^~$'];
 
 [i0, i1] = regexp(p, pat, 'once');
 
@@ -30,9 +30,9 @@ home = stdlib.homedir();
 if i1 - i0 == 0 || strlength(p) == i1
   e = home;
 elseif isstring(p)
-  e = strjoin([home, extractAfter(p, i1)], filesep());
+  e = strjoin([home, extractAfter(p, i1)], filesep);
 else
-  e = strjoin({home, p(i1:end)}, filesep());
+  e = strjoin({home, p(i1:end)}, filesep);
 end
 
 if isstring(p)
