@@ -8,6 +8,20 @@ arguments
 end
 % need to have string array type for p(:)
 
+p = p(:);
+
+ok(size(p)) = false;
+
+i = isfile(p);
+
+if ispc()
+  pe = split(string(getenv("PATHEXT")), pathsep);
+  i = i & endsWith(stdlib.suffix(p(i)), pe, 'IgnoreCase', true);
+end
+
+if ~any(i), return, end
+
+
 try
 
   if isunix
@@ -16,20 +30,16 @@ try
     props = "Readable";
   end
 
-  p = p(:);
-  i = isfile(p);
-  ok(size(p)) = false;
-  if ~any(i), return, end
-
   t(i, :) = getPermissions(filePermissions(p(i)), props);
 
   ok(i) = isfile(p(i)) & any(t{i,:}, 2);
 
 catch e
+
   switch e.identifier
     case {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}
       a = file_attributes_legacy(p);
-      ok = isfile(p) && (a.UserExecute || a.GroupExecute || a.OtherExecute);
+      ok = a.UserExecute || a.GroupExecute || a.OtherExecute;
     otherwise, rethrow(e)
   end
 end
