@@ -1,4 +1,6 @@
 %% RAM_FREE get free physical RAM
+% What "free" memory means has many definitions across computing platforms.
+% The user must consider total memory and monitor swap usage.
 %
 % get free physical RAM across operating systems
 % https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getFreeMemorySize()
@@ -7,30 +9,44 @@
 % * freebytes: free physical RAM [bytes]
 %
 % This is done using Java on non-Windows platforms.
-% VisualBasic (needs Windows) is needed to do this with .NET, so we use builtin memory() on Windows.
+%
+% VisualBasic (needs Windows) is needed to do this with .NET,
+%
+% builtin memory() on Windows includes swap. The user could do that themselves.
+%
+% we installed use Java or Python psutil, which are consistent with each other.
+%
+% Fallback is to shell commands.
 
 function bytes = ram_free()
 
-bytes = 0;
-
-try
-  % memory() was added cross-platform to Octave ~ 2021.
-  % Matlab memory() at least through R2025a is still Windows only.
-  m = memory();
-
-  bytes = m.MemAvailableAllArrays;
-
-catch e
-  switch e.identifier
-    case {'MATLAB:memory:unsupported', 'Octave:undefined-function'}
-      if stdlib.has_java()
-        bytes = ram_free_java();
-      end
-    otherwise, rethrow(e)
-  end
+if stdlib.has_java()
+  bytes = ram_free_java();
+elseif stdlib.has_python()
+  bytes = py_ram_free();
+else
+  bytes = ram_free_system();
 end
 
 bytes = uint64(bytes);
+
+end
+
+
+function bytes = ram_free_system()
+
+if ispc()
+  cmd = 'pwsh -c "(Get-CimInstance -ClassName CIM_OperatingSystem).FreePhysicalMemory * 1KB"';
+elseif ismac()
+  cmd = 'sysctl -n hw.memsize';
+else
+  cmd = "free -b | awk '/Mem:/ {print $4}'";
+end
+
+[s, m] = system(cmd);
+if s == 0
+  bytes = str2double(m);
+end
 
 end
 
