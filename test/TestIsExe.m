@@ -11,7 +11,7 @@ end
 
 function test_matlab_exe(tc)
 
-f = fullfile(matlabroot, "bin", "matlab");
+f = fullfile(matlabroot, "bin/matlab");
 if ispc()
   f = f + ".exe";
 end

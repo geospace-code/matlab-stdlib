@@ -9,13 +9,22 @@ end
 % need to have string array type for p(:)
 
 try
+
   if isunix
     props = ["UserExecute", "GroupExecute", "OtherExecute"];
   else
     props = "Readable";
   end
-  t = getPermissions(filePermissions(p), props);
-  ok = isfile(p(:)) & any(t{:,:}, 2);
+
+  p = p(:);
+  i = isfile(p);
+  ok(size(p)) = false;
+  if ~any(i), return, end
+
+  t(i, :) = getPermissions(filePermissions(p(i)), props);
+
+  ok(i) = isfile(p(i)) & any(t{i,:}, 2);
+
 catch e
   switch e.identifier
     case {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}
