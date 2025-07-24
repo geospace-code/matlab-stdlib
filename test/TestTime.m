@@ -32,9 +32,7 @@ end
 
 
 function test_touch_modtime(tc)
-tc.assumeTrue(stdlib.has_java() || stdlib.has_python())
-
-fn = fullfile(tc.td, "modtime.txt");
+fn = tc.td + "/modtime.txt";
 
 tc.verifyTrue(stdlib.touch(fn, datetime("yesterday")))
 t0 = stdlib.get_modtime(fn);
@@ -45,13 +43,22 @@ t1 = stdlib.get_modtime(fn);
 tc.verifyGreaterThanOrEqual(t1, t0)
 end
 
-
-function test_set_modtime(tc)
-tc.assumeTrue(stdlib.has_java() || stdlib.has_python())
-  
-tc.verifyEqual(stdlib.set_modtime("", datetime("now")), false)
 end
 
+
+methods(Test, TestTags="shell")
+
+function test_set_modtime_sys(tc)
+fn = tc.td + "/modtime.txt";
+
+tc.verifyTrue(stdlib.touch(fn, datetime("yesterday")))
+t0 = stdlib.get_modtime(fn);
+
+tc.verifyTrue(stdlib.set_modtime(fn, datetime("now")))
+t1 = stdlib.get_modtime(fn);
+
+tc.verifyGreaterThanOrEqual(t1, t0);
+end
 
 end
 

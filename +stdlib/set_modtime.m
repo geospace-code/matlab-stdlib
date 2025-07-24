@@ -3,7 +3,7 @@
 
 function ok = set_modtime(p, t)
 arguments
-  p {mustBeTextScalar}
+  p {mustBeTextScalar, mustBeFile}
   t (1,1) datetime
 end
 
@@ -22,6 +22,10 @@ if stdlib.has_java()
   ok = javaObject("java.io.File", p).setLastModified(int64(utc) * 1000);
 elseif stdlib.has_python()
   ok = stdlib.python.set_modtime(p, utc);
+end
+
+if ~ok
+  ok = stdlib.sys.set_modtime(p, t);
 end
 
 end

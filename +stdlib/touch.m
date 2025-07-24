@@ -6,7 +6,9 @@ arguments
   t (1,1) datetime = datetime("now")
 end
 
-if ~stdlib.exists(p)
+ok = stdlib.exists(p);
+
+if ~ok
   fid = fopen(p, "w");
   ok = fid > 0 && fclose(fid) == 0;
 end
