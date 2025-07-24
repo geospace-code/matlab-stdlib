@@ -2,11 +2,16 @@
 
 function s = suffix(p)
 arguments
-  p {mustBeTextScalar}
+  p string
 end
 
-[~, ~, s] = fileparts(p);
+pat = textBoundary("start") + asManyOfPattern(wildcardPattern + ".", 1);
+
+s = extractAfter(p, pat);
+
+i = ~ismissing(s);
+s(~i) = "";
+
+s(i) = strcat('.', s(i));
 
 end
-
-%!assert (suffix('/a/b.c'), '.c')
