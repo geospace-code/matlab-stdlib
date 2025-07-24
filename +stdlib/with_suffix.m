@@ -8,34 +8,19 @@
 
 function f = with_suffix(p, suffix)
 arguments
-  p {mustBeTextScalar}
+  p string
   suffix {mustBeTextScalar}
 end
 
-f = '';
+i = ~lookBehindBoundary("/" | filesep);
 
-r = stdlib.parent(p);
-if strempty(r), return, end
+pat = (i + "." + alphanumericsPattern + textBoundary('end')) | textBoundary('end');
 
-s = stdlib.stem(p);
+f = extractBefore(p, pat);
 
-if strempty(s)
-  f = stdlib.join(p, suffix);
-  return
-end
+i = strempty(f);
+f(i) = p(i);
 
-if strcmp(r, '.')
-  f = s;
-else
-  f = fullfile(r, s);
-end
-
-f = strcat(f, suffix);
+f = f + suffix;
 
 end
-
-%!assert(with_suffix("ab.h5", ".nc"), "ab.nc")
-%!assert(with_suffix("ab", ".nc"), "ab.nc")
-%!assert(with_suffix("ab.h5", ""), "ab")
-%!assert(with_suffix("ab", ""), "ab")
-%!assert(with_suffix("ab/.h5", ".nc"), fullfile("ab", ".h5.nc"))
