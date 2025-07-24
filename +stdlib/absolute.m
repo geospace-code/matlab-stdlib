@@ -21,26 +21,12 @@ arguments
   base {mustBeTextScalar} = pwd()
 end
 
-c = p;
-if stdlib.is_absolute(c)
- return
+if stdlib.is_absolute(p)
+  c = p;
+  return
 end
 
-if ~strempty(base)
-  b = stdlib.absolute(base);
-else
-  b = pwd();
-end
-
-if ~strempty(c)
-  c = fullfile(b, c);
-else
-  c = b;
-end
-
-if isstring(p) || isstring(base)
-  c = string(c);
-end
+c = fullfile(stdlib.absolute(base), p);
 
 end
 

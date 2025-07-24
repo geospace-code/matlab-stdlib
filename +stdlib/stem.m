@@ -1,4 +1,4 @@
-%% STEM filename without directory or suffix
+%% STEM file name without directory or suffix
 
 function st = stem(p)
 arguments
@@ -8,6 +8,7 @@ end
 [~, n, s] = fileparts(p);
 
 if strempty(n)
+  % leading dot filename
   st = s;
 else
   st = n;
