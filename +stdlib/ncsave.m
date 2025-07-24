@@ -24,9 +24,6 @@ if isnumeric(A)
   mustBeReal(A)
 end
 
-% avoid creating confusing file ./~/a.nc
-filename = stdlib.expanduser(filename);
-
 % coerce if needed
 A = coerce_ds(A, opts.type);
 

@@ -2,6 +2,8 @@
 %
 % Useful for Matlab functions that can't handle ~
 %
+% the string $HOME is not handled.
+%
 %%% Inputs
 % * p: path to expand, if tilde present
 %%% Outputs
