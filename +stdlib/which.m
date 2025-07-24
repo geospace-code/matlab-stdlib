@@ -9,23 +9,20 @@
 
 function exe = which(cmd, fpath, find_all)
 arguments
-  cmd {mustBeTextScalar}
+  cmd (1,1) string
   fpath (1,:) string = string.empty
   find_all (1,1) logical = false
 end
 
-if find_all
-  exe = string.empty;
-else
-  exe = '';
-end
+exe = string.empty;
 
 %% on Windows, append .exe if not suffix is given
 if ispc() && strempty(stdlib.suffix(cmd))
-  cmd = strcat(cmd, '.exe');
+  cmd = cmd + ".exe";
 end
 %% full filename was given
-if isfile(cmd) && stdlib.is_exe(cmd)
+if stdlib.is_exe(cmd)
+  % is_exe implies isfile
   exe = cmd;
   return
 end
@@ -37,20 +34,14 @@ end
 
 % path given
 if isempty(fpath)
-  fpath = getenv("PATH");
+  fpath = string(getenv("PATH"));
 end
 
-if isscalar(fpath) || ischar(fpath)
-  fpath = strsplit(fpath, pathsep);
+if isscalar(fpath)
+  fpath = split(fpath, pathsep).';
 end
 
-for fp = fpath
-  if iscell(fp)
-    p = fp{1};
-  else
-    p = fp;
-  end
-
+for p = fpath
   if strempty(p), continue, end
 
   e = fullfile(p, cmd);
@@ -65,5 +56,3 @@ for fp = fpath
 end
 
 end
-
-%!assert(~isempty(which("octave", [], false)))

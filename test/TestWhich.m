@@ -2,7 +2,7 @@ classdef TestWhich < matlab.unittest.TestCase
 
 properties (TestParameter)
 mexe = {matlabroot + "/bin/matlab", ...
-        fullfile(matlabroot, 'bin', 'matlab')}
+        fullfile(matlabroot, 'bin/matlab')}
 end
 
 methods (Test, TestTags="impure")
@@ -33,10 +33,12 @@ end
 
 function test_which_absolute(tc, mexe)
 
-r = mexe;
+r = string(mexe);
 if ispc()
-  r = strcat(r, '.exe');
+  r = r + ".exe";
 end
+
+tc.assumeThat(r, matlab.unittest.constraints.IsFile)
 
 tc.verifyEqual(stdlib.which(mexe), r)
 
