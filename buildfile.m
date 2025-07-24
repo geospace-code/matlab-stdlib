@@ -17,6 +17,8 @@ end
 cnomex = ~HasTag("exe") & ~HasTag("mex") & ~HasTag("java");
 if ispc()
   cnomex = cnomex & ~HasTag("unix");
+else
+  cnomex = cnomex & ~HasTag("windows");
 end
 
 cmex = HasTag("mex");

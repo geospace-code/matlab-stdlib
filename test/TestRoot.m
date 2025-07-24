@@ -13,7 +13,7 @@ tc.verifyEqual(stdlib.root(p{1}), p{2})
 end
 
 function test_root_dir(tc, rd)
-tc.verifyEqual(stdlib.root_dir(rd{1}), rd{2})
+tc.verifyEqual(stdlib.root_dir(rd{1}), rd{2}, "root_dir(" + rd{1} + ")")
 end
 
 function test_root_name(tc, rn)
@@ -36,7 +36,7 @@ p = {{"", ""}, ...
 {"c:/etc", ""}, ...
 {'c:\etc', ''}};
 
-if ispc
+if ispc()
 p{6}{2} = "c:";
 p{7}{2} = "c:/";
 p{8}{2} = 'c:\';

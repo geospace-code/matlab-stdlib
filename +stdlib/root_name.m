@@ -10,21 +10,22 @@ arguments
   p {mustBeTextScalar}
 end
 
-r = '';
-
-if ~ispc() || strlength(p) < 2
-  % noop
+if ispc()
+  r = extract(p, textBoundary + lettersPattern(1) + ":");
+  if ~isempty(r) && iscell(r)
+    r = r{1};
+  end
 else
-  c = char(p);
+  r = '';
+end
 
-  if c(2) == ':' && isletter(c(1))
-    r = c(1:2);
+if isempty(r)
+  r = '';
+  if isstring(p)
+    r = "";
   end
 end
 
-if isstring(p)
-  r = string(r);
-end
 
 end
 

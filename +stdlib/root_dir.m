@@ -1,6 +1,6 @@
 %% ROOT_DIR get root directory
 % Examples:
-
+%
 %% Windows
 % * root_dir('C:\path\to\file') returns '\'
 % * root_dir('C:path\to\file') returns ''
@@ -13,22 +13,20 @@ arguments
   p {mustBeTextScalar}
 end
 
-matches = regexp(p, '^([/\\])|^[A-Za-z]:([/\\])', 'tokens');
+sep = characterListPattern("/" + filesep());
+pat = (textBoundary + sep);
+if ispc()
+  pat = pat | (lookBehindBoundary(lettersPattern(1) + ":") + sep);
+end
 
-if isempty(matches)
-
+r = extract(p, pat);
+if isempty(r)
   r = '';
   if isstring(p)
     r = "";
   end
-
-else
-
-  r = matches{1};
-  if iscell(r)
-    r = r{1};
-  end
-
+elseif iscell(r)
+  r = r{1};
 end
 
 end

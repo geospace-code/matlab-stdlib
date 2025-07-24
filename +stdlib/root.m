@@ -2,9 +2,6 @@
 % ROOT(P) returns the root path of P.
 
 function r = root(p)
-arguments
-  p {mustBeTextScalar}
-end
 
 r = strcat(stdlib.root_name(p), stdlib.root_dir(p));
 
