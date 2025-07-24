@@ -69,7 +69,7 @@ function test_cpu_arch(tc)
 tc.assumeTrue(stdlib.has_dotnet() || stdlib.has_java())
 
 arch = stdlib.cpu_arch();
-tc.verifyGreaterThan(strlength(arch), 0)
+tc.verifyGreaterThan(strlength(arch), 0, "CPU architecture should not be empty")
 end
 
 function test_ram_total(tc)
