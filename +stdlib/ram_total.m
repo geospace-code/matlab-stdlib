@@ -19,28 +19,10 @@ elseif stdlib.has_java()
 end
 
 if bytes <= 0
-  bytes = ram_total_system();
+  bytes = stdlib.sys.ram_total();
 end
 
 bytes = uint64(bytes);
-
-end
-
-
-function bytes = ram_total_system()
-
-if ispc()
-  cmd = 'pwsh -c "(Get-CimInstance -ClassName Win32_ComputerSystem).TotalPhysicalMemory"';
-elseif ismac()
-  cmd = 'sysctl -n hw.memsize';
-else
-  cmd = "free -b | awk '/Mem:/ {print $4}'";
-end
-
-[s, m] = system(cmd);
-if s == 0
-  bytes = str2double(m);
-end
 
 end
 
