@@ -1,14 +1,7 @@
 classdef TestFilename < matlab.unittest.TestCase
 
 properties (TestParameter)
-p = {
-{'', ''}, ...
-{"", ""}, ...
-{"/a/b/c", "c"}, ...
-{'a/b/c.txt', 'c.txt'}, ...
-{"a/b/c.txt.gz", "c.txt.gz"}, ...
-{"a/b/.hello", ".hello"}
-};
+p = init_p()
 e = {'/a/b/c/', "/a/b/c/"}
 end
 
@@ -23,6 +16,21 @@ end
 
 end
 
+end
 
+function p = init_p()
+p = {
+{'', ''}, ...
+{"", ""}, ...
+{"Hi", "Hi"}, ...
+{"/a/b/c", "c"}, ...
+{'a/b/c.txt', 'c.txt'}, ...
+{"a/b/c.txt.gz", "c.txt.gz"}, ...
+{"a/b/.hello", ".hello"}
+};
+
+if ispc()
+  p{end+1} = {"c:/df\df.txt", "df.txt"};
+end
 
 end

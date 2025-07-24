@@ -10,9 +10,7 @@ arguments
   p {mustBeTextScalar}
 end
 
-[~, n, s] = fileparts(p);
-
-f = strcat(n, s);
+f = extractAfter(p, asManyOfPattern(wildcardPattern + ("/" | filesep())));
 
 end
 
