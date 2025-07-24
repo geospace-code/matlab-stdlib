@@ -13,19 +13,22 @@ arguments
   p {mustBeTextScalar}
 end
 
-r = '';
-pc = char(p);
+matches = regexp(p, '^([/\\])|^[A-Za-z]:([/\\])', 'tokens');
 
-if startsWith(p, {'/', filesep})
-  r = pc(1);
-elseif strlength(p) > 2 && ~strempty(stdlib.root_name(p))
-  if ismember(pc(3), {'/', filesep})
-    r = pc(3);
+if isempty(matches)
+
+  r = '';
+  if isstring(p)
+    r = "";
   end
-end
 
-if isstring(p)
-  r = string(r);
+else
+
+  r = matches{1};
+  if iscell(r)
+    r = r{1};
+  end
+
 end
 
 end
