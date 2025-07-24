@@ -21,7 +21,7 @@ end
 if stdlib.has_java()
   ok = javaObject("java.io.File", p).setLastModified(int64(utc) * 1000);
 elseif stdlib.has_python()
-  ok = py_set_modtime(p, utc);
+  ok = stdlib.python.set_modtime(p, utc);
 end
 
 end

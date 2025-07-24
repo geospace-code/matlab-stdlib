@@ -1,4 +1,4 @@
-function n = py_ram_free()
+function n = ram_free()
 
 try
   vm = py.psutil.virtual_memory();

@@ -18,7 +18,7 @@ if stdlib.has_dotnet()
 elseif stdlib.has_java()
   f = javaObject("java.io.File", d).getUsableSpace();
 elseif stdlib.has_python()
-  f = py_disk_available(d);
+  f = stdlib.python.disk_available(d);
 end
 
 f = uint64(f);

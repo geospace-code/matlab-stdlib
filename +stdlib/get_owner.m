@@ -12,7 +12,7 @@ end
 
 
 if ~ispc() && stdlib.has_python()
-  n = py_get_owner(p);
+  n = stdlib.python.get_owner(p);
 elseif stdlib.has_java()
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html#getOwner(java.nio.file.Path,java.nio.file.LinkOption...)
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/LinkOption.html

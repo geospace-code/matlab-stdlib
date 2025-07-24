@@ -1,4 +1,4 @@
-function n = py_hostname()
+function n = get_hostname()
 
 n = py.socket.gethostname();
 

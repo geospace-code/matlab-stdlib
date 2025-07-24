@@ -1,4 +1,4 @@
-function v = pvt_get_python_version()
+function v = version()
 
 % Matlab < R2022a has a bug in the JIT compiler that breaks try-catch
 % for any py.* command. We use a separate private function to workaround that.

@@ -8,7 +8,7 @@ end
 i = [];
 
 if stdlib.has_python()
-  i = py_device(p);
+  i = stdlib.python.device(p);
 elseif ispc() && stdlib.has_dotnet()
   i = device_dotnet(p);
 elseif stdlib.isoctave()

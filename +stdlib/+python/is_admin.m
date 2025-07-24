@@ -1,4 +1,4 @@
-function y = py_is_admin()
+function y = is_admin()
 
 if isunix()
   y = py.os.getuid() == 0;

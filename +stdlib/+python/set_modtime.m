@@ -1,8 +1,8 @@
-function ok = py_set_modtime(p, utc)
+function ok = set_modtime(p, utc)
 
 try
   s = py.os.stat(p);
-  py.os.utime(p, py.tuple(s.st_atime, utc));
+  py.os.utime(p, py.tuple([s.st_atime, utc]));
   ok = true;
 catch e
   warning(e.identifier, "%s", e.message)

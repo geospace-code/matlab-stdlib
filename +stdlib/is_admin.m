@@ -4,7 +4,7 @@ function y = is_admin()
 
 
 if (isunix() || ~isMATLABReleaseOlderThan('R2024a')) && stdlib.has_python()
-  y = py_is_admin();
+  y = stdlib.python.is_admin();
 elseif stdlib.isoctave()
   y = getuid() == 0;
 elseif ispc() && stdlib.has_dotnet()

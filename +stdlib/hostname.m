@@ -13,7 +13,7 @@ if stdlib.has_dotnet()
 elseif stdlib.has_java()
   n = javaMethod("getLocalHost", "java.net.InetAddress").getHostName();
 elseif stdlib.has_python()
-  n = py_hostname();
+  n = stdlib.python.get_hostname();
 elseif stdlib.isoctave()
   n = gethostname();
 end

@@ -13,7 +13,7 @@ end
 c = [];
 
 if stdlib.has_python()
-  c = py_hard_link_count(p);
+  c = stdlib.python.hard_link_count(p);
 elseif stdlib.isoctave()
   [s, err] = stat(p);
   if err == 0

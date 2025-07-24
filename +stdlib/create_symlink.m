@@ -29,7 +29,7 @@ catch e
       if strempty(target) || strempty(link), return, end
 
       if stdlib.has_python()
-        ok = py_create_symlink(target, link);
+        ok = stdlib.python.create_symlink(target, link);
       elseif stdlib.dotnet_api() >= 6
         ok = dotnet_create_symlink(target, link);
       else

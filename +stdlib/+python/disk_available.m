@@ -1,4 +1,4 @@
-function f = py_disk_available(d)
+function f = disk_available(d)
 
 di = py.shutil.disk_usage(d);
 

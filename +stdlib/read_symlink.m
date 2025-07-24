@@ -28,7 +28,7 @@ catch e
         % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#readSymbolicLink(java.nio.file.Path)
         r = java.nio.file.Files.readSymbolicLink(javaPathObject(r)).string;
       elseif stdlib.has_python()
-        r = py_read_symlink(p);
+        r = stdlib.python.read_symlink(p);
       elseif isunix()
         [s, m] = system(sprintf('readlink -fn %s', p));
         if s == 0, r = string(m); end

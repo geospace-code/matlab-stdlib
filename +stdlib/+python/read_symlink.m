@@ -1,4 +1,4 @@
-function r = py_read_symlink(p)
+function r = read_symlink(p)
 
 % https://docs.python.org/3/library/pathlib.html#pathlib.Path.readlink
 r = string(py.os.readlink(p));

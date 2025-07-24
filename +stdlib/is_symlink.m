@@ -15,7 +15,7 @@ catch e
       elseif stdlib.has_java()
         ok = java.nio.file.Files.isSymbolicLink(javaPathObject(stdlib.absolute(p)));
       elseif stdlib.has_python()
-        ok = py_is_symlink(p);
+        ok = stdlib.python.is_symlink(p);
       elseif isunix()
         ok = system(sprintf('test -L %s', p)) == 0;
       elseif ispc()

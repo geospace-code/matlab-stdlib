@@ -34,7 +34,7 @@ end
 % we use a separate function because the JIT compiler in Matlab < R2022a
 % breaks try-catch for any py.* command
 
-v = pvt_get_python_version();
+v = stdlib.python.version();
 
 % cache the result
 if ~isempty(v)

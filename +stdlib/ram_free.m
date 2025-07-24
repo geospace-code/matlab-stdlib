@@ -25,7 +25,7 @@ bytes = 0;
 if stdlib.has_java()
   bytes = ram_free_java();
 elseif stdlib.has_python()
-  bytes = py_ram_free();
+  bytes = stdlib.python.ram_free();
 end
 
 if bytes <= 0

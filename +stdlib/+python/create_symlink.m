@@ -1,4 +1,4 @@
-function ok = py_create_symlink(target, link)
+function ok = create_symlink(target, link)
 
 try
   py.os.symlink(target, link);
