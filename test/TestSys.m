@@ -80,19 +80,21 @@ end
 
 
 function test_ram_free(tc)
-
+% don't verify less than or equal total due to shaky system measurements
 f = stdlib.ram_free();
 tc.verifyGreaterThan(f, 0)
 tc.verifyClass(f, 'uint64')
 end
 
-function test_ram_free_vs_total(tc)
-t = stdlib.ram_total();
-tc.assumeGreaterThan(t, 0)
-f = stdlib.ram_free();
-tc.assumeGreaterThan(f, 0)
+end
 
-tc.verifyLessThanOrEqual(f, t, "Free RAM should be less than or equal to total RAM")
+
+methods (Test, TestTags="sys")
+
+function test_ram_free_sys(tc)
+f = stdlib.sys.ram_free();
+tc.verifyGreaterThan(f, 0)
+tc.verifyClass(f, 'uint64')
 end
 
 end

@@ -20,12 +20,16 @@
 
 function bytes = ram_free()
 
+bytes = 0;
+
 if stdlib.has_java()
   bytes = ram_free_java();
 elseif stdlib.has_python()
   bytes = py_ram_free();
-else
-  bytes = ram_free_system();
+end
+
+if bytes <= 0
+  bytes = stdlib.sys.ram_free();
 end
 
 bytes = uint64(bytes);
