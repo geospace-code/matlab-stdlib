@@ -5,13 +5,10 @@ arguments
   p string
 end
 
-pat = textBoundary("start") + asManyOfPattern(wildcardPattern + ".", 1);
+[~, n, s] = fileparts(p);
 
-s = extractAfter(p, pat);
-
-i = ~ismissing(s);
-s(~i) = "";
-
-s(i) = strcat('.', s(i));
+if strempty(n)
+  s = n;
+end
 
 end

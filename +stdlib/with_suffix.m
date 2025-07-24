@@ -12,11 +12,7 @@ arguments
   suffix {mustBeTextScalar}
 end
 
-i = ~lookBehindBoundary("/" | filesep);
-
-pat = (i + "." + alphanumericsPattern + textBoundary('end')) | textBoundary('end');
-
-f = extractBefore(p, pat);
+f = extractBefore(p, stdlib.suffix(p));
 
 i = strempty(f);
 f(i) = p(i);
