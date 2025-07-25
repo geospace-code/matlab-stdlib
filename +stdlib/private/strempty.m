@@ -1,7 +1,12 @@
-%% STREMPTY is the char / string empty
+%% STREMPTY is the char | string empty
 
 function y = strempty(s)
 
-y = strlength(s) == 0;
+if isempty(s)
+  y = true;
+else
+  y = strlength(s) == 0;
+end
+
 
 end
