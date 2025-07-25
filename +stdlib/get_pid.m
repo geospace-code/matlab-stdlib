@@ -2,17 +2,15 @@
 
 function pid = get_pid()
 
-try
+if ~isMATLABReleaseOlderThan('R2025a')
   pid = matlabProcessID;
-catch e
-  switch e.identifier
-    case "MATLAB:UndefinedFunction", pid = feature("getpid");
-    case "Octave:undefined-function", pid = getpid();
-    otherwise, rethrow(e)
-  end
-
-  pid = uint64(pid);
+elseif stdlib.isoctave()
+  pid = getpid();
+else
+  pid = feature("getpid");
 end
+
+pid = uint64(pid);
 
 end
 

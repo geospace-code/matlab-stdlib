@@ -50,6 +50,7 @@ end
 function test_get_pid(tc)
 pid = stdlib.get_pid();
 tc.verifyGreaterThan(pid, 0)
+tc.verifyClass(pid, 'uint64')
 end
 
 
