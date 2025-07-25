@@ -1,7 +1,7 @@
 classdef TestPermissions < matlab.unittest.TestCase
 
 properties (TestParameter)
-Ps = {".", pwd(), "", tempname()}
+Ps = {".", pwd(), "", tempname(), mfilename('fullpath') + ".m"}
 end
 
 
@@ -16,6 +16,9 @@ tc.verifyClass(p, "char")
 
 if stdlib.exists(Ps)
   tc.verifyThat(p, StartsWithSubstring("r"))
+  if isfile(p) && stdlib.suffix(p) == ".m"
+    tc.verifyEqual(p(3), '-')
+  end
 else
   tc.verifyEmpty(p)
 end
