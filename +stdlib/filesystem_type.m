@@ -3,9 +3,7 @@
 % example outputs: NTFS, ext4, apfs, ...
 
 function t = filesystem_type(p)
-arguments
-  p {mustBeTextScalar}
-end
+
 
 t = "";
 if ~stdlib.exists(p), return, end
@@ -15,6 +13,10 @@ if stdlib.has_dotnet()
   % https://learn.microsoft.com/en-us/dotnet/api/system.io.driveinfo.driveformat
 elseif stdlib.has_java()
   t = javaMethod("getFileStore", "java.nio.file.Files", javaPathObject(p)).type;
+end
+
+if strempty(p)
+  t = stdlib.sys.filesystem_type(p);
 end
 
 try  %#ok<*TRYNC>

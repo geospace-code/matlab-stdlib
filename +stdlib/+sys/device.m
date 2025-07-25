@@ -4,7 +4,7 @@ i = [];
 
 if ispc()
   c0 = 'powershell -Command "(Get-CimInstance -ClassName Win32_Volume -Filter \"DriveLetter = ''';
-  c1 = stdlib.root_name(stdlib.resolve(p));
+  c1 = stdlib.root_name(stdlib.absolute(p));
   c2 = '''\").SerialNumber"';
   cmd = strcat(c0, c1, c2);
 elseif ismac()

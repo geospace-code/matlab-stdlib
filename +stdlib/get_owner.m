@@ -10,6 +10,7 @@ arguments
   p {mustBeTextScalar}
 end
 
+n = string.empty;
 
 if ~ispc() && stdlib.has_python()
   n = stdlib.python.get_owner(p);
@@ -26,6 +27,10 @@ elseif stdlib.has_java()
     n = string(n);
   end
 
+end
+
+if strempty(n)
+  n = stdlib.sys.get_owner(p);
 end
 
 end

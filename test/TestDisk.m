@@ -48,8 +48,6 @@ end
 
 function test_filesystem_type(tc, Ps)
 
-tc.assumeTrue(stdlib.has_dotnet() || stdlib.has_java())
-
 s = stdlib.filesystem_type(Ps);
 tc.verifyClass(s, 'string')
 L = strlength(s);
@@ -73,14 +71,12 @@ end
 
 
 function test_inode(tc)
-tc.assumeTrue(stdlib.has_python() || (isunix() && stdlib.java_api() >= 11))
 
 tc.verifyEqual(stdlib.inode("."), stdlib.inode(pwd()))
 end
 
 
 function test_owner(tc)
-tc.assumeTrue((~ispc() && stdlib.has_python()) || stdlib.has_java())
 
 s = stdlib.get_owner(".");
 
