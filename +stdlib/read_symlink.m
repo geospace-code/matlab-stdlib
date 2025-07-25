@@ -29,15 +29,13 @@ catch e
         r = java.nio.file.Files.readSymbolicLink(javaPathObject(r)).string;
       elseif stdlib.has_python()
         r = stdlib.python.read_symlink(p);
-      elseif isunix()
-        [s, m] = system(sprintf('readlink -fn %s', p));
-        if s == 0, r = string(m); end
-      elseif ispc()
-        [s, m] = system(sprintf('pwsh -command "(Get-Item -Path %s).Target"', p));
-        if s == 0, r = string(strip(m)); end
       end
     otherwise, rethrow(e)
   end
+end
+
+if strempty(r)
+  r = stdlib.sys.read_symlink(p);
 end
 
 end

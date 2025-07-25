@@ -5,7 +5,7 @@ try
   py.os.utime(p, py.tuple([s.st_atime, utc]));
   ok = true;
 catch e
-  warning(e.identifier, "%s", e.message)
+  warning(e.identifier, "set_modtime(%s, %s) failed: %s", p, utc, e.message);
   ok = false;
 end
 

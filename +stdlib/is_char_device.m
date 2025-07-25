@@ -9,7 +9,7 @@ arguments
 end
 
 if stdlib.has_python()
-  ok = py.pathlib.Path(p).is_char_device();
+  ok = stdlib.python.is_char_device(p);
 elseif stdlib.isoctave()
   [s, err] = stat(p);
   ok = err == 0 && S_ISCHR(s.mode);
