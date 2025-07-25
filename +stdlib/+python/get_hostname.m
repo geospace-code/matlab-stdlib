@@ -1,8 +1,8 @@
 function n = get_hostname()
 
 try
-  n = char(py.socket.gethostname());
+  n = string(py.socket.gethostname());
 catch e
   warning(e.identifier, "get_hostname failed: %s", e.message);
-  n = '';
+  n = string.empty;
 end

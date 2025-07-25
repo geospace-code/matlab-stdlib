@@ -8,15 +8,11 @@
 
 function bytes = ram_total()
 
-bytes = 0;
-
 if stdlib.dotnet_api() >= 6
   bytes = stdlib.dotnet.ram_total();
 elseif stdlib.has_java()
   bytes = stdlib.java.ram_total();
-end
-
-if bytes <= 0
+else
   bytes = stdlib.sys.ram_total();
 end
 

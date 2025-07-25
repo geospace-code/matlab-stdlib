@@ -8,6 +8,7 @@ properties (TestParameter)
 fun = {stdlib.isoctave, stdlib.has_dotnet, ...
        stdlib.has_java, stdlib.has_python}
 cpu_arch_fun = {@stdlib.cpu_arch, @stdlib.dotnet.cpu_arch, @stdlib.java.cpu_arch}
+host_fun = {@stdlib.hostname, @stdlib.dotnet.get_hostname, @stdlib.java.get_hostname, @stdlib.python.get_hostname}
 ram_free_fun = {@stdlib.ram_free, @stdlib.sys.ram_free, @stdlib.java.ram_free, @stdlib.python.ram_free}
 ram_total_fun = {@stdlib.ram_total, @stdlib.sys.ram_total, @stdlib.dotnet.ram_total @stdlib.java.ram_total}
 end
@@ -77,8 +78,6 @@ tc.verifyGreaterThan(stdlib.cpu_count(), 0)
 end
 
 function test_checkRAM(tc)
-tc.assumeTrue(ispc() || stdlib.has_java())
-
 tc.verifyClass(stdlib.checkRAM(1, "double"), "logical")
 end
 
@@ -86,10 +85,9 @@ function test_is_parallel(tc)
 tc.verifyClass(stdlib.is_parallel_worker(), 'logical')
 end
 
-function test_hostname(tc)
-tc.assumeTrue(stdlib.has_dotnet() || stdlib.has_java() || stdlib.has_python())
-
-h = stdlib.hostname();
+function test_hostname(tc, host_fun)
+is_capable(tc, host_fun)
+h = host_fun();
 tc.verifyGreaterThan(strlength(h), 0)
 end
 
