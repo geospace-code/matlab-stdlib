@@ -4,12 +4,11 @@ function v = xcode_version()
 
 v = '';
 
-if ~ismac(), return, end
-
-[s, m] = system('pkgutil --pkg-info com.apple.pkg.CLTools_Executables');
-
-if s ~= 0, return, end
-
-v = regexp(m, '(?<=version: )(\d+\.\d+(\.\d+)+)', 'match', 'once');
+if ismac()
+  [s, m] = system('pkgutil --pkg-info com.apple.pkg.CLTools_Executables');
+  if s == 0
+    v = regexp(m, '(?<=version:\s*)(\d+\.\d+(\.\d+)+)', 'match', 'once');
+  end
+end
 
 end

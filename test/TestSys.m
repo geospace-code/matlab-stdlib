@@ -63,6 +63,16 @@ u = stdlib.get_username();
 tc.verifyGreaterThan(strlength(u), 0)
 end
 
+
+function test_xcode_version(tc)
+if ismac()
+  tc.verifyNotEmpty(stdlib.xcode_version())
+else
+  tc.verifyEmpty(stdlib.xcode_version())
+end
+end
+
+
 function test_cpu_arch(tc)
 
 arch = stdlib.cpu_arch();
