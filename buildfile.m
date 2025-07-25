@@ -14,7 +14,7 @@ else
   plan("clean") = matlab.buildtool.tasks.CleanTask;
 end
 
-cnomex = ~HasTag("exe") & ~HasTag("mex") & ~HasTag("java");
+cnomex = ~HasTag("exe") & ~HasTag("mex") & ~HasTag("java") & ~HasTag("python");
 if ispc()
   cnomex = cnomex & ~HasTag("unix");
 else
@@ -24,9 +24,6 @@ end
 cmex = HasTag("mex");
 
 cjava = HasTag("java") & ~HasTag("exe");
-if ispc()
-  cjava = cjava & ~HasTag("unix");
-end
 
 if isMATLABReleaseOlderThan("R2023b")
   plan("test_exe") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, HasTag("exe")), Dependencies="exe");
@@ -65,6 +62,16 @@ else
                          Selector=cjava, SourceFiles="+stdlib/", RunOnlyImpactedTests=true,...
                          TestResults="TestResults_java.xml", Strict=true);
 
+  plan("test:python") = matlab.buildtool.tasks.TestTask("test", Description="test Python targets", ...
+                         Tag="python", SourceFiles="+stdlib/", RunOnlyImpactedTests=true,...
+                         TestResults="TestResults_python.xml", Strict=true);
+
+  plan("coverage") = matlab.buildtool.tasks.TestTask(Description="code coverage", ...
+    Dependencies=["clean", "exe"], SourceFiles="+stdlib/", ...
+    Selector=cnomex | HasTag("java") | HasTag("exe") | HasTag("python"), ...
+    Strict=false, ...
+    CodeCoverageResults=["code-coverage.xml", "code-coverage.html"]);
+
   plan("clean_mex") = matlab.buildtool.Task(Actions=@clean_mex, Description="Clean only MEX files to enable incremental tests");
 end
 
@@ -88,11 +95,6 @@ plan("exe") = matlab.buildtool.Task(Inputs=srcs, Outputs=exes, Actions=@build_ex
 if ~isMATLABReleaseOlderThan("R2024a")
   plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true, ...
     WarningThreshold=0, Results="CodeIssues.sarif");
-
-  plan("coverage") = matlab.buildtool.tasks.TestTask(Description="code coverage", ...
-    Dependencies="clean", SourceFiles="+stdlib/", Selector=cnomex, ...
-    Strict=false, ...
-    CodeCoverageResults=["code-coverage.xml", "code-coverage.html"]);
 end
 
 %% MexTask
