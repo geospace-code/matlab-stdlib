@@ -62,7 +62,7 @@ else
                          Dependencies="mex", TestResults="TestResults_mex.xml", Strict=true);
 
   plan("test:java") = matlab.buildtool.tasks.TestTask("test", Description="test Java targets", ...
-                         Selector=cjava, ...
+                         Selector=cjava, SourceFiles="+stdlib/", RunOnlyImpactedTests=true,...
                          TestResults="TestResults_java.xml", Strict=true);
 
   plan("clean_mex") = matlab.buildtool.Task(Actions=@clean_mex, Description="Clean only MEX files to enable incremental tests");
@@ -89,7 +89,9 @@ if ~isMATLABReleaseOlderThan("R2024a")
   plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true, ...
     WarningThreshold=0, Results="CodeIssues.sarif");
 
-  plan("coverage") = matlab.buildtool.tasks.TestTask(Description="code coverage", Dependencies="clean", SourceFiles="test", Strict=false, CodeCoverageResults="code-coverage.xml");
+  plan("coverage") = matlab.buildtool.tasks.TestTask(Description="code coverage", ...
+    Dependencies="clean", SourceFiles="test", Selector=cnomex, ...
+    Strict=false, CodeCoverageResults="code-coverage.xml");
 end
 
 %% MexTask
@@ -183,7 +185,12 @@ for i = 1:length(context.Task.Inputs)
   end
 
   [comp, shell, outFlag] = get_build_cmd(lang);
-  if isempty(comp), return, end
+  if isempty(comp)
+    return
+  end
+  if i == 1 && ~isempty(shell)
+    disp("Shell: " + shell)
+  end
 
   cmd = join([comp, src.paths, outFlag + exe]);
   if ~isempty(shell)
@@ -229,8 +236,6 @@ end
 
 shell = string.empty;
 if ispc() && ~isempty(co)
-  disp("Shell: " + co.Details.CommandLineShell)
-
   if startsWith(co.ShortName, ["INTEL", "MSVC"])
     shell = join([strcat('"',string(co.Details.CommandLineShell),'"'), ...
                 co.Details.CommandLineShellArg], " ");
