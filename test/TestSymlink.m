@@ -7,7 +7,9 @@ td
 end
 
 properties (TestParameter)
-p = init_symlink()
+p = {{"not-exist", false}, ...
+    {mfilename("fullpath") + ".m", false}, ...
+    {"", false}};
 end
 
 
@@ -86,9 +88,3 @@ end
 end
 end
 
-
-function p = init_symlink()
-p = {{"not-exist", false}, ...
-  {mfilename("fullpath") + ".m", false}, ...
-  {"", false}};
-end

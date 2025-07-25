@@ -5,8 +5,14 @@ arguments
   p {mustBeTextScalar}
 end
 
+if strempty(p)
+  ok = false;
+  return
+end
+
 try
   ok = isSymbolicLink(p);
+  return
 catch e
   switch e.identifier
     case "MATLAB:UndefinedFunction"
@@ -16,11 +22,6 @@ catch e
         ok = java.nio.file.Files.isSymbolicLink(javaPathObject(stdlib.absolute(p)));
       elseif stdlib.has_python()
         ok = stdlib.python.is_symlink(p);
-      elseif isunix()
-        ok = system(sprintf('test -L %s', p)) == 0;
-      elseif ispc()
-        [s, m] = system(sprintf('pwsh -command "(Get-Item -Path %s).Attributes"', p));
-        ok = s == 0 && contains(m, 'ReparsePoint');
       end
     case "Octave:undefined-function"
       % use lstat() to work with a broken symlink, like Matlab isSymbolicLink
@@ -28,6 +29,10 @@ catch e
       ok = err == 0 && S_ISLNK(s.mode);
     otherwise, rethrow(e)
   end
+end
+
+if ~ok
+  ok = stdlib.sys.is_symlink(p);
 end
 
 end
