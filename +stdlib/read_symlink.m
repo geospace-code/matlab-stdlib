@@ -17,25 +17,27 @@ catch e
   switch e.identifier
     case "Octave:undefined-function", r = readlink(p);
     case "MATLAB:UndefinedFunction"
-      if ~stdlib.is_symlink(p), return, end
+      if strempty(p) || ~stdlib.is_symlink(p)
+        return
+      end
 
       if stdlib.dotnet_api() >= 6
-        r = System.IO.FileInfo(p).LinkTarget;
+        r = string(System.IO.FileInfo(p).LinkTarget);
       elseif stdlib.has_java()
         % must be absolute path
         % must not be .canonical or symlink is gobbled!
         r = stdlib.absolute(p);
         % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#readSymbolicLink(java.nio.file.Path)
-        r = java.nio.file.Files.readSymbolicLink(javaPathObject(r)).string;
+        r = string(java.nio.file.Files.readSymbolicLink(javaPathObject(r)));
       elseif stdlib.has_python()
         r = stdlib.python.read_symlink(p);
       end
     otherwise, rethrow(e)
   end
-end
 
-if strempty(r)
-  r = stdlib.sys.read_symlink(p);
+  if strempty(r) && stdlib.exists(r)
+    r = stdlib.sys.read_symlink(p);
+  end
 end
 
 end
