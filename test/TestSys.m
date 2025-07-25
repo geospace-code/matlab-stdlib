@@ -1,7 +1,7 @@
 classdef TestSys < matlab.unittest.TestCase
 
 properties (TestParameter)
-fun = {stdlib.iscygwin, stdlib.isoctave, stdlib.isinteractive, stdlib.has_dotnet, ...
+fun = {stdlib.isoctave, stdlib.isinteractive, stdlib.has_dotnet, ...
        stdlib.has_java, stdlib.has_python}
 end
 
@@ -10,6 +10,10 @@ methods (Test, TestTags="impure")
 
 function test_platform_logical(tc, fun)
 tc.verifyClass(fun, 'logical')
+end
+
+function test_is_cygwin(tc)
+tc.verifyFalse(stdlib.is_cygwin())
 end
 
 function test_is_rosetta(tc)
