@@ -9,8 +9,6 @@ end
 
 f = uint64(0);
 
-if ~stdlib.exists(d), return, end
-
 if stdlib.has_dotnet()
   f = stdlib.dotnet.disk_capacity(d);
 elseif stdlib.has_java()

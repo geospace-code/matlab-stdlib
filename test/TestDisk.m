@@ -8,30 +8,34 @@ end
 properties (TestParameter)
 Ps = {".", "", "/", getenv("SystemDrive"), "not-exist"}
 device_fun = {@stdlib.device, @stdlib.sys.device, @stdlib.java.device, @stdlib.python.device}
+disk_available_fun = {@stdlib.disk_available, @stdlib.sys.disk_available, @stdlib.dotnet.disk_available, @stdlib.java.disk_available, @stdlib.python.disk_available}
+disk_capacity_fun  = {@stdlib.disk_capacity,  @stdlib.sys.disk_capacity,  @stdlib.dotnet.disk_capacity,  @stdlib.java.disk_capacity,  @stdlib.python.disk_capacity}
 end
 
 methods (Test)
 
-function test_disk_available(tc, Ps)
+function test_disk_available(tc, Ps, disk_available_fun)
+is_capable(tc, disk_available_fun)
 
 zero = uint64(0);
 
 if stdlib.exists(Ps)
-  tc.verifyGreaterThan(stdlib.disk_available(Ps), zero)
+  tc.verifyGreaterThan(disk_available_fun(Ps), zero)
 else
-  tc.verifyEqual(stdlib.disk_available(Ps), zero)
+  tc.verifyEqual(disk_available_fun(Ps), zero)
 end
 end
 
 
-function test_disk_capacity(tc, Ps)
+function test_disk_capacity(tc, Ps, disk_capacity_fun)
+is_capable(tc, disk_capacity_fun)
 
 zero = uint64(0);
 
 if stdlib.exists(Ps)
-  tc.verifyGreaterThan(stdlib.disk_capacity(Ps), zero)
+  tc.verifyGreaterThan(disk_capacity_fun(Ps), zero)
 else
-  tc.verifyEqual(stdlib.disk_capacity(Ps), zero)
+  tc.verifyEqual(disk_capacity_fun(Ps), zero)
 end
 end
 
@@ -88,5 +92,3 @@ end
 
 end
 end
-
-
