@@ -5,8 +5,7 @@ function n = get_username()
 n = '';
 
 if stdlib.has_dotnet()
-  n = System.Environment.UserName;
-  % https://learn.microsoft.com/en-us/dotnet/api/system.environment.username
+  n = stdlib.dotnet.get_username();
 elseif stdlib.has_java()
   n = stdlib.java.get_username();
 end
