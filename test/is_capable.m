@@ -12,6 +12,10 @@ if contains(n, "dotnet")
 
   tc.assumeGreaterThan(dapi, 0)
 
+   if endsWith(n, ["owner"])
+     tc.assumeFalse(isunix(), "Windows only function")
+   end
+
   if endsWith(n, ["create_symlink", "ram_total", "read_symlink"])
     tc.assumeGreaterThanOrEqual(dapi, 6);
   end
@@ -34,6 +38,10 @@ elseif contains(n, "python")
 
    if endsWith(n, ["ram_free", "ram_total"])
      tc.assumeTrue(has_psutil, "need Python psutil package")
+   end
+
+   if endsWith(n, ["owner"])
+     tc.assumeFalse(ispc(), "unix only function")
    end
 
 end

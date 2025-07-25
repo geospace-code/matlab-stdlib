@@ -1,15 +1,16 @@
 classdef TestDisk < matlab.unittest.TestCase
 
 properties
-disk_fun = stdlib.has_python() || stdlib.has_dotnet() || stdlib.has_java()
 CI = getenv("CI") == "true" || getenv("GITHUB_ACTIONS") == "true"
 end
 
 properties (TestParameter)
 Ps = {".", "", "/", getenv("SystemDrive"), "not-exist"}
+Po = {mfilename("fullpath") + ".m", pwd(), ".", "", tempname()}
 device_fun = {@stdlib.device, @stdlib.sys.device, @stdlib.java.device, @stdlib.python.device}
 disk_available_fun = {@stdlib.disk_available, @stdlib.sys.disk_available, @stdlib.dotnet.disk_available, @stdlib.java.disk_available, @stdlib.python.disk_available}
 disk_capacity_fun  = {@stdlib.disk_capacity,  @stdlib.sys.disk_capacity,  @stdlib.dotnet.disk_capacity,  @stdlib.java.disk_capacity,  @stdlib.python.disk_capacity}
+owner_fun = {@stdlib.get_owner, @stdlib.sys.get_owner, @stdlib.dotnet.get_owner, @stdlib.java.get_owner, @stdlib.python.get_owner}
 end
 
 methods (Test)
@@ -82,12 +83,19 @@ tc.verifyEqual(stdlib.inode("."), stdlib.inode(pwd()))
 end
 
 
-function test_owner(tc)
+function test_owner(tc, Po, owner_fun)
+is_capable(tc, owner_fun)
 
-s = stdlib.get_owner(mfilename("fullpath") + ".m");
+s = owner_fun(Po);
 
 tc.verifyClass(s, 'string')
-tc.verifyGreaterThan(strlength(s), 0)
+
+if stdlib.exists(Po)
+  tc.verifyGreaterThan(strlength(s), 0)
+else
+  tc.verifyEmpty(s)
+end
+
 end
 
 end

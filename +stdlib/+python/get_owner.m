@@ -1,5 +1,10 @@
 function n = get_owner(p)
 
+if ~stdlib.exists(p)
+  n = string.empty;
+  return
+end
+
 try
   n = string(py.str(py.pathlib.Path(p).owner()));
 catch e

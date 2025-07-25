@@ -10,22 +10,14 @@ arguments
   p {mustBeTextScalar}
 end
 
-n = string.empty;
-
-if ~ispc() && stdlib.has_python()
-  n = stdlib.python.get_owner(p);
-elseif stdlib.has_java()
+if stdlib.has_java()
   n = stdlib.java.get_owner(p);
-end
-
-if strempty(n)
+elseif ispc() && stdlib.has_dotnet()
+  n = stdlib.dotnet.get_owner(p);
+elseif ~ispc() && stdlib.has_python()
+  n = stdlib.python.get_owner(p);
+else
   n = stdlib.sys.get_owner(p);
 end
 
-try %#ok<*TRYNC>
-  n = string(n);
 end
-
-end
-
-%!assert(!isempty(get_owner(pwd)))
