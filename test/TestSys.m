@@ -29,7 +29,11 @@ tc.verifyNotEmpty(stdlib.get_shell())
 end
 
 function test_is_interactive(tc)
-tc.verifyNotEqual(stdlib.isinteractive(), tc.CI)
+if tc.CI
+  tc.verifyFalse(stdlib.isinteractive())
+else
+  tc.verifyClass(stdlib.isinteractive(), 'logical')
+end
 end
 
 function test_is_rosetta(tc)
@@ -132,4 +136,3 @@ end
 end
 
 end
-

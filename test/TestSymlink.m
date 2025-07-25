@@ -10,6 +10,8 @@ properties (TestParameter)
 p = {{"not-exist", false}, ...
     {mfilename("fullpath") + ".m", false}, ...
     {"", false}};
+is_symlink_fun   = {@stdlib.is_symlink,   @stdlib.sys.is_symlink,   @stdlib.dotnet.is_symlink,   @stdlib.java.is_symlink,   @stdlib.python.is_symlink}
+read_symlink_fun = {@stdlib.read_symlink, @stdlib.sys.read_symlink, @stdlib.dotnet.read_symlink, @stdlib.java.read_symlink, @stdlib.python.read_symlink}
 end
 
 
@@ -48,22 +50,23 @@ end
 
 methods (Test, TestTags=["impure", "symlink"])
 
-function test_is_symlink(tc, p)
-fprintf("is_symlink  mex: %d\n", stdlib.is_mex_fun("stdlib.is_symlink"))
-tc.verifyTrue(stdlib.is_symlink(tc.link), "failed to detect own link")
-tc.verifyEqual(stdlib.is_symlink(p{1}), p{2}, p{1})
+function test_is_symlink(tc, p, is_symlink_fun)
+is_capable(tc, is_symlink_fun)
+
+tc.verifyTrue(is_symlink_fun(tc.link), "failed to detect own link")
+tc.verifyEqual(is_symlink_fun(p{1}), p{2}, p{1})
 end
 
 
-function test_read_symlink(tc)
-fprintf("read_symlink  mex: %d\n", stdlib.is_mex_fun("stdlib.read_symlink"))
-tc.verifyEmpty(stdlib.read_symlink(""))
-tc.verifyEmpty(stdlib.read_symlink(''))
-tc.verifyEmpty(stdlib.read_symlink(tempname))
-tc.verifyEmpty(stdlib.read_symlink(tc.target))
+function test_read_symlink(tc, read_symlink_fun)
+is_capable(tc, read_symlink_fun)
 
+tc.verifyEmpty(read_symlink_fun(""))
+tc.verifyEmpty(read_symlink_fun(''))
+tc.verifyEmpty(read_symlink_fun(tempname))
+tc.verifyEmpty(read_symlink_fun(tc.target))
 
-link_read = stdlib.read_symlink(tc.link);
+link_read = read_symlink_fun(tc.link);
 
 targ = string(tc.target);
 
@@ -87,4 +90,3 @@ end
 
 end
 end
-

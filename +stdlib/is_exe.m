@@ -21,8 +21,7 @@ end
 
 if ~any(i), return, end
 
-
-try
+if ~isMATLABReleaseOlderThan('R2025a')
 
   if isunix
     props = ["UserExecute", "GroupExecute", "OtherExecute"];
@@ -32,16 +31,13 @@ try
 
   t(i, :) = getPermissions(filePermissions(p(i)), props);
 
-  ok(i) = isfile(p(i)) & any(t{i,:}, 2);
+  ok(i) = any(t{i,:}, 2);
 
-catch e
+else
 
-  switch e.identifier
-    case {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}
-      a = file_attributes_legacy(p);
-      ok = a.UserExecute || a.GroupExecute || a.OtherExecute;
-    otherwise, rethrow(e)
-  end
+  a = file_attributes_legacy(p);
+  ok = a.UserExecute || a.GroupExecute || a.OtherExecute;
+
 end
 
 end

@@ -12,7 +12,7 @@ if contains(n, "dotnet")
 
   tc.assumeGreaterThan(dapi, 0)
 
-  if endsWith(n, "ram_total")
+  if endsWith(n, ["ram_total", "read_symlink"])
     tc.assumeGreaterThanOrEqual(dapi, 6);
   end
 
@@ -32,7 +32,7 @@ elseif contains(n, "python")
 
    has_psutil = pvt_psutil();
 
-   if contains(n, ["ram_free", "ram_total"])
+   if endsWith(n, ["ram_free", "ram_total"])
      tc.assumeTrue(has_psutil, "need Python psutil package")
    end
 
