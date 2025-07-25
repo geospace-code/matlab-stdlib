@@ -12,7 +12,7 @@ if contains(n, "dotnet")
 
   tc.assumeGreaterThan(dapi, 0)
 
-  if contains(n, "ram_total")
+  if endsWith(n, "ram_total")
     tc.assumeGreaterThanOrEqual(dapi, 6);
   end
 
