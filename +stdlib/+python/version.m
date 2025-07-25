@@ -1,21 +1,20 @@
-function v = version()
+function v = version(force_old)
+arguments
+  force_old (1,1) logical = false
+end
 
 % Matlab < R2022a has a bug in the JIT compiler that breaks try-catch
-% for any py.* command. We use a separate private function to workaround that.
+% for any py.* command. 
+% We use a separate private function to workaround that.
 
 v = [];
 
+if isMATLABReleaseOlderThan('R2022a') && ~force_old
+  return
+end
+
 try
-  pe = pyenv();
-  vs = pe.Version;
-  if strlength(vs) == 0, return, end
-
-  vi = py.sys.version_info;
-  v = [double(vi.major), double(vi.minor), double(vi.micro)];
-
-  vv = strsplit(vs, '.');
-  assert(str2double(vv{1}) == v(1), "stdlib:python_version:ValueError", "Python major version %s did not match pyenv %d", vv{1}, v(1))
-  assert(str2double(vv{2}) == v(2), "stdlib:python_version:ValueError", "Python minor version %s did not match pyenv %d", vv{1}, v(1))
+  v = pvt_python_version();
 catch e
   switch e.identifier
     case {'Octave:undefined-function', 'MATLAB:Python:PythonUnavailable'}  % pass
