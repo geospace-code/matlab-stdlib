@@ -6,7 +6,9 @@ try
   % int64 first is for Matlab <= R2022a
 catch e
   warning(e.identifier, "disk_capacity(%s) failed: %s", d, e.message);
-  f = [];
+  f = 0;
 end
+
+f = uint64(f);
 
 end

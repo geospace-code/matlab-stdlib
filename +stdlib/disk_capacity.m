@@ -8,13 +8,13 @@ arguments
 end
 
 f = uint64(0);
+
 if ~stdlib.exists(d), return, end
 
 if stdlib.has_dotnet()
-  f = System.IO.DriveInfo(stdlib.absolute(d)).TotalSize();
-  % https://learn.microsoft.com/en-us/dotnet/api/system.io.driveinfo.totalsize
+  f = stdlib.dotnet.disk_capacity(d);
 elseif stdlib.has_java()
-  f = javaObject("java.io.File", d).getTotalSpace();
+  f = stdlib.java.disk_capacity(d);
 elseif stdlib.has_python()
   f = stdlib.python.disk_capacity(d);
 end
