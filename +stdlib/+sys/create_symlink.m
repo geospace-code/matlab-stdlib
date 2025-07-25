@@ -3,7 +3,7 @@ function ok = create_symlink(target, link)
 
 ok = false;
 
-if strlength(target) == 0 || strlength(link) == 0
+if ~stdlib.exists(target) || strlength(link) == 0 || stdlib.exists(link)
   return
 end
 
