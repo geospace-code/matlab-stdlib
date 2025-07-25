@@ -107,11 +107,17 @@ end
 
 methods (Test, TestTags=["exe", "java"])
 
-function test_java_stdout_stderr(tc, lang_out)
+function test_Java_stdout_stderr(tc, lang_out)
+import matlab.unittest.constraints.IsFile
 
 cwd = fileparts(mfilename('fullpath'));
 exe = cwd + "/stdout_stderr_" + lang_out + ".exe";
-tc.assertThat(exe, matlab.unittest.constraints.IsFile)
+
+switch lang_out
+  case "fortran", tc.assumeThat(exe, IsFile)
+  case {"c", "cpp"}, tc.assertThat(exe, IsFile)
+  otherwise, tc.assertTrue(false, "Unknown language: " + lang_out)
+end
 
 [status, msg, err] = stdlib.java_run(exe);
 tc.assertEqual(status, 0, err)
@@ -121,10 +127,16 @@ end
 
 
 function test_java_stdin(tc, lang_in)
+import matlab.unittest.constraints.IsFile
 
 cwd = fileparts(mfilename('fullpath'));
 exe = cwd + "/stdin_" + lang_in + ".exe";
-tc.assertThat(exe, matlab.unittest.constraints.IsFile)
+
+switch lang_in
+  case "fortran", tc.assumeThat(exe, IsFile)
+  case {"c", "cpp"}, tc.assertThat(exe, IsFile)
+  otherwise, tc.assertTrue(false, "Unknown language: " + lang_in)
+end
 
 [status, msg, err] = stdlib.java_run(exe, stdin="1 2");
 
