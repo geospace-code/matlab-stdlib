@@ -1,5 +1,11 @@
 function ok = create_symlink(target, link)
 
+ok = false;
+
+if strlength(target) == 0 || strlength(link) == 0 || stdlib.exists(link)
+  return
+end
+
 try
   py.os.symlink(target, link);
   ok = true;

@@ -12,7 +12,7 @@ if contains(n, "dotnet")
 
   tc.assumeGreaterThan(dapi, 0)
 
-  if endsWith(n, ["ram_total", "read_symlink"])
+  if endsWith(n, ["create_symlink", "ram_total", "read_symlink"])
     tc.assumeGreaterThanOrEqual(dapi, 6);
   end
 

@@ -31,44 +31,19 @@ catch e
       if stdlib.has_python()
         ok = stdlib.python.create_symlink(target, link);
       elseif stdlib.dotnet_api() >= 6
-        ok = dotnet_create_symlink(target, link);
+        ok = stdlib.dotnet.create_symlink(target, link);
       else
-        ok = system_create_symlink(target, link);
+        ok = stdlib.sys.create_symlink(target, link);
       end
-    case "Octave:undefined-function", ok = symlink(target, link) == 0;
-    otherwise, warning(e.identifier, "%s", e.message)
+    case "Octave:undefined-function"
+      ok = symlink(target, link) == 0;
+    otherwise
+      warning(e.identifier, "%s", e.message)
   end
 end
 
 end
 
-
-function ok = system_create_symlink(target, link)
-
-if ispc
-  cmd = sprintf('pwsh -c "New-Item -ItemType SymbolicLink -Path "%s" -Target "%s""', link, target);
-else
-  cmd = sprintf('ln -s "%s" "%s"', target, link);
-end
-
-% suppress output text on powershell
-[stat, ~] = system(cmd);
-
-ok = stat == 0;
-end
-
-
-function ok = dotnet_create_symlink(target, link)
-
-% https://learn.microsoft.com/en-us/dotnet/api/system.io.file.createsymboliclink
-try
-  System.IO.File.CreateSymbolicLink(link, target);
-  ok = true;
-catch e
-  warning(e.identifier, "%s", e.message)
-end
-
-end
 
 %!assert (create_symlink("https://invalid", "https://invalid"), false)
 %!test
