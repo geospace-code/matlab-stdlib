@@ -23,8 +23,8 @@ f = tempname(d);
 
 tc.verifyFalse(stdlib.remove(f), "should not succeed at removing non-existant path")
 
-tc.assumeTrue(stdlib.touch(f))
-tc.verifyTrue(stdlib.remove(f), "failed to remove file")
+tc.assumeTrue(stdlib.touch(f), "failed to touch file " + f)
+tc.verifyTrue(stdlib.remove(f), "failed to remove file " + f)
 end
 
 

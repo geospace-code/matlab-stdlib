@@ -108,11 +108,10 @@ end
 methods (Test, TestTags=["exe", "java"])
 
 function test_java_stdout_stderr(tc, lang_out)
-import matlab.unittest.constraints.IsFile
 
 cwd = fileparts(mfilename('fullpath'));
 exe = cwd + "/stdout_stderr_" + lang_out + ".exe";
-tc.assumeThat(exe, IsFile)
+tc.assertThat(exe, matlab.unittest.constraints.IsFile)
 
 [status, msg, err] = stdlib.java_run(exe);
 tc.assertEqual(status, 0, err)
@@ -125,7 +124,7 @@ function test_java_stdin(tc, lang_in)
 
 cwd = fileparts(mfilename('fullpath'));
 exe = cwd + "/stdin_" + lang_in + ".exe";
-tc.assumeThat(exe, matlab.unittest.constraints.IsFile)
+tc.assertThat(exe, matlab.unittest.constraints.IsFile)
 
 [status, msg, err] = stdlib.java_run(exe, stdin="1 2");
 
@@ -160,7 +159,7 @@ function test_java_env_run(tc)
 
 cwd = fileparts(mfilename('fullpath'));
 exe = cwd + "/printenv.exe";
-tc.assumeThat(exe, matlab.unittest.constraints.IsFile)
+tc.assertThat(exe, matlab.unittest.constraints.IsFile)
 
 names = ["TEST1", "TEST2"];
 vals = ["test123", "test321"];
