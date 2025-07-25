@@ -9,33 +9,32 @@
 %%% Outputs
 % * ok (1,1) logical
 
-function set_permissions(path, readable, writable, executable)
+function ok = set_permissions(path, readable, writable, executable)
 arguments
   path {mustBeTextScalar,mustBeFile}
-  readable (1,1) int8
-  writable (1,1) int8
-  executable (1,1) int8
+  readable (1,1) {mustBeInteger, mustBeInRange(readable, -1, 1)}
+  writable (1,1) {mustBeInteger, mustBeInRange(writable, -1, 1)}
+  executable (1,1) {mustBeInteger, mustBeInRange(executable, -1, 1)}
 end
 
-try
+
+if isMATLABReleaseOlderThan('R2025a')
+  warning("stdlib:set_permissions:RequiresMex", "set_permissions requires 'buildtool mex'");
+  ok = false;
+else
   p = filePermissions(path);
-catch e
-  switch e.identifier
-    case "MATLAB:UndefinedFunction", error("buildtool mex")
-    otherwise, rethrow(e)
+
+  if readable ~= 0
+    setPermissions(p, "Readable", readable > 0);
   end
-end
+  if writable ~= 0
+    setPermissions(p, "Writable", writable > 0);
+  end
+  if executable ~= 0
+    setPermissions(p, "Executable", executable > 0);
+  end
 
-if readable ~= 0
-  setPermissions(p, "Readable", readable > 0);
-end
-if writable ~= 0
-  setPermissions(p, "Writable", writable > 0);
-end
-if executable ~= 0
-  setPermissions(p, "Executable", executable > 0);
+  ok = true;
 end
 
 end
-
-%!testif 0
