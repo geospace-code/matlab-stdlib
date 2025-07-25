@@ -13,6 +13,8 @@ if stdlib.has_dotnet()
   % https://learn.microsoft.com/en-us/dotnet/api/system.io.driveinfo.driveformat
 elseif stdlib.has_java()
   t = javaMethod("getFileStore", "java.nio.file.Files", javaPathObject(p)).type;
+elseif stdlib.has_python()
+  t = stdlib.python.filesystem_type(p);
 end
 
 if strempty(p)
