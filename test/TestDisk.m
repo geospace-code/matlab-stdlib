@@ -2,10 +2,11 @@ classdef TestDisk < matlab.unittest.TestCase
 
 properties
 disk_fun = stdlib.has_python() || stdlib.has_dotnet() || stdlib.has_java()
+CI = getenv("CI") == "true" || getenv("GITHUB_ACTIONS") == "true"
 end
 
 properties (TestParameter)
-Ps = {".", "", "not-exist"}
+Ps = {".", "", "/", getenv("SystemDrive"), "not-exist"}
 end
 
 methods (Test)
@@ -51,6 +52,9 @@ function test_filesystem_type(tc, Ps)
 s = stdlib.filesystem_type(Ps);
 tc.verifyClass(s, 'string')
 L = strlength(s);
+
+tc.assumeFalse(isempty(L) && tc.CI, "Some CI block viewing their filesystem type")
+
 
 if stdlib.exists(Ps)
   tc.verifyGreaterThan(L, 0)
