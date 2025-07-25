@@ -8,6 +8,7 @@ properties (TestParameter)
 Ps = {".", "", "/", getenv("SystemDrive"), "not-exist"}
 Po = {mfilename("fullpath") + ".m", pwd(), ".", "", tempname()}
 device_fun = {@stdlib.device, @stdlib.sys.device, @stdlib.java.device, @stdlib.python.device}
+inode_fun = {@stdlib.inode, @stdlib.sys.inode, @stdlib.java.inode, @stdlib.python.inode}
 disk_available_fun = {@stdlib.disk_available, @stdlib.sys.disk_available, @stdlib.dotnet.disk_available, @stdlib.java.disk_available, @stdlib.python.disk_available}
 disk_capacity_fun  = {@stdlib.disk_capacity,  @stdlib.sys.disk_capacity,  @stdlib.dotnet.disk_capacity,  @stdlib.java.disk_capacity,  @stdlib.python.disk_capacity}
 fst_fun = {@stdlib.filesystem_type, @stdlib.sys.filesystem_type, @stdlib.dotnet.filesystem_type, @stdlib.java.filesystem_type, @stdlib.python.filesystem_type}
@@ -77,9 +78,10 @@ end
 end
 
 
-function test_inode(tc)
+function test_inode(tc, inode_fun)
+is_capable(tc, inode_fun)
 
-tc.verifyEqual(stdlib.inode("."), stdlib.inode(pwd()))
+tc.verifyEqual(inode_fun("."), inode_fun(pwd()))
 end
 
 
