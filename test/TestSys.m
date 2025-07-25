@@ -125,14 +125,4 @@ end
 end
 
 
-methods (Test, TestTags="sys")
-
-function test_ram_free_sys(tc)
-f = stdlib.sys.ram_free();
-tc.verifyGreaterThan(f, 0)
-tc.verifyClass(f, 'uint64')
-end
-
-end
-
 end

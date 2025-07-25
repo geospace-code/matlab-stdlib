@@ -7,6 +7,7 @@ end
 
 properties (TestParameter)
 Ps = {".", "", "/", getenv("SystemDrive"), "not-exist"}
+device_fun = init_device_fun()
 end
 
 methods (Test)
@@ -60,12 +61,11 @@ end
 end
 
 
-function test_device(tc)
-
+function test_device(tc, device_fun)
 if ispc()
-  tc.verifyGreaterThan(stdlib.device(pwd()), 0)
+  tc.verifyGreaterThan(device_fun(pwd()), 0)
 else
-  tc.verifyEqual(stdlib.device("."), stdlib.device(pwd()))
+  tc.verifyEqual(device_fun("."), device_fun(pwd()))
 end
 end
 
@@ -84,5 +84,18 @@ tc.verifyClass(s, 'string')
 tc.verifyGreaterThan(strlength(s), 0)
 end
 
+end
+end
+
+
+function device_fun = init_device_fun()
+device_fun = {@stdlib.sys.device, @stdlib.device};
+
+if isunix() && stdlib.java_api() > 11
+  device_fun{end+1} = @stdlib.java.device;
+end
+
+if stdlib.has_python()
+  device_fun{end+1} = @stdlib.python.device;
 end
 end
