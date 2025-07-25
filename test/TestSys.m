@@ -3,7 +3,6 @@ classdef TestSys < matlab.unittest.TestCase
 properties (TestParameter)
 fun = {stdlib.iscygwin, stdlib.isoctave, stdlib.isinteractive, stdlib.has_dotnet, ...
        stdlib.has_java, stdlib.has_python}
-fi32 = {stdlib.is_wsl}
 end
 
 
@@ -13,15 +12,19 @@ function test_platform_logical(tc, fun)
 tc.verifyClass(fun, 'logical')
 end
 
-function test_platform_int32(tc, fi32)
-tc.verifyClass(fi32, 'int32')
-end
-
 function test_is_rosetta(tc)
 if ismac()
   tc.verifyClass(stdlib.is_rosetta(), 'logical')
 else
   tc.verifyFalse(stdlib.is_rosetta(), 'is_rosetta should be false on non-macOS systems')
+end
+end
+
+function test_is_wsl(tc)
+if isunix() && ~ismac()
+  tc.verifyGreaterThanOrEqual(stdlib.is_wsl(), 0)
+else
+  tc.verifyEqual(stdlib.is_wsl(), 0)
 end
 end
 

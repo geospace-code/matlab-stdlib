@@ -20,8 +20,6 @@ if isunix() && ~ismac()
   end
 end
 
-w = int32(w);
+mustBeInteger(w)
 
 end
-
-%!assert(class(is_wsl()), "int32")
