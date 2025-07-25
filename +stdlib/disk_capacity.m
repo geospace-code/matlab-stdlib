@@ -19,6 +19,10 @@ elseif stdlib.has_python()
   f = stdlib.python.disk_capacity(d);
 end
 
+if f == 0
+  f = stdlib.sys.disk_capacity(d);
+end
+
 f = uint64(f);
 
 end

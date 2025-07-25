@@ -13,8 +13,6 @@ methods (Test)
 
 function test_disk_available(tc, Ps)
 
-tc.assumeTrue(tc.disk_fun || stdlib.is_mex_fun("stdlib.disk_available"))
-
 zero = uint64(0);
 
 if stdlib.exists(Ps)
@@ -26,8 +24,6 @@ end
 
 
 function test_disk_capacity(tc, Ps)
-
-tc.assumeTrue(tc.disk_fun || stdlib.is_mex_fun("stdlib.disk_capacity"))
 
 zero = uint64(0);
 
