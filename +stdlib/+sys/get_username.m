@@ -8,7 +8,7 @@ end
 [s, n] = system(cmd);
 
 if s == 0
-  n = strtrim(n);  % Remove any trailing newline or spaces
+  n = string(strtrim(n));  % Remove any trailing newline or spaces
 else
   warning("Failed to get username from system command: %s", n);
   n = string.empty;

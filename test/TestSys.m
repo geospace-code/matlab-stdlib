@@ -9,6 +9,7 @@ fun = {stdlib.isoctave, stdlib.has_dotnet, ...
        stdlib.has_java, stdlib.has_python}
 cpu_arch_fun = {@stdlib.cpu_arch, @stdlib.dotnet.cpu_arch, @stdlib.java.cpu_arch}
 host_fun = {@stdlib.hostname, @stdlib.dotnet.get_hostname, @stdlib.java.get_hostname, @stdlib.python.get_hostname}
+user_fun = {@stdlib.get_username, @stdlib.dotnet.get_username, @stdlib.java.get_username, @stdlib.python.get_username}
 ram_free_fun = {@stdlib.ram_free, @stdlib.sys.ram_free, @stdlib.java.ram_free, @stdlib.python.ram_free}
 ram_total_fun = {@stdlib.ram_total, @stdlib.sys.ram_total, @stdlib.dotnet.ram_total @stdlib.java.ram_total}
 end
@@ -91,8 +92,9 @@ h = host_fun();
 tc.verifyGreaterThan(strlength(h), 0)
 end
 
-function test_username(tc)
-u = stdlib.get_username();
+function test_username(tc, user_fun)
+is_capable(tc, user_fun)
+u = user_fun();
 tc.verifyGreaterThan(strlength(u), 0)
 end
 
