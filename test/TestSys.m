@@ -1,7 +1,7 @@
 classdef TestSys < matlab.unittest.TestCase
 
 properties (TestParameter)
-fun = {stdlib.iscygwin, stdlib.isoctave, stdlib.is_rosetta, stdlib.isinteractive, stdlib.has_dotnet, ...
+fun = {stdlib.iscygwin, stdlib.isoctave, stdlib.isinteractive, stdlib.has_dotnet, ...
        stdlib.has_java, stdlib.has_python}
 fi32 = {stdlib.is_wsl}
 end
@@ -15,6 +15,14 @@ end
 
 function test_platform_int32(tc, fi32)
 tc.verifyClass(fi32, 'int32')
+end
+
+function test_is_rosetta(tc)
+if ismac()
+  tc.verifyClass(stdlib.is_rosetta(), 'logical')
+else
+  tc.verifyFalse(stdlib.is_rosetta(), 'is_rosetta should be false on non-macOS systems')
+end
 end
 
 function test_dotnet_version(tc)
