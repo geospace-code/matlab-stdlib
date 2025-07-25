@@ -73,9 +73,11 @@ end
 
 methods (Test, TestTags="netcdf")
 
+function test_betcdf_version(tc)
+tc.verifyTrue(stdlib.version_atleast(stdlib.nc_get_version(), "4.7"), "version unexpected")
+end
+
 function test_get_variables(tc)
-
-
 k = ["A0", "A1", "A2", "A3", "A4"];
 
 if ~isMATLABReleaseOlderThan('R2021b')

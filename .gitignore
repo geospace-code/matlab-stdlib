@@ -1,6 +1,7 @@
 Filesystem.class
 CodeIssues.sarif
 *.xml
+*.html
 
 resources/
 .buildtool/

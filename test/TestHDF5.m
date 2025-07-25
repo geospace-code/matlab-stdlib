@@ -86,6 +86,10 @@ tc.verifyEqual(stdlib.auto_chunk_size([15,250,100]), [2,32,25])
 tc.verifyEqual(stdlib.auto_chunk_size([15,250]), [15,250])
 end
 
+function test_hdf5_version(tc)
+tc.verifyTrue(stdlib.version_atleast(stdlib.h5get_version(), "1.8"), "version unexpected")
+end
+
 
 function test_get_variables(tc)
 

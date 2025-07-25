@@ -5,6 +5,9 @@ function platform_tell()
 r = matlabRelease();
 fprintf('Matlab: %s %s %s\n', r.Release, computer('arch'), stdlib.cpu_arch());
 
+fprintf('HDF5 %s\n', stdlib.h5get_version());
+fprintf('netCDF %s\n', stdlib.nc_get_version());
+
 if stdlib.has_java()
   fprintf('Java: %s %s  Home: %s\n', stdlib.java_vendor(), stdlib.java_version(), stdlib.java_home());
 end
