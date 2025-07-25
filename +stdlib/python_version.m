@@ -17,10 +17,10 @@ arguments
   force_old (1,1) logical = false
 end
 
-persistent v_
+persistent stdlib_py_version
 
-if ~isempty(v_)
-  v = v_;
+if ~isempty(stdlib_py_version)
+  v = stdlib_py_version;
   return
 end
 
@@ -32,13 +32,13 @@ if isMATLABReleaseOlderThan('R2022a') && ~force_old
 end
 
 % we use a separate function because the JIT compiler in Matlab < R2022a
-% breaks try-catch for any py.* command
+% breaks for any py.* command when pyenv() is not correctly configured
 
 v = stdlib.python.version();
 
 % cache the result
 if ~isempty(v)
-  v_ = v;
+  stdlib_py_version = v;
 end
 
 end

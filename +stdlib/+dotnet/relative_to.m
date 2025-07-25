@@ -1,0 +1,22 @@
+function rel = relative_to(base, other)
+
+if strempty(other)
+  rel = base;
+  return
+end
+if strempty(base)
+  rel = other;
+  return
+end
+
+base = fullfile(base);
+other = fullfile(other);
+
+if stdlib.is_absolute(base) && ~(startsWith(base, other) || startsWith(other, base))
+  rel = "";
+else
+  % https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getrelativepath
+  rel = string(System.IO.Path.GetRelativePath(base, other));
+end
+
+end

@@ -17,7 +17,4 @@ if strempty(rel)
   rel = other;
 end
 
-
 end
-
-%!testif 0
