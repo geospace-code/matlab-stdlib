@@ -54,11 +54,6 @@ tc.verifyClass(pid, 'uint64')
 end
 
 
-function test_is_admin(tc)
-tc.verifyClass(stdlib.is_admin(), "logical")
-end
-
-
 function test_handle2filename(tc, ph)
 tc.verifyEqual(stdlib.handle2filename(ph{1}), ph{2})
 end

@@ -10,7 +10,7 @@ end
 if s == 0
   n = string(strtrim(n));  % Remove any trailing newline or spaces
 else
-  warning("Failed to get username from system command: %s", n);
+  warning("Failed to get username from system %s: %s", cmd, n);
   n = string.empty;
 end
 

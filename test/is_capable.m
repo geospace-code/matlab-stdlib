@@ -12,8 +12,8 @@ if contains(n, "dotnet")
 
   tc.assumeGreaterThan(dapi, 0)
 
-   if endsWith(n, ["owner"])
-     tc.assumeFalse(isunix(), "Windows only function")
+   if endsWith(n, ["is_admin", "owner"])
+     tc.assumeTrue(ispc(), "Windows only function")
    end
 
   if endsWith(n, ["create_symlink", "ram_total", "read_symlink"])
@@ -30,6 +30,10 @@ elseif contains(n, "java")
     tc.assumeGreaterThanOrEqual(japi, 11)
   end
 
+  if endsWith(n, "is_admin")
+    tc.assumeTrue(isunix())
+  end
+
 elseif contains(n, "python")
 
    tc.assumeTrue(stdlib.has_python())
@@ -40,8 +44,12 @@ elseif contains(n, "python")
      tc.assumeTrue(has_psutil, "need Python psutil package")
    end
 
-   if endsWith(n, ["owner"])
+   if endsWith(n, "owner")
      tc.assumeFalse(ispc(), "unix only function")
+   end
+
+   if endsWith(n, "is_admin")
+     tc.assumeTrue(isunix() || ~isMATLABReleaseOlderThan('R2024a'))
    end
 
 end

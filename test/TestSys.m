@@ -10,6 +10,7 @@ fun = {stdlib.isoctave, stdlib.has_dotnet, ...
 cpu_arch_fun = {@stdlib.cpu_arch, @stdlib.dotnet.cpu_arch, @stdlib.java.cpu_arch}
 host_fun = {@stdlib.hostname, @stdlib.dotnet.get_hostname, @stdlib.java.get_hostname, @stdlib.python.get_hostname}
 user_fun = {@stdlib.get_username, @stdlib.dotnet.get_username, @stdlib.java.get_username, @stdlib.python.get_username}
+is_admin_fun = {@stdlib.is_admin, @stdlib.sys.is_admin, @stdlib.dotnet.is_admin, @stdlib.java.is_admin, @stdlib.python.is_admin}
 ram_free_fun = {@stdlib.ram_free, @stdlib.sys.ram_free, @stdlib.java.ram_free, @stdlib.python.ram_free}
 ram_total_fun = {@stdlib.ram_total, @stdlib.sys.ram_total, @stdlib.dotnet.ram_total @stdlib.java.ram_total}
 end
@@ -23,6 +24,12 @@ end
 
 function test_is_cygwin(tc)
 tc.verifyFalse(stdlib.is_cygwin())
+end
+
+function test_is_admin(tc, is_admin_fun)
+is_capable(tc, is_admin_fun)
+tc.verifyClass(is_admin_fun(), "logical")
+tc.verifyNotEmpty(is_admin_fun())
 end
 
 function test_get_shell(tc)
