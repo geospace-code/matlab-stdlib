@@ -8,7 +8,11 @@ if stdlib.has_dotnet()
   n = System.Environment.UserName;
   % https://learn.microsoft.com/en-us/dotnet/api/system.environment.username
 elseif stdlib.has_java()
-  n = javaMethod("getProperty", "java.lang.System", "user.name");
+  n = stdlib.java.get_username();
+end
+
+if strempty(n)
+  n = stdlib.sys.get_username();
 end
 
 try  %#ok<*TRYNC>

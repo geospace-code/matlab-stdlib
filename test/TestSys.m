@@ -59,8 +59,6 @@ tc.verifyGreaterThan(strlength(h), 0)
 end
 
 function test_username(tc)
-tc.assumeTrue(stdlib.has_dotnet() || stdlib.has_java())
-
 u = stdlib.get_username();
 tc.verifyGreaterThan(strlength(u), 0)
 end
