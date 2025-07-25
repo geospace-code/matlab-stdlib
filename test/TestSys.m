@@ -129,15 +129,3 @@ end
 
 end
 
-
-function is_capable(tc, f)
-
-n = func2str(f);
-if contains(n, "java")
-  tc.assumeTrue(stdlib.has_java())
-end
-if contains(n, "python")
-  tc.assumeTrue(stdlib.has_python())
-end
-
-end
