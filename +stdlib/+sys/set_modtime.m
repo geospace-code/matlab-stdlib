@@ -1,5 +1,9 @@
 function ok = set_modtime(p, t)
 
+ok = false;
+
+if ~isfile(p), return, end
+
 if ispc()
   cmd = sprintf('pwsh -Command "(Get-Item ''%s'').LastWriteTime = ''%s''"', p, string(t, "yyyy-MM-dd HH:mm:ss"));
 elseif ismac()

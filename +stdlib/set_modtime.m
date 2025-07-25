@@ -6,32 +6,15 @@ arguments
   t (1,1) datetime
 end
 
-try
-  utc = convertTo(datetime(t, 'TimeZone', "UTC"), "posixtime");
-catch e
-  if strcmp(e.identifier, "Octave:undefined-function")
-    utc = t;
-  else
-    rethrow(e);
-  end
-end
+utc = convertTo(datetime(t, 'TimeZone', "UTC"), "posixtime");
 
 % Java or Python assume POSIX epoch time (seconds since Jan 1, 1970)
 if stdlib.has_java()
-  ok = javaObject("java.io.File", p).setLastModified(int64(utc) * 1000);
+  ok = stdlib.java.set_modtime(p, utc);
 elseif stdlib.has_python()
   ok = stdlib.python.set_modtime(p, utc);
-end
-
-if ~ok
+else
   ok = stdlib.sys.set_modtime(p, t);
 end
 
 end
-
-%!test
-%! p = tempname();
-%! t = now();
-%! assert(touch(p, t))
-%! assert(set_modtime(p, t))
-%! delete(p)
