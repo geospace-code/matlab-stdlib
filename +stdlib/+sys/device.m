@@ -1,11 +1,15 @@
 function i = device(p)
 
+i = [];
 
 if ispc()
-  cmd = "powershell -Command (Get-CimInstance -ClassName Win32_Volume -Filter 'DriveLetter = \"" + p(1) + "\"').DeviceID";
+  c0 = 'powershell -Command "(Get-CimInstance -ClassName Win32_Volume -Filter \"DriveLetter = ''';
+  c1 = stdlib.root_name(stdlib.resolve(p));
+  c2 = '''\").SerialNumber"';
+  cmd = strcat(c0, c1, c2);
 elseif ismac()
   cmd = "stat -f %d " + p;
-elseif isunix()
+else
   cmd = "stat -c %d " + p;
 end
 
@@ -14,5 +18,7 @@ end
 if s == 0
   i = str2double(m);
 end
+
+i = uint64(i);
 
 end
