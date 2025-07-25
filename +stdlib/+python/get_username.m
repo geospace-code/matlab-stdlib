@@ -1,7 +1,7 @@
 function n = get_username()
 
 try
-  n = string(py.os.getlogin());
+  n = string(py.getpass.getuser());
 catch e
   warning(e.identifier, "%s", e.message)
   n = string.empty;
