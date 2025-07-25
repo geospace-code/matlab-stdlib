@@ -8,6 +8,7 @@ properties (TestParameter)
 fun = {stdlib.isoctave, stdlib.has_dotnet, ...
        stdlib.has_java, stdlib.has_python}
 ram_free_fun = {@stdlib.ram_free, @stdlib.sys.ram_free, @stdlib.java.ram_free, @stdlib.python.ram_free}
+ram_total_fun = {@stdlib.ram_total, @stdlib.sys.ram_total, @stdlib.dotnet.ram_total @stdlib.java.ram_total}
 end
 
 
@@ -108,9 +109,10 @@ arch = stdlib.cpu_arch();
 tc.verifyGreaterThan(strlength(arch), 0, "CPU architecture should not be empty")
 end
 
-function test_ram_total(tc)
+function test_ram_total(tc, ram_total_fun)
+is_capable(tc, ram_total_fun)
 
-t = stdlib.ram_total();
+t = ram_total_fun();
 tc.verifyGreaterThan(t, 0)
 tc.verifyClass(t, 'uint64')
 end

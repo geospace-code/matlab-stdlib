@@ -11,11 +11,9 @@ function bytes = ram_total()
 bytes = 0;
 
 if stdlib.dotnet_api() >= 6
-  % .NET is 2-3x faster than Java for this
-  % https://learn.microsoft.com/en-us/dotnet/api/system.gcmemoryinfo.totalavailablememorybytes
-  bytes = System.GC.GetGCMemoryInfo().TotalAvailableMemoryBytes;
+  bytes = stdlib.dotnet.ram_total();
 elseif stdlib.has_java()
-  bytes = ram_total_java();
+  bytes = stdlib.java.ram_total();
 end
 
 if bytes <= 0
@@ -26,18 +24,5 @@ bytes = uint64(bytes);
 
 end
 
-
-function bytes = ram_total_java()
-% https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getTotalMemorySize()
-
-b = javaMethod("getOperatingSystemMXBean", "java.lang.management.ManagementFactory");
-
-if stdlib.java_api() < 14
-  bytes = b.getTotalPhysicalMemorySize();
-else
-  bytes = b.getTotalMemorySize();
-end
-
-end
 
 %!assert(ram_total()>0)
