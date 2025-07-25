@@ -26,16 +26,11 @@ elseif contains(n, "java")
     tc.assumeGreaterThanOrEqual(japi, 11)
   end
 
-elseif ~isMATLABReleaseOlderThan('R2022a') && contains(n, "python")
+elseif contains(n, "python")
 
    tc.assumeTrue(stdlib.has_python())
 
-   try 
-     py.psutil.version_info();
-     has_psutil = true;
-   catch
-     has_psutil = false;
-   end
+   has_psutil = pvt_psutil();
 
    if contains(n, ["ram_free", "ram_total"])
      tc.assumeTrue(has_psutil, "need Python psutil package")
