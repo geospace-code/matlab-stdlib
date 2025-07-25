@@ -5,12 +5,10 @@
 function t = filesystem_type(p)
 
 
-t = "";
-if ~stdlib.exists(p), return, end
+t = string.empty;
 
 if stdlib.has_dotnet()
-  t = System.IO.DriveInfo(stdlib.absolute(p)).DriveFormat;
-  % https://learn.microsoft.com/en-us/dotnet/api/system.io.driveinfo.driveformat
+  t = stdlib.dotnet.filesystem_type(p);
 elseif stdlib.has_java()
   t = stdlib.java.filesystem_type(p);
 elseif stdlib.has_python()
@@ -21,10 +19,4 @@ if strempty(p)
   t = stdlib.sys.filesystem_type(p);
 end
 
-try  %#ok<*TRYNC>
-  t = string(t);
 end
-
-end
-
-%!assert(!isempty(filesystem_type(pwd)))

@@ -1,5 +1,10 @@
 function t = filesystem_type(p)
 
+if ~stdlib.exists(p)
+  t = string.empty;
+  return
+end
+
 if ispc()
   dl = extractBefore(stdlib.absolute(p), 2);
   cmd = "pwsh -c (Get-Volume -DriveLetter " + dl + ").FileSystem";
@@ -11,9 +16,9 @@ end
 
 [s, t] = system(cmd);
 if s == 0
-  t = strip(t);
+  t = string(strip(t));
 else
-  t = "";
+  t = string.empty;
 end
 
 end

@@ -10,6 +10,7 @@ Po = {mfilename("fullpath") + ".m", pwd(), ".", "", tempname()}
 device_fun = {@stdlib.device, @stdlib.sys.device, @stdlib.java.device, @stdlib.python.device}
 disk_available_fun = {@stdlib.disk_available, @stdlib.sys.disk_available, @stdlib.dotnet.disk_available, @stdlib.java.disk_available, @stdlib.python.disk_available}
 disk_capacity_fun  = {@stdlib.disk_capacity,  @stdlib.sys.disk_capacity,  @stdlib.dotnet.disk_capacity,  @stdlib.java.disk_capacity,  @stdlib.python.disk_capacity}
+fst_fun = {@stdlib.filesystem_type, @stdlib.sys.filesystem_type, @stdlib.dotnet.filesystem_type, @stdlib.java.filesystem_type, @stdlib.python.filesystem_type}
 owner_fun = {@stdlib.get_owner, @stdlib.sys.get_owner, @stdlib.dotnet.get_owner, @stdlib.java.get_owner, @stdlib.python.get_owner}
 end
 
@@ -49,19 +50,18 @@ tc.verifyGreaterThanOrEqual(stdlib.hard_link_count(fn), 1)
 end
 
 
-function test_filesystem_type(tc, Ps)
+function test_filesystem_type(tc, Ps, fst_fun)
+is_capable(tc, fst_fun)
 
-s = stdlib.filesystem_type(Ps);
-tc.verifyClass(s, 'string')
-L = strlength(s);
+t = fst_fun(Ps);
+tc.verifyClass(t, 'string')
 
-tc.assumeFalse(isempty(L) && tc.CI, "Some CI block viewing their filesystem type")
-
+tc.assumeFalse(isempty(t) && tc.CI, "Some CI block viewing their filesystem type")
 
 if stdlib.exists(Ps)
-  tc.verifyGreaterThan(L, 0)
+  tc.verifyGreaterThan(strlength(t), 0)
 else
-  tc.verifyEqual(L, 0)
+  tc.verifyEmpty(t)
 end
 end
 

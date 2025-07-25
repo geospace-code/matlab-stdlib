@@ -25,7 +25,7 @@ elseif contains(n, "java")
   japi = stdlib.java_api();
   tc.assumeGreaterThan(japi, 0)
 
-  if endsWith(n, "device")
+  if endsWith(n, ["device", "inode"])
     tc.assumeTrue(isunix())
     tc.assumeGreaterThanOrEqual(japi, 11)
   end
@@ -36,7 +36,7 @@ elseif contains(n, "python")
 
    has_psutil = pvt_psutil();
 
-   if endsWith(n, ["ram_free", "ram_total"])
+   if endsWith(n, ["filesystem_type", "ram_free", "ram_total"])
      tc.assumeTrue(has_psutil, "need Python psutil package")
    end
 

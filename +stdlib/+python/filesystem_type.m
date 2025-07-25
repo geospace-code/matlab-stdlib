@@ -1,6 +1,11 @@
 function t = filesystem_type(p)
 
+
 t = string.empty;
+
+if ~stdlib.exists(p)
+  return
+end
 
 pr = stdlib.absolute(p);
 
