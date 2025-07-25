@@ -3,6 +3,7 @@ CodeIssues.sarif
 *.xml
 *.html
 
+release/
 resources/
 .buildtool/
 *.asv

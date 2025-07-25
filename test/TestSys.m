@@ -7,6 +7,7 @@ end
 properties (TestParameter)
 fun = {stdlib.isoctave, stdlib.has_dotnet, ...
        stdlib.has_java, stdlib.has_python}
+ram_free_fun = {@stdlib.ram_free, @stdlib.sys.ram_free, @stdlib.java.ram_free, @stdlib.python.ram_free}
 end
 
 
@@ -115,14 +116,28 @@ tc.verifyClass(t, 'uint64')
 end
 
 
-function test_ram_free(tc)
+function test_ram_free(tc, ram_free_fun)
 % don't verify less than or equal total due to shaky system measurements
-f = stdlib.ram_free();
+is_capable(tc, ram_free_fun)
+
+f = ram_free_fun();
 tc.verifyGreaterThan(f, 0)
 tc.verifyClass(f, 'uint64')
 end
 
 end
 
+end
+
+
+function is_capable(tc, f)
+
+n = func2str(f);
+if contains(n, "java")
+  tc.assumeTrue(stdlib.has_java())
+end
+if contains(n, "python")
+  tc.assumeTrue(stdlib.has_python())
+end
 
 end

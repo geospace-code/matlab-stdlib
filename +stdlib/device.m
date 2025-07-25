@@ -13,8 +13,7 @@ elseif ispc() && stdlib.has_dotnet()
   i = stdlib.dotnet.device(p);
 elseif isunix() && stdlib.java_api() >= 11
   % Java 1.8 is buggy in some corner cases, so we require at least 11.
-  opt = javaMethod("values", "java.nio.file.LinkOption");
-  i = java.nio.file.Files.getAttribute(javaPathObject(p), "unix:dev", opt);
+  i = stdlib.java.device(p);
 end
 
 if isempty(i)

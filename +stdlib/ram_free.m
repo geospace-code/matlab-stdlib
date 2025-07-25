@@ -23,7 +23,7 @@ function bytes = ram_free()
 bytes = 0;
 
 if stdlib.has_java()
-  bytes = ram_free_java();
+  bytes = stdlib.java.ram_free();
 elseif stdlib.has_python()
   bytes = stdlib.python.ram_free();
 end
@@ -35,18 +35,3 @@ end
 bytes = uint64(bytes);
 
 end
-
-
-function bytes = ram_free_java()
-
-b = javaMethod("getOperatingSystemMXBean", "java.lang.management.ManagementFactory");
-
-if stdlib.java_api() < 14
-  bytes = b.getFreePhysicalMemorySize();
-else
-  bytes = b.getFreeMemorySize();
-end
-
-end
-
-%!assert(ram_free() > 0)
