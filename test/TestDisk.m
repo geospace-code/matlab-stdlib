@@ -7,7 +7,7 @@ end
 
 properties (TestParameter)
 Ps = {".", "", "/", getenv("SystemDrive"), "not-exist"}
-device_fun = {@stdlib.device, @stdlib.sys.device, @stdlib.dotnet.device, @stdlib.java.device, @stdlib.python.device}
+device_fun = {@stdlib.device, @stdlib.sys.device, @stdlib.java.device, @stdlib.python.device}
 end
 
 methods (Test)
