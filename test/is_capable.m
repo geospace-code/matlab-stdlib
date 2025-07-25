@@ -12,6 +12,10 @@ if contains(n, "dotnet")
 
   tc.assumeGreaterThan(dapi, 0)
 
+  if contains(n, "ram_total")
+    tc.assumeGreaterThanOrEqual(dapi, 6);
+  end
+
 elseif contains(n, "java")
 
   japi = stdlib.java_api();
@@ -22,7 +26,7 @@ elseif contains(n, "java")
     tc.assumeGreaterThanOrEqual(japi, 11)
   end
 
-elseif contains(n, "python")
+elseif ~isMATLABReleaseOlderThan('R2022a') && contains(n, "python")
 
    tc.assumeTrue(stdlib.has_python())
 
