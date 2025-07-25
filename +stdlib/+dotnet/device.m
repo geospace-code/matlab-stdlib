@@ -1,5 +1,6 @@
-function i = device_dotnet(path)
+function i = device(path)
 
+i = [];
 
 h = NET.addAssembly('System.Management');
 

@@ -64,8 +64,6 @@ end
 
 function test_device(tc)
 
-tc.assumeTrue(stdlib.has_python() || (ispc() && stdlib.has_dotnet()) || (isunix() && stdlib.java_api() >= 11))
-
 if ispc()
   tc.verifyGreaterThan(stdlib.device(pwd()), 0)
 else
