@@ -1,7 +1,11 @@
 classdef TestSys < matlab.unittest.TestCase
 
+properties
+CI = getenv("CI") == "true" || getenv("GITHUB_ACTIONS") == "true"
+end
+
 properties (TestParameter)
-fun = {stdlib.isoctave, stdlib.isinteractive, stdlib.has_dotnet, ...
+fun = {stdlib.isoctave, stdlib.has_dotnet, ...
        stdlib.has_java, stdlib.has_python}
 end
 
@@ -14,6 +18,15 @@ end
 
 function test_is_cygwin(tc)
 tc.verifyFalse(stdlib.is_cygwin())
+end
+
+function test_get_shell(tc)
+tc.assumeFalse(tc.CI, "get_shell is not tested in CI due to platform differences")
+tc.verifyNotEmpty(stdlib.get_shell())
+end
+
+function test_is_interactive(tc)
+tc.verifyNotEqual(stdlib.isinteractive(), tc.CI)
 end
 
 function test_is_rosetta(tc)
