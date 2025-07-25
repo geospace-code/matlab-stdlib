@@ -78,7 +78,7 @@ end
 
 function test_owner(tc)
 
-s = stdlib.get_owner(".");
+s = stdlib.get_owner(mfilename("fullpath") + ".m");
 
 tc.verifyClass(s, 'string')
 tc.verifyGreaterThan(strlength(s), 0)

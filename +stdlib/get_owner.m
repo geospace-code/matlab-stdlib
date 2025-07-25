@@ -22,15 +22,14 @@ elseif stdlib.has_java()
 
   n = javaMethod("getOwner", "java.nio.file.Files", javaPathObject(p), opt).toString();
   % .toString() needed for Octave
-
-  try %#ok<*TRYNC>
-    n = string(n);
-  end
-
 end
 
 if strempty(n)
   n = stdlib.sys.get_owner(p);
+end
+
+try %#ok<*TRYNC>
+  n = string(n);
 end
 
 end
