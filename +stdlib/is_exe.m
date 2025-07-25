@@ -12,8 +12,7 @@ ok(size(p)) = false;
 i = isfile(p);
 
 if ispc()
-  pe = split(string(getenv("PATHEXT")), pathsep);
-  i = i & endsWith(stdlib.suffix(p(i)), pe, 'IgnoreCase', true);
+  i = i & has_windows_executable_suffix(p(i));
 end
 
 if ~any(i), return, end
