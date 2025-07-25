@@ -1,7 +1,7 @@
 classdef TestPermissions < matlab.unittest.TestCase
 
 properties (TestParameter)
-Ps = {".", pwd()}
+Ps = {".", pwd(), "", tempname()}
 end
 
 
@@ -12,8 +12,13 @@ import matlab.unittest.constraints.StartsWithSubstring
 
 p = stdlib.get_permissions(Ps);
 
-tc.verifyThat(p, StartsWithSubstring("r"))
 tc.verifyClass(p, "char")
+
+if stdlib.exists(Ps)
+  tc.verifyThat(p, StartsWithSubstring("r"))
+else
+  tc.verifyEmpty(p)
+end
 
 end
 

@@ -9,27 +9,31 @@ end
 
 p = '';
 
-try
+if ~stdlib.exists(f), return, end
+
+if ~isMATLABReleaseOlderThan('R2025a')
   v = filePermissions(f);
-catch e
-  switch e.identifier
-    case "MATLAB:UndefinedFunction", v = file_attributes_legacy(f);
-    case "Octave:undefined-function"
-      [s, err] = stat(f);
-      if err == 0
-        p = s.modestr;
-      end
-      return
-    otherwise, rethrow(e)
+elseif stdlib.isoctave()
+  [s, err] = stat(f);
+  if err == 0
+    p = s.modestr;
   end
+  return
+else
+  v = file_attributes_legacy(f);
 end
 
-p = perm2char(v);
+p = perm2char(v, f);
 
 end
 
 
-function p = perm2char(v)
+function p = perm2char(v, f)
+arguments
+  v (1,1)
+  f {mustBeTextScalar}
+end
+
 
 p = '---------';
 
@@ -41,29 +45,30 @@ elseif isstruct(v)
   if v.UserWrite, p(2) = 'w'; end
 else
   % cloud / remote locations we don't handle
-  p = [];
+  p = '';
   return
 end
 
+if isa(v, "matlab.io.WindowsPermissions") || ispc()
 
-if isfield(v, 'UserExecute') || isa(v, "matlab.io.UnixPermissions")
+  if p(1) == 'r' && has_windows_executable_suffix(f)
+    p(3) = 'x';
+  end
+
+  return
+
+else
+
   if v.UserExecute, p(3) = 'x'; end
-elseif ispc() && (isstruct(v) || isa(v, "matlab.io.WindowsPermissions"))
-  % on Windows, any readable file has executable permission
-  if p(1) == 'r',     p(3) = 'x'; end
-end
-
-
-if isstruct(v) || isa(v, "matlab.io.UnixPermissions")
-
-  if v.GroupRead,     p(4) = 'r'; end
-  if v.GroupWrite,    p(5) = 'w'; end
-  if v.GroupExecute,  p(6) = 'x'; end
-  if v.OtherRead,     p(7) = 'r'; end
-  if v.OtherWrite,    p(8) = 'w'; end
-  if v.OtherExecute,  p(9) = 'x'; end
 
 end
+
+if v.GroupRead,     p(4) = 'r'; end
+if v.GroupWrite,    p(5) = 'w'; end
+if v.GroupExecute,  p(6) = 'x'; end
+if v.OtherRead,     p(7) = 'r'; end
+if v.OtherWrite,    p(8) = 'w'; end
+if v.OtherExecute,  p(9) = 'x'; end
 
 end
 
