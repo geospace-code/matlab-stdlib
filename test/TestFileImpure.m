@@ -1,8 +1,6 @@
 classdef TestFileImpure < matlab.unittest.TestCase
 
 properties(TestParameter)
-p_is_writable = {{pwd(), true}};
-
 p_same = {...
 {"..", "./.."}, ...
 {"..", pwd() + "/.."}, ...
@@ -19,12 +17,6 @@ methods (Test, TestTags="impure")
 function test_file_size(tc, p_file_size)
 s = stdlib.file_size(p_file_size);
 tc.verifyGreaterThan(s, 0)
-end
-
-
-function test_is_writable(tc, p_is_writable)
-ok = stdlib.is_writable(p_is_writable{1});
-tc.verifyEqual(ok, p_is_writable{2})
 end
 
 

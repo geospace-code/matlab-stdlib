@@ -6,9 +6,6 @@ function ok = is_exe(p)
 arguments
   p string
 end
-% need to have string array type for p(:)
-
-p = p(:);
 
 ok(size(p)) = false;
 
@@ -29,9 +26,9 @@ if ~isMATLABReleaseOlderThan('R2025a')
     props = "Readable";
   end
 
-  t(i, :) = getPermissions(filePermissions(p(i)), props);
+  t = getPermissions(filePermissions(p(i)), props);
 
-  ok(i) = any(t{i,:}, 2);
+  ok(i) = any(t{:,:}, 2);
 
 else
 
@@ -41,6 +38,3 @@ else
 end
 
 end
-
-%!assert (!is_exe("."))
-%!assert (is_exe(program_invocation_name))

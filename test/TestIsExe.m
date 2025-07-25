@@ -1,14 +1,12 @@
 classdef TestIsExe < matlab.unittest.TestCase
 
 properties (TestParameter)
-p = {{fileparts(mfilename('fullpath')) + "/../Readme.md", false}}
+p = {{fileparts(mfilename('fullpath')) + "/../Readme.md", false}, {"not-exist", false}}
 end
 
 methods(Test, TestTags="impure")
 
 function test_is_exe(tc, p)
-tc.assumeThat(p{1}, matlab.unittest.constraints.IsFile)
-
 tc.verifyEqual(stdlib.is_exe(p{1}), p{2})
 end
 
