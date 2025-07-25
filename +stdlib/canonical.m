@@ -21,17 +21,13 @@ if strempty(p)
   return
 end
 
-try
+if isMATLABReleaseOlderThan('R2024a')
+  c = acanon(p);
+else
   pth = matlab.io.internal.filesystem.resolvePath(p);
   c = pth.ResolvedPath;
   if strempty(c)
     c = stdlib.normalize(p);
-  end
-catch e
-  if strcmp(e.identifier, 'MATLAB:undefinedVarOrClass') || startsWith(e.message, 'member')
-    c = acanon(p);
-  else
-    rethrow(e)
   end
 end
 
@@ -53,6 +49,3 @@ else
 end
 
 end
-
-%!assert(canonical(""), "")
-%!assert(canonical("."), pwd())
