@@ -10,12 +10,6 @@ if ~ismac(), return, end
 
 if s ~= 0, return, end
 
-v = regexp(m, 'version: (\d+\.\d+(\.\d+)+)', 'tokens', 'once');
-
-if isempty(v)
-    v = '';
-else
-    v = v{1};
-end
+v = regexp(m, '(?<=version: )(\d+\.\d+(\.\d+)+)', 'match', 'once');
 
 end
