@@ -30,7 +30,7 @@ elseif contains(n, "java")
     tc.assumeGreaterThanOrEqual(japi, 11)
   end
 
-  if endsWith(n, "is_admin")
+  if endsWith(n, ["hard_link_count", "is_admin"])
     tc.assumeTrue(isunix())
   end
 

@@ -12,16 +12,15 @@ end
 
 c = [];
 
-if stdlib.has_python()
+if isunix() && stdlib.has_java()
+  c = stdlib.java.hard_link_count(p);
+elseif stdlib.has_python()
   c = stdlib.python.hard_link_count(p);
 elseif stdlib.isoctave()
   [s, err] = stat(p);
   if err == 0
     c = s.nlink;
   end
-elseif isunix() && stdlib.has_java()
-  opt = javaMethod("values", "java.nio.file.LinkOption");
-  c = java.nio.file.Files.getAttribute(javaPathObject(p), "unix:nlink", opt);
 end
 
 end

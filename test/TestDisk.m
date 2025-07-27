@@ -11,6 +11,7 @@ device_fun = {@stdlib.device, @stdlib.sys.device, @stdlib.java.device, @stdlib.p
 inode_fun = {@stdlib.inode, @stdlib.sys.inode, @stdlib.java.inode, @stdlib.python.inode}
 disk_available_fun = {@stdlib.disk_available, @stdlib.sys.disk_available, @stdlib.dotnet.disk_available, @stdlib.java.disk_available, @stdlib.python.disk_available}
 disk_capacity_fun  = {@stdlib.disk_capacity,  @stdlib.sys.disk_capacity,  @stdlib.dotnet.disk_capacity,  @stdlib.java.disk_capacity,  @stdlib.python.disk_capacity}
+hl_fun = {@stdlib.hard_link_count, @stdlib.java.hard_link_count, @stdlib.python.hard_link_count}
 fst_fun = {@stdlib.filesystem_type, @stdlib.sys.filesystem_type, @stdlib.dotnet.filesystem_type, @stdlib.java.filesystem_type, @stdlib.python.filesystem_type}
 owner_fun = {@stdlib.get_owner, @stdlib.sys.get_owner, @stdlib.dotnet.get_owner, @stdlib.java.get_owner, @stdlib.python.get_owner}
 end
@@ -43,11 +44,12 @@ end
 end
 
 
-function test_hard_link_count(tc)
-tc.assumeTrue(stdlib.has_python() || (isunix() && stdlib.has_java()))
+function test_hard_link_count(tc, hl_fun)
+is_capable(tc, hl_fun)
+
 fn = mfilename("fullpath") + ".m";
 
-tc.verifyGreaterThanOrEqual(stdlib.hard_link_count(fn), 1)
+tc.verifyGreaterThanOrEqual(hl_fun(fn), 1)
 end
 
 
