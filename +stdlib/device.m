@@ -5,19 +5,13 @@ arguments
   p {mustBeTextScalar}
 end
 
-i = [];
-
-if stdlib.has_python()
-  i = stdlib.python.device(p);
-elseif isunix() && stdlib.has_java()
+if isunix() && stdlib.has_java()
   i = stdlib.java.device(p);
-end
-
-if isempty(i)
+elseif stdlib.has_python()
+  i = stdlib.python.device(p);
+else
   i = stdlib.sys.device(p);
 end
-
-i = uint64(i);
 
 end
 

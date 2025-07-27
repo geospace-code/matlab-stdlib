@@ -4,18 +4,13 @@
 
 function t = filesystem_type(p)
 
-
-t = string.empty;
-
-if stdlib.has_dotnet()
-  t = stdlib.dotnet.filesystem_type(p);
-elseif stdlib.has_java()
+if stdlib.has_java()
   t = stdlib.java.filesystem_type(p);
-elseif stdlib.has_python()
+elseif stdlib.has_dotnet()
+  t = stdlib.dotnet.filesystem_type(p);
+elseif stdlib.python.has_psutil()
   t = stdlib.python.filesystem_type(p);
-end
-
-if strempty(p)
+else
   t = stdlib.sys.filesystem_type(p);
 end
 

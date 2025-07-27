@@ -20,15 +20,11 @@
 
 function bytes = ram_free()
 
-bytes = 0;
-
 if stdlib.has_java()
   bytes = stdlib.java.ram_free();
-elseif stdlib.has_python()
+elseif stdlib.python.has_psutil()
   bytes = stdlib.python.ram_free();
-end
-
-if bytes <= 0
+else
   bytes = stdlib.sys.ram_free();
 end
 

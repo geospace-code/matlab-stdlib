@@ -33,10 +33,8 @@ elseif contains(n, "python")
 
    tc.assumeTrue(stdlib.has_python())
 
-   has_psutil = pvt_psutil();
-
    if endsWith(n, ["filesystem_type", "ram_free", "ram_total"])
-     tc.assumeTrue(has_psutil, "need Python psutil package")
+     tc.assumeTrue(stdlib.python.has_psutil(), "need Python psutil package")
    end
 
    if endsWith(n, "owner")
