@@ -40,7 +40,7 @@ From before Matlab R2019b to at least Matlab R2025a, the Matlab factory Java ver
 Java 11 or newer is recommended for more robustness if relying on Java functionality.
 
 If desired (not used by Matlab-stdlib), one can use non-factory Java classes in
-[Matlab](](https://www.mathworks.com/help/matlab/matlab_external/static-path-of-java-class-path.html))
+[Matlab](https://www.mathworks.com/help/matlab/matlab_external/static-path-of-java-class-path.html))
 and
 [GNU Octave](https://docs.octave.org/interpreter/Making-Java-Classes-Available.html).
 
@@ -79,6 +79,12 @@ Or for the Amazon Corretto JDK 11 on macOS:
 
 ```matlab
 jenv("/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home/")
+```
+
+On Windows, obtain OpenJDK with WinGet, which installs under "$Env:ProgramFiles/Microsoft/jdk-*":
+
+```sh
+winget install Microsoft.OpenJDK.11
 ```
 
 To

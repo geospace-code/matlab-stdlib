@@ -1,11 +1,14 @@
 function i = inode(p)
 
+i = [];
+
 try
   i = int64(py.os.stat(p).st_ino);
   % int64 first is for Matlab <= R2022a
 catch e
-  warning(e.identifier, "%s", e.message)
-  i = [];
+  if ~contains(e.message, "FileNotFoundError")
+    warning(e.identifier, "inode(%s) failed: %s", p, e.message)
+  end
 end
 
 i = uint64(i);

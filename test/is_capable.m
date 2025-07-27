@@ -25,12 +25,7 @@ elseif contains(n, "java")
   japi = stdlib.java_api();
   tc.assumeGreaterThan(japi, 0)
 
-  if endsWith(n, ["device", "inode"])
-    tc.assumeTrue(isunix())
-    tc.assumeGreaterThanOrEqual(japi, 11)
-  end
-
-  if endsWith(n, ["hard_link_count", "is_admin"])
+  if endsWith(n, ["device", "inode", "hard_link_count", "is_admin"])
     tc.assumeTrue(isunix())
   end
 

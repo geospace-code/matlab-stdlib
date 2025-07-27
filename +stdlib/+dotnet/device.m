@@ -27,4 +27,6 @@ end
 
 delete(h)
 
+i = uint64(i);
+
 end
