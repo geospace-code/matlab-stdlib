@@ -72,11 +72,9 @@ end
 function test_device(tc, device_fun)
 is_capable(tc, device_fun)
 
-if ispc()
-  tc.verifyGreaterThan(device_fun(pwd()), 0)
-else
-  tc.verifyEqual(device_fun("."), device_fun(pwd()))
-end
+tc.verifyGreaterThan(device_fun(pwd()), uint64(0))
+tc.verifyEqual(device_fun("."), device_fun(pwd()))
+
 end
 
 
