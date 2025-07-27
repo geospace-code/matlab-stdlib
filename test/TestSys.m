@@ -32,6 +32,15 @@ tc.verifyClass(is_admin_fun(), "logical")
 tc.verifyNotEmpty(is_admin_fun())
 end
 
+
+function test_get_pid(tc)
+pid = stdlib.get_pid();
+
+tc.verifyGreaterThan(pid, 0)
+tc.verifyClass(pid, 'uint64')
+end
+
+
 function test_get_shell(tc)
 tc.assumeFalse(tc.CI, "get_shell is not tested in CI due to platform differences")
 tc.verifyNotEmpty(stdlib.get_shell())

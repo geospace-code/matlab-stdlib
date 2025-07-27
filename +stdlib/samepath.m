@@ -16,31 +16,10 @@ arguments
   path2 {mustBeTextScalar}
 end
 
-y = stdlib.exists(path1) && stdlib.exists(path2);
-
-if ~y, return; end
-
-if ~ispc() && stdlib.isoctave()
-  [r1, e1] = stat(path1);
-  [r2, e2] = stat(path2);
-
-  y = e1 == 0 && e2 == 0 && ...
-      r1.ino == r2.ino && r1.dev == r2.dev;
-
-elseif stdlib.has_dotnet()
-  separators = [System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar];
-  f1 = System.IO.Path.GetFullPath(path1).TrimEnd(separators);
-  f2 = System.IO.Path.GetFullPath(path2).TrimEnd(separators);
-  y = System.String.Equals(f1, f2, System.StringComparison.OrdinalIgnoreCase);
-elseif stdlib.java_api() >= 11
-% https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/nio/file/Files.html#isSameFile(java.nio.file.Path,java.nio.file.Path)
-% Java 1.8 is buggy in some corner cases, so we require at least 11.
-  y = java.nio.file.Files.isSameFile(javaPathObject(path1), javaPathObject(path2));
-
+if stdlib.has_python()
+  y = stdlib.python.samepath(path1, path2);
 else
-
-  y = strcmp(stdlib.canonical(path1), stdlib.canonical(path2));
-
+  y = stdlib.sys.samepath(path1, path2);
 end
 
 %!assert(samepath(".", "."))

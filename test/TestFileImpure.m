@@ -1,14 +1,17 @@
 classdef TestFileImpure < matlab.unittest.TestCase
 
 properties(TestParameter)
-p_same = {...
-{"..", "./.."}, ...
-{"..", pwd() + "/.."}, ...
-{pwd(), pwd() + "/."}}
-
 ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname()), ''}}
 
 p_file_size = {mfilename("fullpath") + ".m"}
+end
+
+
+methods(TestClassSetup)
+function pkg_path(tc)
+p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(p)
+end
 end
 
 
@@ -31,26 +34,8 @@ function test_makedir(tc)
 import matlab.unittest.constraints.IsFolder
 d = tempname();
 stdlib.makedir(d)
-tc.assertThat(d, IsFolder)
+tc.verifyThat(d, IsFolder)
 rmdir(d)
-end
-
-%%
-function test_samepath(tc, p_same)
-tc.verifyTrue(stdlib.samepath(p_same{1}, p_same{2}))
-end
-
-function test_samepath_notexist(tc)
-tc.verifyFalse(stdlib.samepath("", ""))
-t = tempname();
-tc.verifyFalse(stdlib.samepath(t, t))
-end
-
-
-function test_get_pid(tc)
-pid = stdlib.get_pid();
-tc.verifyGreaterThan(pid, 0)
-tc.verifyClass(pid, 'uint64')
 end
 
 
