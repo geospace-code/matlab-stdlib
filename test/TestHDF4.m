@@ -10,6 +10,11 @@ import matlab.unittest.constraints.IsFile
 tc.file = fullfile(matlabroot, "toolbox/matlab/demos/example.hdf");
 tc.assumeThat(tc.file, IsFile)
 end
+
+function pkg_path(tc)
+msp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(msp)
+end
 end
 
 methods (Test, TestTags="hdf4")

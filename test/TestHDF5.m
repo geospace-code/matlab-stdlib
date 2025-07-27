@@ -21,6 +21,11 @@ end
 
 methods(TestClassSetup)
 
+function pkg_path(tc)
+msp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(msp)
+end
+
 function set_temp_wd(tc)
 if isMATLABReleaseOlderThan('R2022a')
   tc.td = tempname();

@@ -2,7 +2,14 @@ classdef TestFilename < matlab.unittest.TestCase
 
 properties (TestParameter)
 p = init_p()
-e = {'/a/b/c/', "/a/b/c/"}
+e = {'/a/b/c/', "a/b/c/"}
+end
+
+methods(TestClassSetup)
+function pkg_path(tc)
+msp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(msp)
+end
 end
 
 methods (Test, TestTags="pure")
@@ -25,7 +32,7 @@ p = {
 {"Hi", "Hi"}, ...
 {"/a/b/c", "c"}, ...
 {'a/b/c.txt', 'c.txt'}, ...
-{"a/b/c.txt.gz", "c.txt.gz"}, ...
+{"a///b//c.txt.gz", "c.txt.gz"}, ...
 {"a/b/.hello", ".hello"}
 };
 

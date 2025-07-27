@@ -4,6 +4,13 @@ properties (TestParameter)
 p = {{fileparts(mfilename('fullpath')) + "/../Readme.md", false}, {"not-exist", false}}
 end
 
+methods(TestClassSetup)
+function pkg_path(tc)
+msp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(msp)
+end
+end
+
 methods(Test, TestTags="impure")
 
 function test_is_exe(tc, p)

@@ -16,6 +16,13 @@ fst_fun = {@stdlib.filesystem_type, @stdlib.sys.filesystem_type, @stdlib.dotnet.
 owner_fun = {@stdlib.get_owner, @stdlib.sys.get_owner, @stdlib.dotnet.get_owner, @stdlib.java.get_owner, @stdlib.python.get_owner}
 end
 
+methods(TestClassSetup)
+function pkg_path(tc)
+p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(p)
+end
+end
+
 methods (Test)
 
 function test_disk_available(tc, Ps, disk_available_fun)

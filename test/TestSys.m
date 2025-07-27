@@ -95,11 +95,13 @@ tc.verifyGreaterThan(stdlib.cpu_count(), 0)
 end
 
 function test_checkRAM(tc)
-tc.verifyClass(stdlib.checkRAM(1, "double"), "logical")
+tc.verifyTrue(stdlib.checkRAM(1, "double"))
 end
 
 function test_is_parallel(tc)
-tc.verifyClass(stdlib.is_parallel_worker(), 'logical')
+ip = stdlib.is_parallel_worker();
+tc.verifyNotEmpty(ip)
+tc.verifyClass(ip, 'logical')
 end
 
 function test_hostname(tc, host_fun)
