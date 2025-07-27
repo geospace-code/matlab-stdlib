@@ -1,6 +1,6 @@
 function i = inode(m)
 
-i = [];
+i = 0;
 
 if ispc()
   cmd = "fsutil file queryfileid " + m;

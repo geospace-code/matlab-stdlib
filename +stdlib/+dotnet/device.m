@@ -2,7 +2,7 @@ function i = device(path)
 
 % this has been not so stable, so we disabled it and leave it here for reference.
 
-i = [];
+i = 0;
 
 h = NET.addAssembly('System.Management');
 

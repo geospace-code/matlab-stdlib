@@ -7,15 +7,11 @@ arguments
   p {mustBeTextScalar}
 end
 
-i = [];
-
-if stdlib.has_python()
-  i = stdlib.python.inode(p);
-elseif isunix() && stdlib.has_java()
+if isunix() && stdlib.has_java()
   i = stdlib.java.inode(p);
-end
-
-if isempty(i)
+elseif stdlib.has_python()
+  i = stdlib.python.inode(p);
+else
   i = stdlib.sys.inode(p);
 end
 

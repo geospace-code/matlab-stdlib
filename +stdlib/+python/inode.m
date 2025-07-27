@@ -1,6 +1,6 @@
 function i = inode(p)
 
-i = [];
+i = 0;
 
 try
   i = int64(py.os.stat(p).st_ino);
