@@ -5,8 +5,21 @@
 %%% Outputs
 % filename (including suffix) without directory
 
-function f = filename(p)
+function f = filename(p, method)
+arguments
+  p
+  method = 'pattern'
+end
 
-f = extractAfter(p, asManyOfPattern(wildcardPattern + ("/" | filesep)));
+% the pattern method is a few percent faster than regexp  
+switch method
+  case 'pattern', f = extractAfter(p, asManyOfPattern(wildcardPattern + ("/" | filesep)));
+  case 'regexp'
+    f = regexp(p, ['[^/\' filesep ']*$'], 'match', 'once');
+    try %#ok<TRYNC>
+      f(ismissing(f)) = "";
+    end
+  otherwise, error('unknown method %s', method)
+end
 
 end
