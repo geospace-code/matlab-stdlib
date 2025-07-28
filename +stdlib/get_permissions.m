@@ -51,7 +51,7 @@ end
 
 if isa(v, "matlab.io.WindowsPermissions") || ispc()
 
-  if p(1) == 'r' && has_windows_executable_suffix(f)
+  if p(1) == 'r' && stdlib.native.has_windows_executable_suffix(f)
     p(3) = 'x';
   end
 

@@ -12,7 +12,7 @@ if ~isMATLABReleaseOlderThan('R2025a')
   end
 
   t = getPermissions(filePermissions(p), props);
-  y = t.Writable;
+  y = any(t{1, :});
 
 else
   a = stdlib.native.file_attributes(p);
