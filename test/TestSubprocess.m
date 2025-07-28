@@ -1,13 +1,10 @@
 classdef TestSubprocess < matlab.unittest.TestCase
 
-properties
-td
-end
-
 properties (TestParameter)
 lang_out = {"c", "fortran"}
 lang_in = {"cpp", "fortran"}
 end
+
 
 methods(TestClassSetup)
 
@@ -16,24 +13,8 @@ p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath
 tc.applyFixture(p)
 end
 
-function set_temp_wd(tc)
-if isMATLABReleaseOlderThan('R2022a')
-  tc.td = tempname();
-  mkdir(tc.td);
-else
-  tc.td = tc.createTemporaryFolder();
-end
-end
 end
 
-methods(TestClassTeardown)
-function remove_temp_wd(tc)
-if isMATLABReleaseOlderThan('R2022a')
-  [s, m, i] = rmdir(tc.td, 's');
-  if ~s, warning(i, "Failed to remove temporary directory %s: %s", tc.td, m); end
-end
-end
-end
 
 methods (Test, TestTags=["exe"])
 
@@ -45,6 +26,11 @@ exe = fullfile(cwd, "stdout_stderr_" + lang_out + ".exe");
 tc.assumeThat(exe, IsFile)
 
 [status, msg] = stdlib.subprocess_run(exe);
+
+if ispc()
+  tc.assumeNotEqual(status, -1073741515, "GCC DLLs probably not on PATH")
+end
+
 tc.assertEqual(status, 0)
 tc.verifySubstring(msg, 'stderr')
 tc.verifySubstring(msg, 'stdout')
@@ -66,6 +52,10 @@ exe = fullfile(cwd, "stdin_" + lang_in + ".exe");
 tc.assumeThat(exe, matlab.unittest.constraints.IsFile)
 
 [status, msg] = stdlib.subprocess_run(exe, stdin="1 2");
+
+if ispc()
+  tc.assumeNotEqual(status, -1073741515, "GCC DLLs probably not on PATH")
+end
 
 tc.assertEqual(status, 0)
 tc.verifyEqual(msg, '3')
@@ -126,6 +116,11 @@ switch lang_out
 end
 
 [status, msg, err] = stdlib.java_run(exe);
+
+if ispc()
+  tc.assumeNotEqual(status, -1073741515, "GCC DLLs probably not on PATH")
+end
+
 tc.assertEqual(status, 0, err)
 tc.verifySubstring(msg, "stdout")
 tc.verifyEqual(err, "stderr")
@@ -146,6 +141,10 @@ end
 
 [status, msg, err] = stdlib.java_run(exe, stdin="1 2");
 
+if ispc()
+  tc.assumeNotEqual(status, -1073741515, "GCC DLLs probably not on PATH")
+end
+
 tc.assertEqual(status, 0, err)
 tc.verifyEqual(msg, "3")
 tc.verifyEqual(err, "")
@@ -153,6 +152,12 @@ end
 
 
 function test_java_cwd(tc)
+
+if isMATLABReleaseOlderThan('R2022a')
+  td = tempdir;
+else
+  td = tc.createTemporaryFolder();
+end
 
 if ispc
   c = ["cmd", "/c", "dir"];
@@ -165,7 +170,7 @@ tc.assertEqual(s, 0, "status non-zero")
 tc.verifyGreaterThan(strlength(m), 0, "empty directory not expected")
 tc.verifyEqual(strlength(e), 0, e)
 
-[s, mc, e] = stdlib.java_run(c, cwd=tc.td);
+[s, mc, e] = stdlib.java_run(c, cwd=td);
 tc.assertEqual(s, 0, "status non-zero")
 tc.verifyNotEqual(m, mc, "expected different directory to have different contents")
 tc.verifyEqual(strlength(e), 0, e)
