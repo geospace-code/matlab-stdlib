@@ -11,21 +11,12 @@ arguments
   pth {mustBeTextScalar}
 end
 
-f = fullfile(char(pth));
-if endsWith(f, {'/', filesep}) && ~strcmp(f, stdlib.root(f))
-  f = f(1:end-1);
-end
-
-p = fileparts(f);
-
-if stdlib.strempty(p)
-  p = '.';
-elseif ispc() && strcmp(p, stdlib.root_name(pth))
-  p = strcat(p, filesep);
-end
-
-if isstring(pth)
-  p = string(p);
+if stdlib.has_java()
+  p = stdlib.java.parent(pth);
+elseif stdlib.has_python()
+  p = stdlib.python.parent(pth);
+else
+  p = stdlib.native.parent(pth);
 end
 
 end
