@@ -4,7 +4,13 @@ properties (TestParameter)
 p = {{"", false}, {"x", false}, {"x:", false}}
 pu = {{"x:/foo", false}, {"/foo", true}}
 pw = {{"x:/foo", true}, {"/foo", false}}
+end
 
+methods(TestClassSetup)
+function pkg_path(tc)
+p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(p)
+end
 end
 
 methods (Test, TestTags="pure")
@@ -39,5 +45,3 @@ end
 end
 
 end
-
-

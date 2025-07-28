@@ -4,6 +4,12 @@ properties (TestParameter)
 Ps = {".", pwd(), "", tempname(), mfilename('fullpath') + ".m"}
 end
 
+methods(TestClassSetup)
+function pkg_path(tc)
+p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(p)
+end
+end
 
 methods (Test, TestTags="impure")
 

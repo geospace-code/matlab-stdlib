@@ -1,8 +1,5 @@
 classdef TestWithSuffix < matlab.unittest.TestCase
 
-properties
-is_mex = stdlib.is_mex_fun("stdlib.with_suffix")
-end
 
 properties (TestParameter)
 p = {{"foo.h5", ".nc", "foo.nc"},...
@@ -17,17 +14,19 @@ p = {{"foo.h5", ".nc", "foo.nc"},...
 {'a/b', '.nc', "a/b.nc"}};
 end
 
+methods(TestClassSetup)
+function pkg_path(tc)
+p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(p)
+end
+end
+
 methods (Test, TestTags="true")
 function test_with_suffix(tc, p)
 
-if tc.is_mex
-  r = string(p{3});
-else
-  r = p{3};
-end
+r = p{3};
 
-tc.verifyEqual(stdlib.with_suffix(p{1}, p{2}), r, ...
-    sprintf("mex: %d", tc.is_mex))
+tc.verifyEqual(stdlib.with_suffix(p{1}, p{2}), r)
 end
 end
 

@@ -5,6 +5,12 @@ p = init_norm()
 d = init_drop_slash()
 end
 
+methods(TestClassSetup)
+function pkg_path(tc)
+p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(p)
+end
+end
 
 methods (Test, TestTags="pure")
 function test_normalize(tc, p)

@@ -17,6 +17,13 @@ p = {{"", "", ""}, ...
 }
 end
 
+methods(TestClassSetup)
+function pkg_path(tc)
+p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(p)
+end
+end
+
 methods (Test, TestTags="pure")
 function test_join(tc, p)
 tc.verifyEqual(stdlib.join(p{1}, p{2}), p{3})

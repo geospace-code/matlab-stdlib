@@ -1,12 +1,5 @@
 classdef TestExists < matlab.unittest.TestCase
 
-methods(TestClassSetup)
-function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(p)
-end
-end
-
 properties(TestParameter)
 Ps = {
 {pwd(), true}, ...
@@ -15,6 +8,13 @@ Ps = {
 {tempname(), false}
 }
 % on CI matlabroot can be writable!
+end
+
+methods(TestClassSetup)
+function pkg_path(tc)
+p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(p)
+end
 end
 
 methods (Test, TestTags="impure")

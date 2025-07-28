@@ -5,8 +5,11 @@ p_is_prefix = init_is_prefix()
 p_is_subdir = init_is_subdir()
 end
 
-properties
-is_mex = stdlib.is_mex_fun("stdlib.drop_slash")
+methods(TestClassSetup)
+function pkg_path(tc)
+p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(p)
+end
 end
 
 
@@ -14,12 +17,12 @@ methods (Test, TestTags="pure")
 
 function test_is_subdir(tc, p_is_subdir)
 tc.verifyEqual(stdlib.is_subdir(p_is_subdir{1}, p_is_subdir{2}), p_is_subdir{3}, ...
- sprintf("subdir(%s, %s)  mex: %d", p_is_subdir{1}, p_is_subdir{2}, tc.is_mex))
+ sprintf("subdir(%s, %s)", p_is_subdir{1}, p_is_subdir{2}))
 end
 
 function test_is_prefix(tc, p_is_prefix)
 tc.verifyEqual(stdlib.is_prefix(p_is_prefix{1}, p_is_prefix{2}), p_is_prefix{3}, ...
-  sprintf("prefix(%s, %s)  mex: %d", p_is_prefix{1}, p_is_prefix{2}, tc.is_mex))
+  sprintf("prefix(%s, %s)", p_is_prefix{1}, p_is_prefix{2}))
 end
 
 end

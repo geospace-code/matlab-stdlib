@@ -13,6 +13,13 @@ p = {{'', ''}, {"", ""}, ...
 {"~" + filesep() + "c", fullfile(stdlib.homedir(), "c")}};
 end
 
+methods(TestClassSetup)
+function pkg_path(tc)
+p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(p)
+end
+end
+
 methods(Test, TestTags="impure")
 
 function test_expanduser(tc, p)

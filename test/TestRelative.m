@@ -5,6 +5,13 @@ pr = init_rel()
 pp = init_prox()
 end
 
+methods(TestClassSetup)
+function pkg_path(tc)
+p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(p)
+end
+end
+
 methods (Test)
 
 function test_relative_to(tc, pr)

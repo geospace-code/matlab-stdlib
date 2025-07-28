@@ -6,6 +6,13 @@ rn = init_root_name()
 rd = init_root_dir()
 end
 
+methods(TestClassSetup)
+function pkg_path(tc)
+msp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(msp)
+end
+end
+
 methods (Test, TestTags="pure")
 
 function test_root(tc, p)

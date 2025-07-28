@@ -5,8 +5,6 @@ import matlab.unittest.selectors.HasTag
 sel = ~HasTag("exe") & ~HasTag("mex");
 
 cwd = fileparts(mfilename('fullpath'));
-root = fileparts(cwd);
-addpath(root)
 
 if isMATLABReleaseOlderThan('R2022b')
   suite = testsuite(cwd);

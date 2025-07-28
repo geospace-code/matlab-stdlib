@@ -17,6 +17,13 @@ p = {...
 
 end
 
+methods(TestClassSetup)
+function pkg_path(tc)
+p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(p)
+end
+end
+
 methods (Test, TestTags="pure")
 function test(tc, p)
 tc.verifyEqual(stdlib.stem(p{1}), p{2})

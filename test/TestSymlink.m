@@ -15,6 +15,12 @@ is_symlink_fun   = {@stdlib.is_symlink,   @stdlib.sys.is_symlink,   @stdlib.dotn
 read_symlink_fun = {@stdlib.read_symlink, @stdlib.sys.read_symlink, @stdlib.dotnet.read_symlink, @stdlib.java.read_symlink, @stdlib.python.read_symlink}
 end
 
+methods(TestClassSetup)
+function pkg_path(tc)
+slp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(slp)
+end
+end
 
 methods(TestMethodSetup)
 % needs to be per-method because multiple functions are used to make the same files

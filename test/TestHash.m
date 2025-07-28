@@ -9,6 +9,13 @@ Ph = {{'md5', '5d41402abc4b2a76b9719d911017c592'}, ...
       {'sha-256', '2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824'}}
 end
 
+methods(TestClassSetup)
+function pkg_path(tc)
+p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(p)
+end
+end
+
 
 methods(TestMethodSetup)
 function set_temp_wd(tc)

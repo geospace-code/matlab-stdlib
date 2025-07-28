@@ -24,6 +24,11 @@ else
 end
 end
 
+function pkg_path(tc)
+p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(p)
+end
+
 function setup_file(tc)
 
 tc.A0 = 42.;

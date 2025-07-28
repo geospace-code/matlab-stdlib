@@ -1,5 +1,12 @@
 classdef TestMex < matlab.unittest.TestCase
 
+methods(TestClassSetup)
+function pkg_path(tc)
+p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(p)
+end
+end
+
 methods (Test, TestTags = "mex")
 
 function test_remove_file(tc)

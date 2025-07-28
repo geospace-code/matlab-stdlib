@@ -11,8 +11,15 @@ p = {{"", ""}, {"/a/b/c", ""}, ...
   {'.stat.txt', ".txt"}}
 end
 
+methods(TestClassSetup)
+function pkg_path(tc)
+p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(p)
+end
+end
+
 methods (Test, TestTags="pure")
-function test(tc, p)
+function test_suffix(tc, p)
 tc.verifyEqual(stdlib.suffix(p{1}), p{2})
 end
 end
