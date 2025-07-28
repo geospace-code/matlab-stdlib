@@ -25,6 +25,10 @@ end
 
 methods (Test, TestTags="impure")
 
+function test_platform_tell(tc)
+tc.verifyClass(stdlib.platform_tell(), 'char')
+end
+
 function test_platform_logical(tc, fun)
 tc.verifyClass(fun(), 'logical')
 end

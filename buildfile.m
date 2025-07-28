@@ -4,8 +4,6 @@ assert(~isMATLABReleaseOlderThan("R2022b"), "MATLAB R2022b or newer is required 
 
 plan = buildplan(localfunctions);
 
-pkg_name = "+stdlib";
-
 if isMATLABReleaseOlderThan("R2023b")
   plan("clean") =matlab.buildtool.Task();
 else
@@ -23,10 +21,13 @@ cmex = HasTag("mex");
 
 cjava = HasTag("java") & ~HasTag("exe");
 
+pkg_root = fullfile(plan.RootFolder, "+stdlib");
+test_root = fullfile(plan.RootFolder, "test");
+
 if isMATLABReleaseOlderThan("R2023b")
   plan("test_exe") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, HasTag("exe")), Dependencies="exe");
 elseif isMATLABReleaseOlderThan("R2024b")
-  plan("test_exe") = matlab.buildtool.tasks.TestTask("test", Tag="exe", Dependencies="exe");
+  plan("test_exe") = matlab.buildtool.tasks.TestTask(test_root, Tag="exe", Dependencies="exe");
 end
 
 if isMATLABReleaseOlderThan("R2024b")
@@ -38,34 +39,40 @@ if isMATLABReleaseOlderThan("R2024b")
 elseif isMATLABReleaseOlderThan("R2025a")
 
   plan("test:java")  = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cjava));
-  plan("test:exe")   = matlab.buildtool.tasks.TestTask("test", Tag="exe", Dependencies="exe");
+  plan("test:exe")   = matlab.buildtool.tasks.TestTask(test_root, Tag="exe", Dependencies="exe");
   plan("test:nomex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnomex), Dependencies="clean");
   plan("test:mex")   = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cmex), Dependencies="mex");
 
 else
-  plan("test:exe")   = matlab.buildtool.tasks.TestTask("test", Tag="exe", Description="test subprocess",...
-                         SourceFiles=["+stdlib/", "test/*.cpp", "test/*.c", "test/*.f90"], ...
+  plan("test:exe")   = matlab.buildtool.tasks.TestTask(test_root, Tag="exe", Description="test subprocess",...
+                         SourceFiles=[pkg_root, test_root + ["/*.cpp", "/*.c", "/*.f90"]], ...
                          RunOnlyImpactedTests=true,...
                          Dependencies="exe", TestResults="TestResults_exe.xml", Strict=true);
 
-  plan("test:nomex") = matlab.buildtool.tasks.TestTask("test", Description="Test non-MEX targets",...
-                         Selector=cnomex, SourceFiles="+stdlib/", RunOnlyImpactedTests=true,...
+  plan("test:nomex") = matlab.buildtool.tasks.TestTask(test_root, Description="Test non-MEX targets",...
+                         Selector=cnomex, ...
+                         SourceFiles=pkg_root, RunOnlyImpactedTests=true,...
                          dependencies="clean_mex", TestResults="TestResults_nomex.xml", Strict=true);
 
-  plan("test:mex")   = matlab.buildtool.tasks.TestTask("test", Description="Test mex targts",...
-                         Selector=cmex, SourceFiles=["+stdlib/", "src/"], RunOnlyImpactedTests=true,...
+  plan("test:mex")   = matlab.buildtool.tasks.TestTask(test_root, Description="Test mex targts",...
+                         Selector=cmex, ...
+                         SourceFiles=[pkg_root, plan.RootFolder + "/src"], RunOnlyImpactedTests=true,...
                          Dependencies="mex", TestResults="TestResults_mex.xml", Strict=true);
 
-  plan("test:java") = matlab.buildtool.tasks.TestTask("test", Description="test Java targets", ...
-                         Selector=cjava, SourceFiles="+stdlib/", RunOnlyImpactedTests=true,...
+  plan("test:java") = matlab.buildtool.tasks.TestTask(test_root, Description="test Java targets", ...
+                         Selector=cjava, ...
+                         SourceFiles=pkg_root, RunOnlyImpactedTests=true,...
                          TestResults="TestResults_java.xml", Strict=true);
 
-  plan("test:python") = matlab.buildtool.tasks.TestTask("test", Description="test Python targets", ...
-                         Tag="python", SourceFiles="+stdlib/", RunOnlyImpactedTests=true,...
+  plan("test:python") = matlab.buildtool.tasks.TestTask(test_root, Description="test Python targets", ...
+                         Tag="python", ...
+                         SourceFiles=pkg_root, RunOnlyImpactedTests=true,...
                          TestResults="TestResults_python.xml", Strict=true);
 
-  plan("coverage") = matlab.buildtool.tasks.TestTask(Description="code coverage", ...
-    Dependencies=["clean", "exe"], SourceFiles="+stdlib/", ...
+  plan("coverage") = matlab.buildtool.tasks.TestTask(test_root, ...
+    Description="code coverage", ...
+    Dependencies=["clean", "exe"], ...
+    SourceFiles=pkg_root, ...
     Selector=cnomex | HasTag("java") | HasTag("exe") | HasTag("python"), ...
     Strict=false, ...
     CodeCoverageResults=["code-coverage.xml", "code-coverage.html"]);
@@ -75,8 +82,6 @@ end
 
 if isMATLABReleaseOlderThan("R2023a"), return, end
 
-td = fullfile(plan.RootFolder, 'test');
-
 srcs = ["stdout_stderr_c.c", "stdin_cpp.cpp", "printenv.cpp", "sleep.cpp"];
 exes = ["stdout_stderr_c.exe", "stdin_cpp.exe", "printenv.exe", "sleep.exe"];
 if ~isempty(get_compiler("fortran"))
@@ -84,19 +89,19 @@ if ~isempty(get_compiler("fortran"))
   exes = [exes, "stdout_stderr_fortran.exe", "stdin_fortran.exe"];
 end
 
-srcs = fullfile(td, srcs);
-exes = fullfile(td, exes);
+srcs = fullfile(test_root, srcs);
+exes = fullfile(test_root, exes);
 
 plan("exe") = matlab.buildtool.Task(Inputs=srcs, Outputs=exes, Actions=@build_exe, ...
                  Description="build test exe's for test subprocess");
 
 if ~isMATLABReleaseOlderThan("R2024a")
-  plan("check") = matlab.buildtool.tasks.CodeIssuesTask(pkg_name, IncludeSubfolders=true, ...
+  plan("check") = matlab.buildtool.tasks.CodeIssuesTask(plan.RootFolder, ...
+    IncludeSubfolders=true, ...
     WarningThreshold=0, Results="CodeIssues.sarif");
 end
 
 %% MexTask
-bindir = fullfile(plan.RootFolder, pkg_name);
 [compiler_opt, linker_opt] = get_compiler_options();
 
 use_legacy_mex = isMATLABReleaseOlderThan("R2024b");
@@ -115,12 +120,12 @@ for s = get_mex_sources()
   if use_legacy_mex
     mex_name = "mex_" + name;
     plan(mex_name) = matlab.buildtool.Task(Inputs=src, ...
-      Outputs=fullfile(bindir, name + "." + mexext()), ...
+      Outputs=fullfile(pkg_root, name + "." + mexext()), ...
       Actions=@(context) legacy_mex(context, compiler_opt, linker_opt), ...
       Description="Legacy MEX");
     mex_deps(end+1) = mex_name; %#ok<AGROW>
   else
-    plan("mex:" + name) = matlab.buildtool.tasks.MexTask(src, bindir, ...
+    plan("mex:" + name) = matlab.buildtool.tasks.MexTask(src, pkg_root, ...
       Description="Build MEX target " + name, ...
       Options=[compiler_opt, linker_opt]);
   end
@@ -239,14 +244,14 @@ end
 shell = string.empty;
 if ispc()
   if isempty(co)
-    if lang == "fortran" && ~isempty(comp) && contains(comp, "gfortran")
+    if any(contains(comp, ["gcc", "g++", "gfortran"]))
       shell = "set PATH=" + fileparts(comp) + pathsep + "%PATH%";
     end
   else
     if startsWith(co.ShortName, ["INTEL", "MSVC"])
       shell = join([strcat('"',string(co.Details.CommandLineShell),'"'), ...
                   co.Details.CommandLineShellArg], " ");
-    elseif co.ShortName == "mingw64-gfortran"
+    elseif startsWith(co.ShortName, "mingw64")
       shell = "set PATH=" + fileparts(comp) + pathsep + "%PATH%";
     end
   end
@@ -264,7 +269,6 @@ if contains(shell, "Visual Studio")
 else
   outFlag = "-o";
 end
-
 
 end
 
@@ -295,17 +299,21 @@ srcs{end+1} = "src/disk_available.cpp";
 srcs{end+1} = "src/disk_capacity.cpp";
 end
 
-if (isMATLABReleaseOlderThan("R2024b") && ~stdlib.has_dotnet() && ~stdlib.has_java() && ~stdlib.has_python()) || build_all
+if isMATLABReleaseOlderThan("R2024b")
+
+if (~stdlib.has_dotnet() && ~stdlib.has_java() && ~stdlib.has_python()) || build_all
 srcs{end+1} = ["src/is_symlink.cpp", win, sym];
 end
 
-if (isMATLABReleaseOlderThan("R2024b") && ~stdlib.has_java() && ~stdlib.has_python() && stdlib.dotnet_api() < 6) || build_all
+if (~stdlib.has_java() && ~stdlib.has_python() && stdlib.dotnet_api() < 6) || build_all
 srcs{end+1} = ["src/read_symlink.cpp", win, sym];
 end
 
-if (isMATLABReleaseOlderThan("R2024b") && ~stdlib.has_python() && stdlib.dotnet_api() < 6) || build_all
+if (~stdlib.has_python() && stdlib.dotnet_api() < 6) || build_all
 % so that we don't need to run matlab AsAdmin on Windows
 srcs{end+1} = ["src/create_symlink.cpp", win, sym];
+end
+
 end
 
 end
