@@ -57,6 +57,7 @@ jobs:
       run: echo "FC=gfortran-14" >> $GITHUB_ENV
 
     - name: Check CodeIssues
+      if: ${{ matrix.release >= 'R2024a' }}
       uses: ./.github/workflows/composite-check
 
     - name: Matlab tell External Language Interface versions
@@ -68,7 +69,7 @@ jobs:
       uses: ./.github/workflows/composite-nomex
 
     - name: MEX tests
-      if: ${{ matrix.release >= 'R2023b' }}
+      if: ${{ matrix.release >= 'R2024b' }}
       uses: ./.github/workflows/composite-mex
 
 

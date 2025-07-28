@@ -37,13 +37,14 @@ if isMATLABReleaseOlderThan("R2024b")
   plan("test_mex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cmex), Dependencies="mex");
 
 elseif isMATLABReleaseOlderThan("R2025a")
-
+  % Matlab == R2024b
   plan("test:java")  = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cjava));
   plan("test:exe")   = matlab.buildtool.tasks.TestTask(test_root, Tag="exe", Dependencies="exe");
   plan("test:nomex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnomex), Dependencies="clean");
   plan("test:mex")   = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cmex), Dependencies="mex");
 
 else
+  % Matlab >= R2025a
   plan("test:exe")   = matlab.buildtool.tasks.TestTask(test_root, Tag="exe", Description="test subprocess",...
                          SourceFiles=[pkg_root, test_root + ["/*.cpp", "/*.c", "/*.f90"]], ...
                          RunOnlyImpactedTests=true,...
@@ -101,38 +102,19 @@ if ~isMATLABReleaseOlderThan("R2024a")
     WarningThreshold=0, Results="CodeIssues.sarif");
 end
 
+if isMATLABReleaseOlderThan("R2024b"), return, end
+
 %% MexTask
 [compiler_opt, linker_opt] = get_compiler_options();
-
-use_legacy_mex = isMATLABReleaseOlderThan("R2024b");
-
-if use_legacy_mex
-  % dummy task to allow "buildtool mex" to build all MEX targets
-  plan("mex") = matlab.buildtool.Task();
-  mex_deps = string.empty;
-end
 
 for s = get_mex_sources()
   src = s{1};
   name = stdlib.stem(src(1));
 
-  % name of MEX target function is name of first source file
-  if use_legacy_mex
-    mex_name = "mex_" + name;
-    plan(mex_name) = matlab.buildtool.Task(Inputs=src, ...
-      Outputs=fullfile(pkg_root, name + "." + mexext()), ...
-      Actions=@(context) legacy_mex(context, compiler_opt, linker_opt), ...
-      Description="Legacy MEX");
-    mex_deps(end+1) = mex_name; %#ok<AGROW>
-  else
-    plan("mex:" + name) = matlab.buildtool.tasks.MexTask(src, pkg_root, ...
-      Description="Build MEX target " + name, ...
-      Options=[compiler_opt, linker_opt]);
-  end
-end
-
-if use_legacy_mex
-  plan("mex").Dependencies = mex_deps;
+% name of MEX target function is name of first source file
+  plan("mex:" + name) = matlab.buildtool.tasks.MexTask(src, pkg_root, ...
+    Description="Build MEX target " + name, ...
+    Options=[compiler_opt, linker_opt]);
 end
 
 end
@@ -140,12 +122,6 @@ end
 
 function clean_mex(context)
 run(context.Plan, "clean", {"mex"});
-end
-
-
-function legacy_mex(context, compiler_opt, linker_opt)
-bindir = fileparts(context.Task.Outputs.Path);
-mex(context.Task.Inputs.Path, "-outdir", bindir, compiler_opt{:}, linker_opt)
 end
 
 
@@ -278,18 +254,10 @@ arguments
   build_all (1,1) logical = false
 end
 
-pure = "src/pure.cpp";
-normal = ["src/normalize_fs.cpp", pure];
-
-win = [pure, "src/windows.cpp"];
-
-sym = "src/symlink_fs.cpp";
-
-
 srcs = {
 "src/remove.cpp", ...
-["src/normalize.cpp", normal], ...
-"src/set_permissions.cpp", ...
+["src/normalize.cpp", "src/normalize_fs.cpp", "src/pure.cpp"], ...
+"src/set_permissions.cpp"
 };
 
 if ~stdlib.has_python() || build_all
@@ -297,23 +265,6 @@ srcs{end+1} = "src/is_char_device.cpp";
 srcs{end+1} = ["src/is_admin.cpp", "src/admin_fs.cpp"];
 srcs{end+1} = "src/disk_available.cpp";
 srcs{end+1} = "src/disk_capacity.cpp";
-end
-
-if isMATLABReleaseOlderThan("R2024b")
-
-if (~stdlib.has_dotnet() && ~stdlib.has_java() && ~stdlib.has_python()) || build_all
-srcs{end+1} = ["src/is_symlink.cpp", win, sym];
-end
-
-if (~stdlib.has_java() && ~stdlib.has_python() && stdlib.dotnet_api() < 6) || build_all
-srcs{end+1} = ["src/read_symlink.cpp", win, sym];
-end
-
-if (~stdlib.has_python() && stdlib.dotnet_api() < 6) || build_all
-% so that we don't need to run matlab AsAdmin on Windows
-srcs{end+1} = ["src/create_symlink.cpp", win, sym];
-end
-
 end
 
 end
