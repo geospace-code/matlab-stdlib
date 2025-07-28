@@ -17,7 +17,7 @@ end
 exe = string.empty;
 
 %% on Windows, append .exe if not suffix is given
-if ispc() && strempty(stdlib.suffix(cmd))
+if ispc() && stdlib.strempty(stdlib.suffix(cmd))
   cmd = cmd + ".exe";
 end
 %% full filename was given
@@ -42,7 +42,7 @@ if isscalar(fpath)
 end
 
 for p = fpath
-  if strempty(p), continue, end
+  if stdlib.strempty(p), continue, end
 
   e = fullfile(p, cmd);
   if isfile(e) && stdlib.is_exe(e)

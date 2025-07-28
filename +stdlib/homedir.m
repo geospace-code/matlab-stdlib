@@ -2,7 +2,7 @@
 
 function h = homedir()
 
-if ispc
+if ispc()
   h = getenv("USERPROFILE");
 else
   h = getenv("HOME");

@@ -12,9 +12,13 @@ if contains(n, "dotnet")
 
   tc.assumeGreaterThan(dapi, 0, ".NET not available")
 
-   if endsWith(n, ["is_admin", "owner"])
-     tc.assumeTrue(ispc(), "Windows only function")
-   end
+  if endsWith(n, ["is_admin", "owner"])
+    tc.assumeTrue(ispc(), "Windows only function")
+  end
+
+  if endsWith(n, "relative_to")
+    tc.assumeGreaterThanOrEqual(dapi, 5)
+  end
 
   if endsWith(n, ["create_symlink", "ram_total", "read_symlink"])
     tc.assumeGreaterThanOrEqual(dapi, 6);

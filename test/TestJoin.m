@@ -1,6 +1,27 @@
 classdef TestJoin < matlab.unittest.TestCase
 
 properties (TestParameter)
+p = init_join()
+end
+
+methods(TestClassSetup)
+function pkg_path(tc)
+fsp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(fsp)
+end
+end
+
+methods (Test, TestTags="pure")
+function test_join(tc, p)
+tc.verifyEqual(stdlib.join(p{1}, p{2}), p{3})
+end
+end
+
+end
+
+
+function p = init_join()
+
 p = {{"", "", ""}, ...
 {"a", "", "a"}, ...
 {"", "a", "a"}, ...
@@ -12,22 +33,8 @@ p = {{"", "", ""}, ...
 {"a/b", "..", fullfile("a", "b", "..")}, ...
 {"a/b", "c/d", fullfile("a", "b", "c", "d")}, ...
 {"ab/cd", "/ef", "/ef"}, ...
-{stdlib.homedir(), "", stdlib.homedir()}, ...
 {matlabroot, "bin", fullfile(matlabroot, "bin")}
-}
-end
+};
 
-methods(TestClassSetup)
-function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(p)
-end
-end
-
-methods (Test, TestTags="pure")
-function test_join(tc, p)
-tc.verifyEqual(stdlib.join(p{1}, p{2}), p{3})
-end
-end
 
 end

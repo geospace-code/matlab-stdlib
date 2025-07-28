@@ -4,7 +4,7 @@ v = [];
 
 pe = pyenv();
 vs = pe.Version;
-if strlength(vs) == 0, return, end
+if stdlib.strempty(vs), return, end
 
 vi = py.sys.version_info;
 v = [double(vi.major), double(vi.minor), double(vi.micro)];

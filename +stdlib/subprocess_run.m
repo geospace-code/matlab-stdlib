@@ -37,12 +37,12 @@ arguments
 end
 
 
-if ~strempty(opt.cwd)
+if ~stdlib.strempty(opt.cwd)
   mustBeFolder(opt.cwd)
   cmd = join(["cd", opt.cwd, "&&", cmd]);
 end
 
-if ~strempty(opt.stdin)
+if ~stdlib.strempty(opt.stdin)
   cmd = join(["echo", opt.stdin, "|", cmd]);
 end
 

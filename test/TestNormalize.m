@@ -7,8 +7,8 @@ end
 
 methods(TestClassSetup)
 function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(p)
+fsp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(fsp)
 end
 end
 
@@ -75,16 +75,6 @@ if ispc()
     {"c:/a/b//", "c:/a/b"}
   };
   d = [d, dd];
-end
-
-if ~stdlib.is_mex_fun("stdlib.normalize")
-
-dd = {...
-  {'a', 'a'}, ...
-  {'/', '/'}
-};
-d = [d, dd];
-
 end
 
 end

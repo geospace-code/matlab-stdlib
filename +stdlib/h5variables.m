@@ -14,7 +14,7 @@ arguments
   group {mustBeTextScalar} = ''
 end
 
-if strempty(group)
+if stdlib.strempty(group)
   finf = h5info(file);
 else
   finf = h5info(file, group);

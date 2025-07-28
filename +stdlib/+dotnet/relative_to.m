@@ -1,10 +1,10 @@
 function rel = relative_to(base, other)
 
-if strempty(other)
+if stdlib.strempty(other)
   rel = base;
   return
 end
-if strempty(base)
+if stdlib.strempty(base)
   rel = other;
   return
 end

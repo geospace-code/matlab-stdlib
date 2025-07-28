@@ -3,7 +3,7 @@ arguments
   p {mustBeTextScalar}
 end
 
-assert(~strempty(p), 'Path must not be empty.')
+assert(~stdlib.strempty(p), 'Path must not be empty.')
 
 [status, s] = fileattrib(p);
 

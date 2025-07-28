@@ -18,7 +18,7 @@ arguments
   strict logical = false
 end
 
-if strempty(p)
+if stdlib.strempty(p)
   c = "";
   return
 end
@@ -28,7 +28,7 @@ if isMATLABReleaseOlderThan('R2024a')
 else
   pth = matlab.io.internal.filesystem.resolvePath(p);
   c = pth.ResolvedPath;
-  if ~strict && strempty(c)
+  if ~strict && stdlib.strempty(c)
     c = stdlib.normalize(p);
   end
 end
@@ -42,7 +42,7 @@ function c = acanon(p, strict)
 
 c = "";
 
-if strempty(p), return, end
+if stdlib.strempty(p), return, end
 
 [s, r] = fileattrib(p);
 

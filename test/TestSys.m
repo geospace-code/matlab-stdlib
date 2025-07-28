@@ -5,8 +5,8 @@ CI = getenv("CI") == "true" || getenv("GITHUB_ACTIONS") == "true"
 end
 
 properties (TestParameter)
-fun = {stdlib.isoctave, stdlib.has_dotnet, ...
-       stdlib.has_java, stdlib.has_python}
+fun = {@stdlib.isoctave, @stdlib.has_dotnet, ...
+       @stdlib.has_java, @stdlib.has_python}
 cpu_arch_fun = {@stdlib.cpu_arch, @stdlib.dotnet.cpu_arch, @stdlib.java.cpu_arch}
 host_fun = {@stdlib.hostname, @stdlib.sys.get_hostname, @stdlib.dotnet.get_hostname, @stdlib.java.get_hostname, @stdlib.python.get_hostname}
 user_fun = {@stdlib.get_username, @stdlib.sys.get_username, @stdlib.dotnet.get_username, @stdlib.java.get_username, @stdlib.python.get_username}
@@ -26,7 +26,7 @@ end
 methods (Test, TestTags="impure")
 
 function test_platform_logical(tc, fun)
-tc.verifyClass(fun, 'logical')
+tc.verifyClass(fun(), 'logical')
 end
 
 function test_is_cygwin(tc)

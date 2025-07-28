@@ -12,7 +12,7 @@ elseif stdlib.has_python()
   n = stdlib.python.get_username();
 end
 
-if strempty(n)
+if stdlib.strempty(n)
   n = stdlib.sys.get_username();
 end
 

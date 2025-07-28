@@ -20,7 +20,7 @@ p1 = ("." + alphanumericsPattern + textBoundary('end')) | textBoundary('end');
 
 s = extractBetween(p, p0, p1);
 
-i = strempty(s);
+i = stdlib.strempty(s);
 s(i) = extractAfter(p(i), p0);
 
 end

@@ -14,7 +14,7 @@ end
 
 f = extractBefore(p, stdlib.suffix(p));
 
-i = strempty(f);
+i = stdlib.strempty(f);
 f(i) = p(i);
 
 f = f + suffix;

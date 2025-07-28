@@ -18,7 +18,7 @@ end
 
 p = fileparts(f);
 
-if strempty(p)
+if stdlib.strempty(p)
   p = '.';
 elseif ispc() && strcmp(p, stdlib.root_name(pth))
   p = strcat(p, filesep);

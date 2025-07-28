@@ -10,7 +10,7 @@ if ischar(A)
   return
 end
 
-if strempty(dtype)
+if stdlib.strempty(dtype)
   return
 end
 

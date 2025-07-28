@@ -26,7 +26,7 @@ catch e
     % Matlab Java doesn't recognize the optional argument omitted.
     % see example/Filesystem.java for this working in plain Java.
     % see example/javaCreateSymbolicLink.m for a non-working attempt in Matlab.
-      if strempty(target) || strempty(link), return, end
+      if stdlib.strempty(target) || stdlib.strempty(link), return, end
 
       if stdlib.has_python()
         ok = stdlib.python.create_symlink(target, link);

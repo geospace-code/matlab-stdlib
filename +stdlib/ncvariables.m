@@ -15,7 +15,7 @@ arguments
 end
 
 
-if strempty(group)
+if stdlib.strempty(group)
   finf = ncinfo(file);
 else
   finf = ncinfo(file, group);

@@ -2,7 +2,7 @@ function y = samepath(path1, path2)
 
 y = false;
 
-if strlength(path1) == 0 || strlength(path2) == 0
+if stdlib.strempty(path1) || stdlib.strempty(path2)
   return
 end
 
