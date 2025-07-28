@@ -13,7 +13,7 @@ arguments
 end
 
 rel = stdlib.relative_to(base, other);
-if strempty(rel)
+if stdlib.strempty(rel)
   rel = other;
 end
 

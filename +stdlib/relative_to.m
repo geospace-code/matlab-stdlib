@@ -16,7 +16,7 @@ arguments
   other {mustBeTextScalar}
 end
 
-if (strempty(base) && strempty(other)) || ...
+if (stdlib.strempty(base) && stdlib.strempty(other)) || ...
    (stdlib.is_absolute(base) ~= stdlib.is_absolute(other))
   rel = "";
   return
@@ -27,7 +27,7 @@ if stdlib.has_python()
 elseif stdlib.dotnet_api() >= 5
   rel = stdlib.dotnet.relative_to(base, other);
 else
-  error('no supported relative path method found, please install .NET or "buildtool mex"')
+  rel = stdlib.sys.relative_to(base, other);
 end
 
 end
