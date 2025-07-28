@@ -9,6 +9,7 @@ Ps = {
 }
 % on CI matlabroot can be writable!
 isr_fun = {@stdlib.is_readable, @stdlib.java.is_readable, @stdlib.native.is_readable}
+isw_fun = {@stdlib.is_writable, @stdlib.java.is_writable, @stdlib.native.is_writable}
 end
 
 methods(TestClassSetup)
@@ -34,8 +35,10 @@ tc.verifyEqual(ok, Ps{2}, Ps{1})
 end
 
 
-function test_is_writable(tc, Ps)
-ok = stdlib.is_writable(Ps{1});
+function test_is_writable(tc, Ps, isw_fun)
+is_capable(tc, isw_fun)
+
+ok = isw_fun(Ps{1});
 tc.verifyEqual(ok, Ps{2}, Ps{1})
 end
 

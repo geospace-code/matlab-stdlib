@@ -5,31 +5,15 @@
 %% Outputs
 % ok: logical array of the same size as p, true if file is writable
 
-function ok = is_writable(p)
+function y = is_writable(p)
 arguments
-  p string
+  p {mustBeTextScalar}
 end
 
-ok(size(p)) = false;
-
-i = stdlib.exists(p);
-
-if ~any(i), return, end
-
-if ~isMATLABReleaseOlderThan('R2025a')
-
-  props = "Writable";
-  if isunix
-    props = [props, "GroupWrite", "OtherWrite"];
-  end
-
-  t = getPermissions(filePermissions(p(i)), props);
-  ok(i) = any(t{:,:}, 2);
-
+if stdlib.has_java()
+  y = stdlib.java.is_writable(p);
 else
-  a = stdlib.native.file_attributes(p);
-  ok = a.UserWrite || a.GroupWrite || a.OtherWrite;
+  y = stdlib.native.is_writable(p);
 end
 
 end
-%!assert (is_writable('is_writable.m'))
