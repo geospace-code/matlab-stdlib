@@ -12,13 +12,12 @@ if stdlib.dotnet_api() >= 6
   bytes = stdlib.dotnet.ram_total();
 elseif stdlib.has_java()
   bytes = stdlib.java.ram_total();
+elseif stdlib.python.has_psutil()
+  bytes = stdlib.python.ram_total();
 else
   bytes = stdlib.sys.ram_total();
 end
 
-bytes = uint64(bytes);
-
 end
-
 
 %!assert(ram_total()>0)
