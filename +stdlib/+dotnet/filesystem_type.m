@@ -1,3 +1,5 @@
+%% DOTNET.FILESYSTEM_TYPE type of the partition e.g. NTFS, ext4, ...
+
 function t = filesystem_type(p)
 
 if ~stdlib.exists(p)

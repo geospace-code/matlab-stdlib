@@ -1,3 +1,5 @@
+%% DOTNET.IS_ADMIN is the user running as root?
+
 function y = is_admin()
 
 % com.sun.security.auth.module.NTSystem().getGroupIDs();

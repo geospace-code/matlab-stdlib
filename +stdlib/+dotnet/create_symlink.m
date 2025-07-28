@@ -1,3 +1,5 @@
+%% DOTNET.CREATE_SYMLINK create symbolic link to target
+
 function ok = create_symlink(target, link)
 
 ok = false;

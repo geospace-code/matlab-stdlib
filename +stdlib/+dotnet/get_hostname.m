@@ -1,3 +1,6 @@
+%% DOTNET.GET_HOSTNAME get the computer network hostname
+% not necessary FQDN
+
 function n = get_hostname()
 
 n = string(System.Environment.MachineName);

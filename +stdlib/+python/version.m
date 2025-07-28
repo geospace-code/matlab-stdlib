@@ -1,3 +1,5 @@
+%% PYTHON.VERSION major.minor version of the Python executable being used
+
 function v = version(force_old)
 arguments
   force_old (1,1) logical = false

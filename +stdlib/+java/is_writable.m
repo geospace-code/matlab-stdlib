@@ -1,3 +1,5 @@
+%% JAVA.IS_WRITABLE is a filepath writable
+
 function y = is_writable(p)
 
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html#isWritable(java.nio.file.Path)

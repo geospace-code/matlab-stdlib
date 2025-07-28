@@ -1,3 +1,5 @@
+%% DOTNET.DEVICE find the drive device ID
+
 function i = device(path)
 
 % this has been not so stable, so we disabled it and leave it here for reference.

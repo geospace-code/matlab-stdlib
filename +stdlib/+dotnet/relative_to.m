@@ -1,3 +1,5 @@
+%% DOTNET.RELATIVE_TO find the relative path to other from base
+
 function rel = relative_to(base, other)
 
 if stdlib.strempty(other)

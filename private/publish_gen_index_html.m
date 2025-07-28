@@ -47,12 +47,44 @@ txt = ["<!DOCTYPE html>", ...
 "<p>Project URL: <a href=" + project_url + ">" + project_url + "</a></p>", ...
 "<h2>API Reference</h2>"];
 fid = fopen(readme, 'w');
-fprintf(fid, join(txt, "\n"));
+fprintf(fid, join(txt, newline));
 
-for sub = pkg.m.'
+publish_pkg(fid, pkg, pkg_name)
 
-s = sub{1};
-[~, name] = fileparts(s);
+fprintf(fid, "The functions below are for diagnostics or internal use. Users will only use the functions above.");
+
+for i = 1:numel(pkg.packages)
+  sn = pkg.packages(i);
+  sn = sn{1};
+  spkg = what(fullfile("+" + pkg_name, sn));
+  
+  publish_pkg(fid, spkg, pkg_name)
+end
+
+fprintf(fid, "</body> </html>");
+
+fclose(fid);
+
+end
+
+
+function publish_pkg(fid, pkg, pkg_name)
+
+outdir = fileparts(fopen(fid));
+
+[~, subname] = fileparts(pkg.path);
+if ~endsWith(subname, pkg_name)
+  pkg_name = pkg_name + "." + subname(2:end);
+  relpath = subname(2:end);
+  outdir = fullfile(outdir, relpath);
+  fprintf(fid, strcat('<h3>', pkg_name, '</h3>', newline));
+else
+  relpath = '';
+end
+
+for fun = pkg.m.'
+
+[~, name] = fileparts(fun{1});
 
 doc_fn = publish(pkg_name + "." + name, evalCode=false, outputDir=outdir);
 disp(doc_fn)
@@ -63,11 +95,11 @@ words = split(strip(help_txt(1)), " ");
 
 % error if no docstring
 fname = words(1);
-assert(lower(fname) == lower(name), "fname %s does not match name %s \nis there a docstring at the top of the .m file?", fname, name)
+assert(endsWith(fname, name, IgnoreCase=true), "fname %s does not match name %s \nis there a docstring at the top of the .m file?", fname, name)
 
-line = "<a href=" + name + ".html>" + fname + "</a> ";
+line = "<a href=" + relpath + "/" + name + ".html>" + fname + "</a> ";
 if(length(words) > 1)
-  line = line + join(words(2:end));
+   line = join([line, words(2:end).']);
 end
 
 req = "";
@@ -76,12 +108,8 @@ if contains(help_txt(2), "requires:") || contains(help_txt(2), "optional:")
   req = "<strong>(" + strip(help_txt(2), " ") + ")</strong>";
 end
 
-fprintf(fid, line + " " + req + "<br>\n");
+fprintf(fid, line + " " + req + "<br>" + newline);
 
 end
-
-fprintf(fid, "</body> </html>");
-
-fclose(fid);
 
 end

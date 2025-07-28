@@ -1,3 +1,5 @@
+%% DOTNET.DISK_CAPACITY find the overall disk capacity visible to user
+
 function f = disk_capacity(d)
 
 f = uint64(0);

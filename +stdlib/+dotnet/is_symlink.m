@@ -1,3 +1,5 @@
+%% DOTNET.IS_SYMLINK check if a file is a symbolic link
+
 function y = is_symlink(p)
 
 try

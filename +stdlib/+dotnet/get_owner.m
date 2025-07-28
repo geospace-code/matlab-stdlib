@@ -1,3 +1,5 @@
+%% DOTNET.GET_OWNER get the owner of a filepath
+
 function o = get_owner(p)
 
 if ~stdlib.exists(p)

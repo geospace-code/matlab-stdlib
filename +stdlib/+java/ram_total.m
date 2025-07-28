@@ -1,3 +1,5 @@
+%% JAVA.RAM_TOTAL get the total physical RAM
+
 function bytes = ram_total()
 
 % https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getTotalMemorySize()

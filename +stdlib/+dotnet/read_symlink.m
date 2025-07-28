@@ -1,3 +1,5 @@
+%% DOTNET.READ_SYMLINK resolve the symbolic links of a filepath
+
 function r = read_symlink(p)
 
 try

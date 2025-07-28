@@ -1,3 +1,6 @@
+%% JAVA.READ_SYMLINK resolve the symbolic links of a filepath
+% empty if no symlinks
+
 function r = read_symlink(p)
 
 if stdlib.is_symlink(p)
