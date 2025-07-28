@@ -30,10 +30,10 @@ std::string fs_normalize(std::string_view path)
 {
   std::filesystem::path p(path);
 
-  std::string r = p.lexically_normal().generic_string();
+  std::string r = p.lexically_normal().string();
 
   // no trailing slash
-  if (r.length() > 1 && r.back() == '/' && (!fs_is_windows() || p != p.root_path()))
+  if (r.length() > 1 && (r.back() == '/' || (fs_is_windows() && r.back() == '\\')) && (!fs_is_windows() || p != p.root_path()))
     r.pop_back();
 
   if (r.empty())
