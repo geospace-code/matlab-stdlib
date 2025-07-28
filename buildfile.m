@@ -6,8 +6,6 @@ plan = buildplan(localfunctions);
 
 pkg_name = "+stdlib";
 
-addpath(plan.RootFolder)
-
 if isMATLABReleaseOlderThan("R2023b")
   plan("clean") =matlab.buildtool.Task();
 else
