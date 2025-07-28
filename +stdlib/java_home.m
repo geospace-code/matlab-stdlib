@@ -8,6 +8,8 @@ catch
   h = '';
 end
 
+h = string(h);
+
 end
 
 %!assert(!isempty(java_home()))
