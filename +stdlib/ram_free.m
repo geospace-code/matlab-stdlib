@@ -28,6 +28,4 @@ else
   bytes = stdlib.sys.ram_free();
 end
 
-bytes = uint64(bytes);
-
 end

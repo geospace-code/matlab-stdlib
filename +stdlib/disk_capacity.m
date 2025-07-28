@@ -7,7 +7,6 @@ arguments
   d {mustBeTextScalar}
 end
 
-f = uint64(0);
 
 if stdlib.has_dotnet()
   f = stdlib.dotnet.disk_capacity(d);
@@ -15,13 +14,9 @@ elseif stdlib.has_java()
   f = stdlib.java.disk_capacity(d);
 elseif stdlib.has_python()
   f = stdlib.python.disk_capacity(d);
-end
-
-if f == 0
+else
   f = stdlib.sys.disk_capacity(d);
 end
-
-f = uint64(f);
 
 end
 

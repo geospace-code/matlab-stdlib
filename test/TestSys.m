@@ -12,7 +12,7 @@ host_fun = {@stdlib.hostname, @stdlib.sys.get_hostname, @stdlib.dotnet.get_hostn
 user_fun = {@stdlib.get_username, @stdlib.sys.get_username, @stdlib.dotnet.get_username, @stdlib.java.get_username, @stdlib.python.get_username}
 is_admin_fun = {@stdlib.is_admin, @stdlib.sys.is_admin, @stdlib.dotnet.is_admin, @stdlib.java.is_admin, @stdlib.python.is_admin}
 ram_free_fun = {@stdlib.ram_free, @stdlib.sys.ram_free, @stdlib.java.ram_free, @stdlib.python.ram_free}
-ram_total_fun = {@stdlib.ram_total, @stdlib.sys.ram_total, @stdlib.dotnet.ram_total @stdlib.java.ram_total}
+ram_total_fun = {@stdlib.ram_total, @stdlib.sys.ram_total, @stdlib.dotnet.ram_total, @stdlib.java.ram_total, @stdlib.python.ram_total}
 end
 
 methods(TestClassSetup)

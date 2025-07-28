@@ -18,13 +18,9 @@ elseif stdlib.has_java()
   f = stdlib.java.disk_available(d);
 elseif stdlib.has_python()
   f = stdlib.python.disk_available(d);
-end
-
-if f == 0
+else
   f = stdlib.sys.disk_available(d);
 end
-
-f = uint64(f);
 
 end
 
