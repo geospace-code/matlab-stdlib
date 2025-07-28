@@ -31,13 +31,35 @@ end
 function test_matlab_exe(tc, fun)
 is_capable(tc, fun)
 
-f = fullfile(matlabroot, "bin/matlab");
-if ispc()
-  f = f + ".exe";
-end
 
+f = matlab_path();
 tc.verifyTrue(fun(f))
 end
 
+
+function test_is_executable_binary(tc)
+
+if ispc()
+  f = matlab_path();
+else
+  f = '/bin/ls';
+end
+
+tc.assumeThat(f, matlab.unittest.constraints.IsFile)
+
+b = stdlib.is_executable_binary(f);
+tc.assumeTrue(b, f)
+
+end
+end
+
+end
+
+
+function f = matlab_path()
+
+f = fullfile(matlabroot, "bin/matlab");
+if ispc()
+  f = f + ".exe";
 end
 end

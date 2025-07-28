@@ -24,9 +24,9 @@ end
 
 
 function test_null_file(tc)
-import matlab.unittest.constraints.IsFile
 tc.assumeFalse(ispc)
-tc.verifyThat(stdlib.null_file, IsFile)
+
+tc.verifyThat(stdlib.null_file, matlab.unittest.constraints.IsFile)
 end
 
 
