@@ -8,6 +8,8 @@ end
 
 if ispc()
   cmd = sprintf('pwsh -c "Resolve-Path -Path ''%s'' -RelativeBasePath ''%s'' -Relative"', other, base);
+elseif ismac()
+  cmd = sprintf('grealpath --relative-to="%s" "%s"', base, other);
 else
   cmd = sprintf('realpath --relative-to="%s" "%s"', base, other);
 end

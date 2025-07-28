@@ -6,7 +6,7 @@ end
 
 n = func2str(f);
 
-if contains(n, "dotnet")
+if contains(n, ".dotnet.")
 
   dapi = stdlib.dotnet_api();
 
@@ -24,7 +24,7 @@ if contains(n, "dotnet")
     tc.assumeGreaterThanOrEqual(dapi, 6);
   end
 
-elseif contains(n, "java")
+elseif contains(n, ".java.")
 
   japi = stdlib.java_api();
   tc.assumeGreaterThan(japi, 0, "Java not available")
@@ -48,6 +48,12 @@ elseif contains(n, "python")
    if endsWith(n, "is_admin")
      tc.assumeTrue(isunix() || ~isMATLABReleaseOlderThan('R2024a'))
    end
+
+elseif contains(n, ".sys.")
+
+  if ismac() && endsWith(n, "relative_to")
+    tc.assumeNotEmpty(stdlib.which("greadlink"), "brew install coreutils")
+  end
 
 end
 
