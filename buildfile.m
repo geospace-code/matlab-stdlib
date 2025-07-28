@@ -199,7 +199,8 @@ for i = 1:length(context.Task.Inputs)
   end
 
   disp(cmd)
-  system(cmd);
+  [s, msg] = system(cmd);
+  assert(s == 0, "Error %d: %s", s, msg)
 end
 
 end
@@ -236,10 +237,18 @@ else
 end
 
 shell = string.empty;
-if ispc() && ~isempty(co)
-  if startsWith(co.ShortName, ["INTEL", "MSVC"])
-    shell = join([strcat('"',string(co.Details.CommandLineShell),'"'), ...
-                co.Details.CommandLineShellArg], " ");
+if ispc()
+  if isempty(co)
+    if lang == "fortran" && ~isempty(comp) && contains(comp, "gfortran")
+      shell = "set PATH=" + fileparts(comp) + pathsep + "%PATH%";
+    end
+  else
+    if startsWith(co.ShortName, ["INTEL", "MSVC"])
+      shell = join([strcat('"',string(co.Details.CommandLineShell),'"'), ...
+                  co.Details.CommandLineShellArg], " ");
+    elseif co.ShortName == "mingw64-gfortran"
+      shell = "set PATH=" + fileparts(comp) + pathsep + "%PATH%";
+    end
   end
 end
 
@@ -250,10 +259,10 @@ function [comp, shell, outFlag] = get_build_cmd(lang)
 
 [comp, shell] = get_compiler(lang);
 
-if isempty(shell)
-  outFlag = "-o";
-else
+if contains(shell, "Visual Studio")
   outFlag = "/Fo" + tempdir + " /link /out:";
+else
+  outFlag = "-o";
 end
 
 
@@ -357,6 +366,14 @@ if ismac()
   disp("on macOS, environment variables propagate in to GUI programs like Matlab by using 'launchctl setenv FC' and a reboot.")
   disp("if having trouble, try:")
   disp("  FC=gfortran matlab -batch 'buildtool exe'")
+elseif ispc()
+  p = getenv('CMPLR_ROOT');
+  if isempty(p)
+    p = getenv("MW_MINGW64_LOC");
+  end
+  if ~isempty(p) && ~endsWith(p, ["bin", "bin/"])
+    p = p + "/bin";
+  end
 else
   p = '';
 end
