@@ -13,8 +13,8 @@ end
 
 methods(TestClassSetup)
 function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(p)
+fsp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.applyFixture(fsp)
 end
 end
 
