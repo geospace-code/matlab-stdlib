@@ -20,7 +20,7 @@ elseif stdlib.isoctave()
   end
   return
 else
-  v = file_attributes_legacy(f);
+  v = stdlib.native.file_attributes(f);
 end
 
 p = perm2char(v, f);

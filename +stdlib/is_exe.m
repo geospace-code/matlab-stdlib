@@ -31,7 +31,7 @@ if ~isMATLABReleaseOlderThan('R2025a')
 
 else
 
-  a = file_attributes_legacy(p);
+  a = stdlib.native.file_attributes(p);
   ok = a.UserExecute || a.GroupExecute || a.OtherExecute;
 
 end

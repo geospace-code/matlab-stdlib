@@ -27,7 +27,7 @@ if ~isMATLABReleaseOlderThan('R2025a')
   ok(i) = any(t{:,:}, 2);
 
 else
-  a = file_attributes_legacy(p);
+  a = stdlib.native.file_attributes(p);
   ok = a.UserWrite || a.GroupWrite || a.OtherWrite;
 end
 

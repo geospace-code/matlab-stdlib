@@ -8,6 +8,7 @@ Ps = {
 {tempname(), false}
 }
 % on CI matlabroot can be writable!
+isr_fun = {@stdlib.is_readable, @stdlib.java.is_readable, @stdlib.native.is_readable}
 end
 
 methods(TestClassSetup)
@@ -25,8 +26,10 @@ tc.verifyEqual(ok, Ps{2}, Ps{1})
 end
 
 
-function test_is_readable(tc, Ps)
-ok = stdlib.is_readable(Ps{1});
+function test_is_readable(tc, Ps, isr_fun)
+is_capable(tc, isr_fun)
+
+ok = isr_fun(Ps{1});
 tc.verifyEqual(ok, Ps{2}, Ps{1})
 end
 

@@ -1,4 +1,4 @@
-function a = file_attributes_legacy(p)
+function a = file_attributes(p)
 arguments
   p {mustBeTextScalar}
 end
