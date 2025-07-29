@@ -16,11 +16,16 @@ arguments
   path2 {mustBeTextScalar}
 end
 
+
 if stdlib.has_python()
+  % For this function, Python is over 10x faster than Java
   y = stdlib.python.samepath(path1, path2);
+elseif stdlib.has_java()
+  y = stdlib.java.samepath(path1, path2);
 elseif isunix()
   y = stdlib.sys.samepath(path1, path2);
 else
+  % string comparison is not preferred
   y = stdlib.native.samepath(path1, path2);
 end
 

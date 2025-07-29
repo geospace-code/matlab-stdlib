@@ -2,11 +2,12 @@ classdef TestSame < matlab.unittest.TestCase
 
 properties (TestParameter)
 p_same = {...
+{".", pwd()}, ...
 {"..", "./.."}, ...
 {"..", pwd() + "/.."}, ...
 {pwd(), pwd() + "/."}}
 
-same_fun = {@stdlib.samepath, @stdlib.sys.samepath, @stdlib.python.samepath, @stdlib.native.samepath}
+same_fun = {@stdlib.samepath, @stdlib.sys.samepath, @stdlib.java.samepath, @stdlib.python.samepath, @stdlib.native.samepath}
 end
 
 methods(TestClassSetup)
