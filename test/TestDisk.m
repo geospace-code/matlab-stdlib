@@ -30,10 +30,14 @@ is_capable(tc, disk_available_fun)
 
 zero = uint64(0);
 
+da = disk_available_fun(Ps);
+
+tc.verifyClass(da, 'uint64')
+
 if stdlib.exists(Ps)
-  tc.verifyGreaterThan(disk_available_fun(Ps), zero)
+  tc.verifyGreaterThan(da, zero)
 else
-  tc.verifyEqual(disk_available_fun(Ps), zero)
+  tc.verifyEqual(da, zero)
 end
 end
 

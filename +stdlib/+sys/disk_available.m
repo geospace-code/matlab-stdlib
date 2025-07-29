@@ -15,9 +15,7 @@ end
 
 [s, t] = system(cmd);
 if s == 0
-  t = strip(t);
-else
-  t = "";
+  t = uint64(str2double(t));
 end
 
 end
