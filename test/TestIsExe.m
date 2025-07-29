@@ -7,7 +7,7 @@ p = {
 {'', false}, ...
 {"", false}
 }
-fun = {@stdlib.is_exe, @stdlib.java.is_exe, @stdlib.python.is_exe, @stdlib.native.is_exe, @stdlib.native.is_exe_legacy}
+method = {'java', 'python', 'native', 'legacy'}
 end
 
 methods(TestClassSetup)
@@ -19,26 +19,26 @@ end
 
 methods(Test, TestTags="impure")
 
-function test_is_exe(tc, p, fun)
-is_capable(tc, fun)
+function test_is_exe(tc, p, method)
+is_capable(tc, str2func("stdlib." + method + ".is_exe"))
 
-tc.verifyEqual(fun(p{1}), p{2})
+tc.verifyEqual(stdlib.is_exe(p{1}, method), p{2})
 end
 
 
-function test_is_exe_dir(tc, fun)
-is_capable(tc, fun)
+function test_is_exe_dir(tc, method)
+is_capable(tc, str2func("stdlib." + method + ".is_exe"))
 
-tc.verifyFalse(fun('.'))
+tc.verifyFalse(stdlib.is_exe('.', method))
 end
 
 
-function test_matlab_exe(tc, fun)
-is_capable(tc, fun)
+function test_matlab_exe(tc, method)
+is_capable(tc, str2func("stdlib." + method + ".is_exe"))
 
 
 f = matlab_path();
-tc.verifyTrue(fun(f))
+tc.verifyTrue(stdlib.is_exe(f, method))
 end
 
 

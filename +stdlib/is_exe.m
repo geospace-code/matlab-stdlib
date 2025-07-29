@@ -2,18 +2,15 @@
 %
 % false if not a file
 
-function y = is_exe(p)
+function y = is_exe(file, method)
 arguments
-  p {mustBeTextScalar}
+  file {mustBeTextScalar}
+  method (1,:) string = ["java", "python", "native", "legacy"]
 end
 
-% Java or Python are like 100x faster than Matlab native
-if stdlib.has_java()
-  y = stdlib.java.is_exe(p);
-elseif stdlib.has_python()
-  y = stdlib.python.is_exe(p);
-else
-  y = stdlib.native.is_exe(p);
-end
+% Java or Python ~ 100x faster than Matlab native
+fun = choose_method(method, "is_exe", 'R2025a');
+
+y = fun(file);
 
 end

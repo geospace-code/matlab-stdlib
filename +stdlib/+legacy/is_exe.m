@@ -1,4 +1,4 @@
-function y = is_exe_legacy(file)
+function y = is_exe(file)
 
 y = isfile(file);
 
