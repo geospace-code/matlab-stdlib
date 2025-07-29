@@ -1,7 +1,8 @@
-function fun = choose_method(method, name)
+function fun = choose_method(method, name, minVersion)
 arguments
   method (1,:) string 
   name (1,1) string
+  minVersion {mustBeTextScalar} = ''
 end
 
 if isscalar(method)
@@ -11,10 +12,10 @@ if isscalar(method)
 end
 
 for m = method
-  if m == "native"
-    has = true;
-  else
-    has = str2func("stdlib.has_" + m);
+  switch m
+    case "legacy", has = true;
+    case "native", has = stdlib.strempty(minVersion) || ~isMATLABReleaseOlderThan(minVersion);
+    otherwise, has = str2func("stdlib.has_" + m);
   end
 
   if has()
