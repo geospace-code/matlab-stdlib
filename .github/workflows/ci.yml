@@ -64,9 +64,19 @@ jobs:
     - name: Non-MEX tests
       uses: ./.github/workflows/composite-nomex
 
-    - name: MEX tests
+    - name: Mex & Exe Test (>= R2024b)
       if: ${{ matrix.release >= 'R2024b' }}
-      uses: ./.github/workflows/composite-mex
+      uses: matlab-actions/run-build@v2
+      with:
+        startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test.log
+        tasks: test:mex test:exe
+
+    - name: Exe Test (legacy)
+      if: ${{ matrix.release >= 'R2023a' && matrix.release < 'R2024b' }}
+      uses: matlab-actions/run-build@v2
+      with:
+        startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test.log
+        tasks: test_exe
 
 
   matlab-older-than-R2022a:

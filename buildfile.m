@@ -33,7 +33,6 @@ if isMATLABReleaseOlderThan("R2024b")
 
   plan("test_java") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cjava));
   plan("test_nomex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnomex), Dependencies="clean");
-  plan("test_mex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cmex), Dependencies="mex");
 
 elseif isMATLABReleaseOlderThan("R2025a")
   % Matlab == R2024b
