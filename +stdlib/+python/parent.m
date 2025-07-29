@@ -2,12 +2,12 @@ function p = parent(pth)
 
 try
   p = string(py.str(py.pathlib.Path(pth).parent));
-  if ispc() && strcmp(p, stdlib.root_name(pth))
-    p = strcat(p, filesep);
+  if ispc() && p == stdlib.root_name(pth)
+    p = p + filesep;
   end
 catch e
   p = "";
-  warning(e.identifier, "%s", e.message)
+  warning(e.identifier, "parent(%s) failed: %s", pth, e.message)
 end
 
 end

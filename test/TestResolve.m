@@ -72,7 +72,7 @@ function test_resolve_fullpath(tc, p)
   a = p;
   switch a
     case {'', "", '.', "."}, b = string(tc.td);
-    case {'..', ".."}, b = string(stdlib.parent(tc.td));
+    case {'..', ".."}, b = string(fileparts(tc.td));
   end
 
 tc.verifyEqual(stdlib.resolve(a), b)

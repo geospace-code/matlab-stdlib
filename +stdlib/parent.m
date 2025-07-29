@@ -1,36 +1,17 @@
 %% PARENT parent directory of path
 %
 %% Examples:
-% parent("a/b/c") == "a/b"
-% parent("a/b/c/") == "a/b"
-%
-% MEX is about 10x faster than plain Matlab for this function
+% stdlib.parent("a/b/c") == "a/b"
+% stdlib.parent("a/b/c/") == "a/b"
 
-function p = parent(pth)
+function p = parent(pth, method)
 arguments
   pth {mustBeTextScalar}
+  method (1,:) string = ["java", "python", "native"]
 end
 
-if stdlib.has_java()
-  p = stdlib.java.parent(pth);
-elseif stdlib.has_python()
-  p = stdlib.python.parent(pth);
-else
-  p = stdlib.native.parent(pth);
-end
+fun = choose_method(method, "parent");
+
+p = fun(pth);
 
 end
-
-%!assert(parent("/a/b/c"), fullfile('/a','b'))
-%!assert(parent("/a/b/c/"), fullfile('/a','b'))
-%!assert(parent('/a///b'), fullfile('/a'))
-%!assert(parent('a/b/'), 'a')
-%!assert(parent('a//b/'), 'a')
-%!assert(parent('a//b'), 'a')
-%!test
-%! if ispc
-%!   assert(parent('c:/a'), 'c:\')
-%!   assert(parent('c:\a\'), 'c:\')
-%!   assert(parent('c:\'), 'c:\')
-%!   assert(parent('c:'), 'c:\')
-%! end

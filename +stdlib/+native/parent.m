@@ -13,8 +13,6 @@ elseif ispc() && strcmp(p, stdlib.root_name(pth))
   p = strcat(p, filesep);
 end
 
-if isstring(pth)
-  p = string(p);
-end
+p = string(p);
 
 end

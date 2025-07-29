@@ -2,7 +2,7 @@ classdef TestParent < matlab.unittest.TestCase
 
 properties (TestParameter)
 p = init_parent()
-fun = {@stdlib.parent, @stdlib.java.parent, @stdlib.python.parent}
+method = {"java", "python", "native"}
 end
 
 methods(TestClassSetup)
@@ -14,10 +14,10 @@ end
 
 methods (Test, TestTags="pure")
 
-function test_parent(tc, p, fun)
-is_capable(tc, fun)
+function test_parent(tc, p, method)
+is_capable(tc, str2func("stdlib." + method + ".parent"))
 
-tc.verifyEqual(fun(p{1}), p{2}, sprintf("parent(%s)", p{1}))
+tc.verifyEqual(stdlib.parent(p{1}, method), p{2}, sprintf("parent(%s, %s)", p{1}, method))
 end
 
 end
