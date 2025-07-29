@@ -30,7 +30,7 @@ end
 [s, msg, id] = fileattrib(file, mode);
 ok = s == 1;
 if ~ok
-  warning(id, "Failed to set permissions for %s: %s", file, msg)
+  warning(id, "Failed to set permissions %s for %s: %s", mode, file, msg)
 end
 
 end

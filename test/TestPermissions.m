@@ -33,20 +33,21 @@ end
 end
 
 
-function test_set_permissions_noread(tc, sp_fun)
+function test_set_permissions_noread(tc)
 import matlab.unittest.constraints.StartsWithSubstring
-is_capable(tc, sp_fun)
 
-tc.assumeFalse((ispc() && isMATLABReleaseOlderThan('R2025a')) || isMATLABReleaseOlderThan('R2022a'))
+% This ONLY works with the new setPermissions.
+% fileattrib can not even set the permissions on Linux.
+tc.assumeFalse(isMATLABReleaseOlderThan('R2025a'))
 td = tc.createTemporaryFolder();
 
 nr = fullfile(td, "no-read");
 
 tc.verifyTrue(stdlib.touch(nr))
-tc.verifyTrue(sp_fun(nr, -1, 0, 0))
+tc.verifyTrue(stdlib.set_permissions(nr, -1, 0, 0))
 p = stdlib.get_permissions(nr);
 
-if ~ispc() || ~endsWith(func2str(sp_fun), "legacy")
+if ~ispc()
   tc.verifyThat(p, StartsWithSubstring("-"), "no-read permission failed to set")
 end
 
