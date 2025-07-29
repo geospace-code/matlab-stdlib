@@ -57,7 +57,7 @@ elseif contains(n, ".sys.")
 
 elseif contains(n, ".native.")
 
-  if endsWith(n, "set_permissions")
+  if endsWith(n, ["is_exe", "is_readable", "is_writable", "set_permissions"])
     tc.assumeFalse(isMATLABReleaseOlderThan('R2025a'))
   end
 

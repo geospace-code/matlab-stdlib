@@ -68,7 +68,7 @@ else
                          Tag="python", ...
                          SourceFiles=pkg_root, RunOnlyImpactedTests=true,...
                          TestResults="TestResults_python.xml", Strict=true);
- 
+
   addons = matlab.addons.installedAddons;
   if contains(addons.Name, "Matlab Test")
     plan("coverage") = matlab.buildtool.tasks.TestTask(test_root, ...
@@ -189,6 +189,13 @@ end
 
 
 function [comp, shell] = get_compiler(lang)
+arguments (Input)
+  lang (1,1) string {mustBeMember(lang, ["c", "c++", "fortran"])}
+end
+arguments (Output)
+  comp string {mustBeScalarOrEmpty}
+  shell string {mustBeScalarOrEmpty}
+end
 
 lang = lower(lang);
 
@@ -211,7 +218,6 @@ if isempty(co)
       if isempty(comp)
         disp("set CC environment variable to the C compiler path, or do 'mex -setup c'")
       end
-    otherwise, error("language not known " + lang)
   end
 else
   comp = co.Details.CompilerExecutable;
@@ -238,10 +244,18 @@ end
 
 
 function [comp, shell, outFlag] = get_build_cmd(lang)
+arguments (Input)
+  lang (1,1) string {mustBeMember(lang, ["c", "c++", "fortran"])}
+end
+arguments (Output)
+  comp string {mustBeScalarOrEmpty}
+  shell string {mustBeScalarOrEmpty}
+  outFlag (1,1) string
+end
 
 [comp, shell] = get_compiler(lang);
 
-if contains(shell, "Visual Studio") || contains(comp, "ifx.exe")
+if any(contains(shell, "Visual Studio")) || endsWith(comp, "ifx.exe")
   outFlag = "/Fo" + tempdir + " /link /out:";
 else
   outFlag = "-o";
@@ -251,8 +265,11 @@ end
 
 
 function srcs = get_mex_sources(build_all)
-arguments
+arguments (Input)
   build_all (1,1) logical = false
+end
+arguments (Output)
+  srcs cell
 end
 
 srcs = {
@@ -272,6 +289,10 @@ end
 
 
 function [compiler_opt, linker_opt] = get_compiler_options()
+arguments (Output)
+  compiler_opt (1,:) string
+  linker_opt (1,1) string
+end
 
 cxx = mex.getCompilerConfigurations('c++');
 flags = cxx.Details.CompilerFlags;
@@ -318,8 +339,9 @@ end
 
 
 function comp = get_fortran_compiler()
-
-disp("set FC environment variable to the Fortran compiler path, or do 'mex -setup fortran'")
+arguments (Output)
+  comp string {mustBeScalarOrEmpty}
+end
 
 if ismac()
   p = '/opt/homebrew/bin/';
@@ -331,13 +353,14 @@ elseif ispc()
   if isempty(p)
     p = getenv("MW_MINGW64_LOC");
   end
-  if ~isempty(p) && ~endsWith(p, ["bin", "bin/"])
+  if ~endsWith(p, ["bin", "bin/"])
     p = p + "/bin";
   end
 else
   p = '';
 end
 
+comp = string.empty;
 for fc = ["flang", "gfortran", "ifx"]
   comp = stdlib.which(fc, p);
   if ~isempty(comp)
@@ -346,5 +369,7 @@ for fc = ["flang", "gfortran", "ifx"]
     return
   end
 end
+
+disp("to hint Fortran compiler, setenv('FC', <Fortran compiler path>), or do 'mex -setup fortran'")
 
 end
