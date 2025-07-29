@@ -15,41 +15,14 @@
 function c = canonical(p, strict)
 arguments
   p {mustBeTextScalar}
-  strict logical = false
+  strict (1,1) logical = false
 end
 
-if stdlib.strempty(p)
-  c = "";
-  return
-end
 
 if isMATLABReleaseOlderThan('R2024a')
-  c = acanon(p, strict);
+  c = stdlib.native.canonical_legacy(p, strict);
 else
-  pth = matlab.io.internal.filesystem.resolvePath(p);
-  c = pth.ResolvedPath;
-  if ~strict && stdlib.strempty(c)
-    c = stdlib.normalize(p);
-  end
-end
-
-c = string(c);
-
-end
-
-
-function c = acanon(p, strict)
-
-c = "";
-
-if stdlib.strempty(p), return, end
-
-[s, r] = fileattrib(p);
-
-if s == 1
-  c = r.Name;
-elseif ~strict
-  c = stdlib.normalize(p);
+  c = stdlib.native.canonical(p, strict);
 end
 
 end

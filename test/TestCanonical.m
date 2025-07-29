@@ -9,6 +9,7 @@ p = {{'', ""}, ...
 {"not-exist/a/..", "not-exist"}, ...
 {"./not-exist", "not-exist"}
 };
+fun = {@stdlib.canonical, @stdlib.native.canonical, @stdlib.native.canonical_legacy}
 end
 
 methods(TestClassSetup)
@@ -21,8 +22,10 @@ end
 
 methods(Test, TestTags="impure")
 
-function test_canonical(tc, p)
-tc.verifyEqual(stdlib.canonical(p{1}), p{2})
+function test_canonical(tc, p, fun)
+is_capable(tc, fun)
+
+tc.verifyEqual(fun(p{1}, false), p{2})
 end
 
 end

@@ -61,6 +61,10 @@ elseif contains(n, ".native.")
     tc.assumeFalse(isMATLABReleaseOlderThan('R2025a'))
   end
 
+  if endsWith(n, "canonical")
+    tc.assumeFalse(isMATLABReleaseOlderThan('R2024a'))
+  end
+
 end
 
 end
