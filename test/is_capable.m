@@ -46,7 +46,10 @@ elseif contains(n, "python")
    end
 
 elseif contains(n, ".sys.")
- % pass
+
+  if endsWith(n, "samepath")
+    tc.assumeTrue(isunix(), "unix only function")
+  end
 
 elseif contains(n, ".native.")
 

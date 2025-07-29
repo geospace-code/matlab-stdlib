@@ -18,8 +18,10 @@ end
 
 if stdlib.has_python()
   y = stdlib.python.samepath(path1, path2);
-else
+elseif isunix()
   y = stdlib.sys.samepath(path1, path2);
+else
+  y = stdlib.native.samepath(path1, path2);
 end
 
 %!assert(samepath(".", "."))

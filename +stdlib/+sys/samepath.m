@@ -1,15 +1,10 @@
 function y = samepath(path1, path2)
 
+assert(~ispc(), "Unix-like only")
+
 y = false;
 
-if stdlib.strempty(path1) || stdlib.strempty(path2)
-  return
-end
-
-if ispc()
-  c1 = stdlib.canonical(path1, true);
-  c2 = stdlib.canonical(path2, true);
-  y = strlength(c1) > 0 && strcmp(c1, c2);
+if ~stdlib.exists(path1) || ~stdlib.exists(path2)
   return
 end
 
@@ -22,7 +17,10 @@ end
 cmd = "stat " + flag + " %d:%i " + path1 + " && stat " + flag + " %d:%i " + path2;
 
 [s, m] = system(cmd);
-if s ~= 0, return, end
+if s ~= 0
+  warning("stdlib:sys:samepath:RuntimeError", "stdlib.sys.samepath(%s, %s) failed: %s", path1, path2, m)
+  return
+end
 
 m = splitlines(m);
 assert(length(m) >= 2, "samepath(%s, %s) failed: unexpected output", path1, path2);
