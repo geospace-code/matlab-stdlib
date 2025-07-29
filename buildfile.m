@@ -105,16 +105,15 @@ end
 if isMATLABReleaseOlderThan("R2024b"), return, end
 
 %% MexTask
-[compiler_opt, linker_opt] = get_compiler_options();
 
 for s = get_mex_sources()
   src = s{1};
-  name = stdlib.stem(src(1));
+  [~, name] = fileparts(src(1));
 
 % name of MEX target function is name of first source file
   plan("mex:" + name) = matlab.buildtool.tasks.MexTask(src, pkg_root, ...
     Description="Build MEX target " + name, ...
-    Options=[compiler_opt, linker_opt]);
+    Options=get_compiler_options());
 end
 
 end
@@ -151,118 +150,6 @@ publish_gen_index_html("stdlib", ...
 end
 
 
-function build_exe(context)
-
-for i = 1:length(context.Task.Inputs)
-  src = context.Task.Inputs(i);
-  exe = context.Task.Outputs(i).paths;
-  exe = exe(1);
-
-  ext = stdlib.suffix(src.paths);
-  switch ext
-    case ".c", lang = "c";
-    case ".cpp", lang = "c++";
-    case ".f90", lang = "fortran";
-    otherwise, error("unknown code suffix " + ext)
-  end
-
-  [comp, shell, outFlag] = get_build_cmd(lang);
-  if isempty(comp)
-    return
-  end
-  if i == 1 && ~isempty(shell)
-    disp("Shell: " + shell)
-  end
-
-  cmd = join([comp, src.paths, outFlag + exe]);
-  if ~isempty(shell)
-    cmd = join([shell, "&&", cmd]);
-  end
-
-  disp(cmd)
-  [s, msg] = system(cmd);
-  assert(s == 0, "Error %d: %s", s, msg)
-end
-
-end
-
-
-function [comp, shell] = get_compiler(lang)
-arguments (Input)
-  lang (1,1) string {mustBeMember(lang, ["c", "c++", "fortran"])}
-end
-arguments (Output)
-  comp string {mustBeScalarOrEmpty}
-  shell string {mustBeScalarOrEmpty}
-end
-
-lang = lower(lang);
-
-co = mex.getCompilerConfigurations(lang);
-
-if isempty(co)
-  switch lang
-    case "fortran"
-      comp = getenv("FC");
-      if isempty(comp)
-        comp = get_fortran_compiler();
-      end
-    case "c++"
-      comp = getenv("CXX");
-      if isempty(comp)
-        disp("set CXX environment variable to the C++ compiler path, or do 'mex -setup c++")
-      end
-    case "c"
-      comp = getenv("CC");
-      if isempty(comp)
-        disp("set CC environment variable to the C compiler path, or do 'mex -setup c'")
-      end
-  end
-else
-  comp = co.Details.CompilerExecutable;
-  % disp(lang + " compiler: " + co.ShortName + " " + co.Name + " " + co.Version + " " + comp)
-end
-
-shell = string.empty;
-if ispc()
-  if isempty(co)
-    if any(contains(comp, ["gcc", "g++", "gfortran"]))
-      shell = "set PATH=" + fileparts(comp) + pathsep + "%PATH%";
-    end
-  else
-    if startsWith(co.ShortName, ["INTEL", "MSVC"])
-      shell = join([strcat('"',string(co.Details.CommandLineShell),'"'), ...
-                  co.Details.CommandLineShellArg], " ");
-    elseif startsWith(co.ShortName, "mingw64")
-      shell = "set PATH=" + fileparts(comp) + pathsep + "%PATH%";
-    end
-  end
-end
-
-end
-
-
-function [comp, shell, outFlag] = get_build_cmd(lang)
-arguments (Input)
-  lang (1,1) string {mustBeMember(lang, ["c", "c++", "fortran"])}
-end
-arguments (Output)
-  comp string {mustBeScalarOrEmpty}
-  shell string {mustBeScalarOrEmpty}
-  outFlag (1,1) string
-end
-
-[comp, shell] = get_compiler(lang);
-
-if any(contains(shell, "Visual Studio")) || endsWith(comp, "ifx.exe")
-  outFlag = "/Fo" + tempdir + " /link /out:";
-else
-  outFlag = "-o";
-end
-
-end
-
-
 function srcs = get_mex_sources(build_all)
 arguments (Input)
   build_all (1,1) logical = false
@@ -286,77 +173,3 @@ end
 
 end
 
-
-function [compiler_opt, linker_opt] = get_compiler_options()
-arguments (Output)
-  compiler_opt (1,1) string
-  linker_opt (1,1) string
-end
-
-cxx = mex.getCompilerConfigurations('c++');
-flags = cxx.Details.CompilerFlags;
-
-msvc = startsWith(cxx.ShortName, "MSVCPP");
-
-std = "-std=c++17";
-% mex() can't handle string.empty
-linker_opt = "";
-
-if msvc
-  std = "/std:c++17";
-  % on Windows, Matlab doesn't register unsupported MSVC or oneAPI
-elseif cxx.ShortName == "g++"
-  if ~stdlib.version_atleast(cxx.Version, "8")
-    warning("g++ 8 or newer is required for MEX, detected g++" + cxx.Version)
-  end
-
-  if ~stdlib.version_atleast(cxx.Version, "9")
-    linker_opt = "-lstdc++fs";
-  end
-end
-
-opt = flags + " " + std;
-if msvc
-  compiler_opt = "COMPFLAGS=" + opt;
-else
-  compiler_opt = "CXXFLAGS=" + opt;
-end
-
-end
-
-
-function comp = get_fortran_compiler()
-arguments (Output)
-  comp string {mustBeScalarOrEmpty}
-end
-
-if ismac()
-  p = '/opt/homebrew/bin/';
-  disp("on macOS, environment variables propagate in to GUI programs like Matlab by using 'launchctl setenv FC' and a reboot.")
-  disp("if having trouble, try:")
-  disp("  FC=gfortran matlab -batch 'buildtool exe'")
-elseif ispc()
-  p = getenv('CMPLR_ROOT');
-  if isempty(p)
-    p = getenv("MW_MINGW64_LOC");
-  end
-  if ~endsWith(p, ["bin", "bin/"])
-    p = p + "/bin";
-  end
-else
-  p = '';
-end
-
-comp = string.empty;
-for fc = ["flang", "gfortran", "ifx"]
-  comp = stdlib.which(fc, p);
-  if ~isempty(comp)
-    % disp(lang + " compiler: " + comp)
-    setenv("FC", comp);
-    return
-  end
-end
-
-disp("to hint Fortran compiler, setenv('FC', <Fortran compiler path>), or do 'mex -setup fortran'")
-
-end
