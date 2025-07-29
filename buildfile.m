@@ -1,11 +1,10 @@
 function plan = buildfile
 import matlab.unittest.selectors.HasTag
-assert(~isMATLABReleaseOlderThan("R2022b"), "MATLAB R2022b or newer is required for this buildfile")
 
 plan = buildplan(localfunctions);
 
 if isMATLABReleaseOlderThan("R2023b")
-  plan("clean") =matlab.buildtool.Task();
+  plan("clean") = matlab.buildtool.Task();
 else
   plan("clean") = matlab.buildtool.tasks.CleanTask;
 end
@@ -69,14 +68,16 @@ else
                          Tag="python", ...
                          SourceFiles=pkg_root, RunOnlyImpactedTests=true,...
                          TestResults="TestResults_python.xml", Strict=true);
-
-  plan("coverage") = matlab.buildtool.tasks.TestTask(test_root, ...
+ 
+  addons = matlab.addons.installedAddons;
+  if contains(addons.Name, "Matlab Test")
+    plan("coverage") = matlab.buildtool.tasks.TestTask(test_root, ...
     Description="code coverage", ...
-    Dependencies=["clean", "exe"], ...
+    Dependencies=["clean_mex", "exe"], ...
     SourceFiles=pkg_root, ...
     Selector=cnomex | HasTag("java") | HasTag("exe") | HasTag("python"), ...
-    Strict=false, ...
-    CodeCoverageResults=["code-coverage.xml", "code-coverage.html"]);
+    Strict=false).addCodeCoverage(matlabtest.plugins.codecoverage.StandaloneReport("coverage-report.html"));
+  end
 
   plan("clean_mex") = matlab.buildtool.Task(Actions=@clean_mex, Description="Clean only MEX files to enable incremental tests");
 end
