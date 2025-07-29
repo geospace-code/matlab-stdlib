@@ -47,10 +47,14 @@ is_capable(tc, disk_capacity_fun)
 
 zero = uint64(0);
 
+dc = disk_capacity_fun(Ps);
+
+tc.verifyClass(dc, 'uint64')
+
 if stdlib.exists(Ps)
-  tc.verifyGreaterThan(disk_capacity_fun(Ps), zero)
+  tc.verifyGreaterThan(dc, zero)
 else
-  tc.verifyEqual(disk_capacity_fun(Ps), zero)
+  tc.verifyEqual(dc, zero)
 end
 end
 

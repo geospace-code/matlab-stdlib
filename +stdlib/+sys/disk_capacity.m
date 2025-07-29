@@ -16,8 +16,6 @@ end
 [s, t] = system(cmd);
 if s == 0
   t = str2double(t);
-else
-  t = 0;
 end
 
 t = uint64(t);
