@@ -290,7 +290,7 @@ end
 
 function [compiler_opt, linker_opt] = get_compiler_options()
 arguments (Output)
-  compiler_opt (1,:) string
+  compiler_opt (1,1) string
   linker_opt (1,1) string
 end
 
@@ -301,20 +301,12 @@ msvc = startsWith(cxx.ShortName, "MSVCPP");
 
 std = "-std=c++17";
 % mex() can't handle string.empty
-compiler_id = "";
 linker_opt = "";
-
-% this override is mostly for CI. Ensure auto-compiler flags are still correct if using this.
-cxxenv = getenv("CXXMEX");
-if ~isempty(cxxenv)
-  compiler_id = "CXX=" + cxxenv;
-  disp("MEX compiler override: " + compiler_id)
-end
 
 if msvc
   std = "/std:c++17";
   % on Windows, Matlab doesn't register unsupported MSVC or oneAPI
-elseif ~strlength(compiler_id) && cxx.ShortName == "g++"
+elseif cxx.ShortName == "g++"
   if ~stdlib.version_atleast(cxx.Version, "8")
     warning("g++ 8 or newer is required for MEX, detected g++" + cxx.Version)
   end
@@ -329,10 +321,6 @@ if msvc
   compiler_opt = "COMPFLAGS=" + opt;
 else
   compiler_opt = "CXXFLAGS=" + opt;
-end
-
-if strlength(compiler_id)
-  compiler_opt = [compiler_id, compiler_opt];
 end
 
 end
