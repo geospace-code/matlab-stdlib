@@ -26,6 +26,6 @@ for m = method
   end
 end
 
-error("Could not find %s using %s", name, join(method, ','))
+error("Could not find any %s capable of running, using %s", name, join(method, ','))
 
 end
