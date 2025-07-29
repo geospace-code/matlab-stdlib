@@ -1,7 +1,4 @@
 function a = file_attributes(p)
-arguments
-  p {mustBeTextScalar}
-end
 
 assert(~stdlib.strempty(p), 'Path must not be empty.')
 

@@ -1,8 +1,13 @@
 classdef TestIsExe < matlab.unittest.TestCase
 
 properties (TestParameter)
-p = {{fileparts(mfilename('fullpath')) + "/../Readme.md", false}, {"not-exist", false}}
-fun = {@stdlib.is_exe, @stdlib.java.is_exe, @stdlib.python.is_exe, @stdlib.native.is_exe}
+p = {
+{fileparts(mfilename('fullpath')) + "/../Readme.md", false}, ...
+{"not-exist", false}, ...
+{'', false}, ...
+{"", false}
+}
+fun = {@stdlib.is_exe, @stdlib.java.is_exe, @stdlib.python.is_exe, @stdlib.native.is_exe, @stdlib.native.is_exe_legacy}
 end
 
 methods(TestClassSetup)

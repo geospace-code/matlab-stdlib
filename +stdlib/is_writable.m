@@ -1,19 +1,21 @@
 %% IS_WRITABLE is path writable
 %
 %%% Inputs
-% p: string array of file paths
+% file: path to file or folder
 %% Outputs
-% ok: logical array of the same size as p, true if file is writable
+% ok: true if file is writable
 
-function y = is_writable(p)
+function y = is_writable(file)
 arguments
-  p {mustBeTextScalar}
+  file {mustBeTextScalar}
 end
 
 if stdlib.has_java()
-  y = stdlib.java.is_writable(p);
+  y = stdlib.java.is_writable(file);
+elseif isMATLABReleaseOlderThan('R2025a')
+  y = stdlib.native.is_writable_legacy(file);
 else
-  y = stdlib.native.is_writable(p);
+  y = stdlib.native.is_writable(file);
 end
 
 end

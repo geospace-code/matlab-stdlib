@@ -1,31 +1,21 @@
-function y = is_exe(p)
+function y = is_exe(file)
 
-y = isfile(p);
+y = isfile(file);
 
 if ispc()
-  y = y && stdlib.native.has_windows_executable_suffix(p);
+  y = y && stdlib.native.has_windows_executable_suffix(file);
 end
 
 if ~y, return, end
 
-
-if ~isMATLABReleaseOlderThan('R2025a')
-
-  if isunix
-    props = ["UserExecute", "GroupExecute", "OtherExecute"];
-  else
-    props = "Readable";
-  end
-
-  t = getPermissions(filePermissions(p), props);
-
-  y = any(t{1, :});
-
+if isunix
+  props = ["UserExecute", "GroupExecute", "OtherExecute"];
 else
-
-  a = stdlib.native.file_attributes(p);
-  y = a.UserExecute || a.GroupExecute || a.OtherExecute;
-
+  props = "Readable";
 end
+
+t = getPermissions(filePermissions(file), props);
+
+y = any(t{1, :});
 
 end

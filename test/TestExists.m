@@ -5,11 +5,13 @@ Ps = {
 {pwd(), true}, ...
 {mfilename("fullpath") + ".m", true}, ...
 {fileparts(mfilename("fullpath")) + "/../Readme.md", true}, ...
-{tempname(), false}
+{tempname(), false}, ...
+{'', false}, ...}
+{"", false}
 }
 % on CI matlabroot can be writable!
-isr_fun = {@stdlib.is_readable, @stdlib.java.is_readable, @stdlib.native.is_readable}
-isw_fun = {@stdlib.is_writable, @stdlib.java.is_writable, @stdlib.native.is_writable}
+isr_fun = {@stdlib.is_readable, @stdlib.java.is_readable, @stdlib.native.is_readable, @stdlib.native.is_readable_legacy}
+isw_fun = {@stdlib.is_writable, @stdlib.java.is_writable, @stdlib.native.is_writable, @stdlib.native.is_writable_legacy}
 end
 
 methods(TestClassSetup)
