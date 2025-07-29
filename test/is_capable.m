@@ -16,10 +16,6 @@ if contains(n, ".dotnet.")
     tc.assumeTrue(ispc(), "Windows only function")
   end
 
-  if endsWith(n, "relative_to")
-    tc.assumeGreaterThanOrEqual(dapi, 5)
-  end
-
   if endsWith(n, ["create_symlink", "ram_total", "read_symlink"])
     tc.assumeGreaterThanOrEqual(dapi, 6);
   end
@@ -50,10 +46,7 @@ elseif contains(n, "python")
    end
 
 elseif contains(n, ".sys.")
-
-  if ismac() && endsWith(n, "relative_to")
-    tc.assumeNotEmpty(stdlib.which("greadlink"), "brew install coreutils")
-  end
+ % pass
 
 elseif contains(n, ".native.")
 

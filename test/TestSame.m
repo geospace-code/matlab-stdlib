@@ -1,4 +1,4 @@
-classdef TestFileSame < matlab.unittest.TestCase
+classdef TestSame < matlab.unittest.TestCase
 
 properties (TestParameter)
 p_same = {...

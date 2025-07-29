@@ -4,9 +4,6 @@
 %
 
 function r = posix(p)
-arguments
-  p {mustBeTextScalar}
-end
 
 if ispc
   r = strrep(p, '\', '/');

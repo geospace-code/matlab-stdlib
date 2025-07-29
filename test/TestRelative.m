@@ -7,7 +7,7 @@ end
 properties (TestParameter)
 pr = init_rel()
 pp = init_prox()
-rel_fun = {@stdlib.relative_to, @stdlib.sys.relative_to, @stdlib.dotnet.relative_to, @stdlib.python.relative_to}
+rel_fun = {@stdlib.relative_to, @stdlib.native.relative_to, @stdlib.python.relative_to}
 end
 
 methods(TestClassSetup)
@@ -43,9 +43,9 @@ function p = init_rel()
 root = fileparts(fileparts(mfilename('fullpath')));
 
 p = {{"", "", ""}, ...
+{pwd(), pwd(), "."}, ...
 {fileparts(pwd()), pwd(), "test"}, ...
-{root, fullfile(root, "test", mfilename() + ".m"), fullfile("test", mfilename + ".m")}, ...
-{"/", "/", "."}, ...
+{root, fullfile(root, "test", mfilename() + ".m"), fullfile("test", mfilename + ".m")}
 };
 % NOTE: ".." in relative_to(base) is ambiguous including for python.pathlib, C++ <filesystem>, etc.
 
@@ -79,6 +79,7 @@ if ispc()
 else
 
 p = [p, {
+{"/", "/", "."}, ...
 {"/dev/null", "/dev/null", "."}, ...
 }];
 end

@@ -16,18 +16,10 @@ arguments
   other {mustBeTextScalar}
 end
 
-if (stdlib.strempty(base) && stdlib.strempty(other)) || ...
-   (stdlib.is_absolute(base) ~= stdlib.is_absolute(other))
-  rel = "";
-  return
-end
-
 if stdlib.has_python()
   rel = stdlib.python.relative_to(base, other);
-elseif stdlib.dotnet_api() >= 5
-  rel = stdlib.dotnet.relative_to(base, other);
 else
-  rel = stdlib.sys.relative_to(base, other);
+  rel = stdlib.native.relative_to(base, other);
 end
 
 end
