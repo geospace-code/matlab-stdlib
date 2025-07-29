@@ -12,11 +12,12 @@ end
 
 ok = false;
 
-if stdlib.isoctave() && ~stdlib.exists(p)
+if ~stdlib.exists(p)
   return
 end
 
-%% fallback for if MEX not compiled
+lastwarn('')
+
 try %#ok<*TRYNC>
   delete(p);
   ok = true;

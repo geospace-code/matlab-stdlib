@@ -76,6 +76,22 @@ end
 end
 
 
+function test_remove_file(tc)
+
+tc.assumeFalse(isMATLABReleaseOlderThan('R2022a'))
+d = tc.createTemporaryFolder();
+
+f = tempname(d);
+
+tc.verifyFalse(stdlib.remove(f), "should not succeed at removing non-existant path")
+
+tc.assumeTrue(stdlib.touch(f), "failed to touch file " + f)
+tc.assumeThat(f, matlab.unittest.constraints.IsFile)
+
+tc.verifyTrue(stdlib.remove(f), "failed to remove file " + f)
+end
+
+
 function test_device(tc, device_fun)
 is_capable(tc, device_fun)
 
