@@ -55,6 +55,12 @@ elseif contains(n, ".sys.")
     tc.assumeNotEmpty(stdlib.which("greadlink"), "brew install coreutils")
   end
 
+elseif contains(n, ".native.")
+
+  if endsWith("set_permissions")
+    tc.assumeFalse(isMATLABReleaseOlderThan('R2025a'))
+  end
+
 end
 
 end

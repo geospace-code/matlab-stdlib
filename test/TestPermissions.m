@@ -2,6 +2,7 @@ classdef TestPermissions < matlab.unittest.TestCase
 
 properties (TestParameter)
 Ps = {".", pwd(), "", tempname(), mfilename('fullpath') + ".m"}
+sp_fun = {@stdlib.native.set_permissions, @stdlib.native.set_permissions_legacy}
 end
 
 methods(TestClassSetup)
@@ -32,31 +33,41 @@ end
 end
 
 
-function test_set_permissions(tc)
+function test_set_permissions_noread(tc, sp_fun)
 import matlab.unittest.constraints.StartsWithSubstring
+is_capable(tc, sp_fun)
 
-tc.assumeTrue(~isMATLABReleaseOlderThan('R2025a') || stdlib.is_mex_fun('stdlib.set_permissions'))
-
+tc.assumeFalse((ispc() && isMATLABReleaseOlderThan('R2025a')) || isMATLABReleaseOlderThan('R2022a'))
 td = tc.createTemporaryFolder();
 
 nr = fullfile(td, "no-read");
 
 tc.verifyTrue(stdlib.touch(nr))
-tc.verifyTrue(stdlib.set_permissions(nr, -1, 0, 0))
+tc.verifyTrue(sp_fun(nr, -1, 0, 0))
 p = stdlib.get_permissions(nr);
 
-if ~ispc
-tc.verifyThat(p, StartsWithSubstring("-"), "no-read permission failed to set")
+if ~ispc() || ~endsWith(func2str(sp_fun), "legacy")
+  tc.verifyThat(p, StartsWithSubstring("-"), "no-read permission failed to set")
 end
+
+end
+
+
+function test_set_permissions_nowrite(tc, sp_fun)
+import matlab.unittest.constraints.StartsWithSubstring
+is_capable(tc, sp_fun)
+
+tc.assumeFalse(isMATLABReleaseOlderThan('R2022a'))
+td = tc.createTemporaryFolder();
 
 nw = fullfile(td, "no-write");
 
 tc.verifyTrue(stdlib.touch(nw))
-tc.verifyTrue(stdlib.set_permissions(nw, 0, -1, 0))
+tc.verifyTrue(sp_fun(nw, 0, -1, 0))
 p = stdlib.get_permissions(nw);
 
-if ~ispc
-tc.verifyThat(p, StartsWithSubstring("r-"), "no-write permission failed to set")
+if ~ispc() || ~endsWith(func2str(sp_fun), "legacy")
+  tc.verifyThat(p, StartsWithSubstring("r-"), "no-write permission failed to set")
 end
 
 end
