@@ -240,7 +240,7 @@ function [comp, shell, outFlag] = get_build_cmd(lang)
 
 [comp, shell] = get_compiler(lang);
 
-if contains(shell, "Visual Studio")
+if contains(shell, "Visual Studio") || contains(comp, "ifx.exe")
   outFlag = "/Fo" + tempdir + " /link /out:";
 else
   outFlag = "-o";
