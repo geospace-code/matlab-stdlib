@@ -24,11 +24,17 @@ for m = method
         if ~isunix(), continue, end
       end
     case "python"
+
       has = @stdlib.has_python;
 
       if endsWith(name, ["filesystem_type", "ram_total", "ram_free"])
         if ~stdlib.python.has_psutil(); continue, end
       end
+
+      if endsWith(name, "cpu_load")
+        if ~isunix(), continue, end
+      end
+
     case {"legacy", "sys"}, has = true;
     case "native", has = stdlib.strempty(minVersion) || ~isMATLABReleaseOlderThan(minVersion);
     otherwise

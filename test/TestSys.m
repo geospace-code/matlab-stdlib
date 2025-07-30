@@ -13,6 +13,7 @@ user_fun = {@stdlib.get_username, @stdlib.sys.get_username, @stdlib.dotnet.get_u
 is_admin_fun = {@stdlib.is_admin, @stdlib.sys.is_admin, @stdlib.dotnet.is_admin, @stdlib.java.is_admin, @stdlib.python.is_admin}
 ram_free_method = {'sys', 'java', 'python'}
 ram_total_method = {'sys', 'dotnet', 'java', 'python'}
+cpu_load_method = {"java", "python", "sys"}
 end
 
 methods(TestClassSetup)
@@ -49,6 +50,19 @@ pid = stdlib.get_pid();
 
 tc.verifyGreaterThan(pid, 0)
 tc.verifyClass(pid, 'uint64')
+end
+
+
+function test_cpu_load(tc, cpu_load_method)
+n = "stdlib." + cpu_load_method + ".cpu_load";
+h = @stdlib.cpu_load;
+tc.assertNotEmpty(which(n))
+try
+  r = h(cpu_load_method);
+  tc.verifyGreaterThanOrEqual(r, 0.)
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError')
+end
 end
 
 
