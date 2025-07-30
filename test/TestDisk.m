@@ -60,9 +60,12 @@ end
 
 
 function test_hard_link_count(tc, hl_fun)
+fname = "hard_link_count";
+n = "stdlib." + hl_fun + "." + fname;
+h = str2func("stdlib." + fname);
+tc.assertNotEmpty(which(n))
 try
-  c = stdlib.hard_link_count(mfilename("fullpath") + ".m", hl_fun);
-  tc.verifyGreaterThanOrEqual(c, 1)
+  tc.verifyGreaterThanOrEqual(h(mfilename("fullpath") + ".m"), 1)
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError')
 end
