@@ -34,7 +34,8 @@ n = "stdlib." + method + "." + fname;
 h = str2func("stdlib." + fname);
 tc.assertNotEmpty(which(n))
 try
-  tc.verifyEqual(h(Ps{1}, method), Ps{2})
+  r = h(Ps{1}, method);
+  tc.verifyEqual(r, Ps{2})
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError')
 end

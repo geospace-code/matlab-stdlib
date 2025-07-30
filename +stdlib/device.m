@@ -1,17 +1,13 @@
 %% DEVICE filesystem device index of path
 
-function i = device(p)
+function i = device(file, method)
 arguments
-  p {mustBeTextScalar}
+  file {mustBeTextScalar}
+  method (1,:) string = ["java", "python", "sys"]
 end
 
-if isunix() && stdlib.has_java()
-  i = stdlib.java.device(p);
-elseif stdlib.has_python()
-  i = stdlib.python.device(p);
-else
-  i = stdlib.sys.device(p);
-end
+fun = choose_method(method, "device");
+i = fun(file);
 
 end
 

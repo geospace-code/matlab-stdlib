@@ -7,8 +7,8 @@ end
 properties (TestParameter)
 Ps = {".", "", "/", getenv("SystemDrive"), "not-exist"}
 Po = {mfilename("fullpath") + ".m", pwd(), ".", "", tempname()}
-device_fun = {@stdlib.device, @stdlib.sys.device, @stdlib.java.device, @stdlib.python.device}
-inode_fun = {@stdlib.inode, @stdlib.sys.inode, @stdlib.java.inode, @stdlib.python.inode}
+id_fun = {'sys', 'java', 'python'}
+id_name = {"inode", "device"}
 disk_ac_fun = {'sys', 'dotnet', 'java', 'python'}
 disk_ac_name = {'disk_available', 'disk_capacity'}
 hl_fun = {'java', 'python'}
@@ -31,10 +31,11 @@ h = str2func("stdlib." + disk_ac_name);
 tc.assertNotEmpty(which(n))
 
 try
+  r = h(Ps, disk_ac_fun);
   if stdlib.exists(Ps)
-    tc.verifyGreaterThanOrEqual(h(Ps), 0)
+    tc.verifyGreaterThanOrEqual(r, 0)
   else
-    tc.verifyEqual(h(Ps), uint64(0))
+    tc.verifyEqual(r, uint64(0))
   end
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError')
@@ -47,8 +48,10 @@ fname = "hard_link_count";
 n = "stdlib." + hl_fun + "." + fname;
 h = str2func("stdlib." + fname);
 tc.assertNotEmpty(which(n))
+P = mfilename("fullpath") + ".m";
 try
-  tc.verifyGreaterThanOrEqual(h(mfilename("fullpath") + ".m"), 1)
+  r = h(P, hl_fun);
+  tc.verifyGreaterThanOrEqual(r, 1)
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError')
 end
@@ -87,19 +90,20 @@ tc.verifyTrue(stdlib.remove(f), "failed to remove file " + f)
 end
 
 
-function test_device(tc, device_fun)
-is_capable(tc, device_fun)
+function test_inode_device(tc, id_fun, id_name)
+n = "stdlib." + id_fun + "." + id_name;
+h = str2func("stdlib." + id_name);
+tc.assertNotEmpty(which(n))
 
-tc.verifyGreaterThan(device_fun(pwd()), uint64(0))
-tc.verifyEqual(device_fun("."), device_fun(pwd()))
-
+try
+    ip = h(pwd(), id_fun);
+    tc.verifyClass(ip, 'uint64')
+    tc.verifyGreaterThan(ip, 0)
+    tc.verifyEqual(h(".", id_fun), ip)
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError')
 end
 
-
-function test_inode(tc, inode_fun)
-is_capable(tc, inode_fun)
-
-tc.verifyEqual(inode_fun("."), inode_fun(pwd()))
 end
 
 

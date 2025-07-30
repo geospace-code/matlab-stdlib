@@ -20,7 +20,7 @@ for m = method
       end
     case "java"
       has = @stdlib.has_java;
-      if endsWith(name, "hard_link_count")
+      if endsWith(name, ["device", "hard_link_count", "inode"])
         if ~isunix(), continue, end
       end
     case "python"

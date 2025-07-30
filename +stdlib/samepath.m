@@ -7,6 +7,8 @@
 % Unix it is false.
 % In C/C++ access() or stat() the same behavior is observed Windows vs Unix.
 %
+% Ref: https://devblogs.microsoft.com/oldnewthing/20220128-00/?p=106201
+%
 %%% Inputs
 % * path1, path2: paths to compare
 

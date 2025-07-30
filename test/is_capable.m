@@ -25,7 +25,7 @@ elseif contains(n, ".java.")
   japi = stdlib.java_api();
   tc.assumeGreaterThan(japi, 0, "Java not available")
 
-  if endsWith(n, ["device", "inode","is_admin"])
+  if endsWith(n, "is_admin")
     tc.assumeTrue(isunix())
   end
 

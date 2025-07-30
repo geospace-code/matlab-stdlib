@@ -2,18 +2,14 @@
 %
 % Windows always returns 0, Unix returns inode number.
 
-function i = inode(p)
+function i = inode(file, method)
 arguments
-  p {mustBeTextScalar}
+  file {mustBeTextScalar}
+  method (1,:) string = ["java", "python", "sys"]
 end
 
-if isunix() && stdlib.has_java()
-  i = stdlib.java.inode(p);
-elseif stdlib.has_python()
-  i = stdlib.python.inode(p);
-else
-  i = stdlib.sys.inode(p);
-end
+fun = choose_method(method, "inode");
+i = fun(file);
 
 end
 
