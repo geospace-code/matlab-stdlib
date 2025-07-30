@@ -8,7 +8,7 @@
 function f = filename(p, method)
 arguments
   p string
-  method {mustBeMember(method, {'pattern', 'regexp'})} = 'pattern'
+  method = 'pattern'
 end
 
 % the pattern method is a few percent faster than regexp  
@@ -18,6 +18,7 @@ switch method
   case 'regexp'
     f = regexp(p, ['[^/\' filesep ']*$'], 'match', 'once');
     f(ismissing(f)) = "";
+    otherwise, error('must be method "pattern" or "regexp"')
 end
 
 end
