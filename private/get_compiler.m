@@ -1,11 +1,9 @@
 function [comp, shell] = get_compiler(lang)
-arguments (Input)
+arguments
   lang (1,1) string {mustBeMember(lang, ["c", "c++", "fortran"])}
 end
-arguments (Output)
-  comp string {mustBeScalarOrEmpty}
-  shell string {mustBeScalarOrEmpty}
-end
+
+shell = string.empty;
 
 lang = lower(lang);
 
@@ -33,8 +31,8 @@ else
   comp = co.Details.CompilerExecutable;
   % disp(lang + " compiler: " + co.ShortName + " " + co.Name + " " + co.Version + " " + comp)
 end
+if ~strlength(comp), return, end
 
-shell = string.empty;
 if ispc()
   if isempty(co)
     if any(contains(comp, ["gcc", "g++", "gfortran"]))
