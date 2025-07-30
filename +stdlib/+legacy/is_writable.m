@@ -1,4 +1,4 @@
-function y = is_writable_legacy(file)
+function y = is_writable(file)
 
 if stdlib.exists(file)
   a = stdlib.native.file_attributes(file);

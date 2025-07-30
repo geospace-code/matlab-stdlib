@@ -11,7 +11,7 @@ Ps = {
 }
 % on CI matlabroot can be writable!
 isr_method = {'java', 'native', 'legacy'}
-isw_fun = {@stdlib.is_writable, @stdlib.java.is_writable, @stdlib.native.is_writable, @stdlib.native.is_writable_legacy}
+isw_method = {'java', 'native', 'legacy'}
 end
 
 methods(TestClassSetup)
@@ -37,19 +37,21 @@ tc.verifyEqual(ok, Ps{2}, Ps{1})
 end
 
 
-function test_is_writable(tc, Ps, isw_fun)
-is_capable(tc, isw_fun)
+function test_is_writable(tc, Ps, isw_method)
+is_capable(tc, str2func("stdlib." + isw_method + ".is_writable"))
 
-ok = isw_fun(Ps{1});
+ok = stdlib.is_writable(Ps{1}, isw_method);
 tc.verifyEqual(ok, Ps{2}, Ps{1})
 end
 
-function test_is_writable_dir(tc)
+function test_is_writable_dir(tc, isw_method)
+is_capable(tc, str2func("stdlib." + isw_method + ".is_writable"))
+
 tc.assumeFalse(isMATLABReleaseOlderThan('R2022a'))
 
 td = tc.createTemporaryFolder();
 
-tc.verifyTrue(stdlib.is_writable(td))
+tc.verifyTrue(stdlib.is_writable(td, isw_method))
 end
 
 end

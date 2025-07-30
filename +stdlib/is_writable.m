@@ -5,17 +5,14 @@
 %% Outputs
 % ok: true if file is writable
 
-function y = is_writable(file)
+function y = is_writable(file, method)
 arguments
   file {mustBeTextScalar}
+  method (1,:) string = ["java", "native", "legacy"]
 end
 
-if stdlib.has_java()
-  y = stdlib.java.is_writable(file);
-elseif isMATLABReleaseOlderThan('R2025a')
-  y = stdlib.native.is_writable_legacy(file);
-else
-  y = stdlib.native.is_writable(file);
-end
+fun = choose_method(method, "is_writable", 'R2025a');
+
+y = fun(file);
 
 end
