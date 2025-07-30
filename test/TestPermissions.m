@@ -2,7 +2,7 @@ classdef TestPermissions < matlab.unittest.TestCase
 
 properties (TestParameter)
 Ps = {".", pwd(), "", tempname(), mfilename('fullpath') + ".m"}
-sp_fun = {@stdlib.native.set_permissions, @stdlib.legacy.set_permissions}
+sp_fun = {'native', 'legacy'}
 end
 
 methods(TestClassSetup)
@@ -56,7 +56,6 @@ end
 
 function test_set_permissions_nowrite(tc, sp_fun)
 import matlab.unittest.constraints.StartsWithSubstring
-is_capable(tc, sp_fun)
 
 tc.assumeFalse(isMATLABReleaseOlderThan('R2022a'))
 td = tc.createTemporaryFolder();
@@ -64,10 +63,16 @@ td = tc.createTemporaryFolder();
 nw = fullfile(td, "no-write");
 
 tc.verifyTrue(stdlib.touch(nw))
-tc.verifyTrue(sp_fun(nw, 0, -1, 0))
-p = stdlib.get_permissions(nw);
+try
+  tc.verifyTrue(stdlib.set_permissions(nw, 0, -1, 0, sp_fun))
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError')
+  return
+end
 
-if ~ispc() || ~contains(func2str(sp_fun), ".legacy.")
+
+p = stdlib.get_permissions(nw);
+if ~ispc() || sp_fun ~= "legacy"
   tc.verifyThat(p, StartsWithSubstring("r-"), "no-write permission failed to set")
 end
 

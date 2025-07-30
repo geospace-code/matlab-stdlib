@@ -1,5 +1,9 @@
 function ok = set_permissions(file, readable, writable, executable)
 
+ok = false;
+
+if ~stdlib.exists(file), return, end
+
 p = filePermissions(file);
 
 k = string.empty;

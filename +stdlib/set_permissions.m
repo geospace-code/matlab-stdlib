@@ -9,23 +9,17 @@
 %%% Outputs
 % * ok (1,1) logical
 
-function ok = set_permissions(file, readable, writable, executable)
+function ok = set_permissions(file, readable, writable, executable, method)
 arguments
   file {mustBeTextScalar}
   readable (1,1) {mustBeInteger, mustBeInRange(readable, -1, 1)}
   writable (1,1) {mustBeInteger, mustBeInRange(writable, -1, 1)}
   executable (1,1) {mustBeInteger, mustBeInRange(executable, -1, 1)}
+  method (1,:) string = ["native", "legacy"]
 end
 
-ok = false;
+fun = choose_method(method, "set_permissions", 'R2025a');
 
-if ~stdlib.exists(file), return, end
-
-
-if isMATLABReleaseOlderThan('R2025a')
-  ok = stdlib.legacy.set_permissions(file, readable, writable, executable);
-else
-  ok = stdlib.native.set_permissions(file, readable, writable, executable);
-end
+ok = fun(file, readable, writable, executable);
 
 end
