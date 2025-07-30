@@ -18,6 +18,11 @@ for m = method
       if endsWith(name, "ram_total")
         if stdlib.dotnet_api() < 6, continue, end
       end
+    case "java"
+      has = @stdlib.has_java;
+      if endsWith(name, "hard_link_count")
+        if ~isunix(), continue, end
+      end
     case "python"
       has = @stdlib.has_python;
 

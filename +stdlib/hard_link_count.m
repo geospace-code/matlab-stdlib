@@ -5,23 +5,15 @@
 % * https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#getPosixFileAttributes(java.nio.file.Path,java.nio.file.LinkOption...)
 % * https://docs.oracle.com/javase/tutorial/essential/io/links.html
 
-function c = hard_link_count(p)
+function c = hard_link_count(file, method)
 arguments
-  p {mustBeTextScalar}
+  file {mustBeTextScalar}
+  method (1,:) string = ["java", "python"]
 end
 
-c = 0;
+fun = choose_method(method, "hard_link_count");
 
-if isunix() && stdlib.has_java()
-  c = stdlib.java.hard_link_count(p);
-elseif stdlib.has_python()
-  c = stdlib.python.hard_link_count(p);
-elseif stdlib.isoctave()
-  [s, err] = stat(p);
-  if err == 0
-    c = s.nlink;
-  end
-end
+c = fun(file);
 
 end
 
