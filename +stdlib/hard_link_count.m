@@ -10,7 +10,7 @@ arguments
   p {mustBeTextScalar}
 end
 
-c = [];
+c = 0;
 
 if isunix() && stdlib.has_java()
   c = stdlib.java.hard_link_count(p);
