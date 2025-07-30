@@ -61,7 +61,7 @@ try
   r = h(cpu_load_method);
   tc.verifyGreaterThanOrEqual(r, 0.)
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError')
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
 end
 end
 

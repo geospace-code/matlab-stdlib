@@ -15,13 +15,9 @@ if isMATLABReleaseOlderThan('R2022a') && ~force_old
   return
 end
 
-try
+% need to have no catch section as glitchy Python load can make TypeError etc.
+try %#ok<TRYNC>
   v = pvt_python_version();
-catch e
-  switch e.identifier
-    case {'Octave:undefined-function', 'MATLAB:Python:PythonUnavailable'}  % pass
-    otherwise, rethrow(e)
-  end
 end
 
 end

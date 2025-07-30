@@ -38,7 +38,7 @@ try
     tc.verifyEqual(r, uint64(0))
   end
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError')
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
 end
 end
 
@@ -53,7 +53,7 @@ try
   r = h(P, hl_fun);
   tc.verifyGreaterThanOrEqual(r, 1)
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError')
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
 end
 end
 
@@ -101,7 +101,7 @@ try
     tc.verifyGreaterThan(ip, 0)
     tc.verifyEqual(h(".", id_fun), ip)
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError')
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
 end
 
 end

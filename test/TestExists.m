@@ -37,7 +37,7 @@ try
   r = h(Ps{1}, method);
   tc.verifyEqual(r, Ps{2})
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError')
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
 end
 end
 
