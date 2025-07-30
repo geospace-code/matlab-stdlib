@@ -1,6 +1,6 @@
 function fun = choose_method(method, name, minVersion)
 arguments
-  method (1,:) string 
+  method (1,:) string
   name (1,1) string
   minVersion {mustBeTextScalar} = ''
 end
@@ -19,9 +19,12 @@ for m = method
   end
 
   if has()
-    fun = str2func("stdlib." + m + "." + name);
-    f = functions(fun);
-    if ~isempty(f.file) || isfield(f, 'opaqueType')
+    n = "stdlib." + m + "." + name;
+    fun = str2func(n);
+    % don't use functions() it's not for programmatic use and its behavior
+    % changed in R2025a
+    fp = which(n);
+    if ~isempty(fp)
       return
     end
   end
