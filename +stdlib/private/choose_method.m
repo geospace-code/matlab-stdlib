@@ -1,14 +1,13 @@
+%% CHOOSE_METHOD pick a function to execute
+% Given a string vector of "method", check which methods are available.
+% To save time, do not check that the function exists with which()
+
+
 function fun = choose_method(method, name, minVersion)
 arguments
   method (1,:) string
   name (1,1) string
   minVersion {mustBeTextScalar} = ''
-end
-
-if isscalar(method)
-  % bypass checking for about 20% speed boost
-  fun = str2func("stdlib." + method + "." + name);
-  return
 end
 
 for m = method
@@ -34,12 +33,7 @@ for m = method
   if has()
     n = "stdlib." + m + "." + name;
     fun = str2func(n);
-    % don't use functions() it's not for programmatic use and its behavior
-    % changed in R2025a
-    fp = which(n);
-    if ~isempty(fp)
-      return
-    end
+    return
   end
 end
 
