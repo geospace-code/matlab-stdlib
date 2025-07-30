@@ -24,17 +24,10 @@ if ~isempty(stdlib_py_version)
   return
 end
 
-v = [];
-
-% For MATLAB versions older than R2022a, skip Python version check unless force_old is true
-if isMATLABReleaseOlderThan('R2022a') && ~force_old
-  return
-end
-
 % we use a separate function because the JIT compiler in Matlab < R2022a
 % breaks for any py.* command when pyenv() is not correctly configured
 
-v = stdlib.python.version();
+v = stdlib.python.version(force_old);
 
 % cache the result
 if ~isempty(v)
