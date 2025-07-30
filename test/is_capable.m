@@ -25,7 +25,7 @@ elseif contains(n, ".java.")
   japi = stdlib.java_api();
   tc.assumeGreaterThan(japi, 0, "Java not available")
 
-  if endsWith(n, ["device", "inode", "hard_link_count", "is_admin"])
+  if endsWith(n, ["device", "inode","is_admin"])
     tc.assumeTrue(isunix())
   end
 
@@ -53,7 +53,7 @@ elseif contains(n, ".sys.")
 
 elseif contains(n, ".native.")
 
-  if endsWith(n, ["is_exe", "is_readable", "is_writable", "set_permissions"])
+  if endsWith(n, ["is_exe", "set_permissions"])
     tc.assumeFalse(isMATLABReleaseOlderThan('R2025a'))
   end
 
