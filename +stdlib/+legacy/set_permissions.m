@@ -1,4 +1,4 @@
-function ok = set_permissions_legacy(file, readable, writable, executable)
+function ok = set_permissions(file, readable, writable, executable)
 
 mode = '';
 % mode is space-delimited

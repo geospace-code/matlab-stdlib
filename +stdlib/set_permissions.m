@@ -23,7 +23,7 @@ if ~stdlib.exists(file), return, end
 
 
 if isMATLABReleaseOlderThan('R2025a')
-  ok = stdlib.native.set_permissions_legacy(file, readable, writable, executable);
+  ok = stdlib.legacy.set_permissions(file, readable, writable, executable);
 else
   ok = stdlib.native.set_permissions(file, readable, writable, executable);
 end

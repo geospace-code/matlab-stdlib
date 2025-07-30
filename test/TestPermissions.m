@@ -2,7 +2,7 @@ classdef TestPermissions < matlab.unittest.TestCase
 
 properties (TestParameter)
 Ps = {".", pwd(), "", tempname(), mfilename('fullpath') + ".m"}
-sp_fun = {@stdlib.native.set_permissions, @stdlib.native.set_permissions_legacy}
+sp_fun = {@stdlib.native.set_permissions, @stdlib.legacy.set_permissions}
 end
 
 methods(TestClassSetup)
@@ -67,7 +67,7 @@ tc.verifyTrue(stdlib.touch(nw))
 tc.verifyTrue(sp_fun(nw, 0, -1, 0))
 p = stdlib.get_permissions(nw);
 
-if ~ispc() || ~endsWith(func2str(sp_fun), "legacy")
+if ~ispc() || ~contains(func2str(sp_fun), ".legacy.")
   tc.verifyThat(p, StartsWithSubstring("r-"), "no-write permission failed to set")
 end
 
