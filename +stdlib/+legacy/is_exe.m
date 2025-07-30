@@ -8,7 +8,7 @@ end
 
 if ~y, return, end
 
-a = stdlib.native.file_attributes(file);
+a = file_attributes(file);
 y = a.UserExecute || a.GroupExecute || a.OtherExecute;
 
 end

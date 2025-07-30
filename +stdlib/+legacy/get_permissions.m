@@ -1,0 +1,9 @@
+function p = get_permissions(file)
+
+p = '';
+
+if ~stdlib.exists(file), return, end
+
+p = stdlib.native.perm2char(filePermissions(file), file);
+
+end
