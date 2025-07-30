@@ -7,7 +7,7 @@ end
 properties (TestParameter)
 pr = init_rel()
 pp = init_prox()
-rel_fun = {@stdlib.relative_to, @stdlib.native.relative_to, @stdlib.python.relative_to}
+rel_fun = {"native", "python"}
 end
 
 methods(TestClassSetup)
@@ -18,13 +18,12 @@ end
 end
 
 
-
 methods (Test)
 
 function test_relative_to(tc, pr, rel_fun)
-is_capable(tc, rel_fun)
+is_capable(tc, str2func("stdlib." + rel_fun + ".relative_to"))
 
-tc.verifyEqual(rel_fun(pr{1}, pr{2}), pr{3}, ...
+tc.verifyEqual(stdlib.relative_to(pr{1}, pr{2}, rel_fun), pr{3}, ...
   "relative_to(" + pr{1} + "," + pr{2}+")")
 end
 

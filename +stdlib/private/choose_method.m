@@ -27,8 +27,6 @@ for m = method
       end
     case {"legacy", "sys"}, has = true;
     case "native", has = stdlib.strempty(minVersion) || ~isMATLABReleaseOlderThan(minVersion);
-    case "sys"
-      has = true;
     otherwise
       has = str2func("stdlib.has_" + m);
   end

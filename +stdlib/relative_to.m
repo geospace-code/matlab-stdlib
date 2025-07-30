@@ -10,16 +10,15 @@
 % javaPathObject(base).relativize(javaPathObject(other))
 % https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html#relativize-java.nio.file.Path-
 
-function rel = relative_to(base, other)
+function rel = relative_to(base, other, method)
 arguments
   base {mustBeTextScalar}
   other {mustBeTextScalar}
+  method (1,:) string = ["python", "native"]
 end
 
-if stdlib.has_python()
-  rel = stdlib.python.relative_to(base, other);
-else
-  rel = stdlib.native.relative_to(base, other);
-end
+fun = choose_method(method, "relative_to");
+
+rel = fun(base, other);
 
 end
