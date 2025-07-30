@@ -6,18 +6,13 @@
 %%% Outputs
 % * bytes: total physical RAM [bytes]
 
-function bytes = ram_total()
-
-if stdlib.dotnet_api() >= 6
-  bytes = stdlib.dotnet.ram_total();
-elseif stdlib.has_java()
-  bytes = stdlib.java.ram_total();
-elseif stdlib.python.has_psutil()
-  bytes = stdlib.python.ram_total();
-else
-  bytes = stdlib.sys.ram_total();
+function bytes = ram_total(method)
+arguments
+  method (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
-end
+fun = choose_method(method, "ram_total");
 
-%!assert(ram_total()>0)
+bytes = fun();
+
+end

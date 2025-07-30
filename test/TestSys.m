@@ -11,8 +11,8 @@ cpu_arch_fun = {@stdlib.cpu_arch, @stdlib.dotnet.cpu_arch, @stdlib.java.cpu_arch
 host_fun = {@stdlib.hostname, @stdlib.sys.get_hostname, @stdlib.dotnet.get_hostname, @stdlib.java.get_hostname, @stdlib.python.get_hostname}
 user_fun = {@stdlib.get_username, @stdlib.sys.get_username, @stdlib.dotnet.get_username, @stdlib.java.get_username, @stdlib.python.get_username}
 is_admin_fun = {@stdlib.is_admin, @stdlib.sys.is_admin, @stdlib.dotnet.is_admin, @stdlib.java.is_admin, @stdlib.python.is_admin}
-ram_free_fun = {@stdlib.ram_free, @stdlib.sys.ram_free, @stdlib.java.ram_free, @stdlib.python.ram_free}
-ram_total_fun = {@stdlib.ram_total, @stdlib.sys.ram_total, @stdlib.dotnet.ram_total, @stdlib.java.ram_total, @stdlib.python.ram_total}
+ram_free_method = {'sys', 'java', 'python'}
+ram_total_method = {'sys', 'dotnet', 'java', 'python'}
 end
 
 methods(TestClassSetup)
@@ -144,20 +144,20 @@ arch = cpu_arch_fun();
 tc.verifyGreaterThan(strlength(arch), 0, "CPU architecture should not be empty")
 end
 
-function test_ram_total(tc, ram_total_fun)
-is_capable(tc, ram_total_fun)
+function test_ram_total(tc, ram_total_method)
+is_capable(tc, str2func("stdlib." + ram_total_method + ".ram_total"))
 
-t = ram_total_fun();
+t = stdlib.ram_total(ram_total_method);
 tc.verifyGreaterThan(t, 0)
 tc.verifyClass(t, 'uint64')
 end
 
 
-function test_ram_free(tc, ram_free_fun)
+function test_ram_free(tc, ram_free_method)
 % don't verify less than or equal total due to shaky system measurements
-is_capable(tc, ram_free_fun)
+is_capable(tc, str2func("stdlib." + ram_free_method + ".ram_free"))
 
-f = ram_free_fun();
+f = stdlib.ram_free(ram_free_method);
 tc.verifyGreaterThan(f, 0)
 tc.verifyClass(f, 'uint64')
 end

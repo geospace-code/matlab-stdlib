@@ -1,9 +1,8 @@
 function t = filesystem_type(p)
 
-if ~stdlib.exists(p)
-  t = string.empty;
-  return
-end
+t = string.empty;
+
+if ~stdlib.exists(p), return, end
 
 if ispc()
   dl = extractBefore(stdlib.absolute(p), 2);
@@ -17,8 +16,6 @@ end
 [s, t] = system(cmd);
 if s == 0
   t = string(strip(t));
-else
-  t = string.empty;
 end
 
 end

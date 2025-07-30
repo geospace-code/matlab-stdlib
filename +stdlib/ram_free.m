@@ -8,24 +8,20 @@
 %%% Outputs
 % * freebytes: free physical RAM [bytes]
 %
-% This is done using Java on non-Windows platforms.
-%
-% VisualBasic (needs Windows) is needed to do this with .NET,
-%
-% builtin memory() on Windows includes swap. The user could do that themselves.
-%
-% we installed use Java or Python psutil, which are consistent with each other.
+% Java or Python psutil are consistent with each other.
 %
 % Fallback is to shell commands.
 
-function bytes = ram_free()
-
-if stdlib.has_java()
-  bytes = stdlib.java.ram_free();
-elseif stdlib.python.has_psutil()
-  bytes = stdlib.python.ram_free();
-else
-  bytes = stdlib.sys.ram_free();
+function bytes = ram_free(method)
+arguments
+  method (1,:) string = ["java", "python", "sys"]
 end
+
+fun = choose_method(method, "ram_free");
+
+bytes = fun();
+
+% * VisualBasic (needs Windows) is needed to do this with .NET.
+% * builtin memory() on Windows includes swap. The user could do that themselves.
 
 end
