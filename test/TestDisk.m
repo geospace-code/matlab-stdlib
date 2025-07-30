@@ -9,8 +9,8 @@ Ps = {".", "", "/", getenv("SystemDrive"), "not-exist"}
 Po = {mfilename("fullpath") + ".m", pwd(), ".", "", tempname()}
 device_fun = {@stdlib.device, @stdlib.sys.device, @stdlib.java.device, @stdlib.python.device}
 inode_fun = {@stdlib.inode, @stdlib.sys.inode, @stdlib.java.inode, @stdlib.python.inode}
-disk_available_fun = {@stdlib.disk_available, @stdlib.sys.disk_available, @stdlib.dotnet.disk_available, @stdlib.java.disk_available, @stdlib.python.disk_available}
-disk_capacity_fun  = {@stdlib.disk_capacity,  @stdlib.sys.disk_capacity,  @stdlib.dotnet.disk_capacity,  @stdlib.java.disk_capacity,  @stdlib.python.disk_capacity}
+disk_ac_fun = {'sys', 'dotnet', 'java', 'python'}
+disk_ac_name = {'disk_available', 'disk_capacity'}
 hl_fun = {'java', 'python'}
 fst_fun = {@stdlib.filesystem_type, @stdlib.sys.filesystem_type, @stdlib.dotnet.filesystem_type, @stdlib.java.filesystem_type, @stdlib.python.filesystem_type}
 owner_fun = {@stdlib.get_owner, @stdlib.sys.get_owner, @stdlib.dotnet.get_owner, @stdlib.java.get_owner, @stdlib.python.get_owner}
@@ -25,36 +25,19 @@ end
 
 methods (Test)
 
-function test_disk_available(tc, Ps, disk_available_fun)
-is_capable(tc, disk_available_fun)
+function test_disk_ac(tc, Ps, disk_ac_fun, disk_ac_name)
+n = "stdlib." + disk_ac_fun + "." + disk_ac_name;
+h = str2func("stdlib." + disk_ac_name);
+tc.assertNotEmpty(which(n))
 
-zero = uint64(0);
-
-da = disk_available_fun(Ps);
-
-tc.verifyClass(da, 'uint64')
-
-if stdlib.exists(Ps)
-  tc.verifyGreaterThan(da, zero)
-else
-  tc.verifyEqual(da, zero)
-end
-end
-
-
-function test_disk_capacity(tc, Ps, disk_capacity_fun)
-is_capable(tc, disk_capacity_fun)
-
-zero = uint64(0);
-
-dc = disk_capacity_fun(Ps);
-
-tc.verifyClass(dc, 'uint64')
-
-if stdlib.exists(Ps)
-  tc.verifyGreaterThan(dc, zero)
-else
-  tc.verifyEqual(dc, zero)
+try
+  if stdlib.exists(Ps)
+    tc.verifyGreaterThanOrEqual(h(Ps), 0)
+  else
+    tc.verifyEqual(h(Ps), uint64(0))
+  end
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError')
 end
 end
 

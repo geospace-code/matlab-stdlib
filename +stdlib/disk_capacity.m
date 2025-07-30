@@ -2,22 +2,14 @@
 %
 % example:  stdlib.disk_capacity('/')
 
-function f = disk_capacity(d)
+function f = disk_capacity(filepath, method)
 arguments
-  d {mustBeTextScalar}
+  filepath {mustBeTextScalar}
+  method (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
+fun = choose_method(method, "disk_capacity");
 
-if stdlib.has_dotnet()
-  f = stdlib.dotnet.disk_capacity(d);
-elseif stdlib.has_java()
-  f = stdlib.java.disk_capacity(d);
-elseif stdlib.has_python()
-  f = stdlib.python.disk_capacity(d);
-else
-  f = stdlib.sys.disk_capacity(d);
-end
+f = fun(filepath);
 
 end
-
-%!assert (disk_capacity('.') > 0)
