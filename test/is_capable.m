@@ -9,15 +9,10 @@ n = func2str(f);
 if contains(n, ".dotnet.")
 
   dapi = stdlib.dotnet_api();
-
   tc.assumeGreaterThan(dapi, 0, ".NET not available")
 
   if endsWith(n, ["is_admin", "owner"])
     tc.assumeTrue(ispc(), "Windows only function")
-  end
-
-  if endsWith(n, "ram_total")
-    tc.assumeGreaterThanOrEqual(dapi, 6);
   end
 
 elseif contains(n, ".java.")
@@ -32,10 +27,6 @@ elseif contains(n, ".java.")
 elseif contains(n, "python")
 
    tc.assumeTrue(stdlib.has_python(), "Python not available")
-
-   if endsWith(n, ["filesystem_type", "ram_free", "ram_total"])
-     tc.assumeTrue(stdlib.python.has_psutil(), "need Python psutil package")
-   end
 
    if endsWith(n, "owner")
      tc.assumeFalse(ispc(), "unix only function")

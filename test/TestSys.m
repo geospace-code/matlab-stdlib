@@ -159,19 +159,27 @@ tc.verifyGreaterThan(strlength(arch), 0, "CPU architecture should not be empty")
 end
 
 function test_ram_total(tc, ram_total_method)
-is_capable(tc, str2func("stdlib." + ram_total_method + ".ram_total"))
-
-t = stdlib.ram_total(ram_total_method);
+try
+  t = stdlib.ram_total(ram_total_method);
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  return
+end
+  
 tc.verifyGreaterThan(t, 0)
 tc.verifyClass(t, 'uint64')
 end
 
 
 function test_ram_free(tc, ram_free_method)
-% don't verify less than or equal total due to shaky system measurements
-is_capable(tc, str2func("stdlib." + ram_free_method + ".ram_free"))
+% don't verify less than or equal total due to shaky system measurements'
+try
+  f = stdlib.ram_free(ram_free_method);
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  return
+end
 
-f = stdlib.ram_free(ram_free_method);
 tc.verifyGreaterThan(f, 0)
 tc.verifyClass(f, 'uint64')
 end
