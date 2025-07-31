@@ -10,7 +10,7 @@ if ispc()
 elseif ismac()
   cmd = "df -aHY " + p + " | awk 'NR==2 {print $2}'";
 else
-  cmd = "df -T " + p + " | awk 'NR==2 {print $2}'";
+  cmd = "df --output=fstype " + p + " | tail -n 1";
 end
 
 [s, t] = system(cmd);

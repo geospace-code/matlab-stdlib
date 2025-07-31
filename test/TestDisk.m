@@ -64,9 +64,9 @@ is_capable(tc, fst_fun)
 t = fst_fun(Ps);
 tc.verifyClass(t, 'string')
 
-tc.assumeFalse(isempty(t) && tc.CI, "Some CI block viewing their filesystem type")
 
 if stdlib.exists(Ps)
+  tc.assumeFalse(isempty(t) && tc.CI, "Some CI block viewing their filesystem type")
   tc.verifyGreaterThan(strlength(t), 0)
 else
   tc.verifyEmpty(t)
