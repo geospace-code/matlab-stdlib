@@ -18,7 +18,7 @@ try
     end
   end
 catch e
-  warning(e.identifier, "%s", e.message)
+  warning(e.identifier, "filesystem_type(%s) failed: %s", p, e.message);
 end
 
 end
