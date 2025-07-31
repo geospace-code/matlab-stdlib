@@ -8,12 +8,9 @@ properties (TestParameter)
 fun = {@stdlib.isoctave, @stdlib.has_dotnet, ...
        @stdlib.has_java, @stdlib.has_python}
 cpu_arch_fun = {@stdlib.cpu_arch, @stdlib.dotnet.cpu_arch, @stdlib.java.cpu_arch}
-host_fun = {@stdlib.hostname, @stdlib.sys.get_hostname, @stdlib.dotnet.get_hostname, @stdlib.java.get_hostname, @stdlib.python.get_hostname}
 user_fun = {@stdlib.get_username, @stdlib.sys.get_username, @stdlib.dotnet.get_username, @stdlib.java.get_username, @stdlib.python.get_username}
 ia_fun = {'sys', 'dotnet', 'java', 'python'}
-ram_free_method = {'sys', 'java', 'python'}
-ram_total_method = {'sys', 'dotnet', 'java', 'python'}
-cpu_load_method = {"java", "python", "sys"}
+cr_method = {'sys', 'java', 'python'}
 end
 
 methods(TestClassSetup)
@@ -58,12 +55,12 @@ tc.verifyClass(pid, 'uint64')
 end
 
 
-function test_cpu_load(tc, cpu_load_method)
-n = "stdlib." + cpu_load_method + ".cpu_load";
+function test_cpu_load(tc, cr_method)
+n = "stdlib." + cr_method + ".cpu_load";
 h = @stdlib.cpu_load;
 tc.assertNotEmpty(which(n))
 try
-  r = h(cpu_load_method);
+  r = h(cr_method);
   tc.verifyGreaterThanOrEqual(r, 0.)
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
@@ -134,10 +131,13 @@ tc.verifyNotEmpty(ip)
 tc.verifyClass(ip, 'logical')
 end
 
-function test_hostname(tc, host_fun)
-is_capable(tc, host_fun)
-h = host_fun();
-tc.verifyGreaterThan(strlength(h), 0)
+function test_hostname(tc, ia_fun)
+try
+  h = stdlib.hostname(ia_fun);
+  tc.verifyGreaterThan(strlength(h), 0)
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+end
 end
 
 function test_username(tc, user_fun)
@@ -163,9 +163,9 @@ arch = cpu_arch_fun();
 tc.verifyGreaterThan(strlength(arch), 0, "CPU architecture should not be empty")
 end
 
-function test_ram_total(tc, ram_total_method)
+function test_ram_total(tc, ia_fun)
 try
-  t = stdlib.ram_total(ram_total_method);
+  t = stdlib.ram_total(ia_fun);
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
   return
@@ -176,10 +176,10 @@ tc.verifyClass(t, 'uint64')
 end
 
 
-function test_ram_free(tc, ram_free_method)
+function test_ram_free(tc, cr_method)
 % don't verify less than or equal total due to shaky system measurements'
 try
-  f = stdlib.ram_free(ram_free_method);
+  f = stdlib.ram_free(cr_method);
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
   return

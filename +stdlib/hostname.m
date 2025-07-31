@@ -3,20 +3,13 @@
 %
 % Ref: https://docs.oracle.com/javase/8/docs/api/java/net/InetAddress.html#getHostName--
 
-function n = hostname()
-
-n = '';
-
-if stdlib.has_dotnet()
-  n = stdlib.dotnet.get_hostname();
-elseif stdlib.has_java()
-  n = stdlib.java.get_hostname();
-elseif stdlib.has_python()
-  n = stdlib.python.get_hostname();
-elseif stdlib.isoctave()
-  n = gethostname();
+function n = hostname(method)
+arguments
+  method (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
-end
+fun = choose_method(method, "get_hostname");
 
-%!assert (!isempty(hostname()))
+n = fun();
+
+end
