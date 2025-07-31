@@ -1,7 +1,7 @@
 function test_main(context, sel)
 arguments
   context {mustBeScalarOrEmpty} = []
-  sel {mustBeScalarOrEmpty} = ~HasTag("exe") & ~HasTag("mex")
+  sel {mustBeScalarOrEmpty} = ~HasTag("exe") & ~HasTag("mex") & ~HasTag("java_exe")
 end
 
 import matlab.unittest.TestRunner
