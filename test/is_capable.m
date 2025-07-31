@@ -18,13 +18,7 @@ elseif contains(n, ".java.")
 
 elseif contains(n, "python")
 
-   tc.assumeTrue(stdlib.has_python(), "Python not available")
-
-elseif contains(n, ".sys.")
-
-  if endsWith(n, "samepath")
-    tc.assumeTrue(isunix(), "unix only function")
-  end
+  tc.assumeTrue(stdlib.has_python(), "Python not available")
 
 end
 

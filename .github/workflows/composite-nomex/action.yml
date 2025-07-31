@@ -27,7 +27,7 @@ runs:
     uses: matlab-actions/run-build@v2
     with:
       startup-options: ${{ matrix.startup-options }}
-      tasks: test:java
+      tasks: test:java test:java_exe
 
 
   - name: Java Test (< R2024b)
@@ -44,9 +44,8 @@ runs:
     if: ${{ matrix.release < 'R2022b' }}
     uses: matlab-actions/run-command@v2
     with:
-      command: run('test/test_main.m')
+      command: test_main
       startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test.log
-    # test/test_main.m adds path internally
 
   - name: upload logfile
     if: ${{ hashFiles(matrix.release-runner.os-test.log) != '' }}

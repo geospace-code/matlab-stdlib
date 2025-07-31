@@ -16,7 +16,7 @@ end
 end
 
 
-methods (Test, TestTags=["exe"])
+methods (Test, TestTags="exe")
 
 function test_stdout_stderr(tc, lang_out)
 import matlab.unittest.constraints.IsFile
@@ -101,7 +101,7 @@ end
 end
 
 
-methods (Test, TestTags=["exe", "java"])
+methods (Test, TestTags="java_exe")
 
 function test_Java_stdout_stderr(tc, lang_out)
 import matlab.unittest.constraints.IsFile

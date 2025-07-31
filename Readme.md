@@ -31,13 +31,12 @@ Matlab R2022b..R2024a, inclusive:
 
 ```matlab
 buildtool test_main
-buildtool test_java
 ```
 
 Matlab older than R2022b:
 
 ```matlab
-run('test/test_main.m')
+test_main
 ```
 
 ## Java-based functions

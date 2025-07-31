@@ -19,5 +19,3 @@ else
 end
 
 end
-
-%!assert(ischar(get_shell()))

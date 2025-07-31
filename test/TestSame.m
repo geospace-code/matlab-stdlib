@@ -7,7 +7,7 @@ p_same = {...
 {"..", pwd() + "/.."}, ...
 {pwd(), pwd() + "/."}}
 
-same_fun = {@stdlib.samepath, @stdlib.sys.samepath, @stdlib.java.samepath, @stdlib.python.samepath, @stdlib.native.samepath}
+fun = {'sys', 'java', 'python', 'native'}
 end
 
 methods(TestClassSetup)
@@ -19,18 +19,25 @@ end
 
 methods(Test)
 
-function test_samepath(tc, p_same, same_fun)
-is_capable(tc, same_fun)
-
-tc.verifyTrue(same_fun(p_same{1}, p_same{2}))
+function test_samepath(tc, p_same, fun)
+tc.assertNotEmpty(which("stdlib." + fun + ".samepath"))
+try
+  y = stdlib.samepath(p_same{:}, fun);
+  tc.verifyTrue(y)
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+end
 end
 
-function test_samepath_notexist(tc, same_fun)
-is_capable(tc, same_fun)
 
-tc.verifyFalse(same_fun("", ""))
+function test_samepath_notexist(tc, fun)
 t = tempname();
-tc.verifyFalse(same_fun(t, t))
+try
+  tc.verifyFalse(stdlib.samepath("", "", fun))
+  tc.verifyFalse(stdlib.samepath(t, t, fun))
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+end
 end
 
 end

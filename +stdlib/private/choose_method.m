@@ -60,7 +60,7 @@ for m = method
 
       has = true;
 
-      if endsWith(name, "is_char_device")
+      if endsWith(name, ["is_char_device", "samepath"])
         if ispc(), continue, end
       end
 
