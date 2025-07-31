@@ -11,7 +11,7 @@ p = {{"not-exist", false}, ...
     {mfilename("fullpath") + ".m", false}, ...
     {"", false}};
 create_symlink_fun = {@stdlib.create_symlink, @stdlib.sys.create_symlink, @stdlib.dotnet.create_symlink, @stdlib.python.create_symlink}
-is_symlink_fun   = {@stdlib.is_symlink,   @stdlib.sys.is_symlink,   @stdlib.dotnet.is_symlink,   @stdlib.java.is_symlink,   @stdlib.python.is_symlink}
+is_symlink_fun = {'native', 'sys', 'dotnet', 'java', 'python'}
 read_symlink_fun = {@stdlib.read_symlink, @stdlib.sys.read_symlink, @stdlib.dotnet.read_symlink, @stdlib.java.read_symlink, @stdlib.python.read_symlink}
 end
 
@@ -45,10 +45,13 @@ end
 methods (Test, TestTags=["impure", "symlink"])
 
 function test_is_symlink(tc, p, is_symlink_fun)
-is_capable(tc, is_symlink_fun)
-
-tc.verifyTrue(is_symlink_fun(tc.link), "failed to detect own link")
-tc.verifyEqual(is_symlink_fun(p{1}), p{2}, p{1})
+tc.assertNotEmpty(which("stdlib." + is_symlink_fun + ".is_symlink"))
+try
+  tc.verifyTrue(stdlib.is_symlink(tc.link, is_symlink_fun), "failed to detect own link")
+  tc.verifyEqual(stdlib.is_symlink(p{1}, is_symlink_fun), p{2}, p{1})
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+end
 end
 
 
