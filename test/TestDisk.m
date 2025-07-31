@@ -12,7 +12,7 @@ id_name = {"inode", "device"}
 disk_ac_fun = {'sys', 'dotnet', 'java', 'python'}
 disk_ac_name = {'disk_available', 'disk_capacity'}
 hl_fun = {'java', 'python'}
-fst_fun = {@stdlib.filesystem_type, @stdlib.sys.filesystem_type, @stdlib.dotnet.filesystem_type, @stdlib.java.filesystem_type, @stdlib.python.filesystem_type}
+fst_fun = {'sys', 'dotnet', 'java', 'python'}
 owner_fun = {@stdlib.get_owner, @stdlib.sys.get_owner, @stdlib.dotnet.get_owner, @stdlib.java.get_owner, @stdlib.python.get_owner}
 end
 
@@ -59,14 +59,18 @@ end
 
 
 function test_filesystem_type(tc, Ps, fst_fun)
-is_capable(tc, fst_fun)
-
-t = fst_fun(Ps);
+tc.assertNotEmpty(which("stdlib." + fst_fun + ".filesystem_type"))
+try
+  t = stdlib.filesystem_type(Ps, fst_fun);
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  return
+end
 tc.verifyClass(t, 'string')
-
 
 if stdlib.exists(Ps)
   tc.assumeFalse(isempty(t) && tc.CI, "Some CI block viewing their filesystem type")
+  tc.assertNotEmpty(t)
   tc.verifyGreaterThan(strlength(t), 0)
 else
   tc.verifyEmpty(t)
