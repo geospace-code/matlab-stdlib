@@ -20,16 +20,3 @@ else
 end
 
 end
-
-%!testif 0
-%! if !isempty(pkg('list', 'netcdf'))
-%! pkg load netcdf
-%! fn = tempname();
-%! ds = 'a';
-%! a = [1,2];
-%! b = [3,4];
-%! ncsave_new(fn, ds, a, size(a), {"x", 1, "y", 2}, 0)
-%! ncsave_exist(fn, ds, b, size(b))
-%! assert(ncread(fn, ds), b)
-%! delete(fn)
-%! endif

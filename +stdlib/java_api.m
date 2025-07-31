@@ -13,6 +13,3 @@ if ~isempty(a)
 end
 
 end
-
-
-%!assert(!isempty(java_api()))

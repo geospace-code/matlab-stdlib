@@ -11,5 +11,3 @@ end
 isoct = o;
 
 end
-
-%!assert (isoctave())

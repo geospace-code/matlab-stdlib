@@ -16,5 +16,3 @@ end
 r = stdlib.canonical(stdlib.absolute(p));
 
 end
-
-%!testif 0

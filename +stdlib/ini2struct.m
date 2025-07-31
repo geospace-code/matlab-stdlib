@@ -59,7 +59,6 @@ i = isempty(line) || startsWith(line, [";", "#"]);
 
 end
 
-%!testif 0
 
 % Copyright (c) 2014, freeb
 % Copyright (c) 2008, Andriy Nych

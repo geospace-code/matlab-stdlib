@@ -39,15 +39,13 @@ else
 end
 
 try
-  stdlib.ncsave_exist(filename, varname, A, sizeA)
+  ncsave_exist(filename, varname, A, sizeA)
 catch e
   switch e.identifier
     case {'MATLAB:imagesci:netcdf:unableToOpenFileforRead', 'MATLAB:imagesci:netcdf:unknownLocation'}
-      stdlib.ncsave_new(filename, varname, A, sizeA, opts.dims, opts.compressLevel)
+      ncsave_new(filename, varname, A, sizeA, opts.dims, opts.compressLevel)
     otherwise, rethrow(e)
   end
 end
 
 end
-
-%!testif 0

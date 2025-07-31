@@ -10,6 +10,3 @@ fun = choose_method(method, "device");
 i = fun(file);
 
 end
-
-%!assert(device(pwd) >= 0);
-%!assert(isempty(device(tempname())));

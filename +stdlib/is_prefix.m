@@ -16,8 +16,3 @@ Lp = strlength(p);
 s = Lp && startsWith(p, pr) && (Lp >= strlength(pr));
 
 end
-
-%!assert(is_prefix("a", "a"))
-%!assert(is_prefix("a", "a/"))
-%!assert(is_prefix("a", "a/b"))
-%!assert(!is_prefix("a/b/c", "a/b"))

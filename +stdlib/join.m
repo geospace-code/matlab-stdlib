@@ -37,9 +37,3 @@ else
 end
 
 end
-
-%!assert(join("", ""), "")
-%!assert(join("", "b"), "b")
-%!assert(join("a", ""), "a")
-%!assert(join("a", "b"), fullfile("a", "b"))
-%!assert(join("a", "/b/c"), "/b/c")

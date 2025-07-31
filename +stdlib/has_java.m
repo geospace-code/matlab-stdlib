@@ -5,5 +5,3 @@ function y = has_java()
 y = usejava('jvm');
 
 end
-
-%!assert(islogical(has_java()))

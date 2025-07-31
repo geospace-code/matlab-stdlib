@@ -9,5 +9,3 @@ else
 end
 
 end
-
-%!assert(ischar(null_file()))

@@ -21,14 +21,3 @@ else
 end
 
 end
-
-%!test
-%! if !isempty(pkg('list', 'netcdf'))
-%! pkg load netcdf
-%! fn = tempname();
-%! nccreate(fn, 'a')
-%! assert(ncsize(fn, 'a'), [])
-%! nccreate(fn, 'b', 'Dimensions', {'x', 2, 'y', 3})
-%! assert(ncsize(fn, 'b'), [2, 3])
-%! delete(fn)
-%! endif

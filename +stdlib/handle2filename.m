@@ -11,5 +11,3 @@ if fileHandle >= 0
 end
 
 end
-
-%!assert(handle2filename(0), "stdin")

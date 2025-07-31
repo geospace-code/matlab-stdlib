@@ -26,15 +26,3 @@ catch e
 end
 
 end
-
-
-%!testif 0
-%! if !isempty(pkg('list', 'netcdf'))
-%! pkg load netcdf
-%! fn = tempname();
-%! ds = 'a';
-%! nccreate(fn, ds)
-%! assert(ncexists(fn, ds))
-%! assert(!ncexists(fn, 'b'))
-%! delete(fn)
-%! endif

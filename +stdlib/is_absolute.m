@@ -18,16 +18,3 @@ if ispc()
 end
 
 end
-
-%!assert(is_absolute(''), false)
-%!test
-%! if ispc()
-%!   assert(is_absolute('C:\'))
-%!   assert(is_absolute('C:/'))
-%!   assert(!is_absolute('C:'))
-%!   assert(!is_absolute('C'))
-%! else
-%!   assert(is_absolute('/'))
-%!   assert(is_absolute('/usr'))
-%!   assert(!is_absolute('usr'))
-%! endif

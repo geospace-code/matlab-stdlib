@@ -43,6 +43,3 @@ if length(parts1) < length(parts2)
 end
 
 end
-
-%!assert(version_atleast("1.2.3", "1.2"))
-%!assert(version_atleast("20.11a", "20.3b"))

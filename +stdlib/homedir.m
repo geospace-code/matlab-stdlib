@@ -9,5 +9,3 @@ else
 end
 
 end
-
-%!assert(!isempty(homedir()))

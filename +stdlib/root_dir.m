@@ -30,5 +30,3 @@ elseif iscell(r)
 end
 
 end
-
-%!assert(root_dir(pwd()), filesep)

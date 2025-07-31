@@ -15,10 +15,6 @@ catch
   v = '';
 end
 
-try %#ok<*TRYNC>
-  v = string(v);
-end
+v = string(v);
 
 end
-
-%!assert(!isempty(java_version()))

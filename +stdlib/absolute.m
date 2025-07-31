@@ -29,7 +29,3 @@ end
 c = fullfile(stdlib.absolute(base), p);
 
 end
-
-
-%!assert(absolute('', ''), pwd)
-%!assert(absolute('a/b', ''), fullfile(pwd(), 'a/b'))

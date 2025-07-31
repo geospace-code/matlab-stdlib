@@ -160,5 +160,3 @@ reader.close()
 stream.close()
 
 end
-
-%!testif 0

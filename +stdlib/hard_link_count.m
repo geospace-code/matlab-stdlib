@@ -16,7 +16,3 @@ fun = choose_method(method, "hard_link_count");
 c = fun(file);
 
 end
-
-%!test
-%! if ispc, return; end
-%! assert(hard_link_count('hard_link_count.m') >= 1)

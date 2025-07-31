@@ -51,6 +51,3 @@ if nargout == 0
 end
 
 end
-
-
-%!testif 0

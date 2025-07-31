@@ -6,5 +6,3 @@ function y = is_url(s)
 y = startsWith(s, alphanumericsPattern + "://");
 
 end
-
-%!testif 0

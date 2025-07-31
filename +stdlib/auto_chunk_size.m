@@ -56,5 +56,3 @@ while true
 end
 
 end
-
-%!assert(auto_chunk_size([15,250,100]), [2,32,25])

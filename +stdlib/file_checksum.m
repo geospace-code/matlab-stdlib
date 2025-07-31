@@ -12,7 +12,7 @@
 
 function hash = file_checksum(file, method)
 arguments
-  file {mustBeFile}
+  file {mustBeTextScalar}
   method {mustBeTextScalar}
 end
 
@@ -53,5 +53,3 @@ fclose(fid);
 hash = sprintf('%.2x', h);
 
 end
-
-%!assert(!isempty(file_checksum('file_checksum.m', "sha256")))

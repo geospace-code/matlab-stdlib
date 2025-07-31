@@ -12,6 +12,3 @@ fun = choose_method(method, "inode");
 i = fun(file);
 
 end
-
-%!assert(inode(pwd) >= 0);
-%!assert(isempty(inode(tempname())));

@@ -13,8 +13,4 @@ else
   r = false;
 end
 
-%!assert(islogical(is_rosetta()))
-%!test
-%! if ~ismac()
-%!  assert(!is_rosetta())
-%! endif
+end

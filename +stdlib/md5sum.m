@@ -8,5 +8,3 @@ end
 hash = stdlib.file_checksum(file, "md5");
 
 end
-
-%!assert(~isempty(md5sum('md5sum.m')))

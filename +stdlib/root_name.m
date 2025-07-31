@@ -28,13 +28,3 @@ end
 
 
 end
-
-%!assert(root_name(''), '')
-%!assert(root_name('/'), '')
-%!test
-%! if ispc
-%!   assert(root_name('C:\'), 'C:')
-%!   assert(root_name('C:/'), 'C:')
-%!   assert(root_name('C:'), 'C:')
-%!   assert(root_name('C'), '')
-%! endif

@@ -14,13 +14,3 @@ d = stdlib.drop_slash(dir);
 s = startsWith(s, d) && (strlength(s) > strlength(d));
 
 end
-
-%!assert(!is_subdir("/a/b", "/a/b"))
-%!assert(!is_subdir("/a/b", "/a/b/c"))
-%!assert(!is_subdir("/a/b", "/a/b/c/"))
-%!assert(!is_subdir("/a/b", "d"))
-%!assert(is_subdir("a/b", "a"))
-%!assert(!is_subdir("a", "a/.c"))
-%!assert(!is_subdir("a/./b/c", "a/b"))
-
-% this is incorrect on Windows at least %assert(is_subdir("a/b", "a/b/.."))

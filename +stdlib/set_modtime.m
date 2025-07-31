@@ -2,7 +2,7 @@
 
 function ok = set_modtime(p, t, method)
 arguments
-  p {mustBeTextScalar, mustBeFile}
+  p {mustBeTextScalar}
   t (1,1) datetime
   method (1,:) string = ["java", "python", "sys"]
 end

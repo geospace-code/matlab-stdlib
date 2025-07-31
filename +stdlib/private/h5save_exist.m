@@ -36,16 +36,3 @@ else
 end
 
 end
-
-%!testif 0
-%! if !isempty(pkg('list', 'hdf5oct'))
-%! pkg load hdf5oct
-%! fn = tempname();
-%! ds = '/a';
-%! a = [1,2];
-%! b = [3,4];
-%! h5save_new(fn, ds, a, size(a), 0)
-%! h5save_exist(fn, ds, b, size(b))
-%! assert(h5read(fn, ds), b)
-%! delete(fn)
-%! endif

@@ -1,9 +1,9 @@
-function ok = set_modtime(p, utc)
+function ok = set_modtime(p, dt)
 
 ok = false;
 if ~isfile(p), return, end
 
-utc = convertTo(datetime(t, 'TimeZone', "UTC"), "posixtime");
+utc = convertTo(datetime(dt, 'TimeZone', "UTC"), "posixtime");
 
 try
   s = py.os.stat(p);

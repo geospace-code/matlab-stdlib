@@ -15,6 +15,3 @@ sds = hdfinfo(file).SDS;
 exists = ismember(variable, sds.Name);
 
 end
-
-
-%!testif 0

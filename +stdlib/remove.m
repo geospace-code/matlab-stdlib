@@ -31,5 +31,3 @@ end
 
 
 end
-
-%!assert(!remove(tempname()))

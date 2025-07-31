@@ -11,5 +11,3 @@ else
 end
 
 end
-
-%!assert (islogical(isinteractive()))

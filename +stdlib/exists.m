@@ -14,7 +14,3 @@ function y = exists(p)
 y = isfile(p) | isfolder(p);
 
 end
-
-%!assert (!exists(''))
-%!assert (!exists(tempname))
-%!assert (exists(program_invocation_name))

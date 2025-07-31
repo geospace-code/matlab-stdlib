@@ -4,10 +4,6 @@ function v = java_vendor()
 
 v = javaMethod("getProperty", "java.lang.System", "java.vendor");
 
-try  %#ok<*TRYNC>
-  v = string(v);
-end
+v = string(v);
 
 end
-
-%!assert(!isempty(java_vendor()))

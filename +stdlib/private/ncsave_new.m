@@ -31,14 +31,3 @@ end
 ncwrite(file, varname, A)
 
 end
-
-%!testif 0
-%! if !isempty(pkg('list', 'netcdf'))
-%! pkg load netcdf
-%! fn = tempname();
-%! ds = 'a';
-%! a = [1,2];
-%! ncsave_new(fn, ds, a, size(a), {"x", 1, "y", 2}, 0)
-%! assert(ncread(fn, ds), a)
-%! delete(fn)
-%! endif

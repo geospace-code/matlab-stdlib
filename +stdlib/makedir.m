@@ -19,7 +19,3 @@ mkdir(d);
 assert(isfolder(d), "stdlib:makedir:mkdir", "Failed to create %s", d)
 
 end
-
-%!test
-%! d = tempname();
-%! makedir(d);

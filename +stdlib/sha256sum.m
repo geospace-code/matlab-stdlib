@@ -9,5 +9,3 @@ end
 hash = stdlib.file_checksum(file, "SHA-256");
 
 end
-
-%!assert(~isempty(sha256sum('sha256sum.m')))

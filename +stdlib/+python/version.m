@@ -6,7 +6,7 @@ arguments
 end
 
 % Matlab < R2022a has a bug in the JIT compiler that breaks try-catch
-% for any py.* command. 
+% for any py.* command.
 % We use a separate private function to workaround that.
 
 v = [];

@@ -40,11 +40,3 @@ if isstring(p)
 end
 
 end
-
-
-%!assert(expanduser(''), '')
-%!assert(expanduser("~"), homedir())
-%!assert(expanduser("~/"), homedir())
-%!assert(expanduser("~user"), "~user")
-%!assert(expanduser("~user/"), "~user/")
-%!assert(expanduser("~/c"), fullfile(homedir(), "c"))

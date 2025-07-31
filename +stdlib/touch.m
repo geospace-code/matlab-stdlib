@@ -18,9 +18,3 @@ if ok
 end
 
 end
-
-%!test
-%! f = tempname();
-%! assert (touch(f, now()))
-%! assert (isfile(f))
-%! delete(f)

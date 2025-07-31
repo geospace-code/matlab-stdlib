@@ -10,5 +10,3 @@ end
 y = endsWith(which(name), mexext());
 
 end
-
-%!testif 0

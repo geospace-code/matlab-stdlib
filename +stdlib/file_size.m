@@ -7,10 +7,14 @@
 
 function s = file_size(p)
 arguments
-  p {mustBeTextScalar,mustBeFile}
+  p {mustBeTextScalar}
 end
 
 s = [];
+
+if ~isfile(p)
+  return;
+end
 
 d = dir(p);
 if ~isempty(d)
@@ -18,7 +22,3 @@ if ~isempty(d)
 end
 
 end
-
-
-%!assert (isempty(file_size('')))
-%!assert (file_size('file_size.m') > 0)

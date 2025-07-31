@@ -24,5 +24,3 @@ catch
 end
 
 end
-
-%!testif 0
