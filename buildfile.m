@@ -13,6 +13,12 @@ end
 pkg_root = fullfile(plan.RootFolder, "+stdlib");
 test_root = fullfile(plan.RootFolder, "test");
 
+if isMATLABReleaseOlderThan('R2025a')
+  mt_ok = false;
+else
+  addons = matlab.addons.installedAddons;
+  mt_ok = any(ismember(addons.Name, "MATLAB Test")) && license('checkout', 'MATLAB Test') == 1;
+end
 
 if ~isMATLABReleaseOlderThan("R2023b")
   plan("clean") = matlab.buildtool.tasks.CleanTask;
@@ -38,7 +44,7 @@ else
   plan("test:main") = matlab.buildtool.tasks.TestTask(...
     test_root, Description="Test non-MEX targets",...
     Selector=cnomex, ...
-    SourceFiles=pkg_root, RunOnlyImpactedTests=true,...
+    SourceFiles=pkg_root, RunOnlyImpactedTests=mt_ok,...
     TestResults="release/TestResults_nomex.xml", Strict=true);
 
 end
@@ -63,8 +69,8 @@ if ~isMATLABReleaseOlderThan('R2024b')
     Tag = "java_exe", Dependencies="exe", ...
     TestResults="release/TestResults_java_exe.xml", Strict=true);
 
-  addons = matlab.addons.installedAddons;
-  if any(ismember(addons.Name, "MATLAB Test"))
+
+  if mt_ok
     plan("coverage") = matlab.buildtool.tasks.TestTask(test_root, ...
     Description="code coverage", ...
     Dependencies="exe", ...
