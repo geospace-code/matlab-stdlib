@@ -6,47 +6,15 @@
 %%% Outputs
 % * ok: true if successful
 
-function ok = create_symlink(target, link)
+function ok = create_symlink(target, link, method)
 arguments
   target {mustBeTextScalar}
   link {mustBeTextScalar}
+  method (1,:) string = ["native", "dotnet", "python", "sys"]
 end
 
-ok = false;
+fun = choose_method(method, "create_symlink", 'R2024b');
 
-try
-  createSymbolicLink(link, target);
-  ok = true;
-catch e
-  switch e.identifier
-    case {"MATLAB:io:filesystem:symlink:NeedsAdminPerms", "MATLAB:UndefinedFunction"}
-    % windows requires RunAsAdmin
-    % https://www.mathworks.com/help/releases/R2024b/matlab/ref/createsymboliclink.html
-    % ok = java.nio.file.Files.createSymbolicLink(java.io.File(link).toPath(), java.io.File(target).toPath());
-    % Matlab Java doesn't recognize the optional argument omitted.
-    % see example/Filesystem.java for this working in plain Java.
-    % see example/javaCreateSymbolicLink.m for a non-working attempt in Matlab.
-      if stdlib.strempty(target) || stdlib.strempty(link), return, end
-
-      if stdlib.has_python()
-        ok = stdlib.python.create_symlink(target, link);
-      elseif stdlib.dotnet_api() >= 6
-        ok = stdlib.dotnet.create_symlink(target, link);
-      else
-        ok = stdlib.sys.create_symlink(target, link);
-      end
-    case "Octave:undefined-function"
-      ok = symlink(target, link) == 0;
-    otherwise
-      warning(e.identifier, "%s", e.message)
-  end
-end
+ok = fun(target, link);
 
 end
-
-
-%!assert (create_symlink("https://invalid", "https://invalid"), false)
-%!test
-%! if !ispc
-%!   assert(create_symlink(tempname, tempname))
-%! endif

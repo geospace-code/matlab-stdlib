@@ -15,7 +15,7 @@ for m = method
     case "dotnet"
       has = @stdlib.has_dotnet;
 
-      if endsWith(name, ["ram_total", "read_symlink"])
+      if endsWith(name, ["create_symlink", "ram_total", "read_symlink"])
         if stdlib.dotnet_api() < 6, continue, end
       end
     case "java"
@@ -36,7 +36,12 @@ for m = method
       end
 
     case {"legacy", "sys"}, has = true;
-    case "native", has = stdlib.strempty(minVersion) || ~isMATLABReleaseOlderThan(minVersion);
+    case "native"
+      has = stdlib.strempty(minVersion) || ~isMATLABReleaseOlderThan(minVersion);
+
+      if endsWith(name, "create_symlink")
+        if ~has || ispc(), continue, end
+      end
     otherwise
       has = str2func("stdlib.has_" + m);
   end

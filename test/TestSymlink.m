@@ -10,7 +10,7 @@ properties (TestParameter)
 p = {{"not-exist", false}, ...
     {mfilename("fullpath") + ".m", false}, ...
     {"", false}};
-create_symlink_fun = {@stdlib.create_symlink, @stdlib.sys.create_symlink, @stdlib.dotnet.create_symlink, @stdlib.python.create_symlink}
+cs_fun = {'native', 'sys', 'dotnet', 'python'}
 Pre = {'', "", tempname()}
 rs_fun = {'native', 'sys', 'dotnet', 'java', 'python'}
 end
@@ -74,16 +74,22 @@ end
 end
 
 
-function test_create_symlink(tc, create_symlink_fun)
-is_capable(tc, create_symlink_fun)
-
+function test_create_symlink(tc, cs_fun)
+tc.assumeNotEmpty(which("stdlib." + cs_fun + ".create_symlink"))
 tc.applyFixture(matlab.unittest.fixtures.SuppressedWarningsFixture(["MATLAB:io:filesystem:symlink:TargetNotFound","MATLAB:io:filesystem:symlink:FileExists"]))
 
-tc.verifyFalse(create_symlink_fun('', tempname()))
-tc.verifyFalse(create_symlink_fun(tc.target, tc.link), "should fail for existing symlink")
-
 ano = tc.td + "/another.lnk";
-tc.verifyTrue(create_symlink_fun(tc.target, ano))
+
+h = @stdlib.create_symlink;
+
+try
+  tc.verifyFalse(h('', tempname(), cs_fun))
+  tc.verifyFalse(h(tc.target, tc.link, cs_fun), "should fail for existing symlink")
+  tc.verifyTrue(h(tc.target, ano, cs_fun))
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  return
+end
 tc.verifyTrue(stdlib.is_symlink(ano))
 end
 

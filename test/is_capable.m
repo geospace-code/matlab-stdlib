@@ -16,7 +16,7 @@ if contains(n, ".dotnet.")
     tc.assumeTrue(ispc(), "Windows only function")
   end
 
-  if endsWith(n, ["create_symlink", "ram_total"])
+  if endsWith(n, "ram_total")
     tc.assumeGreaterThanOrEqual(dapi, 6);
   end
 
