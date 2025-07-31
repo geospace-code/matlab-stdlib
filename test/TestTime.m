@@ -5,7 +5,7 @@ td
 end
 
 properties (TestParameter)
-set_modtime_fun = {@stdlib.set_modtime, @stdlib.sys.set_modtime, @stdlib.java.set_modtime, @stdlib.python.set_modtime}
+sm_fun = {'sys', 'java', 'python'}
 end
 
 methods(TestClassSetup)
@@ -44,15 +44,20 @@ tc.verifyEmpty(stdlib.get_modtime(""))
 end
 
 
-function test_touch_modtime(tc, set_modtime_fun)
-is_capable(tc, set_modtime_fun)
-
+function test_touch_modtime(tc, sm_fun)
 fn = tc.td + "/modtime.txt";
 
-tc.verifyTrue(stdlib.touch(fn, datetime("yesterday")))
+tc.assertTrue(stdlib.touch(fn, datetime("yesterday")))
 t0 = stdlib.get_modtime(fn);
 
-tc.verifyTrue(set_modtime_fun(fn, datetime("now")))
+try
+  ok = stdlib.set_modtime(fn, datetime("now"), sm_fun);
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  return
+end
+
+tc.assertTrue(ok)
 t1 = stdlib.get_modtime(fn);
 
 tc.verifyGreaterThanOrEqual(t1, t0)

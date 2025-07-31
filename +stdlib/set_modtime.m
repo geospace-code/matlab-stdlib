@@ -1,20 +1,14 @@
 %% SET_MODTIME set modification time of path
 
-function ok = set_modtime(p, t)
+function ok = set_modtime(p, t, method)
 arguments
   p {mustBeTextScalar, mustBeFile}
   t (1,1) datetime
+  method (1,:) string = ["java", "python", "sys"]
 end
 
-utc = convertTo(datetime(t, 'TimeZone', "UTC"), "posixtime");
+fun = choose_method(method, "set_modtime");
 
-% Java or Python assume POSIX epoch time (seconds since Jan 1, 1970)
-if stdlib.has_java()
-  ok = stdlib.java.set_modtime(p, utc);
-elseif stdlib.has_python()
-  ok = stdlib.python.set_modtime(p, utc);
-else
-  ok = stdlib.sys.set_modtime(p, t);
-end
+ok = fun(p, t);
 
 end

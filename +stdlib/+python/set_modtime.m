@@ -3,9 +3,7 @@ function ok = set_modtime(p, utc)
 ok = false;
 if ~isfile(p), return, end
 
-if isdatetime(utc)
-  utc = convertTo(datetime(utc, 'TimeZone', "UTC"), "posixtime");
-end
+utc = convertTo(datetime(t, 'TimeZone', "UTC"), "posixtime");
 
 try
   s = py.os.stat(p);

@@ -1,16 +1,16 @@
-function ok = set_modtime(p, t)
+function ok = set_modtime(p, dt)
 
 ok = false;
 
 if ~isfile(p), return, end
 
 if ispc()
-  cmd = sprintf('pwsh -Command "(Get-Item ''%s'').LastWriteTime = ''%s''"', p, string(t, "yyyy-MM-dd HH:mm:ss"));
+  cmd = sprintf('pwsh -Command "(Get-Item ''%s'').LastWriteTime = ''%s''"', p, string(dt, "yyyy-MM-dd HH:mm:ss"));
 elseif ismac()
-  cmd = sprintf("touch -mt %s %s", string(t, "yyyyMMddHHmm"), p);
+  cmd = sprintf("touch -mt %s %s", string(dt, "yyyyMMddHHmm"), p);
 else
   % https://man7.org/linux/man-pages/man1/touch.1.html
-  cmd = sprintf("touch -t %s %s", string(t, "yyyyMMddHHmm"), p);
+  cmd = sprintf("touch -t %s %s", string(dt, "yyyyMMddHHmm"), p);
 end
 
 [s, m] = system(cmd);
