@@ -3,7 +3,7 @@ classdef TestNormalize < matlab.unittest.TestCase
 properties (TestParameter)
 p = init_norm()
 d = init_drop_slash()
-norm_fun = {@stdlib.normalize, @stdlib.native.normalize, @stdlib.java.normalize, @stdlib.python.normalize}
+fun = {'native', 'java', 'python'}
 end
 
 methods(TestClassSetup)
@@ -15,10 +15,16 @@ end
 
 methods (Test, TestTags="pure")
 
-function test_normalize(tc, p, norm_fun)
-is_capable(tc, norm_fun)
+function test_normalize(tc, p, fun)
+tc.assertNotEmpty(which("stdlib." + fun + ".normalize"))
+try
+  c = stdlib.normalize(p{1}, fun);
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  return
+end
 
-tc.verifyEqual(norm_fun(p{1}), p{2}, ...
+tc.verifyEqual(c, p{2}, ...
   sprintf("normalize(%s)   mex: %d", p{1}, stdlib.is_mex_fun("stdlib.normalize")))
 end
 

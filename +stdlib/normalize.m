@@ -11,20 +11,14 @@
 %
 % MEX code is about 4-5x faster than plain Matlab below
 
-function n = normalize(p)
+function n = normalize(file, method)
 arguments
-  p {mustBeTextScalar}
+  file {mustBeTextScalar}
+  method (1,:) string = ["java", "python", "native"]
 end
 
-if stdlib.has_java()
-  n = stdlib.java.normalize(p);
-elseif stdlib.has_python()
-  n = stdlib.python.normalize(p);
-else
-  n = stdlib.native.normalize(p);
-end
+fun = choose_method(method, "normalize");
+
+n = fun(file);
 
 end
-
-
-%!testif 0
