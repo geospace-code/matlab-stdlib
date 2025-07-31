@@ -10,7 +10,7 @@ fun = {@stdlib.isoctave, @stdlib.has_dotnet, ...
 cpu_arch_fun = {@stdlib.cpu_arch, @stdlib.dotnet.cpu_arch, @stdlib.java.cpu_arch}
 host_fun = {@stdlib.hostname, @stdlib.sys.get_hostname, @stdlib.dotnet.get_hostname, @stdlib.java.get_hostname, @stdlib.python.get_hostname}
 user_fun = {@stdlib.get_username, @stdlib.sys.get_username, @stdlib.dotnet.get_username, @stdlib.java.get_username, @stdlib.python.get_username}
-is_admin_fun = {@stdlib.is_admin, @stdlib.sys.is_admin, @stdlib.dotnet.is_admin, @stdlib.java.is_admin, @stdlib.python.is_admin}
+ia_fun = {'sys', 'dotnet', 'java', 'python'}
 ram_free_method = {'sys', 'java', 'python'}
 ram_total_method = {'sys', 'dotnet', 'java', 'python'}
 cpu_load_method = {"java", "python", "sys"}
@@ -38,10 +38,15 @@ function test_is_cygwin(tc)
 tc.verifyFalse(stdlib.is_cygwin())
 end
 
-function test_is_admin(tc, is_admin_fun)
-is_capable(tc, is_admin_fun)
-tc.verifyClass(is_admin_fun(), "logical")
-tc.verifyNotEmpty(is_admin_fun())
+function test_is_admin(tc, ia_fun)
+tc.assertNotEmpty(which("stdlib." + ia_fun + ".is_admin"))
+try
+  i = stdlib.is_admin(ia_fun);
+  tc.verifyClass(i, "logical")
+  tc.verifyNotEmpty(i)
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+end
 end
 
 

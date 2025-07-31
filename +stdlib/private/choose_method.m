@@ -18,11 +18,18 @@ for m = method
       if endsWith(name, ["create_symlink", "ram_total", "read_symlink"])
         if stdlib.dotnet_api() < 6, continue, end
       end
+
+      if endsWith(name, "is_admin")
+        if ~ispc(), continue, end
+      end
+
     case "java"
+
       has = @stdlib.has_java;
-      if endsWith(name, ["device", "hard_link_count", "inode"])
+      if endsWith(name, ["device", "hard_link_count", "inode", "is_admin"])
         if ~isunix(), continue, end
       end
+
     case "python"
 
       has = @stdlib.has_python;
@@ -35,14 +42,22 @@ for m = method
         if ~isunix(), continue, end
       end
 
+      if endsWith(name, "is_admin") 
+        if ~isunix() || isMATLABReleaseOlderThan('R2024a'), continue, end
+      end
+
     case "legacy", has = true;
+
     case "native"
+
       has = stdlib.strempty(minVersion) || ~isMATLABReleaseOlderThan(minVersion);
 
       if endsWith(name, "create_symlink")
         if ~has || ispc(), continue, end
       end
+
     case "sys"
+
       has = true;
 
       if endsWith(name, "is_char_device")
