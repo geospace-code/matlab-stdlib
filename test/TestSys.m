@@ -7,7 +7,7 @@ end
 properties (TestParameter)
 fun = {@stdlib.isoctave, @stdlib.has_dotnet, ...
        @stdlib.has_java, @stdlib.has_python}
-cpu_arch_fun = {@stdlib.cpu_arch, @stdlib.dotnet.cpu_arch, @stdlib.java.cpu_arch}
+cpu_arch_fun = {'java', 'dotnet', 'native'}
 ia_fun = {'sys', 'dotnet', 'java', 'python'}
 cr_method = {'sys', 'java', 'python'}
 end
@@ -161,9 +161,13 @@ end
 
 
 function test_cpu_arch(tc, cpu_arch_fun)
-is_capable(tc, cpu_arch_fun)
 
-arch = cpu_arch_fun();
+try
+  arch = stdlib.cpu_arch(cpu_arch_fun);
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  return
+end
 tc.verifyGreaterThan(strlength(arch), 0, "CPU architecture should not be empty")
 end
 
@@ -174,7 +178,7 @@ catch e
   tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
   return
 end
-  
+
 tc.verifyGreaterThan(t, 0)
 tc.verifyClass(t, 'uint64')
 end
