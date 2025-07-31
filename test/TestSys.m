@@ -10,6 +10,7 @@ fun = {@stdlib.isoctave, @stdlib.has_dotnet, ...
 cpu_arch_fun = {'java', 'dotnet', 'native'}
 ia_fun = {'sys', 'dotnet', 'java', 'python'}
 cr_method = {'sys', 'java', 'python'}
+os_m = {'java', 'python', 'dotnet', 'sys'}
 end
 
 methods(TestClassSetup)
@@ -108,10 +109,14 @@ v = stdlib.python_version();
 tc.verifyTrue(all(v >= [3, 8, 0]), "expected Python >= 3.8")
 end
 
-function test_os_version(tc)
-tc.assumeTrue(stdlib.has_dotnet() || stdlib.has_java())
+function test_os_version(tc, os_m)
+try
+  [os, ver] = stdlib.os_version(os_m);
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  return
+end
 
-[os, ver] = stdlib.os_version();
 tc.verifyGreaterThan(strlength(os), 0, "expected non-empty os")
 tc.verifyGreaterThan(strlength(ver), 0, "expected non-empty version")
 end
