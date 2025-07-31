@@ -5,7 +5,9 @@ p = {
 {fileparts(mfilename('fullpath')) + "/../Readme.md", false}, ...
 {"not-exist", false}, ...
 {'', false}, ...
-{"", false}
+{"", false}, ...
+{'.', false}, ...
+{matlab_path(), true}
 }
 method = {'java', 'python', 'native', 'legacy'}
 end
@@ -20,25 +22,11 @@ end
 methods(Test, TestTags="impure")
 
 function test_is_exe(tc, p, method)
-is_capable(tc, str2func("stdlib." + method + ".is_exe"))
-
-tc.verifyEqual(stdlib.is_exe(p{1}, method), p{2})
+try
+  tc.verifyEqual(stdlib.is_exe(p{1}, method), p{2})
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
 end
-
-
-function test_is_exe_dir(tc, method)
-is_capable(tc, str2func("stdlib." + method + ".is_exe"))
-
-tc.verifyFalse(stdlib.is_exe('.', method))
-end
-
-
-function test_matlab_exe(tc, method)
-is_capable(tc, str2func("stdlib." + method + ".is_exe"))
-
-
-f = matlab_path();
-tc.verifyTrue(stdlib.is_exe(f, method))
 end
 
 
