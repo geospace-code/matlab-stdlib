@@ -42,12 +42,6 @@ elseif contains(n, ".sys.")
     tc.assumeTrue(isunix(), "unix only function")
   end
 
-elseif contains(n, ".native.")
-
-  if endsWith(n, "canonical")
-    tc.assumeFalse(isMATLABReleaseOlderThan('R2024a'))
-  end
-
 end
 
 end

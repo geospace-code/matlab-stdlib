@@ -1,4 +1,4 @@
-function c = canonical_legacy(file, strict)
+function c = canonical(file, strict)
 
 c = "";
 

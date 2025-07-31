@@ -9,7 +9,7 @@ p = {{'', ""}, ...
 {"not-exist/a/..", "not-exist"}, ...
 {"./not-exist", "not-exist"}
 };
-fun = {@stdlib.canonical, @stdlib.native.canonical, @stdlib.native.canonical_legacy}
+fun = {"native", "legacy"}
 end
 
 methods(TestClassSetup)
@@ -23,9 +23,13 @@ end
 methods(Test, TestTags="impure")
 
 function test_canonical(tc, p, fun)
-is_capable(tc, fun)
-
-tc.verifyEqual(fun(p{1}, false), p{2})
+try
+  c = stdlib.canonical(p{1}, false, fun);
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  return
+end
+tc.verifyEqual(c, p{2})
 end
 
 end

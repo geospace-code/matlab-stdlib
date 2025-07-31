@@ -12,17 +12,15 @@
 %%% Outputs
 % * c: canonical path, if determined
 
-function c = canonical(p, strict)
+function c = canonical(p, strict, method)
 arguments
   p {mustBeTextScalar}
   strict (1,1) logical = false
+  method (1,:) string = ["native", "legacy"]
 end
 
+fun = choose_method(method, "canonical", 'R2024a');
 
-if isMATLABReleaseOlderThan('R2024a')
-  c = stdlib.native.canonical_legacy(p, strict);
-else
-  c = stdlib.native.canonical(p, strict);
-end
+c = fun(p, strict);
 
 end
