@@ -19,7 +19,7 @@ for m = method
         if stdlib.dotnet_api() < 6, continue, end
       end
 
-      if endsWith(name, "is_admin")
+      if endsWith(name, ["get_owner", "is_admin"])
         if ~ispc(), continue, end
       end
 
@@ -38,11 +38,11 @@ for m = method
         if ~stdlib.python.has_psutil(); continue, end
       end
 
-      if endsWith(name, "cpu_load")
+      if endsWith(name, ["cpu_load", "get_owner"])
         if ~isunix(), continue, end
       end
 
-      if endsWith(name, "is_admin") 
+      if endsWith(name, "is_admin")
         if ~isunix() || isMATLABReleaseOlderThan('R2024a'), continue, end
       end
 

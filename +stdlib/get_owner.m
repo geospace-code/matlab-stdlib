@@ -5,19 +5,14 @@
 %%% Outputs
 % * n: owner, or empty if path does not exist
 
-function n = get_owner(p)
+function n = get_owner(file, method)
 arguments
-  p {mustBeTextScalar}
+  file {mustBeTextScalar}
+  method (1,:) string = ["java", "dotnet", "python" "sys"]
 end
 
-if stdlib.has_java()
-  n = stdlib.java.get_owner(p);
-elseif ispc() && stdlib.has_dotnet()
-  n = stdlib.dotnet.get_owner(p);
-elseif ~ispc() && stdlib.has_python()
-  n = stdlib.python.get_owner(p);
-else
-  n = stdlib.sys.get_owner(p);
-end
+fun = choose_method(method, "get_owner");
+
+n = fun(file);
 
 end

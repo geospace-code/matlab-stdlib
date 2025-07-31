@@ -13,7 +13,6 @@ disk_ac_fun = {'sys', 'dotnet', 'java', 'python'}
 disk_ac_name = {'disk_available', 'disk_capacity'}
 hl_fun = {'java', 'python'}
 fst_fun = {'sys', 'dotnet', 'java', 'python'}
-owner_fun = {@stdlib.get_owner, @stdlib.sys.get_owner, @stdlib.dotnet.get_owner, @stdlib.java.get_owner, @stdlib.python.get_owner}
 end
 
 methods(TestClassSetup)
@@ -111,17 +110,22 @@ end
 end
 
 
-function test_owner(tc, Po, owner_fun)
-is_capable(tc, owner_fun)
+function test_owner(tc, Po, fst_fun)
+tc.assertNotEmpty(which("stdlib." + fst_fun + ".get_owner"))
 
-s = owner_fun(Po);
+try
+  o = stdlib.get_owner(Po, fst_fun);
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  return
+end
 
-tc.verifyClass(s, 'string')
+tc.verifyClass(o, 'string')
 
 if stdlib.exists(Po)
-  tc.verifyGreaterThan(strlength(s), 0)
+  tc.verifyGreaterThan(strlength(o), 0)
 else
-  tc.verifyEmpty(s)
+  tc.verifyEmpty(o)
 end
 
 end
