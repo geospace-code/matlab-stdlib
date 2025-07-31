@@ -15,9 +15,13 @@ end
 methods (Test, TestTags="pure")
 
 function test_parent(tc, p, method)
-is_capable(tc, str2func("stdlib." + method + ".parent"))
-
-tc.verifyEqual(stdlib.parent(p{1}, method), p{2}, sprintf("parent(%s, %s)", p{1}, method))
+try
+  pr = stdlib.parent(p{1}, method);
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  return
+end
+tc.verifyEqual(pr, p{2}, sprintf("parent(%s, %s)", p{1}, method))
 end
 
 end

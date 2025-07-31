@@ -21,10 +21,13 @@ end
 methods (Test)
 
 function test_relative_to(tc, pr, rel_fun)
-is_capable(tc, str2func("stdlib." + rel_fun + ".relative_to"))
-
-tc.verifyEqual(stdlib.relative_to(pr{1}, pr{2}, rel_fun), pr{3}, ...
-  "relative_to(" + pr{1} + "," + pr{2}+")")
+try
+  r = stdlib.relative_to(pr{1}, pr{2}, rel_fun);
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  return
+end
+tc.verifyEqual(r, pr{3}, "relative_to(" + pr{1} + "," + pr{2}+")")
 end
 
 function test_proximate_to(tc, pp)
