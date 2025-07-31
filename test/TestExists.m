@@ -12,6 +12,7 @@ Ps = {
 % on CI matlabroot can be writable!
 fname = {'is_readable', 'is_writable'}
 method = {'java', 'native', 'legacy'}
+icm = {'python', 'sys'}
 end
 
 methods(TestClassSetup)
@@ -42,9 +43,7 @@ end
 end
 
 
-function test_is_char_device(tc)
-is_capable(tc, @stdlib.python.is_char_device)
-
+function test_is_char_device(tc, icm)
 % /dev/stdin may not be available on CI systems
 if ispc
   n = "NUL";
@@ -52,7 +51,16 @@ else
   n = "/dev/null";
 end
 
-tc.verifyTrue(stdlib.is_char_device(n))
+tc.assertNotEmpty(which("stdlib." + icm + ".is_char_device"))
+
+try
+  y = stdlib.is_char_device(n, icm);
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  return
+end
+
+tc.verifyTrue(y)
 end
 
 

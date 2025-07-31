@@ -3,27 +3,15 @@
 % e.g. NUL, /dev/null
 % false if file does not exist
 
-function ok = is_char_device(p)
+function ok = is_char_device(file, method)
 arguments
-  p {mustBeTextScalar}
+  file {mustBeTextScalar}
+  method (1,:) string = ["python", "sys"]
 end
 
-if stdlib.has_python()
-  ok = stdlib.python.is_char_device(p);
-elseif stdlib.isoctave()
-  [s, err] = stat(p);
-  ok = err == 0 && S_ISCHR(s.mode);
-else
-  ok = logical.empty;
-end
+fun = choose_method(method, "is_char_device");
+
+ok = fun(file);
 
 end
 
-%!assert (!is_exe(''))
-%!test
-%! if ispc
-%!   n = "NUL";
-%! else
-%!   n = "/dev/null";
-%! end
-%! assert (is_char_device(n))

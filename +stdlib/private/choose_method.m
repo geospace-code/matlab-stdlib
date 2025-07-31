@@ -35,13 +35,20 @@ for m = method
         if ~isunix(), continue, end
       end
 
-    case {"legacy", "sys"}, has = true;
+    case "legacy", has = true;
     case "native"
       has = stdlib.strempty(minVersion) || ~isMATLABReleaseOlderThan(minVersion);
 
       if endsWith(name, "create_symlink")
         if ~has || ispc(), continue, end
       end
+    case "sys"
+      has = true;
+
+      if endsWith(name, "is_char_device")
+        if ispc(), continue, end
+      end
+
     otherwise
       has = str2func("stdlib.has_" + m);
   end
