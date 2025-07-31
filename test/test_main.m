@@ -1,4 +1,4 @@
-function test_nomex()
+function test_main()
 import matlab.unittest.TestRunner
 import matlab.unittest.selectors.HasTag
 

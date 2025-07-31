@@ -16,7 +16,7 @@ else
   cnomex = cnomex & ~HasTag("windows");
 end
 
-cmex = HasTag("mex");
+% cmex = HasTag("mex");
 
 cjava = HasTag("java") & ~HasTag("exe");
 
@@ -32,14 +32,14 @@ end
 if isMATLABReleaseOlderThan("R2024b")
 
   plan("test_java") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cjava));
-  plan("test_nomex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnomex), Dependencies="clean");
+  plan("test_main") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnomex));
 
 elseif isMATLABReleaseOlderThan("R2025a")
   % Matlab == R2024b
   plan("test:java")  = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cjava));
   plan("test:exe")   = matlab.buildtool.tasks.TestTask(test_root, Tag="exe", Dependencies="exe");
-  plan("test:nomex") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnomex), Dependencies="clean");
-  plan("test:mex")   = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cmex), Dependencies="mex");
+  plan("test:main") = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cnomex));
+  % plan("test:mex")   = matlab.buildtool.Task(Actions=@(context) legacy_test(context, cmex), Dependencies="mex");
 
 else
   % Matlab >= R2025a
@@ -48,37 +48,32 @@ else
                          RunOnlyImpactedTests=true,...
                          Dependencies="exe", TestResults="TestResults_exe.xml", Strict=true);
 
-  plan("test:nomex") = matlab.buildtool.tasks.TestTask(test_root, Description="Test non-MEX targets",...
+  plan("test:main") = matlab.buildtool.tasks.TestTask(test_root, Description="Test non-MEX targets",...
                          Selector=cnomex, ...
                          SourceFiles=pkg_root, RunOnlyImpactedTests=true,...
-                         dependencies="clean_mex", TestResults="TestResults_nomex.xml", Strict=true);
+                         TestResults="TestResults_nomex.xml", Strict=true);
 
-  plan("test:mex")   = matlab.buildtool.tasks.TestTask(test_root, Description="Test mex targts",...
-                         Selector=cmex, ...
-                         SourceFiles=[pkg_root, plan.RootFolder + "/src"], RunOnlyImpactedTests=true,...
-                         Dependencies="mex", TestResults="TestResults_mex.xml", Strict=true);
+  % plan("test:mex")   = matlab.buildtool.tasks.TestTask(test_root, Description="Test mex targts",...
+  %                        Selector=cmex, ...
+  %                        SourceFiles=[pkg_root, plan.RootFolder + "/src"], RunOnlyImpactedTests=true,...
+  %                        Dependencies="mex", TestResults="TestResults_mex.xml", Strict=true);
 
   plan("test:java") = matlab.buildtool.tasks.TestTask(test_root, Description="test Java targets", ...
                          Selector=cjava, ...
                          SourceFiles=pkg_root, RunOnlyImpactedTests=true,...
                          TestResults="TestResults_java.xml", Strict=true);
 
-  plan("test:python") = matlab.buildtool.tasks.TestTask(test_root, Description="test Python targets", ...
-                         Tag="python", ...
-                         SourceFiles=pkg_root, RunOnlyImpactedTests=true,...
-                         TestResults="TestResults_python.xml", Strict=true);
-
   addons = matlab.addons.installedAddons;
   if contains(addons.Name, "Matlab Test")
     plan("coverage") = matlab.buildtool.tasks.TestTask(test_root, ...
     Description="code coverage", ...
-    Dependencies=["clean_mex", "exe"], ...
+    Dependencies="exe", ...
     SourceFiles=pkg_root, ...
     Selector=cnomex | HasTag("java") | HasTag("exe") | HasTag("python"), ...
     Strict=false).addCodeCoverage(matlabtest.plugins.codecoverage.StandaloneReport("coverage-report.html"));
   end
 
-  plan("clean_mex") = matlab.buildtool.Task(Actions=@clean_mex, Description="Clean only MEX files to enable incremental tests");
+  % plan("clean_mex") = matlab.buildtool.Task(Actions=@clean_mex, Description="Clean only MEX files to enable incremental tests");
 end
 
 if isMATLABReleaseOlderThan("R2023a"), return, end
@@ -102,26 +97,26 @@ if ~isMATLABReleaseOlderThan("R2024a")
     WarningThreshold=0, Results="CodeIssues.sarif");
 end
 
-if isMATLABReleaseOlderThan("R2024b"), return, end
 
 %% MexTask
-
-for s = get_mex_sources()
-  src = s{1};
-  [~, name] = fileparts(src(1));
-
-% name of MEX target function is name of first source file
-  plan("mex:" + name) = matlab.buildtool.tasks.MexTask(src, pkg_root, ...
-    Description="Build MEX target " + name, ...
-    Options=get_compiler_options());
+if ~isMATLABReleaseOlderThan("R2024b")
+% for s = get_mex_sources()
+%   src = s{1};
+%   [~, name] = fileparts(src(1));
+%
+% % name of MEX target function is name of first source file
+%   plan("mex:" + name) = matlab.buildtool.tasks.MexTask(src, pkg_root, ...
+%     Description="Build MEX target " + name, ...
+%     Options=get_compiler_options());
+% end
 end
 
 end
 
 
-function clean_mex(context)
-run(context.Plan, "clean", {"mex"});
-end
+% function clean_mex(context)
+% run(context.Plan, "clean", {"mex"});
+% end
 
 
 function legacy_test(context, sel)
@@ -159,17 +154,16 @@ arguments (Output)
 end
 
 srcs = {
-"src/remove.cpp", ...
-["src/normalize.cpp", "src/normalize_fs.cpp", "src/pure.cpp"], ...
-"src/set_permissions.cpp"
+% "src/remove.cpp", ...
+%["src/normalize.cpp", "src/normalize_fs.cpp", "src/pure.cpp"], ...
+% "src/set_permissions.cpp"
 };
 
 if ~stdlib.has_python() || build_all
 srcs{end+1} = "src/is_char_device.cpp";
 srcs{end+1} = ["src/is_admin.cpp", "src/admin_fs.cpp"];
-srcs{end+1} = "src/disk_available.cpp";
-srcs{end+1} = "src/disk_capacity.cpp";
+% srcs{end+1} = "src/disk_available.cpp";
+% srcs{end+1} = "src/disk_capacity.cpp";
 end
 
 end
-

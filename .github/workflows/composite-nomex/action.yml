@@ -6,20 +6,20 @@ runs:
 
   steps:
 
-  - name: Non-Mex Test
+  - name: Main Tests
     if: ${{ matrix.release >= 'R2024b' }}
     uses: matlab-actions/run-build@v2
     with:
       startup-options: ${{ matrix.startup-options }}
-      tasks: test:nomex
+      tasks: test:main
 
 
-  - name: Non-Mex Test (< R2024b)
+  - name: Main Tests (< R2024b)
     if: ${{ matrix.release >= 'R2022b' && matrix.release < 'R2024b' }}
     uses: matlab-actions/run-build@v2
     with:
       startup-options: ${{ matrix.startup-options }}
-      tasks: test_nomex
+      tasks: test_main
 
 
   - name: Java Test
@@ -44,9 +44,9 @@ runs:
     if: ${{ matrix.release < 'R2022b' }}
     uses: matlab-actions/run-command@v2
     with:
-      command: run('test/test_nomex.m')
+      command: run('test/test_main.m')
       startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test.log
-    # test/test_nomex.m adds path internally
+    # test/test_main.m adds path internally
 
   - name: upload logfile
     if: ${{ hashFiles(matrix.release-runner.os-test.log) != '' }}

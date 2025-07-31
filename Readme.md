@@ -27,39 +27,18 @@ Matlab R2024b and newer:
 buildtool test
 ```
 
-Matlab R2023a..R2024a, inclusive:
+Matlab R2022b..R2024a, inclusive:
 
 ```matlab
-buildtool test_nomex
-buildtool test_java
-buildtool test_exe
-buildtool test_mex
-```
-
-Matlab R2022b:
-
-```matlab
-buildtool test_nomex
+buildtool test_main
 buildtool test_java
 ```
 
 Matlab older than R2022b:
 
 ```matlab
-run('test/test_nomex.m')
+run('test/test_main.m')
 ```
-
-## MEX functions
-
-With Matlab R2023a and newer, optionally build high-performance
-[MEX](https://www.mathworks.com/help/matlab/cpp-mex-file-applications.html)
-functions (the same functions are provided by default without MEX) from the Matlab prompt in Matlab R2023a or newer:
-
-```matlab
-buildtool mex
-```
-
-If just building MEX functions for the first time, to ensure the MEX functions are used instead of the plain Matlab script, one-time type `clear functions` in Matlab.
 
 ## Java-based functions
 
