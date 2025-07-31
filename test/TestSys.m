@@ -8,7 +8,6 @@ properties (TestParameter)
 fun = {@stdlib.isoctave, @stdlib.has_dotnet, ...
        @stdlib.has_java, @stdlib.has_python}
 cpu_arch_fun = {@stdlib.cpu_arch, @stdlib.dotnet.cpu_arch, @stdlib.java.cpu_arch}
-user_fun = {@stdlib.get_username, @stdlib.sys.get_username, @stdlib.dotnet.get_username, @stdlib.java.get_username, @stdlib.python.get_username}
 ia_fun = {'sys', 'dotnet', 'java', 'python'}
 cr_method = {'sys', 'java', 'python'}
 end
@@ -132,6 +131,7 @@ tc.verifyClass(ip, 'logical')
 end
 
 function test_hostname(tc, ia_fun)
+tc.assertNotEmpty(which("stdlib." + ia_fun + ".get_hostname"))
 try
   h = stdlib.hostname(ia_fun);
   tc.verifyGreaterThan(strlength(h), 0)
@@ -140,10 +140,14 @@ catch e
 end
 end
 
-function test_username(tc, user_fun)
-is_capable(tc, user_fun)
-u = user_fun();
-tc.verifyGreaterThan(strlength(u), 0)
+function test_username(tc, ia_fun)
+tc.assertNotEmpty(which("stdlib." + ia_fun + ".get_username"))
+try
+  u = stdlib.get_username(ia_fun);
+  tc.verifyGreaterThan(strlength(u), 0)
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+end
 end
 
 

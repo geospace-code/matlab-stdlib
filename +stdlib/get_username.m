@@ -1,16 +1,12 @@
 %% GET_USERNAME tell username of current user
 %
-function n = get_username()
-
-
-if stdlib.has_dotnet()
-  n = stdlib.dotnet.get_username();
-elseif stdlib.has_java()
-  n = stdlib.java.get_username();
-elseif stdlib.has_python()
-  n = stdlib.python.get_username();
-else
-  n = stdlib.sys.get_username();
+function n = get_username(method)
+arguments
+  method (1,:) string = ["java", "dotnet", "python", "sys"]
 end
+
+fun = choose_method(method, "get_username");
+
+n = fun();
 
 end
