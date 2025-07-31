@@ -15,7 +15,7 @@ for m = method
     case "dotnet"
       has = @stdlib.has_dotnet;
 
-      if endsWith(name, "ram_total")
+      if endsWith(name, ["ram_total", "read_symlink"])
         if stdlib.dotnet_api() < 6, continue, end
       end
     case "java"

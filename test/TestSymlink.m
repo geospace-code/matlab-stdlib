@@ -11,8 +11,8 @@ p = {{"not-exist", false}, ...
     {mfilename("fullpath") + ".m", false}, ...
     {"", false}};
 create_symlink_fun = {@stdlib.create_symlink, @stdlib.sys.create_symlink, @stdlib.dotnet.create_symlink, @stdlib.python.create_symlink}
-is_symlink_fun = {'native', 'sys', 'dotnet', 'java', 'python'}
-read_symlink_fun = {@stdlib.read_symlink, @stdlib.sys.read_symlink, @stdlib.dotnet.read_symlink, @stdlib.java.read_symlink, @stdlib.python.read_symlink}
+Pre = {'', "", tempname()}
+rs_fun = {'native', 'sys', 'dotnet', 'java', 'python'}
 end
 
 methods(TestClassSetup)
@@ -44,31 +44,33 @@ end
 
 methods (Test, TestTags=["impure", "symlink"])
 
-function test_is_symlink(tc, p, is_symlink_fun)
-tc.assertNotEmpty(which("stdlib." + is_symlink_fun + ".is_symlink"))
+function test_is_symlink(tc, p, rs_fun)
+tc.assertNotEmpty(which("stdlib." + rs_fun + ".is_symlink"))
 try
-  tc.verifyTrue(stdlib.is_symlink(tc.link, is_symlink_fun), "failed to detect own link")
-  tc.verifyEqual(stdlib.is_symlink(p{1}, is_symlink_fun), p{2}, p{1})
+  tc.verifyTrue(stdlib.is_symlink(tc.link, rs_fun), "failed to detect own link")
+  tc.verifyEqual(stdlib.is_symlink(p{1}, rs_fun), p{2}, p{1})
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
 end
 end
 
 
-function test_read_symlink(tc, read_symlink_fun)
-is_capable(tc, read_symlink_fun)
+function test_read_symlink_empty(tc, Pre, rs_fun)
+try
+  tc.verifyEmpty(stdlib.read_symlink(Pre, rs_fun))
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+end
+end
 
-tc.verifyEmpty(read_symlink_fun(""))
-tc.verifyEmpty(read_symlink_fun(''))
-tc.verifyEmpty(read_symlink_fun(tempname))
-tc.verifyEmpty(read_symlink_fun(tc.target))
 
-link_read = read_symlink_fun(tc.link);
-
-targ = string(tc.target);
-
-tc.verifyEqual(link_read, targ)
-
+function test_read_symlink(tc, rs_fun)
+tc.assertNotEmpty(which("stdlib." + rs_fun + ".read_symlink"))
+try
+  tc.verifyEqual(stdlib.read_symlink(tc.link, rs_fun), string(tc.target))
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+end
 end
 
 
