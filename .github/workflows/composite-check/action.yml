@@ -18,4 +18,4 @@ runs:
     uses: actions/upload-artifact@v4
     with:
       name: ${{ matrix.release }}-${{ runner.os }}-codeissues
-      path: release/CodeIssues.sarif
+      path: .buildtool/CodeIssues.sarif

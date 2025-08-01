@@ -20,7 +20,11 @@ installedPackages = addons.Name;
 name = addons.Name(strcmpi(installedPackages, packageName));
 
 if isempty(name)
-  warning('stdlib:checkout_license:ValueError', 'Did not find an installed package %s.\nInstalled packages:\n%s', packageName, join(installedPackages, newline))
+  msg = sprintf('Did not find an installed package %s.\n', packageName);
+  if ~ismissing(installedPackages)
+    msg = sprintf('Installed packages:\n%s', join(installedPackages, newline));
+  end
+  warning('stdlib:checkout_license:ValueError', msg)
   return
 end
 

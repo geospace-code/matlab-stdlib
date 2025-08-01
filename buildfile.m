@@ -10,17 +10,9 @@ else
   cnomex = cnomex & ~HasTag("windows");
 end
 
+reportDir = fullfile(plan.RootFolder, ".buildtool");
 pkg_root = fullfile(plan.RootFolder, "+stdlib");
 test_root = fullfile(plan.RootFolder, "test");
-
-if isMATLABReleaseOlderThan('R2025a')
-  mt_ok = false;
-else
-  addons = matlab.addons.installedAddons;
-  % license name obtained by
-  % com.mathworks.product.util.ProductIdentifier.get("MATLAB Test").getFlexName
-  mt_ok = any(ismember(addons.Name, "MATLAB Test")) && license('checkout', 'MATLAB_Test') == 1;
-end
 
 if ~isMATLABReleaseOlderThan("R2023b")
   plan("clean") = matlab.buildtool.tasks.CleanTask;
@@ -38,16 +30,19 @@ if isMATLABReleaseOlderThan("R2024b")
   plan("test_exe") = matlab.buildtool.tasks.TestTask(test_root, Tag="exe", Dependencies="exe");
 
 elseif isMATLABReleaseOlderThan("R2025a")
-
+  % Matlab == R2024b
   plan("test:main") = matlab.buildtool.Task(Actions=@(context) test_main(context, cnomex));
 
 else
-
+  % Matlab >= R2025a
   plan("test:main") = matlab.buildtool.tasks.TestTask(...
-    test_root, Description="Test non-MEX targets",...
+    test_root, Description="Test non-MEX targets", ...
     Selector=cnomex, ...
-    SourceFiles=pkg_root, RunOnlyImpactedTests=mt_ok,...
-    TestResults="release/TestResults_nomex.xml", Strict=true);
+    SourceFiles=pkg_root, ...
+    RunOnlyImpactedTests=stdlib.checkout_license("MATLAB Test"), ...
+    TestResults=reportDir + "/TestResults_nomex.xml", Strict=true);
+
+  plan("test").Description = "Run all self-tests";
 
 end
 
@@ -58,27 +53,24 @@ if ~isMATLABReleaseOlderThan('R2024b')
 
   plan("test:python") = matlab.buildtool.tasks.TestTask(...
     test_root, Description="test Python targets", ...
-    Tag = "python", ...
-    TestResults="release/TestResults_java.xml", Strict=true);
+    Tag = "python", Strict=true);
 
   plan("test:java") = matlab.buildtool.tasks.TestTask(...
     test_root, Description="test Java targets", ...
-    Tag = "java", ...
-    TestResults="release/TestResults_java.xml", Strict=true);
+    Tag = "java", Strict=true);
 
   plan("test:java_exe") = matlab.buildtool.tasks.TestTask(...
     test_root, Description="test Java exe targets", ...
-    Tag = "java_exe", Dependencies="exe", ...
-    TestResults="release/TestResults_java_exe.xml", Strict=true);
+    Tag = "java_exe", Dependencies="exe", Strict=true);
 
 
-  if mt_ok
+  if ~isempty(license('inuse', 'MATLAB_Test'))
     plan("coverage") = matlab.buildtool.tasks.TestTask(test_root, ...
-    Description="code coverage", ...
+    Description="Run code coverage", ...
     Dependencies="exe", ...
     SourceFiles=pkg_root, ...
     Strict=false).addCodeCoverage(...
-    matlabtest.plugins.codecoverage.StandaloneReport("release/coverage-report.html"));
+    matlabtest.plugins.codecoverage.StandaloneReport(reportDir + "/coverage-report.html"));
   end
 
 end
@@ -99,7 +91,7 @@ plan("exe") = matlab.buildtool.Task(Inputs=srcs, Outputs=exes, Actions=@build_ex
 if ~isMATLABReleaseOlderThan("R2024a")
   plan("check") = matlab.buildtool.tasks.CodeIssuesTask(plan.RootFolder, ...
     IncludeSubfolders=true, ...
-    WarningThreshold=0, Results="release/CodeIssues.sarif");
+    WarningThreshold=0, Results=reportDir + "/CodeIssues.sarif");
 end
 
 end
