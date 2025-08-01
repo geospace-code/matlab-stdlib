@@ -42,14 +42,14 @@ jobs:
       if: runner.os == 'macOS'
       run: echo "FC=gfortran-14" >> $GITHUB_ENV
 
-    - name: Check CodeIssues
-      if: ${{ matrix.release >= 'R2024a' }}
-      uses: ./.github/workflows/composite-check
-
     - name: Matlab tell External Language Interface versions
       uses: matlab-actions/run-command@v2
       with:
-        command: stdlib.platform_tell()
+        command: license('inuse'), stdlib.platform_tell()
+
+    - name: Check CodeIssues
+      if: ${{ matrix.release >= 'R2024a' }}
+      uses: ./.github/workflows/composite-check
 
     - name: Main Tests
       uses: ./.github/workflows/composite-nomex
@@ -79,7 +79,7 @@ jobs:
     - name: Matlab tell External Language Interface versions
       uses: matlab-actions/run-command@v2
       with:
-        command: stdlib.platform_tell()
+        command: license('inuse'), stdlib.platform_tell()
 
     - name: Main Tests
       uses: ./.github/workflows/composite-nomex
@@ -106,7 +106,7 @@ jobs:
     - name: Matlab tell External Language Interface versions
       uses: matlab-actions/run-command@v2
       with:
-        command: stdlib.platform_tell()
+        command: license('inuse'), stdlib.platform_tell()
 
     - name: Main Tests
       uses: ./.github/workflows/composite-nomex
