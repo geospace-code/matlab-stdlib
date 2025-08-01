@@ -29,6 +29,8 @@ end
 % https://www.mathworks.com/help/matlab/matlab_env/index-of-code-analyzer-checks.html
 featureName = string(com.mathworks.product.util.ProductIdentifier.get(name).getFlexName()); %#ok<JAPIMATHWORKS>
 
-ok = license('checkout', featureName);
+if license('test', featureName)
+  ok = license('checkout', featureName);
+end
 
 end
