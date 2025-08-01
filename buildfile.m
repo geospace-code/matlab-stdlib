@@ -63,16 +63,18 @@ if ~isMATLABReleaseOlderThan('R2024b')
     test_root, Description="test Java exe targets", ...
     Tag = "java_exe", Dependencies="exe", Strict=true);
 
+  coverageReport = fullfile(reportDir, 'coverage-report.html');
+  if isempty(license('inuse', 'MATLAB_Test'))
+    cvg = coverageReport;
+  else
+    cvg = @() matlabtest.plugins.codecoverage.StandaloneReport(coverageReport);
+  end
 
-  if ~isempty(license('inuse', 'MATLAB_Test'))
-    plan("coverage") = matlab.buildtool.tasks.TestTask(test_root, ...
+  plan("coverage") = matlab.buildtool.tasks.TestTask(test_root, ...
     Description="Run code coverage", ...
     Dependencies="exe", ...
     SourceFiles=pkg_root, ...
-    Strict=false).addCodeCoverage(...
-    matlabtest.plugins.codecoverage.StandaloneReport(reportDir + "/coverage-report.html"));
-  end
-
+    Strict=false).addCodeCoverage(cvg());
 end
 
 srcs = ["stdout_stderr_c.c", "stdin_cpp.cpp", "printenv.cpp", "sleep.cpp"];
