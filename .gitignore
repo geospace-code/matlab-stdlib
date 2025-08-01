@@ -3,6 +3,9 @@ CodeIssues.sarif
 *.xml
 *.html
 
+mpm
+mpm.exe
+
 release/
 resources/
 .buildtool/
