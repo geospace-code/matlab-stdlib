@@ -17,7 +17,9 @@ if isMATLABReleaseOlderThan('R2025a')
   mt_ok = false;
 else
   addons = matlab.addons.installedAddons;
-  mt_ok = any(ismember(addons.Name, "MATLAB Test")) && license('checkout', 'MATLAB Test') == 1;
+  % license name obtained by
+  % com.mathworks.product.util.ProductIdentifier.get("MATLAB Test").getFlexName
+  mt_ok = any(ismember(addons.Name, "MATLAB Test")) && license('checkout', 'MATLAB_Test') == 1;
 end
 
 if ~isMATLABReleaseOlderThan("R2023b")
