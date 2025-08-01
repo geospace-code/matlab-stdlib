@@ -26,7 +26,7 @@ if executable ~= 0
       v(end+1) = true;
     end
   else
-    k(end+1) = "Executable";
+    k(end+1) = "UserExecute";
     v(end+1) = executable > 0;
   end
 end
