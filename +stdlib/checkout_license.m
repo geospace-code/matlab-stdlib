@@ -19,17 +19,11 @@ addons = matlab.addons.installedAddons;
 installedPackages = addons.Name;
 name = addons.Name(strcmpi(installedPackages, packageName));
 
-if isempty(name)
-  msg = sprintf('Did not find an installed package %s.\n', packageName);
-  if ~ismissing(installedPackages)
-    msg = sprintf('Installed packages:\n%s', join(installedPackages, newline));
-  end
-  warning('stdlib:checkout_license:ValueError', msg)
-  return
-end
+if isempty(name), return, end
 
 if ~usejava('jvm')
-  error('Java must be enabled for this function to work.')
+  warning('stdlib:checkout_license:EnvironmentError', 'Java must be enabled to lookup license names.')
+  return
 end
 
 % https://www.mathworks.com/help/matlab/matlab_env/index-of-code-analyzer-checks.html
