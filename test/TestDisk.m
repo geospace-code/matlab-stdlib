@@ -42,6 +42,14 @@ end
 end
 
 
+function test_is_removable(tc)
+
+y = stdlib.is_removable(pwd());
+tc.verifyClass(y, 'logical')
+
+end
+
+
 function test_hard_link_count(tc, hl_fun)
 fname = "hard_link_count";
 n = "stdlib." + hl_fun + "." + fname;
