@@ -99,48 +99,48 @@ def _linux_search(release: str) -> Path | None:
     return None
 
 
-def validate_release(release: str, matlab_binpath: Path) -> bool:
+def read_release(release: str, matlab_binpath: Path) -> str | None:
     """
-    Validate the Matlab release with VersionInfo.xml
+    Read the Matlab release with VersionInfo.xml
     """
 
-    xml_path = matlab_binpath / "../../VersionInfo.xml"
-    if not xml_path.is_file():
-        return False
+    for p in [matlab_binpath, matlab_binpath.parent, matlab_binpath.parent.parent]:
+        if (xml_path := p / "VersionInfo.xml").is_file():
+            break
+    else:
+        return None
 
-    # parse the XML file to check for the release
     try:
         tree = ET.parse(xml_path)
         root = tree.getroot()
         if root.tag != "MathWorks_version_info":
             logging.error(f"Expected root element 'MathWorks_version_info', found '{root.tag}'")
-            return False
+            return None
 
         release_element = root.find("release")
         if release_element is None or release_element.text is None:
             logging.error(
                 f"Could not find release information in VersionInfo.xml under {xml_path} {root.tag}"
             )
-            return False
+            return None
         release_name = release_element.text.strip()
 
         if release_name.startswith(release):
             logging.info(f"Found valid Matlab release {release_name} in {xml_path}")
-            return True
+            return release_name
         else:
             logging.warning(f"Matlab release {release_name} does not match requested {release}.")
-            return False
+            return None
     except ET.ParseError as e:
         logging.error(f"Failed to parse VersionInfo.xml: {e}")
-        return False
+        return None
 
 
-def find_activate_matlab(release: str) -> str | None:
+def find_matlab_exe(release: str, name: str) -> str | None:
     """
     Fallback to PATH if the platform-specific search fails.
     Linux doesn't have a platform-specific search.
     """
-    name = "MathWorksProductAuthorizer"
 
     mr = None
 
@@ -152,6 +152,11 @@ def find_activate_matlab(release: str) -> str | None:
         case _:
             mr = _linux_search(release)
 
+    if mr is not None and name in {"mexext", "matlab", "matlab_jenv"}:
+        mr = mr.parent
+
+    logging.info(f"Searching {mr} for {name}")
+
     return shutil.which(name, path=mr)
 
 
@@ -159,9 +164,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Find the MathWorksProductAuthorizer executable.")
     parser.add_argument(
         "release",
-        type=str,
         help="Specify the MATLAB version to search for (e.g., R2023a)",
-        default=None,
+    )
+    parser.add_argument(
+        "-n",
+        "--name",
+        default="MathWorksProductAuthorizer",
+        help="Name of the executable to search for (default: MathWorksProductAuthorizer)",
     )
     parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose output")
     args = parser.parse_args()
@@ -169,12 +178,12 @@ if __name__ == "__main__":
     if args.verbose:
         logging.basicConfig(level=logging.DEBUG)
 
-    exe = find_activate_matlab(args.release)
+    exe = find_matlab_exe(args.release, args.name)
     if exe is None:
-        raise SystemExit(f"Could not find MathWorksProductAuthorizer for release {args.release}.")
+        raise SystemExit(f"Could not find {args.name} for release {args.release}.")
 
-    if not validate_release(args.release, Path(exe).parent):
+    if (release := read_release(args.release, Path(exe).parent)) is None:
         raise SystemExit(f"Matlab release {args.release} was not found under {Path(exe).parent}.")
 
-    print("This program can reactivate the Matlab license if authorized:\n")
+    print(f"Matlab {release} '{args.name}' executable found:")
     print(exe)
