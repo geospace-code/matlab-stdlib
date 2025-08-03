@@ -57,7 +57,7 @@ for i = 1:numel(pkg.packages)
   sn = pkg.packages(i);
   sn = sn{1};
   spkg = what(fullfile("+" + pkg_name, sn));
-  
+
   publish_pkg(fid, spkg, pkg_name)
 end
 
@@ -75,11 +75,11 @@ outdir = fileparts(fopen(fid));
 [~, subname] = fileparts(pkg.path);
 if ~endsWith(subname, pkg_name)
   pkg_name = pkg_name + "." + subname(2:end);
-  relpath = subname(2:end);
+  relpath = subname(2:end) + "/";
   outdir = fullfile(outdir, relpath);
   fprintf(fid, strcat('<h3>', pkg_name, '</h3>', newline));
 else
-  relpath = '';
+  relpath = "";
 end
 
 for fun = pkg.m.'
@@ -97,7 +97,7 @@ words = split(strip(help_txt(1)), " ");
 fname = words(1);
 assert(endsWith(fname, name, IgnoreCase=true), "fname %s does not match name %s \nis there a docstring at the top of the .m file?", fname, name)
 
-line = "<a href=" + relpath + "/" + name + ".html>" + fname + "</a> ";
+line = "<a href=" + relpath + name + ".html>" + fname + "</a> ";
 if(length(words) > 1)
    line = join([line, words(2:end).']);
 end
