@@ -18,6 +18,7 @@ import argparse
 from pathlib import Path
 import logging
 import platform
+import xml.etree.ElementTree as ET
 
 try:
     import winreg
@@ -98,6 +99,42 @@ def _linux_search(release: str) -> Path | None:
     return None
 
 
+def validate_release(release: str, matlab_binpath: Path) -> bool:
+    """
+    Validate the Matlab release with VersionInfo.xml
+    """
+
+    xml_path = matlab_binpath / "../../VersionInfo.xml"
+    if not xml_path.is_file():
+        return False
+
+    # parse the XML file to check for the release
+    try:
+        tree = ET.parse(xml_path)
+        root = tree.getroot()
+        if root.tag != "MathWorks_version_info":
+            logging.error(f"Expected root element 'MathWorks_version_info', found '{root.tag}'")
+            return False
+
+        release_element = root.find("release")
+        if release_element is None or release_element.text is None:
+            logging.error(
+                f"Could not find release information in VersionInfo.xml under {xml_path} {root.tag}"
+            )
+            return False
+        release_name = release_element.text.strip()
+
+        if release_name.startswith(release):
+            logging.info(f"Found valid Matlab release {release_name} in {xml_path}")
+            return True
+        else:
+            logging.warning(f"Matlab release {release_name} does not match requested {release}.")
+            return False
+    except ET.ParseError as e:
+        logging.error(f"Failed to parse VersionInfo.xml: {e}")
+        return False
+
+
 def find_activate_matlab(release: str) -> str | None:
     """
     Fallback to PATH if the platform-specific search fails.
@@ -133,6 +170,11 @@ if __name__ == "__main__":
         logging.basicConfig(level=logging.DEBUG)
 
     exe = find_activate_matlab(args.release)
+    if exe is None:
+        raise SystemExit(f"Could not find MathWorksProductAuthorizer for release {args.release}.")
+
+    if not validate_release(args.release, Path(exe).parent):
+        raise SystemExit(f"Matlab release {args.release} was not found under {Path(exe).parent}.")
 
     print("This program can reactivate the Matlab license if authorized:\n")
     print(exe)
