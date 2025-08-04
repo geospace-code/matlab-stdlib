@@ -7,12 +7,16 @@
 
 function y = is_readable(file, backend)
 arguments
-  file {mustBeTextScalar}
+  file string
   backend (1,:) string = ["java", "native", "legacy"]
 end
 
-fun = hbackend(backend, "is_readable", 'R2025a');
+[fun, b] = hbackend(backend, "is_readable", 'R2025a');
 
-y = fun(file);
+if isscalar(file) || b == "native"
+  y = fun(file);
+else
+  y = arrayfun(fun, file);
+end
 
 end

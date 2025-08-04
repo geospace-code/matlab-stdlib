@@ -43,6 +43,17 @@ end
 end
 
 
+function test_is_rw_array(tc, backend, fname)
+h = str2func("stdlib." + fname);
+try
+  r = h([".", tempname(), mfilename() + ".m"], backend);
+  tc.verifyEqual(r, [true, false, true])
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
+end
+end
+
+
 function test_is_char_device(tc, icm)
 % /dev/stdin may not be available on CI systems
 if ispc
