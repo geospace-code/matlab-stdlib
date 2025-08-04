@@ -37,6 +37,20 @@ end
 end
 
 
+function test_get_permissions_exe(tc)
+matlab_exe = fullfile(matlabroot, "bin/matlab");
+if ispc()
+  matlab_exe = matlab_exe + ".exe";
+end
+
+tc.assertThat(matlab_exe, matlab.unittest.constraints.IsFile)
+p = stdlib.get_permissions(matlab_exe);
+tc.assertNotEmpty(p)
+tc.verifyEqual(p(3), 'x')
+
+end
+
+
 function test_set_permissions_noread(tc)
 import matlab.unittest.constraints.StartsWithSubstring
 

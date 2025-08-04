@@ -1,9 +1,8 @@
 %% NATIVE.PERM2CHAR convert file permissions to permission string
 
-function p = perm2char(v, file)
+function p = perm2char(v)
 arguments
   v (1,1)
-  file {mustBeTextScalar}
 end
 
 
@@ -23,7 +22,7 @@ end
 
 if isa(v, "matlab.io.WindowsPermissions") || ispc()
 
-  if p(1) == 'r' && stdlib.native.has_windows_executable_suffix(file)
+  if p(1) == 'r'
     p(3) = 'x';
   end
 
