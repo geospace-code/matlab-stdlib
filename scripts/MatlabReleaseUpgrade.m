@@ -1,21 +1,30 @@
 %% Finds the program "MathWorksUpdateInstaller" used to check for Matlab updates.
 %
-% The usual MathWorksUpdateInstaller program was removed in R2025a.
-% There is another program under the Mathworks ServiceHost, but folks have
-% observed that program results in network error code 1804. Nonetheless, we
-% give the location of that program, hoping that the Mathworks will make a
-% solution, perhaps via "mpm upgrade" in the future.
+% The <matlabroot>/bin/<arch>/MathWorksUpdateInstaller program was removed in R2025a.
+% There was long a second copy under the ServiceHost directory that we use instead.
 %
 % future: programmatic update is planned for the "mpm" program:
 % https://github.com/mathworks-ref-arch/matlab-dockerfile/issues/129#issuecomment-2783047083
 %
-% Ref: https://www.mathworks.com/matlabcentral/answers/1815365-how-do-i-uninstall-and-reinstall-the-mathworks-service-host
+% References:
+% * https://www.mathworks.com/matlabcentral/answers/2178694-mathworksupdateinstaller-and-r2025a-in-linux#answer_1568457
+% * https://www.mathworks.com/matlabcentral/answers/1815365-how-do-i-uninstall-and-reinstall-the-mathworks-service-host
 
-function MatlabReleaseUpgrade()
+function MatlabReleaseUpgrade(doUpgrade)
+arguments
+  doUpgrade (1,1) logical = false
+end
 
 cmd = getUpgradePath();
 
-fprintf("Matlab upgrade program found:\n\n%s\n\n", cmd)
+fprintf("Matlab upgrade command:\n\n%s\n\n", cmd);
+
+if doUpgrade
+  s = system(cmd);
+  assert(s == 0)
+else
+  disp("MatlabReleaseUpgrade(1) to install upgrade")
+end
 
 end
 
@@ -30,28 +39,34 @@ elseif isunix() && ~ismac()
 end
 
 if isMATLABReleaseOlderThan('R2025a')
-  cmd = legacy_update_path(name);
+  exe = legacy_update_path(name);
 else
-  cmd = new_update_path(name);
+  exe = new_update_path(name);
 end
 
-if ~isfile(cmd)
-  error("Did not find upgrade program at %s", cmd)
+if ~isfile(exe)
+  error("Did not find upgrade program at %s", exe)
 end
 
+if ismac()
+  exe = "'" + exe + "'";
+end
+
+cmd = sprintf('%s --destination %s', exe, matlabroot);
+
 end
 
 
-function cmd = legacy_update_path(name)
+function exe = legacy_update_path(name)
 
 r = fullfile(matlabroot, "bin", computer("arch"));
 mustBeFolder(r)
-cmd = fullfile(r, name);
+exe = fullfile(r, name);
 
 end
 
 
-function cmd = new_update_path(name)
+function exe = new_update_path(name)
 
 arch = computer("arch");
 
@@ -64,8 +79,8 @@ if ismac()
 elseif ispc()
   head = fullfile(getenv("LOCALAPPDATA"), 'MathWorks/ServiceHost');
 else
-  addpath(fileparts(fileparts(mfilename('fullpath'))))
-  head = fullfile(getenv("HOME"), '.MathWorks/ServiceHost', stdlib.hostname());
+  hostname = string(javaMethod("getLocalHost", "java.net.InetAddress").getHostName());
+  head = fullfile(getenv("HOME"), '.MathWorks/ServiceHost', hostname);
 end
 mustBeFolder(head)
 
@@ -84,6 +99,6 @@ end
 fclose(fid);
 mustBeNonempty(svcRoot)
 
-cmd = fullfile(svcRoot, bin_tail, name);
+exe = fullfile(svcRoot, bin_tail, name);
 
 end
