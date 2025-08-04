@@ -138,10 +138,13 @@ function test_hostname(tc, all_fun)
 tc.assertNotEmpty(which("stdlib." + all_fun + ".get_hostname"))
 try
   h = stdlib.hostname(all_fun);
-  tc.verifyGreaterThan(strlength(h), 0)
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
+  return
 end
+
+tc.verifyClass(h, 'char')
+tc.verifyGreaterThan(strlength(h), 0)
 end
 
 function test_username(tc, all_fun)
