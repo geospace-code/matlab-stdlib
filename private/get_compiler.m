@@ -14,7 +14,7 @@ if isempty(co)
     case "fortran"
       comp = getenv("FC");
       if isempty(comp)
-        disp("set FC environment variable to the Fortran compiler path via get_compiler('fortran'), or do 'mex -setup c++")
+        disp("set FC environment variable to the Fortran compiler path via get_compiler('fortran'), or do 'mex -setup Fortran")
       end
     case "c++"
       comp = getenv("CXX");
@@ -49,5 +49,3 @@ if ispc()
 end
 
 end
-
-

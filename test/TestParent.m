@@ -18,7 +18,7 @@ function test_parent(tc, p, backend)
 try
   pr = stdlib.parent(p{1}, backend);
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.stack(1).file + ":" + string(e.stack(1).line) + " " + e.message)
   return
 end
 tc.verifyEqual(pr, p{2}, sprintf("parent(%s, %s)", p{1}, backend))

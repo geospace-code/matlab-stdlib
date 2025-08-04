@@ -4,14 +4,17 @@
 % stdlib.parent("a/b/c") == "a/b"
 % stdlib.parent("a/b/c/") == "a/b"
 
-function p = parent(pth, backend)
+function par = parent(file, backend)
 arguments
-  pth {mustBeTextScalar}
-  backend (1,:)string = ["java", "python", "native"]
+  file string
+  backend (1,:) string = ["java", "python", "native"]
 end
 
-fun = hbackend(backend, "parent");
-
-p = fun(pth);
+if isscalar(file)
+  fun = hbackend(backend, "parent");
+  par = fun(file);
+else
+  par = stdlib.native.parent(file);
+end
 
 end

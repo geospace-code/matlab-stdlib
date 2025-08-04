@@ -1,18 +1,23 @@
 function p = parent(pth)
-
-f = fullfile(char(pth));
-if endsWith(f, {'/', filesep}) && ~strcmp(f, stdlib.root(f))
-  f = f(1:end-1);
+arguments
+  pth string
 end
+
+f = fullfile(pth);
+
+i = endsWith(f, ["/", filesep]) & ~strcmp(f, stdlib.root(f));
+
+f(i) = extractBefore(f(i), strlength(f(i)));
 
 p = fileparts(f);
 
-if stdlib.strempty(p)
-  p = '.';
-elseif ispc() && strcmp(p, stdlib.root_name(pth))
-  p = strcat(p, filesep);
-end
+i = stdlib.strempty(p);
+p(i) = ".";
 
-p = string(p);
+% the ~all(i) is for Windows Matlab < R2025a
+if ispc() && ~all(i)
+  i = p(~i) == stdlib.root_name(pth(~i));
+  p(i) = strcat(p(i), filesep);
+end
 
 end
