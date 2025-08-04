@@ -8,7 +8,7 @@
 function y = is_writable(file, backend)
 arguments
   file {mustBeTextScalar}
-  backend (1,:)string = ["java", "native", "legacy"]
+  backend (1,:) string = ["java", "native", "legacy"]
 end
 
 fun = hbackend(backend, "is_writable", 'R2025a');

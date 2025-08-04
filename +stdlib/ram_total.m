@@ -8,7 +8,7 @@
 
 function bytes = ram_total(backend)
 arguments
-  backend (1,:)string = ["java", "dotnet", "python", "sys"]
+  backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
 fun = hbackend(backend, "ram_total");

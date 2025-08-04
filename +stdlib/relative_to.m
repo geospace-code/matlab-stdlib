@@ -14,7 +14,7 @@ function rel = relative_to(base, other, backend)
 arguments
   base {mustBeTextScalar}
   other {mustBeTextScalar}
-  backend (1,:)string = ["python", "native"]
+  backend (1,:) string = ["python", "native"]
 end
 
 fun = hbackend(backend, "relative_to");

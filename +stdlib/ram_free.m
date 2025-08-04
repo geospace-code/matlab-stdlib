@@ -14,7 +14,7 @@
 
 function bytes = ram_free(backend)
 arguments
-  backend (1,:)string = ["java", "python", "sys"]
+  backend (1,:) string = ["java", "python", "sys"]
 end
 
 fun = hbackend(backend, "ram_free");

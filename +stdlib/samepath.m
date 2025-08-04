@@ -16,7 +16,7 @@ function y = samepath(path1, path2, backend)
 arguments
   path1 {mustBeTextScalar}
   path2 {mustBeTextScalar}
-  backend (1,:)string = ["python", "java", "sys", "native"]
+  backend (1,:) string = ["python", "java", "sys", "native"]
 end
 
 % For this function, Python is over 10x faster than Java

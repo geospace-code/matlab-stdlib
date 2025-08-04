@@ -6,7 +6,7 @@
 
 function [os, version] = os_version(backend)
 arguments
-  backend (1,:)string = ["sys", "python", "dotnet", "java"]
+  backend (1,:) string = ["sys", "python", "dotnet", "java"]
 end
 
 fun = hbackend(backend, "os_version");

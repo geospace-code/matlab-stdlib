@@ -14,7 +14,7 @@
 function n = normalize(file, backend)
 arguments
   file {mustBeTextScalar}
-  backend (1,:)string = ["java", "python", "native"]
+  backend (1,:) string = ["java", "python", "native"]
 end
 
 fun = hbackend(backend, "normalize");
