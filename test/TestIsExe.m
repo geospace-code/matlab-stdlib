@@ -1,14 +1,16 @@
 classdef TestIsExe < matlab.unittest.TestCase
 
 properties (TestParameter)
+% we don't test plain files like Readme.md b/c some systems like Matlab Online
+% have permissions like 777 everywhere
 p = {
-{fileparts(mfilename('fullpath')) + "/../Readme.md", false}, ...
 {"not-exist", false}, ...
 {'', false}, ...
 {"", false}, ...
 {'.', false}, ...
 {matlab_path(), true}
 }
+peb = init_exe_bin()
 backend = {'java', 'python', 'native', 'legacy'}
 end
 
@@ -30,18 +32,10 @@ end
 end
 
 
-function test_is_executable_binary(tc)
+function test_is_executable_binary(tc, peb)
 
-if ispc()
-  f = matlab_path();
-else
-  f = '/bin/ls';
-end
-
-tc.assumeThat(f, matlab.unittest.constraints.IsFile)
-
-b = stdlib.is_executable_binary(f);
-tc.assumeTrue(b, f)
+b = stdlib.is_executable_binary(peb{1});
+tc.verifyEqual(b, peb{2}, peb{1})
 
 end
 end
@@ -55,4 +49,21 @@ f = fullfile(matlabroot, "bin/matlab");
 if ispc()
   f = f + ".exe";
 end
+end
+
+
+function peb = init_exe_bin()
+
+peb = {
+{fileparts(mfilename('fullpath')) + "/../Readme.md", false}; ...
+{matlab_path, false}; ...
+{'/bin/ls', true}; ...
+{tempname(), false}
+};
+
+if ispc
+  peb{2}{2} = true;
+  peb{3}{2} = false;
+end
+
 end
