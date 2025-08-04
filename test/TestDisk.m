@@ -14,6 +14,7 @@ disk_ac_name = {'disk_available', 'disk_capacity'}
 hl_fun = {'java', 'python'}
 fst_fun = {'sys', 'dotnet', 'java', 'python'}
 is_remove = {'dotnet', 'sys'}
+py_sys = {'python', 'sys'}
 end
 
 methods(TestClassSetup)
@@ -52,6 +53,28 @@ catch e
 end
 
 tc.verifyClass(y, 'logical')
+end
+
+
+function test_is_mount(tc, py_sys)
+try
+  y = stdlib.is_mount(pwd(), py_sys);
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  return
+end
+
+tc.verifyClass(y, 'logical')
+tc.verifyTrue(stdlib.is_mount("/", py_sys))
+tc.verifyFalse(stdlib.is_mount(tempname(), py_sys))
+
+if ispc()
+  sd = getenv("SystemDrive");
+  tc.assertEqual(sd, stdlib.root_name(sd), sd)
+  tc.verifyFalse(stdlib.is_mount(sd, py_sys), sd)
+  tc.verifyTrue(stdlib.is_mount(sd + "/", py_sys), sd)
+  tc.verifyTrue(stdlib.is_mount(sd + "\", py_sys), sd)
+end
 end
 
 
