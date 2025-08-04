@@ -6,13 +6,12 @@ end
 
 properties (TestParameter)
 Ps = {".", "", "/", getenv("SystemDrive"), "not-exist"}
-Po = {mfilename("fullpath") + ".m", pwd(), ".", "", tempname()}
+Po = {mfilename("fullpath") + ".m", pwd(), ".", "", "not-exist"}
 id_fun = {'sys', 'java', 'python'}
 id_name = {"inode", "device"}
-disk_ac_fun = {'sys', 'dotnet', 'java', 'python'}
+all_fun = {'sys', 'dotnet', 'java', 'python'}
 disk_ac_name = {'disk_available', 'disk_capacity'}
 hl_fun = {'java', 'python'}
-fst_fun = {'sys', 'dotnet', 'java', 'python'}
 is_remove = {'dotnet', 'sys'}
 py_sys = {'python', 'sys'}
 end
@@ -26,13 +25,13 @@ end
 
 methods (Test)
 
-function test_disk_ac(tc, Ps, disk_ac_fun, disk_ac_name)
-n = "stdlib." + disk_ac_fun + "." + disk_ac_name;
+function test_disk_ac(tc, Ps, all_fun, disk_ac_name)
+n = "stdlib." + all_fun + "." + disk_ac_name;
 h = str2func("stdlib." + disk_ac_name);
 tc.assertNotEmpty(which(n))
 
 try
-  r = h(Ps, disk_ac_fun);
+  r = h(Ps, all_fun);
   if stdlib.exists(Ps)
     tc.verifyGreaterThanOrEqual(r, 0)
   else
@@ -93,10 +92,10 @@ end
 end
 
 
-function test_filesystem_type(tc, Ps, fst_fun)
-tc.assertNotEmpty(which("stdlib." + fst_fun + ".filesystem_type"))
+function test_filesystem_type(tc, Ps, all_fun)
+tc.assertNotEmpty(which("stdlib." + all_fun + ".filesystem_type"))
 try
-  t = stdlib.filesystem_type(Ps, fst_fun);
+  t = stdlib.filesystem_type(Ps, all_fun);
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
@@ -146,17 +145,17 @@ end
 end
 
 
-function test_owner(tc, Po, fst_fun)
-tc.assertNotEmpty(which("stdlib." + fst_fun + ".get_owner"))
+function test_owner(tc, Po, all_fun)
+tc.assertNotEmpty(which("stdlib." + all_fun + ".get_owner"))
 
 try
-  o = stdlib.get_owner(Po, fst_fun);
+  o = stdlib.get_owner(Po, all_fun);
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
 
-tc.verifyClass(o, 'string')
+tc.verifyClass(o, 'char')
 
 if stdlib.exists(Po)
   tc.verifyGreaterThan(strlength(o), 0)

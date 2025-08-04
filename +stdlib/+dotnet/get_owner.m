@@ -2,11 +2,6 @@
 
 function o = get_owner(p)
 
-if ~stdlib.exists(p)
-  o = string.empty;
-  return
-end
-
 % This is not yet possible with .NET on Unix, even with .NET 10.
 % It would require Pinvoke or external Mono.Unix
 
@@ -17,12 +12,15 @@ end
 
 if isfolder(p)
   fsec = System.IO.Directory.GetAccessControl(p);
-else
+elseif isfile(p)
   fsec = System.IO.File.GetAccessControl(p);
+else
+  o = '';
+  return
 end
 
 owner = fsec.GetOwner(ntAccountType);
 
-o = string(owner.Value);
+o = char(owner.ToString());
 
 end

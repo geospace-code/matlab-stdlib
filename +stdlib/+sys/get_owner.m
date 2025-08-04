@@ -1,10 +1,12 @@
 function o = get_owner(p)
 
-o = string.empty;
-if ~stdlib.exists(p), return, end
+o = '';
+if ~stdlib.exists(p)
+  return
+end
 
 if ispc()
-  cmd = sprintf('pwsh -c (Get-Acl -Path "%s").Owner', p);
+  cmd = sprintf('pwsh -c "if($x=Get-Acl -Path ''%s'') {$x.Owner}"', p);
 elseif ismac()
   cmd = sprintf('stat -f %%Su "%s"', p);
 else
@@ -13,7 +15,7 @@ end
 
 [s, m] = system(cmd);
 if s == 0
-  o = string(strip(m));
+  o = strip(m);
 end
 
 end

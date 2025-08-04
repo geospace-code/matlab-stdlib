@@ -1,15 +1,20 @@
-function n = get_owner(p)
+%% JAVA.GET_OWNER get owner of file
 
-n = string.empty;
-if ~stdlib.exists(p), return, end
+function n = get_owner(p)
 
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html#getOwner(java.nio.file.Path,java.nio.file.LinkOption...)
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/LinkOption.html
 
+n = '';
+if ~stdlib.exists(p)
+  return
+end
+
+
 try
   opt = javaMethod("values", "java.nio.file.LinkOption");
 
-  n = string(javaMethod("getOwner", "java.nio.file.Files", javaPathObject(p), opt));
+  n = char(javaMethod("getOwner", "java.nio.file.Files", javaPathObject(p), opt));
 catch e
   warning(e.identifier, "get_owner(%s) failed: %s", p, e.message)
 end
