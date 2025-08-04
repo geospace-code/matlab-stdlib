@@ -2,12 +2,16 @@
 
 function ok = is_symlink(file, backend)
 arguments
-  file {mustBeTextScalar}
+  file string
   backend (1,:) string = ["native", "java", "dotnet", "python", "sys"]
 end
 
-fun = hbackend(backend, "is_symlink", 'R2024b');
+[fun, b] = hbackend(backend, "is_symlink", 'R2024b');
 
-ok = fun(file);
+if isscalar(file) || b == "native"
+  ok = fun(file);
+else
+  ok = arrayfun(fun, file);
+end
 
 end
