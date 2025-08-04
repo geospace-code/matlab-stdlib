@@ -32,11 +32,15 @@ end
 tc.verifyEqual(c, p{2})
 end
 
-function test_canonical_array(tc)
-tc.assumeFalse(isMATLABReleaseOlderThan('R2024a'))
-
+function test_canonical_array(tc, backend)
 in = ["", "hi", "/ok", "not-exist/a/.."];
-c = stdlib.native.canonical(in);
+
+try
+  c = stdlib.canonical(in, false, backend);
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError',  e.stack(1).file + ":" + string(e.stack(1).line) + " " + e.message)
+  return
+end
 
 tc.verifyEqual(c, ["", "hi", filesep + "ok", "not-exist"])
 end

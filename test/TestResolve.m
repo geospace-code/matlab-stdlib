@@ -79,8 +79,6 @@ tc.verifyEqual(stdlib.resolve(a), b)
 end
 
 function test_resolve_array(tc)
-tc.assumeFalse(isMATLABReleaseOlderThan('R2024a'))
-
 in = ["", "hi", "/ok", "not-exist/a/.."];
 c = stdlib.resolve(in);
 

@@ -3,7 +3,7 @@
 % To save time, do not check that the function exists with which()
 
 
-function fun = hbackend(backend, name, minVersion)
+function [fun, m] = hbackend(backend, name, minVersion)
 arguments
   backend (1,:) string
   name (1,1) string

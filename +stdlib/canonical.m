@@ -19,11 +19,12 @@ arguments
   backend (1,:) string = ["native", "legacy"]
 end
 
-if isscalar(p)
-  fun = hbackend(backend, "canonical", 'R2024a');
+[fun, b] = hbackend(backend, "canonical", 'R2024a');
+
+if isscalar(p) || b == "native"
   c = fun(p, strict);
 else
-  c = stdlib.native.canonical(p, strict);
+  c = arrayfun(fun, p, repmat(strict, size(p)));
 end
 
 end
