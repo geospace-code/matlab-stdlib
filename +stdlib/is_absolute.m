@@ -6,15 +6,17 @@
 
 function y = is_absolute(p)
 arguments
-  p {mustBeTextScalar}
+  p string
 end
 
-% not Octave is_absolute_filename() because this is a stricter check for "c:" false
+y = false(size(p));
 
-y = ~stdlib.strempty(stdlib.root_dir(p));
+i = ~stdlib.strempty(stdlib.root_dir(p));
+
+y(i) = true;
 
 if ispc()
-  y = y && ~stdlib.strempty(stdlib.root_name(p));
+  y(i) = ~stdlib.strempty(stdlib.root_name(p(i)));
 end
 
 end

@@ -6,7 +6,7 @@ end
 
 properties (TestParameter)
 p1 = {'', "", "hi", "./hi", "../hi"};
-p2 = {{'', ''}, {'', ""}, {"", ''}, {"", ""}, {"", "hi"}, {"hi", ""}, {'there', "hi"}};
+p2 = {{'', ""}, {'', ""}, {"", ""}, {"", ""}, {"", "hi"}, {"hi", ""}, {'there', "hi"}};
 end
 
 
@@ -47,11 +47,10 @@ if strlength(p1)
   r = fullfile(r, p1);
 end
 
-if isstring(p1)
-  r = string(r);
-end
+rabs = stdlib.absolute(p1);
 
-tc.verifyEqual(stdlib.absolute(p1), r)
+tc.verifyClass(rabs, 'string')
+tc.verifyEqual(rabs, string(r))
 end
 
 
@@ -67,11 +66,10 @@ if strlength(p2{1})
   r = fullfile(r, p2{1});
 end
 
-if isstring(p2{1}) || isstring(p2{2})
-  r = string(r);
-end
+rabs = stdlib.absolute(p2{1}, p2{2});
 
-tc.verifyEqual(stdlib.absolute(p2{1}, p2{2}), r)
+tc.verifyClass(rabs, 'string')
+tc.verifyEqual(rabs, string(r))
 end
 
 end

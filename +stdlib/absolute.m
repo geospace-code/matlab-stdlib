@@ -17,15 +17,18 @@
 
 function c = absolute(p, base)
 arguments
-  p {mustBeTextScalar}
+  p string
   base {mustBeTextScalar} = pwd()
 end
 
-if stdlib.is_absolute(p)
-  c = p;
-  return
+i = stdlib.is_absolute(p);
+c(i) = p(i);
+
+% avoid infinite recursion
+if ~stdlib.is_absolute(base)
+  base = fullfile(pwd(), base);
 end
 
-c = fullfile(stdlib.absolute(base), p);
+c(~i) = fullfile(base, p(~i));
 
 end
