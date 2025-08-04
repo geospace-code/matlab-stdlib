@@ -6,11 +6,11 @@ i = 0;
 
 if ispc()
   % https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-file
-  cmd = "fsutil file queryfileid " + '"' + p + '"';
+  cmd = sprintf('fsutil file queryfileid "%s"', p);
 elseif ismac()
-  cmd = "stat -f %i " + '"' + p + '"';
+  cmd = sprintf('stat -f %%i "%s"', p);
 else
-  cmd = "stat -c %i " + '"' + p + '"';
+  cmd = sprintf('stat -c %%i "%s"', p);
 end
 
 [s, m] = system(cmd);

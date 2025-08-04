@@ -6,9 +6,9 @@ if ~stdlib.exists(p), return, end
 if ispc()
   cmd = "pwsh -c (Get-Acl -Path '" + p + "').Owner";
 elseif ismac()
-  cmd = "stat -f %Su " + '"' + p + '"';
+  cmd = sprintf('stat -f %%Su "%s"', p);
 else
-  cmd = "stat -c %U " + '"' + p + '"';
+  cmd = sprintf('stat -c %%U "%s"', p);
 end
 
 [s, m] = system(cmd);

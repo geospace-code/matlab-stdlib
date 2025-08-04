@@ -14,8 +14,8 @@ else
   flag = '-c';
 end
 
-cmd1 = "stat " + flag + " %d:%i " + '"' + path1 + '"';
-cmd2 = "stat " + flag + " %d:%i " + '"' + path2 + '"';
+cmd1 = sprintf('stat %s %%d:%%i "%s"', flag, path1);
+cmd2 = sprintf('stat %s %%d:%%i "%s"', flag, path2);
 
 cmd = cmd1 + " && " + cmd2;
 
