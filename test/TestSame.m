@@ -7,7 +7,7 @@ p_same = {...
 {"..", pwd() + "/.."}, ...
 {pwd(), pwd() + "/."}}
 
-fun = {'sys', 'java', 'python', 'native'}
+backend = {'sys', 'java', 'python', 'native'}
 end
 
 methods(TestClassSetup)
@@ -19,22 +19,35 @@ end
 
 methods(Test)
 
-function test_samepath(tc, p_same, fun)
-tc.assertNotEmpty(which("stdlib." + fun + ".samepath"))
+function test_samepath(tc, p_same, backend)
+tc.assertNotEmpty(which("stdlib." + backend + ".samepath"))
 try
-  y = stdlib.samepath(p_same{:}, fun);
-  tc.verifyTrue(y)
+  r = stdlib.samepath(p_same{:}, backend);
+  tc.verifyClass(r, 'logical')
+  tc.verifyTrue(r)
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 
 
-function test_samepath_notexist(tc, fun)
+function test_samepath_notexist(tc, backend)
 t = tempname();
 try
-  tc.verifyFalse(stdlib.samepath("", "", fun))
-  tc.verifyFalse(stdlib.samepath(t, t, fun))
+  tc.verifyFalse(stdlib.samepath("", "", backend))
+  tc.verifyFalse(stdlib.samepath(t, t, backend))
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
+end
+end
+
+
+function test_samepath_array(tc, backend)
+in = [string(mfilename), string(mfilename('fullpath'))] + ".m";
+try
+  r = stdlib.samepath(in, fliplr(in), backend);
+  tc.verifyClass(r, 'logical')
+  tc.verifyEqual(r, [true, true])
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end

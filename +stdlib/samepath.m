@@ -14,15 +14,19 @@
 
 function y = samepath(path1, path2, backend)
 arguments
-  path1 {mustBeTextScalar}
-  path2 {mustBeTextScalar}
+  path1 string
+  path2 string
   backend (1,:) string = ["python", "java", "sys", "native"]
 end
 
 % For this function, Python is over 10x faster than Java
 
-fun = hbackend(backend, "samepath");
+[fun, b] = hbackend(backend, "samepath");
 
-y = fun(path1, path2);
+if (isscalar(path1) && isscalar(path2)) || b == "native"
+  y = fun(path1, path2);
+else
+  y = arrayfun(fun, path1, path2);
+end
 
 end

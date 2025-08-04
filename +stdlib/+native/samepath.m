@@ -4,12 +4,11 @@
 
 function y = samepath(path1, path2)
 
-if stdlib.strempty(path1) || stdlib.strempty(path2)
-  y = false;
-else
-  c1 = stdlib.canonical(path1, true);
-  c2 = stdlib.canonical(path2, true);
-  y = ~stdlib.strempty(c1) && strcmp(c1, c2);
-end
+i = stdlib.strempty(path1) | stdlib.strempty(path2);
+y(i) = false;
+
+c1 = stdlib.canonical(path1(~i), true);
+c2 = stdlib.canonical(path2(~i), true);
+y(~i) = ~stdlib.strempty(c1) & strcmp(c1, c2);
 
 end
