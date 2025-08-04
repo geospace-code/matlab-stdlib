@@ -69,7 +69,8 @@ end
 
 function test_get_shell(tc)
 tc.assumeFalse(tc.CI, "get_shell is not tested in CI due to platform differences")
-tc.verifyNotEmpty(stdlib.get_shell())
+tc.verifyClass(stdlib.get_shell(), 'char')
+tc.verifyGreaterThan(strlength(stdlib.get_shell()), 0)
 end
 
 function test_is_interactive(tc)
