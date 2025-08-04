@@ -7,6 +7,9 @@ if ~stdlib.exists(p)
   return
 end
 
+% This is not yet possible with .NET on Unix, even with .NET 10.
+% It would require Pinvoke or external Mono.Unix
+
 ntAccountType = System.Type.GetType('System.Security.Principal.NTAccount');
 if isempty(ntAccountType)
   error('NTAccount type not found. Ensure you are running on a Windows system with .NET support.');

@@ -8,7 +8,7 @@
 function n = get_owner(file, backend)
 arguments
   file {mustBeTextScalar}
-  backend (1,:) string = ["java", "dotnet", "python" "sys"]
+  backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
 fun = hbackend(backend, "get_owner");
