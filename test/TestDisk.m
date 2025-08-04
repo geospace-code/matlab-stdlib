@@ -13,6 +13,7 @@ disk_ac_fun = {'sys', 'dotnet', 'java', 'python'}
 disk_ac_name = {'disk_available', 'disk_capacity'}
 hl_fun = {'java', 'python'}
 fst_fun = {'sys', 'dotnet', 'java', 'python'}
+is_remove = {'dotnet', 'sys'}
 end
 
 methods(TestClassSetup)
@@ -42,11 +43,15 @@ end
 end
 
 
-function test_is_removable(tc)
+function test_is_removable(tc, is_remove)
+try
+  y = stdlib.is_removable(pwd(), is_remove);
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  return
+end
 
-y = stdlib.is_removable(pwd());
 tc.verifyClass(y, 'logical')
-
 end
 
 
