@@ -25,6 +25,13 @@ fn = stdlib.filename(e, backend);
 tc.verifyEqual(strlength(fn), 0)
 end
 
+function test_filename_array(tc, backend)
+in = ["", "a", "a/b/c", "a/b/c.txt", "a/b/.hidden", "a/b/c/"];
+exp = ["", "a", "c", "c.txt", ".hidden", ""];
+out = stdlib.filename(in, backend);
+tc.verifyEqual(out, exp)
+end
+
 end
 
 end

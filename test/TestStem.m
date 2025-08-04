@@ -25,9 +25,17 @@ end
 end
 
 methods (Test, TestTags="pure")
-function test(tc, p)
+function test_stem(tc, p)
 tc.verifyEqual(stdlib.stem(p{1}), p{2})
 end
+
+function test_stem_array(tc)
+in = ["", ".txt", "a/b/c.txt", "a/b/c.txt.gz", "a/b/c"];
+exp = ["", ".txt", "c", "c.txt", "c"];
+out = stdlib.stem(in);
+tc.verifyEqual(out, exp)
+end
+
 end
 
 end

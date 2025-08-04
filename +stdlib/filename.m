@@ -18,7 +18,7 @@ switch backend
   case 'regexp'
     f = regexp(p, ['[^/\' filesep ']*$'], 'match', 'once');
     f(ismissing(f)) = "";
-    otherwise, error('must be backend "pattern" or "regexp"')
+  otherwise, error('must be backend "pattern" or "regexp"')
 end
 
 end
