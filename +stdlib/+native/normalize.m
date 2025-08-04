@@ -1,6 +1,9 @@
 function n = normalize(p)
+arguments
+  p (1,1) string
+end
 
-n = stdlib.posix(string(p));
+n = stdlib.posix(p);
 
 uncslash = ispc() && startsWith(n, "//");
 

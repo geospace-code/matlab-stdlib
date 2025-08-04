@@ -9,7 +9,7 @@ p = {{'', ""}, ...
 {"not-exist/a/..", "not-exist"}, ...
 {"./not-exist", "not-exist"}
 };
-fun = {"native", "legacy"}
+backend = {"native", "legacy"}
 end
 
 methods(TestClassSetup)
@@ -22,14 +22,23 @@ end
 
 methods(Test, TestTags="impure")
 
-function test_canonical(tc, p, fun)
+function test_canonical(tc, p, backend)
 try
-  c = stdlib.canonical(p{1}, false, fun);
+  c = stdlib.canonical(p{1}, false, backend);
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError',  e.stack(1).file + ":" + string(e.stack(1).line) + " " + e.message)
   return
 end
 tc.verifyEqual(c, p{2})
+end
+
+function test_canonical_array(tc)
+tc.assumeFalse(isMATLABReleaseOlderThan('R2024a'))
+
+in = ["", "hi", "/ok", "not-exist/a/.."];
+c = stdlib.native.canonical(in);
+
+tc.verifyEqual(c, ["", "hi", filesep + "ok", "not-exist"])
 end
 
 end

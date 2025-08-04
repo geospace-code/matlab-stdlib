@@ -18,7 +18,7 @@
 function c = absolute(p, base)
 arguments
   p string
-  base {mustBeTextScalar} = pwd()
+  base (1,1) string = pwd()
 end
 
 i = stdlib.is_absolute(p);
@@ -29,6 +29,10 @@ if ~stdlib.is_absolute(base)
   base = fullfile(pwd(), base);
 end
 
-c(~i) = fullfile(base, p(~i));
+i = ~i;
+c(i) = base;
+
+i = i & ~stdlib.strempty(p);
+c(i) = fullfile(base, p(i));
 
 end

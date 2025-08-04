@@ -1,15 +1,20 @@
 function c = canonical(file, strict)
+arguments
+  file string
+  strict (1,1) logical = false
+end
 
-if stdlib.strempty(file)
-  c = "";
+rp = matlab.io.internal.filesystem.resolvePath(file);
+c = string({rp.ResolvedPath});
+
+if strict
   return
 end
 
-p = matlab.io.internal.filesystem.resolvePath(file);
-c = p.ResolvedPath;
-
-if ~strict && stdlib.strempty(c)
-  c = string(stdlib.normalize(file));
+for i = 1:numel(file)
+  if strlength(c(i)) == 0 && strlength(file(i)) > 0
+    c(i) = stdlib.normalize(file(i));
+  end
 end
 
 end

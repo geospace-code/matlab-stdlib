@@ -24,6 +24,14 @@ end
 tc.verifyEqual(pr, p{2}, sprintf("parent(%s, %s)", p{1}, backend))
 end
 
+function test_parent_array(tc)
+in =  ["",  ".", "..", "../..", "a/", "a/b", "ab/.parent", "ab/.parent.txt", "a/b/../.parent.txt"];
+exp = [".", ".", ".", "..",     ".",  "a",   "ab",         "ab",             fullfile("a", "b", "..")];
+
+out = stdlib.parent(in, "native");
+tc.verifyEqual(out, exp)
+end
+
 end
 
 end

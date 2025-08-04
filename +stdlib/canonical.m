@@ -14,13 +14,16 @@
 
 function c = canonical(p, strict, backend)
 arguments
-  p {mustBeTextScalar}
+  p string
   strict (1,1) logical = false
   backend (1,:) string = ["native", "legacy"]
 end
 
-fun = hbackend(backend, "canonical", 'R2024a');
-
-c = fun(p, strict);
+if isscalar(p)
+  fun = hbackend(backend, "canonical", 'R2024a');
+  c = fun(p, strict);
+else
+  c = stdlib.native.canonical(p, strict);
+end
 
 end

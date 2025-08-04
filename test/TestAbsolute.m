@@ -72,6 +72,16 @@ tc.verifyClass(rabs, 'string')
 tc.verifyEqual(rabs, string(r))
 end
 
+
+function test_absolute_array(tc)
+
+in = ["", "hi"];
+r = stdlib.absolute(in);
+
+tc.verifyEqual(r, [pwd(), fullfile(pwd(), "hi")])
+
+end
+
 end
 
 end

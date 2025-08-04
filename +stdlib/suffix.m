@@ -7,8 +7,7 @@ end
 
 [~, n, s] = fileparts(p);
 
-if stdlib.strempty(n)
-  s = n;
-end
+i = stdlib.strempty(n);
+s(i) = n(i);
 
 end

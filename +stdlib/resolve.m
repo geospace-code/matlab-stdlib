@@ -10,7 +10,7 @@
 
 function r = resolve(p)
 arguments
-  p {mustBeTextScalar}
+  p string
 end
 
 r = stdlib.canonical(stdlib.absolute(p));

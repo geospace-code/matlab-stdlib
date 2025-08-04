@@ -78,6 +78,20 @@ function test_resolve_fullpath(tc, p)
 tc.verifyEqual(stdlib.resolve(a), b)
 end
 
+function test_resolve_array(tc)
+tc.assumeFalse(isMATLABReleaseOlderThan('R2024a'))
+
+in = ["", "hi", "/ok", "not-exist/a/.."];
+c = stdlib.resolve(in);
+
+exp = [pwd(), fullfile(pwd(), "hi"), filesep + "ok", fullfile(pwd(), "not-exist")];
+if ispc()
+  exp(3) = fullfile(pwd(), "ok");
+end
+
+tc.verifyEqual(c, exp)
+end
+
 end
 
 end

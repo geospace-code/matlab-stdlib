@@ -9,7 +9,7 @@
 function f = with_suffix(p, suffix)
 arguments
   p string
-  suffix {mustBeTextScalar}
+  suffix string
 end
 
 f = extractBefore(p, stdlib.suffix(p));
