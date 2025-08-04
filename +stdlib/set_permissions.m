@@ -9,16 +9,16 @@
 %%% Outputs
 % * ok (1,1) logical
 
-function ok = set_permissions(file, readable, writable, executable, method)
+function ok = set_permissions(file, readable, writable, executable, backend)
 arguments
   file {mustBeTextScalar}
   readable (1,1) {mustBeInteger, mustBeInRange(readable, -1, 1)}
   writable (1,1) {mustBeInteger, mustBeInRange(writable, -1, 1)}
   executable (1,1) {mustBeInteger, mustBeInRange(executable, -1, 1)}
-  method (1,:) string = ["native", "legacy"]
+  backend (1,:)string = ["native", "legacy"]
 end
 
-fun = choose_method(method, "set_permissions", 'R2025a');
+fun = hbackend(backend, "set_permissions", 'R2025a');
 
 ok = fun(file, readable, writable, executable);
 

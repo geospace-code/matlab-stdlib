@@ -6,12 +6,12 @@
 %%% Outputs
 % * bytes: total physical RAM [bytes]
 
-function bytes = ram_total(method)
+function bytes = ram_total(backend)
 arguments
-  method (1,:) string = ["java", "dotnet", "python", "sys"]
+  backend (1,:)string = ["java", "dotnet", "python", "sys"]
 end
 
-fun = choose_method(method, "ram_total");
+fun = hbackend(backend, "ram_total");
 
 bytes = fun();
 

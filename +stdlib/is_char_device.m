@@ -11,15 +11,14 @@
 % Ref: https://learn.microsoft.com/en-us/windows/console/console-handles
 
 
-function ok = is_char_device(file, method)
+function ok = is_char_device(file, backend)
 arguments
   file {mustBeTextScalar}
-  method (1,:) string = ["python", "sys"]
+  backend (1,:) string = ["python", "sys"]
 end
 
-fun = choose_method(method, "is_char_device");
+fun = hbackend(backend, "is_char_device");
 
 ok = fun(file);
 
 end
-

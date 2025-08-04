@@ -11,7 +11,7 @@ Ps = {
 }
 % on CI matlabroot can be writable!
 fname = {'is_readable', 'is_writable'}
-method = {'java', 'native', 'legacy'}
+backend = {'java', 'native', 'legacy'}
 icm = {'python', 'sys'}
 end
 
@@ -30,15 +30,15 @@ tc.verifyEqual(ok, Ps{2}, Ps{1})
 end
 
 
-function test_is_rw(tc, Ps, method, fname)
-n = "stdlib." + method + "." + fname;
+function test_is_rw(tc, Ps, backend, fname)
+n = "stdlib." + backend + "." + fname;
 h = str2func("stdlib." + fname);
 tc.assertNotEmpty(which(n))
 try
-  r = h(Ps{1}, method);
+  r = h(Ps{1}, backend);
   tc.verifyEqual(r, Ps{2})
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 
@@ -56,7 +56,7 @@ tc.assertNotEmpty(which("stdlib." + icm + ".is_char_device"))
 try
   y = stdlib.is_char_device(n, icm);
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
 

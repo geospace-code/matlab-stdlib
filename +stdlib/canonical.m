@@ -12,14 +12,14 @@
 %%% Outputs
 % * c: canonical path, if determined
 
-function c = canonical(p, strict, method)
+function c = canonical(p, strict, backend)
 arguments
   p {mustBeTextScalar}
   strict (1,1) logical = false
-  method (1,:) string = ["native", "legacy"]
+  backend (1,:) string = ["native", "legacy"]
 end
 
-fun = choose_method(method, "canonical", 'R2024a');
+fun = hbackend(backend, "canonical", 'R2024a');
 
 c = fun(p, strict);
 

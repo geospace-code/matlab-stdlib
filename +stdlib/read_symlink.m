@@ -3,13 +3,13 @@
 % empty string if path is not a symlink
 % always of string class in Matlab
 
-function r = read_symlink(file, method)
+function r = read_symlink(file, backend)
 arguments
   file {mustBeTextScalar}
-  method (1,:) string = ["native", "java", "dotnet", "python", "sys"]
+  backend (1,:)string = ["native", "java", "dotnet", "python", "sys"]
 end
 
-fun = choose_method(method, "read_symlink", 'R2024b');
+fun = hbackend(backend, "read_symlink", 'R2024b');
 
 r = fun(file);
 

@@ -1,11 +1,11 @@
 %% GET_USERNAME tell username of current user
 %
-function n = get_username(method)
+function n = get_username(backend)
 arguments
-  method (1,:) string = ["java", "dotnet", "python", "sys"]
+  backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
-fun = choose_method(method, "get_username");
+fun = hbackend(backend, "get_username");
 
 n = fun();
 

@@ -50,7 +50,7 @@ try
   tc.verifyTrue(stdlib.is_symlink(tc.link, rs_fun), "failed to detect own link")
   tc.verifyEqual(stdlib.is_symlink(p{1}, rs_fun), p{2}, p{1})
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 
@@ -59,7 +59,7 @@ function test_read_symlink_empty(tc, Pre, rs_fun)
 try
   tc.verifyEmpty(stdlib.read_symlink(Pre, rs_fun))
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 
@@ -69,7 +69,7 @@ tc.assertNotEmpty(which("stdlib." + rs_fun + ".read_symlink"))
 try
   tc.verifyEqual(stdlib.read_symlink(tc.link, rs_fun), string(tc.target))
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 
@@ -87,7 +87,7 @@ try
   tc.verifyFalse(h(tc.target, tc.link, cs_fun), "should fail for existing symlink")
   tc.verifyTrue(h(tc.target, ano, cs_fun))
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
 tc.verifyTrue(stdlib.is_symlink(ano))

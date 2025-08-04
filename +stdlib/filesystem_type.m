@@ -2,13 +2,13 @@
 %
 % example outputs: NTFS, ext4, apfs, ...
 
-function t = filesystem_type(file, method)
+function t = filesystem_type(file, backend)
 arguments
   file {mustBeTextScalar}
-  method (1,:) string = ["java", "dotnet", "python", "sys"]
+  backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
-fun = choose_method(method, "filesystem_type");
+fun = hbackend(backend, "filesystem_type");
 
 t = fun(file);
 

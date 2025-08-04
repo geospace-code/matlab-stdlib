@@ -3,7 +3,7 @@ classdef TestFilename < matlab.unittest.TestCase
 properties (TestParameter)
 p = init_p()
 e = {'/a/b/c/', "a/b/c/"}
-method = {'pattern', 'regexp'}
+backend = {'pattern', 'regexp'}
 end
 
 methods(TestClassSetup)
@@ -15,13 +15,13 @@ end
 
 methods (Test, TestTags="pure")
 
-function test_filename(tc, p, method)
-fn = stdlib.filename(p{1}, method);
+function test_filename(tc, p, backend)
+fn = stdlib.filename(p{1}, backend);
 tc.verifyEqual(fn, p{2})
 end
 
-function test_filename_empty(tc, e, method)
-fn = stdlib.filename(e, method);
+function test_filename_empty(tc, e, backend)
+fn = stdlib.filename(e, backend);
 tc.verifyEqual(strlength(fn), 0)
 end
 

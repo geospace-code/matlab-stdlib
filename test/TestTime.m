@@ -53,7 +53,7 @@ t0 = stdlib.get_modtime(fn);
 try
   ok = stdlib.set_modtime(fn, datetime("now"), sm_fun);
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
 

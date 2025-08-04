@@ -1,16 +1,16 @@
-%% CHOOSE_METHOD pick a function to execute
-% Given a string vector of "method", check which methods are available.
+%% hbackend pick a function to execute
+% Given a string vector of "backend", check which backends are available.
 % To save time, do not check that the function exists with which()
 
 
-function fun = choose_method(method, name, minVersion)
+function fun = hbackend(backend, name, minVersion)
 arguments
-  method (1,:) string
+  backend (1,:)string
   name (1,1) string
   minVersion {mustBeTextScalar} = ''
 end
 
-for m = method
+for m = backend
   switch m
     case "dotnet"
       has = @stdlib.has_dotnet;
@@ -75,6 +75,6 @@ for m = method
   end
 end
 
-error("stdlib:choose_method:NameError", "Could not find any %s capable of running, using %s", name, join(method, ','))
+error("stdlib:hbackend:NameError", "Could not find any %s capable of running, using %s", name, join(backend, ','))
 
 end

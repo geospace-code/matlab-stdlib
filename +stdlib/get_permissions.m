@@ -2,13 +2,13 @@
 %
 % output is char like 'rwxrwxr--'
 
-function p = get_permissions(file, method)
+function p = get_permissions(file, backend)
 arguments
   file {mustBeTextScalar}
-  method (1,:) string = ["native", "legacy"]
+  backend (1,:) string = ["native", "legacy"]
 end
 
-fun = choose_method(method, "get_permissions", 'R2025a');
+fun = hbackend(backend, "get_permissions", 'R2025a');
 
 p = fun(file);
 

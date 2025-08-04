@@ -9,7 +9,7 @@ p = {
 {'.', false}, ...
 {matlab_path(), true}
 }
-method = {'java', 'python', 'native', 'legacy'}
+backend = {'java', 'python', 'native', 'legacy'}
 end
 
 methods(TestClassSetup)
@@ -21,11 +21,11 @@ end
 
 methods(Test, TestTags="impure")
 
-function test_is_exe(tc, p, method)
+function test_is_exe(tc, p, backend)
 try
-  tc.verifyEqual(stdlib.is_exe(p{1}, method), p{2})
+  tc.verifyEqual(stdlib.is_exe(p{1}, backend), p{2})
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 

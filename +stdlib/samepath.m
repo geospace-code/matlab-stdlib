@@ -12,16 +12,16 @@
 %%% Inputs
 % * path1, path2: paths to compare
 
-function y = samepath(path1, path2, method)
+function y = samepath(path1, path2, backend)
 arguments
   path1 {mustBeTextScalar}
   path2 {mustBeTextScalar}
-  method (1,:) string = ["python", "java", "sys", "native"]
+  backend (1,:)string = ["python", "java", "sys", "native"]
 end
 
 % For this function, Python is over 10x faster than Java
 
-fun = choose_method(method, "samepath");
+fun = hbackend(backend, "samepath");
 
 y = fun(path1, path2);
 

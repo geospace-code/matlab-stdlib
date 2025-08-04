@@ -1,12 +1,12 @@
 %% DEVICE filesystem device index of path
 
-function i = device(file, method)
+function i = device(file, backend)
 arguments
   file {mustBeTextScalar}
-  method (1,:) string = ["java", "python", "sys"]
+  backend (1,:) string = ["java", "python", "sys"]
 end
 
-fun = choose_method(method, "device");
+fun = hbackend(backend, "device");
 i = fun(file);
 
 end

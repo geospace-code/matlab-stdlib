@@ -2,7 +2,7 @@ classdef TestParent < matlab.unittest.TestCase
 
 properties (TestParameter)
 p = init_parent()
-method = {"java", "python", "native"}
+backend = {"java", "python", "native"}
 end
 
 methods(TestClassSetup)
@@ -14,14 +14,14 @@ end
 
 methods (Test, TestTags="pure")
 
-function test_parent(tc, p, method)
+function test_parent(tc, p, backend)
 try
-  pr = stdlib.parent(p{1}, method);
+  pr = stdlib.parent(p{1}, backend);
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
-tc.verifyEqual(pr, p{2}, sprintf("parent(%s, %s)", p{1}, method))
+tc.verifyEqual(pr, p{2}, sprintf("parent(%s, %s)", p{1}, backend))
 end
 
 end

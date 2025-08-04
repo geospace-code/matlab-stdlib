@@ -4,13 +4,13 @@
 %
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getUsableSpace()
 
-function f = disk_available(filepath, method)
+function f = disk_available(filepath, backend)
 arguments
   filepath {mustBeTextScalar}
-  method (1,:) string = ["java", "dotnet", "python", "sys"]
+  backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
-fun = choose_method(method, "disk_available");
+fun = hbackend(backend, "disk_available");
 
 f = fun(filepath);
 

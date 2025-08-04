@@ -12,12 +12,12 @@
 %
 % Fallback is to shell commands.
 
-function bytes = ram_free(method)
+function bytes = ram_free(backend)
 arguments
-  method (1,:) string = ["java", "python", "sys"]
+  backend (1,:)string = ["java", "python", "sys"]
 end
 
-fun = choose_method(method, "ram_free");
+fun = hbackend(backend, "ram_free");
 
 bytes = fun();
 

@@ -4,13 +4,13 @@
 % stdlib.parent("a/b/c") == "a/b"
 % stdlib.parent("a/b/c/") == "a/b"
 
-function p = parent(pth, method)
+function p = parent(pth, backend)
 arguments
   pth {mustBeTextScalar}
-  method (1,:) string = ["java", "python", "native"]
+  backend (1,:)string = ["java", "python", "native"]
 end
 
-fun = choose_method(method, "parent");
+fun = hbackend(backend, "parent");
 
 p = fun(pth);
 

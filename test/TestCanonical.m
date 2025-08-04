@@ -26,7 +26,7 @@ function test_canonical(tc, p, fun)
 try
   c = stdlib.canonical(p{1}, false, fun);
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
 tc.verifyEqual(c, p{2})

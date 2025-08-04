@@ -25,7 +25,7 @@ try
   y = stdlib.samepath(p_same{:}, fun);
   tc.verifyTrue(y)
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 
@@ -36,7 +36,7 @@ try
   tc.verifyFalse(stdlib.samepath("", "", fun))
   tc.verifyFalse(stdlib.samepath(t, t, fun))
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 

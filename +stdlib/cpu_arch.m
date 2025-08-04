@@ -1,11 +1,11 @@
 %% CPU_ARCH get the CPU architecture
 
-function a = cpu_arch(method)
+function a = cpu_arch(backend)
 arguments
-  method (1,:) string = ["java", "dotnet", "native"]
+  backend (1,:) string = ["java", "dotnet", "native"]
 end
 
-fun = choose_method(method, "cpu_arch");
+fun = hbackend(backend, "cpu_arch");
 
 a = fun();
 

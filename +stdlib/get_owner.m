@@ -5,13 +5,13 @@
 %%% Outputs
 % * n: owner, or empty if path does not exist
 
-function n = get_owner(file, method)
+function n = get_owner(file, backend)
 arguments
   file {mustBeTextScalar}
-  method (1,:) string = ["java", "dotnet", "python" "sys"]
+  backend (1,:) string = ["java", "dotnet", "python" "sys"]
 end
 
-fun = choose_method(method, "get_owner");
+fun = hbackend(backend, "get_owner");
 
 n = fun(file);
 

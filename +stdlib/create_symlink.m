@@ -6,14 +6,14 @@
 %%% Outputs
 % * ok: true if successful
 
-function ok = create_symlink(target, link, method)
+function ok = create_symlink(target, link, backend)
 arguments
   target {mustBeTextScalar}
   link {mustBeTextScalar}
-  method (1,:) string = ["native", "dotnet", "python", "sys"]
+  backend (1,:) string = ["native", "dotnet", "python", "sys"]
 end
 
-fun = choose_method(method, "create_symlink", 'R2024b');
+fun = hbackend(backend, "create_symlink", 'R2024b');
 
 ok = fun(target, link);
 

@@ -4,12 +4,12 @@
 % instead of Windows 10.
 % Ref: https://bugs.openjdk.org/browse/JDK-8274840
 
-function [os, version] = os_version(method)
+function [os, version] = os_version(backend)
 arguments
-  method (1,:) string = ["sys", "python", "dotnet", "java"]
+  backend (1,:)string = ["sys", "python", "dotnet", "java"]
 end
 
-fun = choose_method(method, "os_version");
+fun = hbackend(backend, "os_version");
 [os, version] = fun();
 
 end

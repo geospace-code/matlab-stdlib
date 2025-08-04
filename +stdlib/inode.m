@@ -2,13 +2,13 @@
 %
 % Windows always returns 0, Unix returns inode number.
 
-function i = inode(file, method)
+function i = inode(file, backend)
 arguments
   file {mustBeTextScalar}
-  method (1,:) string = ["java", "python", "sys"]
+  backend (1,:) string = ["java", "python", "sys"]
 end
 
-fun = choose_method(method, "inode");
+fun = hbackend(backend, "inode");
 i = fun(file);
 
 end

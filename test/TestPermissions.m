@@ -20,7 +20,7 @@ import matlab.unittest.constraints.StartsWithSubstring
 try
   p = stdlib.get_permissions(Ps, fname);
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
 tc.verifyClass(p, "char")
@@ -70,7 +70,7 @@ tc.verifyTrue(stdlib.touch(nw))
 try
   tc.verifyTrue(stdlib.set_permissions(nw, 0, -1, 0, fname))
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
 

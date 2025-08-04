@@ -2,14 +2,14 @@
 %
 % false if not a file
 
-function y = is_exe(file, method)
+function y = is_exe(file, backend)
 arguments
   file {mustBeTextScalar}
-  method (1,:) string = ["java", "python", "native", "legacy"]
+  backend (1,:) string = ["java", "python", "native", "legacy"]
 end
 
 % Java or Python ~ 100x faster than Matlab native
-fun = choose_method(method, "is_exe", 'R2025a');
+fun = hbackend(backend, "is_exe", 'R2025a');
 
 y = fun(file);
 

@@ -42,7 +42,7 @@ try
   tc.verifyClass(i, "logical")
   tc.verifyNotEmpty(i)
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 
@@ -63,7 +63,7 @@ try
   r = h(cr_method);
   tc.verifyGreaterThanOrEqual(r, 0.)
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 
@@ -113,7 +113,7 @@ function test_os_version(tc, os_m)
 try
   [os, ver] = stdlib.os_version(os_m);
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
 
@@ -141,7 +141,7 @@ try
   h = stdlib.hostname(ia_fun);
   tc.verifyGreaterThan(strlength(h), 0)
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 
@@ -151,7 +151,7 @@ try
   u = stdlib.get_username(ia_fun);
   tc.verifyGreaterThan(strlength(u), 0)
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 
@@ -170,7 +170,7 @@ function test_cpu_arch(tc, cpu_arch_fun)
 try
   arch = stdlib.cpu_arch(cpu_arch_fun);
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
 tc.verifyGreaterThan(strlength(arch), 0, "CPU architecture should not be empty")
@@ -180,7 +180,7 @@ function test_ram_total(tc, ia_fun)
 try
   t = stdlib.ram_total(ia_fun);
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
 
@@ -194,7 +194,7 @@ function test_ram_free(tc, cr_method)
 try
   f = stdlib.ram_free(cr_method);
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
 

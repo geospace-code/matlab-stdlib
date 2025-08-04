@@ -11,13 +11,13 @@
 %
 % MEX code is about 4-5x faster than plain Matlab below
 
-function n = normalize(file, method)
+function n = normalize(file, backend)
 arguments
   file {mustBeTextScalar}
-  method (1,:) string = ["java", "python", "native"]
+  backend (1,:)string = ["java", "python", "native"]
 end
 
-fun = choose_method(method, "normalize");
+fun = hbackend(backend, "normalize");
 
 n = fun(file);
 

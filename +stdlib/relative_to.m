@@ -10,14 +10,14 @@
 % javaPathObject(base).relativize(javaPathObject(other))
 % https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html#relativize-java.nio.file.Path-
 
-function rel = relative_to(base, other, method)
+function rel = relative_to(base, other, backend)
 arguments
   base {mustBeTextScalar}
   other {mustBeTextScalar}
-  method (1,:) string = ["python", "native"]
+  backend (1,:)string = ["python", "native"]
 end
 
-fun = choose_method(method, "relative_to");
+fun = hbackend(backend, "relative_to");
 
 rel = fun(base, other);
 

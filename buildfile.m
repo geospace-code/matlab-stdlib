@@ -91,10 +91,9 @@ exes = fullfile(test_root, exes);
 plan("exe") = matlab.buildtool.Task(Inputs=srcs, Outputs=exes, Actions=@build_exe, ...
                  Description="build demo executables for testing java_run");
 
-if ~isMATLABReleaseOlderThan("R2024a")
+if ~isMATLABReleaseOlderThan("R2023b")
   plan("check") = matlab.buildtool.tasks.CodeIssuesTask(plan.RootFolder, ...
-    IncludeSubfolders=true, ...
-    WarningThreshold=0, Results=reportDir + "/CodeIssues.sarif");
+    IncludeSubfolders=true, WarningThreshold=0);
 end
 
 end

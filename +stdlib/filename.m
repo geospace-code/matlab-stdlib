@@ -5,20 +5,20 @@
 %%% Outputs
 % filename (including suffix) without directory
 
-function f = filename(p, method)
+function f = filename(p, backend)
 arguments
   p string
-  method = 'pattern'
+  backend = 'pattern'
 end
 
-% the pattern method is a few percent faster than regexp  
-switch method
+% the pattern backend is a few percent faster than regexp
+switch backend
   case 'pattern'
     f = extractAfter(p, asManyOfPattern(wildcardPattern + ("/" | filesep)));
   case 'regexp'
     f = regexp(p, ['[^/\' filesep ']*$'], 'match', 'once');
     f(ismissing(f)) = "";
-    otherwise, error('must be method "pattern" or "regexp"')
+    otherwise, error('must be backend "pattern" or "regexp"')
 end
 
 end

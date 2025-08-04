@@ -20,7 +20,7 @@ tc.assertNotEmpty(which("stdlib." + fun + ".normalize"))
 try
   c = stdlib.normalize(p{1}, fun);
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
 

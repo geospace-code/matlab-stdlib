@@ -39,7 +39,7 @@ try
     tc.verifyEqual(r, uint64(0))
   end
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 
@@ -48,7 +48,7 @@ function test_is_removable(tc, is_remove)
 try
   y = stdlib.is_removable(pwd(), is_remove);
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
 
@@ -60,7 +60,7 @@ function test_is_mount(tc, py_sys)
 try
   y = stdlib.is_mount(pwd(), py_sys);
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
 
@@ -88,7 +88,7 @@ try
   r = h(P, hl_fun);
   tc.verifyGreaterThanOrEqual(r, 1)
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 
@@ -98,7 +98,7 @@ tc.assertNotEmpty(which("stdlib." + fst_fun + ".filesystem_type"))
 try
   t = stdlib.filesystem_type(Ps, fst_fun);
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
 tc.verifyClass(t, 'string')
@@ -140,7 +140,7 @@ try
     tc.verifyGreaterThan(ip, 0)
     tc.verifyEqual(h(".", id_fun), ip)
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 
 end
@@ -152,7 +152,7 @@ tc.assertNotEmpty(which("stdlib." + fst_fun + ".get_owner"))
 try
   o = stdlib.get_owner(Po, fst_fun);
 catch e
-  tc.verifyEqual(e.identifier, 'stdlib:choose_method:NameError', e.message)
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
 
