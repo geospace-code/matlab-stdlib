@@ -31,7 +31,7 @@ end
 for n = names
   exe = stdlib.which(n);
   tc.verifyNotEmpty(exe, "Executable not found: " + n)
-  tc.verifyTrue(isfile(exe), "Executable is not a file: " + n)
+  tc.verifyThat(exe, matlab.unittest.constraints.IsFile, "Executable is not a file: " + n)
   tc.verifyTrue(stdlib.is_exe(exe), "Executable is not executable: " + n)
 end
 

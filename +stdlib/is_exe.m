@@ -4,13 +4,17 @@
 
 function y = is_exe(file, backend)
 arguments
-  file {mustBeTextScalar}
+  file string
   backend (1,:) string = ["java", "python", "native", "legacy"]
 end
 
 % Java or Python ~ 100x faster than Matlab native
-fun = hbackend(backend, "is_exe", 'R2025a');
+[fun, b] = hbackend(backend, "is_exe", 'R2025a');
 
-y = fun(file);
+if isscalar(file) || b == "native"
+  y = fun(file);
+else
+  y = arrayfun(fun, file);
+end
 
 end

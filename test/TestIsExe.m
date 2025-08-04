@@ -32,6 +32,21 @@ end
 end
 
 
+function test_is_exe_array(tc, backend)
+try
+  n = fullfile(matlabroot, "bin/matlab");
+  if ispc()
+    n = n + ".exe";
+  end
+  r = stdlib.is_exe(["Readme.md", tempname(), n], backend);
+  tc.verifyEqual(r, [false, false, true])
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
+end
+
+end
+
+
 function test_is_executable_binary(tc, peb)
 
 b = stdlib.is_executable_binary(peb{1});
