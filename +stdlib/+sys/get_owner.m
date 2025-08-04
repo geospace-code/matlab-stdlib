@@ -4,7 +4,7 @@ o = string.empty;
 if ~stdlib.exists(p), return, end
 
 if ispc()
-  cmd = "pwsh -c (Get-Acl -Path '" + p + "').Owner";
+  cmd = sprintf('pwsh -c (Get-Acl -Path "%s").Owner', p);
 elseif ismac()
   cmd = sprintf('stat -f %%Su "%s"', p);
 else

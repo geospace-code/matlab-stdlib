@@ -4,7 +4,7 @@ y = false;
 
 if ispc()
   drive = stdlib.root_name(filepath);
-  cmd1 = strcat('wmic logicaldisk where "DeviceID=''', drive, '''" get DriveType');
+  cmd1 = sprintf('wmic logicaldisk where "DeviceID=''%s''" get DriveType', drive);
 else
   cmd1 = sprintf('df "%s" | tail -n 1 | awk ''{print $1}''', filepath);
 end
@@ -22,14 +22,14 @@ if ispc()
 
 elseif ismac()
 
-  cmd2 = ['diskutil info ', m1];
+  cmd2 = sprintf('diskutil info "%s"', m1);
   [s2, m2] = system(cmd2);
   y = s2 == 0 && contains(m2, "Removable Media:" + whitespacePattern + "Removable");
 
 else
 
   dev = strtrim(extractAfter(m1, '/dev/'));
-  f1 = strcat('/sys/class/block/', dev, '/removable');
+  f1 = sprintf('/sys/class/block/%s/removable', dev);
   if isfile(f1)
     y = strtrim(fileread(f1)) == "1";
   end

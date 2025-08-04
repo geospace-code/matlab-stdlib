@@ -13,7 +13,7 @@ end
 s = [];
 
 if ~isfile(p)
-  return;
+  return
 end
 
 d = dir(p);

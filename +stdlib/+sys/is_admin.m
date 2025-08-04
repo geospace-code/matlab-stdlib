@@ -10,7 +10,7 @@ end
 if s ~= 0
   warning("stdlib:is_admin:RuntimeError", "Failed to execute command '%s': %s", cmd, r);
   y = false;
-  return;
+  return
 end
 
 r = string(strip(r));
