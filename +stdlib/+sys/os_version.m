@@ -10,14 +10,14 @@ end
 
 [s, os] = system(cmd1);
 if s == 0
-  os = strtrim(os);
+  os = strip(os);
 else
   error("Failed to get OS name: %s", os);
 end
 
 [s, version] = system(cmd2);
 if s == 0
-  version = strtrim(version);
+  version = strip(version);
 else
   error("Failed to get OS version: %s", version);
 end

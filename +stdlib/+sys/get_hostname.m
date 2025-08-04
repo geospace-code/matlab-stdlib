@@ -4,7 +4,7 @@ cmd = 'hostname';
 [s, n] = system(cmd);
 
 if s == 0
-  n = char(strtrim(n));
+  n = strip(n);
 else
   n = '';
 end

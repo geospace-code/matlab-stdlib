@@ -8,7 +8,7 @@ end
 [s, n] = system(cmd);
 
 if s == 0
-  n = strtrim(n);
+  n = strip(n);
 else
   n = '';
 end

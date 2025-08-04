@@ -13,7 +13,7 @@ end
 [r, msg] = system(cmd);
 
 if r == 0
-  s = strtrim(msg);
+  s = strip(msg);
 else
   s = getenv("SHELL");
 end

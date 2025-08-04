@@ -17,7 +17,7 @@ end
 
 if ispc()
 
-  y = any(ismember(strtrim(extractAfter(m1, "DriveType")), ["2", "5"]));
+  y = any(ismember(strip(extractAfter(m1, "DriveType")), ["2", "5"]));
   % https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/win32-logicaldisk
 
 elseif ismac()
@@ -28,10 +28,10 @@ elseif ismac()
 
 else
 
-  dev = strtrim(extractAfter(m1, '/dev/'));
+  dev = strip(extractAfter(m1, '/dev/'));
   f1 = sprintf('/sys/class/block/%s/removable', dev);
   if isfile(f1)
-    y = strtrim(fileread(f1)) == "1";
+    y = strip(fileread(f1)) == "1";
   end
 
 end
