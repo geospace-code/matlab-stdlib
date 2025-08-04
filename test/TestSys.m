@@ -8,9 +8,8 @@ properties (TestParameter)
 fun = {@stdlib.isoctave, @stdlib.has_dotnet, ...
        @stdlib.has_java, @stdlib.has_python}
 cpu_arch_fun = {'java', 'dotnet', 'native'}
-ia_fun = {'sys', 'dotnet', 'java', 'python'}
 cr_method = {'sys', 'java', 'python'}
-os_m = {'java', 'python', 'dotnet', 'sys'}
+all_fun = {'java', 'python', 'dotnet', 'sys'}
 end
 
 methods(TestClassSetup)
@@ -35,10 +34,10 @@ function test_is_cygwin(tc)
 tc.verifyFalse(stdlib.is_cygwin())
 end
 
-function test_is_admin(tc, ia_fun)
-tc.assertNotEmpty(which("stdlib." + ia_fun + ".is_admin"))
+function test_is_admin(tc, all_fun)
+tc.assertNotEmpty(which("stdlib." + all_fun + ".is_admin"))
 try
-  i = stdlib.is_admin(ia_fun);
+  i = stdlib.is_admin(all_fun);
   tc.verifyClass(i, "logical")
   tc.verifyNotEmpty(i)
 catch e
@@ -109,9 +108,9 @@ v = stdlib.python_version();
 tc.verifyTrue(all(v >= [3, 8, 0]), "expected Python >= 3.8")
 end
 
-function test_os_version(tc, os_m)
+function test_os_version(tc, all_fun)
 try
-  [os, ver] = stdlib.os_version(os_m);
+  [os, ver] = stdlib.os_version(all_fun);
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
@@ -135,24 +134,27 @@ tc.verifyNotEmpty(ip)
 tc.verifyClass(ip, 'logical')
 end
 
-function test_hostname(tc, ia_fun)
-tc.assertNotEmpty(which("stdlib." + ia_fun + ".get_hostname"))
+function test_hostname(tc, all_fun)
+tc.assertNotEmpty(which("stdlib." + all_fun + ".get_hostname"))
 try
-  h = stdlib.hostname(ia_fun);
+  h = stdlib.hostname(all_fun);
   tc.verifyGreaterThan(strlength(h), 0)
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 
-function test_username(tc, ia_fun)
-tc.assertNotEmpty(which("stdlib." + ia_fun + ".get_username"))
+function test_username(tc, all_fun)
+tc.assertNotEmpty(which("stdlib." + all_fun + ".get_username"))
 try
-  u = stdlib.get_username(ia_fun);
-  tc.verifyGreaterThan(strlength(u), 0)
+  u = stdlib.get_username(all_fun);
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
+  return
 end
+
+tc.verifyClass(u, 'char')
+tc.verifyGreaterThan(strlength(u), 0)
 end
 
 
@@ -176,9 +178,9 @@ end
 tc.verifyGreaterThan(strlength(arch), 0, "CPU architecture should not be empty")
 end
 
-function test_ram_total(tc, ia_fun)
+function test_ram_total(tc, all_fun)
 try
-  t = stdlib.ram_total(ia_fun);
+  t = stdlib.ram_total(all_fun);
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
