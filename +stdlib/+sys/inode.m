@@ -1,16 +1,16 @@
 %% SYS.INODE get file inode
 
-function i = inode(m)
+function i = inode(p)
 
 i = 0;
 
 if ispc()
   % https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-file
-  cmd = "fsutil file queryfileid " + m;
+  cmd = "fsutil file queryfileid " + '"' + p + '"';
 elseif ismac()
-  cmd = "stat -f %i " + m;
+  cmd = "stat -f %i " + '"' + p + '"';
 else
-  cmd = "stat -c %i " + m;
+  cmd = "stat -c %i " + '"' + p + '"';
 end
 
 [s, m] = system(cmd);

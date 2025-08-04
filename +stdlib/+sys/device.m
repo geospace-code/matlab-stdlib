@@ -8,9 +8,9 @@ if ispc()
   c2 = '''\").SerialNumber"';
   cmd = strcat(c0, c1, c2);
 elseif ismac()
-  cmd = "stat -f %d " + p;
+  cmd = "stat -f %d " + '"' + p + '"';
 else
-  cmd = "stat -c %d " + p;
+  cmd = "stat -c %d " + '"' + p + '"';
 end
 
 
