@@ -1,13 +1,25 @@
 %% ISINTERACTIVE tell if being run interactively
 %
-% NOTE: don't use batchStartupOptionUsed as it neglects the "-nodesktop" case
+% we try to consider the "-nodesktop" mode as interactive.
+% * get(0,'ScreenSize') often isn't relable anymore, it will show a display
+% size on HPC for example, maybe due to Xvfb or such.
+% Nowadays (R2025a+) one can make plots without Java enabled -nojvm too.
+
 
 function g = isinteractive()
 
-if stdlib.isoctave()
-  g = ~isempty(graphics_toolkit());
-else
+if batchStartupOptionUsed()
+  g = false;
+elseif stdlib.is_matlab_online()
+  g = true;
+elseif isMATLABReleaseOlderThan('R2025a')
   g = usejava('desktop');
+elseif feature('showFigureWindows')
+  % this is true in matlab -batch by default
+  g = true;
+else
+  % assume true to be 'safe'
+  g = true;
 end
 
 end
