@@ -1,5 +1,5 @@
 function a = cpu_arch()
 
-a = string(computer('arch'));
+a = computer('arch');
 
 end

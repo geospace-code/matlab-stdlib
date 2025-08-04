@@ -181,6 +181,7 @@ catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
+tc.verifyClass(arch, 'char')
 tc.verifyGreaterThan(strlength(arch), 0, "CPU architecture should not be empty")
 end
 
