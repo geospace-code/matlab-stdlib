@@ -22,6 +22,11 @@ s = stdlib.file_size(p_file_size);
 tc.verifyGreaterThan(s, 0)
 end
 
+function test_file_size_array(tc)
+s = stdlib.file_size([mfilename("fullpath") + ".m", "not-exist", fullfile(fileparts(pwd()), "buildfile.m"), tempname()]);
+tc.verifyTrue(all([s(1) > 0, isnan(s(2)), s(3) > 0, isnan(s(4))]))
+end
+
 
 function test_null_file(tc)
 tc.assumeFalse(ispc)

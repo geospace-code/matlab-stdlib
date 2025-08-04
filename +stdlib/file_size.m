@@ -7,18 +7,16 @@
 
 function s = file_size(p)
 arguments
-  p {mustBeTextScalar}
+  p string
 end
 
-s = [];
+s = NaN(size(p));
 
-if ~isfile(p)
-  return
-end
+i = isfile(p);
 
-d = dir(p);
-if ~isempty(d)
-  s = d.bytes;
-end
+d = arrayfun(@dir, p(i));
+
+i = i & ~isempty(d);
+s(i) = [d.bytes];
 
 end
