@@ -14,7 +14,10 @@ else
   flag = '-c';
 end
 
-cmd = "stat " + flag + " %d:%i " + path1 + " && stat " + flag + " %d:%i " + path2;
+cmd1 = "stat " + flag + " %d:%i " + '"' + path1 + '"';
+cmd2 = "stat " + flag + " %d:%i " + '"' + path2 + '"';
+
+cmd = cmd1 + " && " + cmd2;
 
 [s, m] = system(cmd);
 if s ~= 0

@@ -4,6 +4,12 @@
 
 function y = is_mount(filepath)
 
+% some Python on CI needs this. Didn't replicate on local Windows PC.
+if ispc() && strcmp(filepath, stdlib.root_name(filepath)) && ~endsWith(filepath, ["/", "\"])
+  y = false;
+  return
+end
+
 try
   y = py.os.path.ismount(filepath);
 catch e
