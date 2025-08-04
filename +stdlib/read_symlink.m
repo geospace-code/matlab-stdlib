@@ -5,12 +5,16 @@
 
 function r = read_symlink(file, backend)
 arguments
-  file {mustBeTextScalar}
+  file string
   backend (1,:) string = ["native", "java", "dotnet", "python", "sys"]
 end
 
-fun = hbackend(backend, "read_symlink", 'R2024b');
+[fun, b] = hbackend(backend, "read_symlink", 'R2024b');
 
-r = fun(file);
+if isscalar(file) || b == "native"
+  r = fun(file);
+else
+  r = arrayfun(fun, file);
+end
 
 end

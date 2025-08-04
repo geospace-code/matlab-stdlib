@@ -10,7 +10,7 @@ if stdlib.is_symlink(p)
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#readSymbolicLink(java.nio.file.Path)
   r = string(java.nio.file.Files.readSymbolicLink(javaPathObject(r)));
 else
-  r = string.empty;
+  r = "";
 end
 
 end

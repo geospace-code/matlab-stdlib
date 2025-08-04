@@ -66,7 +66,7 @@ end
 
 function test_read_symlink_empty(tc, Pre, ir_backend)
 try
-  tc.verifyEmpty(stdlib.read_symlink(Pre, ir_backend))
+  tc.verifyEqual(stdlib.read_symlink(Pre, ir_backend), "")
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
@@ -82,6 +82,16 @@ catch e
 end
 end
 
+
+function test_read_symlink_array(tc, ir_backend)
+try
+  r = stdlib.read_symlink([tc.link, mfilename() + ".m"], ir_backend);
+  tc.verifyClass(r, 'string')
+  tc.verifyEqual(r, [tc.target, ""], "failed to detect own link")
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
+end
+end
 
 function test_create_symlink(tc, cs_backend)
 tc.assumeNotEmpty(which("stdlib." + cs_backend + ".create_symlink"))

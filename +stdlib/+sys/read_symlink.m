@@ -1,6 +1,6 @@
 function r = read_symlink(p)
 
-r = string.empty;
+r = "";
 
 if ~stdlib.is_symlink(p), return, end
 
