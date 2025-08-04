@@ -69,7 +69,7 @@ tc.verifyFalse(stdlib.is_mount(tempname(), py_sys))
 
 if ispc()
   sd = getenv("SystemDrive");
-  tc.assertEqual(sd, stdlib.root_name(sd), sd)
+  tc.assertTrue(sd == stdlib.root_name(sd), sd)
   tc.verifyFalse(stdlib.is_mount(sd, py_sys), sd)
   tc.verifyTrue(stdlib.is_mount(sd + "/", py_sys), sd)
   tc.verifyTrue(stdlib.is_mount(sd + "\", py_sys), sd)

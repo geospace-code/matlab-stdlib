@@ -10,23 +10,19 @@
 
 function r = root_dir(p)
 arguments
-  p {mustBeTextScalar}
+  p string
 end
 
 sep = characterListPattern("/" + filesep);
-pat = (textBoundary + sep);
-if ispc()
-  pat = pat | (lookBehindBoundary(lettersPattern(1) + ":") + sep);
-end
 
-r = extract(p, pat);
-if isempty(r)
-  r = '';
-  if isstring(p)
-    r = "";
-  end
-elseif iscell(r)
-  r = r{1};
+r = repmat("", size(p));
+
+i = startsWith(p, sep);
+r(i) = extractBefore(p(i), 2);
+
+if ispc()
+  i = startsWith(p, lettersPattern(1) + ":" + sep);
+  r(i) = extractBetween(p(i), 3, 3);
 end
 
 end

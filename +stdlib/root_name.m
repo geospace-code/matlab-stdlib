@@ -7,24 +7,14 @@
 
 function r = root_name(p)
 arguments
-  p {mustBeTextScalar}
+  p string
 end
+
+r = repmat("", size(p));
 
 if ispc()
-  r = extract(p, textBoundary + lettersPattern(1) + ":");
-  if ~isempty(r) && iscell(r)
-    r = r{1};
-  end
-else
-  r = '';
+  i = startsWith(p, textBoundary + lettersPattern(1) + ":");
+  r(i) = extractBefore(p(i), 3);
 end
-
-if isempty(r)
-  r = '';
-  if isstring(p)
-    r = "";
-  end
-end
-
 
 end
