@@ -83,10 +83,11 @@ jobs:
         command: license('inuse'), stdlib.platform_tell()
 
     - name: Check codeIssues
-      if: ${{ matrix.release >= 'R2022b' }}
+      if: ${{ matrix.release >= 'R2023a' }}
       uses: matlab-actions/run-build@v2
       with:
         tasks: check
+    # R2022b has false positives that would break tests
 
     - name: Main Tests
       uses: ./.github/workflows/composite-nomex

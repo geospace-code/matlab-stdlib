@@ -7,11 +7,12 @@ runs:
   steps:
 
   - name: Check task
-    if: ${{ matrix.release >= 'R2022b' }}
+    if: ${{ matrix.release >= 'R2023a' }}
     uses: matlab-actions/run-build@v2
     with:
       startup-options: ${{ matrix.startup-options }}
       tasks: check
+  # R2022b has false positives that would break tests
 
   # - name: Upload CodeIssues
   #   if: failure()
