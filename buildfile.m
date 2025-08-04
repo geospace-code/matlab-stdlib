@@ -91,11 +91,6 @@ exes = fullfile(test_root, exes);
 plan("exe") = matlab.buildtool.Task(Inputs=srcs, Outputs=exes, Actions=@build_exe, ...
                  Description="build demo executables for testing java_run");
 
-if ~isMATLABReleaseOlderThan("R2023b")
-  plan("check") = matlab.buildtool.tasks.CodeIssuesTask(plan.RootFolder, ...
-    IncludeSubfolders=true, WarningThreshold=0);
-end
-
 end
 
 
@@ -107,4 +102,19 @@ publish_gen_index_html("stdlib", ...
   "A standard library of functions for Matlab.", ...
   "https://github.com/geospace-code/matlab-stdlib", ...
   outdir)
+end
+
+
+function checkTask(context)
+root = context.Plan.RootFolder;
+
+c = codeIssues(root, IncludeSubfolders=true);
+
+if isempty(c.Issues)
+  fprintf('%d files checked OK with %s under %s\n', numel(c.Files), c.Release, root)
+else
+  disp(c.Issues)
+  error("Errors found in " + join(c.Issues.Location, newline))
+end
+
 end

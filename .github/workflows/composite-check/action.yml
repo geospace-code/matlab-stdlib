@@ -7,15 +7,15 @@ runs:
   steps:
 
   - name: Check task
-    if: ${{ matrix.release >= 'R2024a' }}
+    if: ${{ matrix.release >= 'R2022b' }}
     uses: matlab-actions/run-build@v2
     with:
       startup-options: ${{ matrix.startup-options }}
       tasks: check
 
-  - name: Upload CodeIssues
-    if: failure()
-    uses: actions/upload-artifact@v4
-    with:
-      name: ${{ matrix.release }}-${{ runner.os }}-codeissues
-      path: .buildtool/CodeIssues.sarif
+  # - name: Upload CodeIssues
+  #   if: failure()
+  #   uses: actions/upload-artifact@v4
+  #   with:
+  #     name: ${{ matrix.release }}-${{ runner.os }}-codeissues
+  #     path: .buildtool/CodeIssues.sarif

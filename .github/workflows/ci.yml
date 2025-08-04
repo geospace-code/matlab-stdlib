@@ -47,9 +47,10 @@ jobs:
       with:
         command: license('inuse'), stdlib.platform_tell()
 
-    - name: Check CodeIssues
-      if: ${{ matrix.release >= 'R2024a' }}
-      uses: ./.github/workflows/composite-check
+    - name: Check codeIssues
+      uses: matlab-actions/run-build@v2
+      with:
+        tasks: check
 
     - name: Main Tests
       uses: ./.github/workflows/composite-nomex
@@ -80,6 +81,12 @@ jobs:
       uses: matlab-actions/run-command@v2
       with:
         command: license('inuse'), stdlib.platform_tell()
+
+    - name: Check codeIssues
+      if: ${{ matrix.release >= 'R2022b' }}
+      uses: matlab-actions/run-build@v2
+      with:
+        tasks: check
 
     - name: Main Tests
       uses: ./.github/workflows/composite-nomex
