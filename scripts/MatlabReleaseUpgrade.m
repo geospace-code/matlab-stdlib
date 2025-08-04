@@ -64,13 +64,15 @@ if ismac()
 elseif ispc()
   head = fullfile(getenv("LOCALAPPDATA"), 'MathWorks/ServiceHost');
 else
-  head = fullfile(getenv("HOME"), '.MathWorks/ServiceHost', getenv("HOSTNAME"));
+  addpath(fileparts(fileparts(mfilename('fullpath'))))
+  head = fullfile(getenv("HOME"), '.MathWorks/ServiceHost', stdlib.hostname());
 end
 mustBeFolder(head)
 
 bin_tail = fullfile("bin", arch);
 
 infoFile = fullfile(head, "LatestInstall.info");
+mustBeFile(infoFile)
 fid = fopen(infoFile);
 while ~feof(fid)
   svcRoot = extractAfter(fgetl(fid), "Latest" + optionalPattern("DS") + "InstallRoot");
