@@ -1,6 +1,6 @@
 function t = filesystem_type(p)
 
-t = string.empty;
+t = '';
 
 if ~stdlib.exists(p), return, end
 
@@ -15,7 +15,7 @@ end
 
 [s, t] = system(cmd);
 if s == 0
-  t = string(strip(t));
+  t = strip(t);
 end
 
 end

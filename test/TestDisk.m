@@ -100,7 +100,7 @@ catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
   return
 end
-tc.verifyClass(t, 'string')
+tc.verifyClass(t, 'char')
 
 if stdlib.exists(Ps)
   tc.assumeFalse(isempty(t) && tc.CI, "Some CI block viewing their filesystem type")

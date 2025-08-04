@@ -3,10 +3,10 @@
 function t = filesystem_type(p)
 
 if stdlib.exists(p)
-  t = string(System.IO.DriveInfo(stdlib.absolute(p)).DriveFormat);
+  t = char(System.IO.DriveInfo(stdlib.absolute(p)).DriveFormat);
   % https://learn.microsoft.com/en-us/dotnet/api/system.io.driveinfo.driveformat
 else
-  t = string.empty;
+  t = '';
 end
 
 end
