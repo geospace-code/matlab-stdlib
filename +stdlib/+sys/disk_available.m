@@ -8,9 +8,9 @@ if ispc()
   dl = extractBefore(stdlib.absolute(p), 2);
   cmd = "pwsh -c (Get-Volume -DriveLetter " + dl + ").SizeRemaining";
 elseif ismac()
-  cmd = "df -k " + p + " | awk 'NR==2 {print $4*1024}'";
+  cmd = sprintf('df -k "%s" | awk ''NR==2 {print $4*1024}''', p);
 else
-  cmd = "df -B1 " + p + " | awk 'NR==2 {print $4}'";
+  cmd = sprintf('df -B1 "%s" | awk ''NR==2 {print $4}''', p);
 end
 
 [s, t] = system(cmd);

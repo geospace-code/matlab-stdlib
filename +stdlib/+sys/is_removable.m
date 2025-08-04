@@ -6,10 +6,11 @@ if ispc()
   drive = stdlib.root_name(filepath);
   cmd1 = strcat('wmic logicaldisk where "DeviceID=''', drive, '''" get DriveType');
 else
-  cmd1 = "df " + filepath + " | tail -n 1 | awk '{print $1}'";
+  cmd1 = sprintf('df "%s" | tail -n 1 | awk ''{print $1}''', filepath);
 end
 [s1, m1] = system(cmd1);
 if s1 ~= 0
+  warning('stdlib:is_removable:OSError', '%s', m1)
   return
 end
 
