@@ -117,6 +117,8 @@ catch e
   return
 end
 
+tc.verifyClass(os, 'char')
+tc.verifyClass(ver, 'char')
 tc.verifyGreaterThan(strlength(os), 0, "expected non-empty os")
 tc.verifyGreaterThan(strlength(ver), 0, "expected non-empty version")
 end
