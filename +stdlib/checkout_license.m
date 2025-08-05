@@ -15,9 +15,16 @@ end
 
 ok = false;
 
-addons = matlab.addons.installedAddons;
-installedPackages = addons.Name;
-name = addons.Name(strcmpi(installedPackages, packageName));
+% If ~feature('webui'), Java can crash while checking out the license cache.
+% feature('webui') is false for Matlab < R2025a if not using the "New Desktop"
+try
+  addons = matlab.addons.installedAddons;
+  installedPackages = addons.Name;
+  name = addons.Name(strcmpi(installedPackages, packageName));
+catch
+  warning('stdlib:checkout_license:EnvironmentError', 'Unable to retrieve installed addons.')
+  return
+end
 
 if isempty(name), return, end
 
