@@ -7,11 +7,10 @@ end
 properties (TestParameter)
 Ps = {".", "", "/", getenv("SystemDrive"), "not-exist"}
 Po = {mfilename("fullpath") + ".m", pwd(), ".", "", "not-exist"}
-id_fun = {'sys', 'java', 'python'}
+java_python_sys = {'sys', 'java', 'python'}
 id_name = {"inode", "device"}
 all_fun = {'sys', 'dotnet', 'java', 'python'}
 disk_ac_name = {'disk_available', 'disk_capacity'}
-hl_fun = {'java', 'python'}
 is_remove = {'dotnet', 'sys'}
 py_sys = {'python', 'sys'}
 end
@@ -77,14 +76,14 @@ end
 end
 
 
-function test_hard_link_count(tc, hl_fun)
+function test_hard_link_count(tc, java_python_sys)
 fname = "hard_link_count";
-n = "stdlib." + hl_fun + "." + fname;
+n = "stdlib." + java_python_sys + "." + fname;
 h = str2func("stdlib." + fname);
 tc.assertNotEmpty(which(n))
 P = mfilename("fullpath") + ".m";
 try
-  r = h(P, hl_fun);
+  r = h(P, java_python_sys);
   tc.verifyGreaterThanOrEqual(r, 1)
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
@@ -128,16 +127,16 @@ tc.verifyTrue(stdlib.remove(f), "failed to remove file " + f)
 end
 
 
-function test_inode_device(tc, id_fun, id_name)
-n = "stdlib." + id_fun + "." + id_name;
+function test_inode_device(tc, java_python_sys, id_name)
+n = "stdlib." + java_python_sys + "." + id_name;
 h = str2func("stdlib." + id_name);
 tc.assertNotEmpty(which(n))
 
 try
-    ip = h(pwd(), id_fun);
+    ip = h(pwd(), java_python_sys);
     tc.verifyClass(ip, 'uint64')
     tc.verifyGreaterThan(ip, 0)
-    tc.verifyEqual(h(".", id_fun), ip)
+    tc.verifyEqual(h(".", java_python_sys), ip)
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
