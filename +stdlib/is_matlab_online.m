@@ -5,15 +5,9 @@
 
 function y = is_matlab_online()
 
-y = isunix() && ~ismac();
-if ~y, return, end
+name = "MW_DDUX_APP_NAME";
+value = "MATLAB_ONLINE";
 
-h = getenv("MW_DDUX_APP_NAME");
-
-if h == "MATLAB_ONLINE"
-  y = true;
-else
-  y = false;
-end
+y = isunix() && ~ismac() && contains(getenv(name), value);
 
 end
