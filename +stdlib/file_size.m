@@ -3,7 +3,7 @@
 %%% Inputs
 % * p: path to file
 %%% Outputs
-% * s: size in bytes, or empty if file does not exist
+% * s: size in bytes; NaN if file does not exist
 
 function s = file_size(p)
 arguments
