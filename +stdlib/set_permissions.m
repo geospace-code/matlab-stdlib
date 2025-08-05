@@ -1,5 +1,4 @@
 %% SET_PERMISSIONS set path permissions
-% optional: mex
 %
 %%% Inputs
 % * file

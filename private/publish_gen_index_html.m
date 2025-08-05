@@ -34,7 +34,7 @@ if ~isfolder(outdir)
 end
 
 txt = ["<!DOCTYPE html>", ...
-"<head>",...
+'<head lang="en">',...
 '<meta name="color-scheme" content="dark light">', ...
 '<meta name="viewport" content="width=device-width, initial-scale=1">', ...
 '<meta name="generator" content="Matlab ' + matlabRelease().Release + '">', ...
@@ -51,15 +51,15 @@ fprintf(fid, join(txt, newline));
 
 publish_pkg(fid, pkg, pkg_name)
 
-fprintf(fid, "The functions below are for diagnostics or internal use. Users will only use the functions above.");
+% fprintf(fid, "The functions below are for diagnostics or internal use. Users will only use the functions above.");
 
-for i = 1:numel(pkg.packages)
-  sn = pkg.packages(i);
-  sn = sn{1};
-  spkg = what(fullfile("+" + pkg_name, sn));
-
-  publish_pkg(fid, spkg, pkg_name)
-end
+% for i = 1:numel(pkg.packages)
+%   sn = pkg.packages(i);
+%   sn = sn{1};
+%   spkg = what(fullfile("+" + pkg_name, sn));
+% 
+%   publish_pkg(fid, spkg, pkg_name)
+% end
 
 fprintf(fid, "</body> </html>");
 
@@ -72,15 +72,18 @@ function publish_pkg(fid, pkg, pkg_name)
 
 outdir = fileparts(fopen(fid));
 
-[~, subname] = fileparts(pkg.path);
-if ~endsWith(subname, pkg_name)
-  pkg_name = pkg_name + "." + subname(2:end);
-  relpath = subname(2:end) + "/";
-  outdir = fullfile(outdir, relpath);
-  fprintf(fid, strcat('<h3>', pkg_name, '</h3>', newline));
-else
-  relpath = "";
-end
+% [~, subname] = fileparts(pkg.path);
+% if ~endsWith(subname, pkg_name)
+%   pkg_name = pkg_name + "." + subname(2:end);
+%   relpath = subname(2:end) + "/";
+%   outdir = fullfile(outdir, relpath);
+%   fprintf(fid, strcat('<h3>', pkg_name, '</h3>', newline));
+% else
+relpath = "";
+% end
+
+fprintf(fid, newline + "<table>" + newline);
+fprintf(fid, "<tr><th>Function</th> <th>Description</th> <th>Backends</th></tr>" + newline);
 
 for fun = pkg.m.'
 
@@ -97,19 +100,28 @@ words = split(strip(help_txt(1)), " ");
 fname = words(1);
 assert(endsWith(fname, name, IgnoreCase=true), "fname %s does not match name %s \nis there a docstring at the top of the .m file?", fname, name)
 
-line = "<a href=" + relpath + name + ".html>" + fname + "</a> ";
+line = "<tr><td><a href=" + relpath + name + ".html>" + fname + "</a></td><td>";
 if(length(words) > 1)
    line = join([line, words(2:end).']);
 end
 
+% req = "";
+% if contains(help_txt(2), "requires:") || contains(help_txt(2), "optional:")
+%   req = "<strong>(" + strip(help_txt(2), " ") + ")</strong>";
+% end
+
+% determine which backends might exist for this function
 req = "";
-
-if contains(help_txt(2), "requires:") || contains(help_txt(2), "optional:")
-  req = "<strong>(" + strip(help_txt(2), " ") + ")</strong>";
+for bkd = string(pkg.packages).'
+  if ~isempty(which(pkg_name + "." + bkd + "." + name))
+    req = req + " " + bkd;
+  end
 end
 
-fprintf(fid, line + " " + req + "<br>" + newline);
+fprintf(fid, line + "</td> <td>" + req + "</td></tr>" + newline);
 
 end
+
+fprintf(fid, "</table>" + newline);
 
 end

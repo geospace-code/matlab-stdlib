@@ -1,5 +1,4 @@
 %% NORMALIZE remove redundant elements of path
-% optional: mex
 %
 % normalize(p) remove redundant elements of path p
 % path need not exist, normalized path is returned
