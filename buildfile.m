@@ -97,11 +97,14 @@ end
 function publishTask(context)
 % publish HTML inline documentation strings to individual HTML files
 outdir = fullfile(context.Plan.RootFolder, 'docs');
+styleFile = fullfile(context.Plan.RootFolder, "private/style.css");
 
-publish_gen_index_html("stdlib", ...
+readme = publish_gen_index_html("stdlib", ...
   "A standard library of functions for Matlab.", ...
   "https://github.com/geospace-code/matlab-stdlib", ...
-  outdir)
+  outdir, styleFile);
+
+fprintf("\nweb('file:///%s') to view docs\n\n", readme);
 end
 
 

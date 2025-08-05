@@ -10,12 +10,13 @@
 %
 % if *.mex* files are present, publish fails
 
-function publish_gen_index_html(pkg_name, tagline, project_url, outdir)
+function readme = publish_gen_index_html(pkg_name, tagline, project_url, outdir, styleFile)
 arguments
   pkg_name {mustBeTextScalar}
   tagline {mustBeTextScalar}
   project_url {mustBeTextScalar}
   outdir {mustBeTextScalar}
+  styleFile {mustBeFile}
 end
 
 pkg = what("+" + pkg_name);
@@ -33,21 +34,35 @@ if ~isfolder(outdir)
   mkdir(outdir);
 end
 
-txt = ["<!DOCTYPE html>", ...
+copyfile(styleFile, outdir)
+
+[~, n, s] = fileparts(styleFile);
+styleName = strcat(n, s);
+
+head = ["<!DOCTYPE html>", ...
 '<head lang="en">',...
+'<meta charset="UTF-8">', ...
 '<meta name="color-scheme" content="dark light">', ...
 '<meta name="viewport" content="width=device-width, initial-scale=1">', ...
-'<meta name="generator" content="Matlab ' + matlabRelease().Release + '">', ...
+sprintf('<meta name="generator" content="Matlab %s">', matlabRelease().Release), ...
+sprintf('<link rel="stylesheet" href="%s">', styleName), ...
 "<title>" + pkg_name + " API</title>", ...
-"</head>", ...
+"</head>"];
+
+body = [
 "<body>", ...
-"<h1>" + pkg_name + " API</h1>", ...
-"<p>" + tagline + "</p>", ...
-"<p>" + git_txt + "</p>", ...
+sprintf('<h1>%s API</h1>', pkg_name), ...
+sprintf('<p>%s</p>', tagline), ...
+sprintf('<p>%s</p>', git_txt)];
+
+body = [body, ...
+'<p id="userAgent"></p>', ...
+'<script>document.getElementById("userAgent").textContent = navigator.userAgent;</script>', ...
 "<p>Project URL: <a href=" + project_url + ">" + project_url + "</a></p>", ...
 "<h2>API Reference</h2>"];
+
 fid = fopen(readme, 'w');
-fprintf(fid, join(txt, newline));
+fprintf(fid, join([head, body], newline));
 
 publish_pkg(fid, pkg, pkg_name)
 
@@ -57,11 +72,11 @@ publish_pkg(fid, pkg, pkg_name)
 %   sn = pkg.packages(i);
 %   sn = sn{1};
 %   spkg = what(fullfile("+" + pkg_name, sn));
-% 
+%
 %   publish_pkg(fid, spkg, pkg_name)
 % end
 
-fprintf(fid, "</body> </html>");
+fprintf(fid, "</body>" + newline + "</html>");
 
 fclose(fid);
 
@@ -85,7 +100,11 @@ relpath = "";
 fprintf(fid, newline + "<table>" + newline);
 fprintf(fid, "<tr><th>Function</th> <th>Description</th> <th>Backends</th></tr>" + newline);
 
+Nbe = struct("dotnet", 0, "java", 0, "python", 0, "sys", 0, "native", 0, "legacy", 0, "top_level", 0);
+
 for fun = pkg.m.'
+
+Nbe.top_level = Nbe.top_level + 1;
 
 [~, name] = fileparts(fun{1});
 
@@ -114,6 +133,7 @@ end
 req = "";
 for bkd = string(pkg.packages).'
   if ~isempty(which(pkg_name + "." + bkd + "." + name))
+    Nbe.(bkd) = Nbe.(bkd) + 1;
     req = req + " " + bkd;
   end
 end
@@ -123,5 +143,13 @@ fprintf(fid, line + "</td> <td>" + req + "</td></tr>" + newline);
 end
 
 fprintf(fid, "</table>" + newline);
+
+fprintf(fid, "<h2>Function counts</h2>" + newline + "<ul>" + newline);
+
+for n = string(fieldnames(Nbe)).'
+  fprintf(fid, " <li>%s: %d</li>\n", n, Nbe.(n));
+end
+
+fprintf(fid, "</ul>" + newline);
 
 end
