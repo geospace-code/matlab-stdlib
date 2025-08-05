@@ -34,25 +34,33 @@ jobs:
 # macOS >= R2023b to be compatible with Xcode version on Github Actions runner
 
     steps:
-    - uses: actions/checkout@v4
+    - &checkout
+      uses: actions/checkout@v4
 
-    - uses: ./.github/workflows/composite-install-matlab
+    - &matlab-install
+      uses: ./.github/workflows/composite-install-matlab
 
-    - name: Fortran FC
+    - &mac-fc
+      name: Fortran FC
       if: runner.os == 'macOS'
       run: echo "FC=gfortran-14" >> $GITHUB_ENV
 
-    - name: Matlab tell External Language Interface versions
+    - &tell-ext
+      name: Matlab tell External Language Interface versions
       uses: matlab-actions/run-command@v2
       with:
         command: license('inuse'), stdlib.platform_tell()
 
-    - name: Check codeIssues
+    - &code-issues
+      name: Check codeIssues
+      if: ${{ matrix.release >= 'R2023a' }}
       uses: matlab-actions/run-build@v2
       with:
         tasks: check
+    # R2022b has false positives that would break tests
 
-    - name: Main Tests
+    - &test-main
+      name: Main Tests
       uses: ./.github/workflows/composite-nomex
 
 
@@ -69,28 +77,13 @@ jobs:
         release: [R2022a, R2022b, R2023a, R2023b]
 
     steps:
-    - uses: actions/checkout@v4
+    - *checkout
+    - *matlab-install
+    - *mac-fc
+    - *tell-ext
 
-    - uses: ./.github/workflows/composite-install-matlab
-
-    - name: Fortran FC
-      if: runner.os == 'macOS'
-      run: echo "FC=gfortran-14" >> $GITHUB_ENV
-
-    - name: Matlab tell External Language Interface versions
-      uses: matlab-actions/run-command@v2
-      with:
-        command: license('inuse'), stdlib.platform_tell()
-
-    - name: Check codeIssues
-      if: ${{ matrix.release >= 'R2023a' }}
-      uses: matlab-actions/run-build@v2
-      with:
-        tasks: check
-    # R2022b has false positives that would break tests
-
-    - name: Main Tests
-      uses: ./.github/workflows/composite-nomex
+    - *code-issues
+    - *test-main
 
 
   matlab-less-than-R2022a:
@@ -107,14 +100,8 @@ jobs:
         release: [R2021a, R2021b]
 
     steps:
-    - uses: actions/checkout@v4
+    - *checkout
+    - *matlab-install
+    - *tell-ext
 
-    - uses: ./.github/workflows/composite-install-matlab
-
-    - name: Matlab tell External Language Interface versions
-      uses: matlab-actions/run-command@v2
-      with:
-        command: license('inuse'), stdlib.platform_tell()
-
-    - name: Main Tests
-      uses: ./.github/workflows/composite-nomex
+    - *test-main
