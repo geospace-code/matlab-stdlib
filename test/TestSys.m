@@ -2,6 +2,8 @@ classdef TestSys < matlab.unittest.TestCase
 
 properties
 CI = getenv("CI") == "true" || getenv("GITHUB_ACTIONS") == "true"
+cwd
+root
 end
 
 properties (TestParameter)
@@ -14,13 +16,34 @@ end
 
 methods(TestClassSetup)
 function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
+tc.cwd = fileparts(mfilename('fullpath'));
+tc.root = fileparts(tc.cwd);
+p = matlab.unittest.fixtures.PathFixture(tc.root);
 tc.applyFixture(p)
 end
 end
 
 
 methods (Test, TestTags="impure")
+
+function test_toolbox_used(tc)
+[mathworksUsed, userFun] = stdlib.toolbox_used(fullfile(tc.root, "+stdlib"));
+Nlicense = length(mathworksUsed);
+txt = "stdlib for Matlab should only use builtin functions, no toolboxes";
+tc.verifyEqual(Nlicense, 1, txt)
+tc.verifyEqual(mathworksUsed, "MATLAB")
+tc.verifyGreaterThan(length(userFun), 200) % we have over 200 stdlib functions
+
+[mathworksUsed, userFun] = stdlib.toolbox_used(["edge", "geodetic2ecef"]);
+tc.verifyEqual(userFun, string.empty)
+tc.verifyEqual(length(mathworksUsed), 3)
+end
+
+function test_all_toolboxes(tc)
+tc.assumeTrue(stdlib.has_java())
+tbx = stdlib.allToolboxes();
+tc.verifyClass(tbx, "table")
+end
 
 function test_platform_tell(tc)
 tc.verifyClass(stdlib.platform_tell(), 'char')
