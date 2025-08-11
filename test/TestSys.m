@@ -34,9 +34,10 @@ tc.verifyEqual(Nlicense, 1, txt)
 tc.verifyEqual(mathworksUsed, "MATLAB")
 tc.verifyGreaterThan(length(userFun), 200) % we have over 200 stdlib functions
 
-[mathworksUsed, userFun] = stdlib.toolbox_used(["edge", "geodetic2ecef"]);
+% don't use paid toolboxes without checking they exist, otherwise this function fails
+[mathworksUsed, userFun] = stdlib.toolbox_used(["which", "disp"]);
 tc.verifyEqual(userFun, string.empty)
-tc.verifyEqual(length(mathworksUsed), 3)
+tc.verifyEqual(length(mathworksUsed), 1)
 end
 
 function test_all_toolboxes(tc)
