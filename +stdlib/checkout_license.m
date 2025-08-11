@@ -5,7 +5,9 @@
 % that is, when it's certain the function next called requires this license
 % to be checked out.
 %
-% This function provides a more accurate indicator that a function can
+% A simpler way is to just use the desired function enclosed with try-catch
+%
+% This function better tells that a function can
 % be used rather than just checking if the relevant toolbox is installed.
 
 function [ok, featureName] = checkout_license(packageName)
@@ -19,25 +21,45 @@ ok = false;
 % feature('webui') is false for Matlab < R2025a if not using the "New Desktop"
 try
   addons = matlab.addons.installedAddons;
-  installedPackages = addons.Name;
-  name = addons.Name(strcmpi(installedPackages, packageName));
+  name = addons.Name(strcmpi(addons.Name, packageName));
 catch
-  warning('stdlib:checkout_license:EnvironmentError', 'Unable to retrieve installed addons.')
-  return
+  versions = ver();
+  installedPackages = string({versions.Name});
+  name = installedPackages(strcmp(installedPackages, packageName));
 end
 
-if isempty(name), return, end
+if isempty(name)
+  disp(name + " not installed in Matlab " + matlabRelease().Release+ " at " + matlabroot)
+  return
+end
 
 if ~usejava('jvm')
-  warning('stdlib:checkout_license:EnvironmentError', 'Java must be enabled to lookup license names.')
+  disp('Java must be enabled to lookup license names.')
   return
 end
 
-% https://www.mathworks.com/help/matlab/matlab_env/index-of-code-analyzer-checks.html
-featureName = string(com.mathworks.product.util.ProductIdentifier.get(name).getFlexName()); %#ok<JAPIMATHWORKS>
+featureName = product2feature(name);
 
 if license('test', featureName)
   ok = license('checkout', featureName);
 end
+
+end
+
+
+function f = product2feature(name)
+
+% https://www.mathworks.com/matlabcentral/answers/195425-how-do-i-get-a-license-feature-name-for-a-toolbox-in-ver#answer_173402
+% https://www.mathworks.com/matlabcentral/answers/152553-how-can-i-obtain-a-feature-name-or-product-name-within-matlab#answer_150023
+% https://www.mathworks.com/help/matlab/matlab_env/index-of-code-analyzer-checks.html
+
+f = com.mathworks.product.util.ProductIdentifier.get(name).getFlexName().string; %#ok<JAPIMATHWORKS>
+
+end
+
+
+function p = feature2product(name) %#ok<DEFNU>
+
+p = com.mathworks.product.util.ProductIdentifier.get(name).getName().string; %#ok<JAPIMATHWORKS>
 
 end
