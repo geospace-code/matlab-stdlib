@@ -9,10 +9,13 @@
 %
 % Ref: https://devblogs.microsoft.com/oldnewthing/20220128-00/?p=106201
 %
-%%% Inputs
+%% Inputs
 % * path1, path2: paths to compare
+%% Outputs
+% * ok: true if paths are the same
+% * b: backend used
 
-function y = samepath(path1, path2, backend)
+function [ok, b] = samepath(path1, path2, backend)
 arguments
   path1 string
   path2 string
@@ -24,9 +27,9 @@ end
 [fun, b] = hbackend(backend, "samepath");
 
 if (isscalar(path1) && isscalar(path2)) || b == "native"
-  y = fun(path1, path2);
+  ok = fun(path1, path2);
 else
-  y = arrayfun(fun, path1, path2);
+  ok = arrayfun(fun, path1, path2);
 end
 
 end

@@ -1,8 +1,13 @@
 %% IS_EXE is file executable
+% does not check if the file is actually a binary executable
 %
-% false if not a file
+%% Inputs
+% file: path to check
+%% Outputs
+% ok: true if path is a file and has executable permissions
+% b: backend used
 
-function y = is_exe(file, backend)
+function [ok, b] = is_exe(file, backend)
 arguments
   file string
   backend (1,:) string = ["java", "python", "native", "legacy"]
@@ -12,9 +17,9 @@ end
 [fun, b] = hbackend(backend, "is_exe", 'R2025a');
 
 if isscalar(file) || b == "native"
-  y = fun(file);
+  ok = fun(file);
 else
-  y = arrayfun(fun, file);
+  ok = arrayfun(fun, file);
 end
 
 end

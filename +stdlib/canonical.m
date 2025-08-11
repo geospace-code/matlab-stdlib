@@ -11,8 +11,9 @@
 % * strict: if true, only return canonical path if it exists. If false, return normalized path if path does not exist.
 %%% Outputs
 % * c: canonical path, if determined
+% * b: backend used
 
-function c = canonical(p, strict, backend)
+function [c, b] = canonical(p, strict, backend)
 arguments
   p string
   strict (1,1) logical = false
