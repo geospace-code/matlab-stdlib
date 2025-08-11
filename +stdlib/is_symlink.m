@@ -1,10 +1,11 @@
 %% IS_SYMLINK is path a symbolic link
 %
 %% Inputs
-% file: path to check
+% * file: path to check
+% * backend: backend to use
 %% Outputs
-% ok: true if path is a symbolic link
-% b: backend used
+% * ok: true if path is a symbolic link
+% * b: backend used
 
 function [ok, b] = is_symlink(file, backend)
 arguments

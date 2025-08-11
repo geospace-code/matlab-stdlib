@@ -1,14 +1,19 @@
 %% INODE filesystem inode of path
 %
-% Windows always returns 0, Unix returns inode number.
+%% Inputs
+% * file: path to check
+%% Outputs
+% * i: inode number
+% * b: backend used
 
-function i = inode(file, backend)
+function [i, b] = inode(file, backend)
 arguments
   file {mustBeTextScalar}
   backend (1,:) string = ["java", "python", "sys"]
 end
 
-fun = hbackend(backend, "inode");
+[fun, b] = hbackend(backend, "inode");
+
 i = fun(file);
 
 end

@@ -1,12 +1,19 @@
 %% DEVICE filesystem device index of path
+%
+%% Inputs
+% * file: path to file
+%% Outputs
+% * i: device index
+% * b: backend used
 
-function i = device(file, backend)
+function [i, b] = device(file, backend)
 arguments
   file {mustBeTextScalar}
   backend (1,:) string = ["java", "python", "sys"]
 end
 
-fun = hbackend(backend, "device");
+[fun, b] = hbackend(backend, "device");
+
 i = fun(file);
 
 end

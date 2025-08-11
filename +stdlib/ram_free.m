@@ -5,19 +5,22 @@
 % get free physical RAM across operating systems
 % https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getFreeMemorySize()
 %
+%%% Inputs
+% * backend: backend to use
 %%% Outputs
 % * freebytes: free physical RAM [bytes]
+% * b: backend used
 %
 % Java or Python psutil are consistent with each other.
 %
 % Fallback is to shell commands.
 
-function bytes = ram_free(backend)
+function [bytes, b] = ram_free(backend)
 arguments
   backend (1,:) string = ["java", "python", "sys"]
 end
 
-fun = hbackend(backend, "ram_free");
+[fun, b] = hbackend(backend, "ram_free");
 
 bytes = fun();
 

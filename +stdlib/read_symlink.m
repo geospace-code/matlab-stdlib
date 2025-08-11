@@ -4,10 +4,11 @@
 % always of string class in Matlab
 %
 %% Inputs
-% file: path to symbolic link
+% * file: path to symbolic link
+% * backend: backend to use
 %% Outputs
-% r: target of symbolic link
-% b: backend used
+% * r: target of symbolic link
+% * b: backend used
 
 function [r, b] = read_symlink(file, backend)
 arguments

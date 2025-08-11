@@ -3,6 +3,12 @@
 % e.g. NUL, /dev/null
 % false if file does not exist
 %
+%% Inputs
+% * file: path to check
+%% Outputs
+% * ok: true if path is a character device
+% * b: backend used
+%
 % Windows: Console handles
 %   CONIN$, CONOUT$, STDIN, STDOUT, STDERR are not detected. Only NUL is detected.
 %   in our C-API-based Ffilesystem library, we use GetFileType() with CreateFile() to
@@ -11,13 +17,13 @@
 % Ref: https://learn.microsoft.com/en-us/windows/console/console-handles
 
 
-function ok = is_char_device(file, backend)
+function [ok, b] = is_char_device(file, backend)
 arguments
   file {mustBeTextScalar}
   backend (1,:) string = ["python", "sys"]
 end
 
-fun = hbackend(backend, "is_char_device");
+[fun, b] = hbackend(backend, "is_char_device");
 
 ok = fun(file);
 

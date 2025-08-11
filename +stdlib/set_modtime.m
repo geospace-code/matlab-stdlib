@@ -1,13 +1,21 @@
 %% SET_MODTIME set modification time of path
+%
+%%% Inputs
+% * p: path to modify
+% * t: new modification time
+% * backend: backend to use
+%%% Outputs
+% * ok: true if successful
+% * b: backend used
 
-function ok = set_modtime(p, t, backend)
+function [ok, b] = set_modtime(p, t, backend)
 arguments
   p {mustBeTextScalar}
   t (1,1) datetime
   backend (1,:) string = ["java", "python", "sys"]
 end
 
-fun = hbackend(backend, "set_modtime");
+[fun, b] = hbackend(backend, "set_modtime");
 
 ok = fun(p, t);
 

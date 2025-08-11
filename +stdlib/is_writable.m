@@ -1,10 +1,11 @@
 %% IS_WRITABLE is path writable
 %
 %%% Inputs
-% file: path to file or folder
+% * file: path to file or folder
+% * backend: backend to use
 %% Outputs
-% ok: true if file is writable
-% b: backend used
+% * ok: true if file is writable
+% * b: backend used
 
 function [ok, b] = is_writable(file, backend)
 arguments

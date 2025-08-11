@@ -9,6 +9,7 @@
 %%% Inputs
 % * p: path to make canonical
 % * strict: if true, only return canonical path if it exists. If false, return normalized path if path does not exist.
+% * backend: backend to use
 %%% Outputs
 % * c: canonical path, if determined
 % * b: backend used
