@@ -1,6 +1,6 @@
 function o = get_owner(p)
 
-o = '';
+o = "";
 if ~stdlib.exists(p)
   return
 end
@@ -15,7 +15,7 @@ end
 
 [s, m] = system(cmd);
 if s == 0
-  o = strip(m);
+  o = string(strip(m));
 end
 
 end

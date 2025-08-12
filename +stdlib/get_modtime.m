@@ -1,17 +1,17 @@
 %% GET_MODTIME get path modification time
 %
 %%% Inputs
-% * p: path to examine
+% * file: path to examine
 %%% Outputs
 % * t: modification time, or empty if path does not exist
 
-function t = get_modtime(p)
+function t = get_modtime(file)
 arguments
-  p {mustBeTextScalar}
+  file
 end
 
-finf = dir(p);
-if isfolder(p)
+finf = dir(file);
+if isfolder(file)
   % find which index of the struct array has member name == '.'
   i = find(strcmp({finf.name}, '.'), 1);
   finf = finf(i);

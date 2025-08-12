@@ -1,19 +1,24 @@
 %% GET_OWNER owner name of file or directory
 %
 %%% Inputs
-% * p: path to examine
+% * file: path to examine
+% * backend: backend to use
 %%% Outputs
 % * n: owner, or empty if path does not exist
 % * b: backend used
 
 function [n, b] = get_owner(file, backend)
 arguments
-  file {mustBeTextScalar}
+  file string
   backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
 [fun, b] = hbackend(backend, "get_owner");
 
-n = fun(file);
+if isscalar(file)
+  n = fun(file);
+else
+  n = arrayfun(fun, file);
+end
 
 end

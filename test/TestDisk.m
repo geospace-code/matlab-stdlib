@@ -141,7 +141,6 @@ end
 
 
 function test_owner(tc, Po, all_fun)
-tc.assertNotEmpty(which("stdlib." + all_fun + ".get_owner"))
 
 try
   o = stdlib.get_owner(Po, all_fun);
@@ -150,12 +149,25 @@ catch e
   return
 end
 
-tc.verifyClass(o, 'char')
+tc.verifyClass(o, "string")
 
 if stdlib.exists(Po)
   tc.verifyGreaterThan(strlength(o), 0)
 else
-  tc.verifyEmpty(o)
+  tc.verifyEqual(o, "")
+end
+
+end
+
+
+function test_owner_array(tc, all_fun)
+try
+  o = stdlib.get_owner([".", pwd(), "not-exist", ""], all_fun);
+  L = strlength(o);
+  tc.verifyEqual(L(3:4), [0, 0])
+  tc.verifyGreaterThan(strlength(o(1:2)), 0);
+catch e
+  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 
 end

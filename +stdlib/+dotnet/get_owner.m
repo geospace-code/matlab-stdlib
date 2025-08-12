@@ -15,12 +15,12 @@ if isfolder(p)
 elseif isfile(p)
   fsec = System.IO.File.GetAccessControl(p);
 else
-  o = '';
+  o = string.empty;
   return
 end
 
 owner = fsec.GetOwner(ntAccountType);
 
-o = char(owner.ToString());
+o = string(owner.ToString());
 
 end
