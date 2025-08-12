@@ -9,9 +9,6 @@
 % * names: variable names
 
 function names = h4variables(file)
-arguments
-  file {mustBeTextScalar}
-end
 
 finf = hdfinfo(file);
 

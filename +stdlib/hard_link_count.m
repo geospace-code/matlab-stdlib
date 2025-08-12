@@ -12,12 +12,15 @@
 
 function [c, b] = hard_link_count(file, backend)
 arguments
-  file {mustBeTextScalar}
+  file string
   backend (1,:) string = ["java", "python", "sys"]
 end
 
 [fun, b] = hbackend(backend, "hard_link_count");
 
-c = fun(file);
-
+if isscalar(file)
+  c = fun(file);
+else
+  c = arrayfun(fun, file);
+end
 end

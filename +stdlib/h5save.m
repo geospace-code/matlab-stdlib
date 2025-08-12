@@ -24,7 +24,7 @@ arguments
   varname (1,1) string
   A {mustBeNonempty}
   opts.size (1,:) double {mustBeInteger,mustBeNonnegative} = []
-  opts.type {mustBeTextScalar} = ''
+  opts.type (1,1) string = ""
   opts.compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0
 end
 

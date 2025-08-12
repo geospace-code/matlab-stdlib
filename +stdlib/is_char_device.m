@@ -5,6 +5,7 @@
 %
 %% Inputs
 % * file: path to check
+% * backend: backend to use
 %% Outputs
 % * ok: true if path is a character device
 % * b: backend used
@@ -19,12 +20,16 @@
 
 function [ok, b] = is_char_device(file, backend)
 arguments
-  file {mustBeTextScalar}
+  file string
   backend (1,:) string = ["python", "sys"]
 end
 
 [fun, b] = hbackend(backend, "is_char_device");
 
-ok = fun(file);
+if isscalar(file)
+  ok = fun(file);
+else
+  ok = arrayfun(fun, file);
+end
 
 end

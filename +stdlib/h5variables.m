@@ -10,8 +10,8 @@
 
 function names = h5variables(file, group)
 arguments
-  file {mustBeTextScalar}
-  group {mustBeTextScalar} = ''
+  file
+  group (1,1) string = ""
 end
 
 if stdlib.strempty(group)
@@ -23,11 +23,9 @@ end
 ds = finf.Datasets;
 
 if isempty(ds)
-  names = [];
+  names = string.empty;
 else
-  names = {ds.Name};
+  names = string({ds.Name});
 end
-
-names = string(names);
 
 end
