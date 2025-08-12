@@ -4,7 +4,8 @@
 %
 %%% Inputs
 % * file: file or to hash
-% * method:  "MD5", "SHA-1", "SHA-256", etc.
+% * hash_method:  "MD5", "SHA-1", "SHA-256", etc.
+% * backend: backend to use
 %%% Outputs
 % * hash: string hash
 % * b: backend used
@@ -13,8 +14,8 @@
 
 function [hash, b] = file_checksum(file, hash_method, backend)
 arguments
-  file {mustBeTextScalar}
-  hash_method {mustBeTextScalar}
+  file
+  hash_method
   backend (1,:)  string = ["java", "dotnet", "sys"]
 end
 

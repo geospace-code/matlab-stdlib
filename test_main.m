@@ -22,7 +22,7 @@ else
   suite = testsuite(test_root, 'Tag', tags, 'InvalidFileFoundAction', "error");
 end
 
-% selectIf takes the subset of suite tests meet "sel" conditions
+% selectIf takes the subset of suite tests that meet "sel" conditions
 suite = suite.selectIf(sel);
 
 runner = TestRunner.withTextOutput;

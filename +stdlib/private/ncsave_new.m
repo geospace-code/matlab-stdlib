@@ -3,9 +3,9 @@
 
 function ncsave_new(file, varname, A, sizeA, ncdims, compressLevel)
 arguments
-  file {mustBeTextScalar}
-  varname {mustBeTextScalar}
-  A {mustBeNonempty}
+  file
+  varname
+  A
   sizeA (1,:) double {mustBeInteger,mustBeNonnegative} = []
   ncdims (1,:) cell = {}
   compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0

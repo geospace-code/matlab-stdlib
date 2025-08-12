@@ -10,7 +10,7 @@
 
 function [f, b] = disk_capacity(filepath, backend)
 arguments
-  filepath {mustBeTextScalar}
+  filepath
   backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 

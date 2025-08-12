@@ -1,7 +1,7 @@
-function t = filesystem_type(p)
+function t = filesystem_type(file)
 
-if stdlib.exists(p)
-  t = char(javaMethod("getFileStore", "java.nio.file.Files", javaPathObject(p)).type);
+if stdlib.exists(file)
+  t = char(java.nio.file.Files.getFileStore(javaPathObject(file)).type);
 else
   t = '';
 end

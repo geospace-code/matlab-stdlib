@@ -100,7 +100,6 @@ end
 function test_size(tc)
 import matlab.unittest.constraints.IsScalar
 
-
 s = stdlib.ncsize(tc.file, 'A0');
 tc.verifyEmpty(s)
 

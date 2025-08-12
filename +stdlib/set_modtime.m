@@ -8,15 +8,15 @@
 % * ok: true if successful
 % * b: backend used
 
-function [ok, b] = set_modtime(p, t, backend)
+function [ok, b] = set_modtime(file, t, backend)
 arguments
-  p {mustBeTextScalar}
+  file
   t (1,1) datetime
   backend (1,:) string = ["java", "python", "sys"]
 end
 
 [fun, b] = hbackend(backend, "set_modtime");
 
-ok = fun(p, t);
+ok = fun(file, t);
 
 end

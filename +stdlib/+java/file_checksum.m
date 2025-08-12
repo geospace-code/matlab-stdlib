@@ -12,7 +12,7 @@ file_chunk = 10e6;  % arbitrary (bytes) didn't seem to be very sensitive for spe
 fid = fopen(file, 'r');
 assert(fid > 1, "could not open file %s", file)
 
-inst = javaMethod("getInstance", "java.security.MessageDigest", hash_method);
+inst = java.security.MessageDigest.getInstance(hash_method);
 while ~feof(fid)
   % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#update(byte)
   inst.update(fread(fid, file_chunk, '*uint8'));

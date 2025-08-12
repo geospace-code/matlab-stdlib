@@ -4,13 +4,14 @@
 %
 %% Inputs
 % * file: path to check
+% * backend: backend to use
 %% Outputs
 % * t: filesystem type
 % * b: backend used
 
 function [t, b] = filesystem_type(file, backend)
 arguments
-  file {mustBeTextScalar}
+  file
   backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 

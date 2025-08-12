@@ -8,7 +8,7 @@
 function [OK,newSizeBytes,freebytes] = checkRAM(newSize, myclass)
 arguments
   newSize (1,:) {mustBeNumeric}
-  myclass {mustBeTextScalar}
+  myclass
 end
 
 % get available RAM

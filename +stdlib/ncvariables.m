@@ -10,8 +10,8 @@
 
 function names = ncvariables(file, group)
 arguments
-  file {mustBeTextScalar}
-  group {mustBeTextScalar} = ''
+  file
+  group (1,1) string = ""
 end
 
 

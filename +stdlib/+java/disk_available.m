@@ -1,5 +1,6 @@
-function f = disk_available(d)
+function i = disk_available(file)
 
-f = uint64(javaObject("java.io.File", d).getUsableSpace());
+i = java.io.File(file).getUsableSpace();
 
+i = uint64(i);
 end

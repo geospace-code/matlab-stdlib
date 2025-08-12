@@ -1,16 +1,16 @@
-function ok = set_modtime(p, dt)
+function ok = set_modtime(file, dt)
 
 ok = false;
-if ~isfile(p), return, end
+if ~isfile(file), return, end
 
 utc = convertTo(datetime(dt, 'TimeZone', "UTC"), "posixtime");
 
 try
-  s = py.os.stat(p);
-  py.os.utime(p, py.tuple([s.st_atime, utc]));
+  s = py.os.stat(file);
+  py.os.utime(file, py.tuple([s.st_atime, utc]));
   ok = true;
 catch e
-  warning(e.identifier, "set_modtime(%s, %s) failed: %s", p, utc, e.message);
+  warning(e.identifier, "set_modtime(%s, %s) failed: %s", file, utc, e.message);
   ok = false;
 end
 

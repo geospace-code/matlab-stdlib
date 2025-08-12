@@ -3,9 +3,9 @@
 
 function ncsave_exist(filename, varname, A, sizeA)
 arguments
-  filename {mustBeTextScalar}
-  varname {mustBeTextScalar}
-  A {mustBeNonempty}
+  filename
+  varname
+  A
   sizeA (1,:) {mustBePositive, mustBeInteger}
 end
 

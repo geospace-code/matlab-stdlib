@@ -10,8 +10,8 @@
 
 function r = version_atleast(in, ref)
 arguments
-  in {mustBeTextScalar}
-  ref {mustBeTextScalar}
+  in (1,1) string
+  ref (1,1) string
 end
 
 

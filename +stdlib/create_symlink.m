@@ -9,8 +9,8 @@
 
 function [ok, b] = create_symlink(target, link, backend)
 arguments
-  target {mustBeTextScalar}
-  link {mustBeTextScalar}
+  target
+  link
   backend (1,:) string = ["native", "dotnet", "python", "sys"]
 end
 

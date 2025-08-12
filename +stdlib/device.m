@@ -8,7 +8,7 @@
 
 function [i, b] = device(file, backend)
 arguments
-  file {mustBeTextScalar}
+  file
   backend (1,:) string = ["java", "python", "sys"]
 end
 
