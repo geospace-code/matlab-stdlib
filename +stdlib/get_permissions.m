@@ -4,18 +4,19 @@
 %
 %% Inputs
 % * file: path to check
+% * backend: backend to use
 %% Outputs
 % * p: permissions string
 % * b: backend used
 
-function [p, b] = get_permissions(file, backend)
+function [perm, b] = get_permissions(file, backend)
 arguments
-  file {mustBeTextScalar}
+  file (1,1) string
   backend (1,:) string = ["native", "legacy"]
 end
 
 [fun, b] = hbackend(backend, "get_permissions", 'R2025a');
 
-p = fun(file);
+perm = fun(file);
 
 end
