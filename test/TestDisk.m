@@ -16,13 +16,12 @@ py_sys = {'python', 'sys'}
 end
 
 methods(TestClassSetup)
-function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(p)
+function test_dirs(tc)
+  pkg_path(tc)
 end
 end
 
-methods (Test)
+methods (Test, TestTags=["R2019b", "impure"])
 
 function test_disk_ac(tc, Ps, all_fun, disk_ac_name)
 n = "stdlib." + all_fun + "." + disk_ac_name;
@@ -113,10 +112,7 @@ end
 
 function test_remove_file(tc)
 
-tc.assumeFalse(isMATLABReleaseOlderThan('R2022a'))
-d = tc.createTemporaryFolder();
-
-f = tempname(d);
+f = tempname();
 
 tc.verifyFalse(stdlib.remove(f), "should not succeed at removing non-existant path")
 

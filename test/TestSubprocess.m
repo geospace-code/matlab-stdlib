@@ -7,16 +7,13 @@ end
 
 
 methods(TestClassSetup)
-
-function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(p)
+function test_dirs(tc)
+  pkg_path(tc)
 end
-
 end
 
 
-methods (Test, TestTags="exe")
+methods (Test, TestTags=["R2019b", "exe"])
 
 function test_stdout_stderr(tc, lang_out)
 import matlab.unittest.constraints.IsFile
@@ -101,7 +98,7 @@ end
 end
 
 
-methods (Test, TestTags="java_exe")
+methods (Test, TestTags=["R2019b", "java_exe"])
 
 function test_Java_stdout_stderr(tc, lang_out)
 import matlab.unittest.constraints.IsFile
@@ -152,12 +149,7 @@ end
 
 
 function test_java_cwd(tc)
-
-if isMATLABReleaseOlderThan('R2022a')
-  td = tempdir;
-else
-  td = tc.createTemporaryFolder();
-end
+td = createTempdir(tc);
 
 if ispc
   c = ["cmd", "/c", "dir"];

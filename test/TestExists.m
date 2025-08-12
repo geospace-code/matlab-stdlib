@@ -16,13 +16,12 @@ icm = {'python', 'sys'}
 end
 
 methods(TestClassSetup)
-function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(p)
+function test_dirs(tc)
+  pkg_path(tc)
 end
 end
 
-methods (Test, TestTags="impure")
+methods (Test, TestTags=["R2019b", "impure"])
 
 function test_exists(tc, Ps)
 ok = stdlib.exists(Ps{1});
@@ -73,7 +72,6 @@ end
 
 tc.verifyTrue(y)
 end
-
 
 end
 end

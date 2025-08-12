@@ -15,16 +15,16 @@ all_fun = {'java', 'python', 'dotnet', 'sys'}
 end
 
 methods(TestClassSetup)
-function pkg_path(tc)
+function setup_paths(tc)
 tc.cwd = fileparts(mfilename('fullpath'));
 tc.root = fileparts(tc.cwd);
-p = matlab.unittest.fixtures.PathFixture(tc.root);
-tc.applyFixture(p)
+
+pkg_path(tc)
 end
 end
 
 
-methods (Test, TestTags="impure")
+methods (Test, TestTags=["R2019b", "impure"])
 
 function test_toolbox_used(tc)
 [mathworksUsed, userFun] = stdlib.toolbox_used(fullfile(tc.root, "+stdlib"));

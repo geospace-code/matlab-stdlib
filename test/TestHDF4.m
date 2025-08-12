@@ -9,15 +9,12 @@ function setup_file(tc)
 import matlab.unittest.constraints.IsFile
 tc.file = fullfile(matlabroot, "toolbox/matlab/demos/example.hdf");
 tc.assumeThat(tc.file, IsFile)
-end
 
-function pkg_path(tc)
-msp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(msp)
+pkg_path(tc)
 end
 end
 
-methods (Test, TestTags="hdf4")
+methods (Test, TestTags=["R2019b", "hdf4"])
 
 function test_exists(tc)
 import matlab.unittest.constraints.IsScalar

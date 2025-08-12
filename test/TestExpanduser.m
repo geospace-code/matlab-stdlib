@@ -5,13 +5,12 @@ p = init_exp()
 end
 
 methods(TestClassSetup)
-function pkg_path(tc)
-fsp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(fsp)
+function test_dirs(tc)
+  pkg_path(tc)
 end
 end
 
-methods(Test, TestTags="impure")
+methods(Test, TestTags=["R2019b", "impure"])
 
 function test_expanduser(tc, p)
 tc.verifyEqual(stdlib.expanduser(p{1}), p{2})

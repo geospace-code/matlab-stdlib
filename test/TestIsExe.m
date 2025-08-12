@@ -15,13 +15,12 @@ backend = {'java', 'python', 'native', 'legacy'}
 end
 
 methods(TestClassSetup)
-function pkg_path(tc)
-msp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(msp)
+function test_dirs(tc)
+  pkg_path(tc)
 end
 end
 
-methods(Test, TestTags="impure")
+methods(Test, TestTags=["R2019b", "impure"])
 
 function test_is_exe(tc, p, backend)
 try

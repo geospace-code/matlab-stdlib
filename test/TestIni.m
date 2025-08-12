@@ -1,14 +1,13 @@
 classdef TestIni < matlab.unittest.TestCase
 
 methods(TestClassSetup)
-function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(p)
+function test_dirs(tc)
+  pkg_path(tc)
 end
 end
 
 
-methods (Test)
+methods (Test, TestTags=["R2019b", "impure"])
 
 function test_example(tc)
 import matlab.unittest.constraints.IsFile

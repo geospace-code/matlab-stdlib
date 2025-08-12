@@ -1,8 +1,5 @@
 classdef TestRelative < matlab.unittest.TestCase
 
-properties
-td
-end
 
 properties (TestParameter)
 pr = init_rel()
@@ -11,14 +8,13 @@ rel_fun = {"native", "python"}
 end
 
 methods(TestClassSetup)
-function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(p)
+function test_dirs(tc)
+  pkg_path(tc)
 end
 end
 
 
-methods (Test)
+methods (Test, TestTags=["R2019b", "pure"])
 
 function test_relative_to(tc, pr, rel_fun)
 try

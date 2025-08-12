@@ -14,12 +14,15 @@ else
 end
 test_root = fullfile(cwd, "test");
 
+tags = releaseTestTags();
+
 if isMATLABReleaseOlderThan('R2022b')
-  suite = testsuite(test_root);
+  suite = testsuite(test_root, 'Tag', tags);
 else
-  suite = testsuite(test_root, 'InvalidFileFoundAction', "error");
+  suite = testsuite(test_root, 'Tag', tags, 'InvalidFileFoundAction', "error");
 end
 
+% selectIf takes the subset of suite tests meet "sel" conditions
 suite = suite.selectIf(sel);
 
 runner = TestRunner.withTextOutput;

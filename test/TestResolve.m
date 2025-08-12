@@ -1,42 +1,17 @@
 classdef TestResolve < matlab.unittest.TestCase
 
-properties
-td
-end
-
 properties (TestParameter)
 p = {'', "", ".", ".."}
 end
 
 methods(TestClassSetup)
-
-function pkg_path(tc)
-slp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(slp)
-end
-
-function set_temp_wd(tc)
-if isMATLABReleaseOlderThan('R2022a')
-  tc.td = tempname();
-  mkdir(tc.td);
-else
-  tc.td = tc.createTemporaryFolder();
-end
-tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(tc.td))
-end
-end
-
-methods(TestClassTeardown)
-function remove_temp_wd(tc)
-if isMATLABReleaseOlderThan('R2022a')
-  [s, m, i] = rmdir(tc.td, 's');
-  if ~s, warning(i, "Failed to remove temporary directory %s: %s", tc.td, m); end
-end
+function test_dirs(tc)
+  pkg_path(tc)
 end
 end
 
 
-methods (Test, TestTags="impure")
+methods (Test, TestTags=["R2019b", "impure"])
 
 function test_resolve_relative(tc)
 import matlab.unittest.constraints.StartsWithSubstring
@@ -68,12 +43,14 @@ tc.verifyThat(va, StartsWithSubstring(extractBefore(vb, 3)))
 end
 
 function test_resolve_fullpath(tc, p)
+td = createTempdir(tc);
+tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(td))
 
-  a = p;
-  switch a
-    case {'', "", '.', "."}, b = string(tc.td);
-    case {'..', ".."}, b = string(fileparts(tc.td));
-  end
+a = p;
+switch a
+  case {'', "", '.', "."}, b = string(td);
+  case {'..', ".."}, b = string(fileparts(td));
+end
 
 tc.verifyEqual(stdlib.resolve(a), b)
 end

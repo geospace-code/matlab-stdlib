@@ -1,7 +1,6 @@
 classdef TestHash < matlab.unittest.TestCase
 
 properties
-td
 file
 end
 
@@ -12,17 +11,14 @@ backend = {'java', 'dotnet', 'sys'}
 end
 
 methods(TestClassSetup)
-function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(p)
+function test_dirs(tc)
+  pkg_path(tc)
 end
 
 function create_file(tc)
-tc.assumeFalse(isMATLABReleaseOlderThan('R2022a'))
+td = createTempdir(tc);
 
-tc.td = tc.createTemporaryFolder();
-
-tc.file = tc.td + "/hello";
+tc.file = td + "/hello";
 fid = fopen(tc.file, "w");
 
 tc.assumeGreaterThan(fid, 0);
@@ -34,7 +30,7 @@ end
 end
 
 
-methods (Test)
+methods (Test, TestTags=["R2019b", "impure"])
 
 function test_hash_text(tc, Ph, backend)
 try

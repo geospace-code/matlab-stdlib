@@ -7,13 +7,12 @@ backend = {'pattern', 'regexp'}
 end
 
 methods(TestClassSetup)
-function pkg_path(tc)
-msp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(msp)
+function test_dirs(tc)
+  pkg_path(tc)
 end
 end
 
-methods (Test, TestTags="pure")
+methods (Test, TestTags=["R2019b", "pure"])
 
 function test_filename(tc, p, backend)
 fn = stdlib.filename(p{1}, backend);

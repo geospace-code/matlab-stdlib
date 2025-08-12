@@ -10,14 +10,13 @@ v = {{"11.1", "9.3", true}, ...
 end
 
 methods(TestClassSetup)
-function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(p)
+function test_dirs(tc)
+  pkg_path(tc)
 end
 end
 
 
-methods (Test, TestTags="pure")
+methods (Test, TestTags=["R2019b", "pure"])
 
 function test_version(tc, v)
 tc.verifyEqual(stdlib.version_atleast(v{1}, v{2}), v{3})

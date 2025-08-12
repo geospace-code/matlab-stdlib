@@ -26,10 +26,7 @@ methods(TestMethodSetup)
 % needs to be per-method because multiple functions are used to make the same files
 
 function setup_symlink(tc)
-
-tc.assumeFalse(isMATLABReleaseOlderThan('R2022a'))
-
-tc.td = tc.createTemporaryFolder();
+tc.td = createTempdir(tc);
 
 tc.link = fullfile(tc.td, 'my.lnk');
 
@@ -42,7 +39,7 @@ end
 
 
 
-methods (Test, TestTags=["impure", "symlink"])
+methods (Test, TestTags=["R2019b", "impure", "symlink"])
 
 function test_is_symlink(tc, p, ir_backend)
 tc.assertNotEmpty(which("stdlib." + ir_backend + ".is_symlink"))

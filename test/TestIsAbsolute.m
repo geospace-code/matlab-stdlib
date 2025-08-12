@@ -7,13 +7,12 @@ pw = {{"x:/foo", true}, {"/foo", false}}
 end
 
 methods(TestClassSetup)
-function pkg_path(tc)
-fsp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(fsp)
+function test_dirs(tc)
+  pkg_path(tc)
 end
 end
 
-methods (Test, TestTags="pure")
+methods (Test, TestTags=["R2019b", "pure"])
 
 function test_is_absolute(tc, p)
 ok = stdlib.is_absolute(p{1});
@@ -23,7 +22,7 @@ end
 end
 
 
-methods (Test, TestTags=["pure", "unix"])
+methods (Test, TestTags=["R2019b", "pure", "unix"])
 
 function test_is_absolute_unix(tc, pu)
 tc.assumeTrue(isunix())
@@ -34,7 +33,7 @@ end
 end
 
 
-methods (Test, TestTags=["pure", "windows"])
+methods (Test, TestTags=["R2019b", "pure", "windows"])
 
 function test_is_absolute_windows(tc, pw)
 tc.assumeTrue(ispc())

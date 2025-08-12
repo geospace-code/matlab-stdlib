@@ -18,13 +18,13 @@ p = {...
 end
 
 methods(TestClassSetup)
-function pkg_path(tc)
-fsp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(fsp)
+function test_dirs(tc)
+  pkg_path(tc)
 end
 end
 
-methods (Test, TestTags="pure")
+methods (Test, TestTags=["R2019b", "pure"])
+
 function test_stem(tc, p)
 tc.verifyEqual(stdlib.stem(p{1}), p{2})
 end

@@ -19,20 +19,11 @@ type = {"single", "double", ...
             "uint8", "uint16", "uint32", "uint64", "string"}
 end
 
-methods(TestClassSetup)
-
-function pkg_path(tc)
-msp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(msp)
-end
-
-function set_temp_wd(tc)
-if isMATLABReleaseOlderThan('R2022a')
-  tc.td = tempname();
-  mkdir(tc.td);
-else
-  tc.td = tc.createTemporaryFolder();
-end
+% per method to avoid race conditions
+methods(TestMethodSetup)
+function test_dirs(tc)
+  tc.td = createTempdir(tc);
+  pkg_path(tc)
 end
 
 function setup_file(tc)
@@ -72,17 +63,8 @@ end
 
 end
 
-methods(TestClassTeardown)
-function remove_temp_wd(tc)
-if isMATLABReleaseOlderThan('R2022a')
-  [s, m, i] = rmdir(tc.td, 's');
-  if ~s, warning(i, "Failed to remove temporary directory %s: %s", tc.td, m); end
-end
-end
-end
 
-
-methods (Test, TestTags="hdf5")
+methods (Test, TestTags=["R2019b", "hdf5"])
 
 function test_auto_chunk_size(tc)
 
@@ -257,8 +239,18 @@ a = h5read(tc.file, "/Ai1");
 tc.verifyEqual(a, int8([1;2]))
 end
 
-function test_string(tc, str)
+function test_real_only(tc)
 
+tc.verifyError(@() stdlib.h5save(tc.file, "/bad_imag", 1j), 'MATLAB:validators:mustBeReal')
+tc.verifyError(@() stdlib.h5variables(tc.file, '/nothere'), 'MATLAB:imagesci:h5info:unableToFind')
+end
+
+end
+
+
+methods (Test, TestTags=["R2020b", "hdf5"])
+
+function test_string(tc, str)
 tc.assumeFalse(isMATLABReleaseOlderThan("R2020b"))
 
 stdlib.h5save(tc.file, "/"+str, str)
@@ -271,13 +263,6 @@ stdlib.h5save(tc.file, "/"+str, str+"hi")
 
 a = h5read(tc.file, "/"+str);
 tc.verifyEqual(a, char(str+"hi"))
-end
-
-
-function test_real_only(tc)
-
-tc.verifyError(@() stdlib.h5save(tc.file, "/bad_imag", 1j), 'MATLAB:validators:mustBeReal')
-tc.verifyError(@() stdlib.h5variables(tc.file, '/nothere'), 'MATLAB:imagesci:h5info:unableToFind')
 end
 
 end

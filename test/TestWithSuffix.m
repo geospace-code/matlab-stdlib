@@ -15,13 +15,12 @@ p = {{"foo.h5", ".nc", "foo.nc"},...
 end
 
 methods(TestClassSetup)
-function pkg_path(tc)
-fsp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(fsp)
+function test_dirs(tc)
+  pkg_path(tc)
 end
 end
 
-methods (Test, TestTags="true")
+methods (Test, TestTags=["R2019b", "pure"])
 function test_with_suffix(tc, p)
 
 r = p{3};

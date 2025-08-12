@@ -10,24 +10,14 @@ A4
 utf0
 utf1
 utf2
-td
 end
 
 methods (TestClassSetup)
 
-function set_temp_wd(tc)
-if isMATLABReleaseOlderThan('R2022a')
-  tc.td = tempname();
-  mkdir(tc.td);
-else
-  tc.td = tc.createTemporaryFolder();
-end
+function test_dirs(tc)
+  pkg_path(tc)
 end
 
-function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(p)
-end
 
 function setup_file(tc)
 
@@ -41,8 +31,8 @@ tc.utf0 = 'Hello There 😄';
 tc.utf1 = [tc.utf0; "☎"];
 tc.utf2 = [tc.utf0, "☎"; "📞", "👋"];
 
-
-tc.file = tc.td + "/basic.nc";
+td = createTempdir(tc);
+tc.file = td + "/basic.nc";
 
 % create test data first, so that parallel tests works
 stdlib.ncsave(tc.file, 'A0', tc.A0)
@@ -66,19 +56,9 @@ end
 end
 
 
-methods(TestClassTeardown)
-function remove_temp_wd(tc)
-if isMATLABReleaseOlderThan('R2022a')
-  [s, m, i] = rmdir(tc.td, 's');
-  if ~s, warning(i, "Failed to remove temporary directory %s: %s", tc.td, m); end
-end
-end
-end
+methods (Test, TestTags=["R2019b", "netcdf"])
 
-
-methods (Test, TestTags="netcdf")
-
-function test_betcdf_version(tc)
+function test_netcdf_version(tc)
 tc.verifyTrue(stdlib.version_atleast(stdlib.nc_get_version(), "4.7"), "version unexpected")
 end
 
@@ -142,20 +122,6 @@ tc.verifyEqual(s, [4,3,2,5])
 
 end
 
-function test_size_string(tc)
-
-tc.assumeFalse(isMATLABReleaseOlderThan('R2021b'), "NetCDF4 string requires Matlab >= R2021b")
-
-s = stdlib.ncsize(tc.file, 'utf0');
-tc.verifyEmpty(s)
-
-s = stdlib.ncsize(tc.file, 'utf1');
-tc.verifyEqual(s, 2)
-
-s = stdlib.ncsize(tc.file, 'utf2');
-tc.verifyEqual(s, [2, 2])
-end
-
 
 function test_read(tc)
 import matlab.unittest.constraints.IsScalar
@@ -182,8 +148,53 @@ tc.verifyEqual(ndims(s), 4)
 tc.verifyEqual(s, tc.A4)
 end
 
-function test_read_string(tc)
 
+function test_coerce(tc)
+
+for type = ["single", "double", ...
+            "int8", "int16", "int32", "int64", ...
+            "uint8", "uint16", "uint32", "uint64"]
+
+  stdlib.ncsave(tc.file, type, 0, "type", type)
+
+  tc.verifyClass(ncread(tc.file, type), type)
+end
+
+end
+
+
+function test_rewrite(tc)
+tc.A2 = 3*magic(4);
+stdlib.ncsave(tc.file, "A2", tc.A2, "dims", {'x2', size(tc.A2,1), 'y2', size(tc.A2,2)})
+
+tc.verifyEqual(ncread(tc.file, 'A2'), 3*magic(4))
+end
+
+
+function test_real_only(tc)
+tc.verifyError(@() stdlib.ncsave(tc.file, "bad_imag", 1j), 'MATLAB:validators:mustBeReal')
+end
+
+end
+
+
+methods (Test, TestTags=["R2021b", "netcdf"])
+
+function test_size_string(tc)
+tc.assumeFalse(isMATLABReleaseOlderThan('R2021b'), "NetCDF4 string requires Matlab >= R2021b")
+
+s = stdlib.ncsize(tc.file, 'utf0');
+tc.verifyEmpty(s)
+
+s = stdlib.ncsize(tc.file, 'utf1');
+tc.verifyEqual(s, 2)
+
+s = stdlib.ncsize(tc.file, 'utf2');
+tc.verifyEqual(s, [2, 2])
+end
+
+
+function test_read_string(tc)
 tc.assumeFalse(isMATLABReleaseOlderThan('R2021b'), "NetCDF4 string requires Matlab >= R2021b")
 
 s = ncread(tc.file, 'utf0');
@@ -199,38 +210,7 @@ tc.verifyClass(s, 'string')
 tc.verifyEqual(s, tc.utf2)
 end
 
-
-function test_coerce(tc)
-
-
-for type = ["single", "double", ...
-            "int8", "int16", "int32", "int64", ...
-            "uint8", "uint16", "uint32", "uint64"]
-
-  stdlib.ncsave(tc.file, type, 0, "type", type)
-
-  tc.verifyClass(ncread(tc.file, type), type)
 end
 
-end
-
-
-function test_rewrite(tc)
-
-
-tc.A2 = 3*magic(4);
-stdlib.ncsave(tc.file, "A2", tc.A2, "dims", {'x2', size(tc.A2,1), 'y2', size(tc.A2,2)})
-
-tc.verifyEqual(ncread(tc.file, 'A2'), 3*magic(4))
-end
-
-
-function test_real_only(tc)
-
-
-tc.verifyError(@() stdlib.ncsave(tc.file, "bad_imag", 1j), 'MATLAB:validators:mustBeReal')
-end
-
-end
 
 end

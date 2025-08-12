@@ -6,14 +6,13 @@ p_is_subdir = init_is_subdir()
 end
 
 methods(TestClassSetup)
-function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(p)
+function test_dirs(tc)
+  pkg_path(tc)
 end
 end
 
 
-methods (Test, TestTags="pure")
+methods (Test, TestTags=["R2019b", "pure"])
 
 function test_is_subdir(tc, p_is_subdir)
 tc.verifyEqual(stdlib.is_subdir(p_is_subdir{1}, p_is_subdir{2}), p_is_subdir{3}, ...

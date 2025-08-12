@@ -11,13 +11,12 @@ backend = {'sys', 'java', 'python', 'native'}
 end
 
 methods(TestClassSetup)
-function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(p)
+function test_dirs(tc)
+  pkg_path(tc)
 end
 end
 
-methods(Test)
+methods(Test, TestTags=["R2019b", "impure"])
 
 function test_samepath(tc, p_same, backend)
 tc.assertNotEmpty(which("stdlib." + backend + ".samepath"))

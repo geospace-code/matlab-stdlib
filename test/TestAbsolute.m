@@ -11,33 +11,16 @@ end
 
 
 methods(TestClassSetup)
-function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(p)
-end
+function test_dirs(tc)
+  tc.td = createTempdir(tc);
+  pkg_path(tc)
 
-function set_temp_wd(tc)
-if isMATLABReleaseOlderThan('R2022a')
-  tc.td = tempname();
-  mkdir(tc.td);
-else
-  tc.td = tc.createTemporaryFolder();
-end
-tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(tc.td))
-end
-end
-
-methods(TestClassTeardown)
-function remove_temp_wd(tc)
-if isMATLABReleaseOlderThan('R2022a')
-  [s, m, i] = rmdir(tc.td, 's');
-  if ~s, warning(i, "Failed to remove temporary directory %s: %s", tc.td, m); end
-end
+  tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(tc.td))
 end
 end
 
 
-methods(Test, TestTags="pure")
+methods(Test, TestTags=["R2019b", "pure"])
 
 function test_absolute1arg(tc, p1)
 

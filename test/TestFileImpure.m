@@ -8,14 +8,13 @@ end
 
 
 methods(TestClassSetup)
-function pkg_path(tc)
-p = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(p)
+function test_dirs(tc)
+  pkg_path(tc)
 end
 end
 
 
-methods (Test, TestTags="impure")
+methods (Test, TestTags=["R2019b", "impure"])
 
 function test_file_size(tc, p_file_size)
 s = stdlib.file_size(p_file_size);

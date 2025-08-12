@@ -1,13 +1,12 @@
 classdef TestJava < matlab.unittest.TestCase
 
 methods(TestClassSetup)
-function pkg_path(tc)
-msp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(msp)
+function test_dirs(tc)
+  pkg_path(tc)
 end
 end
 
-methods(Test, TestTags="java")
+methods(Test, TestTags=["R2019b", "java"])
 
 function test_java_vendor(tc)
 v = stdlib.java_vendor();
