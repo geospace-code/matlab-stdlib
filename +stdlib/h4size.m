@@ -8,17 +8,17 @@
 
 function fsize = h4size(file, variable)
 arguments
-  file {mustBeTextScalar}
-  variable {mustBeTextScalar}
+  file
+  variable (1,1) string
 end
 
 sds = hdfinfo(file).SDS;
 
-i = string(sds.Name) == variable;
-if ~all(i)
+i = {sds.Name} == variable;
+if ~any(i)
   error(variable + " is not an SDS in " + file)
 end
 
-fsize = cell2mat({sds(i).Dims.Size});
+fsize = [sds(i).Dims.Size];
 
 end
