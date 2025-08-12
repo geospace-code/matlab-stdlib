@@ -15,7 +15,7 @@ if isfolder(p)
 elseif isfile(p)
   fsec = System.IO.File.GetAccessControl(p);
 else
-  o = string.empty;
+  o = "";
   return
 end
 

@@ -12,7 +12,7 @@
 
 function [ok, featureName] = checkout_license(packageName)
 arguments
-  packageName {mustBeTextScalar}
+  packageName (1,1) string
 end
 
 ok = false;

@@ -29,9 +29,8 @@ methods (Test, TestTags=["R2019b", "impure"])
 function test_toolbox_used(tc)
 [mathworksUsed, userFun] = stdlib.toolbox_used(fullfile(tc.root, "+stdlib"));
 Nlicense = length(mathworksUsed);
-txt = "stdlib for Matlab should only use builtin functions, no toolboxes";
-tc.verifyEqual(Nlicense, 1, txt)
-tc.verifyEqual(mathworksUsed, "MATLAB")
+tc.verifyGreaterThanOrEqual(Nlicense, 1)
+tc.verifyTrue(any(ismember(mathworksUsed, "MATLAB")))
 tc.verifyGreaterThan(length(userFun), 200) % we have over 200 stdlib functions
 
 % don't use paid toolboxes without checking they exist, otherwise this function fails

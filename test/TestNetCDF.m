@@ -85,12 +85,6 @@ end
 function test_exists(tc)
 import matlab.unittest.constraints.IsScalar
 
-
-e = stdlib.ncexists(tc.file, "");
-
-tc.verifyThat(e, IsScalar)
-tc.verifyFalse(e)
-
 tc.verifyTrue(stdlib.ncexists(tc.file, "A1"))
 tc.verifyFalse(stdlib.ncexists(tc.file, "not-exist"))
 

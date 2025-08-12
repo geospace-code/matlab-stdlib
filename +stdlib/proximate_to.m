@@ -10,8 +10,8 @@
 
 function [rel, b] = proximate_to(base, other, backend)
 arguments
-  base {mustBeTextScalar}
-  other {mustBeTextScalar}
+  base (1,1) string
+  other (1,1) string
   backend (1,:) string = ["python", "native"]
 end
 

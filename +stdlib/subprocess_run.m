@@ -29,8 +29,8 @@ function [status, msg] = subprocess_run(cmd, opt)
 arguments
   cmd (1,:) string
   opt.env struct {mustBeScalarOrEmpty} = struct.empty
-  opt.cwd {mustBeTextScalar} = ''
-  opt.stdin {mustBeTextScalar} = ''
+  opt.cwd (1,1) string = ""
+  opt.stdin (1,1) string = ""
   opt.stdout (1,1) logical = true
   opt.stderr (1,1) logical = true
   opt.echo (1,1) logical = false

@@ -14,12 +14,16 @@
 
 function [ok, b] = is_mount(filepath, backend)
 arguments
-  filepath {mustBeTextScalar}
+  filepath string
   backend (1,:) string = ["python", "sys"]
 end
 
 [fun, b] = hbackend(backend, "is_mount");
 
-ok = fun(filepath);
+if isscalar(filepath)
+  ok = fun(filepath);
+else
+  ok = arrayfun(fun, filepath);
+end
 
 end

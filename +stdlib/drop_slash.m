@@ -1,19 +1,19 @@
 %% DROP_SLASH drop repeated and trailing slash
 %
 
-function d = drop_slash(p)
+function d = drop_slash(filepath)
 arguments
-  p {mustBeTextScalar}
+  filepath string
 end
 
-s = stdlib.posix(p);
+s = stdlib.posix(filepath);
 
 % drop repeated slashes inside string
 d = regexprep(s, '/+', '/');
 
 % drop all trailing slashes
-if ~strcmp(d, '/') && ~strcmp(d, stdlib.root(s))
-  d = regexprep(d, '/$', '');
-end
+i = ~strcmp(d, '/') & ~strcmp(d, stdlib.root(s));
+
+d(i) = regexprep(d(i), '/$', '');
 
 end

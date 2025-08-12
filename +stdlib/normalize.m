@@ -14,12 +14,16 @@
 
 function [n, b] = normalize(file, backend)
 arguments
-  file {mustBeTextScalar}
+  file string
   backend (1,:) string = ["java", "python", "native"]
 end
 
 [fun, b] = hbackend(backend, "normalize");
 
-n = fun(file);
+if isscalar(file)
+  n = fun(file);
+else
+  n = arrayfun(fun, file);
+end
 
 end

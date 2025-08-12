@@ -12,11 +12,11 @@
 
 function readme = publish_gen_index_html(pkg_name, tagline, project_url, outdir, styleFile)
 arguments
-  pkg_name {mustBeTextScalar}
-  tagline {mustBeTextScalar}
-  project_url {mustBeTextScalar}
-  outdir {mustBeTextScalar}
-  styleFile {mustBeFile}
+  pkg_name (1,1) string
+  tagline (1,1) string
+  project_url (1,1) string
+  outdir (1,1) string
+  styleFile (1,1) string
 end
 
 pkg = what("+" + pkg_name);

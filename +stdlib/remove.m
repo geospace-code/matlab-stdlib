@@ -4,21 +4,18 @@
 % open files on Windows. This function mitigates that limitation by returning
 % a boolean success status.
 
-function ok = remove(p)
-arguments
-  p {mustBeTextScalar}
-end
-
+function ok = remove(filepath)
 ok = false;
 
-if ~stdlib.exists(p)
+if ~stdlib.exists(filepath)
   return
 end
 
+% have to clear last warning before checking if lastwarning exists!
 lastwarn('')
 
 try %#ok<*TRYNC>
-  delete(p);
+  delete(filepath);
   ok = true;
 end
 

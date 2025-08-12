@@ -8,12 +8,16 @@
 
 function [i, b] = inode(file, backend)
 arguments
-  file {mustBeTextScalar}
+  file string
   backend (1,:) string = ["java", "python", "sys"]
 end
 
 [fun, b] = hbackend(backend, "inode");
 
-i = fun(file);
+if isscalar(file)
+  i = fun(file);
+else
+  i = arrayfun(fun, file);
+end
 
 end

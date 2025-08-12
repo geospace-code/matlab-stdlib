@@ -11,12 +11,16 @@
 
 function [ok, b] = is_removable(filepath, backend)
 arguments
-  filepath {mustBeTextScalar}
+  filepath string
   backend (1,:) string = ["dotnet", "sys"]
 end
 
 [fun, b] = hbackend(backend, "is_removable");
 
-ok = fun(filepath);
+if isscalar(filepath)
+  ok = fun(filepath);
+else
+  ok = arrayfun(fun, filepath);
+end
 
 end

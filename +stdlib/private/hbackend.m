@@ -7,7 +7,7 @@ function [fun, m] = hbackend(backend, name, minVersion)
 arguments
   backend (1,:) string
   name (1,1) string
-  minVersion {mustBeTextScalar} = ''
+  minVersion (1,1) string = ""
 end
 
 for m = backend

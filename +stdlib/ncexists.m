@@ -7,22 +7,16 @@
 % * exists: boolean
 
 function exists = ncexists(file, variable)
-arguments
-  file {mustBeTextScalar}
-  variable {mustBeTextScalar}
-end
-
-exists = false;
 
 try
   ncinfo(file, variable);
   exists = true;
 catch e
-  if ~any(strcmp(e.identifier, {'MATLAB:imagesci:netcdf:badLocationString', 'MATLAB:imagesci:netcdf:unknownLocation'})) && ...
-     strcmp(e.message, {'NetCDF: Variable not found'})
-
+  if e.identifier ~= "MATLAB:imagesci:netcdf:unknownLocation"
     rethrow(e)
   end
+
+  exists = false;
 end
 
 end

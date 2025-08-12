@@ -3,7 +3,7 @@
 
 function pexe = installMatlabPackageManager(installDir)
 arguments
-  installDir {mustBeTextScalar} = fileparts(mfilename('fullpath'))
+  installDir (1,1) string = fileparts(mfilename('fullpath'))
 end
 
 arch = computer('arch');

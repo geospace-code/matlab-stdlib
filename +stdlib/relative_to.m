@@ -1,11 +1,11 @@
 %% RELATIVE_TO relative path to base
 %
 %%% Inputs
-% * base {mustBeTextScalar}
-% * other {mustBeTextScalar}
+% * base: directory to which the other path should be relative
+% * other: path to be made relative
 % * backend: backend to use
 %%% Outputs
-% * rel {mustBeTextScalar}
+% * rel: relative path from base to other
 % * b: backend used
 %
 % Note: Java Path.relativize has an algorithm so different that we choose not to use it.
@@ -14,8 +14,8 @@
 
 function [rel, b] = relative_to(base, other, backend)
 arguments
-  base {mustBeTextScalar}
-  other {mustBeTextScalar}
+  base (1,1) string
+  other (1,1) string
   backend (1,:) string = ["python", "native"]
 end
 

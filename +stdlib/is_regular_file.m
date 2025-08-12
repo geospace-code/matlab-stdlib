@@ -1,17 +1,13 @@
 %% IS_REGULAR_FILE check if path is a regular file
 % requires: java
 
-function r = is_regular_file(p)
-arguments
-  p {mustBeTextScalar}
-end
-
+function r = is_regular_file(file)
 % needs absolute()
-p = stdlib.absolute(p, pwd());
+file = stdlib.absolute(file);
 
-op = javaPathObject(p);
-opt = javaMethod("values", "java.nio.file.LinkOption");
+op = javaPathObject(file);
+opt = java.nio.file.LinkOption.values();
 
-r = javaMethod("isRegularFile", "java.nio.file.Files", op, opt);
+r = java.nio.file.Files.isRegularFile(op, opt);
 
 end

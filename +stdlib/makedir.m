@@ -1,21 +1,27 @@
-%% MAKEDIR make dtory and check for success
+%% MAKEDIR make directory and check for success
 % malformed paths can be "created" but are not accessible.
 % This function works around that bug in Matlab mkdir().
 
-function makedir(d)
+function makedir(direc)
 arguments
-  d {mustBeTextScalar}
+  direc string
 end
 
 %% to avoid confusing making ./~/mydir
-d = stdlib.expanduser(d);
-
-if isfolder(d)
-  return
+for i = numel(direc)
+  direc(i) = stdlib.expanduser(direc(i));
 end
 
-mkdir(d);
+i = ~stdlib.strempty(direc) & ~isfolder(direc);
 
-assert(isfolder(d), "stdlib:makedir:mkdir", "Failed to create %s", d)
+for d = direc(i)
+  [~] = mkdir(d);
+end
+
+ok = isfolder(direc(i));
+
+if nargout == 0
+  assert(all(ok), "Failed to create directories: %s", strjoin(direc(~ok), ", "));
+end
 
 end

@@ -3,16 +3,12 @@
 % duplicated slashes are dropped
 
 function s = is_prefix(prefix, pth)
-arguments
-  prefix {mustBeTextScalar}
-  pth {mustBeTextScalar}
-end
 
 pr = stdlib.drop_slash(prefix);
 p = stdlib.drop_slash(pth);
 
 Lp = strlength(p);
 
-s = Lp && startsWith(p, pr) && (Lp >= strlength(pr));
+s = Lp & startsWith(p, pr) & (Lp >= strlength(pr));
 
 end

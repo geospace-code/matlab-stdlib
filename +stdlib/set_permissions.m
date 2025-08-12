@@ -12,7 +12,7 @@
 
 function [ok, b] = set_permissions(file, readable, writable, executable, backend)
 arguments
-  file {mustBeTextScalar}
+  file (1,1) string
   readable (1,1) {mustBeInteger, mustBeInRange(readable, -1, 1)}
   writable (1,1) {mustBeInteger, mustBeInRange(writable, -1, 1)}
   executable (1,1) {mustBeInteger, mustBeInRange(executable, -1, 1)}
