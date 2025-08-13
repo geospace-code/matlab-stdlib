@@ -1,4 +1,5 @@
 %% PLATFORM_TELL - Display information about the platform and environment
+% designed to work back to R2016b
 
 function json = platform_tell()
 
@@ -8,10 +9,10 @@ catch
   r = "R" + version('-release');
 end
 
-raw = struct("matlab_release", r, ...
-"matlab_arch", computer('arch'), ...
-"hdf5", stdlib.h5get_version(), ...
-"netcdf", stdlib.nc_get_version());
+raw = struct('matlab_release', r, ...
+'matlab_arch', computer('arch'), ...
+'hdf5', stdlib.h5get_version(), ...
+'netcdf', stdlib.nc_get_version());
 
 if stdlib.has_java()
   raw.java_vendor = stdlib.java_vendor();
@@ -35,21 +36,26 @@ end
 
 for lang = ["C", "Cpp", "Fortran"]
   co = mex.getCompilerConfigurations(lang);
+  ct = ['compiler_' lang{1}];
+  vt = ['compiler_' lang{1} '_version'];
+  raw.(ct) = "";
+  raw.(vt) = "";
 
   if ~isempty(co)
-    raw.("compiler_" + lang) = co.ShortName;
-    raw.("compiler_" + lang + "_version") = co.Version;
+    raw.(ct) = co.ShortName;
+    raw.(vt) = co.Version;
   end
 end
 
 try
   json = jsonencode(raw, "PrettyPrint", true);
 catch e
-  if e.identifier ~= "MATLAB:json:UnmatchedParameter"
-    rethrow(e)
+  switch e.identifier
+    case {'MATLAB:json:UnmatchedParameter', 'MATLAB:maxrhs'}
+      json = jsonencode(raw);
+    otherwise
+      rethrow(e)
   end
-
-  json = jsonencode(raw);
 end
 
 end
