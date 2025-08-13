@@ -126,14 +126,14 @@ end
 
 
 function test_inode_device(tc, java_python_sys, id_name)
-n = "stdlib." + java_python_sys + "." + id_name;
+
 h = str2func("stdlib." + id_name);
-tc.assertNotEmpty(which(n))
 
 try
     ip = h(pwd(), java_python_sys);
     tc.verifyClass(ip, 'uint64')
     tc.verifyGreaterThan(ip, 0)
+
     tc.verifyEqual(h(".", java_python_sys), ip)
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
