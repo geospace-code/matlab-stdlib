@@ -1,7 +1,7 @@
 function test_main(context, sel)
 arguments
   context = []
-  sel = ~HasTag("exe") & ~HasTag("mex") & ~HasTag("java_exe")
+  sel = ~HasTag("exe") & ~HasTag("java_exe")
 end
 
 import matlab.unittest.TestRunner

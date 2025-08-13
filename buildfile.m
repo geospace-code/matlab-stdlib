@@ -3,11 +3,11 @@ import matlab.unittest.selectors.HasTag
 
 plan = buildplan(localfunctions);
 
-cnomex = ~HasTag("exe") & ~HasTag("mex") & ~HasTag("java") & ~HasTag("java_exe") & ~HasTag("python");
+sel = ~HasTag("exe") & ~HasTag("java") & ~HasTag("java_exe") & ~HasTag("python");
 if ispc()
-  cnomex = cnomex & ~HasTag("unix");
+  sel = sel & ~HasTag("unix");
 else
-  cnomex = cnomex & ~HasTag("windows");
+  sel = sel & ~HasTag("windows");
 end
 
 reportDir = fullfile(plan.RootFolder, ".buildtool");
@@ -15,29 +15,34 @@ pkg_root = fullfile(plan.RootFolder, "+stdlib");
 test_root = fullfile(plan.RootFolder, "test");
 
 if ~isMATLABReleaseOlderThan("R2023b")
-  plan("clean") = matlab.buildtool.tasks.CleanTask;
+  plan("clean") = matlab.buildtool.tasks.CleanTask();
 end
 
 if isMATLABReleaseOlderThan("R2024b")
 
-  plan("test_main") = matlab.buildtool.Task(Actions=@(context) test_main(context, cnomex));
+  plan("test_main") = matlab.buildtool.Task(Actions=@(context) test_main(context, sel));
+  plan("test_java") = matlab.buildtool.tasks.TestTask(test_root, Tag="java");
+
+  plan("test") = matlab.buildtool.Task(Dependencies=["test_main", "test_java"]);
 
   if isMATLABReleaseOlderThan('R2023b')
     return
   end
 
-  plan("test_java") = matlab.buildtool.tasks.TestTask(test_root, Tag="java");
+  plan("test_java_exe") = matlab.buildtool.tasks.TestTask(test_root, Tag="java_exe", Dependencies="exe");
   plan("test_exe") = matlab.buildtool.tasks.TestTask(test_root, Tag="exe", Dependencies="exe");
+
+  plan("test").Dependencies = [plan("test").Dependencies, "test_java_exe", "test_exe"];
 
 elseif isMATLABReleaseOlderThan("R2025a")
   % Matlab == R2024b
-  plan("test:main") = matlab.buildtool.Task(Actions=@(context) test_main(context, cnomex));
+  plan("test:main") = matlab.buildtool.Task(Actions=@(context) test_main(context, sel));
 
 else
   % Matlab >= R2025a
   plan("test:main") = matlab.buildtool.tasks.TestTask(...
     test_root, Description="Test non-MEX targets", ...
-    Selector=cnomex, ...
+    Selector=sel, ...
     SourceFiles=pkg_root, ...
     RunOnlyImpactedTests=stdlib.checkout_license("MATLAB Test"), ...
     TestResults=reportDir + "/TestResults_nomex.xml", Strict=true);

@@ -35,7 +35,7 @@ runs:
     uses: matlab-actions/run-build@v2
     with:
       startup-options: ${{ matrix.startup-options }}
-      tasks: test_java
+      tasks: test_java test_java_exe
 
 
   - name: Exe Test (>= R2024b)
