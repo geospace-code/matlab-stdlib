@@ -12,6 +12,9 @@ These system, filesystem, and HDF5 / HDF4 / NetCDF functions are used across num
 
 Matlab R2019b is the minimum required due to use of
 [function argument validation](https://www.mathworks.com/help/matlab/ref/arguments.html).
+Full functionality on macOS and Windows require minimum of Matlab R2020b (most functions work in R2019b and newer).
+Full functionality on Linux with minimum Matlab R2019b.
+
 
 ## Self-tests
 

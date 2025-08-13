@@ -12,8 +12,8 @@ end
 
 methods(TestClassSetup)
 function test_dirs(tc)
-  tc.td = createTempdir(tc);
   pkg_path(tc)
+  tc.td = createTempdir(tc);
 
   tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(tc.td))
 end
