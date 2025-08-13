@@ -13,8 +13,8 @@
 % HPC with "module load python3..."
 
 function v = python_version(force_old)
-arguments
-  force_old (1,1) logical = false
+if nargin < 1
+  force_old = false;
 end
 
 persistent stdlib_py_version

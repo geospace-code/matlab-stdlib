@@ -8,10 +8,6 @@
 % fsize: vector of variable size per dimension. Empty if scalar variable.
 
 function fsize = ncsize(file, variable)
-arguments
-  file
-  variable
-end
 
 dsi = ncinfo(file, variable);
 if isempty(dsi.Dimensions)
