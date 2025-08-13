@@ -59,22 +59,14 @@ end
 
 function test_is_char_device(tc, icm)
 % /dev/stdin may not be available on CI systems
-if ispc
-  n = "NUL";
-else
-  n = "/dev/null";
-end
-
-tc.assertNotEmpty(which("stdlib." + icm + ".is_char_device"))
+n = stdlib.null_file();
 
 try
-  y = stdlib.is_char_device(n, icm);
+  tc.verifyTrue(stdlib.is_char_device(n, icm), n)
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
-  return
 end
 
-tc.verifyTrue(y)
 end
 
 end

@@ -1,8 +1,14 @@
-function y = is_char_device(file)
+function ok = is_char_device(file)
 
-cmd = sprintf('test -c %s', file);
+if ispc()
+  % https://learn.microsoft.com/en-us/windows/console/console-handles
+  charDevs = ["NUL", "CONIN$", "CONOUT$"];
+  ok = any(contains(file, charDevs));
+else
+  cmd = sprintf('test -c %s', file);
 
-[s, ~] = system(cmd);
-y = s == 0;
+  [s, ~] = system(cmd);
+  ok = s == 0;
+end
 
 end

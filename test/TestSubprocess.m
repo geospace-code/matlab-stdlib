@@ -26,8 +26,8 @@ else
   c = 'pwd';
 end
 
-% leave on for debugging.
-cmd_echo = true;
+% true for debugging echo of command.
+cmd_echo = false;
 
 [s, m] = stdlib.subprocess_run(c, 'echo', cmd_echo);
 tc.assertEqual(s, 0, "status non-zero")
