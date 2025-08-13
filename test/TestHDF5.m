@@ -46,7 +46,7 @@ tc.assertTrue(stdlib.is_hdf5(tc.file))
 
 stdlib.h5save(tc.file, '/A1', tc.A1)
 stdlib.h5save(tc.file, '/A2', tc.A2)
-stdlib.h5save(tc.file, '/A3', tc.A3, size=size(tc.A3))
+stdlib.h5save(tc.file, '/A3', tc.A3, 'size', size(tc.A3))
 stdlib.h5save(tc.file, '/A4', tc.A4)
 
 if ~stdlib.matlabOlderThan("R2020b")

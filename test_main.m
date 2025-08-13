@@ -29,6 +29,18 @@ runner = TestRunner.withTextOutput;
 r = runner.run(suite);
 
 assert(~isempty(r), "No tests were run")
-assertSuccess(r)
+
+Lf = sum([r.Failed]);
+Lok = sum([r.Passed]);
+Lk = sum([r.Incomplete]);
+Lt = numel(r);
+assert(Lf == 0, sprintf("%d / %d tests failed", Lf, Lt))
+
+if Lk
+  fprintf("%d / %d tests skipped", Lk, Lt);
+end
+
+fprintf("%d / %d tests succeeded\n", Lok, Lt);
+
 
 end

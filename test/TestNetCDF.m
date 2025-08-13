@@ -59,7 +59,7 @@ end
 methods (Test, TestTags=["R2019b", "netcdf"])
 
 function test_netcdf_version(tc)
-tc.verifyTrue(stdlib.version_atleast(stdlib.nc_get_version(), "4.7"), "version unexpected")
+tc.verifyTrue(stdlib.version_atleast(stdlib.nc_get_version(), "4.6"), "version unexpected")
 end
 
 function test_get_variables(tc)

@@ -23,7 +23,14 @@ end
 tc.verifyEqual(pr, p{2}, sprintf("parent(%s, %s)", p{1}, backend))
 end
 
+end
+
+
+methods (Test, TestTags=["R2020b", "pure"])
+
 function test_parent_array(tc)
+tc.assumeFalse(stdlib.matlabOlderThan('R2020b'))
+
 in =  ["",  ".", "..", "../..", "a/", "a/b", "ab/.parent", "ab/.parent.txt", "a/b/../.parent.txt"];
 exp = [".", ".", ".", "..",     ".",  "a",   "ab",         "ab",             fullfile("a", "b", "..")];
 
@@ -32,7 +39,6 @@ tc.verifyEqual(out, exp)
 end
 
 end
-
 end
 
 

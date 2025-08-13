@@ -27,14 +27,18 @@ r = p{3};
 
 tc.verifyEqual(stdlib.with_suffix(p{1}, p{2}), r)
 end
+end
+
+
+methods (Test, TestTags=["R2020b", "pure"])
 
 function test_with_suffix_array(tc)
+tc.assumeFalse(stdlib.matlabOlderThan('R2020b'))
 in = ["", ".txt", "a/b/c.txt", "a/b/c.txt.gz", "a/b/c"];
 new = [".txt", ".gz", "", ".bz", ".nc"];
 exp = [".txt", ".txt.gz", "a/b/c", "a/b/c.txt.bz", "a/b/c.nc"];
 out = stdlib.with_suffix(in, new);
 tc.verifyEqual(out, exp)
-
 end
 end
 

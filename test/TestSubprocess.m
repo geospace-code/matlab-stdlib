@@ -32,11 +32,11 @@ tc.assertEqual(status, 0)
 tc.verifySubstring(msg, 'stderr')
 tc.verifySubstring(msg, 'stdout')
 
-[status, msg] = stdlib.subprocess_run(exe, stdout=false);
+[status, msg] = stdlib.subprocess_run(exe, 'stdout', false);
 tc.assertEqual(status, 0)
 tc.verifyEqual(msg, 'stderr')
 
-[status, msg] = stdlib.subprocess_run(exe, stderr=false);
+[status, msg] = stdlib.subprocess_run(exe, 'stderr', false);
 tc.assertEqual(status, 0)
 tc.verifySubstring(msg, 'stdout')
 end
@@ -48,7 +48,7 @@ cwd = fileparts(mfilename('fullpath'));
 exe = fullfile(cwd, "stdin_" + lang_in + ".exe");
 tc.assumeThat(exe, matlab.unittest.constraints.IsFile)
 
-[status, msg] = stdlib.subprocess_run(exe, stdin="1 2");
+[status, msg] = stdlib.subprocess_run(exe, 'stdin', "1 2");
 
 if ispc()
   tc.assumeNotEqual(status, -1073741515, "GCC DLLs probably not on PATH")
@@ -71,7 +71,7 @@ end
 tc.assertEqual(s, 0, "status non-zero")
 tc.verifyGreaterThan(strlength(m), 0, "empty directory not expected")
 
-[s, mc] = stdlib.subprocess_run(c, cwd=matlabroot);
+[s, mc] = stdlib.subprocess_run(c, 'cwd', matlabroot);
 tc.assertEqual(s, 0, "status non-zero")
 tc.verifyNotEqual(m, mc, "expected different directory to have different contents")
 
@@ -84,11 +84,11 @@ cwd = fileparts(mfilename('fullpath'));
 exe = fullfile(cwd, 'printenv.exe');
 tc.assumeThat(exe, matlab.unittest.constraints.IsFile)
 
-env = struct(TEST1='test123', TEST2='test321');
+env = struct('TEST1', 'test123', 'TEST2', 'test321');
 n = fieldnames(env);
 
 for i = 1:numel(n)
-  [ret, out] = stdlib.subprocess_run(strjoin({exe, n{i}}), env=env);
+  [ret, out] = stdlib.subprocess_run(strjoin({exe, n{i}}), 'env', env);
   tc.verifyEqual(ret, 0)
   tc.verifySubstring(out, env.(n{i}))
 end
@@ -136,7 +136,7 @@ switch lang_in
   otherwise, tc.assertTrue(false, "Unknown language: " + lang_in)
 end
 
-[status, msg, err] = stdlib.java_run(exe, stdin="1 2");
+[status, msg, err] = stdlib.java_run(exe, 'stdin', "1 2");
 
 if ispc()
   tc.assumeNotEqual(status, -1073741515, "GCC DLLs probably not on PATH")
@@ -162,7 +162,7 @@ tc.assertEqual(s, 0, "status non-zero")
 tc.verifyGreaterThan(strlength(m), 0, "empty directory not expected")
 tc.verifyEqual(strlength(e), 0, e)
 
-[s, mc, e] = stdlib.java_run(c, cwd=td);
+[s, mc, e] = stdlib.java_run(c, 'cwd', td);
 tc.assertEqual(s, 0, "status non-zero")
 tc.verifyNotEqual(m, mc, "expected different directory to have different contents")
 tc.verifyEqual(strlength(e), 0, e)
@@ -182,7 +182,7 @@ vals = ["test123", "test321"];
 env = struct(names(1), vals(1), names(2), vals(2));
 
 for i = 1:length(names)
-  [ret, out] = stdlib.java_run([exe, names(i)], env=env);
+  [ret, out] = stdlib.java_run([exe, names(i)], 'env', env);
   tc.verifyEqual(ret, 0)
   tc.verifySubstring(out, vals(i))
 end
@@ -197,7 +197,7 @@ cwd = fileparts(mfilename('fullpath'));
 exe = cwd + "/sleep.exe";
 tc.assumeThat(exe, matlab.unittest.constraints.IsFile)
 
-[ret, ~, err] = stdlib.java_run(exe, timeout=1, stdout=false, stderr=false);
+[ret, ~, err] = stdlib.java_run(exe, 'timeout', 1, 'stdout', false, 'stderr', false);
 
 tc.verifyNotEqual(ret, 0, err)
 tc.verifyThat(err, StartsWithSubstring("Subprocess timeout"))

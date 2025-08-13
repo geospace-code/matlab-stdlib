@@ -2,8 +2,13 @@
 
 function json = platform_tell()
 
-r = matlabRelease();
-raw = struct("matlab_release", r.Release, ...
+try
+  r = matlabRelease().Release;
+catch
+  r = "R" + version('-release');
+end
+
+raw = struct("matlab_release", r, ...
 "matlab_arch", computer('arch'), ...
 "cpu_arch", stdlib.cpu_arch(), ...
 "hdf5", stdlib.h5get_version(), ...
@@ -38,6 +43,14 @@ for lang = ["C", "Cpp", "Fortran"]
   end
 end
 
-json = jsonencode(raw, "PrettyPrint", true);
+try
+  json = jsonencode(raw, "PrettyPrint", true);
+catch e
+  if e.identifier ~= "MATLAB:json:UnmatchedParameter"
+    rethrow(e)
+  end
+
+  json = jsonencode(raw);
+end
 
 end

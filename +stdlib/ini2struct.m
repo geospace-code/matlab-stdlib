@@ -4,9 +4,6 @@
 % Based on init2struct.m by Andriy Nych
 
 function Struct = ini2struct(filename)
-arguments
-  filename {mustBeFile}
-end
 
 f = fopen(filename,'r');                    % open file
 

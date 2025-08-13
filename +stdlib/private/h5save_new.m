@@ -23,14 +23,15 @@ if isscalar(sizeA)
     h5save_scalar(filename, varname, A)
     return
   else
-    h5create(filename, varname, sizeA, Datatype=class(A))
+    h5create(filename, varname, sizeA, 'Datatype', class(A))
   end
 elseif ~compressLevel || stdlib.isoctave()
-  h5create(filename, varname, sizeA, Datatype=class(A))
+  h5create(filename, varname, sizeA, 'Datatype', class(A))
 else
-  h5create(filename, varname, sizeA, Datatype=class(A), Fletcher32=true, Shuffle=true, ...
-      Chunksize=stdlib.auto_chunk_size(sizeA), ...
-      Deflate=compressLevel)
+  h5create(filename, varname, sizeA, 'Datatype', class(A), ...
+    'Fletcher32', true, 'Shuffle', true, ...
+    'Chunksize', stdlib.auto_chunk_size(sizeA), ...
+    'Deflate', compressLevel)
 end
 
 h5write(filename, varname, A)

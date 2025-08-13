@@ -28,7 +28,12 @@ function test_stem(tc, p)
 tc.verifyEqual(stdlib.stem(p{1}), p{2})
 end
 
+end
+
+methods (Test, TestTags=["R2020b", "pure"])
+
 function test_stem_array(tc)
+tc.assumeFalse(stdlib.matlabOlderThan('R2020b'))
 in = ["", ".txt", "a/b/c.txt", "a/b/c.txt.gz", "a/b/c"];
 exp = ["", ".txt", "c", "c.txt", "c"];
 out = stdlib.stem(in);

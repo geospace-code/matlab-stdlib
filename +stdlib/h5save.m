@@ -42,7 +42,7 @@ try
   h5save_exist(filename, varname, A, opts.size)
 catch e
   switch e.identifier
-    case {'MATLAB:imagesci:hdf5io:resourceNotFound', 'MATLAB:imagesci:h5info:unableToFind'}
+    case {'MATLAB:imagesci:hdf5io:resourceNotFound', 'MATLAB:imagesci:h5info:unableToFind', 'MATLAB:imagesci:h5info:fileOpenErr'}
       h5save_new(filename, varname, A, opts.size, opts.compressLevel)
     otherwise
       rethrow(e)
