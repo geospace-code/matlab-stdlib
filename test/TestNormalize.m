@@ -24,12 +24,12 @@ catch e
 end
 
 tc.verifyEqual(c, p{2}, ...
-  sprintf("normalize(%s)   mex: %d", p{1}, stdlib.is_mex_fun("stdlib.normalize")))
+  sprintf("normalize(%s)", p{1}))
 end
 
 function test_drop_slash(tc, d)
 tc.verifyEqual(stdlib.drop_slash(d{1}), d{2}, ...
-  sprintf("drop_slash(%s)   mex: %d", d{1}, stdlib.is_mex_fun("stdlib.drop_slash")))
+  sprintf("drop_slash(%s)", d{1}))
 end
 
 end

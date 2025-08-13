@@ -9,8 +9,6 @@
 %%% Outputs
 % * c: normalized path
 % * b: backend used
-%
-% MEX code is about 4-5x faster than plain Matlab below
 
 function [n, b] = normalize(file, backend)
 arguments
