@@ -5,7 +5,7 @@ ok = false;
 if ~isfile(file), return, end
 
 if ispc()
-  cmd = sprintf('pwsh -Command "(Get-Item ''%s'').LastWriteTime = ''%s''"', file, string(dt, "yyyy-MM-dd HH:mm:ss"));
+  cmd = sprintf('pwsh -c "(Get-Item ''%s'').LastWriteTime = ''%s''"', file, string(dt, "yyyy-MM-dd HH:mm:ss"));
 elseif ismac()
   cmd = sprintf("touch -mt %s %s", string(dt, "yyyyMMddHHmm"), file);
 else

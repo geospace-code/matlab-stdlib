@@ -7,7 +7,7 @@ if ~stdlib.is_symlink(p), return, end
 if isunix()
   cmd = sprintf('readlink -fn "%s"', p);
 else
-  cmd = sprintf('pwsh -command "(Get-Item -Path %s).Target"', p);
+  cmd = sprintf('pwsh -c "(Get-Item -Path %s).Target"', p);
 end
 
 [s, m] = system(cmd);
