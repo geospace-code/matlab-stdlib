@@ -5,31 +5,24 @@
 [![ci](https://github.com/geospace-code/matlab-stdlib/actions/workflows/ci.yml/badge.svg)](https://github.com/geospace-code/matlab-stdlib/actions/workflows/ci.yml)
 [![ci-nojvm](https://github.com/geospace-code/matlab-stdlib/actions/workflows/ci-nojvm.yml/badge.svg)](https://github.com/geospace-code/matlab-stdlib/actions/workflows/ci-nojvm.yml)
 
-Matlab or
-[GNU Octave](./Readme_octave.md)
-users coming from other languages will benefit from the functionality contained within this user-developed, unofficial "stdlib" standard library of functions.
-These system, filesystem, and HDF5 / HDF4 / NetCDF functions are used across numerous projects.
+Matlab users coming from other languages will benefit from the functionality contained within this user-developed, unofficial "stdlib" standard library of functions.
+These system, filesystem, and HDF5 / HDF4 / NetCDF functions are used by numerous independent projects.
 
-Matlab R2019b is the minimum required due to use of
+Matlab R2019b is the minimum version required due to use of
 [function argument validation](https://www.mathworks.com/help/matlab/ref/arguments.html).
-Full functionality on macOS and Windows require minimum of Matlab R2020b (most functions work in R2019b and newer).
-Full functionality on Linux with minimum Matlab R2019b.
+Full functionality is available with:
 
+* Linux: Matlab R2019b and newer
+* macOS, Windows: Matlab R2020b and newer
 
 ## Self-tests
 
-The self-tests require at least Matlab R2020b and can be run from the matlab-stdlib/ directory.
+The self-tests can be run from the top matlab-stdlib/ directory.
 
-Matlab R2024b and newer:
+Matlab R2022b and newer:
 
 ```matlab
 buildtool test
-```
-
-Matlab R2022b..R2024a, inclusive:
-
-```matlab
-buildtool test_main
 ```
 
 Matlab older than R2022b:
@@ -38,16 +31,23 @@ Matlab older than R2022b:
 test_main
 ```
 
-## Java-based functions
+## External language backends
 
-Most Matlab-stdlib filesystem functions work without the
-[Java interface](./Readme_java.md).
-If Matlab was started without Java using
-[-nojvm](https://www.mathworks.com/help/matlab/matlab_env/commonly-used-startup-options.html),
-most Matlab-stdlib functions still work.
-This
-[CI job](https://github.com/geospace-code/matlab-stdlib/actions/workflows/ci-nojvm.yml)
-tests without Java.
+Our functions that aren't possible in native Matlab code are implemented using Matlab's no-compile
+[external language interfaces](https://www.mathworks.com/support/requirements/language-interfaces.html).
+The
+[API listing](https://geospace-code.github.io/matlab-stdlib/)
+"backend" column tells which functions have selectable backend implementations.
+By default, when the "backend" is not specified to a function having selectable backend, the algorithm searches for the first available backend and uses that.
+The user can specify the backend as listed in the API for those functions by specifying say "java" etc. as available per-function.
+Normally the user will not specify the backend as we prioritize faster backends.
+
+* [.NET](https://www.mathworks.com/help/matlab/call-net-from-matlab.html)
+  * Windows: all supported Matlab releases
+  * Linux / macOS: R2024b and newer
+* [Java](https://www.mathworks.com/help/matlab/using-java-libraries-in-matlab.html): all supported Matlab releases. A few Java functions are Linux / macOS only, but have other backends available.
+* [Python](https://www.mathworks.com/help/matlab/call-python-libraries.html): Matlab R2022b and newer
+* System shell calls: all supported Matlab releases. As a backup when the platform doesn't have the primary (faster) methods available, the system shell can be called for some functions.
 
 ## Acknowledgments
 

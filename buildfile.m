@@ -21,7 +21,7 @@ end
 if isMATLABReleaseOlderThan("R2024b")
 
   plan("test_main") = matlab.buildtool.Task(Actions=@(context) test_main(context, sel));
-  plan("test_java") = matlab.buildtool.tasks.TestTask(test_root, Tag="java");
+  plan("test_java") = matlab.buildtool.Task(Actions=@(context) test_main(context, HasTag("java")));
 
   plan("test") = matlab.buildtool.Task(Dependencies=["test_main", "test_java"]);
 

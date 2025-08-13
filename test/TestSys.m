@@ -7,8 +7,6 @@ root
 end
 
 properties (TestParameter)
-fun = {@stdlib.isoctave, @stdlib.has_dotnet, ...
-       @stdlib.has_java, @stdlib.has_python}
 cpu_arch_fun = {'java', 'dotnet', 'native'}
 cr_method = {'sys', 'java', 'python'}
 all_fun = {'java', 'python', 'dotnet', 'sys'}
@@ -25,6 +23,15 @@ end
 
 
 methods (Test, TestTags=["R2019b", "impure"])
+
+function test_has_ext_lang(tc)
+
+tc.verifyClass(stdlib.isoctave(), 'logical')
+tc.verifyClass(stdlib.has_dotnet(), 'logical')
+tc.verifyClass(stdlib.has_java(), 'logical')
+tc.verifyClass(stdlib.has_python(), 'logical')
+
+end
 
 function test_toolbox_used(tc)
 [mathworksUsed, userFun] = stdlib.toolbox_used(fullfile(tc.root, "+stdlib"));
@@ -49,9 +56,6 @@ function test_platform_tell(tc)
 tc.verifyClass(stdlib.platform_tell(), 'char')
 end
 
-function test_platform_logical(tc, fun)
-tc.verifyClass(fun(), 'logical')
-end
 
 function test_is_cygwin(tc)
 tc.verifyFalse(stdlib.is_cygwin())
