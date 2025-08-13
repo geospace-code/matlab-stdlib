@@ -13,7 +13,7 @@ end
 r = repmat("", size(p));
 
 if ispc()
-  i = startsWith(p, textBoundary + lettersPattern(1) + ":");
+  i = startsWith(p, lettersPattern(1) + ":");
   r(i) = extractBefore(p(i), 3);
 end
 
