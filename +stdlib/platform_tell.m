@@ -6,7 +6,7 @@ function json = platform_tell()
 try
   r = matlabRelease().Release;
 catch
-  r = "R" + version('-release');
+  r = ['R' version('-release')];
 end
 
 raw = struct('matlab_release', r, ...
@@ -26,7 +26,7 @@ end
 
 pv = stdlib.python_version();
 if ~isempty(pv)
-  raw.python_version = sprintf("%d.%d.%d",pv(1), pv(2), pv(3));
+  raw.python_version = sprintf('%d.%d.%d', pv(1), pv(2), pv(3));
   raw.python_home = stdlib.python_home();
 end
 
@@ -34,12 +34,14 @@ if ismac()
   raw.xcode_version = stdlib.xcode_version();
 end
 
-for lang = ["C", "Cpp", "Fortran"]
+langs = {'C', 'Cpp', 'Fortran'};
+for i = 1:length(langs)
+  lang = langs{i};
   co = mex.getCompilerConfigurations(lang);
-  ct = ['compiler_' lang{1}];
-  vt = ['compiler_' lang{1} '_version'];
-  raw.(ct) = "";
-  raw.(vt) = "";
+  ct = ['compiler_' lang];
+  vt = ['compiler_' lang '_version'];
+  raw.(ct) = '';
+  raw.(vt) = '';
 
   if ~isempty(co)
     raw.(ct) = co.ShortName;
@@ -48,11 +50,13 @@ for lang = ["C", "Cpp", "Fortran"]
 end
 
 try
-  json = jsonencode(raw, "PrettyPrint", true);
+  json = jsonencode(raw, 'PrettyPrint', true);
 catch e
   switch e.identifier
     case {'MATLAB:json:UnmatchedParameter', 'MATLAB:maxrhs'}
       json = jsonencode(raw);
+    case 'MATLAB:UndefinedFunction'
+      json = raw;
     otherwise
       rethrow(e)
   end
