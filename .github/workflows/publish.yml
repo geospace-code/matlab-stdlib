@@ -6,7 +6,6 @@ on:
     paths:
     - "**.m"
     - ".github/workflows/publish.yml"
-    - "!octave_build.m"
     - "!scripts/**"
 
   # Allows you to run this workflow manually from the Actions tab

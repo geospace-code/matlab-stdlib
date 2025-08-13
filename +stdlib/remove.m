@@ -1,6 +1,6 @@
 %% REMOVE delete file or empty directory
 %
-% Matlab or GNU Octave delete() has trouble with not being able to delete
+% Matlab delete() has trouble with not being able to delete
 % open files on Windows. This function mitigates that limitation by returning
 % a boolean success status.
 

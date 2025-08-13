@@ -1,6 +1,6 @@
 %% IS_WSL detect if running under WSL
 %
-% Detects if Matlab or GNU Octave is installed and running from within
+% Detects if Matlab is installed and running from within
 % Windows Subsystem for Linux
 
 function w = is_wsl()
