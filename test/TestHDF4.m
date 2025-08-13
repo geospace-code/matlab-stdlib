@@ -1,4 +1,5 @@
-classdef TestHDF4 < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'hdf4'}) ...
+    TestHDF4 < matlab.unittest.TestCase
 
 properties
 file
@@ -6,15 +7,14 @@ end
 
 methods (TestClassSetup)
 function setup_file(tc)
-import matlab.unittest.constraints.IsFile
 tc.file = fullfile(matlabroot, "toolbox/matlab/demos/example.hdf");
-tc.assumeThat(tc.file, IsFile)
+tc.assertThat(tc.file, matlab.unittest.constraints.IsFile)
 
 pkg_path(tc)
 end
 end
 
-methods (Test, TestTags=["R2019b", "hdf4"])
+methods (Test)
 
 function test_exists(tc)
 import matlab.unittest.constraints.IsScalar

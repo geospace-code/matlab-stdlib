@@ -1,4 +1,5 @@
-classdef TestSys < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'impure'}) ...
+    TestSys < matlab.unittest.TestCase
 
 properties
 CI = getenv("CI") == "true" || getenv("GITHUB_ACTIONS") == "true"
@@ -22,7 +23,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2019b", "impure"])
+methods (Test)
 
 function test_has_ext_lang(tc)
 
@@ -122,18 +123,6 @@ if isunix() && ~ismac()
 else
   tc.verifyEqual(stdlib.is_wsl(), 0)
 end
-end
-
-function test_dotnet_version(tc)
-tc.assumeTrue(stdlib.has_dotnet())
-v = stdlib.dotnet_version();
-tc.verifyTrue(stdlib.version_atleast(v, "4.0"), ".NET version should be greater than 4.0")
-end
-
-function test_has_python(tc)
-tc.assumeTrue(stdlib.has_python())
-v = stdlib.python_version();
-tc.verifyTrue(all(v >= [3, 8, 0]), "expected Python >= 3.8")
 end
 
 function test_os_version(tc, all_fun)

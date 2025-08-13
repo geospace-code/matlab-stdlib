@@ -1,4 +1,5 @@
-classdef TestCanonical < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'impure'}) ...
+  TestCanonical < matlab.unittest.TestCase
 
 properties(TestParameter)
 p = {{'', ""}, ...
@@ -15,11 +16,13 @@ end
 methods(TestClassSetup)
 function test_dirs(tc)
   pkg_path(tc)
+
+  tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 end
 end
 
 
-methods(Test, TestTags=["R2019b", "impure"])
+methods(Test)
 
 function test_canonical(tc, p, backend)
 try

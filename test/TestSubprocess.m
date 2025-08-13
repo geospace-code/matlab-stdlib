@@ -1,4 +1,5 @@
-classdef TestSubprocess < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b'}) ...
+    TestSubprocess < matlab.unittest.TestCase
 
 properties (TestParameter)
 lang_out = {"c", "fortran"}
@@ -13,7 +14,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2019b", "exe"])
+methods (Test, TestTags={'exe'})
 
 function test_stdout_stderr(tc, lang_out)
 import matlab.unittest.constraints.IsFile
@@ -98,7 +99,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2019b", "java_exe"])
+methods (Test, TestTags={'java_exe'})
 
 function test_Java_stdout_stderr(tc, lang_out)
 import matlab.unittest.constraints.IsFile

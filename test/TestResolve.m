@@ -1,4 +1,5 @@
-classdef TestResolve < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'impure'}) ...
+  TestResolve < matlab.unittest.TestCase
 
 properties (TestParameter)
 p = {'', "", ".", ".."}
@@ -7,11 +8,13 @@ end
 methods(TestClassSetup)
 function test_dirs(tc)
   pkg_path(tc)
+
+  tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 end
 end
 
 
-methods (Test, TestTags=["R2019b", "impure"])
+methods (Test)
 
 function test_resolve_relative(tc)
 import matlab.unittest.constraints.StartsWithSubstring
@@ -43,13 +46,11 @@ tc.verifyThat(va, StartsWithSubstring(extractBefore(vb, 3)))
 end
 
 function test_resolve_fullpath(tc, p)
-td = createTempdir(tc);
-tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(td))
 
 a = p;
 switch a
-  case {'', "", '.', "."}, b = string(td);
-  case {'..', ".."}, b = string(fileparts(td));
+  case {'', "", '.', "."}, b = string(pwd());
+  case {'..', ".."}, b = string(fileparts(pwd()));
 end
 
 tc.verifyEqual(stdlib.resolve(a), b)

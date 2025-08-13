@@ -1,4 +1,5 @@
-classdef TestIsSubdir < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'pure'}) ...
+    TestIsSubdir < matlab.unittest.TestCase
 
 properties (TestParameter)
 p_is_prefix = init_is_prefix()
@@ -12,7 +13,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2019b", "pure"])
+methods (Test)
 
 function test_is_subdir(tc, p_is_subdir)
 tc.verifyEqual(stdlib.is_subdir(p_is_subdir{1}, p_is_subdir{2}), p_is_subdir{3}, ...

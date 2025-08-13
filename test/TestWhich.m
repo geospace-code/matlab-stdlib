@@ -1,4 +1,5 @@
-classdef TestWhich < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'impure'}) ...
+    TestWhich < matlab.unittest.TestCase
 
 properties (TestParameter)
 mexe = {matlabroot + "/bin/matlab", ...
@@ -11,7 +12,7 @@ function test_dirs(tc)
 end
 end
 
-methods (Test, TestTags=["R2019b", "impure"])
+methods (Test)
 
 function test_which_name(tc)
 

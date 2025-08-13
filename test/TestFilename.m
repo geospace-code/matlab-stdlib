@@ -1,8 +1,8 @@
-classdef TestFilename < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'pure'}) ...
+    TestFilename < matlab.unittest.TestCase
 
 properties (TestParameter)
 p = init_p()
-e = {'/a/b/c/', "a/b/c/"}
 backend = init_backend()
 end
 
@@ -12,21 +12,16 @@ function test_dirs(tc)
 end
 end
 
-methods (Test, TestTags=["R2019b", "pure"])
+methods (Test)
 
 function test_filename(tc, p, backend)
 fn = stdlib.filename(p{1}, backend);
 tc.verifyEqual(fn, p{2})
 end
 
-function test_filename_empty(tc, e, backend)
-fn = stdlib.filename(e, backend);
-tc.verifyEqual(strlength(fn), 0)
-end
-
 function test_filename_array(tc, backend)
-in = ["", "a", "a/b/c", "a/b/c.txt", "a/b/.hidden", "a/b/c/"];
-exp = ["", "a", "c", "c.txt", ".hidden", ""];
+in = ["", "a", "a/b/c", "a/b/", "a/b/c.txt", "a/b/.hidden", "a/b/c/"];
+exp = ["", "a", "c",    "",     "c.txt",     ".hidden", ""];
 out = stdlib.filename(in, backend);
 tc.verifyEqual(out, exp)
 end

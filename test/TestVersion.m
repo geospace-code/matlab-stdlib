@@ -1,4 +1,5 @@
-classdef TestVersion < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'pure'}) ...
+    TestVersion < matlab.unittest.TestCase
 
 properties (TestParameter)
 v = {{"11.1", "9.3", true}, ...
@@ -16,7 +17,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2019b", "pure"])
+methods (Test)
 
 function test_version(tc, v)
 tc.verifyEqual(stdlib.version_atleast(v{1}, v{2}), v{3})

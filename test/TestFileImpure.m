@@ -1,4 +1,5 @@
-classdef TestFileImpure < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'impure'}) ...
+    TestFileImpure < matlab.unittest.TestCase
 
 properties(TestParameter)
 ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname()), ''}}
@@ -14,7 +15,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2019b", "impure"])
+methods (Test)
 
 function test_file_size(tc, p_file_size)
 s = stdlib.file_size(p_file_size);
@@ -35,10 +36,9 @@ end
 
 
 function test_makedir(tc)
-import matlab.unittest.constraints.IsFolder
 d = tempname();
 stdlib.makedir(d)
-tc.verifyThat(d, IsFolder)
+tc.verifyThat(d, matlab.unittest.constraints.IsFolder)
 rmdir(d)
 end
 

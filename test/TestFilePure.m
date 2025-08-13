@@ -1,4 +1,5 @@
-classdef TestFilePure < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'pure'}) ...
+    TestFilePure < matlab.unittest.TestCase
 
 methods(TestClassSetup)
 function test_dirs(tc)
@@ -7,7 +8,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2019b", "pure"])
+methods (Test)
 
 function test_posix(tc)
 

@@ -1,4 +1,5 @@
-classdef TestNetCDF < matlab.unittest.TestCase
+classdef (TestTags = {'netcdf'}) ...
+    TestNetCDF < matlab.unittest.TestCase
 
 properties
 file
@@ -56,7 +57,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2019b", "netcdf"])
+methods (Test, TestTags={'R2019a'})
 
 function test_netcdf_version(tc)
 tc.verifyTrue(stdlib.version_atleast(stdlib.nc_get_version(), "4.6"), "version unexpected")
@@ -171,7 +172,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2021b", "netcdf"])
+methods (Test, TestTags={'R2021b'})
 
 function test_size_string(tc)
 tc.assumeFalse(stdlib.matlabOlderThan('R2021b'), "NetCDF4 string requires Matlab >= R2021b")

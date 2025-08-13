@@ -1,4 +1,5 @@
-classdef TestSame < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'impure'}) ...
+    TestSame < matlab.unittest.TestCase
 
 properties (TestParameter)
 p_same = {...
@@ -16,7 +17,7 @@ function test_dirs(tc)
 end
 end
 
-methods(Test, TestTags=["R2019b", "impure"])
+methods(Test)
 
 function test_samepath(tc, p_same, backend)
 tc.assertNotEmpty(which("stdlib." + backend + ".samepath"))

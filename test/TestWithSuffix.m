@@ -1,4 +1,5 @@
-classdef TestWithSuffix < matlab.unittest.TestCase
+classdef (TestTags = {'pure'}) ...
+    TestWithSuffix < matlab.unittest.TestCase
 
 
 properties (TestParameter)
@@ -20,7 +21,7 @@ function test_dirs(tc)
 end
 end
 
-methods (Test, TestTags=["R2019b", "pure"])
+methods (Test, TestTags={'R2019b'})
 function test_with_suffix(tc, p)
 
 r = p{3};
@@ -30,7 +31,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2020b", "pure"])
+methods (Test, TestTags={'R2020b'})
 
 function test_with_suffix_array(tc)
 tc.assumeFalse(stdlib.matlabOlderThan('R2020b'))

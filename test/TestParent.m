@@ -1,4 +1,5 @@
-classdef TestParent < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'pure'}) ...
+    TestParent < matlab.unittest.TestCase
 
 properties (TestParameter)
 p = init_parent()

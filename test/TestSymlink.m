@@ -1,9 +1,9 @@
-classdef TestSymlink < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'symlink', 'impure'}) ...
+    TestSymlink < matlab.unittest.TestCase
 
 properties
 target
 link
-td
 end
 
 properties (TestParameter)
@@ -16,9 +16,8 @@ ir_backend = {'native', 'sys', 'dotnet', 'java', 'python'}
 end
 
 methods(TestClassSetup)
-function pkg_path(tc)
-slp = matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))));
-tc.applyFixture(slp)
+function setup_dirs(tc)
+  pkg_path(tc)
 end
 end
 
@@ -26,9 +25,9 @@ methods(TestMethodSetup)
 % needs to be per-method because multiple functions are used to make the same files
 
 function setup_symlink(tc)
-tc.td = createTempdir(tc);
+tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 
-tc.link = fullfile(tc.td, 'my.lnk');
+tc.link = fullfile(pwd(), 'my.lnk');
 
 tc.target = strcat(mfilename("fullpath"), '.m');
 
@@ -39,7 +38,7 @@ end
 
 
 
-methods (Test, TestTags=["R2019b", "impure", "symlink"])
+methods (Test)
 
 function test_is_symlink(tc, p, ir_backend)
 tc.assertNotEmpty(which("stdlib." + ir_backend + ".is_symlink"))
@@ -94,7 +93,7 @@ function test_create_symlink(tc, cs_backend)
 tc.assumeNotEmpty(which("stdlib." + cs_backend + ".create_symlink"))
 tc.applyFixture(matlab.unittest.fixtures.SuppressedWarningsFixture(["MATLAB:io:filesystem:symlink:TargetNotFound","MATLAB:io:filesystem:symlink:FileExists"]))
 
-ano = tc.td + "/another.lnk";
+ano = fullfile(pwd(), 'another.lnk');
 
 h = @stdlib.create_symlink;
 

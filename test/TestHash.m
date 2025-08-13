@@ -1,4 +1,5 @@
-classdef TestHash < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'impure'}) ...
+    TestHash < matlab.unittest.TestCase
 
 properties
 file
@@ -16,9 +17,10 @@ function test_dirs(tc)
 end
 
 function create_file(tc)
-td = createTempdir(tc);
+tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 
-tc.file = td + "/hello";
+tc.file = fullfile(pwd(), class(tc));
+
 fid = fopen(tc.file, "w");
 
 tc.assumeGreaterThan(fid, 0);
@@ -30,7 +32,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2019b", "impure"])
+methods (Test)
 
 function test_hash_text(tc, Ph, backend)
 try

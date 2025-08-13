@@ -1,4 +1,5 @@
-classdef TestExpanduser < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'impure'}) ...
+    TestExpanduser < matlab.unittest.TestCase
 
 properties(TestParameter)
 p = init_exp()
@@ -10,7 +11,7 @@ function test_dirs(tc)
 end
 end
 
-methods(Test, TestTags=["R2019b", "impure"])
+methods(Test)
 
 function test_expanduser(tc, p)
 tc.verifyEqual(stdlib.expanduser(p{1}), p{2})

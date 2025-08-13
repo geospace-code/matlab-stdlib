@@ -1,4 +1,5 @@
-classdef TestSuffix < matlab.unittest.TestCase
+classdef (TestTags = {'pure'}) ...
+    TestSuffix < matlab.unittest.TestCase
 
 properties (TestParameter)
 p = {{"", ""}, {"/a/b/c", ""}, ...
@@ -17,13 +18,13 @@ function test_dirs(tc)
 end
 end
 
-methods (Test, TestTags=["R2019b", "pure"])
+methods (Test, TestTags={'R2019b'})
 function test_suffix(tc, p)
 tc.verifyEqual(stdlib.suffix(p{1}), p{2})
 end
 end
 
-methods (Test, TestTags=["R2020b", "pure"])
+methods (Test, TestTags={'R2020b'})
 
 function test_suffix_array(tc)
 tc.assumeFalse(stdlib.matlabOlderThan('R2020b'))

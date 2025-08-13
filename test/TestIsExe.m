@@ -1,4 +1,5 @@
-classdef TestIsExe < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'pure'}) ...
+    TestIsExe < matlab.unittest.TestCase
 
 properties (TestParameter)
 % we don't test plain files like Readme.md b/c some systems like Matlab Online
@@ -17,10 +18,12 @@ end
 methods(TestClassSetup)
 function test_dirs(tc)
   pkg_path(tc)
+
+  tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 end
 end
 
-methods(Test, TestTags=["R2019b", "impure"])
+methods(Test)
 
 function test_is_exe(tc, p, backend)
 try

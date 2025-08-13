@@ -1,4 +1,5 @@
-classdef TestRoot < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'pure'}) ...
+    TestRoot < matlab.unittest.TestCase
 
 properties (TestParameter)
 p = init_root()
@@ -12,7 +13,7 @@ function test_dirs(tc)
 end
 end
 
-methods (Test, TestTags=["R2019b", "pure"])
+methods (Test)
 
 function test_root(tc, p)
 r = stdlib.root(p{1});

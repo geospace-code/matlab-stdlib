@@ -1,8 +1,5 @@
-classdef TestAbsolute < matlab.unittest.TestCase
-
-properties
-td
-end
+classdef (TestTags = {'R2019b', 'impure'}) ...
+    TestAbsolute < matlab.unittest.TestCase
 
 properties (TestParameter)
 p1 = {'', "", "hi", "./hi", "../hi"};
@@ -13,18 +10,17 @@ end
 methods(TestClassSetup)
 function test_dirs(tc)
   pkg_path(tc)
-  tc.td = createTempdir(tc);
 
-  tc.applyFixture(matlab.unittest.fixtures.CurrentFolderFixture(tc.td))
+  tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 end
 end
 
 
-methods(Test, TestTags=["R2019b", "pure"])
+methods(Test)
 
 function test_absolute1arg(tc, p1)
 
-r = tc.td;
+r = pwd();
 
 if strlength(p1)
   r = fullfile(r, p1);
@@ -39,7 +35,7 @@ end
 
 function test_absolute2arg(tc, p2)
 
-r = tc.td;
+r = pwd();
 
 if strlength(p2{2})
   r = fullfile(r, p2{2});

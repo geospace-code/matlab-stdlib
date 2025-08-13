@@ -1,4 +1,5 @@
-classdef TestRelative < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'pure'}) ...
+    TestRelative < matlab.unittest.TestCase
 
 
 properties (TestParameter)
@@ -14,7 +15,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2019b", "pure"])
+methods (Test)
 
 function test_relative_to(tc, pr, rel_fun)
 try

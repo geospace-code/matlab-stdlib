@@ -1,4 +1,5 @@
-classdef TestStem < matlab.unittest.TestCase
+classdef (TestTags = {'pure'}) ...
+    TestStem < matlab.unittest.TestCase
 
 properties (TestParameter)
 
@@ -22,7 +23,7 @@ function test_dirs(tc)
 end
 end
 
-methods (Test, TestTags=["R2019b", "pure"])
+methods (Test, TestTags={'R2019b'})
 
 function test_stem(tc, p)
 tc.verifyEqual(stdlib.stem(p{1}), p{2})
@@ -30,7 +31,7 @@ end
 
 end
 
-methods (Test, TestTags=["R2020b", "pure"])
+methods (Test, TestTags={'R2020b'})
 
 function test_stem_array(tc)
 tc.assumeFalse(stdlib.matlabOlderThan('R2020b'))

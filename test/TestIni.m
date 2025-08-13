@@ -1,4 +1,5 @@
-classdef TestIni < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'impure'}) ...
+    TestIni < matlab.unittest.TestCase
 
 methods(TestClassSetup)
 function test_dirs(tc)
@@ -7,7 +8,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2019b", "impure"])
+methods (Test)
 
 function test_example(tc)
 import matlab.unittest.constraints.IsFile

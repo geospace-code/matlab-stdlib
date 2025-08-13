@@ -1,4 +1,5 @@
-classdef TestJava < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'java'}) ...
+    TestJava < matlab.unittest.TestCase
 
 methods(TestClassSetup)
 function test_dirs(tc)
@@ -6,7 +7,7 @@ function test_dirs(tc)
 end
 end
 
-methods(Test, TestTags=["R2019b", "java"])
+methods(Test)
 
 function test_java_vendor(tc)
 v = stdlib.java_vendor();

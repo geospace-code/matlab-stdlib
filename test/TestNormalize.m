@@ -1,4 +1,5 @@
-classdef TestNormalize < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'pure'}) ...
+    TestNormalize < matlab.unittest.TestCase
 
 properties (TestParameter)
 p = init_norm()
@@ -12,7 +13,7 @@ function test_dirs(tc)
 end
 end
 
-methods (Test, TestTags=["R2019b", "pure"])
+methods (Test)
 
 function test_normalize(tc, p, fun)
 tc.assertNotEmpty(which("stdlib." + fun + ".normalize"))

@@ -1,13 +1,14 @@
-classdef TestHDF5 < matlab.unittest.TestCase
+classdef (TestTags = {'hdf5'}) ...
+    TestHDF5 < matlab.unittest.TestCase
 
 properties
 file
-A0
-A1
-A2
+A0 = 42.;
+A1 = [42.; 43.];
+A2 = magic(4);
 A3
 A4
-utf
+utf = 'Hello There 😄';
 utf2
 td
 end
@@ -19,25 +20,25 @@ type = {"single", "double", ...
             "uint8", "uint16", "uint32", "uint64", "string"}
 end
 
+methods(TestClassSetup)
+function setupData(tc)
+tc.A3 = tc.A2(:,1:3,1);
+tc.A3(:,:,2) = 2*tc.A3;
+tc.A4(:,:,:,5) = tc.A3;
+tc.utf2 = [tc.utf; "☎"];
+end
+end
+
 % per method to avoid race conditions
 methods(TestMethodSetup)
 function test_dirs(tc)
-  tc.td = createTempdir(tc);
   pkg_path(tc)
 end
 
 function setup_file(tc)
+tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 
-tc.A0 = 42.;
-tc.A1 = [42.; 43.];
-tc.A2 = magic(4);
-tc.A3 = tc.A2(:,1:3,1);
-tc.A3(:,:,2) = 2*tc.A3;
-tc.A4(:,:,:,5) = tc.A3;
-tc.utf = 'Hello There 😄';
-tc.utf2 = [tc.utf; "☎"];
-
-tc.file = tc.td + "/basic.h5";
+tc.file = fullfile(pwd(), class(tc));
 
 % create test data first, so that parallel tests works
 stdlib.h5save(tc.file, '/A0', tc.A0)
@@ -64,7 +65,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2019b", "hdf5"])
+methods (Test, TestTags = {'R2019b'})
 
 function test_auto_chunk_size(tc)
 
@@ -102,24 +103,21 @@ end
 
 
 function test_exists(tc)
-import matlab.unittest.constraints.IsScalar
-
 e = stdlib.h5exists(tc.file, "/A0");
 
-tc.verifyThat(e, IsScalar)
+tc.verifyThat(e, matlab.unittest.constraints.IsScalar)
 tc.verifyTrue(e);
 
 end
 
 
 function test_size(tc)
-import matlab.unittest.constraints.IsScalar
 
 s = stdlib.h5size(tc.file, '/A0');
 tc.verifyEmpty(s)
 
 s = stdlib.h5size(tc.file, '/A1');
-tc.verifyThat(s, IsScalar)
+tc.verifyThat(s, matlab.unittest.constraints.IsScalar)
 tc.verifyEqual(s, 2)
 
 s = stdlib.h5size(tc.file, '/A2');
@@ -146,11 +144,9 @@ end
 
 
 function test_read(tc)
-import matlab.unittest.constraints.IsScalar
-
 
 s = h5read(tc.file, '/A0');
-tc.verifyThat(s, IsScalar)
+tc.verifyThat(s, matlab.unittest.constraints.IsScalar)
 tc.verifyEqual(s, tc.A0)
 
 s = h5read(tc.file, '/A1');

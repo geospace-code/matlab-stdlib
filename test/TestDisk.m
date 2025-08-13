@@ -1,4 +1,5 @@
-classdef TestDisk < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'impure'}) ...
+  TestDisk < matlab.unittest.TestCase
 
 properties
 CI = getenv("CI") == "true" || getenv("GITHUB_ACTIONS") == "true"
@@ -18,10 +19,12 @@ end
 methods(TestClassSetup)
 function test_dirs(tc)
   pkg_path(tc)
+
+  tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 end
 end
 
-methods (Test, TestTags=["R2019b", "impure"])
+methods (Test)
 
 function test_disk_ac(tc, Ps, all_fun, disk_ac_name)
 n = "stdlib." + all_fun + "." + disk_ac_name;

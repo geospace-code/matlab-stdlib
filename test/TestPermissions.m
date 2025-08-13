@@ -1,6 +1,5 @@
-classdef TestPermissions < matlab.unittest.TestCase
-
-
+classdef (TestTags = {'impure'}) ...
+    TestPermissions < matlab.unittest.TestCase
 
 properties (TestParameter)
 Ps = {".", pwd(), "", tempname(), mfilename('fullpath') + ".m"}
@@ -13,8 +12,14 @@ function test_dirs(tc)
 end
 end
 
+methods(TestMethodSetup)
+function w_dirs(tc)
+  tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
+end
+end
 
-methods (Test, TestTags=["R2019b", "impure"])
+
+methods (Test, TestTags={'R2019b'})
 
 function test_get_permissions(tc, Ps, fname)
 import matlab.unittest.constraints.StartsWithSubstring
@@ -55,11 +60,10 @@ end
 
 function test_set_permissions_nowrite(tc, fname)
 import matlab.unittest.constraints.StartsWithSubstring
-td = createTempdir(tc);
 
-nw = fullfile(td, "no-write");
+nw = fullfile(pwd(), "no-write");
 
-tc.verifyTrue(stdlib.touch(nw))
+tc.assertTrue(stdlib.touch(nw))
 try
   tc.verifyTrue(stdlib.set_permissions(nw, 0, -1, 0, fname))
 catch e
@@ -76,7 +80,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2025a", "impure"])
+methods (Test, TestTags={'R2025a'})
 
 function test_set_permissions_noread(tc)
 import matlab.unittest.constraints.StartsWithSubstring
@@ -84,11 +88,10 @@ import matlab.unittest.constraints.StartsWithSubstring
 % This ONLY works with the new setPermissions.
 % fileattrib can not even set the permissions on Linux.
 tc.assumeFalse(stdlib.matlabOlderThan('R2025a'))
-td = tc.createTemporaryFolder();
 
-nr = fullfile(td, "no-read");
+nr = fullfile(pwd(), "no-read");
 
-tc.verifyTrue(stdlib.touch(nr))
+tc.assertTrue(stdlib.touch(nr))
 tc.verifyTrue(stdlib.set_permissions(nr, -1, 0, 0, "native"))
 p = stdlib.get_permissions(nr);
 

@@ -1,4 +1,5 @@
-classdef TestIsAbsolute < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'pure'}) ...
+    TestIsAbsolute < matlab.unittest.TestCase
 
 properties (TestParameter)
 p = {{"", false}, {"x", false}, {"x:", false}}
@@ -12,7 +13,7 @@ function test_dirs(tc)
 end
 end
 
-methods (Test, TestTags=["R2019b", "pure"])
+methods (Test)
 
 function test_is_absolute(tc, p)
 ok = stdlib.is_absolute(p{1});
@@ -22,7 +23,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2019b", "pure", "unix"])
+methods (Test, TestTags={'unix'})
 
 function test_is_absolute_unix(tc, pu)
 tc.assumeTrue(isunix())
@@ -33,7 +34,7 @@ end
 end
 
 
-methods (Test, TestTags=["R2019b", "pure", "windows"])
+methods (Test, TestTags={'windows'})
 
 function test_is_absolute_windows(tc, pw)
 tc.assumeTrue(ispc())

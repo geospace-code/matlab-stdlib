@@ -1,4 +1,5 @@
-classdef TestJoin < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'pure'}) ...
+    TestJoin < matlab.unittest.TestCase
 
 properties (TestParameter)
 p = init_join()
@@ -10,7 +11,7 @@ function test_dirs(tc)
 end
 end
 
-methods (Test, TestTags=["R2019b", "pure"])
+methods (Test)
 function test_join(tc, p)
 tc.verifyEqual(stdlib.join(p{1}, p{2}), p{3})
 end

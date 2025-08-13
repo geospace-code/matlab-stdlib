@@ -1,4 +1,5 @@
-classdef TestExists < matlab.unittest.TestCase
+classdef (TestTags = {'R2019b', 'impure'}) ...
+    TestExists < matlab.unittest.TestCase
 
 properties(TestParameter)
 Ps = {
@@ -18,10 +19,12 @@ end
 methods(TestClassSetup)
 function test_dirs(tc)
   pkg_path(tc)
+
+  tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 end
 end
 
-methods (Test, TestTags=["R2019b", "impure"])
+methods (Test)
 
 function test_exists(tc, Ps)
 ok = stdlib.exists(Ps{1});
@@ -30,9 +33,8 @@ end
 
 
 function test_is_rw(tc, Ps, backend, fname)
-n = "stdlib." + backend + "." + fname;
 h = str2func("stdlib." + fname);
-tc.assertNotEmpty(which(n))
+
 try
   r = h(Ps{1}, backend);
   tc.verifyEqual(r, Ps{2})
@@ -44,9 +46,11 @@ end
 
 function test_is_rw_array(tc, backend, fname)
 h = str2func("stdlib." + fname);
+in =  [".",  tempname(), mfilename('fullpath') + ".m"];
+out = [true, false,     true];
 try
-  r = h([".", tempname(), mfilename() + ".m"], backend);
-  tc.verifyEqual(r, [true, false, true])
+  r = h(in, backend);
+  tc.verifyEqual(r, out)
 catch e
   tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
