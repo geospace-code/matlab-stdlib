@@ -21,6 +21,7 @@ end
 
 
 function setup_file(tc)
+tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 
 tc.A0 = 42.;
 tc.A1 = [42.; 43.];
@@ -32,8 +33,7 @@ tc.utf0 = 'Hello There 😄';
 tc.utf1 = [tc.utf0; "☎"];
 tc.utf2 = [tc.utf0, "☎"; "📞", "👋"];
 
-td = createTempdir(tc);
-tc.file = td + "/basic.nc";
+tc.file = fullfile(pwd(), class(tc) + ".nc");
 
 % create test data first, so that parallel tests works
 stdlib.ncsave(tc.file, 'A0', tc.A0)

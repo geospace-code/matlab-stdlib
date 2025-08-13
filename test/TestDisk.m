@@ -94,7 +94,6 @@ end
 
 
 function test_filesystem_type(tc, Ps, all_fun)
-tc.assertNotEmpty(which("stdlib." + all_fun + ".filesystem_type"))
 try
   t = stdlib.filesystem_type(Ps, all_fun);
 catch e

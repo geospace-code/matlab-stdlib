@@ -10,6 +10,8 @@ end
 methods(TestClassSetup)
 function test_dirs(tc)
   pkg_path(tc)
+
+  tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 end
 end
 
@@ -150,7 +152,6 @@ end
 
 
 function test_java_cwd(tc)
-td = createTempdir(tc);
 
 if ispc
   c = ["cmd", "/c", "dir"];
@@ -163,7 +164,7 @@ tc.assertEqual(s, 0, "status non-zero")
 tc.verifyGreaterThan(strlength(m), 0, "empty directory not expected")
 tc.verifyEqual(strlength(e), 0, e)
 
-[s, mc, e] = stdlib.java_run(c, 'cwd', td);
+[s, mc, e] = stdlib.java_run(c, 'cwd', matlabroot);
 tc.assertEqual(s, 0, "status non-zero")
 tc.verifyNotEqual(m, mc, "expected different directory to have different contents")
 tc.verifyEqual(strlength(e), 0, e)

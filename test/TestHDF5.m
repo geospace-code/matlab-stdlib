@@ -38,7 +38,7 @@ end
 function setup_file(tc)
 tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 
-tc.file = fullfile(pwd(), class(tc));
+tc.file = fullfile(pwd(), class(tc) + ".h5");
 
 % create test data first, so that parallel tests works
 stdlib.h5save(tc.file, '/A0', tc.A0)

@@ -37,7 +37,7 @@ Lt = numel(r);
 assert(Lf == 0, sprintf("%d / %d tests failed", Lf, Lt))
 
 if Lk
-  fprintf("%d / %d tests skipped", Lk, Lt);
+  fprintf("%d / %d tests skipped\n", Lk, Lt);
 end
 
 fprintf("%d / %d tests succeeded\n", Lok, Lt);
