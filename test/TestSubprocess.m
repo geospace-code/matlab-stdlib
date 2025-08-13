@@ -67,11 +67,11 @@ else
   c = 'ls -l';
 end
 
-[s, m] = stdlib.subprocess_run(c, echo=true);
+[s, m] = stdlib.subprocess_run(c);
 tc.assertEqual(s, 0, "status non-zero")
 tc.verifyGreaterThan(strlength(m), 0, "empty directory not expected")
 
-[s, mc] = stdlib.subprocess_run(c, cwd=matlabroot, echo=true);
+[s, mc] = stdlib.subprocess_run(c, cwd=matlabroot);
 tc.assertEqual(s, 0, "status non-zero")
 tc.verifyNotEqual(m, mc, "expected different directory to have different contents")
 

@@ -28,7 +28,7 @@
 function [status, msg] = subprocess_run(cmd, opt)
 arguments
   cmd (1,:) string
-  opt.env struct {mustBeScalarOrEmpty} = struct.empty
+  opt.env (1,1) struct = struct()
   opt.cwd (1,1) string = ""
   opt.stdin (1,1) string = ""
   opt.stdout (1,1) logical = true
@@ -64,15 +64,11 @@ if ~opt.stdout
 end
 
 % deal struct into name, value pairs for system()
-if isempty(opt.env)
-  env_pairs = {};
-else
-  f = fieldnames(opt.env);
-  env_pairs = cell(1, 2 * numel(f));
-  for i = 1:numel(f)
-    env_pairs{2*i-1} = f{i};
-    env_pairs{2*i} = opt.env.(f{i});
-  end
+f = fieldnames(opt.env);
+env_pairs = cell(1, 2 * numel(f));
+for i = 1:numel(f)
+  env_pairs{2*i-1} = f{i};
+  env_pairs{2*i} = opt.env.(f{i});
 end
 
 %% Gfortran streams

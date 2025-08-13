@@ -1,6 +1,6 @@
 function comp = find_compiler(lang)
 arguments (Output)
-  comp string {mustBeScalarOrEmpty}
+  comp string
 end
 
 co = mex.getCompilerConfigurations(lang);
