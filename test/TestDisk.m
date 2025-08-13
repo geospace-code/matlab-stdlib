@@ -2,7 +2,7 @@ classdef (TestTags = {'R2019b', 'impure'}) ...
   TestDisk < matlab.unittest.TestCase
 
 properties
-CI = getenv("CI") == "true" || getenv("GITHUB_ACTIONS") == "true"
+CI = is_ci()
 end
 
 properties (TestParameter)
