@@ -16,7 +16,7 @@ test_root = fullfile(cwd, "test");
 
 tags = releaseTestTags();
 
-if isMATLABReleaseOlderThan('R2022b')
+if ~exist('isMATLABReleaseOlderThan', 'builtin') || isMATLABReleaseOlderThan('R2022b')
   suite = testsuite(test_root, 'Tag', tags);
 else
   suite = testsuite(test_root, 'Tag', tags, 'InvalidFileFoundAction', "error");

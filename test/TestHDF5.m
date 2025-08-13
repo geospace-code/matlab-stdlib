@@ -49,7 +49,7 @@ stdlib.h5save(tc.file, '/A2', tc.A2)
 stdlib.h5save(tc.file, '/A3', tc.A3, size=size(tc.A3))
 stdlib.h5save(tc.file, '/A4', tc.A4)
 
-if ~isMATLABReleaseOlderThan("R2020b")
+if ~stdlib.matlabOlderThan("R2020b")
 stdlib.h5save(tc.file, "/utf", tc.utf)
 stdlib.h5save(tc.file, "/utf2", tc.utf2)
 end
@@ -83,7 +83,7 @@ function test_get_variables(tc)
 v = stdlib.h5variables(tc.file);
 k = ["A0", "A1", "A2", "A3", "A4"];
 
-if ~isMATLABReleaseOlderThan("R2020b")
+if ~stdlib.matlabOlderThan("R2020b")
   k = [k, "utf", "utf2"];
 end
 
@@ -134,7 +134,7 @@ s = stdlib.h5size(tc.file, '/A4');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
 
-if ~isMATLABReleaseOlderThan("R2020b")
+if ~stdlib.matlabOlderThan("R2020b")
 s = stdlib.h5size(tc.file, '/utf');
 tc.verifyEmpty(s)
 
@@ -169,7 +169,7 @@ s = h5read(tc.file, '/A4');
 tc.verifyEqual(ndims(s), 4)
 tc.verifyEqual(s, tc.A4)
 
-if ~isMATLABReleaseOlderThan("R2020b")
+if ~stdlib.matlabOlderThan("R2020b")
 s = h5read(tc.file, '/utf');
 tc.verifyTrue(ischar(s))
 tc.verifyEqual(s, tc.utf)
@@ -198,7 +198,7 @@ end
 function test_coerce(tc, type)
 
 if any(type == ["string", "char"])
-  tc.assumeFalse(isMATLABReleaseOlderThan("R2020b"))
+  tc.assumeFalse(stdlib.matlabOlderThan("R2020b"))
 end
 
 stdlib.h5save(tc.file, "/" + type, 0, "type", type)
@@ -251,7 +251,7 @@ end
 methods (Test, TestTags=["R2020b", "hdf5"])
 
 function test_string(tc, str)
-tc.assumeFalse(isMATLABReleaseOlderThan("R2020b"))
+tc.assumeFalse(stdlib.matlabOlderThan("R2020b"))
 
 stdlib.h5save(tc.file, "/"+str, str)
 

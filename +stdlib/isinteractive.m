@@ -10,16 +10,12 @@ function g = isinteractive()
 
 if batchStartupOptionUsed()
   g = false;
-elseif stdlib.is_matlab_online()
-  g = true;
-elseif isMATLABReleaseOlderThan('R2025a')
-  g = usejava('desktop');
-elseif feature('showFigureWindows')
-  % this is true in matlab -batch by default
-  g = true;
 else
-  % assume true to be 'safe'
-  g = true;
+  g = matlab.desktop.editor.isEditorAvailable() || ...
+  (stdlib.matlabOlderThan('R2025a') && usejava('desktop')) || ...
+  stdlib.is_matlab_online() || ...
+  feature('showFigureWindows');
+  % showFigureWindows is true in matlab -batch by default
 end
 
 end

@@ -8,7 +8,7 @@ end
 y = false;
 
 % For MATLAB versions older than R2022a, skip Python version check unless force_old is true
-if isMATLABReleaseOlderThan('R2022a') && ~force_old
+if stdlib.matlabOlderThan('R2022a') && ~force_old
   return
 end
 

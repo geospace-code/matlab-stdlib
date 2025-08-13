@@ -30,7 +30,7 @@ end
 
 v = [];
 
-if isMATLABReleaseOlderThan('R2022a') && ~force_old
+if stdlib.matlabOlderThan('R2022a') && ~force_old
   return
 end
 

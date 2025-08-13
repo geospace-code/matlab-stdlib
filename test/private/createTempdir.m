@@ -3,7 +3,7 @@ arguments
   tc (1,1) matlab.unittest.TestCase
 end
 
-if isMATLABReleaseOlderThan('R2022a')
+if stdlib.matlabOlderThan('R2022a')
   td = tempname();
   [ok, err] = mkdir(td);
   tc.assumeTrue(ok, err)

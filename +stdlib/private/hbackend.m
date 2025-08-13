@@ -43,14 +43,14 @@ for m = backend
       end
 
       if endsWith(name, "is_admin")
-        if ~isunix() || isMATLABReleaseOlderThan('R2024a'), continue, end
+        if ~isunix() || stdlib.matlabOlderThan('R2024a'), continue, end
       end
 
     case "legacy", has = true;
 
     case "native"
 
-      has = stdlib.strempty(minVersion) || ~isMATLABReleaseOlderThan(minVersion);
+      has = stdlib.strempty(minVersion) || ~stdlib.matlabOlderThan(minVersion);
 
       if endsWith(name, "create_symlink")
         if ~has || ispc(), continue, end
