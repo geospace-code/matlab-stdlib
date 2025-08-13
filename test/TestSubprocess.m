@@ -16,7 +16,36 @@ end
 end
 
 
+methods (Test, TestTags = "native_exe")
+
+function test_cwd(tc)
+
+if ispc
+  c = 'cd';
+else
+  c = 'pwd';
+end
+
+% leave on for debugging.
+cmd_echo = true;
+
+[s, m] = stdlib.subprocess_run(c, 'echo', cmd_echo);
+tc.assertEqual(s, 0, "status non-zero")
+tc.verifyGreaterThan(strlength(m), 0, "empty directory not expected")
+
+[s, mc] = stdlib.subprocess_run(c, 'cwd', matlabroot, 'echo', cmd_echo);
+tc.assertEqual(s, 0, "status non-zero")
+tc.verifyNotEqual(m, mc, "expected different directory to have different contents")
+
+end
+
+end
+
+
 methods (Test, TestTags={'exe'})
+% these tests require the presence of test executables compiled by
+%   buildtool exe
+% The test "buildtool test:exe" automatically builds them
 
 function test_stdout_stderr(tc, lang_out)
 import matlab.unittest.constraints.IsFile
@@ -59,25 +88,6 @@ end
 
 tc.assertEqual(status, 0)
 tc.verifyEqual(msg, '3')
-end
-
-
-function test_cwd(tc)
-
-if ispc
-  c = 'dir';
-else
-  c = 'ls -l';
-end
-
-[s, m] = stdlib.subprocess_run(c);
-tc.assertEqual(s, 0, "status non-zero")
-tc.verifyGreaterThan(strlength(m), 0, "empty directory not expected")
-
-[s, mc] = stdlib.subprocess_run(c, 'cwd', matlabroot);
-tc.assertEqual(s, 0, "status non-zero")
-tc.verifyNotEqual(m, mc, "expected different directory to have different contents")
-
 end
 
 
@@ -154,9 +164,9 @@ end
 function test_java_cwd(tc)
 
 if ispc
-  c = ["cmd", "/c", "dir"];
+  c = ["cmd", "/c", "cd"];
 else
-  c = ["ls", "-l"];
+  c = "pwd";
 end
 
 [s, m, e] = stdlib.java_run(c);

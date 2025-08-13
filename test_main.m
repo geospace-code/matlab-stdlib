@@ -14,7 +14,7 @@ else
 end
 test_root = fullfile(cwd, "test");
 
-tags = releaseTestTags();
+tags = ["native_exe", releaseTestTags()];
 
 if ~exist('isMATLABReleaseOlderThan', 'builtin') || isMATLABReleaseOlderThan('R2022b')
   suite = testsuite(test_root, 'Tag', tags);

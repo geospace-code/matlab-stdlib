@@ -3,7 +3,7 @@ import matlab.unittest.selectors.HasTag
 
 plan = buildplan(localfunctions);
 
-sel = ~HasTag("exe") & ~HasTag("java") & ~HasTag("java_exe") & ~HasTag("python");
+sel = HasTag('native_exe') | (~HasTag("exe") & ~HasTag("java") & ~HasTag("java_exe") & ~HasTag("python"));
 if ispc()
   sel = sel & ~HasTag("unix");
 else
