@@ -13,15 +13,13 @@ arguments
   p string
 end
 
-sep = characterListPattern("/" + filesep);
-
 r = repmat("", size(p));
 
-i = startsWith(p, sep);
+i = startsWith(p, ["/", filesep]);
 r(i) = extractBefore(p(i), 2);
 
 if ispc()
-  i = startsWith(p, lettersPattern(1) + ":" + sep);
+  i = startsWith(p, lettersPattern(1) + ":" + characterListPattern("/" + filesep));
   r(i) = extractBetween(p(i), 3, 3);
 end
 
