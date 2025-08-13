@@ -14,12 +14,6 @@ arguments
   ref (1,1) string
 end
 
-
-if stdlib.isoctave()
-  r = compare_versions(in, ref, '>=');
-  return
-end
-
 parts1 = str2double(strsplit(in, '.'));
 parts2 = str2double(strsplit(ref, '.'));
 

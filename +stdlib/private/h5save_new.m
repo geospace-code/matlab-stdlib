@@ -25,7 +25,7 @@ if isscalar(sizeA)
   else
     h5create(filename, varname, sizeA, 'Datatype', class(A))
   end
-elseif ~compressLevel || stdlib.isoctave()
+elseif ~compressLevel
   h5create(filename, varname, sizeA, 'Datatype', class(A))
 else
   h5create(filename, varname, sizeA, 'Datatype', class(A), ...

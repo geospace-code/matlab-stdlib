@@ -1,5 +1,5 @@
 function n = get_hostname()
 
-n = char(javaMethod("getLocalHost", "java.net.InetAddress").getHostName());
+n = char(java.net.InetAddress.getLocalHost().getHostName());
 
 end

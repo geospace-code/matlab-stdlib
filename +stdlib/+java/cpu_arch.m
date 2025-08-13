@@ -1,5 +1,5 @@
 function a = cpu_arch()
 
-a = char(javaMethod("getProperty", "java.lang.System", "os.arch"));
+a = char(java.lang.System.getProperty('os.arch'));
 
 end

@@ -1,6 +1,6 @@
 function [os, version] = os_version()
 
-os = char(javaMethod("getProperty", "java.lang.System", "os.name"));
-version = char(javaMethod("getProperty", "java.lang.System", "os.version"));
+os = char(java.lang.System.getProperty('os.name'));
+version = char(java.lang.System.getProperty('os.version'));
 
 end

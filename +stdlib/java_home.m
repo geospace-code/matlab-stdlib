@@ -3,11 +3,11 @@
 function h = java_home()
 
 try
-  h = javaMethod("getProperty", "java.lang.System", "java.home");
+  h = java.lang.System.getProperty('java.home');
 catch
   h = '';
 end
 
-h = string(h);
+h = char(h);
 
 end

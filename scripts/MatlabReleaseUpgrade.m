@@ -79,7 +79,7 @@ if ismac()
 elseif ispc()
   head = fullfile(getenv("LOCALAPPDATA"), 'MathWorks/ServiceHost');
 else
-  hostname = string(javaMethod("getLocalHost", "java.net.InetAddress").getHostName());
+  hostname = char(java.net.InetAddress.getLocalHost().getHostName());
   head = fullfile(getenv("HOME"), '.MathWorks/ServiceHost', hostname);
 end
 mustBeFolder(head)

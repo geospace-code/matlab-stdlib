@@ -149,12 +149,10 @@ catch e
   return
 end
 
-tc.verifyClass(o, "string")
-
 if stdlib.exists(Po)
   tc.verifyGreaterThan(strlength(o), 0)
 else
-  tc.verifyEqual(o, "")
+  tc.verifyEqual(strlength(o), 0)
 end
 
 end

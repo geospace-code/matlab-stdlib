@@ -3,7 +3,7 @@ function N = cpu_count()
 
 N = maxNumCompThreads;
 
-if N < 2 && ~stdlib.isoctave() % happens on some HPC
+if N < 2 % happens on some HPC
   N = feature('NumCores');
 end
 

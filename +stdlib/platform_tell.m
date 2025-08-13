@@ -1,5 +1,5 @@
 %% PLATFORM_TELL - Display information about the platform and environment
-% designed to work back to R2016b
+% works back to very old Matlab (R2011b at least)
 
 function json = platform_tell()
 
@@ -44,7 +44,7 @@ for i = 1:length(langs)
   raw.(vt) = '';
 
   if ~isempty(co)
-    raw.(ct) = co.ShortName;
+    raw.(ct) = co.Name;
     raw.(vt) = co.Version;
   end
 end

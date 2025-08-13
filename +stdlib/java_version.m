@@ -10,11 +10,11 @@
 function v = java_version()
 
 try
-  v = javaMethod("getProperty", "java.lang.System", "java.version");
+  v = java.lang.System.getProperty('java.version');
 catch
   v = '';
 end
 
-v = string(v);
+v = char(v);
 
 end

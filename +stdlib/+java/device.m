@@ -1,8 +1,8 @@
 function i = device(file)
 
-opt = javaMethod("values", "java.nio.file.LinkOption");
+opt = java.nio.file.LinkOption.values();
 p = javaPathObject(file);
-i = java.nio.file.Files.getAttribute(p, "unix:dev", opt);
+i = java.nio.file.Files.getAttribute(p, 'unix:dev', opt);
 
 i = uint64(i);
 end

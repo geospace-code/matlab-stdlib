@@ -1,5 +1,5 @@
 %% MATLABOLDERTHAN compare Matlab release name only e.g. R2025a
-% this is to allow a basic version check back to very old Matlab
+% works back to Matlab R2011b at least
 
 function isOlder = matlabOlderThan(release)
 
@@ -11,7 +11,7 @@ catch e
   end
 
   r = char(release);
-  assert(length(r) == 6 && r(1) == 'R', "Release must be a string like 'R2025a'")
+  assert(length(r) == 6 && r(1) == 'R', 'Release must be a string like ''R2025a''')
 
   curr = version('-release');
   nc = str2double(curr(1:4));

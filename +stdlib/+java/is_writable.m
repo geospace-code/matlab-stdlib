@@ -7,5 +7,5 @@ function y = is_writable(p)
 % file = stdlib.absolute(file, "", false);
 % ok = java.nio.file.Files.isWritable(javaPathObject(file));
 
-y = javaObject("java.io.File", p).canWrite();
+y = java.io.File(p).canWrite();
 end
