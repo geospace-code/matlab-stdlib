@@ -27,7 +27,11 @@ methods (Test, TestTags = {'dotnet'})
 
 function test_dotnet_home(tc)
 tc.assumeTrue(stdlib.has_dotnet(), ".NET not available")
-tc.verifyNotEmpty(stdlib.dotnet_home())
+h = stdlib.dotnet_home();
+
+if ~stdlib.matlabOlderThan('R2022b')
+  tc.verifyGreaterThan(strlength(h), 0)
+end
 end
 
 function test_dotnet_version(tc)

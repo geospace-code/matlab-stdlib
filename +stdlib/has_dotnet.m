@@ -8,7 +8,11 @@ function y = has_dotnet()
 try
   y = NET.isNETSupported;
 catch
-  y = false;
+  try
+    y = stdlib.dotnet_api() >= 4;
+  catch
+    y = false;
+  end
 end
 
 end
