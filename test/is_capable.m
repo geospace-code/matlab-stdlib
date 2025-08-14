@@ -16,7 +16,7 @@ elseif contains(n, ".java.")
   japi = stdlib.java_api();
   tc.assumeGreaterThan(japi, 0, "Java not available")
 
-elseif contains(n, "python")
+elseif contains(n, 'python')
 
   tc.assumeTrue(stdlib.has_python(), "Python not available")
 

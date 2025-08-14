@@ -12,7 +12,7 @@ p = {
 {matlab_path(), true}
 }
 peb = init_exe_bin()
-backend = {'java', 'python', 'native', 'legacy'}
+backend = init_backend({'java', 'python', 'native', 'legacy'}, 'native', ~isMATLABReleaseOlderThan('R2025a'))
 end
 
 methods(TestClassSetup)
@@ -26,34 +26,24 @@ end
 methods(Test)
 
 function test_is_exe(tc, p, backend)
-try
-  tc.verifyEqual(stdlib.is_exe(p{1}, backend), p{2})
-catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
-end
+r = stdlib.is_exe(p{1}, backend);
+tc.verifyEqual(r, p{2})
 end
 
 
 function test_is_exe_array(tc, backend)
-try
-  n = fullfile(matlabroot, "bin/matlab");
-  if ispc()
-    n = n + ".exe";
-  end
-  r = stdlib.is_exe(["Readme.md", tempname(), n], backend);
-  tc.verifyEqual(r, [false, false, true])
-catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
+n = fullfile(matlabroot, "bin/matlab");
+if ispc()
+  n = n + ".exe";
 end
-
+r = stdlib.is_exe(["Readme.md", tempname(), n], backend);
+tc.verifyEqual(r, [false, false, true])
 end
 
 
 function test_is_executable_binary(tc, peb)
-
 b = stdlib.is_executable_binary(peb{1});
 tc.verifyEqual(b, peb{2}, peb{1})
-
 end
 end
 

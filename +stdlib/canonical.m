@@ -21,7 +21,7 @@ arguments
   backend (1,:) string = ["native", "legacy"]
 end
 
-[fun, b] = hbackend(backend, "canonical", 'R2024a');
+[fun, b] = hbackend(backend, "canonical");
 
 if isscalar(p) || b == "native"
   c = fun(p, strict);

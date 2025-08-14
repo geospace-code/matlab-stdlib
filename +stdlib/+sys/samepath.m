@@ -1,12 +1,17 @@
 function y = samepath(path1, path2)
 
-assert(~ispc(), "Unix-like only")
-
 y = false;
 
 if ~stdlib.exists(path1) || ~stdlib.exists(path2)
   return
 end
+
+if ispc()
+  y = stdlib.sys.device(path1) == stdlib.sys.device(path2) && ...
+      stdlib.sys.inode(path1) == stdlib.sys.inode(path2);
+  return
+end
+
 
 if ismac()
   flag = '-f';

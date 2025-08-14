@@ -15,7 +15,7 @@ arguments
   backend (1,:) string = ["native", "legacy"]
 end
 
-[fun, b] = hbackend(backend, "get_permissions", 'R2025a');
+[fun, b] = hbackend(backend, "get_permissions");
 
 perm = fun(file);
 

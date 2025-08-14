@@ -12,15 +12,15 @@ Ps = {
 }
 % on CI matlabroot can be writable!
 fname = {'is_readable', 'is_writable'}
-backend = {'java', 'native', 'legacy'}
-icm = {'python', 'sys'}
+backend = init_backend({'java', 'native', 'legacy'}, 'native', ~isMATLABReleaseOlderThan('R2025a'))
+backend_ps = init_backend({'python', 'sys'})
 end
 
 methods(TestClassSetup)
 function test_dirs(tc)
-  pkg_path(tc)
+pkg_path(tc)
 
-  tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
+tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 end
 end
 
@@ -35,12 +35,8 @@ end
 function test_is_rw(tc, Ps, backend, fname)
 h = str2func("stdlib." + fname);
 
-try
-  r = h(Ps{1}, backend);
-  tc.verifyEqual(r, Ps{2})
-catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
-end
+r = h(Ps{1}, backend);
+tc.verifyEqual(r, Ps{2})
 end
 
 
@@ -48,25 +44,17 @@ function test_is_rw_array(tc, backend, fname)
 h = str2func("stdlib." + fname);
 in =  [".",  tempname(), mfilename('fullpath') + ".m"];
 out = [true, false,     true];
-try
-  r = h(in, backend);
-  tc.verifyEqual(r, out)
-catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
-end
+
+r = h(in, backend);
+tc.verifyEqual(r, out)
 end
 
 
-function test_is_char_device(tc, icm)
+function test_is_char_device(tc, backend_ps)
 % /dev/stdin may not be available on CI systems
 n = stdlib.null_file();
 
-try
-  tc.verifyTrue(stdlib.is_char_device(n, icm), n)
-catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
-end
-
+tc.verifyTrue(stdlib.is_char_device(n, backend_ps), n)
 end
 
 end

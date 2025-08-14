@@ -13,7 +13,11 @@ if isunix
   props = [props, "GroupRead", "OtherRead"];
 end
 
-t = getPermissions(filePermissions(file(y)), props);
-y(y) = any(t{:,:}, 2);
+try
+  t = getPermissions(filePermissions(file(y)), props);
+  y(y) = any(t{:,:}, 2);
+catch 
+  y = logical.empty;
+end
 
 end

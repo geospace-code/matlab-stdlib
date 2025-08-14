@@ -4,7 +4,7 @@ classdef (TestTags = {'R2019b', 'pure'}) ...
 properties (TestParameter)
 p = init_norm()
 d = init_drop_slash()
-fun = {'native', 'java', 'python'}
+backend = init_backend({'native', 'java', 'python'})
 end
 
 methods(TestClassSetup)
@@ -15,14 +15,8 @@ end
 
 methods (Test)
 
-function test_normalize(tc, p, fun)
-tc.assertNotEmpty(which("stdlib." + fun + ".normalize"))
-try
-  c = stdlib.normalize(p{1}, fun);
-catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
-  return
-end
+function test_normalize(tc, p, backend)
+c = stdlib.normalize(p{1}, backend);
 
 tc.verifyEqual(c, p{2}, ...
   sprintf("normalize(%s)", p{1}))

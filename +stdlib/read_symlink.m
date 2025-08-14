@@ -16,7 +16,7 @@ arguments
   backend (1,:) string = ["native", "java", "dotnet", "python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "read_symlink", 'R2024b');
+[fun, b] = hbackend(backend, "read_symlink");
 
 if isscalar(file) || b == "native"
   r = fun(file);

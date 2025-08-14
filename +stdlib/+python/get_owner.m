@@ -1,9 +1,11 @@
-function n = get_owner(p)
+function n = get_owner(file)
 
-if stdlib.exists(p)
-  n = string(py.str(py.pathlib.Path(p).owner()));
-else
-  n = "";
+n = "";
+
+if ~strlength(file), return, end
+
+try %#ok<TRYNC>
+  n = string(py.str(py.pathlib.Path(file).owner()));
 end
 
 end

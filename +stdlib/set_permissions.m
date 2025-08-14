@@ -19,7 +19,7 @@ arguments
   backend (1,:) string = ["native", "legacy"]
 end
 
-[fun, b] = hbackend(backend, "set_permissions", 'R2025a');
+[fun, b] = hbackend(backend, "set_permissions");
 
 ok = fun(file, readable, writable, executable);
 

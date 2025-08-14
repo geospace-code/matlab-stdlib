@@ -1,6 +1,10 @@
 function L = cpu_load()
 
-Lavg = py.os.getloadavg();
-L = double(Lavg(1));
+L = [];
+
+try %#ok<TRYNC>
+  L = py.os.getloadavg();
+  L = double(L(1));
+end
 
 end

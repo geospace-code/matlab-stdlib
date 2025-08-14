@@ -14,7 +14,7 @@ arguments
 end
 
 % Java or Python ~ 100x faster than Matlab native
-[fun, b] = hbackend(backend, "is_exe", 'R2025a');
+[fun, b] = hbackend(backend, "is_exe");
 
 if isscalar(file) || b == "native"
   ok = fun(file);

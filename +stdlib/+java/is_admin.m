@@ -1,5 +1,13 @@
-function y = is_admin()
+function ok = is_admin()
 
-y = com.sun.security.auth.module.UnixSystem().getUid() == 0;
+% com.sun.security.auth.module.NTSystem().getGroupIDs();
+% Administrator group SID (S-1-5-32-544) is not an appropriate check .getGroupIDs because it
+% only tells if a user is *allowed* to run as admin, not if they are currently running as admin.
+
+ok = logical.empty;
+
+try %#ok<TRYNC>
+  ok = com.sun.security.auth.module.UnixSystem().getUid() == 0;
+end
 
 end

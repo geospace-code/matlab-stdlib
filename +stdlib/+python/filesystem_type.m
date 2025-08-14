@@ -2,13 +2,14 @@ function t = filesystem_type(p)
 
 t = '';
 
+% important for heuristic matching
 if ~stdlib.exists(p)
   return
 end
 
 pr = stdlib.absolute(p);
 
-try
+try %#ok<TRYNC>
   for part = py.psutil.disk_partitions(p)
     prt = part{1};
     if startsWith(pr, char(prt.mountpoint))
@@ -16,8 +17,6 @@ try
       return
     end
   end
-catch e
-  warning(e.identifier, "filesystem_type(%s) failed: %s", p, e.message);
 end
 
 end

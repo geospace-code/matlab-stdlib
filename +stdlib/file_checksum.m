@@ -16,7 +16,7 @@ function [hash, b] = file_checksum(file, hash_method, backend)
 arguments
   file
   hash_method
-  backend (1,:)  string = ["java", "dotnet", "sys"]
+  backend (1,:) string = ["java", "dotnet", "sys"]
 end
 
 [fun, b] = hbackend(backend, "file_checksum");

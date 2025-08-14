@@ -9,11 +9,9 @@ if ~stdlib.exists(target) || stdlib.strempty(link) || stdlib.exists(link)
 end
 
 % https://learn.microsoft.com/en-us/dotnet/api/system.io.file.createsymboliclink
-try
+try %#ok<TRYNC>
   System.IO.File.CreateSymbolicLink(link, target);
   ok = true;
-catch e
-  warning(e.identifier, "%s", e.message)
 end
 
 end

@@ -12,7 +12,7 @@ arguments
   backend (1,:) string = ["java", "native", "legacy"]
 end
 
-[fun, b] = hbackend(backend, "is_readable", 'R2025a');
+[fun, b] = hbackend(backend, "is_readable");
 
 if isscalar(file) || b == "native"
   ok = fun(file);

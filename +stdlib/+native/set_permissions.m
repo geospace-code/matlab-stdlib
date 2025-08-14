@@ -4,7 +4,12 @@ ok = false;
 
 if ~stdlib.exists(file), return, end
 
-p = filePermissions(file);
+try
+  p = filePermissions(file);
+catch
+  ok = logical.empty;
+  return
+end
 
 k = string.empty;
 v = logical.empty;

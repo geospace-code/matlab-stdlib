@@ -5,9 +5,11 @@ function o = get_owner(p)
 % This is not yet possible with .NET on Unix, even with .NET 10.
 % It would require Pinvoke or external Mono.Unix
 
+o = "";
+
 ntAccountType = System.Type.GetType('System.Security.Principal.NTAccount');
 if isempty(ntAccountType)
-  error('NTAccount type not found. Ensure you are running on a Windows system with .NET support.');
+  return
 end
 
 if isfolder(p)

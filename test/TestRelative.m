@@ -5,7 +5,7 @@ classdef (TestTags = {'R2019b', 'pure'}) ...
 properties (TestParameter)
 pr = init_rel()
 pp = init_prox()
-rel_fun = {"native", "python"}
+backend = init_backend({'native', 'python'})
 end
 
 methods(TestClassSetup)
@@ -17,13 +17,8 @@ end
 
 methods (Test)
 
-function test_relative_to(tc, pr, rel_fun)
-try
-  r = stdlib.relative_to(pr{1}, pr{2}, rel_fun);
-catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
-  return
-end
+function test_relative_to(tc, pr, backend)
+r = stdlib.relative_to(pr{1}, pr{2}, backend);
 tc.verifyEqual(r, pr{3}, "relative_to(" + pr{1} + "," + pr{2}+")")
 end
 

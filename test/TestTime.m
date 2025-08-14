@@ -2,7 +2,7 @@ classdef (TestTags = {'R2019b', 'impure'}) ...
     TestTime < matlab.unittest.TestCase
 
 properties (TestParameter)
-sm_fun = {'sys', 'java', 'python'}
+backend = init_backend({'sys', 'java', 'python'})
 end
 
 methods(TestClassSetup)
@@ -21,19 +21,14 @@ tc.verifyEmpty(stdlib.get_modtime(""))
 end
 
 
-function test_touch_modtime(tc, sm_fun)
+function test_touch_modtime(tc, backend)
 
 fn = fullfile(pwd(), class(tc));
 
 tc.assertTrue(stdlib.touch(fn, datetime("yesterday")))
 t0 = stdlib.get_modtime(fn);
 
-try
-  ok = stdlib.set_modtime(fn, datetime("now"), sm_fun);
-catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
-  return
-end
+ok = stdlib.set_modtime(fn, datetime("now"), backend);
 
 tc.assertTrue(ok)
 t1 = stdlib.get_modtime(fn);

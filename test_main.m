@@ -22,10 +22,6 @@ else
   suite = testsuite(test_root, 'Tag', tags, 'InvalidFileFoundAction', "error");
 end
 
-if ~has_dotnet()
-  sel = sel & ~matlab.unittest.selectors.HasParameter('Value', 'dotnet');
-end
-
 % selectIf takes the subset of suite tests that meet "sel" conditions
 suite = suite.selectIf(sel);
 
@@ -45,16 +41,5 @@ if Lk
 end
 
 fprintf("%d / %d tests succeeded\n", Lok, Lt);
-
-end
-
-
-function y = has_dotnet()
-
-try
-  y = NET.isNETSupported;
-catch
-  y = false;
-end
 
 end

@@ -20,10 +20,10 @@ cmd = getUpgradePath();
 fprintf("Matlab upgrade command:\n\n%s\n\n", cmd);
 
 if doUpgrade
-  s = system("cmd /c " + cmd);
+  s = system(cmd);
   assert(s == 0, "Return code %d", s)
 else
-  disp("MatlabReleaseUpgrade(1) to install upgrade")
+  disp("MatlabReleaseUpgrade(1) to install upgrade if available")
 end
 
 end

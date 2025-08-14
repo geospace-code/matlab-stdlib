@@ -14,7 +14,7 @@ arguments
   backend (1,:) string = ["native", "dotnet", "python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "create_symlink", 'R2024b');
+[fun, b] = hbackend(backend, "create_symlink");
 
 ok = fun(target, link);
 

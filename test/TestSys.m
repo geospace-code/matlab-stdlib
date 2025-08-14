@@ -3,21 +3,19 @@ classdef (TestTags = {'R2019b', 'impure'}) ...
 
 properties
 CI = getenv("CI") == "true" || getenv("GITHUB_ACTIONS") == "true"
-cwd
+cwd = fileparts(mfilename('fullpath'))
 root
 end
 
 properties (TestParameter)
-cpu_arch_fun = {'java', 'dotnet', 'native'}
-cr_method = {'sys', 'java', 'python'}
-all_fun = {'java', 'python', 'dotnet', 'sys'}
+backend_djn = init_backend({'java', 'dotnet', 'native'})
+backend_jps = init_backend({'sys', 'java', 'python'})
+backend_djps = init_backend({'java', 'python', 'dotnet', 'sys'})
 end
 
 methods(TestClassSetup)
-function setup_paths(tc)
-tc.cwd = fileparts(mfilename('fullpath'));
+function setupPaths(tc)
 tc.root = fileparts(tc.cwd);
-
 pkg_path(tc)
 end
 end
@@ -62,14 +60,17 @@ function test_is_cygwin(tc)
 tc.verifyFalse(stdlib.is_cygwin())
 end
 
-function test_is_admin(tc, all_fun)
-tc.assertNotEmpty(which("stdlib." + all_fun + ".is_admin"))
-try
-  i = stdlib.is_admin(all_fun);
-  tc.verifyClass(i, "logical")
+function test_is_admin(tc, backend_djps)
+
+i = stdlib.is_admin(backend_djps);
+tc.verifyClass(i, "logical")
+
+if (backend_djps == "java" && ispc()) || ...
+   (backend_djps == "dotnet" && isunix()) || ...
+   (backend_djps == "python" && ispc() && stdlib.matlabOlderThan('R2024a'))
+  tc.verifyEmpty(i)
+else
   tc.verifyNotEmpty(i)
-catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 
@@ -82,15 +83,12 @@ tc.verifyClass(pid, 'uint64')
 end
 
 
-function test_cpu_load(tc, cr_method)
-n = "stdlib." + cr_method + ".cpu_load";
-h = @stdlib.cpu_load;
-tc.assertNotEmpty(which(n))
-try
-  r = h(cr_method);
+function test_cpu_load(tc, backend_jps)
+r = stdlib.cpu_load(backend_jps);
+if ispc() && backend_jps == "python"
+  tc.verifyEmpty(r)
+else
   tc.verifyGreaterThanOrEqual(r, 0.)
-catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
 end
 end
 
@@ -125,13 +123,8 @@ else
 end
 end
 
-function test_os_version(tc, all_fun)
-try
-  [os, ver] = stdlib.os_version(all_fun);
-catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
-  return
-end
+function test_os_version(tc, backend_djps)
+[os, ver] = stdlib.os_version(backend_djps);
 
 tc.verifyClass(os, 'char')
 tc.verifyClass(ver, 'char')
@@ -153,28 +146,14 @@ tc.verifyNotEmpty(ip)
 tc.verifyClass(ip, 'logical')
 end
 
-function test_hostname(tc, all_fun)
-tc.assertNotEmpty(which("stdlib." + all_fun + ".get_hostname"))
-try
-  h = stdlib.hostname(all_fun);
-catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
-  return
-end
-
+function test_hostname(tc, backend_djps)
+h = stdlib.hostname(backend_djps);
 tc.verifyClass(h, 'char')
 tc.verifyGreaterThan(strlength(h), 0)
 end
 
-function test_username(tc, all_fun)
-tc.assertNotEmpty(which("stdlib." + all_fun + ".get_username"))
-try
-  u = stdlib.get_username(all_fun);
-catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
-  return
-end
-
+function test_username(tc, backend_djps)
+u = stdlib.get_username(backend_djps);
 tc.verifyClass(u, 'char')
 tc.verifyGreaterThan(strlength(u), 0)
 end
@@ -189,44 +168,36 @@ end
 end
 
 
-function test_cpu_arch(tc, cpu_arch_fun)
-
-try
-  arch = stdlib.cpu_arch(cpu_arch_fun);
-catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
-  return
-end
+function test_cpu_arch(tc, backend_djn)
+arch = stdlib.cpu_arch(backend_djn);
 tc.verifyClass(arch, 'char')
 tc.verifyGreaterThan(strlength(arch), 0, "CPU architecture should not be empty")
 end
 
-function test_ram_total(tc, all_fun)
-try
-  t = stdlib.ram_total(all_fun);
-catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
-  return
-end
+function test_ram_total(tc, backend_djps)
+t = stdlib.ram_total(backend_djps);
 
-tc.verifyGreaterThan(t, 0)
 tc.verifyClass(t, 'uint64')
+if (backend_djps == "python" && ~stdlib.python.has_psutil()) || ...
+    (backend_djps == "dotnet" && stdlib.dotnet_api() < 6)
+  tc.verifyEmpty(t)
+else
+  tc.verifyGreaterThan(t, 0)
+end
 end
 
 
-function test_ram_free(tc, cr_method)
+function test_ram_free(tc, backend_jps)
 % don't verify less than or equal total due to shaky system measurements'
-try
-  f = stdlib.ram_free(cr_method);
-catch e
-  tc.verifyEqual(e.identifier, 'stdlib:hbackend:NameError', e.message)
-  return
-end
+f = stdlib.ram_free(backend_jps);
 
-tc.verifyGreaterThan(f, 0)
 tc.verifyClass(f, 'uint64')
+if backend_jps == "python" && ~stdlib.python.has_psutil()
+  tc.verifyEmpty(f)
+else
+  tc.verifyGreaterThan(f, 0)
+end
 end
 
 end
-
 end
