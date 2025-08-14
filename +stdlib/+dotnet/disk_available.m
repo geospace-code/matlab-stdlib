@@ -2,7 +2,7 @@
 
 function f = disk_available(p)
 
-f = uint64(0);
+f = uint64([]);
 
 if ~stdlib.exists(p), return, end
 

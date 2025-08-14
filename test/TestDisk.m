@@ -9,9 +9,7 @@ properties (TestParameter)
 Ps = {".", "", "/", getenv("SystemDrive"), "not-exist"}
 Po = {mfilename("fullpath") + ".m", pwd(), ".", "", "not-exist"}
 backend_jps = init_backend({'sys', 'java', 'python'})
-id_name = {"inode", "device"}
 backend_djps = init_backend({'sys', 'dotnet', 'java', 'python'})
-disk_ac_name = {'disk_available', 'disk_capacity'}
 backend_ds = init_backend({'dotnet', 'sys'})
 backend_ps = init_backend({'python', 'sys'})
 end
@@ -26,16 +24,29 @@ end
 
 methods (Test)
 
-function test_disk_ac(tc, Ps, backend_djps, disk_ac_name)
-h = str2func("stdlib." + disk_ac_name);
+function test_disk_available(tc, Ps, backend_djps)
+r = stdlib.disk_available(Ps, backend_djps);
 
-r = h(Ps, backend_djps);
+tc.verifyClass(r, 'uint64')
+
 if stdlib.exists(Ps)
   tc.verifyGreaterThanOrEqual(r, 0)
 else
-  tc.verifyEqual(r, uint64(0))
+  tc.verifyEmpty(r)
+end
 end
 
+
+function test_disk_capacity(tc, Ps, backend_djps)
+r = stdlib.disk_capacity(Ps, backend_djps);
+
+tc.verifyClass(r, 'uint64')
+
+if stdlib.exists(Ps)
+  tc.verifyGreaterThanOrEqual(r, 0)
+else
+  tc.verifyEmpty(r)
+end
 end
 
 
@@ -50,7 +61,7 @@ y = stdlib.is_mount(pwd(), backend_ps);
 
 tc.verifyClass(y, 'logical')
 tc.verifyTrue(stdlib.is_mount("/", backend_ps))
-tc.verifyFalse(stdlib.is_mount(tempname(), backend_ps))
+tc.verifyEmpty(stdlib.is_mount(tempname(), backend_ps))
 
 if ispc()
   sd = getenv("SystemDrive");
@@ -101,18 +112,30 @@ tc.verifyTrue(stdlib.remove(f), "failed to remove file " + f)
 end
 
 
-function test_inode_device(tc, backend_jps, id_name)
+function test_device(tc, Po, backend_jps)
 
-h = str2func("stdlib." + id_name);
+i = stdlib.device(Po, backend_jps);
+tc.verifyClass(i, 'uint64')
 
-ip = h(pwd(), backend_jps);
-tc.verifyClass(ip, 'uint64')
-
-if ispc() && backend_jps == "java"
-  tc.verifyEmpty(ip)
+if ispc() && backend_jps == "java" || ~stdlib.exists(Po)
+  tc.verifyEmpty(i)
 else
-  tc.assertGreaterThan(ip, 0)
-  tc.verifyEqual(h(".", backend_jps), ip)
+  tc.assertNotEmpty(i)
+  tc.assertGreaterThan(i, 0)
+end
+end
+
+
+function test_inode(tc, Po, backend_jps)
+
+i = stdlib.inode(Po, backend_jps);
+tc.verifyClass(i, 'uint64')
+
+if ispc() && backend_jps == "java" || ~stdlib.exists(Po)
+  tc.verifyEmpty(i)
+else
+  tc.assertNotEmpty(i)
+  tc.assertGreaterThan(i, 0)
 end
 end
 

@@ -1,6 +1,6 @@
 function bytes = ram_free()
 
-bytes = 0;
+bytes = [];
 
 if ispc()
   cmd = 'pwsh -c "(Get-CimInstance -ClassName CIM_OperatingSystem).FreePhysicalMemory * 1KB"';

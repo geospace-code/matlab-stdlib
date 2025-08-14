@@ -1,15 +1,16 @@
 function i = device(file)
 
+i = uint64([]);
+if ~stdlib.exists(file), return, end
+
 opt = java.nio.file.LinkOption.values();
 
 jp = javaPathObject(stdlib.absolute(file));
 % Java 1.8 benefits from the absolute() for stability
 % seen on older Matlab versions on HPC
 
-try
+try %#ok<TRYNC>
   i = java.nio.file.Files.getAttribute(jp, 'unix:dev', opt);
-catch
-  i = [];
 end
 
 i = uint64(i);

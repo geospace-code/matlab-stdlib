@@ -2,7 +2,7 @@
 
 function f = disk_capacity(d)
 
-f = uint64(0);
+f = uint64([]);
 
 if ~stdlib.exists(d), return, end
 

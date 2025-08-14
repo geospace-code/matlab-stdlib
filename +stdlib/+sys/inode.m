@@ -2,7 +2,7 @@
 
 function i = inode(p)
 
-i = 0;
+i = [];
 
 if ispc()
   % https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-file

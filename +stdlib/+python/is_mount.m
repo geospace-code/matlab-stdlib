@@ -4,17 +4,17 @@
 
 function y = is_mount(filepath)
 
+y = logical.empty;
+if ~stdlib.exists(filepath), return, end
+
 % some Python on CI needs this. Didn't replicate on local Windows PC.
 if ispc() && strcmp(filepath, stdlib.root_name(filepath)) && ~endsWith(filepath, ["/", "\"])
   y = false;
   return
 end
 
-try
+try %#ok<TRYNC>
   y = py.os.path.ismount(filepath);
-catch e
-  warning(e.identifier, "Python is_mount failed: %s", e.message);
-  y = false;
 end
 
 end

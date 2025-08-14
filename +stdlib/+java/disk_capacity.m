@@ -1,5 +1,9 @@
-function f = disk_capacity(d)
+function i = disk_capacity(d)
 
-f = uint64(java.io.File(d).getTotalSpace());
+i = java.io.File(d).getTotalSpace();
+if i < 1
+  i = [];
+end
 
+i = uint64(i);
 end

@@ -2,14 +2,7 @@ classdef (TestTags = {'R2019b', 'impure'}) ...
     TestExists < matlab.unittest.TestCase
 
 properties(TestParameter)
-Ps = {
-{pwd(), true}, ...
-{mfilename("fullpath") + ".m", true}, ...
-{fileparts(mfilename("fullpath")) + "/../Readme.md", true}, ...
-{tempname(), false}, ...
-{'', false}, ...}
-{"", false}
-}
+Ps = init_val()
 % on CI matlabroot can be writable!
 backend = init_backend({'python', 'sys'})
 end
@@ -68,5 +61,24 @@ n = stdlib.null_file();
 tc.verifyTrue(stdlib.is_char_device(n, backend), n)
 end
 
+end
+end
+
+
+function Ps = init_val()
+Ps = {
+  {pwd(), true}, ...
+  {mfilename("fullpath") + ".m", true}, ...
+  {fileparts(mfilename("fullpath")) + "/../Readme.md", true}, ...
+  {tempname(), false}, ...
+  {'', false}, ...
+  {"", false}
+};
+if ispc()
+  % On Windows, the root of the system drive is considered to exist
+  systemDrive = getenv("SystemDrive");
+  if ~isempty(systemDrive)
+    Ps{end+1} = {systemDrive, true};
+  end
 end
 end

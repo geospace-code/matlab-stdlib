@@ -1,6 +1,6 @@
 function bytes = ram_total()
 
-bytes = 0;
+bytes = [];
 
 if ispc()
   cmd = 'pwsh -c "(Get-CimInstance -ClassName Win32_ComputerSystem).TotalPhysicalMemory"';

@@ -1,9 +1,11 @@
 function y = is_mount(filepath)
 
+y = logical.empty;
+if ~stdlib.exists(filepath), return, end
 
 if ispc()
   if any(ismember(filepath, ["/", "\"])) || ...
-      (endsWith(filepath, ["/", "\"]) && isfolder(filepath) && filepath == stdlib.root(filepath))
+      (endsWith(filepath, "/" | filesep) && isfolder(filepath) && filepath == stdlib.root(filepath))
     y = true;
     return
   end

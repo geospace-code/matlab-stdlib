@@ -1,6 +1,6 @@
 function t = disk_available(p)
 
-t = uint64(0);
+t = uint64([]);
 
 if ~stdlib.exists(p), return, end
 

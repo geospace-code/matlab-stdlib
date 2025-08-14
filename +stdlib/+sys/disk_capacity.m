@@ -1,6 +1,6 @@
 function t = disk_capacity(p)
 
-t = uint64(0);
+t = uint64([]);
 
 if ~stdlib.exists(p), return, end
 
