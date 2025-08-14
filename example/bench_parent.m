@@ -1,7 +1,18 @@
-f = mfilename("fullpath") + ".m";
+function bench_parent()
 
-fno = @() stdlib.parent(f);
+in = mfilename("fullpath") + ".m";
+r = fileparts(fileparts(in));
+addpath(r)
+obj = onCleanup(@() rmpath(r));
 
-t_no = timeit(fno);
+h = @() stdlib.parent(in);
+fj = @() javafun.parent(in);
+fp = @() python.parent(in);
 
-disp("No Java: " + t_no + " s")
+tj = timeit(fj, 1) * 1e3;
+tp = timeit(fp, 1) * 1e3;
+th = timeit(h, 1) * 1e3;
+
+fprintf('Native: %f\nJava: %f\nPython: %f\n', th, tj, tp);
+
+end

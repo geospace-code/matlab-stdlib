@@ -2,26 +2,26 @@
 %
 %% Inputs
 % * file: path to file or folder
-% * backend: backend to use
 %% Outputs
 % * par: parent directory of path
-% * b: backend used
 %% Examples:
 % stdlib.parent("a/b/c") == "a/b"
 % stdlib.parent("a/b/c/") == "a/b"
 
-function [par, b] = parent(file, backend)
+function p = parent(file)
 arguments
   file string
-  backend (1,:) string = ["java", "python", "native"]
 end
 
-if isscalar(file)
-  [fun, b] = hbackend(backend, "parent");
-  par = fun(file);
-else
-  b = "native";
-  par = stdlib.native.parent(file);
+p = fileparts(stdlib.drop_slash(file));
+
+i = ~strlength(p);
+p(i) = ".";
+
+% the ~all(i) is for Windows Matlab < R2025a
+if ispc() && ~all(i)
+  i = p(~i) == stdlib.root_name(file(~i));
+  p(i) = p(i) + "/";
 end
 
 end

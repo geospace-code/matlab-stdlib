@@ -3,7 +3,6 @@ classdef (TestTags = {'R2019b', 'pure'}) ...
 
 properties (TestParameter)
 p = init_parent()
-backend = init_backend({'java', 'python', 'native'})
 end
 
 methods(TestClassSetup)
@@ -14,9 +13,9 @@ end
 
 methods (Test, TestTags=["R2019b", "pure"])
 
-function test_parent(tc, p, backend)
-pr = stdlib.parent(p{1}, backend);
-tc.verifyEqual(pr, p{2}, sprintf("parent(%s, %s)", p{1}, backend))
+function test_parent(tc, p)
+pr = stdlib.parent(p{1});
+tc.verifyEqual(pr, p{2}, sprintf("parent(%s)", p{1}))
 end
 
 end
@@ -28,9 +27,9 @@ function test_parent_array(tc)
 tc.assumeFalse(stdlib.matlabOlderThan('R2020b'))
 
 in =  ["",  ".", "..", "../..", "a/", "a/b", "ab/.parent", "ab/.parent.txt", "a/b/../.parent.txt"];
-exp = [".", ".", ".", "..",     ".",  "a",   "ab",         "ab",             fullfile("a", "b", "..")];
+exp = [".", ".", ".", "..",     ".",  "a",   "ab",         "ab",             "a/b/.."];
 
-out = stdlib.parent(in, 'native');
+out = stdlib.parent(in);
 tc.verifyEqual(out, exp)
 end
 
@@ -49,15 +48,15 @@ p = {
 {"a/b", "a"}, ...
 {"ab/.parent", "ab"}, ...
 {"ab/.parent.txt", "ab"}, ...
-{"a/b/../.parent.txt", fullfile("a", "b", "..")}};
+{"a/b/../.parent.txt", "a/b/.."}};
 
 if ispc
-p{end+1} = {"c:/", "c:\"};
-p{end+1} = {"c:\", "c:\"};
-p{end+1} = {"c:/a/b", "c:\a"};
-p{end+1} = {"c:\a/b", "c:\a"};
-p{end+1} = {"c:/a", "c:\"};
-p{end+1} = {"c:", "c:\"};
+p{end+1} = {"c:/", "c:/"};
+p{end+1} = {"c:\", "c:/"};
+p{end+1} = {"c:/a/b", "c:/a"};
+p{end+1} = {"c:\a/b", "c:/a"};
+p{end+1} = {"c:/a", "c:/"};
+p{end+1} = {"c:", "c:/"};
 end
 
 p{end+1} = {'a/b/', "a"};

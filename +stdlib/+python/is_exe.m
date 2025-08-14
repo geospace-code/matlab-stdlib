@@ -1,4 +1,7 @@
 function y = is_exe(p)
+arguments
+  p (1,1) string
+end
 
 y = isfile(p);
 
