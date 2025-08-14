@@ -5,3 +5,5 @@ try
 catch e
   y = logical.empty;
 end
+
+end

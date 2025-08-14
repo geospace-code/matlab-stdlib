@@ -52,11 +52,11 @@ jobs:
 
     - &code-issues
       name: Check codeIssues
-      if: ${{ matrix.release >= 'R2023a' }}
+      if: ${{ matrix.release >= 'R2024a' }}
       uses: matlab-actions/run-build@v2
       with:
         tasks: check
-    # R2022b has false positives that would break tests
+    # Matlab < R2024a has false positives that would break tests
 
     - &test-main
       name: Main Tests
