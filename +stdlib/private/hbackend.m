@@ -69,7 +69,7 @@ for m = backend
           end
         case {'is_symlink', 'read_symlink'}
           if stdlib.matlabOlderThan('R2024b'), continue, end
-        case {'get_permissions', 'set_permissions', 'is_readable', 'is_writable'}
+        case {'get_permissions', 'set_permissions'}
           if stdlib.matlabOlderThan('R2025a'), continue, end
       end
 

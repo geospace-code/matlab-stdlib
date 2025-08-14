@@ -4,20 +4,16 @@
 % file: single path string
 %% Outputs
 % ok: true if file is readable
-% b: backend used
 
-function [ok, b] = is_readable(file, backend)
+function ok = is_readable(file)
 arguments
   file string
-  backend (1,:) string = ["java", "native", "legacy"]
 end
 
-[fun, b] = hbackend(backend, "is_readable");
-
-if isscalar(file) || b == "native"
-  ok = fun(file);
+if isscalar(file)
+  ok = stdlib.legacy.is_readable(file);
 else
-  ok = arrayfun(fun, file);
+  ok = stdlib.native.is_readable(file);
 end
 
 end

@@ -11,9 +11,7 @@ Ps = {
 {"", false}
 }
 % on CI matlabroot can be writable!
-fname = {'is_readable', 'is_writable'}
-backend = init_backend({'java', 'native', 'legacy'}, 'native', ~isMATLABReleaseOlderThan('R2025a'))
-backend_ps = init_backend({'python', 'sys'})
+backend = init_backend({'python', 'sys'})
 end
 
 methods(TestClassSetup)
@@ -32,29 +30,42 @@ tc.verifyEqual(ok, Ps{2}, Ps{1})
 end
 
 
-function test_is_rw(tc, Ps, backend, fname)
-h = str2func("stdlib." + fname);
+function test_is_readable(tc, Ps)
+r = stdlib.is_readable(Ps{1});
+tc.verifyEqual(r, Ps{2})
+end
 
-r = h(Ps{1}, backend);
+function test_is_writable(tc, Ps)
+r = stdlib.is_writable(Ps{1});
 tc.verifyEqual(r, Ps{2})
 end
 
 
-function test_is_rw_array(tc, backend, fname)
-h = str2func("stdlib." + fname);
+function test_is_readable_array(tc)
+tc.assumeFalse(stdlib.matlabOlderThan('R2025a'))
 in =  [".",  tempname(), mfilename('fullpath') + ".m"];
 out = [true, false,     true];
 
-r = h(in, backend);
+r = stdlib.is_readable(in);
 tc.verifyEqual(r, out)
 end
 
 
-function test_is_char_device(tc, backend_ps)
+function test_is_writable_array(tc)
+tc.assumeFalse(stdlib.matlabOlderThan('R2025a'))
+in =  [".",  tempname(), mfilename('fullpath') + ".m"];
+out = [true, false,     true];
+
+r = stdlib.is_writable(in);
+tc.verifyEqual(r, out)
+end
+
+
+function test_is_char_device(tc, backend)
 % /dev/stdin may not be available on CI systems
 n = stdlib.null_file();
 
-tc.verifyTrue(stdlib.is_char_device(n, backend_ps), n)
+tc.verifyTrue(stdlib.is_char_device(n, backend), n)
 end
 
 end

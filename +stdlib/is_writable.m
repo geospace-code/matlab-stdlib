@@ -2,23 +2,18 @@
 %
 %%% Inputs
 % * file: path to file or folder
-% * backend: backend to use
 %% Outputs
 % * ok: true if file is writable
-% * b: backend used
 
-function [ok, b] = is_writable(file, backend)
+function ok = is_writable(file)
 arguments
   file string
-  backend (1,:) string = ["java", "native", "legacy"]
 end
 
-[fun, b] = hbackend(backend, "is_writable");
-
-if isscalar(file) || b == "native"
-  ok = fun(file);
+if isscalar(file)
+  ok = stdlib.legacy.is_writable(file);
 else
-  ok = arrayfun(fun, file);
+  ok = stdlib.native.is_writable(file);
 end
 
 end
