@@ -8,7 +8,7 @@ end
 methods (TestClassSetup)
 function setup_file(tc)
 tc.file = fullfile(matlabroot, "toolbox/matlab/demos/example.hdf");
-tc.assertThat(tc.file, matlab.unittest.constraints.IsFile)
+tc.assumeThat(tc.file, matlab.unittest.constraints.IsFile)
 
 pkg_path(tc)
 end
