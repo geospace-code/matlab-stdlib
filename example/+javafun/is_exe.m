@@ -1,12 +1,11 @@
-%% IS_EXE is file executable
+function y = is_exe(p)
 
-function ok = is_exe(p)
+y = isfile(p);
 
-% about the same time as fileattrib
-% https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/File.html#canExecute()
-% more complicated
-% ok = java.nio.file.Files.isExecutable(javaPathObject(stdlib.canonical(p)));
+if ispc()
+  y = y && stdlib.native.has_windows_executable_suffix(p);
+end
 
-ok = javaFileObject(p).canExecute();
+y = y && java.io.File(p).canExecute();
 
 end

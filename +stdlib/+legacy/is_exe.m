@@ -1,12 +1,15 @@
 function y = is_exe(file)
-
-y = isfile(file);
-
-if ispc()
-  y = y && stdlib.native.has_windows_executable_suffix(file);
+arguments
+  file (1,1) string
 end
 
-if ~y, return, end
+y = false;
+
+if ispc() && ~stdlib.native.has_windows_executable_suffix(file)
+  return
+end
+
+if ~isfile(file), return, end
 
 a = file_attributes(file);
 y = a.UserExecute || a.GroupExecute || a.OtherExecute;

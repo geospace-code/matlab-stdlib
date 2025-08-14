@@ -5,21 +5,16 @@
 % file: path to check
 %% Outputs
 % ok: true if path is a file and has executable permissions
-% b: backend used
 
-function [ok, b] = is_exe(file, backend)
+function ok = is_exe(file)
 arguments
   file string
-  backend (1,:) string = ["java", "python", "native", "legacy"]
 end
 
-% Java or Python ~ 100x faster than Matlab native
-[fun, b] = hbackend(backend, "is_exe");
-
-if isscalar(file) || b == "native"
-  ok = fun(file);
+if isscalar(file)
+  ok = stdlib.legacy.is_exe(file);
 else
-  ok = arrayfun(fun, file);
+  ok = stdlib.native.is_exe(file);
 end
 
 end

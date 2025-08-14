@@ -12,7 +12,6 @@ p = {
 {matlab_path(), true}
 }
 peb = init_exe_bin()
-backend = init_backend({'java', 'python', 'native', 'legacy'}, 'native', ~isMATLABReleaseOlderThan('R2025a'))
 end
 
 methods(TestClassSetup)
@@ -25,18 +24,24 @@ end
 
 methods(Test)
 
-function test_is_exe(tc, p, backend)
-r = stdlib.is_exe(p{1}, backend);
+function test_is_exe(tc, p)
+r = stdlib.is_exe(p{1});
+tc.verifyEqual(r, p{2})
+end
+
+function test_is_exe_legacy(tc, p)
+r = stdlib.legacy.is_exe(p{1});
 tc.verifyEqual(r, p{2})
 end
 
 
-function test_is_exe_array(tc, backend)
+function test_is_exe_array(tc)
+tc.assumeFalse(isMATLABReleaseOlderThan('R2025a'))
 n = fullfile(matlabroot, "bin/matlab");
 if ispc()
   n = n + ".exe";
 end
-r = stdlib.is_exe(["Readme.md", tempname(), n], backend);
+r = stdlib.is_exe(["Readme.md", tempname(), n]);
 tc.verifyEqual(r, [false, false, true])
 end
 
