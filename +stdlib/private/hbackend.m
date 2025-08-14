@@ -64,13 +64,13 @@ for m = backend
 
       switch name
         case 'create_symlink'
-          if isMATLABReleaseOlderThan('R2024b') || (ispc() && isMATLABReleaseOlderThan('R2025a'))
+          if stdlib.matlabOlderThan('R2024b') || (ispc() && stdlib.matlabOlderThan('R2025a'))
             continue
           end
         case {'is_symlink', 'read_symlink'}
-          if isMATLABReleaseOlderThan('R2024b'), continue, end
-        case {'get_permissions', 'set_permissions', 'is_exe', 'is_readable', 'is_writable'}
-          if isMATLABReleaseOlderThan('R2025a'), continue, end
+          if stdlib.matlabOlderThan('R2024b'), continue, end
+        case {'get_permissions', 'set_permissions', 'is_readable', 'is_writable'}
+          if stdlib.matlabOlderThan('R2025a'), continue, end
       end
 
       has = true;
