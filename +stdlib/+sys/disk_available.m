@@ -2,6 +2,8 @@ function [t, cmd] = disk_available(p)
 
 t = uint64([]);
 
+if ~stdlib.exists(p), return, end
+
 if ispc()
   dl = extractBefore(stdlib.absolute(p), 2);
   cmd = "pwsh -c (Get-Volume -DriveLetter " + dl + ").SizeRemaining";

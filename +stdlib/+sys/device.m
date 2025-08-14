@@ -6,10 +6,10 @@
 % * i: drive inde
 % * cmd: command line command used
 
-
 function [i, cmd] = device(p)
 
 i = uint64([]);
+if ~stdlib.exists(p), return, end
 
 if ispc()
   c0 = 'pwsh -c "(Get-CimInstance -ClassName Win32_Volume -Filter \"DriveLetter = ''';
@@ -22,6 +22,7 @@ elseif ismac()
 else
   cmd = sprintf('stat -c %%d "%s"', p);
 end
+
 
 if stdlib.exists(p)
   [s, m] = system(cmd);
