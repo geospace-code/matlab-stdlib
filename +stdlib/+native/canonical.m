@@ -4,13 +4,8 @@ arguments
   strict (1,1) logical = false
 end
 
-try
-  rp = matlab.io.internal.filesystem.resolvePath(file);
-  c = string({rp.ResolvedPath});
-catch
-  c = "";
-  return
-end
+rp = matlab.io.internal.filesystem.resolvePath(file);
+c = string({rp.ResolvedPath});
 
 if strict
   return

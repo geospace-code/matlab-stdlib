@@ -10,7 +10,6 @@ p = {{'', ""}, ...
 {"not-exist/a/..", "not-exist"}, ...
 {"./not-exist", "not-exist"}
 };
-backend = init_backend({'native', 'legacy'}, 'native', ~isMATLABReleaseOlderThan('R2024a'))
 end
 
 methods(TestClassSetup)
@@ -24,16 +23,23 @@ end
 
 methods(Test)
 
-function test_canonical(tc, p, backend)
-c = stdlib.canonical(p{1}, false, backend);
+function test_canonical(tc, p)
+c = stdlib.canonical(p{1}, false);
+tc.verifyEqual(c, p{2})
+end
+
+function test_legacy_canonical(tc, p)
+c = stdlib.legacy.canonical(p{1}, false);
 tc.verifyEqual(c, p{2})
 end
 
 
-function test_canonical_array(tc, backend)
+function test_canonical_array(tc)
+tc.assumeFalse(stdlib.matlabOlderThan('R2024a'))
+
 in = ["", "hi", "/ok", "not-exist/a/.."];
 
-c = stdlib.canonical(in, false, backend);
+c = stdlib.canonical(in, false);
 exp = ["", "hi", filesep + "ok", "not-exist"];
 tc.verifyEqual(c, exp)
 end

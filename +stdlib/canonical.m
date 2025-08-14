@@ -9,24 +9,24 @@
 %%% Inputs
 % * p: path to make canonical
 % * strict: if true, only return canonical path if it exists. If false, return normalized path if path does not exist.
-% * backend: backend to use
 %%% Outputs
 % * c: canonical path, if determined
-% * b: backend used
 
-function [c, b] = canonical(p, strict, backend)
+function c = canonical(p, strict)
 arguments
   p string
   strict (1,1) logical = false
-  backend (1,:) string = ["native", "legacy"]
 end
 
-[fun, b] = hbackend(backend, "canonical");
-
-if isscalar(p) || b == "native"
-  c = fun(p, strict);
-else
-  c = arrayfun(fun, p, repmat(strict, size(p)));
+try
+  c = stdlib.native.canonical(p, strict);
+catch e
+  switch e.identifier
+    case {'MATLAB:UndefinedFunction', 'MATLAB:undefinedVarOrClass'}
+      c = stdlib.legacy.canonical(p, strict);
+    otherwise
+      rethrow(e)
+  end
 end
 
 end
