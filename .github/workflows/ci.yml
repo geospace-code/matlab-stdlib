@@ -19,10 +19,10 @@ concurrency:
 jobs:
 
   matlab-at-least-r2024a:
-    timeout-minutes: 15
+    timeout-minutes: &timeout 15
     runs-on: ${{ matrix.os }}
 
-    name: ${{ matrix.release }}-${{ matrix.os }}
+    name: &job-name ${{ matrix.release }}-${{ matrix.os }}
 
     strategy:
       matrix:
@@ -33,16 +33,20 @@ jobs:
 # macOS >= R2023b to be compatible with Xcode version on Github Actions runner
 
     steps:
-    - &checkout
-      uses: actions/checkout@v4
-
     - &matlab-install
-      uses: ./.github/workflows/composite-install-matlab
+      name: Install MATLAB
+      uses: matlab-actions/setup-matlab@v2
+      with:
+        release: ${{ matrix.release }}
+        cache: true
 
     - &mac-fc
       name: Fortran FC
       if: runner.os == 'macOS'
       run: echo "FC=gfortran-14" >> $GITHUB_ENV
+
+    - &checkout
+      uses: actions/checkout@v4
 
     - &tell-ext
       name: Matlab tell External Language Interface versions
@@ -65,10 +69,10 @@ jobs:
 
   matlab:
     needs: matlab-at-least-r2024a
-    timeout-minutes: 15
+    timeout-minutes:  *timeout
     runs-on: ${{ matrix.os }}
 
-    name: ${{ matrix.release }}-${{ matrix.os }}
+    name: *job-name
 
     strategy:
       matrix:
@@ -76,21 +80,20 @@ jobs:
         release: [R2022a, R2022b, R2023a, R2023b]
 
     steps:
-    - *checkout
     - *matlab-install
     - *mac-fc
+    - *checkout
     - *tell-ext
 
-    - *code-issues
     - *test-main
 
 
   matlab-less-than-R2022a:
     needs: matlab-at-least-r2024a
 
-    name: ${{ matrix.release }}-${{ matrix.os }}
+    name: *job-name
 
-    timeout-minutes: 15
+    timeout-minutes: *timeout
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -99,8 +102,30 @@ jobs:
         release: [R2021a, R2021b]
 
     steps:
-    - *checkout
     - *matlab-install
+    - *checkout
+    - *tell-ext
+
+    - *test-main
+
+
+  NoJVM:
+    timeout-minutes: *timeout
+
+    name: *job-name
+
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, macos-latest, windows-latest]
+        release: [R2022b, R2025a]
+        startup-options: ["-nojvm"]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - *matlab-install
+    - *checkout
+    - *mac-fc
     - *tell-ext
 
     - *test-main

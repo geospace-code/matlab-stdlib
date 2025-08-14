@@ -44,7 +44,11 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - uses: ./.github/workflows/composite-install-matlab
+      - name: Install MATLAB
+        uses: matlab-actions/setup-matlab@v2
+        with:
+          release: ${{ matrix.release }}
+          cache: true
 
       - name: Run Matlab buildtool
         uses: matlab-actions/run-build@v2
