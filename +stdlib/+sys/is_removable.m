@@ -12,13 +12,13 @@ if ispc()
   psFile = fullfile(fileparts(mfilename('fullpath')), "isRemovableDrive.ps1");
   mustBeFile(psFile)
 
-  psCmd = sprintf(". '%s'; IsRemovableDrive -DriveLetter '%s'", psFile, r);
+  psCmd = sprintf('. ''%s''; IsRemovableDrive -DriveLetter ''%s''', psFile, r);
 
-  cmd1 = sprintf('powershell -ExecutionPolicy Bypass -Command "& {%s}"', psCmd);
+  cmd = sprintf('powershell -ExecutionPolicy Bypass -Command "& {%s}"', psCmd);
 else
-  cmd1 = sprintf('df "%s" | tail -n 1 | awk ''{print $1}''', filepath);
+  cmd = sprintf('df "%s" | tail -n 1 | awk ''{print $1}''', filepath);
 end
-[s1, m1] = system(cmd1);
+[s1, m1] = system(cmd);
 if s1 ~= 0
   warning('stdlib:is_removable:OSError', '%s', m1)
   return

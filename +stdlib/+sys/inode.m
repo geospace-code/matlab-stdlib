@@ -1,6 +1,6 @@
 %% SYS.INODE get file inode
 
-function i = inode(p)
+function [i, cmd] = inode(p)
 
 i = [];
 

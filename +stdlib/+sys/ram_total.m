@@ -1,4 +1,4 @@
-function bytes = ram_total()
+function [bytes, cmd] = ram_total()
 
 bytes = [];
 

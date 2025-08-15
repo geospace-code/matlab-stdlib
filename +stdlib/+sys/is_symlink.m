@@ -1,15 +1,20 @@
-function ok = is_symlink(p)
+function [ok, cmd] = is_symlink(p)
 
 ok = false;
 
-if strlength(p) < 1, return, end
-
 if ispc()
-  [s, m] = system(sprintf('pwsh -command "(Get-Item -Path %s).Attributes"', p));
-  ok = s == 0 && contains(m, 'ReparsePoint');
+  cmd = sprintf('pwsh -command "(Get-Item -Path ''%s'').Attributes"', p);
 else
-  [s, ~] = system(sprintf('test -L %s', p));
+  cmd = sprintf('test -L "%s"', p);
+end
+
+if strlength(p)
+  [s, m] = system(cmd);
   ok = s == 0;
+
+  if ispc()
+    ok = ok && contains(m, 'ReparsePoint');
+  end
 end
 
 end

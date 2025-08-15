@@ -1,4 +1,4 @@
-function n = get_username()
+function [n, cmd] = get_username()
 
 if ispc()
   cmd = 'whoami';

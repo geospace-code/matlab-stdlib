@@ -1,4 +1,4 @@
-function n = get_hostname()
+function [n, cmd] = get_hostname()
 
 cmd = 'hostname';
 [s, n] = system(cmd);

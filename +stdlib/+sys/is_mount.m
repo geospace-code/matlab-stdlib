@@ -1,5 +1,6 @@
-function y = is_mount(filepath)
+function [y, cmd] = is_mount(filepath)
 
+cmd = '';
 y = logical.empty;
 if ~stdlib.exists(filepath), return, end
 

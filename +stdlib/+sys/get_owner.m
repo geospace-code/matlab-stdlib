@@ -1,9 +1,6 @@
-function o = get_owner(p)
+function [o, cmd] = get_owner(p)
 
 o = "";
-if ~stdlib.exists(p)
-  return
-end
 
 if ispc()
   cmd = sprintf('pwsh -c "if($x=Get-Acl -Path ''%s'') {$x.Owner}"', p);
@@ -13,9 +10,11 @@ else
   cmd = sprintf('stat -c %%U "%s"', p);
 end
 
-[s, m] = system(cmd);
-if s == 0
-  o = string(strip(m));
+if stdlib.exists(p)
+  [s, m] = system(cmd);
+  if s == 0
+    o = string(strip(m));
+  end
 end
 
 end

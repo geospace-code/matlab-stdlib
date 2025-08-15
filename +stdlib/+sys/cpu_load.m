@@ -1,4 +1,4 @@
-function L = cpu_load()
+function [L, cmd, m] = cpu_load()
 
 L = NaN;
 
@@ -12,7 +12,6 @@ end
 
 [status, m] = system(cmd);
 if status ~= 0
-  warning("stdlib:cpu_load:OSError", "Failed to get CPU load");
   return
 end
 

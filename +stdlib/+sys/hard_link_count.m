@@ -2,12 +2,9 @@
 %
 % Powershell is 0, 1, or 2
 
-function n = hard_link_count(file)
+function [n, cmd] = hard_link_count(file)
 
-if ~stdlib.exists(file)
-  n = 0;
-  return
-end
+n = [];
 
 if ispc()
   cmd = sprintf('pwsh -c "(Get-Item ''%s'').LinkType"', file);
@@ -17,12 +14,14 @@ else
   cmd = sprintf('stat -c %%h ''%s''', file);
 end
 
-[status, output] = system(cmd);
-if status == 0
-  if ispc()
-    n = 1 + startsWith(output, "HardLink");
-  else
-    n = str2double(output);
+if stdlib.exists(file)
+  [status, output] = system(cmd);
+  if status == 0
+    if ispc()
+      n = 1 + startsWith(output, "HardLink");
+    else
+      n = str2double(output);
+    end
   end
 end
 

@@ -1,4 +1,6 @@
-function ok = is_char_device(file)
+function [ok, cmd] = is_char_device(file)
+
+cmd = '';
 
 if ispc()
   % https://learn.microsoft.com/en-us/windows/console/console-handles

@@ -1,22 +1,22 @@
 %% SYS.FILE_CHECKSUM compute checksum of file
-function hash = file_checksum(file, hash_method)
+function [hash, cmd] = file_checksum(file, hash_method)
 
 switch lower(hash_method)
   case {"sha-256", "sha256"}
     if ismac()
-      cmd = "shasum --algorithm 256 --binary " + file;
+      cmd = sprintf('shasum --algorithm 256 --binary "%s"', file);
     elseif ispc()
-      cmd = "CertUtil -hashfile " + file + " SHA256";
+      cmd = sprintf('CertUtil -hashfile "%s" SHA256', file);
     else
-      cmd = "sha256sum --binary " + file;
+      cmd = sprintf('sha256sum --binary "%s"', file);
     end
   case "md5"
     if ismac()
-      cmd = "md5 -r " + file;
+      cmd = sprintf('md5 -r "%s"', file);
     elseif ispc()
-      cmd = "CertUtil -hashfile " + file + " MD5";
+      cmd = sprintf('CertUtil -hashfile "%s" MD5', file);
     else
-      cmd = "md5sum " + file;
+      cmd = sprintf('md5sum "%s"', file);
     end
   otherwise, error('unhandled hash method %s', hash_method)
 end

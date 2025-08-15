@@ -1,4 +1,4 @@
-function bytes = ram_free()
+function [bytes, cmd] = ram_free()
 
 bytes = [];
 
