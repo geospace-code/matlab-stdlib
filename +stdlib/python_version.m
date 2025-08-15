@@ -12,12 +12,14 @@
 % where the environment has changed since pyenv() was set. For example
 % HPC with "module load python3..."
 
-function v = python_version(force_old)
+function [v, msg] = python_version(force_old)
 if nargin < 1
   force_old = false;
 end
 
 persistent stdlib_py_version
+
+msg = '';
 
 if ~isempty(stdlib_py_version)
   v = stdlib_py_version;
@@ -34,9 +36,11 @@ if stdlib.matlabOlderThan('R2022a') && ~force_old
   return
 end
 
-% need to have no catch section as glitchy Python load can make TypeError etc.
-try %#ok<TRYNC>
+% glitchy Python load can error on sys.version_info
+try
   v = pvt_python_version();
+catch e
+  msg = e.message;
 end
 
 % cache the result
