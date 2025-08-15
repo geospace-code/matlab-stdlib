@@ -15,8 +15,8 @@ arguments
   backend (1,:) string = ["java", "python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "set_modtime");
-
-ok = fun(file, t);
+o = stdlib.Backend(mfilename(), backend);
+ok = o.func(file, t);
+b = o.backend;
 
 end

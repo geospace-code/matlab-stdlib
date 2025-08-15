@@ -24,12 +24,14 @@ arguments
   backend (1,:) string = ["python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "is_char_device");
+o = stdlib.Backend(mfilename(), backend);
 
 if isscalar(file)
-  ok = fun(file);
+  ok = o.func(file);
 else
-  ok = arrayfun(fun, file);
+  ok = arrayfun(o.func, file);
 end
+
+b = o.backend;
 
 end

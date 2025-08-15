@@ -25,12 +25,14 @@ end
 
 % For this function, Python is over 10x faster than Java
 
-[fun, b] = hbackend(backend, "samepath");
+o = stdlib.Backend(mfilename(), backend);
+b = o.backend;
 
 if (isscalar(path1) && isscalar(path2)) || b == "native"
-  ok = fun(path1, path2);
+  ok = o.func(path1, path2);
 else
-  ok = arrayfun(fun, path1, path2);
+  ok = arrayfun(o.func, path1, path2);
 end
+
 
 end

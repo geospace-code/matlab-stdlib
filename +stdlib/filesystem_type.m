@@ -15,8 +15,8 @@ arguments
   backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "filesystem_type");
-
-t = fun(file);
+o = stdlib.Backend(mfilename(), backend);
+t = o.func(file);
+b = o.backend;
 
 end

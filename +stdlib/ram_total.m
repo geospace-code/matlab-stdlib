@@ -14,8 +14,9 @@ arguments
   backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "ram_total");
+o = stdlib.Backend(mfilename(), backend);
+bytes = o.func();
 
-bytes = fun();
+b = o.backend;
 
 end

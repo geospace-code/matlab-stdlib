@@ -16,11 +16,13 @@ arguments
   backend (1,:) string = ["java", "python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "hard_link_count");
+o = stdlib.Backend(mfilename(), backend);
 
 if isscalar(file)
-  c = fun(file);
+  c = o.func(file);
 else
-  c = arrayfun(fun, file);
+  c = arrayfun(o.func, file);
 end
+
+b = o.backend;
 end

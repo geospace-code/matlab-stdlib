@@ -1,12 +1,17 @@
 %% CPU_ARCH get the CPU architecture
+%
+%%% Outputs
+% * a: Returns the CPU architecture as a string.
+% * b: backend used
 
-function a = cpu_arch(backend)
+function [a, b] = cpu_arch(backend)
 arguments
   backend (1,:) string = ["java", "dotnet", "native"]
 end
 
-fun = hbackend(backend, "cpu_arch");
+o = stdlib.Backend(mfilename(), backend);
+a = o.func();
 
-a = fun();
+b = o.backend;
 
 end

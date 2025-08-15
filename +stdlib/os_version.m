@@ -15,8 +15,9 @@ arguments
   backend (1,:) string = ["sys", "python", "dotnet", "java"]
 end
 
-[fun, b] = hbackend(backend, "os_version");
+o = stdlib.Backend(mfilename(), backend);
 
-[os, version] = fun();
+[os, version] = o.func();
+b = o.backend;
 
 end

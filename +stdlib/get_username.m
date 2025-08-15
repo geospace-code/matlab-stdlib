@@ -9,8 +9,9 @@ arguments
   backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "get_username");
+o = stdlib.Backend(mfilename(), backend);
+n = o.func();
 
-n = fun();
+b = o.backend;
 
 end

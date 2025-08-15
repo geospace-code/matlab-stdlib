@@ -10,19 +10,17 @@
 %%% Outputs
 % * freebytes: free physical RAM [bytes]
 % * b: backend used
-%
-% Java or Python psutil are consistent with each other.
-%
-% Fallback is to shell commands.
+
 
 function [bytes, b] = ram_free(backend)
 arguments
   backend (1,:) string = ["java", "python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "ram_free");
+o = stdlib.Backend(mfilename(), backend);
+bytes = o.func();
 
-bytes = fun();
+b = o.backend;
 
 % * VisualBasic (needs Windows) is needed to do this with .NET.
 % * builtin memory() on Windows includes swap. The user could do that themselves.

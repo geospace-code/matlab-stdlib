@@ -14,8 +14,8 @@ arguments
   backend (1,:) string = ["native", "dotnet", "python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "create_symlink");
+o = stdlib.Backend(mfilename(), backend);
+ok = o.func(target, link);
 
-ok = fun(target, link);
-
+b = o.backend;
 end

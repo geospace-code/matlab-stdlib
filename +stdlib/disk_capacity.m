@@ -3,19 +3,19 @@
 % example:  stdlib.disk_capacity('/')
 %
 %% Inputs
-% * filepath: path to check
+% * file: path to check
 %% Outputs
 % * f: total disk capacity (bytes)
 % * b: backend used
 
-function [f, b] = disk_capacity(filepath, backend)
+function [i, b] = disk_capacity(file, backend)
 arguments
-  filepath
+  file
   backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "disk_capacity");
+o = stdlib.Backend(mfilename(), backend);
+i = o.func(file);
 
-f = fun(filepath);
-
+b = o.backend;
 end

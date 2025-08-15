@@ -2,25 +2,27 @@
 % Not necessarily perfectly reliable at detection, but works for most cases.
 %
 %% Inputs
-% * filepath: path to check
+% * file: path to check
 % * backend: backend to use
 %
 %% Outputs
 % * ok: true if path is on a removable drive
 % * b: backend used
 
-function [ok, b] = is_removable(filepath, backend)
+function [ok, b] = is_removable(file, backend)
 arguments
-  filepath string
+  file string
   backend (1,:) string = ["dotnet", "sys"]
 end
 
-[fun, b] = hbackend(backend, "is_removable");
+o = stdlib.Backend(mfilename(), backend);
 
-if isscalar(filepath)
-  ok = fun(filepath);
+if isscalar(file)
+  ok = o.func(file);
 else
-  ok = arrayfun(fun, filepath);
+  ok = arrayfun(o.func, file);
 end
+
+b = o.backend;
 
 end

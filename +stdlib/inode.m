@@ -12,12 +12,14 @@ arguments
   backend (1,:) string = ["java", "python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "inode");
+o = stdlib.Backend(mfilename(), backend);
 
 if isscalar(file)
-  i = fun(file);
+  i = o.func(file);
 else
-  i = arrayfun(fun, file);
+  i = arrayfun(o.func, file);
 end
+
+b = o.backend;
 
 end

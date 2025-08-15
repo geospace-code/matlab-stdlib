@@ -1,4 +1,4 @@
-function n = get_hostname()
+function n = hostname()
 
 try
   n = char(py.socket.gethostname());

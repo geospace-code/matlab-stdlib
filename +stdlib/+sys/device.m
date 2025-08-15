@@ -24,7 +24,6 @@ else
   cmd = sprintf('stat -c %%d "%s"', p);
 end
 
-
 if stdlib.exists(p)
   [s, m] = system(cmd);
   if s == 0

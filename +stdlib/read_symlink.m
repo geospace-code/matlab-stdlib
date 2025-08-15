@@ -16,12 +16,15 @@ arguments
   backend (1,:) string = ["native", "java", "dotnet", "python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "read_symlink");
+o = stdlib.Backend(mfilename(), backend);
 
-if isscalar(file) || b == "native"
-  r = fun(file);
+if isscalar(file)
+  r = o.func(file);
 else
-  r = arrayfun(fun, file);
+  r = arrayfun(o.func, file);
 end
+
+b = o.backend;
+
 
 end

@@ -1,4 +1,4 @@
-function n = get_hostname()
+function n = hostname()
 
 n = char(java.net.InetAddress.getLocalHost().getHostName());
 

@@ -16,12 +16,15 @@ arguments
   backend (1,:) string = ["java", "python", "native"]
 end
 
-[fun, b] = hbackend(backend, "normalize");
+o = stdlib.Backend(mfilename(), backend);
 
 if isscalar(file)
-  n = fun(file);
+  n = o.func(file);
 else
-  n = arrayfun(fun, file);
+  n = arrayfun(o.func, file);
 end
+
+b = o.backend;
+
 
 end

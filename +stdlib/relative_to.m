@@ -19,8 +19,8 @@ arguments
   backend (1,:) string = ["python", "native"]
 end
 
-[fun, b] = hbackend(backend, "relative_to");
-
-rel = fun(base, other);
+o = stdlib.Backend(mfilename(), backend);
+rel = o.func(base, other);
+b = o.backend;
 
 end

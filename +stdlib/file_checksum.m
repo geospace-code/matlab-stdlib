@@ -19,8 +19,8 @@ arguments
   backend (1,:) string = ["java", "dotnet", "sys"]
 end
 
-[fun, b] = hbackend(backend, "file_checksum");
-
-hash = fun(file, hash_method);
+o = stdlib.Backend(mfilename(), backend);
+hash = o.func(file, hash_method);
+b = o.backend;
 
 end

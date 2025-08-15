@@ -3,21 +3,22 @@
 % example:  stdlib.disk_available('/')
 %
 %% Inputs
-% * filepath: path to check
+% * file: path to check
 %% Outputs
 % * f: free disk space (bytes)
 % * b: backend used
 %
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getUsableSpace()
 
-function [f, b] = disk_available(filepath, backend)
+function [i, b] = disk_available(file, backend)
 arguments
-  filepath
+  file
   backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "disk_available");
+o = stdlib.Backend(mfilename(), backend);
+i = o.func(file);
 
-f = fun(filepath);
+b = o.backend;
 
 end

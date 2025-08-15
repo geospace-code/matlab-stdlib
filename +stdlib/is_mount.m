@@ -1,7 +1,7 @@
 %% IS_MOUNT is filepath a mount path
 %
 %% Inputs
-% * filepath: path to check
+% * file: path to check
 % * backend: backend to use
 %% Outputs
 % * ok: true if path is a mount point
@@ -12,18 +12,20 @@
 % * Windows: is_mount("c:") false;  is_mount("C:\") true
 % * Linux, macOS, Windows: is_mount("/") true
 
-function [ok, b] = is_mount(filepath, backend)
+function [ok, b] = is_mount(file, backend)
 arguments
-  filepath string
+  file string
   backend (1,:) string = ["python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "is_mount");
+o = stdlib.Backend(mfilename(), backend);
 
-if isscalar(filepath)
-  ok = fun(filepath);
+if isscalar(file)
+  ok = o.func(file);
 else
-  ok = arrayfun(fun, filepath);
+  ok = arrayfun(o.func, file);
 end
+
+b = o.backend;
 
 end

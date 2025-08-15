@@ -19,8 +19,9 @@ arguments
   backend (1,:) string = ["native", "legacy"]
 end
 
-[fun, b] = hbackend(backend, "set_permissions");
+o = stdlib.Backend(mfilename(), backend);
 
-ok = fun(file, readable, writable, executable);
+ok = o.func(file, readable, writable, executable);
+b = o.backend;
 
 end

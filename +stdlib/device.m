@@ -12,8 +12,8 @@ arguments
   backend (1,:) string = ["java", "python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "device");
+o = stdlib.Backend(mfilename(), backend);
+i = o.func(file);
 
-i = fun(file);
-
+b = o.backend;
 end

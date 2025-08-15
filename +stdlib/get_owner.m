@@ -13,12 +13,14 @@ arguments
   backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
-[fun, b] = hbackend(backend, "get_owner");
+o = stdlib.Backend(mfilename(), backend);
 
 if isscalar(file)
-  n = fun(file);
+  n = o.func(file);
 else
-  n = arrayfun(fun, file);
+  n = arrayfun(o.func, file);
 end
+
+b = o.backend;
 
 end

@@ -1,18 +1,20 @@
 %% CPU_LOAD get total physical CPU load
 %
-% Returns the "recent cpu usage" for the whole system.
+%%% Outputs
+% * a: Returns the "recent cpu usage" for the whole system.
+% * b: backend used
 %
 % This value is a double greater than 0.
 % If the system recent cpu usage is not available, the backend returns a negative or NaN value.
 
-function L = cpu_load(backend)
+function [a, b] = cpu_load(backend)
 arguments
   backend (1,:) string = ["java", "python", "sys"]
 end
 
-fun = hbackend(backend, "cpu_load");
+o = stdlib.Backend(mfilename(), backend);
+a = o.func();
 
-L = fun();
-
+b = o.backend;
 
 end
