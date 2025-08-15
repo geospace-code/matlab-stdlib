@@ -1,4 +1,5 @@
-classdef (TestTags = {'R2019b', 'impure'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
+          TestTags = {'R2019b', 'impure'}) ...
     TestSame < matlab.unittest.TestCase
 
 properties (TestParameter)
@@ -8,14 +9,15 @@ p_same = {...
 {"..", pwd() + "/.."}, ...
 {pwd(), pwd() + "/."}}
 
-backend = init_backend({'sys', 'java', 'python', 'native'}, 'native', ~isMATLABReleaseOlderThan('R2024a'))
+backend
 end
 
-methods(TestClassSetup)
-function test_dirs(tc)
-  pkg_path(tc)
+methods (TestParameterDefinition, Static)
+function backend = setupBackends()
+backend = init_backend("samepath");
 end
 end
+
 
 methods(Test)
 

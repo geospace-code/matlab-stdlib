@@ -1,36 +1,15 @@
-classdef (TestTags = {'R2019b', 'pure'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
+          TestTags = {'R2019b', 'pure'}) ...
     TestNormalize < matlab.unittest.TestCase
 
 properties (TestParameter)
-p = init_norm()
-d = init_drop_slash()
-backend = init_backend({'native', 'java', 'python'})
+p
+d
+backend
 end
 
-methods(TestClassSetup)
-function test_dirs(tc)
-  pkg_path(tc)
-end
-end
 
-methods (Test)
-
-function test_normalize(tc, p, backend)
-c = stdlib.normalize(p{1}, backend);
-
-tc.verifyEqual(c, p{2}, ...
-  sprintf("normalize(%s)", p{1}))
-end
-
-function test_drop_slash(tc, d)
-tc.verifyEqual(stdlib.drop_slash(d{1}), d{2}, ...
-  sprintf("drop_slash(%s)", d{1}))
-end
-
-end
-
-end
-
+methods (TestParameterDefinition, Static)
 function p = init_norm()
 
 p = {
@@ -55,9 +34,7 @@ p = {
 if ispc
   p{end+1} = {"//a/b/", "\\a\b"};
 end
-
 end
-
 
 function d = init_drop_slash()
 d = {...
@@ -79,6 +56,31 @@ if ispc()
     {"c:/a/b//", "c:/a/b"}
   };
   d = [d, dd];
+end
+
+end
+
+function backend = setupBackends()
+backend = init_backend("normalize");
+end
+
+end
+
+
+methods (Test)
+
+function test_normalize(tc, p, backend)
+c = stdlib.normalize(p{1}, backend);
+
+tc.verifyEqual(c, p{2}, ...
+  sprintf("normalize(%s)", p{1}))
+end
+
+function test_drop_slash(tc, d)
+tc.verifyEqual(stdlib.drop_slash(d{1}), d{2}, ...
+  sprintf("drop_slash(%s)", d{1}))
+end
+
 end
 
 end

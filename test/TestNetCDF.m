@@ -1,4 +1,5 @@
-classdef (TestTags = {'netcdf'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
+          TestTags = {'netcdf'}) ...
     TestNetCDF < matlab.unittest.TestCase
 
 properties
@@ -14,12 +15,6 @@ utf2
 end
 
 methods (TestClassSetup)
-
-function test_dirs(tc)
-  pkg_path(tc)
-end
-
-
 function setup_file(tc)
 tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 

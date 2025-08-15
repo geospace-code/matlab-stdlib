@@ -1,21 +1,46 @@
-classdef (TestTags = {'R2019b', 'impure'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
+          TestTags = {'impure'}) ...
     TestExists < matlab.unittest.TestCase
 
 properties(TestParameter)
-Ps = init_val()
-% on CI matlabroot can be writable!
-backend = init_backend({'python', 'sys'})
+Ps
+B_is_char_device
 end
+
+
+methods (TestParameterDefinition, Static)
+function Ps = init_val()
+Ps = {
+  {pwd(), true}, ...
+  {mfilename("fullpath") + ".m", true}, ...
+  {fileparts(mfilename("fullpath")) + "/../Readme.md", true}, ...
+  {tempname(), false}, ...
+  {'', false}, ...
+  {"", false}
+};
+if ispc()
+  % On Windows, the root of the system drive is considered to exist
+  systemDrive = getenv("SystemDrive");
+  if ~isempty(systemDrive)
+    Ps{end+1} = {systemDrive, true};
+  end
+end
+end
+
+function B_is_char_device = setupBackends()
+B_is_char_device = init_backend("is_char_device");
+end
+end
+
 
 methods(TestClassSetup)
 function test_dirs(tc)
-pkg_path(tc)
-
 tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 end
 end
 
-methods (Test)
+
+methods (Test, TestTags={'R2019b'})
 
 function test_exists(tc, Ps)
 ok = stdlib.exists(Ps{1});
@@ -33,6 +58,18 @@ r = stdlib.is_writable(Ps{1});
 tc.verifyEqual(r, Ps{2})
 end
 
+
+function test_is_char_device(tc, B_is_char_device)
+% /dev/stdin may not be available on CI systems
+n = stdlib.null_file();
+
+tc.verifyTrue(stdlib.is_char_device(n, B_is_char_device), n)
+end
+
+end
+
+
+methods (Test, TestTags={'R2025a'})
 
 function test_is_readable_array(tc)
 tc.assumeFalse(stdlib.matlabOlderThan('R2025a'))
@@ -53,32 +90,6 @@ r = stdlib.is_writable(in);
 tc.verifyEqual(r, out)
 end
 
-
-function test_is_char_device(tc, backend)
-% /dev/stdin may not be available on CI systems
-n = stdlib.null_file();
-
-tc.verifyTrue(stdlib.is_char_device(n, backend), n)
 end
 
-end
-end
-
-
-function Ps = init_val()
-Ps = {
-  {pwd(), true}, ...
-  {mfilename("fullpath") + ".m", true}, ...
-  {fileparts(mfilename("fullpath")) + "/../Readme.md", true}, ...
-  {tempname(), false}, ...
-  {'', false}, ...
-  {"", false}
-};
-if ispc()
-  % On Windows, the root of the system drive is considered to exist
-  systemDrive = getenv("SystemDrive");
-  if ~isempty(systemDrive)
-    Ps{end+1} = {systemDrive, true};
-  end
-end
 end

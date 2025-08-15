@@ -3,8 +3,37 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
     TestFilename < matlab.unittest.TestCase
 
 properties (TestParameter)
-p = init_p()
-backend = init_backend()
+p
+backend
+end
+
+
+methods (TestParameterDefinition, Static)
+function p = init_p()
+p = {
+{'', ""}, ...
+{"", ""}, ...
+{"Hi", "Hi"}, ...
+{"/a/b/c", "c"}, ...
+{'a/b/c.txt', "c.txt"}, ...
+{"a///b//c.txt.gz", "c.txt.gz"}, ...
+{"a/b/.hello", ".hello"}
+};
+
+if ispc()
+  p{end+1} = {"c:/df\df.txt", "df.txt"};
+end
+end
+
+function backend = init_backend()
+backend = {'regexp'};
+
+try %#ok<TRYNC>
+  if ~isMATLABReleaseOlderThan('R2020b')
+    backend{end+1} = 'pattern';
+  end
+end
+end
 end
 
 
@@ -22,36 +51,6 @@ out = stdlib.filename(in, backend);
 tc.verifyEqual(out, exp)
 end
 
-end
-
-end
-
-function p = init_p()
-p = {
-{'', ""}, ...
-{"", ""}, ...
-{"Hi", "Hi"}, ...
-{"/a/b/c", "c"}, ...
-{'a/b/c.txt', "c.txt"}, ...
-{"a///b//c.txt.gz", "c.txt.gz"}, ...
-{"a/b/.hello", ".hello"}
-};
-
-if ispc()
-  p{end+1} = {"c:/df\df.txt", "df.txt"};
-end
-
-end
-
-
-function backend = init_backend()
-
-backend = {'regexp'};
-
-try %#ok<TRYNC>
-  if ~isMATLABReleaseOlderThan('R2020b')
-    backend{end+1} = 'pattern';
-  end
 end
 
 end

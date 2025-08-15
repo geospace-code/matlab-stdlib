@@ -1,42 +1,21 @@
-classdef (TestTags = {'R2019b', 'pure'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
+          TestTags = {'R2019b', 'pure'}) ...
     TestRelative < matlab.unittest.TestCase
 
 
 properties (TestParameter)
-pr = init_rel()
-pp = init_prox()
-backend = init_backend({'native', 'python'})
-end
-
-methods(TestClassSetup)
-function test_dirs(tc)
-  pkg_path(tc)
-end
+pr
+backend
 end
 
 
-methods (Test)
+methods (TestParameterDefinition, Static)
 
-function test_relative_to(tc, pr, backend)
-r = stdlib.relative_to(pr{1}, pr{2}, backend);
-tc.verifyEqual(r, pr{3}, "relative_to(" + pr{1} + "," + pr{2}+")")
-end
-
-function test_proximate_to(tc, pp)
-
-tc.verifyEqual(stdlib.proximate_to(pp{1}, pp{2}), pp{3}, ...
-  "proximate_to(" + pp{1} + ", " + pp{2}+")")
-end
-
-end
-end
-
-
-function p = init_rel()
+function pr = init_rel()
 
 root = fileparts(fileparts(mfilename('fullpath')));
 
-p = {{"", "", ""}, ...
+pr = {{"", "", ""}, ...
 {pwd(), pwd(), "."}, ...
 {fileparts(pwd()), pwd(), "test"}, ...
 {root, fullfile(root, "test", mfilename() + ".m"), fullfile("test", mfilename + ".m")}
@@ -72,17 +51,32 @@ if ispc()
 
 else
 
-p = [p, {
+pr = [pr, {
 {"/", "/", "."}, ...
 {"/dev/null", "/dev/null", "."}, ...
 }];
 end
-
 end
 
-function p = init_prox()
-% NOTE: ".." in proximate_to(base) is ambiguous including for python.pathlib, C++ <filesystem>, etc
+function backend = setupBackends()
+backend = init_backend("relative_to");
+end
+end
 
-p = init_rel();
 
+methods (Test)
+
+function test_relative_to(tc, pr, backend)
+r = stdlib.relative_to(pr{1}, pr{2}, backend);
+
+tc.verifyEqual(r, pr{3}, "relative_to(" + pr{1} + "," + pr{2}+")")
+end
+
+function test_proximate_to(tc, pr, backend)
+r = stdlib.proximate_to(pr{1}, pr{2}, backend);
+
+tc.verifyEqual(r, pr{3}, "proximate_to(" + pr{1} + ", " + pr{2}+")")
+end
+
+end
 end

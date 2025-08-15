@@ -1,4 +1,5 @@
-classdef (TestTags = {'hdf5'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
+          TestTags = {'hdf5'}) ...
     TestHDF5 < matlab.unittest.TestCase
 
 properties
@@ -31,9 +32,6 @@ end
 
 % per method to avoid race conditions
 methods(TestMethodSetup)
-function test_dirs(tc)
-  pkg_path(tc)
-end
 
 function setup_file(tc)
 tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())

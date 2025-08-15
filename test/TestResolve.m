@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
-          TestTags = {'R2019b', 'impure'}) ...
+          TestTags = {'impure'}) ...
   TestResolve < matlab.unittest.TestCase
 
 properties (TestParameter)
@@ -13,7 +13,7 @@ end
 end
 
 
-methods (Test)
+methods (Test, TestTags={'R2019b'})
 
 function test_resolve_relative(tc)
 import matlab.unittest.constraints.StartsWithSubstring
@@ -54,7 +54,10 @@ end
 
 tc.verifyEqual(stdlib.resolve(a, false), b)
 end
+end
 
+
+methods (Test, TestTags={'R2024a'})
 function test_resolve_array(tc)
 tc.assumeFalse(stdlib.matlabOlderThan('R2024a'))
 

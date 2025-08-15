@@ -1,4 +1,5 @@
-classdef (TestTags = {'R2019b', 'impure'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
+          TestTags = {'R2019b', 'impure'}) ...
     TestHash < matlab.unittest.TestCase
 
 properties
@@ -8,14 +9,17 @@ end
 properties (TestParameter)
 Ph = {{'md5', '5d41402abc4b2a76b9719d911017c592'}, ...
       {'sha-256', '2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824'}}
-backend = init_backend({'java', 'dotnet', 'sys'})
+backend
+end
+
+
+methods (TestParameterDefinition, Static)
+function backend = setupBackends()
+  backend = init_backend("file_checksum");
+end
 end
 
 methods(TestClassSetup)
-function test_dirs(tc)
-  pkg_path(tc)
-end
-
 function create_file(tc)
 tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 

@@ -26,18 +26,21 @@ for i = 1:numel(self.optionalBackends)
   end
 end
 
-if any(strlength(functionName))
+if strlength(functionName)
   self.func = self.getFunc(functionName, backendReq);
 end
 end
 
 
-function m = select(self, functionName, backendReq)
+function backendAvailable = select(self, functionName, backendReq, firstOnly)
 arguments
   self
   functionName (1,1) string
   backendReq (1,:) string = string.empty
+  firstOnly (1,1) logical = false
 end
+
+backendAvailable = string.empty;
 
 if ~any(strlength(backendReq))
   backendReq = self.backends;
@@ -93,12 +96,13 @@ for m = backendReq
   end
 
   if ~isempty(which(sprintf('%s.%s.%s', self.namespace, m, functionName)))
-    return
+    backendAvailable(end+1) = m; %#ok<AGROW>
+    if firstOnly
+      return
+    end
   end
 
 end
-
-m = string.empty;
 
 end
 
@@ -113,7 +117,7 @@ end
 if isscalar(backendReq)
   self.backend = backendReq;
 else
-  self.backend = self.select(functionName, backendReq);
+  self.backend = self.select(functionName, backendReq, true);
 end
 
 if isempty(self.backend)

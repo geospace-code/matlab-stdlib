@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
-          TestTags = {'R2019b', 'impure'}) ...
+          TestTags = {'impure'}) ...
   TestCanonical < matlab.unittest.TestCase
 
 properties(TestParameter)
@@ -20,8 +20,7 @@ end
 end
 
 
-methods(Test)
-
+methods(Test, TestTags={'R2019b'})
 function test_canonical(tc, p)
 c = stdlib.canonical(p{1}, false);
 tc.verifyEqual(c, p{2})
@@ -31,8 +30,10 @@ function test_legacy_canonical(tc, p)
 c = stdlib.legacy.canonical(p{1}, false);
 tc.verifyEqual(c, p{2})
 end
+end
 
 
+methods (Test, TestTags={'R2024a'})
 function test_canonical_array(tc)
 tc.assumeFalse(stdlib.matlabOlderThan('R2024a'))
 
@@ -42,7 +43,6 @@ c = stdlib.canonical(in, false);
 exp = ["", "hi", filesep + "ok", "not-exist"];
 tc.verifyEqual(c, exp)
 end
-
 end
 
 end

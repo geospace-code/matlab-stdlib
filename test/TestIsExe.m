@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
-          TestTags = {'R2019b', 'pure'}) ...
+          TestTags = {'pure'}) ...
     TestIsExe < matlab.unittest.TestCase
 
 properties (TestParameter)
@@ -12,59 +12,12 @@ p = {
 {'.', false}, ...
 {matlab_path(), true}
 }
-peb = init_exe_bin()
-end
-
-methods(TestClassSetup)
-function test_dirs(tc)
-tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
-end
-end
-
-methods(Test)
-
-function test_is_exe(tc, p)
-r = stdlib.is_exe(p{1});
-tc.verifyEqual(r, p{2})
-end
-
-function test_is_exe_legacy(tc, p)
-r = stdlib.legacy.is_exe(p{1});
-tc.verifyEqual(r, p{2})
+peb
 end
 
 
-function test_is_exe_array(tc)
-tc.assumeFalse(stdlib.matlabOlderThan('R2025a'))
-n = fullfile(matlabroot, "bin/matlab");
-if ispc()
-  n = n + ".exe";
-end
-r = stdlib.is_exe(["Readme.md", tempname(), n]);
-tc.verifyEqual(r, [false, false, true])
-end
-
-
-function test_is_executable_binary(tc, peb)
-b = stdlib.is_executable_binary(peb{1});
-tc.verifyEqual(b, peb{2}, peb{1})
-end
-end
-
-end
-
-
-function f = matlab_path()
-
-f = fullfile(matlabroot, "bin/matlab");
-if ispc()
-  f = f + ".exe";
-end
-end
-
-
+methods (TestParameterDefinition, Static)
 function peb = init_exe_bin()
-
 peb = {
 {fileparts(mfilename('fullpath')) + "/../Readme.md", false}; ...
 {matlab_path, false}; ...
@@ -76,5 +29,54 @@ if ispc
   peb{2}{2} = true;
   peb{3}{2} = false;
 end
+end
+end
 
+methods(TestClassSetup)
+function test_dirs(tc)
+tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
+end
+end
+
+methods(Test, TestTags={'R2019b'})
+
+function test_is_exe(tc, p)
+r = stdlib.is_exe(p{1});
+tc.verifyEqual(r, p{2})
+end
+
+
+function test_is_exe_legacy(tc, p)
+r = stdlib.legacy.is_exe(p{1});
+tc.verifyEqual(r, p{2})
+end
+
+
+function test_is_executable_binary(tc, peb)
+b = stdlib.is_executable_binary(peb{1});
+tc.verifyEqual(b, peb{2}, peb{1})
+end
+end
+
+
+methods (Test, TestTags={'R2024a'})
+function test_is_exe_array(tc)
+tc.assumeFalse(stdlib.matlabOlderThan('R2025a'))
+n = fullfile(matlabroot, "bin/matlab");
+if ispc()
+  n = n + ".exe";
+end
+r = stdlib.is_exe(["Readme.md", tempname(), n]);
+tc.verifyEqual(r, [false, false, true])
+end
+end
+
+end
+
+
+function f = matlab_path()
+f = fullfile(matlabroot, "bin/matlab");
+if ispc()
+  f = f + ".exe";
+end
 end

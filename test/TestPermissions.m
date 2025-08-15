@@ -1,16 +1,21 @@
-classdef (TestTags = {'impure'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
+          TestTags = {'impure'}) ...
     TestPermissions < matlab.unittest.TestCase
 
 properties (TestParameter)
 Ps = {".", pwd(), "", tempname(), mfilename('fullpath') + ".m"}
-backend = init_backend({'native', 'legacy'}, 'native', ~isMATLABReleaseOlderThan('R2025a'))
+B_get_permissions
+B_set_permissions
 end
 
-methods(TestClassSetup)
-function test_dirs(tc)
-  pkg_path(tc)
+
+methods (TestParameterDefinition, Static)
+function [B_get_permissions, B_set_permissions] = setupBackends()
+B_get_permissions = init_backend('get_permissions');
+B_set_permissions = init_backend('set_permissions');
 end
 end
+
 
 methods(TestMethodSetup)
 function w_dirs(tc)
@@ -21,10 +26,10 @@ end
 
 methods (Test, TestTags={'R2019b'})
 
-function test_get_permissions(tc, Ps, backend)
+function test_get_permissions(tc, Ps, B_get_permissions)
 import matlab.unittest.constraints.StartsWithSubstring
 
-p = stdlib.get_permissions(Ps, backend);
+p = stdlib.get_permissions(Ps, B_get_permissions);
 tc.verifyClass(p, "char")
 if ~stdlib.exists(Ps)
   tc.verifyEmpty(p)
@@ -37,14 +42,14 @@ end
 end
 
 
-function test_get_permissions_exe(tc, backend)
+function test_get_permissions_exe(tc, B_get_permissions)
 matlab_exe = fullfile(matlabroot, "bin/matlab");
 if ispc()
   matlab_exe = matlab_exe + ".exe";
 end
 
 tc.assertThat(matlab_exe, matlab.unittest.constraints.IsFile)
-p = stdlib.get_permissions(matlab_exe, backend);
+p = stdlib.get_permissions(matlab_exe, B_get_permissions);
 
 tc.assertNotEmpty(p)
 tc.verifyEqual(p(3), 'x')
@@ -52,18 +57,18 @@ tc.verifyEqual(p(3), 'x')
 end
 
 
-function test_set_permissions_nowrite(tc, backend)
+function test_set_permissions_nowrite(tc, B_set_permissions)
 import matlab.unittest.constraints.StartsWithSubstring
 
 nw = fullfile(pwd(), "no-write");
 
 tc.assertTrue(stdlib.touch(nw))
-r = stdlib.set_permissions(nw, 0, -1, 0, backend);
+r = stdlib.set_permissions(nw, 0, -1, 0, B_set_permissions);
 
 tc.assertTrue(r)
 
 p = stdlib.get_permissions(nw);
-if ~ispc() || backend ~= "legacy"
+if ~ispc() || B_set_permissions ~= "legacy"
 tc.verifyThat(p, StartsWithSubstring("r-"), "no-write permission failed to set")
 end
 

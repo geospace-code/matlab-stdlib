@@ -1,4 +1,5 @@
-classdef (TestTags = {'R2019b', 'symlink', 'impure'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
+          TestTags = {'R2019b', 'symlink', 'impure'}) ...
     TestSymlink < matlab.unittest.TestCase
 
 properties
@@ -11,15 +12,20 @@ p = {{"not-exist", false}, ...
     {mfilename("fullpath") + ".m", false}, ...
     {"", false}};
 Pre = {'', "", tempname()}
-backend_dnps = init_backend({'native', 'sys', 'dotnet', 'python'}, 'native', ~isMATLABReleaseOlderThan('R2025a'))
-backend_djnps = init_backend({'native', 'sys', 'dotnet', 'java', 'python'}, 'native', ~isMATLABReleaseOlderThan('R2025a'))
+B_create_symlink
+B_read_symlink
+B_is_symlink
 end
 
-methods(TestClassSetup)
-function setupClass(tc)
-pkg_path(tc)
+
+methods (TestParameterDefinition, Static)
+function [B_create_symlink, B_read_symlink, B_is_symlink] = setupBackends()
+B_create_symlink = init_backend("create_symlink");
+B_read_symlink = init_backend("read_symlink");
+B_is_symlink = init_backend("is_symlink");
 end
 end
+
 
 methods(TestMethodSetup)
 % needs to be per-method because multiple functions are used to make the same files
@@ -40,64 +46,53 @@ end
 
 methods (Test)
 
-function test_is_symlink(tc, p, backend_djnps)
-tc.verifyTrue(stdlib.is_symlink(tc.link, backend_djnps), "failed to detect own link")
-tc.verifyEqual(stdlib.is_symlink(p{1}, backend_djnps), p{2}, p{1})
+function test_is_symlink(tc, p, B_is_symlink)
+tc.verifyTrue(stdlib.is_symlink(tc.link, B_is_symlink), "failed to detect own link")
+tc.verifyEqual(stdlib.is_symlink(p{1}, B_is_symlink), p{2}, p{1})
 end
 
-function test_is_symlink_array(tc, backend_djnps)
-r = stdlib.is_symlink([tc.link, mfilename() + ".m"], backend_djnps);
+function test_is_symlink_array(tc, B_is_symlink)
+r = stdlib.is_symlink([tc.link, mfilename() + ".m"], B_is_symlink);
 tc.verifyEqual(r, [true, false], "failed to detect own link")
 end
 
 
-function test_read_symlink_empty(tc, Pre, backend_djnps)
-tc.verifyEqual(stdlib.read_symlink(Pre, backend_djnps), "")
+function test_read_symlink_empty(tc, Pre, B_read_symlink)
+tc.verifyEqual(stdlib.read_symlink(Pre, B_read_symlink), "")
 end
 
 
-function test_read_symlink(tc, backend_djnps)
-r = stdlib.read_symlink(tc.link, backend_djnps);
+function test_read_symlink(tc, B_read_symlink)
+r = stdlib.read_symlink(tc.link, B_read_symlink);
 tc.verifyClass(r, 'string')
-if backend_djnps == "dotnet" && stdlib.dotnet_api() < 6
-  tc.verifyEqual(r, "")
-else
-  tc.verifyEqual(r, string(tc.target))
-end
+tc.verifyEqual(r, string(tc.target))
 end
 
 
-function test_read_symlink_array(tc, backend_djnps)
-r = stdlib.read_symlink([tc.link, mfilename() + ".m"], backend_djnps);
+function test_read_symlink_array(tc, B_read_symlink)
+r = stdlib.read_symlink([tc.link, mfilename() + ".m"], B_read_symlink);
 exp = [tc.target, ""];
-if backend_djnps == "dotnet" && stdlib.dotnet_api() < 6
-  exp(1) = "";
-end
 tc.verifyClass(r, 'string')
 tc.verifyEqual(r, exp, "failed to detect own link")
 end
 
 
-function test_create_symlink(tc, backend_dnps)
+function test_create_symlink(tc, B_create_symlink)
 tc.applyFixture(matlab.unittest.fixtures.SuppressedWarningsFixture(["MATLAB:io:filesystem:symlink:TargetNotFound","MATLAB:io:filesystem:symlink:FileExists"]))
 
 ano = fullfile(pwd(), 'another.lnk');
 
 h = @stdlib.create_symlink;
 
-tc.verifyFalse(h('', tempname(), backend_dnps))
-tc.verifyFalse(h(tc.target, tc.link, backend_dnps), "should fail for existing symlink")
+tc.verifyFalse(h('', tempname(), B_create_symlink))
+tc.verifyFalse(h(tc.target, tc.link, B_create_symlink), "should fail for existing symlink")
 
 exp = true;
-if (backend_dnps == "dotnet" && stdlib.dotnet_api() < 6) || ...
-   (backend_dnps == "native" && (isMATLABReleaseOlderThan('R2024b') || (ispc() && isMATLABReleaseOlderThan('R2025a'))))
-  exp = false;
-end
 
 tc.assertThat(ano, ~matlab.unittest.constraints.IsFile)
 tc.assertFalse(stdlib.is_symlink(ano))
 
-tc.verifyEqual(h(tc.target, ano, backend_dnps), exp)
+tc.verifyEqual(h(tc.target, ano, B_create_symlink), exp)
 end
 
 end
