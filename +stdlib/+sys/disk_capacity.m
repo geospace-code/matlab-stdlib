@@ -2,8 +2,6 @@ function [t, cmd] = disk_capacity(p)
 
 t = uint64([]);
 
-if ~stdlib.exists(p), return, end
-
 if ispc()
   dl = extractBefore(stdlib.absolute(p), 2);
   cmd = sprintf('pwsh -c "(Get-Volume -DriveLetter ''%s'').Size"', dl);
