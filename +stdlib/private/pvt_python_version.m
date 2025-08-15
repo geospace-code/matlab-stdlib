@@ -4,11 +4,12 @@ v = [];
 
 pe = pyenv();
 vs = pe.Version;
-if stdlib.strempty(vs), return, end
+if ~strlength(vs), return, end
 
 % this line may error like
 % "Python Error: TypeError: cannot create 'sys.version_info' instances"
 % if Python version incompatible or something got corrupted in loading Python library
+% try restarting Matlab
 vi = py.sys.version_info;
 v = [double(vi.major), double(vi.minor), double(vi.micro)];
 
