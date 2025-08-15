@@ -1,12 +1,12 @@
 function i = device(file)
+arguments
+  file (1,1) string
+end
 
 try
   i = int64(py.os.stat(file).st_dev);
   % int64 first is for Matlab <= R2022a
-catch e
-  if ~contains(e.message, "FileNotFoundError")
-    warning(e.identifier, "device(%s) failed: %s", file, e.message)
-  end
+catch
   i = [];
 end
 

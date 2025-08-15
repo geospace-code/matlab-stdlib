@@ -7,6 +7,9 @@
 % this try-catch is faster and more robust
 
 function t = filesystem_type(file)
+arguments
+  file (1,1) string
+end
 
 t = '';
 if ~strlength(file), return, end

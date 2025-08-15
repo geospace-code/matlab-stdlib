@@ -3,6 +3,9 @@
 % https://docs.python.org/3/library/os.path.html#os.path.ismount
 
 function y = is_mount(filepath)
+arguments
+  filepath (1,1) string
+end
 
 y = logical.empty;
 if ~stdlib.exists(filepath), return, end

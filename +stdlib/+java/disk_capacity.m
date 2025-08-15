@@ -1,6 +1,9 @@
-function i = disk_capacity(d)
+function i = disk_capacity(file)
+arguments
+  file (1,1) string
+end
 
-i = java.io.File(d).getTotalSpace();
+i = java.io.File(file).getTotalSpace();
 if i < 1
   i = [];
 end

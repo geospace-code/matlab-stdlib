@@ -1,4 +1,8 @@
 function c = canonical(file, strict)
+arguments
+  file (1,1) string
+  strict (1,1) logical = false
+end
 
 c = "";
 

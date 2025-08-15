@@ -1,4 +1,10 @@
 function ok = set_permissions(file, readable, writable, executable)
+arguments
+  file (1,1) string
+  readable (1,1) {mustBeInteger}
+  writable (1,1) {mustBeInteger}
+  executable (1,1) {mustBeInteger}
+end
 
 ok = false;
 

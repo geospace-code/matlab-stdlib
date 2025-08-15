@@ -1,6 +1,9 @@
 %% SYS.IS_REMOVABLE
 
 function y = is_removable(filepath)
+arguments
+  filepath (1,1) string
+end
 
 y = false;
 

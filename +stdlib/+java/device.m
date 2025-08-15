@@ -1,4 +1,7 @@
 function i = device(file)
+arguments
+  file (1,1) string
+end
 
 i = uint64([]);
 if ~stdlib.exists(file), return, end

@@ -1,6 +1,9 @@
 %% DOTNET.GET_OWNER get the owner of a filepath
 
-function o = get_owner(p)
+function o = get_owner(file)
+arguments
+  file (1,1) string
+end
 
 % This is not yet possible with .NET on Unix, even with .NET 10.
 % It would require Pinvoke or external Mono.Unix
@@ -12,10 +15,10 @@ if isempty(ntAccountType)
   return
 end
 
-if isfolder(p)
-  fsec = System.IO.Directory.GetAccessControl(p);
-elseif isfile(p)
-  fsec = System.IO.File.GetAccessControl(p);
+if isfolder(file)
+  fsec = System.IO.Directory.GetAccessControl(file);
+elseif isfile(file)
+  fsec = System.IO.File.GetAccessControl(file);
 else
   o = "";
   return

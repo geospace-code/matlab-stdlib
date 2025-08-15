@@ -1,6 +1,9 @@
 %% DOTNET.READ_SYMLINK resolve the symbolic links of a filepath
 
 function r = read_symlink(file)
+arguments
+  file (1,1) string
+end
 
 try
   h = System.IO.FileInfo(file);

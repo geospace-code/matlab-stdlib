@@ -1,14 +1,17 @@
-function [ok, cmd] = is_symlink(p)
+function [ok, cmd] = is_symlink(file)
+arguments
+  file (1,1) string
+end
 
 ok = false;
 
 if ispc()
-  cmd = sprintf('pwsh -command "(Get-Item -Path ''%s'').Attributes"', p);
+  cmd = sprintf('pwsh -command "(Get-Item -Path ''%s'').Attributes"', file);
 else
-  cmd = sprintf('test -L "%s"', p);
+  cmd = sprintf('test -L "%s"', file);
 end
 
-if strlength(p)
+if strlength(file)
   [s, m] = system(cmd);
   ok = s == 0;
 

@@ -1,12 +1,14 @@
-function n = normalize(p)
+function n = normalize(file)
+arguments
+  file (1,1) string
+end
 
 try
-  n = string(py.os.path.normpath(p));
+  n = string(py.os.path.normpath(file));
   n = strip(n, 'right', '/');
   if ispc()
     n = strip(n, 'right', filesep);
   end
-catch e
-  warning(e.identifier, "%s", e.message)
+catch
   n = "";
 end

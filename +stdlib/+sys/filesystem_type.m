@@ -1,17 +1,20 @@
-function [t, cmd] = filesystem_type(p)
+function [t, cmd] = filesystem_type(file)
+arguments
+  file (1,1) string
+end
 
 t = '';
 
 if ispc()
-  dl = extractBefore(stdlib.absolute(p), 2);
+  dl = extractBefore(stdlib.absolute(file), 2);
   cmd = sprintf('pwsh -c "(Get-Volume -DriveLetter ''%s'').FileSystem"', dl);
 elseif ismac()
-  cmd = sprintf('df -aHY "%s" | awk ''NR==2 {print $2}''', p);
+  cmd = sprintf('df -aHY "%s" | awk ''NR==2 {print $2}''', file);
 else
-  cmd = sprintf('df --output=fstype "%s" | tail -n 1', p);
+  cmd = sprintf('df --output=fstype "%s" | tail -n 1', file);
 end
 
-if stdlib.exists(p)
+if stdlib.exists(file)
   [s, t] = system(cmd);
   if s == 0
     t = strip(t);

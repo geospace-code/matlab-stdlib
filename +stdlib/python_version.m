@@ -2,7 +2,7 @@
 %
 % uses persistent variable to cache the Python version.
 % If the environment changes, the cached version will be invalid.
-% this cache is cleared by "clear functions"
+% this persistent cache is cleared by "clear functions"
 %
 %%% Inputs
 % * force_old: (optional) boolean flag to force checking of Python on Matlab < R2022a

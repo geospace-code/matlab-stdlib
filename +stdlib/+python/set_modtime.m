@@ -1,4 +1,8 @@
 function ok = set_modtime(file, dt)
+arguments
+  file (1,1) string
+  dt (1,1) datetime
+end
 
 ok = false;
 if ~isfile(file), return, end

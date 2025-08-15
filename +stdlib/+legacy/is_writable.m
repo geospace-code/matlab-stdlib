@@ -1,4 +1,7 @@
 function y = is_writable(file)
+arguments
+  file (1,1) string
+end
 
 if stdlib.exists(file)
   a = file_attributes(file);

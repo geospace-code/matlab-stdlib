@@ -1,7 +1,10 @@
 %% NATIVE.RELATIVE_TO find relative path to target from base
 
 function rel = relative_to(base, target)
-
+arguments
+  base (1,1) string
+  target (1,1) string
+end
 % matlab.io.internal.filesystem.relativepath only works on Windows (!) and only
 % then with / filesep.
 

@@ -1,6 +1,6 @@
 function a = file_attributes(p)
 
-assert(~stdlib.strempty(p), 'Path must not be empty.')
+assert(strlength(p), 'Path must not be empty.')
 
 [status, s] = fileattrib(p);
 

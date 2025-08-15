@@ -1,4 +1,8 @@
 function [ok, cmd] = set_modtime(file, dt)
+arguments
+  file (1,1) string
+  dt (1,1) datetime
+end
 
 ok = false;
 

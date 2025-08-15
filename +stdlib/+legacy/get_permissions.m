@@ -1,4 +1,7 @@
 function p = get_permissions(file)
+arguments
+  file (1,1) string
+end
 
 p = '';
 

@@ -1,16 +1,19 @@
 %% SYS.INODE get file inode
 
-function [i, cmd] = inode(p)
+function [i, cmd] = inode(file)
+arguments
+  file (1,1) string
+end
 
 i = [];
 
 if ispc()
   % https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-file
-  cmd = sprintf('fsutil file queryfileid "%s"', p);
+  cmd = sprintf('fsutil file queryfileid "%s"', file);
 elseif ismac()
-  cmd = sprintf('stat -f %%i "%s"', p);
+  cmd = sprintf('stat -f %%i "%s"', file);
 else
-  cmd = sprintf('stat -c %%i "%s"', p);
+  cmd = sprintf('stat -c %%i "%s"', file);
 end
 
 [s, m] = system(cmd);
