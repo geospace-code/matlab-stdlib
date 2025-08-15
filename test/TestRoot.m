@@ -1,4 +1,5 @@
-classdef (TestTags = {'R2019b', 'pure'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
+          TestTags = {'R2019b', 'pure'}) ...
     TestRoot < matlab.unittest.TestCase
 
 properties (TestParameter)
@@ -7,11 +8,6 @@ rn = init_root_name()
 rd = init_root_dir()
 end
 
-methods(TestClassSetup)
-function test_dirs(tc)
-  pkg_path(tc)
-end
-end
 
 methods (Test)
 

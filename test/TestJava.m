@@ -1,11 +1,7 @@
-classdef (TestTags = {'R2019b', 'java'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
+          TestTags = {'R2019b', 'java'}) ...
     TestJava < matlab.unittest.TestCase
 
-methods(TestClassSetup)
-function test_dirs(tc)
-  pkg_path(tc)
-end
-end
 
 methods(Test)
 

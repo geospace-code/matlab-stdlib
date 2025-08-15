@@ -1,4 +1,5 @@
-classdef (TestTags = {'R2019b', 'pure'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
+          TestTags = {'R2019b', 'pure'}) ...
     TestVersion < matlab.unittest.TestCase
 
 properties (TestParameter)
@@ -8,12 +9,6 @@ v = {{"11.1", "9.3", true}, ...
     {"1.5.0.3", "1.5.0", true}, ...
     {"1.5.0", "1.5.0.3", false}
     }
-end
-
-methods(TestClassSetup)
-function test_dirs(tc)
-  pkg_path(tc)
-end
 end
 
 

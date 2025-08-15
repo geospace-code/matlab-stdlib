@@ -1,17 +1,11 @@
-classdef (TestTags = {'R2019b', 'impure'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
+          TestTags = {'R2019b', 'impure'}) ...
     TestFileImpure < matlab.unittest.TestCase
 
 properties(TestParameter)
 ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname()), ''}}
 
 p_file_size = {mfilename("fullpath") + ".m"}
-end
-
-
-methods(TestClassSetup)
-function test_dirs(tc)
-  pkg_path(tc)
-end
 end
 
 

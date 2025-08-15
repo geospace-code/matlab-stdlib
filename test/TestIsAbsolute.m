@@ -1,4 +1,5 @@
-classdef (TestTags = {'R2019b', 'pure'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
+          TestTags = {'R2019b', 'pure'}) ...
     TestIsAbsolute < matlab.unittest.TestCase
 
 properties (TestParameter)
@@ -7,11 +8,6 @@ pu = {{"x:/foo", false}, {"/foo", true}}
 pw = {{"x:/foo", true}, {"/foo", false}}
 end
 
-methods(TestClassSetup)
-function test_dirs(tc)
-  pkg_path(tc)
-end
-end
 
 methods (Test)
 

@@ -1,4 +1,5 @@
-classdef (TestTags = {'pure'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
+          TestTags = {'pure'}) ...
     TestWithSuffix < matlab.unittest.TestCase
 
 
@@ -15,11 +16,6 @@ p = {{"foo.h5", ".nc", "foo.nc"},...
 {'a/b', '.nc', "a/b.nc"}};
 end
 
-methods(TestClassSetup)
-function test_dirs(tc)
-  pkg_path(tc)
-end
-end
 
 methods (Test, TestTags={'R2019b'})
 function test_with_suffix(tc, p)
