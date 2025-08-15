@@ -1,6 +1,8 @@
 %% PYTHON_VERSION get the Python version used by MATLAB
 %
-% uses persistent variable to cache the Python version
+% uses persistent variable to cache the Python version.
+% If the environment changes, the cached version will be invalid.
+% this cache is cleared by "clear functions"
 %
 %%% Inputs
 % * force_old: (optional) boolean flag to force checking of Python on Matlab < R2022a
@@ -17,11 +19,13 @@ if nargin < 1
   force_old = false;
 end
 
-persistent stdlib_py_version
+persistent stdlib_py_version pyv_cached
 
 msg = '';
 
-if ~isempty(stdlib_py_version)
+if isempty(pyv_cached)
+  pyv_cached = false;
+elseif pyv_cached
   v = stdlib_py_version;
   return
 end
@@ -43,9 +47,8 @@ catch e
   msg = e.message;
 end
 
-% cache the result
-if ~isempty(v)
-  stdlib_py_version = v;
-end
+% cache the result - even if empty -- because the check takes up to 1000 ms say on HPC
+stdlib_py_version = v;
+pyv_cached = true;
 
 end
