@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
-          TestTags = {'R2019b', 'impure'}) ...
+          TestTags = {'impure'}) ...
     TestSame < matlab.unittest.TestCase
 
 properties (TestParameter)
@@ -19,7 +19,7 @@ end
 end
 
 
-methods(Test)
+methods(Test, TestTags={'R2019b'})
 
 function test_samepath(tc, p_same, backend)
 r = stdlib.samepath(p_same{:}, backend);
@@ -33,15 +33,17 @@ t = tempname();
 tc.verifyFalse(stdlib.samepath("", "", backend))
 tc.verifyFalse(stdlib.samepath(t, t, backend))
 end
+end
 
 
+methods (Test, TestTags={'R2024a'})
 function test_samepath_array(tc, backend)
 in = [string(mfilename), string(mfilename('fullpath'))] + ".m";
 r = stdlib.samepath(in, fliplr(in), backend);
 tc.verifyClass(r, 'logical')
 tc.verifyEqual(r, [true, true])
 end
-
 end
+
 
 end
