@@ -10,7 +10,10 @@ else
   sel = sel & ~HasTag("windows");
 end
 
-reportDir = fullfile(plan.RootFolder, ".buildtool");
+reportDir = fullfile(plan.RootFolder, 'reports');
+if ~isfolder(reportDir)
+  mkdir(reportDir);
+end
 pkg_root = fullfile(plan.RootFolder, "+stdlib");
 test_root = fullfile(plan.RootFolder, "test");
 
@@ -45,7 +48,7 @@ else
     Selector=sel, ...
     SourceFiles=pkg_root, ...
     RunOnlyImpactedTests=stdlib.checkout_license("MATLAB Test"), ...
-    TestResults=reportDir + "/TestResults_main.xml", Strict=true);
+    TestResults=fullfile(reportDir, 'TestResults_main.xml'), Strict=true);
 
   plan("test").Description = "Run all self-tests";
 
@@ -67,13 +70,16 @@ if ~isMATLABReleaseOlderThan('R2024b')
   plan("test:java_exe") = matlab.buildtool.tasks.TestTask(...
     test_root, Description="test Java exe targets", ...
     Tag = "java_exe", Dependencies="exe", Strict=true);
+end
 
+if ~isMATLABReleaseOlderThan('R2024a')
 
-  plan("coverage") = matlab.buildtool.tasks.TestTask(test_root, ...
+  plan('coverage') = matlab.buildtool.tasks.TestTask(test_root, ...
     Description="Run code coverage", ...
-    Dependencies="exe", ...
+    Dependencies='exe', ...
     SourceFiles=pkg_root, ...
     Strict=false);
+  plan('coverage').DisableIncremental = true;
 
   coverageReport = fullfile(reportDir, 'coverage-report.html');
   if stdlib.checkout_license("MATLAB Test")
