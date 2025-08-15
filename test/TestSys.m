@@ -52,7 +52,9 @@ tc.verifyClass(tbx, "table")
 end
 
 function test_platform_tell(tc)
-tc.verifyClass(stdlib.platform_tell(), 'char')
+r = stdlib.platform_tell();
+tc.verifyClass(r, 'char')
+tc.verifyNotEmpty(r)
 end
 
 

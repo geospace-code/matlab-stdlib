@@ -2,11 +2,6 @@
 
 function y = strempty(s)
 
-if isempty(s)
-  y = true;
-else
-  y = strlength(s) == 0;
-end
-
+y = isempty(s) | strlength(s) == 0;
 
 end
