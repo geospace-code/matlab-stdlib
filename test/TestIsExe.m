@@ -38,7 +38,7 @@ tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 end
 end
 
-methods(Test, TestTags={'R2019b'})
+methods(Test, TestTags={'R2021a'})
 
 function test_is_exe(tc, p)
 r = stdlib.is_exe(p{1});

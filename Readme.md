@@ -7,12 +7,9 @@
 Matlab users coming from other languages will benefit from the functionality contained within this user-developed, unofficial "stdlib" standard library of functions.
 These system, filesystem, and HDF5 / HDF4 / NetCDF functions are used by numerous independent projects.
 
-Matlab R2019b is the minimum version required due to use of
+Matlab R2019b is the absolute minimum version required due to use of
 [function argument validation](https://www.mathworks.com/help/matlab/ref/arguments.html).
-Full functionality is available with:
-
-* Linux: Matlab R2019b and newer
-* macOS, Windows: Matlab R2020b and newer
+Full functionality is available with R2021a and newer.
 
 ## Self-tests
 
@@ -24,7 +21,7 @@ Matlab R2022b and newer:
 buildtool test
 ```
 
-Matlab older than R2022b:
+Matlab R2021a and newer (R2022b and newer can use `buildtool test`):
 
 ```matlab
 test_main

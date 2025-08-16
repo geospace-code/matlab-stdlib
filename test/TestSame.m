@@ -19,7 +19,7 @@ end
 end
 
 
-methods(Test, TestTags={'R2019b'})
+methods(Test, TestTags={'R2021a'})
 
 function test_samepath(tc, p_same, backend)
 r = stdlib.samepath(p_same{:}, backend);

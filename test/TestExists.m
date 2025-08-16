@@ -40,7 +40,7 @@ end
 end
 
 
-methods (Test, TestTags={'R2019b'})
+methods (Test, TestTags={'R2021a'})
 
 function test_exists(tc, Ps)
 ok = stdlib.exists(Ps{1});

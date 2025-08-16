@@ -7,6 +7,9 @@ end
 import matlab.unittest.TestRunner
 import matlab.unittest.selectors.HasTag
 
+assert(~isMATLABReleaseOlderThan('R2020b'))
+% R2021a+ needed for over half of the tests
+
 if isempty(context)
   cwd = fileparts(mfilename('fullpath'));
 else
@@ -16,7 +19,7 @@ test_root = fullfile(cwd, "test");
 
 tags = ["native_exe", releaseTestTags()];
 
-if ~exist('isMATLABReleaseOlderThan', 'builtin') || isMATLABReleaseOlderThan('R2022b')
+if isMATLABReleaseOlderThan('R2022b')
   suite = testsuite(test_root, 'Tag', tags);
 else
   suite = testsuite(test_root, 'Tag', tags, 'InvalidFileFoundAction', "error");
