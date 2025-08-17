@@ -59,7 +59,7 @@ end
 end
 
 
-methods (Test, TestTags={'R2024a'})
+methods (Test, TestTags={'R2025a'})
 function test_is_exe_array(tc)
 tc.assumeFalse(stdlib.matlabOlderThan('R2025a'))
 n = fullfile(matlabroot, "bin/matlab");

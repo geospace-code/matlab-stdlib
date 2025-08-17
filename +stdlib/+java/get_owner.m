@@ -1,7 +1,5 @@
 %% JAVA.GET_OWNER get owner of file
 %
-%% JAVA.FILESYSTEM_TYPE
-%
 % if stdlib.exists() was not adequate here, as on some CI systems, say Windows with Matlab
 % R2025a, despite the same setup on a laptop working.
 % stdlib.exists() was true, the Java function threw java.nio.file.NoSuchFileException.
