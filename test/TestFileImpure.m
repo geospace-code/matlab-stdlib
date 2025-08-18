@@ -2,7 +2,7 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
           TestTags = {'R2019b', 'impure'}) ...
     TestFileImpure < matlab.unittest.TestCase
 
-properties(TestParameter)
+properties (TestParameter)
 ph = {{0, '"stdin"'}, {1, '"stdout"'}, {2, '"stderr"'}, {fopen(tempname()), ''}}
 
 p_file_size = {mfilename("fullpath") + ".m"}

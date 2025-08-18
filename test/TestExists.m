@@ -2,7 +2,7 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
           TestTags = {'impure'}) ...
     TestExists < matlab.unittest.TestCase
 
-properties(TestParameter)
+properties (TestParameter)
 Ps
 B_is_char_device
 end

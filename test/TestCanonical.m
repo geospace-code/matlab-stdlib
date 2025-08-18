@@ -2,7 +2,7 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
           TestTags = {'impure'}) ...
   TestCanonical < matlab.unittest.TestCase
 
-properties(TestParameter)
+properties (TestParameter)
 p = {{'', ""}, ...
 {"", ""}, ...
 {"not-exist", "not-exist"}, ...
@@ -13,14 +13,14 @@ p = {{'', ""}, ...
 };
 end
 
-methods(TestClassSetup)
+methods (TestClassSetup)
 function test_dirs(tc)
 tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 end
 end
 
 
-methods(Test, TestTags={'R2019b'})
+methods (Test, TestTags={'R2019b'})
 function test_canonical(tc, p)
 c = stdlib.canonical(p{1}, false);
 tc.verifyEqual(c, p{2})

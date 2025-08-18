@@ -1,11 +1,53 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
-          TestTags = {'R2019b', 'pure'}) ...
+          TestTags = {'R2021a', 'pure'}) ...
     TestRoot < matlab.unittest.TestCase
 
 properties (TestParameter)
-p = init_root()
-rn = init_root_name()
-rd = init_root_dir()
+p
+rn
+rd
+end
+
+
+methods (TestParameterDefinition, Static)
+function [p, rn, rd] = init_root()
+
+p = {{"", ""}, ...
+{"a/b", ""}, ...
+{"./a/b", ""}, ...
+{"/etc", "/"}, ...
+{'/etc', "/"}, ...
+{"c:", ""}, ...
+{"c:/etc", ""}, ...
+{'c:\etc', ""}};
+
+if ispc()
+p{6}{2} = "c:";
+p{7}{2} = "c:/";
+p{8}{2} = "c:\";
+end
+
+rn = p;
+
+rn{4}{2} = "";
+rn{5}{2} = "";
+
+if ispc()
+rn{6}{2} = "c:";
+rn{7}{2} = "c:";
+rn{8}{2} = "c:";
+end
+
+rd = p;
+
+if ispc()
+rd{6}{2} = "";
+rd{7}{2} = "/";
+rd{8}{2} = "\";
+end
+
+end
+
 end
 
 
@@ -29,55 +71,6 @@ tc.assertClass(r, 'string')
 tc.verifyEqual(r, rn{2})
 end
 
-end
-
-end % class
-
-
-function p = init_root()
-
-p = {{"", ""}, ...
-{"a/b", ""}, ...
-{"./a/b", ""}, ...
-{"/etc", "/"}, ...
-{'/etc', "/"}, ...
-{"c:", ""}, ...
-{"c:/etc", ""}, ...
-{'c:\etc', ""}};
-
-if ispc()
-p{6}{2} = "c:";
-p{7}{2} = "c:/";
-p{8}{2} = "c:\";
-end
-
-end
-
-
-function rn = init_root_name()
-
-rn = init_root();
-
-rn{4}{2} = "";
-rn{5}{2} = "";
-
-if ispc()
-rn{6}{2} = "c:";
-rn{7}{2} = "c:";
-rn{8}{2} = "c:";
-end
-
-end
-
-
-function rd = init_root_dir()
-
-rd = init_root();
-
-if ispc()
-rd{6}{2} = "";
-rd{7}{2} = "/";
-rd{8}{2} = "\";
 end
 
 end

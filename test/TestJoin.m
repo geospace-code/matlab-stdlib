@@ -3,21 +3,6 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
     TestJoin < matlab.unittest.TestCase
 
 properties (TestParameter)
-p = init_join()
-end
-
-
-methods (Test)
-function test_join(tc, p)
-tc.verifyEqual(stdlib.join(p{1}, p{2}), p{3})
-end
-end
-
-end
-
-
-function p = init_join()
-
 p = {{"", "", ""}, ...
 {"a", "", "a"}, ...
 {"", "a", "a"}, ...
@@ -31,6 +16,13 @@ p = {{"", "", ""}, ...
 {"ab/cd", "/ef", "/ef"}, ...
 {matlabroot, "bin", matlabroot + "/bin"}
 };
+end
 
+
+methods (Test)
+function test_join(tc, p)
+tc.verifyEqual(stdlib.join(p{1}, p{2}), p{3})
+end
+end
 
 end
