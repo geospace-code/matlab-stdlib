@@ -17,7 +17,7 @@ if stdlib.is_absolute(other) || (~stdlib.strempty(rno) && ~strcmp(rnb, rno))
 elseif ~stdlib.strempty(rdo)
 
   if ~stdlib.strempty(rnb)
-    if endsWith(rnb, ["/", filesep])
+    if endsWith(rnb, "/" | filesep)
       p = rnb + other;
     else
       p = rnb + "/" + other;
@@ -29,7 +29,7 @@ elseif ~stdlib.strempty(rdo)
 elseif ~stdlib.strempty(base)
 
   if ~stdlib.strempty(other)
-    if endsWith(base, ["/", filesep])
+    if endsWith(base, "/" | filesep)
       p = base + other;
     else
       p = base + "/" + other;

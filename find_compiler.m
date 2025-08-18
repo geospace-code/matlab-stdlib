@@ -21,7 +21,7 @@ elseif ispc()
   if isempty(p)
     p = getenv("MINGWROOT");
   end
-  if ~endsWith(p, ["bin", "bin/"])
+  if ~endsWith(p, "bin" | "bin/")
     p = p + "/bin";
   end
 else

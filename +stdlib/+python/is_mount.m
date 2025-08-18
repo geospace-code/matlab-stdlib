@@ -11,7 +11,7 @@ y = logical.empty;
 if ~stdlib.exists(filepath), return, end
 
 % some Python on CI needs this. Didn't replicate on local Windows PC.
-if ispc() && strcmp(filepath, stdlib.root_name(filepath)) && ~endsWith(filepath, ["/", "\"])
+if ispc() && strcmp(filepath, stdlib.root_name(filepath)) && ~endsWith(filepath, "/" | filesep)
   y = false;
   return
 end

@@ -52,7 +52,7 @@ end
 function i = is_comment(line)
 % a comment line detected
 
-i = isempty(line) || startsWith(line, [";", "#"]);
+i = isempty(line) || startsWith(line, ";" | "#");
 
 end
 
