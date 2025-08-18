@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
-          TestTags = {'R2019b', 'impure'}) ...
+          TestTags = {'impure'}) ...
     TestWhich < matlab.unittest.TestCase
 
 properties (TestParameter)
@@ -8,7 +8,7 @@ mexe = {matlabroot + "/bin/matlab", ...
 end
 
 
-methods (Test)
+methods (Test, TestTags = {'R2019b'})
 
 function test_which_name(tc)
 
@@ -46,27 +46,34 @@ tc.assumeTrue(stdlib.is_exe(r))
 
 tc.verifyGreaterThan(strlength(stdlib.which(r)), 0, "Expected which(" + r + " ) to find " + r)
 tc.verifyGreaterThan(strlength(stdlib.which(mexe)), 0, "Expected which(" + mexe + ") to find " + r)
-
 end
 
 
 function test_which_onepath(tc)
-
 tc.verifyNotEmpty(stdlib.which("matlab", fullfile(matlabroot, 'bin')), ...
     "Matlab not found by which() given specific path=")
-
 end
 
 
 function test_which_multipath(tc)
-
 paths = split(string(getenv('PATH')), pathsep);
 paths(end+1) = fullfile(matlabroot, 'bin');
 
 tc.verifyNotEmpty(stdlib.which("matlab", paths), "Matlab not found by which()")
+end
 
 end
 
+
+methods(Test, TestTags={'R2023a'})
+function testWhichNoPath(tc)
+tc.assumeFalse(isMATLABReleaseOlderThan('R2023a'))
+fx = matlab.unittest.fixtures.EnvironmentVariableFixture('PATH', '');
+tc.applyFixture(fx)
+
+tc.verifyEmpty(stdlib.which('matlab'), "Matlab found by which() given empty path")
+tc.verifyNotEmpty(stdlib.which('matlab', matlabroot + "/bin"))
+end
 end
 
 end

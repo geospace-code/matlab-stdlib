@@ -33,7 +33,7 @@ if ~strcmp(stdlib.filename(cmd), cmd)
 end
 
 % path given
-if isempty(fpath)
+if stdlib.strempty(fpath)
   fpath = string(getenv("PATH"));
 end
 
@@ -44,7 +44,11 @@ end
 for p = fpath
   if stdlib.strempty(p), continue, end
 
-  e = fullfile(p, cmd);
+  if endsWith(p, "/" | filesep)
+    e = p + cmd;
+  else
+    e = p + "/" + cmd;
+  end
   if isfile(e) && stdlib.is_exe(e)
     if find_all
       exe(end+1) = e; %#ok<AGROW>
