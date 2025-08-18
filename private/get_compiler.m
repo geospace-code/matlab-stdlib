@@ -31,7 +31,9 @@ else
   comp = co.Details.CompilerExecutable;
   % disp(lang + " compiler: " + co.ShortName + " " + co.Name + " " + co.Version + " " + comp)
 end
-if ~strlength(comp), return, end
+if stdlib.strempty(comp)
+  return
+end
 
 if ispc()
   if isempty(co)

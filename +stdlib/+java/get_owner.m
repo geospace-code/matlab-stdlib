@@ -15,7 +15,7 @@ end
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/LinkOption.html
 
 n = "";
-if ~strlength(file), return, end
+if stdlib.strempty(file), return, end
 
 file = stdlib.absolute(file);
 % Java 1.8 benefits from absolute.

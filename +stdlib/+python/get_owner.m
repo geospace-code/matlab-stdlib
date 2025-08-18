@@ -5,7 +5,7 @@ end
 
 n = "";
 
-if ~strlength(file), return, end
+if stdlib.strempty(file), return, end
 
 try %#ok<TRYNC>
   n = string(py.pathlib.Path(file).owner());

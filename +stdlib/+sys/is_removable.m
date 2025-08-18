@@ -9,7 +9,9 @@ y = false;
 
 if ispc()
   r = stdlib.root_name(filepath);
-  if ~strlength(r), return, end
+  if stdlib.strempty(r)
+    return
+  end
   r = extractBefore(r, 2);
 
   psFile = fullfile(fileparts(mfilename('fullpath')), "isRemovableDrive.ps1");

@@ -15,7 +15,7 @@ end
 
 p = fileparts(stdlib.drop_slash(file));
 
-i = ~strlength(p);
+i = stdlib.strempty(p);
 p(i) = ".";
 
 % the ~all(i) is for Windows Matlab < R2025a

@@ -12,7 +12,7 @@ arguments
 end
 
 t = '';
-if ~strlength(file), return, end
+if stdlib.strempty(file), return, end
 
 try %#ok<TRYNC>
   t = char(java.nio.file.Files.getFileStore(javaPathObject(file)).type);

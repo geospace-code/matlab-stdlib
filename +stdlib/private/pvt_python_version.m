@@ -4,7 +4,7 @@ v = [];
 
 pe = pyenv();
 vs = pe.Version;
-if ~strlength(vs), return, end
+if stdlib.strempty(vs), return, end
 
 % this line may error like
 % "Python Error: TypeError: cannot create 'sys.version_info' instances"
