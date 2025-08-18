@@ -72,7 +72,7 @@ end
 methods (Test, TestTags={'R2025a'})
 
 function test_is_readable_array(tc)
-tc.assumeFalse(stdlib.matlabOlderThan('R2025a'))
+tc.assumeFalse(isMATLABReleaseOlderThan('R2025a'))
 in =  [".",  tempname(), mfilename('fullpath') + ".m"];
 out = [true, false,     true];
 
@@ -82,7 +82,7 @@ end
 
 
 function test_is_writable_array(tc)
-tc.assumeFalse(stdlib.matlabOlderThan('R2025a'))
+tc.assumeFalse(isMATLABReleaseOlderThan('R2025a'))
 in =  [".",  tempname(), mfilename('fullpath') + ".m"];
 out = [true, false,     true];
 

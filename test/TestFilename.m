@@ -4,7 +4,7 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
 
 properties (TestParameter)
 p
-backend
+backend = {'regexp', 'pattern'}
 end
 
 
@@ -22,16 +22,6 @@ p = {
 
 if ispc()
   p{end+1} = {"c:/df\df.txt", "df.txt"};
-end
-end
-
-function backend = init_backend()
-backend = {'regexp'};
-
-try %#ok<TRYNC>
-  if ~isMATLABReleaseOlderThan('R2020b')
-    backend{end+1} = 'pattern';
-  end
 end
 end
 end

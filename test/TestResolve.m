@@ -59,7 +59,7 @@ end
 
 methods (Test, TestTags={'R2024a'})
 function test_resolve_array(tc)
-tc.assumeFalse(stdlib.matlabOlderThan('R2024a'))
+tc.assumeFalse(isMATLABReleaseOlderThan('R2024a'))
 
 in = ["", "hi", "/ok", "not-exist/a/.."];
 c = stdlib.resolve(in, false);

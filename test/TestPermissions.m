@@ -84,7 +84,7 @@ import matlab.unittest.constraints.StartsWithSubstring
 
 % This ONLY works with the new setPermissions.
 % fileattrib can not even set the permissions on Linux.
-tc.assumeFalse(stdlib.matlabOlderThan('R2025a'))
+tc.assumeFalse(isMATLABReleaseOlderThan('R2025a'))
 
 nr = fullfile(pwd(), "no-read");
 
