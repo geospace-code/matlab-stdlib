@@ -9,7 +9,7 @@
 function [i, b] = inode(file, backend)
 arguments
   file string
-  backend (1,:) string = ["java", "python", "sys"]
+  backend (1,:) string = ["java", "perl", "python", "sys"]
 end
 
 o = stdlib.Backend(mfilename(), backend);

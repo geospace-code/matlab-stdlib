@@ -1,7 +1,7 @@
 classdef Backend < matlab.mixin.SetGet
 
 properties (Constant)
-optionalBackends = ["python", "dotnet", "java"]
+optionalBackends = ["perl", "python", "dotnet", "java"]
 namespace = "stdlib"
 end
 
