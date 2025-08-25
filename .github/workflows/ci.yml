@@ -28,9 +28,13 @@ jobs:
       matrix:
         os: [ubuntu-22.04, windows-2025, macos-latest]
         release: [R2024a, R2024b, R2025a]
-# on Linux, even R2025a needs GCC 10.x and hence Github Actions runner ubuntu-22.04.
-# R2021a...R2022a officially need Ubuntu 20.04, which is no longer available on Github Actions
-# macOS >= R2023b to be compatible with Xcode version on Github Actions runner
+# Linux:
+#   R2022b..R2025a needs GCC 10.x and hence Github Actions runner ubuntu-22.04.
+#   if using ubuntu-latest the java_exe tests fail.
+#   R2021a..R2022a officially need Ubuntu 20.04, which is no longer available on Github Actions
+# macOS:
+#   Matlab >= R2023b compatible with Xcode 15
+#   Matlab >= R2024b compatible with Xcode 16
 
     steps:
     - &matlab-install
@@ -52,7 +56,7 @@ jobs:
       name: Matlab tell External Language Interface versions
       uses: matlab-actions/run-command@v2
       with:
-        command: license('inuse'), stdlib.platform_tell()
+        command: stdlib.platform_tell()
 
     - &code-issues
       name: Check codeIssues
