@@ -1,7 +1,7 @@
 classdef Backend < matlab.mixin.SetGet
 
 properties (Constant)
-optionalBackends = ["perl", "python", "dotnet", "java"]
+optionalBackends = ["java", "perl", "python", "dotnet"]
 namespace = "stdlib"
 end
 
@@ -19,16 +19,19 @@ arguments
   backendReq (1,:) string = string.empty
 end
 
-for i = 1:numel(self.optionalBackends)
-  f = str2func(sprintf('%s.has_%s', self.namespace, self.optionalBackends(i)));
-  if f()
-    self.backends = [self.optionalBackends(i), self.backends];
+if isempty(backendReq) || ~isscalar(backendReq)
+  for i = 1:numel(self.optionalBackends)
+    f = str2func(sprintf('%s.has_%s', self.namespace, self.optionalBackends(i)));
+    if f()
+      self.backends = [self.optionalBackends(i), self.backends];
+    end
   end
 end
 
 if strlength(functionName)
   self.func = self.getFunc(functionName, backendReq);
 end
+
 end
 
 
