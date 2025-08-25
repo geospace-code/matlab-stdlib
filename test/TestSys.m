@@ -12,10 +12,11 @@ B_is_admin
 B_os_version
 B_hostname
 B_username
+B_get_uid
 end
 
 methods (TestParameterDefinition, Static)
-function [B_cpu_arch, B_cpu_load, B_ram_free, B_ram_total, B_is_admin, B_os_version, B_hostname, B_username] = setupBackends()
+function [B_cpu_arch, B_cpu_load, B_ram_free, B_ram_total, B_is_admin, B_os_version, B_hostname, B_username, B_get_uid] = setupBackends()
 B_cpu_arch = init_backend("cpu_arch");
 B_cpu_load = init_backend("cpu_load");
 B_ram_free = init_backend("ram_free");
@@ -24,6 +25,7 @@ B_is_admin = init_backend("is_admin");
 B_os_version = init_backend("os_version");
 B_hostname = init_backend("hostname");
 B_username = init_backend("get_username");
+B_get_uid = init_backend('get_uid');
 end
 end
 
@@ -66,6 +68,17 @@ function test_hostname(tc, B_hostname)
 h = stdlib.hostname(B_hostname);
 tc.verifyClass(h, 'char')
 tc.verifyGreaterThan(strlength(h), 0)
+end
+
+
+function test_get_uid(tc, B_get_uid)
+u = stdlib.get_uid(B_get_uid);
+if ispc()
+  tc.verifyClass(u, 'char')
+  tc.verifyGreaterThan(strlength(u), 0)
+else
+  tc.verifyNotEmpty(u)
+end
 end
 
 

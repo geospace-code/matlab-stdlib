@@ -59,7 +59,7 @@ for m = backendReq
       switch functionName
         case {'create_symlink', 'ram_total', 'read_symlink'}
           if stdlib.dotnet_api() < 6, continue, end
-        case {'get_owner', 'is_admin'}
+        case {'get_owner', 'get_uid', 'is_admin'}
           if isunix(), continue, end
       end
     case 'java'
@@ -71,6 +71,11 @@ for m = backendReq
         case {'device', 'hard_link_count' , 'inode', 'is_admin'}
           if ispc(), continue, end
       end
+    case 'perl'
+      switch functionName
+        case {'get_uid'}
+          if ispc(), continue, end
+      end
     case 'python'
       if ~any(ismember(self.backends, 'python'))
         continue
@@ -79,7 +84,7 @@ for m = backendReq
       switch functionName
         case {'filesystem_type', 'is_removable', 'ram_total', 'ram_free'}
           if ~stdlib.python.has_psutil(); continue, end
-        case {'cpu_load', 'get_owner'}
+        case {'cpu_load', 'get_owner', 'get_uid'}
           if ispc(), continue, end
         case 'is_admin'
           if ispc() || stdlib.matlabOlderThan('R2024a'), continue, end
