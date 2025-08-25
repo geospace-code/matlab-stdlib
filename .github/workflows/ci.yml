@@ -43,10 +43,10 @@ jobs:
     - &mac-fc
       name: Fortran FC
       if: runner.os == 'macOS'
-      run: echo "FC=gfortran-14" >> $GITHUB_ENV
+      run: echo "FC=gfortran-15" >> $GITHUB_ENV
 
     - &checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - &tell-ext
       name: Matlab tell External Language Interface versions
@@ -104,28 +104,6 @@ jobs:
     steps:
     - *matlab-install
     - *checkout
-    - *tell-ext
-
-    - *test-main
-
-
-  NoJVM:
-    timeout-minutes: *timeout
-
-    name: *job-name
-
-    strategy:
-      matrix:
-        os: [ubuntu-22.04, macos-latest, windows-latest]
-        release: [R2022b, R2025a]
-        startup-options: ["-nojvm"]
-
-    runs-on: ${{ matrix.os }}
-
-    steps:
-    - *matlab-install
-    - *checkout
-    - *mac-fc
     - *tell-ext
 
     - *test-main
