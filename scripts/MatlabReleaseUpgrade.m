@@ -10,21 +10,11 @@
 % * https://www.mathworks.com/matlabcentral/answers/2178694-mathworksupdateinstaller-and-r2025a-in-linux#answer_1568457
 % * https://www.mathworks.com/matlabcentral/answers/1815365-how-do-i-uninstall-and-reinstall-the-mathworks-service-host
 
-function MatlabReleaseUpgrade(doUpgrade)
-arguments
-  doUpgrade (1,1) logical = false
-end
+function MatlabReleaseUpgrade()
 
 cmd = getUpgradePath();
 
 fprintf("Matlab upgrade command:\n\n%s\n\n", cmd);
-
-if doUpgrade
-  s = system(cmd);
-  assert(s == 0, "Return code %d", s)
-else
-  disp("MatlabReleaseUpgrade(1) to install upgrade if available")
-end
 
 end
 
