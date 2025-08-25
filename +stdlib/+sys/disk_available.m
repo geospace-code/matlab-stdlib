@@ -1,10 +1,10 @@
 function [t, cmd] = disk_available(p)
 
-t = uint64([]);
+t = [];
 
 if ispc()
   dl = extractBefore(stdlib.absolute(p), 2);
-  cmd = "pwsh -c (Get-Volume -DriveLetter " + dl + ").SizeRemaining";
+  cmd = sprintf('pwsh -c "(Get-Volume -DriveLetter ''%s'').SizeRemaining"', dl);
 elseif ismac()
   cmd = sprintf('df -k "%s" | awk ''NR==2 {print $4*1024}''', p);
 else
@@ -14,8 +14,10 @@ end
 if stdlib.exists(p)
   [s, t] = system(cmd);
   if s == 0
-    t = uint64(str2double(t));
+    t = str2double(t);
   end
 end
+
+t = uint64(t);
 
 end

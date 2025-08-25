@@ -1,6 +1,6 @@
 function [t, cmd] = disk_capacity(p)
 
-t = uint64([]);
+t = [];
 
 if ispc()
   dl = extractBefore(stdlib.absolute(p), 2);
