@@ -1,6 +1,13 @@
 function [r, cmd] = inode(file)
 
-cmd = sprintf('''%s'' -e ''($f=shift) && -e $f or exit 1; print +(stat $f)[1]'' ''%s''', stdlib.perl_exe(), file);
+c = '($f=shift) && -e $f or exit 1; print +(stat $f)[1]';
+if ispc()
+  k = sprintf('"%s"', c);
+else
+  k = sprintf('''%s''', c);
+end
+
+cmd = sprintf('"%s" -e %s "%s"', stdlib.perl_exe(), k, file);
 
 [s, r] = system(cmd);
 if s == 0
