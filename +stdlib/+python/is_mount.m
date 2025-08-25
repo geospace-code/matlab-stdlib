@@ -3,21 +3,20 @@
 % https://docs.python.org/3/library/os.path.html#os.path.ismount
 
 function y = is_mount(filepath)
-arguments
-  filepath (1,1) string
-end
 
 y = logical.empty;
-if ~stdlib.exists(filepath), return, end
+
+p = py.pathlib.Path(filepath);
+if ~p.exists(), return, end
 
 % some Python on CI needs this. Didn't replicate on local Windows PC.
-if ispc() && strcmp(filepath, stdlib.root_name(filepath)) && ~endsWith(filepath, "/" | filesep)
+if ispc() && strcmp(filepath, string(p.drive)) && ~endsWith(filepath, "/" | filesep)
   y = false;
   return
 end
 
 try %#ok<TRYNC>
-  y = py.os.path.ismount(filepath);
+  y = py.os.path.ismount(p);
 end
 
 end

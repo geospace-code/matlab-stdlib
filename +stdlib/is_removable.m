@@ -12,7 +12,7 @@
 function [ok, b] = is_removable(file, backend)
 arguments
   file string
-  backend (1,:) string = ["dotnet", "sys"]
+  backend (1,:) string = ["python", "sys"]
 end
 
 o = stdlib.Backend(mfilename(), backend);

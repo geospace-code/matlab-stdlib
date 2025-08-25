@@ -1,7 +1,4 @@
 function i = inode(file)
-arguments
-  file (1,1) string
-end
 
 try
   i = int64(py.os.stat(file).st_ino);

@@ -1,6 +1,6 @@
-function t = filesystem_type(file)
+function y = is_removable(file)
 
-t = '';
+y = false;
 
 % important for heuristic matching
 p = py.str(file);
@@ -15,7 +15,7 @@ try
   for part = py.psutil.disk_partitions()
     prt = part{1};
     if p.startswith(prt.mountpoint)
-      t = char(prt.fstype);
+      y = contains(string(prt.opts), ["cdrom", "removable"]);
       return
     end
   end

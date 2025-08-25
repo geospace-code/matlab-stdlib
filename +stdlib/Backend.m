@@ -74,7 +74,7 @@ for m = backendReq
       end
 
       switch functionName
-        case {'filesystem_type', 'ram_total', 'ram_free'}
+        case {'filesystem_type', 'is_removable', 'ram_total', 'ram_free'}
           if ~stdlib.python.has_psutil(); continue, end
         case {'cpu_load', 'get_owner'}
           if ispc(), continue, end
