@@ -6,7 +6,7 @@
 
 function [ok, b] = is_admin(backend)
 arguments
-  backend (1,:) string = ["java", "dotnet", "python", "sys"]
+  backend (1,:) string = ["java", "dotnet", "perl", "python", "sys"]
 end
 
 o = stdlib.Backend(mfilename(), backend);
