@@ -13,10 +13,11 @@ B_os_version
 B_hostname
 B_username
 B_get_uid
+B_get_process_priority
 end
 
 methods (TestParameterDefinition, Static)
-function [B_cpu_arch, B_cpu_load, B_ram_free, B_ram_total, B_is_admin, B_os_version, B_hostname, B_username, B_get_uid] = setupBackends()
+function [B_cpu_arch, B_cpu_load, B_ram_free, B_ram_total, B_is_admin, B_os_version, B_hostname, B_username, B_get_uid, B_get_process_priority] = setupBackends()
 B_cpu_arch = init_backend("cpu_arch");
 B_cpu_load = init_backend("cpu_load");
 B_ram_free = init_backend("ram_free");
@@ -26,6 +27,7 @@ B_os_version = init_backend("os_version");
 B_hostname = init_backend("hostname");
 B_username = init_backend("get_username");
 B_get_uid = init_backend('get_uid');
+B_get_process_priority = init_backend('get_process_priority');
 end
 end
 
@@ -46,6 +48,12 @@ if ispc() && B_cpu_load == "python"
 else
   tc.verifyGreaterThanOrEqual(r, 0.)
 end
+end
+
+
+function test_process_priority(tc, B_get_process_priority)
+r = stdlib.get_process_priority(B_get_process_priority);
+tc.verifyNotEmpty(r)
 end
 
 

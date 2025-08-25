@@ -84,7 +84,7 @@ for m = backendReq
       switch functionName
         case {'filesystem_type', 'is_removable', 'ram_total', 'ram_free'}
           if ~stdlib.python.has_psutil(); continue, end
-        case {'cpu_load', 'get_owner', 'get_uid'}
+        case {'cpu_load', 'get_owner', 'get_process_priority', 'get_uid'}
           if ispc(), continue, end
         case 'is_admin'
           if ispc() || stdlib.matlabOlderThan('R2024a'), continue, end
