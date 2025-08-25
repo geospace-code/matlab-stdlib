@@ -16,10 +16,11 @@ B_hard_link_count
 B_filesystem_type
 B_owner
 B_device
+B_is_dev_drive
 end
 
 methods (TestParameterDefinition, Static)
-function [B_disk, B_is_removable, B_is_mount, B_hard_link_count, B_filesystem_type, B_owner, B_device] = setupBackends()
+function [B_disk, B_is_removable, B_is_mount, B_hard_link_count, B_filesystem_type, B_owner, B_device, B_is_dev_drive] = setupBackends()
 B_disk = init_backend("disk_available");
 B_is_removable = init_backend("is_removable");
 B_is_mount = init_backend("is_mount");
@@ -27,6 +28,7 @@ B_hard_link_count = init_backend("hard_link_count");
 B_filesystem_type = init_backend("filesystem_type");
 B_owner = init_backend("get_owner");
 B_device = init_backend("device");
+B_is_dev_drive = init_backend('is_dev_drive');
 end
 end
 
@@ -106,6 +108,11 @@ else
   tc.assertNotEmpty(t)
   tc.verifyGreaterThan(strlength(t), 0)
 end
+end
+
+
+function test_is_dev_drive(tc, B_is_dev_drive)
+tc.verifyClass(stdlib.is_dev_drive(pwd(), B_is_dev_drive), 'logical')
 end
 
 

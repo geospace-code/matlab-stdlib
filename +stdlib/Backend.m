@@ -80,6 +80,9 @@ for m = backendReq
           if ispc(), continue, end
         case 'is_admin'
           if ispc() || stdlib.matlabOlderThan('R2024a'), continue, end
+        case 'is_dev_drive'
+          pyv = stdlib.python_version();
+          if any(pyv(1:2) < [3, 12]), continue, end
       end
     case 'native'
 
