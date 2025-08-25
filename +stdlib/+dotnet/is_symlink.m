@@ -15,11 +15,8 @@ try
     y = contains(attr, 'ReparsePoint');
   end
 catch e
-  switch e.identifier
-    case {'MATLAB:NET:CLRException:CreateObject', 'MATLAB:NET:CLRException:MethodInvoke'}
-      y = false;
-    otherwise, rethrow(e)
-  end
+  dotnetException(e)
+  y = false;
 end
 
 end

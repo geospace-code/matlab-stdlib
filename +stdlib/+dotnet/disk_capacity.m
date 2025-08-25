@@ -1,15 +1,20 @@
 %% DOTNET.DISK_CAPACITY find the overall disk capacity visible to user
 
-function f = disk_capacity(file)
-arguments
-  file (1,1) string
+function i = disk_capacity(file)
+
+i = uint64([]);
+if ~stdlib.exists(file)
+  return
 end
 
-f = uint64([]);
-
-if ~stdlib.exists(file), return, end
-
-f = uint64(System.IO.DriveInfo(stdlib.absolute(file)).TotalSize());
+try
+% absolutizing is necessary for Windows especially
+  i = System.IO.DriveInfo(System.IO.Path.GetFullPath(file)).TotalSize();
 % https://learn.microsoft.com/en-us/dotnet/api/system.io.driveinfo.totalsize
+catch e
+  dotnetException(e)
+end
+
+i = uint64(i);
 
 end
