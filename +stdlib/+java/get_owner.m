@@ -12,15 +12,16 @@ function n = get_owner(file)
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/LinkOption.html
 
 n = "";
-if stdlib.strempty(file), return, end
+if stdlib.strempty(file)
+  return
+end
 
-file = stdlib.absolute(file);
 % Java 1.8 benefits from absolute.
 % We only saw this issue with R2025a on windows-2025 GA runner image.
+opt = java.nio.file.LinkOption.values();
 
 try %#ok<TRYNC>
-  opt = java.nio.file.LinkOption.values();
-  n = string(java.nio.file.Files.getOwner(javaPathObject(file), opt));
+  n = string(java.nio.file.Files.getOwner(javaAbsolutePath(file), opt));
 end
 
 end
