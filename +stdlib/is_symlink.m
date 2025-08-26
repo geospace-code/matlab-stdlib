@@ -10,7 +10,7 @@
 function [ok, b] = is_symlink(file, backend)
 arguments
   file string
-  backend (1,:) string = ["native", "java", "dotnet", "python", "sys"]
+  backend (1,:) string = ["native", "java", "python", "dotnet", "sys"]
 end
 
 o = stdlib.Backend(mfilename(), backend);
