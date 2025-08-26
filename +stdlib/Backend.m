@@ -1,3 +1,13 @@
+%% BACKEND auto-selection of function backend per-function
+% the user can specify a backend, or else this class automatically
+% determines suitable backends for the system.
+%
+% * 'sys' is usually the slowest, but most compatible.
+% * 'python' or 'dotnet' are among the fastest, but not always available
+% * 'java' and 'perl' are usually available and medium speed
+% * 'native' uses the latest Matlab syntax available
+% * 'legacy' is Matlab syntax for older Matlab versions. Sometimes legacy is faster than native, but native is more robust/general.
+
 classdef Backend < matlab.mixin.SetGet
 
 properties (Constant)

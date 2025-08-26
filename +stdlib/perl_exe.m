@@ -1,3 +1,6 @@
+%% PERL_EXE get the location of the Perl executable used by Matlab
+% this is cached for speed
+
 function exe = perl_exe()
 
 persistent perle

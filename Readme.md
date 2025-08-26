@@ -41,7 +41,8 @@ Normally the user will not specify the backend as we prioritize faster backends.
 * [.NET](https://www.mathworks.com/help/matlab/call-net-from-matlab.html)
   * Windows: all supported Matlab releases
   * Linux / macOS: R2024b and newer
-* [Java](https://www.mathworks.com/help/matlab/using-java-libraries-in-matlab.html): all supported Matlab releases. A few Java functions are Linux / macOS only, but have other backends available.
+* [Java](https://www.mathworks.com/help/matlab/using-java-libraries-in-matlab.html): all supported Matlab releases
+* [Perl](https://www.mathworks.com/help/matlab/ref/perl.html):  all supported Matlab releases. This uses a system() call to Perl, which is bundled with Matlab on Windows and generally available on Linux and macOS
 * [Python](https://www.mathworks.com/help/matlab/call-python-libraries.html): Matlab R2022b and newer
 * System shell calls: all supported Matlab releases. As a backup when the platform doesn't have the primary (faster) methods available, the system shell can be called for some functions.
 
