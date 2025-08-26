@@ -20,7 +20,7 @@ try
     end
   end
 catch e
-  rethrow(e)
+  pythonException(e)
 end
 
 end

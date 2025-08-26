@@ -7,15 +7,16 @@
 % this try-catch is faster and more robust
 
 function t = filesystem_type(file)
-arguments
-  file (1,1) string
-end
 
 t = '';
-if stdlib.strempty(file), return, end
+if stdlib.strempty(file)
+  return
+end
 
-try %#ok<TRYNC>
+try
   t = char(java.nio.file.Files.getFileStore(javaPathObject(file)).type);
+catch e
+  javaException(e)
 end
 
 end

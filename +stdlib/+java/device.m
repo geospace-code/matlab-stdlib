@@ -13,9 +13,7 @@ opt = java.nio.file.LinkOption.values();
 try
   i = java.nio.file.Files.getAttribute(javaAbsolutePath(file), "unix:dev", opt);
 catch e
-  if class(e.ExceptionObject) ~= "java.nio.file.NoSuchFileException"
-    rethrow(e)
-  end
+  javaException(e)
 end
 
 i = uint64(i);
