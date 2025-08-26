@@ -1,8 +1,7 @@
 %% DOTNET.READ_SYMLINK resolve the symbolic links of a filepath
+% .NET >= 6 required
 
 function r = read_symlink(file)
-
-r = "";
 
 try
   h = System.IO.FileInfo(file);
@@ -13,6 +12,7 @@ try
   end
 catch e
   dotnetException(e)
+  r = "";
 end
 
 end

@@ -1,12 +1,12 @@
-function [r, s] =  BenchmarkIsSymlinkRun()
+function [r, s] =  BenchmarkReadSymlinkRun()
 tname = "BenchmarkSymlink";
 
 %% Exist
-r.same = run_bench(tname + "/bench_is_symlink_exist");
+r.same = run_bench(tname + "/bench_read_symlink_exist");
 s.exist = sampleSummary(r.same);
 disp(sortrows(s.exist, "Median"))
 %% Not Exist
-r.not = run_bench(tname + "/bench_is_symlink_not_exist");
+r.not = run_bench(tname + "/bench_read_symlink_not_exist");
 s.not = sampleSummary(r.not);
 disp(sortrows(s.not, "Median"))
 
