@@ -1,10 +1,10 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}) ...
-    BenchmarkInode < matlab.perftest.TestCase
+    BenchmarkDevice < matlab.perftest.TestCase
 
 properties
-exist = mfilename('fullpath') + ".m"
+exist = "."
 not_exist = tempname()
-fun = @stdlib.inode
+fun = @stdlib.device
 end
 
 properties(TestParameter)
@@ -13,7 +13,7 @@ end
 
 methods (TestParameterDefinition, Static)
 function backend = setupBackend()
-  backend = init_backend('inode');
+  backend = init_backend('device');
 end
 end
 

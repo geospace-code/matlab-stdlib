@@ -1,5 +1,5 @@
-function [r, s] =  BenchmarkInodeRun()
-tname = "BenchmarkInode";
+function [r, s] =  BenchmarkDeviceRun()
+tname = "BenchmarkDevice";
 
 %% Exist
 r.same = run_bench(tname + "/bench_exist");

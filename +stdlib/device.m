@@ -8,8 +8,8 @@
 
 function [i, b] = device(file, backend)
 arguments
-  file
-  backend (1,:) string = ["java", "perl", "python", "sys"]
+  file string
+  backend (1,:) string = ["java", "python", "perl", "sys"]
 end
 
 o = stdlib.Backend(mfilename(), backend);

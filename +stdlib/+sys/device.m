@@ -9,15 +9,17 @@
 
 function [i, cmd] = device(p)
 
-i = uint64([]);
-if ~stdlib.exists(p), return, end
+i = [];
 
 if ispc()
-  c0 = 'pwsh -c "(Get-CimInstance -ClassName Win32_Volume -Filter \"DriveLetter = ''';
-  c1 = stdlib.root_name(stdlib.absolute(p));
-  c2 = '''\").SerialNumber"';
-  % needs to be strcat as it could be char, or cast implicitly to string
-  cmd = strcat(c0, c1, c2);
+  rn = stdlib.root_name(stdlib.absolute(p));
+
+  % Get-CimInstance works, but is 100x slower
+  % c0 = 'pwsh -c "(Get-CimInstance -ClassName Win32_Volume -Filter \"DriveLetter = ''';
+  % c2 = '''\").SerialNumber"';
+  % cmd = strcat(c0, rn, c2);
+
+  cmd = sprintf('vol "%s"', rn);
 elseif ismac()
   cmd = sprintf('stat -f %%d "%s"', p);
 else
@@ -27,7 +29,13 @@ end
 if stdlib.exists(p)
   [s, m] = system(cmd);
   if s == 0
-    i = str2double(m);
+    if ispc()
+      r = extractAfter(m, 'Volume Serial Number is ');
+      r = [r(1:4) r(6:9)];
+      i = hex2dec(r);
+    else
+      i = str2double(m);
+    end
   end
 end
 
