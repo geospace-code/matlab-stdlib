@@ -24,9 +24,13 @@ if stdlib.has_dotnet()
   raw.dotnet_version = stdlib.dotnet_version();
 end
 
-pv = stdlib.python_version();
-if ~isempty(pv)
-  raw.python_version = sprintf('%d.%d.%d', pv(1), pv(2), pv(3));
+if stdlib.has_perl()
+  raw.perl_version = sprintf('%d.%d.%d', stdlib.perl_version());
+  raw.perl_exe = stdlib.perl_exe();
+end
+
+if stdlib.has_python()
+  raw.python_version = sprintf('%d.%d.%d', stdlib.python_version());
   raw.python_home = stdlib.python_home();
 end
 
