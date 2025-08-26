@@ -1,14 +1,15 @@
 function n = get_owner(file)
-arguments
-  file (1,1) string
-end
 
 n = "";
 
-if stdlib.strempty(file), return, end
+if stdlib.strempty(file)
+  return
+end
 
-try %#ok<TRYNC>
+try
   n = string(py.pathlib.Path(file).owner());
+catch e
+  pythonException(e)
 end
 
 end
