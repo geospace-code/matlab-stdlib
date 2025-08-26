@@ -1,10 +1,10 @@
-function [r, s] =  BenchmarkGetOwnerRun()
+function [r, s] =  BenchmarkInodeRun()
 %% Exist
-r.same = run_bench('BenchmarkGetOwner/bench_exist');
+r.same = run_bench('BenchmarkInode/bench_exist');
 s.exist = sampleSummary(r.same);
 disp(sortrows(s.exist, "Median"))
 %% Not Exist
-r.not = run_bench('BenchmarkGetOwner/bench_not_exist');
+r.not = run_bench('BenchmarkInode/bench_not_exist');
 s.not = sampleSummary(r.not);
 disp(sortrows(s.not, "Median"))
 
