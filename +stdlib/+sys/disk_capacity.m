@@ -3,8 +3,10 @@ function [t, cmd] = disk_capacity(p)
 t = [];
 
 if ispc()
-  dl = extractBefore(stdlib.absolute(p), 2);
-  cmd = sprintf('pwsh -c "(Get-Volume -DriveLetter ''%s'').Size"', dl);
+  cmd = sprintf('pwsh -c ([System.IO.DriveInfo]''%s'').TotalSize', stdlib.absolute(p));
+  % dl = extractBefore(stdlib.absolute(p), 2);
+  % cmd = sprintf('pwsh -c "(Get-Volume -DriveLetter ''%s'').Size"', dl);
+  % slower
 elseif ismac()
   cmd = sprintf('df -k "%s" | awk ''NR==2 {print $2*1024}''', p);
 else

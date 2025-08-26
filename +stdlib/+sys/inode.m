@@ -1,9 +1,6 @@
 %% SYS.INODE get file inode
 
 function [i, cmd] = inode(file)
-arguments
-  file (1,1) string
-end
 
 i = [];
 

@@ -1,10 +1,10 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}) ...
-    BenchmarkGetOwner < matlab.perftest.TestCase
+    BenchmarkDiskAvailable < matlab.perftest.TestCase
 
 properties
-exist = '.'
+exist = "."
 not_exist = tempname()
-fun = @stdlib.get_owner
+fun = @stdlib.disk_available
 end
 
 properties(TestParameter)
@@ -13,7 +13,7 @@ end
 
 methods (TestParameterDefinition, Static)
 function backend = setupBackend()
-  backend = init_backend('get_owner');
+  backend = init_backend('disk_available');
 end
 end
 
@@ -22,21 +22,21 @@ methods (Test)
 
 function bench_exist(tc, backend)
 tc.startMeasuring()
-o = tc.fun(tc.exist, backend);
+i = tc.fun(tc.exist, backend);
 tc.stopMeasuring()
 
-tc.verifyClass(o, 'string')
-tc.verifyGreaterThan(strlength(o), 0)
+tc.verifyClass(i, 'uint64')
+tc.verifyGreaterThan(i, 0)
 end
 
 
 function bench_not_exist(tc, backend)
 tc.startMeasuring()
-o = tc.fun(tc.not_exist, backend);
+i = tc.fun(tc.not_exist, backend);
 tc.stopMeasuring()
 
-tc.verifyClass(o, 'string')
-tc.verifyEqual(strlength(o), 0)
+tc.verifyClass(i, 'uint64')
+tc.assertEmpty(i)
 end
 
 end
