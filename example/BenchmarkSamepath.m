@@ -1,6 +1,13 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}) ...
     BenchmarkSamepath < matlab.perftest.TestCase
 
+properties
+exist = [".", pwd()]
+diff = [".", mfilename('fullpath') + ".m"]
+not = tempname()
+fun = @stdlib.samepath
+end
+
 properties(TestParameter)
 backend
 end
@@ -16,7 +23,7 @@ methods (Test)
 
 function bench_exist(tc, backend)
 tc.startMeasuring()
-y = stdlib.samepath('.', pwd(), backend);
+y = tc.fun(tc.exist(1), tc.exist(2), backend);
 tc.stopMeasuring()
 
 tc.verifyEqual(y, true)
@@ -25,7 +32,7 @@ end
 
 function bench_diff(tc, backend)
 tc.startMeasuring()
-y = stdlib.samepath('.', mfilename('fullpath'), backend);
+y = tc.fun(tc.diff(1), tc.diff(2), backend);
 tc.stopMeasuring()
 
 tc.verifyEqual(y, false)
@@ -34,7 +41,7 @@ end
 
 function bench_not_exist(tc, backend)
 tc.startMeasuring()
-y = stdlib.samepath('not-exist', 'not-exist', backend);
+y = tc.fun(tc.not, tc.not, backend);
 tc.stopMeasuring()
 
 tc.verifyEqual(y, false)

@@ -20,10 +20,8 @@ function [ok, b] = samepath(path1, path2, backend)
 arguments
   path1 string
   path2 string
-  backend (1,:) string = ["python", "perl", "java", "sys", "native"]
+  backend (1,:) string = ["python", "java", "perl", "sys", "native"]
 end
-
-% For this function, Python is over 10x faster than Java
 
 o = stdlib.Backend(mfilename(), backend);
 b = o.backend;
