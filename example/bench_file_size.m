@@ -2,8 +2,8 @@
 
 f = mfilename("fullpath") + ".m";
 
-fno = @() stdlib.file_size(f, false);
+fno = @() stdlib.file_size(f);
 
 t_no = timeit(fno);
 
-disp("No Java: " + t_no + " s")
+disp(t_no + " s")

@@ -14,7 +14,13 @@ s = NaN(size(p));
 
 i = isfile(p);
 
-d = arrayfun(@dir, p(i));
+if ~any(i)
+  return
+elseif isscalar(p)
+  d = dir(p);
+else
+  d = arrayfun(@dir, p(i));
+end
 
 i = i & ~isempty(d);
 s(i) = [d.bytes];
