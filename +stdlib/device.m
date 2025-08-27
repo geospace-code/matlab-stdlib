@@ -1,8 +1,8 @@
 %% DEVICE filesystem device index of path
 %
-%% Inputs
+%%% Inputs
 % * file: path to file
-%% Outputs
+%%% Outputs
 % * i: device index
 % * b: backend used
 

@@ -1,6 +1,6 @@
 %% HOSTNAME get hostname of local machine
 %
-%% Outputs
+%%% Outputs
 % * n: hostname of local machine
 % * b: backend used
 %

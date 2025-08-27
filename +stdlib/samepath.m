@@ -9,10 +9,10 @@
 %
 % Ref: https://devblogs.microsoft.com/oldnewthing/20220128-00/?p=106201
 %
-%% Inputs
+%%% inputs
 % * path1, path2: paths to compare
 % * backend: backend to use, default is "python"
-%% Outputs
+%%% Outputs
 % * ok: true if paths are the same
 % * b: backend used
 

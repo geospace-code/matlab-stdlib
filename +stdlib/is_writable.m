@@ -2,7 +2,7 @@
 %
 %%% Inputs
 % * file: path to file or folder
-%% Outputs
+%%% Outputs
 % * ok: true if file is writable
 
 function ok = is_writable(file)

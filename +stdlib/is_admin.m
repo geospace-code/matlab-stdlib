@@ -1,6 +1,6 @@
 %% IS_ADMIN is the process run as root / admin
 %
-%% Outputs
+%%% Outputs
 % * ok: true if process is run as root / admin
 % * b: backend used
 

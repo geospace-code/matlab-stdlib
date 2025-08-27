@@ -1,7 +1,7 @@
 %% IS_ROSETTA on Apple Silicon via Rosetta
 %
 % true if Matlab on Apple Silicon CPU is built for Intel x86_64
-%% Outputs
+%%% Outputs
 % * r: true if running under Rosetta
 % * b: backend used
 %

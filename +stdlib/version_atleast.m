@@ -2,10 +2,10 @@
 % compare two string verions: major.minor.rev.patch
 % numeric portions only.
 %
-%% Inputs
+%%% inputs
 % * in: version to examine (string)
 % * ref: version to compare against (at least this version is true)
-%% Outputs
+%%% Outputs
 % * r: logical
 
 function r = version_atleast(in, ref)

@@ -2,9 +2,9 @@
 %
 % example:  stdlib.disk_available('/')
 %
-%% Inputs
+%%% inputs
 % * file: path to check
-%% Outputs
+%%% Outputs
 % * f: free disk space (bytes)
 % * b: backend used
 %

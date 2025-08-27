@@ -1,9 +1,9 @@
 %% IS_EXE is file executable
 % does not check if the file is actually a binary executable
 %
-%% Inputs
+%%% inputs
 % file: path to check
-%% Outputs
+%%% Outputs
 % ok: true if path is a file and has executable permissions
 
 function ok = is_exe(file)

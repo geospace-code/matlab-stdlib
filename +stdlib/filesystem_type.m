@@ -2,10 +2,10 @@
 %
 % example outputs: NTFS, ext4, apfs, ...
 %
-%% Inputs
+%%% inputs
 % * file: path to check
 % * backend: backend to use
-%% Outputs
+%%% Outputs
 % * t: filesystem type
 % * b: backend used
 

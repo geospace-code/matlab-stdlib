@@ -1,8 +1,8 @@
 %% TOOLBOX_USED list all Matlab toolboxes used by all functions in pkgPath
 %
-%% Inputs
+%%% inputs
 % * pkgPath: path to user namespace or file. Example: "+stdlib" or "stdlib.cpu_arch"
-%% Outputs
+%%% Outputs
 % * tbxMathworks: Mathworks toolbox names used
 % * funUser: all user function files under pkgPath
 

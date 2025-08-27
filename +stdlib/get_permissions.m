@@ -2,10 +2,10 @@
 %
 % output is char like 'rwxrwxr--'
 %
-%% Inputs
+%%% inputs
 % * file: path to check
 % * backend: backend to use
-%% Outputs
+%%% Outputs
 % * p: permissions string
 % * b: backend used
 

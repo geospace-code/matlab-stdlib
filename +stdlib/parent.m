@@ -1,8 +1,8 @@
 %% PARENT parent directory of path
 %
-%% Inputs
+%%% inputs
 % * file: path to file or folder
-%% Outputs
+%%% Outputs
 % * par: parent directory of path
 %% Examples:
 % stdlib.parent("a/b/c") == "a/b"

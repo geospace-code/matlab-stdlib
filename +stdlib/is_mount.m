@@ -1,9 +1,9 @@
 %% IS_MOUNT is filepath a mount path
 %
-%% Inputs
+%%% inputs
 % * file: path to check
 % * backend: backend to use
-%% Outputs
+%%% Outputs
 % * ok: true if path is a mount point
 % * b: backend used
 %

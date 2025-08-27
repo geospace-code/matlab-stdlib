@@ -3,7 +3,7 @@
 % Note: for Windows 11, need new-enough Java version to show Windows 11
 % instead of Windows 10.
 %
-%% Outputs
+%%% Outputs
 % * os: operating system name
 % * version: operating system version
 % * b: backend used

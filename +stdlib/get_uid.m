@@ -1,6 +1,6 @@
 %% GET_UID tell UID (numeric) of current user
 %
-%% Outputs
+%%% Outputs
 % * n: UID of current user
 % * b: backend used
 

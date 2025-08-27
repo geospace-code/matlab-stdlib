@@ -1,8 +1,8 @@
 %% INODE filesystem inode of path
 %
-%% Inputs
+%%% inputs
 % * file: path to check
-%% Outputs
+%%% Outputs
 % * i: inode number
 % * b: backend used
 

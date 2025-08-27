@@ -1,6 +1,6 @@
 %% GET_SHELL full path to currently running shell
 %
-%% Outputs
+%%% Outputs
 % * s: full path to currently running shell
 % * b: backend used
 

@@ -2,9 +2,9 @@
 %
 % example:  stdlib.disk_capacity('/')
 %
-%% Inputs
+%%% inputs
 % * file: path to check
-%% Outputs
+%%% Outputs
 % * f: total disk capacity (bytes)
 % * b: backend used
 

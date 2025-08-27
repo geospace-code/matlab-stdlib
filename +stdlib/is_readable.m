@@ -2,7 +2,7 @@
 %
 %%% Inputs
 % file: single path string
-%% Outputs
+%%% Outputs
 % ok: true if file is readable
 
 function ok = is_readable(file)

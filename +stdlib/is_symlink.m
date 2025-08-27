@@ -1,9 +1,9 @@
 %% IS_SYMLINK is path a symbolic link
 %
-%% Inputs
+%%% inputs
 % * file: path to check
 % * backend: backend to use
-%% Outputs
+%%% Outputs
 % * ok: true if path is a symbolic link
 % * b: backend used
 

@@ -3,10 +3,10 @@
 % empty string if path is not a symlink
 % always of string class in Matlab
 %
-%% Inputs
+%%% inputs
 % * file: path to symbolic link
 % * backend: backend to use
-%% Outputs
+%%% Outputs
 % * r: target of symbolic link
 % * b: backend used
 

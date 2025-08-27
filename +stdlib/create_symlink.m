@@ -1,9 +1,9 @@
 %% CREATE_SYMLINK create symbolic link
 %
-%% Inputs
+%%% inputs
 % * target: path to link to
 % * link: path to create link at
-%% Outputs
+%%% Outputs
 % * ok: true if successful
 % * b: backend used
 

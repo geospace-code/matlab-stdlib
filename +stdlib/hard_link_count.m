@@ -1,8 +1,8 @@
 %% HARD_LINK_COUNT get the number of hard links to a file
 %
-%% Inputs
+%%% inputs
 % * file: path to check
-%% Outputs
+%%% Outputs
 % * c: number of hard links
 % * b: backend used
 %% Java backend references:

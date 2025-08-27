@@ -1,6 +1,6 @@
 %% GET_USERNAME tell username of current user
 %
-%% Outputs
+%%% Outputs
 % * n: username of current user
 % * b: backend used
 

@@ -3,10 +3,10 @@
 % e.g. NUL, /dev/null
 % false if file does not exist
 %
-%% Inputs
+%%% inputs
 % * file: path to check
 % * backend: backend to use
-%% Outputs
+%%% Outputs
 % * ok: true if path is a character device
 % * b: backend used
 %
