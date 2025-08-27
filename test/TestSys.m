@@ -4,7 +4,6 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture("..")}, ...
 
 
 properties (TestParameter)
-B_cpu_arch
 B_cpu_load
 B_ram_free
 B_ram_total
@@ -17,8 +16,7 @@ B_get_process_priority
 end
 
 methods (TestParameterDefinition, Static)
-function [B_cpu_arch, B_cpu_load, B_ram_free, B_ram_total, B_is_admin, B_os_version, B_hostname, B_username, B_get_uid, B_get_process_priority] = setupBackends()
-B_cpu_arch = init_backend("cpu_arch");
+function [B_cpu_load, B_ram_free, B_ram_total, B_is_admin, B_os_version, B_hostname, B_username, B_get_uid, B_get_process_priority] = setupBackends()
 B_cpu_load = init_backend("cpu_load");
 B_ram_free = init_backend("ram_free");
 B_ram_total = init_backend("ram_total");
@@ -97,8 +95,8 @@ tc.verifyGreaterThan(strlength(u), 0)
 end
 
 
-function test_cpu_arch(tc, B_cpu_arch)
-arch = stdlib.cpu_arch(B_cpu_arch);
+function test_cpu_arch(tc)
+arch = stdlib.cpu_arch();
 tc.verifyClass(arch, 'char')
 tc.verifyGreaterThan(strlength(arch), 0, "CPU architecture should not be empty")
 end
