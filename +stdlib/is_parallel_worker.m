@@ -18,8 +18,11 @@
 function ispar = is_parallel_worker()
 
 try
-  ispar = matlab.internal.parallel.isPCTInstalled() && ~isempty(getCurrentWorker());
-catch
+  ispar = ~isempty(getCurrentWorker());
+catch e
+  if e.identifier ~= "MATLAB:UndefinedFunction"
+     rethrow(e)
+  end
   ispar = false;
 end
 
