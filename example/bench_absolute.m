@@ -5,8 +5,8 @@ addpath(fullfile(fileparts(f), ".."))
 
 %f = "abc";
 
-fno = @() stdlib.absolute(f, false);
+fno = @() stdlib.absolute(f);
 
 t_no = timeit(fno);
 
-disp("No Java: " + t_no + " s")
+disp(t_no + " s")
