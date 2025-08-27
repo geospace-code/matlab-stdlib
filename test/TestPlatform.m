@@ -7,7 +7,16 @@ CI = getenv("CI") == "true" || getenv("GITHUB_ACTIONS") == "true"
 end
 
 
-methods (Test)
+methods (Test, TestTags = {'toolbox', 'java'})
+function test_all_toolboxes(tc)
+tc.assumeTrue(stdlib.has_java())
+tbx = stdlib.allToolboxes();
+tc.verifyClass(tbx, "table")
+end
+end
+
+
+methods (Test, TestTags={'toolbox'})
 
 function test_toolbox_used(tc)
 r = fullfile(fileparts(fileparts(mfilename('fullpath'))), '+stdlib');
@@ -23,11 +32,17 @@ tc.verifyEqual(userFun, string.empty)
 tc.verifyEqual(length(mathworksUsed), 1)
 end
 
-function test_all_toolboxes(tc)
-tc.assumeTrue(stdlib.has_java())
-tbx = stdlib.allToolboxes();
-tc.verifyClass(tbx, "table")
+
+function test_has_parallel_toolbox(tc)
+y = stdlib.has_parallel_toolbox();
+tc.verifyClass(y, 'logical')
+tc.verifyNotEmpty(y)
 end
+
+end
+
+
+methods (Test)
 
 function test_platform_tell(tc)
 r = stdlib.platform_tell();
