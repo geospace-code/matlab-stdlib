@@ -107,13 +107,19 @@ end
 
 function publishTask(context)
 % publish HTML inline documentation strings to individual HTML files
-outdir = fullfile(context.Plan.RootFolder, 'docs');
+%
+% References:
+% https://www.mathworks.com/help/matlab/matlab_prog/display-custom-documentation.html
+% https://www.mathworks.com/help/matlab/matlab_prog/create-a-help-summary-contents-m.html
+
+pkg_root = fullfile(context.Plan.RootFolder, '+stdlib');
+html_dir = fullfile(pkg_root, 'html');
 styleFile = fullfile(context.Plan.RootFolder, "private/style.css");
 
 readme = publish_gen_index_html("stdlib", ...
   "A standard library of functions for Matlab.", ...
   "https://github.com/geospace-code/matlab-stdlib", ...
-  outdir, styleFile);
+  html_dir, styleFile);
 
 fprintf("\nweb('file:///%s') to view docs\n\n", readme);
 end

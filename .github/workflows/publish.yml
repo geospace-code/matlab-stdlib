@@ -59,9 +59,9 @@ jobs:
 # "Error using publish Only MATLAB code can be published"
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
-          path: 'docs/'
+          path: '+stdlib/html/'
 
       - name: Deploy to GitHub Pages
         id: deployment

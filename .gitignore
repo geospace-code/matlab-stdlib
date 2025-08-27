@@ -10,14 +10,14 @@ release/
 resources/
 .buildtool/
 *.asv
-docs/
++stdlib/html/
 
 *.mex*
-*.oct
+*.exe
 
-test/printenv.exe
-test/stdout_stderr_c.exe
-test/stdout_stderr_fortran.exe
-test/stdin_cpp.exe
-test/stdin_fortran.exe
-test/sleep.exe
+test/printenv
+test/stdout_stderr_c
+test/stdout_stderr_fortran
+test/stdin_cpp
+test/stdin_fortran
+test/sleep
