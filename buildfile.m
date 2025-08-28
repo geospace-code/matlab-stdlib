@@ -170,9 +170,14 @@ for m = funcs
 
   req = "";
   for bkd = string(pkg.packages).'
-    if ~isempty(which(pn + "." + bkd + "." + name))
+    subfun = pn + "." + bkd + "." + name;
+    if ~isempty(which(subfun))
       Nbe.(bkd) = Nbe.(bkd) + 1;
-      req = req + " " + bkd;
+
+      doc_fn = publish(subfun, evalCode=false, outputDir=html_dir + "/" + bkd);
+      disp(doc_fn)
+
+      req = req + " <a href=" + bkd + "/" + name + ".html>" + bkd + "</a>";
     end
   end
 
