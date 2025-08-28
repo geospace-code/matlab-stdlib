@@ -1,3 +1,5 @@
+%% PERL.DEVICE filesystem device index of path
+
 function [r, cmd] = device(file)
 
 c = '($f=shift) && -e $f or exit 1; print +(stat $f)[0]';
