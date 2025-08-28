@@ -10,6 +10,8 @@ release/
 resources/
 .buildtool/
 *.asv
+
++stdlib/Contents.m
 +stdlib/html/
 
 *.mex*
