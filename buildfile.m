@@ -111,15 +111,90 @@ function publishTask(context)
 % References:
 % https://www.mathworks.com/help/matlab/matlab_prog/display-custom-documentation.html
 % https://www.mathworks.com/help/matlab/matlab_prog/create-a-help-summary-contents-m.html
-
-pkg_root = fullfile(context.Plan.RootFolder, '+stdlib');
+pkg_name = '+stdlib';
+pkg_root = fullfile(context.Plan.RootFolder, pkg_name);
 html_dir = fullfile(pkg_root, 'html');
-styleFile = fullfile(context.Plan.RootFolder, "private/style.css");
+contents = fullfile(pkg_root, "Contents.m");
 
-readme = publish_gen_index_html("stdlib", ...
-  "A standard library of functions for Matlab.", ...
-  "https://github.com/geospace-code/matlab-stdlib", ...
-  html_dir, styleFile);
+% styleFile = fullfile(context.Plan.RootFolder, "private/style.css");
+%
+% readme = publish_gen_index_html("stdlib", ...
+%   "A standard library of functions for Matlab.", ...
+%   "https://github.com/geospace-code/matlab-stdlib", ...
+%   html_dir, styleFile);
+
+pkg = what(pkg_root);
+funcs = string(pkg.m).';
+pn = extractAfter(pkg_name, 1);
+
+txt = ["%% Standard library of functions for MATLAB", "%"];
+
+repo = gitrepo(pkg.path);
+txt(end+1) = "% Git branch / commit: " +  repo.CurrentBranch.Name + " " + ...
+  repo.LastCommit.ID{1}(1:8) + " " + string(repo.LastCommit.CommitterDate);
+
+
+txt = [txt, "%", "% <https://github.com/geospace-code/matlab-stdlib GitHub Source Code>", "%", ...
+"% Library Functions:", "%", ...
+"% <html>", "% <table>", "% <tr><th>Function</th> <th>Description</th> <th>Backends</th></tr>"];
+
+writelines(join(txt, newline), contents, WriteMode="overwrite")
+
+
+Nbe = struct(dotnet=0, java=0, perl=0, python=0, sys=0, native=0, legacy=0, top_level=0);
+
+for m = funcs
+  Nbe.top_level = Nbe.top_level + 1;
+
+  if m == "Contents.m"
+    continue
+  end
+
+  [~, name] = fileparts(m);
+
+  doc_fn = publish(pn + "." + name, evalCode=false, outputDir=html_dir);
+  disp(doc_fn)
+
+  % inject summary for each function
+  help_txt = splitlines(string(help(pn + "." + name)));
+  words = split(strip(help_txt(1)), " ");
+
+  % error if no docstring
+  fname = words(1);
+  assert(endsWith(fname, name, IgnoreCase=true), "fname %s does not match name %s \nis there a docstring at the top of the .m file?", fname, name)
+
+  line = "% <tr><td><a href=" + name + ".html>" + fname + "</a></td><td>";
+  if numel(words) > 1
+    line = join([line,  words(2:end).']);
+  end
+
+  req = "";
+  for bkd = string(pkg.packages).'
+    if ~isempty(which(pn + "." + bkd + "." + name))
+      Nbe.(bkd) = Nbe.(bkd) + 1;
+      req = req + " " + bkd;
+    end
+  end
+
+  line = line + "</td> <td>" + req + "</td></tr>";
+
+  writelines(line, contents, WriteMode="append")
+end
+
+writelines("% </table></html>" + newline + "%", contents, WriteMode="append")
+
+line = "% Function counts:" + newline + "%";
+
+for n = string(fieldnames(Nbe)).'
+  line(end+1) = "% * " + n + " " + string(Nbe.(n));  %#ok<AGROW>
+end
+
+writelines(join(line, newline), contents, WriteMode="append")
+
+readme = publish(pn + ".Contents", evalCode=false, showCode=false);
+
+movefile(readme, html_dir + "/index.html");
+readme = html_dir + "/index.html";
 
 fprintf("\nweb('file:///%s') to view docs\n\n", readme);
 end
