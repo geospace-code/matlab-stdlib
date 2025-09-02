@@ -1,12 +1,5 @@
 function [r, cmd] = inode(file)
 
-c = '($f=shift) && -e $f or exit 1; print +(stat $f)[1]';
-if ispc()
-  k = sprintf('"%s"', c);
-else
-  k = sprintf('''%s''', c);
-end
-
 r = uint64.empty;
 
 exe = stdlib.perl_exe();
@@ -14,7 +7,9 @@ if stdlib.strempty(exe)
   return
 end
 
-cmd = sprintf('"%s" -e %s "%s"', exe, k, file);
+c = stdlib.perl.perl2cmd('($f=shift) && -e $f or exit 1; print +(stat $f)[1]');
+
+cmd = sprintf('"%s" -e %s "%s"', exe, c, file);
 
 [s, r] = system(cmd);
 if s == 0

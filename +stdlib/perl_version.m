@@ -1,5 +1,6 @@
 %% PERL_VERSION get the Perl version used by MATLAB
 % cached for speed
+% to clear cache do "clear functions"
 %
 %%% Output
 % * v: 1x3 vector of major, minor, micro version e.g. Perl 5.32.1 = [5, 32, 1]
@@ -20,7 +21,7 @@ v = [];
 exe = stdlib.perl_exe();
 
 if ~stdlib.strempty(exe)
-  cmd = sprintf('"%s" -e "print $^V"', exe);
+  cmd = sprintf('"%s" -e %s', exe, stdlib.perl.perl2cmd('print $^V'));
 
   [s, r] = system(cmd);
 

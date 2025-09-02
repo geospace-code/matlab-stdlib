@@ -51,6 +51,13 @@ tc.verifyNotEmpty(r)
 end
 
 
+function test_perl(tc)
+tc.verifyNotEmpty(stdlib.perl_exe())
+tc.verifyNotEmpty(stdlib.perl_version())
+tc.verifyTrue(stdlib.has_perl(), "Matlab docs indicate that Perl should always be available")
+end
+
+
 function test_is_cygwin(tc)
 tc.verifyFalse(stdlib.is_cygwin())
 end
