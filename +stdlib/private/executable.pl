@@ -3,9 +3,24 @@
 # we do not use $Config{perlpath} as that's a build-time variable and is thus
 # incorrect when a buildbot was used e.g. Windows Perl from Matlab
 #
-# https://perldoc.perl.org/Cwd#abs_path
-# abs_path is effectively realpath(3)
+# Cwd::abs_path is not appropriate as it does not actually work like realpath(3)
+#
+# does not interact with filesystem:
+# https://perldoc.perl.org/File::Spec#file_name_is_absolute
+#
+# works like which() but platform-independent
+# https://perldoc.perl.org/IPC::Cmd#$path-=-can_run(-PROGRAM-);
 
-use Cwd 'abs_path';
+use File::Spec;
+use IPC::Cmd 'can_run';
 
-print abs_path($^X);
+my $perl_exe = $^X;
+my $perl_path;
+
+if (File::Spec->file_name_is_absolute($perl_exe)) {
+  $perl_path = $perl_exe;
+} else {
+  $perl_path = can_run($perl_exe);
+}
+
+print $perl_path;

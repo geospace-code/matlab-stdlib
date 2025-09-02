@@ -13,7 +13,7 @@
 function [n, b] = normalize(file, backend)
 arguments
   file string
-  backend (1,:) string = ["java", "python", "native"]
+  backend (1,:) string = ["native", "java", "python"]
 end
 
 o = stdlib.Backend(mfilename(), backend);

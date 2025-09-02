@@ -17,6 +17,8 @@ cwd = fileparts(mfilename("fullpath"));
 if s == 0 && isfile(r)
   exe = r;
   perle = r;
+else
+  exe = string.empty;
 end
 
 end

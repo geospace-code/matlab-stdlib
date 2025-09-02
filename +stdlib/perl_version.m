@@ -15,14 +15,18 @@ elseif perlv_cached
   return
 end
 
-cmd = sprintf('"%s" -e "print $^V"', stdlib.perl_exe());
+v = [];
 
-[s, r] = system(cmd);
+exe = stdlib.perl_exe();
 
-if s == 0
-  v = sscanf(r, 'v%d.%d.%d').';
-else
-  v = [];
+if ~stdlib.strempty(exe)
+  cmd = sprintf('"%s" -e "print $^V"', exe);
+
+  [s, r] = system(cmd);
+
+  if s == 0
+    v = sscanf(r, 'v%d.%d.%d').';
+  end
 end
 
 % cache the result - even if empty -- because the check takes up to 1000 ms say on HPC
