@@ -1,13 +1,15 @@
 function rel = relative_to(base, other)
-arguments
-  base (1,1) string
-  other (1,1) string
+
+rel = "";
+
+if stdlib.strempty(base) || stdlib.strempty(other)
+  return
 end
 
 try
-  rel = string(py.os.path.relpath(other, base));
-catch
-  rel = "";
+  rel = string(py.str(py.pathlib.Path(other).relative_to(base)));
+catch e
+  pythonException(e)
 end
 
 end

@@ -13,8 +13,10 @@ if stdlib.strempty(base) || stdlib.strempty(target)
   return
 end
 
-tp = strsplit(fullfile(target), filesep);
-bp = strsplit(fullfile(base), filesep);
+fs = ["/", filesep];
+
+tp = split(fullfile(target), fs);
+bp = split(fullfile(base), fs);
 
 % Find the common base portion
 n = 0;
@@ -22,21 +24,10 @@ while n < length(tp) && n < length(bp) && strcmp(tp{n+1}, bp{n+1})
   n = n + 1;
 end
 
-% Number of '..' needed
-numUp = length(bp) - n;
+rel = join(tp(n+1:end), filesep);
 
-relParts = [repmat({'..'}, 1, numUp), tp(n+1:end)];
-
-if isempty(relParts)
-  rel = '.';
-else
-  rel = fullfile(relParts{:});
-
-  if isempty(rel)
-    rel = '.';
-  end
+if stdlib.strempty(rel)
+  rel = ".";
 end
-
-rel = string(rel);
 
 end

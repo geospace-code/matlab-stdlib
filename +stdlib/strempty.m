@@ -6,7 +6,7 @@ function y = strempty(s)
 if isempty(s)
   y = true;
 else
-  y = strlength(s) == 0;
+  y = (strlength(s) == 0) | ismissing(s);
 end
 
 end
