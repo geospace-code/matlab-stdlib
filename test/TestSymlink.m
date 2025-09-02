@@ -20,9 +20,9 @@ end
 
 methods (TestParameterDefinition, Static)
 function [B_create_symlink, B_read_symlink, B_is_symlink] = setupBackends()
-B_create_symlink = init_backend("create_symlink");
-B_read_symlink = init_backend("read_symlink");
-B_is_symlink = init_backend("is_symlink");
+B_create_symlink = cellstr(["native", init_backend("create_symlink")]);
+B_read_symlink = cellstr(["native", init_backend("read_symlink")]);
+B_is_symlink = cellstr(["native", init_backend("is_symlink")]);
 end
 end
 
@@ -51,11 +51,6 @@ tc.verifyTrue(stdlib.is_symlink(tc.link, B_is_symlink), "failed to detect own li
 tc.verifyEqual(stdlib.is_symlink(p{1}, B_is_symlink), p{2}, p{1})
 end
 
-function test_is_symlink_array(tc, B_is_symlink)
-r = stdlib.is_symlink([tc.link, mfilename() + ".m"], B_is_symlink);
-tc.verifyEqual(r, [true, false], "failed to detect own link")
-end
-
 
 function test_read_symlink_empty(tc, Pre, B_read_symlink)
 tc.verifyEqual(stdlib.read_symlink(Pre, B_read_symlink), "")
@@ -66,14 +61,6 @@ function test_read_symlink(tc, B_read_symlink)
 r = stdlib.read_symlink(tc.link, B_read_symlink);
 tc.verifyClass(r, 'string')
 tc.verifyEqual(r, string(tc.target))
-end
-
-
-function test_read_symlink_array(tc, B_read_symlink)
-r = stdlib.read_symlink([tc.link, mfilename() + ".m"], B_read_symlink);
-exp = [tc.target, ""];
-tc.verifyClass(r, 'string')
-tc.verifyEqual(r, exp, "failed to detect own link")
 end
 
 

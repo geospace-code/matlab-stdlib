@@ -16,15 +16,24 @@ arguments
   backend (1,:) string = ["native", "java", "dotnet", "python", "sys"]
 end
 
-o = stdlib.Backend(mfilename(), backend);
 
-if isscalar(file)
-  r = o.func(file);
-else
-  r = arrayfun(o.func, file);
+if ismember('native', backend) || stdlib.strempty(backend)
+  try
+    [ok, r] = isSymbolicLink(file);
+    r(~ok) = "";
+    b = "native";
+    return
+  catch e
+    if e.identifier ~= "MATLAB:UndefinedFunction"
+      rethrow(e)
+    end
+  end
+
+  backend(ismember(backend, 'native')) = [];
 end
 
+o = stdlib.Backend(mfilename(), backend);
 b = o.backend;
-
+r = o.func(file);
 
 end

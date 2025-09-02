@@ -14,8 +14,8 @@ end
 
 methods (TestParameterDefinition, Static)
 function [is_backend, rs_backend] = setupBackend()
-  is_backend = init_backend('is_symlink');
-  rs_backend = init_backend('read_symlink');
+  is_backend = cellstr(["native", init_backend('is_symlink')]);
+  rs_backend = cellstr(["native", init_backend('read_symlink')]);
 end
 end
 

@@ -105,14 +105,6 @@ for m = backendReq
     case 'native'
 
       switch functionName
-        case 'create_symlink'
-          % Some Windows R2025a give error 'MATLAB:io:filesystem:symlink:NeedsAdminPerms'
-          % 25.1.0.2973910 (R2025a) Update 1 gave this error for example.
-          if stdlib.matlabOlderThan('R2024b') || ispc()
-            continue
-          end
-        case {'is_symlink', 'read_symlink'}
-          if stdlib.matlabOlderThan('R2024b'), continue, end
         case {'get_permissions', 'set_permissions'}
           if stdlib.matlabOlderThan('R2025a'), continue, end
       end

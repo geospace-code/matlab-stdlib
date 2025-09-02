@@ -15,6 +15,6 @@ end
 
 function result = run_bench(name)
 suite = testsuite(name);
-exp = matlab.perftest.TimeExperiment.limitingSamplingError(MaxSamples=20, RelativeMarginOfError=0.1);
+exp = matlab.perftest.TimeExperiment.limitingSamplingError(MaxSamples=50, RelativeMarginOfError=0.1);
 result = exp.run(suite);
 end
