@@ -7,7 +7,12 @@ if ispc()
   return
 end
 
-cmd = sprintf('"%s" -e "print $<"', stdlib.perl_exe());
+exe = stdlib.perl_exe();
+if stdlib.strempty(exe)
+  return
+end
+
+cmd = sprintf('"%s" -e "print $<"', exe);
 
 [s, r] = system(cmd);
 if s == 0

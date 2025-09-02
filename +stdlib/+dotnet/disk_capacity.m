@@ -2,7 +2,7 @@
 
 function i = disk_capacity(file)
 
-i = uint64([]);
+i = uint64.empty;
 if ~stdlib.exists(file)
   return
 end

@@ -1,6 +1,6 @@
 function i = inode(file)
 
-i = uint64([]);
+i = uint64.empty;
 
 if stdlib.strempty(file)
   return

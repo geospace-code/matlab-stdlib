@@ -8,7 +8,14 @@ else
   c = 'print $< == 0 ? 1 : 0';
 end
 
-cmd = sprintf('"%s" -e "%s"', stdlib.perl_exe(), c);
+y = logical.empty;
+
+exe = stdlib.perl_exe();
+if stdlib.strempty(exe)
+  return
+end
+
+cmd = sprintf('"%s" -e "%s"', exe, c);
 
 [s, m] = system(cmd);
 

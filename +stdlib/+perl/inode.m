@@ -7,7 +7,14 @@ else
   k = sprintf('''%s''', c);
 end
 
-cmd = sprintf('"%s" -e %s "%s"', stdlib.perl_exe(), k, file);
+r = uint64.empty;
+
+exe = stdlib.perl_exe();
+if stdlib.strempty(exe)
+  return
+end
+
+cmd = sprintf('"%s" -e %s "%s"', exe, k, file);
 
 [s, r] = system(cmd);
 if s == 0

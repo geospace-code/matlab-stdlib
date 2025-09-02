@@ -7,7 +7,14 @@ else
   k = sprintf('''%s''', c);
 end
 
-cmd = sprintf('"%s" -e %s "%s" "%s"', stdlib.perl_exe(), k, file1, file2);
+r = logical.empty;
+
+exe = stdlib.perl_exe();
+if stdlib.strempty(exe)
+  return
+end
+
+cmd = sprintf('"%s" -e %s "%s" "%s"', exe, k, file1, file2);
 
 s = system(cmd);
 
