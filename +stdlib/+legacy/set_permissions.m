@@ -6,9 +6,6 @@ arguments
   executable (1,1) {mustBeInteger}
 end
 
-ok = false;
-
-if ~stdlib.exists(file), return, end
 
 mode = '';
 % mode is space-delimited
@@ -32,7 +29,7 @@ elseif executable == -1
   mode = [mode ' -x'];
 end
 
-if isempty(mode)
+if isempty(mode) && stdlib.exists(file)
   ok = true;
   return
 end

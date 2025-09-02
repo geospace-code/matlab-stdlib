@@ -11,7 +11,7 @@ end
 
 if ~isfile(file), return, end
 
-a = file_attributes(file);
+a = stdlib.legacy.file_attributes(file);
 y = a.UserExecute || a.GroupExecute || a.OtherExecute;
 
 end

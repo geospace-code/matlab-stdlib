@@ -6,16 +6,7 @@ arguments
   executable (1,1) {mustBeInteger}
 end
 
-ok = false;
-
-if ~stdlib.exists(file), return, end
-
-try
-  p = filePermissions(file);
-catch
-  ok = logical.empty;
-  return
-end
+p = filePermissions(file);
 
 k = string.empty;
 v = logical.empty;

@@ -102,12 +102,6 @@ for m = backendReq
           pyv = stdlib.python_version();
           if any(pyv(1:2) < [3, 12]), continue, end
       end
-    case 'native'
-
-      switch functionName
-        case {'get_permissions', 'set_permissions'}
-          if stdlib.matlabOlderThan('R2025a'), continue, end
-      end
   end
 
   if ~isempty(which(sprintf('%s.%s.%s', self.namespace, m, functionName)))
