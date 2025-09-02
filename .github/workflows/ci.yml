@@ -10,6 +10,7 @@ on:
     - ".github/workflows/*/action.yml"
     - "!private/publish_gen_index_html.m"
     - "!scripts/**"
+    - "!examples/**"
 
 # avoid wasted runs
 concurrency:
