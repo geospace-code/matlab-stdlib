@@ -1,7 +1,14 @@
-function n = normalize(p)
+function n = normalize(file)
 
-% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Path.html#normalize()
-o = javaPathObject(p).normalize();
-n = stdlib.drop_slash(jPosix(o));
+n = string(javaPathObject(file).normalize());
+
+if stdlib.strempty(n)
+  n = ".";
+else
+  n = strip(n, 'right', '/');
+  if ispc()
+    n = strip(n, 'right', filesep);
+  end
+end
 
 end

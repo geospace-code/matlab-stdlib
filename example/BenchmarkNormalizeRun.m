@@ -1,9 +1,9 @@
 function [r, s] =  BenchmarkNormalizeRun()
 tname = "BenchmarkNormalize";
 
-r.same = run_bench(tname);
-s.exist = sampleSummary(r.same);
-disp(sortrows(s.exist, "Median"))
+r = run_bench(tname);
+s = sampleSummary(r);
+disp(sortrows(s, "Median"))
 end
 
 

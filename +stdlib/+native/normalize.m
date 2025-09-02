@@ -1,18 +1,16 @@
-function n = normalize(p)
+%% NATIVE.NORMALIZE normalize path
+% 2-3x as fast as non-native backends
+
+function n = normalize(apath)
 arguments
-  p (1,1) string
+  apath (1,1) string
 end
 
-n = stdlib.posix(p);
-
-uncslash = ispc() && startsWith(n, "//");
-
-% use split to remove /../ and /./ and duplicated /
-parts = split(n, '/');
+parts = split(apath, ["/", filesep]);
 i0 = 1;
-if strncmp(n, "/", 1)
-  n = "/";
-elseif ispc() && strlength(n) >= 2 && ~stdlib.strempty(stdlib.root_name(p))
+if startsWith(apath, "/" | filesep)
+  n = extractBefore(apath, 2);
+elseif ispc() && strlength(apath) >= 2 && ~stdlib.strempty(stdlib.root_name(apath))
   n = parts(1);
   i0 = 2;
 else
@@ -20,35 +18,16 @@ else
 end
 
 for i = i0:length(parts)
-  if parts(i) == ".."
+  if ~ismember(parts(i), [".", ""])
     if n == ""
       n = parts(i);
-    elseif endsWith(n, "..")
-      n = n + "/" + parts(i);
-    else
-      j = strfind(n, "/");
-      if isempty(j)
-        n = "";
-      else
-        n = n{1}(1:j(end)-1);
-      end
-    end
-  elseif all(parts(i) ~= [".", ""])
-    if n == ""
-      n = parts(i);
-    elseif n == "/"
+    elseif ismember(n, ["/", filesep])
       n = n + parts(i);
     else
       n = n + "/" + parts(i);
     end
   end
 end
-
-if uncslash
-  n = strcat("/", n);
-end
-
-n = fullfile(n);
 
 if stdlib.strempty(n)
   n = ".";

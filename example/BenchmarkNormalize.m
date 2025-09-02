@@ -2,7 +2,7 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
     BenchmarkNormalize < matlab.perftest.TestCase
 
 properties
-P = './../asdf/../../././//'
+P = './a/././//'
 end
 
 properties(TestParameter)

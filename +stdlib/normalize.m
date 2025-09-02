@@ -1,7 +1,7 @@
 %% NORMALIZE remove redundant elements of path
 %
-% normalize(p) remove redundant elements of path p
-% path need not exist, normalized path is returned
+% normalize(p) remove redundant elements of path p. Does not walk up ".." to be safe.
+% Path need not exist. Does not access physical filesystem.
 %
 %%% Inputs
 % * p: path to normalize
@@ -13,7 +13,7 @@
 function [n, b] = normalize(file, backend)
 arguments
   file string
-  backend (1,:) string = ["native", "java", "python"]
+  backend (1,:) string = ["native", "python", "perl"]
 end
 
 o = stdlib.Backend(mfilename(), backend);

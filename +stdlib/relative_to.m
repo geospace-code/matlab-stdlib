@@ -16,7 +16,7 @@ function [rel, b] = relative_to(base, other, backend)
 arguments
   base (1,1) string
   other (1,1) string
-  backend (1,:) string = ["python", "native"]
+  backend (1,:) string = ["native", "python"]
 end
 
 o = stdlib.Backend(mfilename(), backend);

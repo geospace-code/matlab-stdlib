@@ -83,7 +83,7 @@ for m = backendReq
       end
     case 'perl'
       switch functionName
-        case {'get_uid'}
+        case {'get_uid', 'normalize'}
           if ispc(), continue, end
       end
     case 'python'

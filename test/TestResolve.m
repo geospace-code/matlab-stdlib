@@ -28,14 +28,14 @@ tc.verifyThat(pabs, StartsWithSubstring(extractBefore(pabs2, 3)))
 
 par1 = stdlib.resolve("../2foo", false);
 tc.verifyNotEmpty(par1)
-tc.verifyThat(par1, ~ContainsSubstring(".."))
+tc.verifyThat(par1, ContainsSubstring(".."))
 
 par2 = stdlib.resolve("../4foo", false);
 tc.verifyThat(par2, StartsWithSubstring(extractBefore(pabs2, 3)))
 
 pt1 = stdlib.resolve("bar/../2foo", false);
 tc.verifyNotEmpty(pt1)
-tc.verifyThat(pt1, ~ContainsSubstring(".."))
+tc.verifyThat(pt1, ContainsSubstring(".."))
 
 va = stdlib.resolve("2foo", false);
 vb = stdlib.resolve("4foo", false);
@@ -61,12 +61,14 @@ methods (Test, TestTags={'R2024a'})
 function test_resolve_array(tc)
 tc.assumeFalse(isMATLABReleaseOlderThan('R2024a'))
 
-in = ["", "hi", "/ok", "not-exist/a/.."];
+in = ["", "hi", "/ok"];
 c = stdlib.resolve(in, false);
 
-exp = [pwd(), fullfile(pwd(), "hi"), filesep + "ok", fullfile(pwd(), "not-exist")];
+Pwd = stdlib.posix(pwd());
+
+exp = [pwd(), Pwd + "/hi", "/ok"];
 if ispc()
-  exp(3) = fullfile(pwd(), "ok");
+  exp(3) = Pwd + "/ok";
 end
 
 tc.verifyEqual(c, exp)

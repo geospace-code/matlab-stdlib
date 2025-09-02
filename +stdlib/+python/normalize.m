@@ -1,14 +1,9 @@
 function n = normalize(file)
-arguments
-  file (1,1) string
-end
 
 try
-  n = string(py.os.path.normpath(file));
-  n = strip(n, 'right', '/');
-  if ispc()
-    n = strip(n, 'right', filesep);
-  end
+  n = string(py.pathlib.Path(file).as_posix());
 catch
   n = "";
+end
+
 end
