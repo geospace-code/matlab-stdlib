@@ -22,8 +22,14 @@ end
 
 methods (Test, TestTags={'R2019b'})
 function test_canonical(tc, p)
-c = stdlib.canonical(p{1}, false);
+[c, b] = stdlib.canonical(p{1}, false);
 tc.verifyEqual(c, p{2})
+
+if stdlib.matlabOlderThan('R2024a')
+  tc.verifyEqual(b, 'legacy')
+else
+  tc.verifyEqual(b, 'native')
+end
 end
 
 function test_legacy_canonical(tc, p)
