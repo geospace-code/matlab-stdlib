@@ -23,7 +23,7 @@ r = fullfile(fileparts(fileparts(mfilename('fullpath'))), '+stdlib');
 [mathworksUsed, userFun] = stdlib.toolbox_used(r);
 Nlicense = length(mathworksUsed);
 tc.verifyGreaterThanOrEqual(Nlicense, 1)
-tc.verifyTrue(any(ismember(mathworksUsed, "MATLAB")))
+tc.verifyTrue(ismember("MATLAB", mathworksUsed))
 tc.verifyGreaterThan(length(userFun), 200) % we have over 200 stdlib functions
 
 % don't use paid toolboxes without checking they exist, otherwise this function fails

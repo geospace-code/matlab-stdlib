@@ -62,7 +62,7 @@ end
 for m = backendReq
   switch m
     case 'dotnet'
-      if ~any(ismember(self.backends, 'dotnet'))
+      if ~ismember('dotnet', self.backends)
         continue
       end
 
@@ -73,7 +73,7 @@ for m = backendReq
           if isunix(), continue, end
       end
     case 'java'
-      if ~any(ismember(self.backends, 'java'))
+      if ~ismember('java', self.backends)
         continue
       end
 
@@ -87,7 +87,7 @@ for m = backendReq
           if ispc(), continue, end
       end
     case 'python'
-      if ~any(ismember(self.backends, 'python'))
+      if ~ismember('python', self.backends)
         continue
       end
 

@@ -32,7 +32,7 @@ end
 
 if executable ~= 0
   if ispc()
-    if executable > 0 && ~any(ismember(k, "Readable"))
+    if executable > 0 && ~ismember("Readable", k)
       k(end+1) = "Readable";
       v(end+1) = true;
     end
