@@ -36,12 +36,12 @@ The
 "backend" column tells which functions have selectable backend implementations.
 By default, when the "backend" is not specified to a function having selectable backend, the algorithm searches for the first available backend and uses that.
 The user can specify the backend as listed in the API for those functions by specifying say "java" etc. as available per-function.
-Normally the user will not specify the backend as we prioritize faster backends.
+Normally the user does not specify the backend as we prioritize faster backends.
 
 * [.NET](https://www.mathworks.com/help/matlab/call-net-from-matlab.html)
   * Windows: all supported Matlab releases
   * Linux / macOS: R2024b and newer
-* [Java](https://www.mathworks.com/help/matlab/using-java-libraries-in-matlab.html): all supported Matlab releases
+* [Java](./Readme_java.md): all supported Matlab releases
 * [Perl](https://www.mathworks.com/help/matlab/ref/perl.html):  all supported Matlab releases. This uses a system() call to Perl, which is bundled with Matlab on Windows and generally available on Linux and macOS
 * [Python](https://www.mathworks.com/help/matlab/call-python-libraries.html): Matlab R2022b and newer
 * System shell calls: all supported Matlab releases. As a backup when the platform doesn't have the primary (faster) methods available, the system shell can be called for some functions.

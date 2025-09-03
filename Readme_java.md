@@ -1,14 +1,16 @@
-# Matlab-Stdlib Java functions
+# Using Java in standard library for Matlab
 
-Some Matlab-Stdlib functions use the factory JRE, and have been tested with JVM versions 8 and 17 and newer.
+Java is not required for this project, but some functions are implemented with an optional Java backend.
+They are tested with and should work with Java versions 8, 11, 17, 21, and more.
 
-In general, Java's java.io.File() and java.nio.file don't work with Windows App Execution Aliases.
-However, Matlab's intrinsic file functions do work with Windows App Execution Aliases.
-
-Matlab's Java interface was
+Matlab's
+[Java language interface](https://www.mathworks.com/help/matlab/using-java-libraries-in-matlab.html)
+was
 [introduced in Matlab 6.0 R12](http://www.ece.northwestern.edu/local-apps/matlabhelp/base/relnotes/matlab/matlab124.html#20684)
 in the year 2000.
-Matlab-Stdlib uses only factory JRE classes where intrinsic Matlab code isn't easily capable of provided the needed algorithms.
+Our optional Java backend functions use only factory Java class--no third-party Java libraries are used.
+
+## Java backend diagnostic functions
 
 Tell JVM version:
 
@@ -34,7 +36,14 @@ Get the Java version:
 stdlib.java_version()
 ```
 
-Matlab factory Java version 1.8 is adequate for all Matlab-stdlib functionality.
+Tell JVM details:
+
+```matlab
+je = jenv
+
+% Tell the JAVA_HOME directory
+disp(je.Home)
+```
 
 As general information (not used by Matlab-stdlib), non-factory Java classes can be used in
 [Matlab](https://www.mathworks.com/help/matlab/matlab_external/static-path-of-java-class-path.html).
@@ -49,15 +58,6 @@ to a compatible Java library by using the
 Matlab function.
 Matlab vs. Java
 [version compatibility table](https://www.mathworks.com/support/requirements/openjdk.html).
-
-Tell JVM details:
-
-```matlab
-je = jenv
-
-% Tell the JAVA_HOME directory
-disp(je.Home)
-```
 
 For example, to use the
 [JDK 17 on macOS](https://www.oracle.com/java/technologies/downloads/#jdk17-mac)

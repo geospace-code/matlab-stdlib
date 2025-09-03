@@ -14,6 +14,12 @@ raw = struct('matlab_release', r, ...
 'hdf5', stdlib.h5get_version(), ...
 'netcdf', stdlib.nc_get_version());
 
+m = stdlib.matlab_bin_path();
+raw.matlab_extern_bin = m.extern_bin;
+raw.matlab_root = m.root;
+raw.matlab_arch_bin = m.arch_bin;
+raw.matlab_bin = m.bin;
+
 if stdlib.has_java()
   raw.java_vendor = stdlib.java_vendor();
   raw.java_version = stdlib.java_version();
