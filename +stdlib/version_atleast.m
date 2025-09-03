@@ -14,8 +14,8 @@ arguments
   ref (1,1) string
 end
 
-parts1 = str2double(strsplit(in, '.'));
-parts2 = str2double(strsplit(ref, '.'));
+parts1 = str2double(split(in, "."));
+parts2 = str2double(split(ref, "."));
 
 r = true;
 
