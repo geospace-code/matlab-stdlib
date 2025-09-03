@@ -7,7 +7,7 @@ arguments
   hash_method (1,1) string
 end
 
-if any(strcmp(hash_method, {'sha256', 'SHA256'}))
+if ismember(hash_method, ["sha256", "SHA256"])
   hash_method = "SHA-256";
 end
 

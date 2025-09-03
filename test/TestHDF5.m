@@ -191,7 +191,7 @@ end
 
 function test_coerce(tc, type)
 
-if any(type == ["string", "char"])
+if ismember(type, ["string", "char"])
   tc.assumeFalse(stdlib.matlabOlderThan("R2020b"))
 end
 

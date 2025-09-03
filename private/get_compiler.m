@@ -37,7 +37,7 @@ end
 
 if ispc()
   if isempty(co)
-    if any(contains(comp, ["gcc", "g++", "gfortran"]))
+    if contains(comp, ["gcc", "g++", "gfortran"])
       shell = "set PATH=" + fileparts(comp) + pathsep + "%PATH%";
     end
   else
