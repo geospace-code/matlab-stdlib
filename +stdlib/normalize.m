@@ -5,26 +5,40 @@
 %
 %%% Inputs
 % * p: path to normalize
-% * backend: backend to use
 %%% Outputs
-% * c: normalized path
-% * b: backend used
+% * n: normalized path
 
-function [n, b] = normalize(file, backend)
+function n = normalize(apath)
 arguments
-  file string
-  backend (1,:) string = ["native", "python", "perl"]
+  apath (1,1) string
 end
 
-o = stdlib.Backend(mfilename(), backend);
-
-if isscalar(file)
-  n = o.func(file);
+parts = split(apath, ["/", filesep]);
+i0 = 1;
+if startsWith(apath, "/" | filesep)
+  n = extractBefore(apath, 2);
+elseif ispc() && strlength(apath) >= 2 && ~stdlib.strempty(stdlib.root_name(apath))
+  n = parts(1);
+  i0 = 2;
 else
-  n = arrayfun(o.func, file);
+  n = "";
 end
 
-b = o.backend;
+for i = i0:length(parts)
+  if ~ismember(parts(i), [".", ""])
+    if n == ""
+      n = parts(i);
+    elseif ismember(n, ["/", filesep])
+      n = n + parts(i);
+    else
+      n = n + "/" + parts(i);
+    end
+  end
+end
+
+if stdlib.strempty(n)
+  n = ".";
+end
 
 
 end

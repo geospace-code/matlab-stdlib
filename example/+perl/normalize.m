@@ -1,6 +1,6 @@
 %% PERL.NORMALIZE normalize path
 %
-% Note: on Windows, walks up ".." despite specification and not doing so on Unix, 
+% Note: on Windows, walks up ".." despite specification and not doing so on Unix,
 % so we only allow this backend on Unix-like systems
 
 function n = normalize(apath)

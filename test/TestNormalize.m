@@ -3,15 +3,6 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
     TestNormalize < matlab.unittest.TestCase
 
 properties (TestParameter)
-p
-d
-backend
-end
-
-
-methods (TestParameterDefinition, Static)
-function p = init_norm()
-
 p = {
   {"", "."}, ...
   {"a/..", "a/.."}, ...
@@ -25,8 +16,11 @@ p = {
   {"./a/.", "a"}, ...
   {"../a", "../a"}
 };
-
+d
 end
+
+
+methods (TestParameterDefinition, Static)
 
 function d = init_drop_slash()
 d = {...
@@ -52,17 +46,13 @@ end
 
 end
 
-function backend = setupBackends()
-backend = init_backend("normalize");
-end
-
 end
 
 
 methods (Test)
 
-function test_normalize(tc, p, backend)
-c = stdlib.normalize(p{1}, backend);
+function test_normalize(tc, p)
+c = stdlib.normalize(p{1});
 
 tc.verifyEqual(c, p{2}, ...
   sprintf("normalize(%s)", p{1}))
