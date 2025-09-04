@@ -1,20 +1,23 @@
-function [r, s] =  BenchmarkCanonicalRun()
+function BenchmarkCanonicalRun()
 tname = "BenchmarkCanonical";
 
 %% Exist
 r.same = run_bench(tname + "/bench_exist");
-s.exist = sampleSummary(r.same);
-disp(sortrows(s.exist, "Median"))
+s.exist = sortrows(sampleSummary(r.same), "Median");
+disp(s.exist(:, ["Name", "SampleSize", "Mean", "Median"]))
 %% Not Exist
 r.not = run_bench(tname + "/bench_not_exist");
-s.not = sampleSummary(r.not);
-disp(sortrows(s.not, "Median"))
-
+s.not = sortrows(sampleSummary(r.not), "Median");
+disp(s.not(:, ["Name", "SampleSize", "Mean", "Median"]))
+%% Main
+r.main = run_bench(tname + "/bench_exist_main");
+s.main = sortrows(sampleSummary(r.main), "Median");
+disp(s.main(:, ["Name", "SampleSize", "Mean", "Median"]))
 end
 
 
 function result = run_bench(name)
 suite = testsuite(name);
-exp = matlab.perftest.TimeExperiment.limitingSamplingError(MaxSamples=150, RelativeMarginOfError=0.05);
+exp = matlab.perftest.TimeExperiment.limitingSamplingError(RelativeMarginOfError=0.05);
 result = exp.run(suite);
 end

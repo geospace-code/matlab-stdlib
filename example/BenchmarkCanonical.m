@@ -14,9 +14,19 @@ end
 methods (Test)
 
 function bench_exist(tc, fun)
-tc.startMeasuring()
-o = fun(tc.exist, true);
-tc.stopMeasuring()
+while(tc.keepMeasuring)
+  o = fun(tc.exist, true);
+end
+
+tc.verifyClass(o, 'string')
+tc.verifyGreaterThan(strlength(o), 0)
+end
+
+
+function bench_exist_main(tc)
+while(tc.keepMeasuring)
+  o = stdlib.canonical(tc.exist, true);
+end
 
 tc.verifyClass(o, 'string')
 tc.verifyGreaterThan(strlength(o), 0)
@@ -24,9 +34,9 @@ end
 
 
 function bench_not_exist(tc, fun)
-tc.startMeasuring()
-o = fun(tc.not_exist, true);
-tc.stopMeasuring()
+while(tc.keepMeasuring)
+  o = fun(tc.not_exist, true);
+end
 
 tc.verifyClass(o, 'string')
 tc.verifyEqual(strlength(o), 0)

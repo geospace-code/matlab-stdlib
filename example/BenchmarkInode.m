@@ -21,9 +21,20 @@ end
 methods (Test)
 
 function bench_exist(tc, backend)
-tc.startMeasuring()
-i = tc.fun(tc.exist, backend);
-tc.stopMeasuring()
+while tc.keepMeasuring()
+  i = tc.fun(tc.exist, backend);
+end
+
+tc.verifyClass(i, 'uint64')
+tc.assertNotEmpty(i)
+tc.verifyGreaterThan(i, 0)
+end
+
+
+function bench_exist_main(tc)
+while tc.keepMeasuring()
+  i = tc.fun(tc.exist);
+end
 
 tc.verifyClass(i, 'uint64')
 tc.assertNotEmpty(i)
@@ -32,9 +43,9 @@ end
 
 
 function bench_not_exist(tc, backend)
-tc.startMeasuring()
-i = tc.fun(tc.not_exist, backend);
-tc.stopMeasuring()
+while tc.keepMeasuring()
+  i = tc.fun(tc.not_exist, backend);
+end
 
 tc.verifyClass(i, 'uint64')
 tc.verifyEmpty(i)
