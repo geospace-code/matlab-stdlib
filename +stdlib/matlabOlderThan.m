@@ -1,26 +1,24 @@
 %% MATLABOLDERTHAN compare Matlab release name only e.g. R2025a
-% works back to Matlab R2011b at least
+% works for Matlab >= R2016b
+%
+% our simpler checks is about 200x faster than isMATLABReleaseOlderThan(release)
 
 function isOlder = matlabOlderThan(release)
 
-try
-  isOlder = isMATLABReleaseOlderThan(release);
-catch e
-  if ~strcmp(e.identifier, 'MATLAB:UndefinedFunction')
-    rethrow(e)
-  end
+% converting to char about 2x fast as extract*() on string()
+% length on char 10+% faster than strlength(string())
+r = char(release);
+assert(length(r) == 6 && r(1) == 'R', 'Matlab release must be like ''R2025a''')
 
-  r = char(release);
-  assert(length(r) == 6 && r(1) == 'R', 'Release must be a string like ''R2025a''')
+curr = version('-release');
 
-  curr = version('-release');
+if strcmp(curr(1:4), r(2:5))
+  isOlder = curr(5) < r(6);
+else
+  % string() lessThan comparison about same speed as str2double()
   nc = str2double(curr(1:4));
   nv = str2double(r(2:5));
-  if nc == nv
-    isOlder = curr(5) < r(6);
-  else
-    isOlder = nc < nv;
-  end
+  isOlder = nc < nv;
 end
 
 end
