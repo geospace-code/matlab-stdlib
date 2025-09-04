@@ -8,9 +8,9 @@ end
 
 % Java 1.8 benefits from the absolute() for stability
 % seen on older Matlab versions on HPC
-opt = java.nio.file.LinkOption.values();
 
 try
+  opt = java.nio.file.LinkOption.values();
   i = java.nio.file.Files.getAttribute(javaAbsolutePath(file), "unix:ino", opt);
 catch e
   javaException(e)

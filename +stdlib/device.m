@@ -2,6 +2,7 @@
 %
 %%% Inputs
 % * file: path to file
+% * backend: backend to use
 %%% Outputs
 % * i: device index
 % * b: backend used
@@ -9,11 +10,27 @@
 function [i, b] = device(file, backend)
 arguments
   file string
-  backend (1,:) string = ["java", "python", "perl", "sys"]
+  backend (1,:) string = ["java", "python", "sys"]
 end
 
-o = stdlib.Backend(mfilename(), backend);
-i = o.func(file);
+i = uint64.empty;
 
-b = o.backend;
+for b = backend
+  switch b
+    case "java"
+      i = stdlib.java.device(file);
+    case "python"
+      if stdlib.matlabOlderThan('R2022a'), continue, end
+      i = stdlib.python.device(file);
+    case "sys"
+      i = stdlib.sys.device(file);
+    otherwise
+      error("stdlib:device:ValueError", "Unknown backend: %s", b)
+  end
+
+  if ~isempty(i)
+    return
+  end
+end
+
 end

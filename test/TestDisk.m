@@ -20,14 +20,14 @@ B_is_dev_drive
 end
 
 methods (TestParameterDefinition, Static)
-function [B_disk, B_is_removable, B_is_mount, B_hard_link_count, B_filesystem_type, B_owner, B_device, B_is_dev_drive] = setupBackends()
+function [B_disk, B_is_removable, B_is_mount, B_hard_link_count, B_device, B_filesystem_type, B_owner, B_is_dev_drive] = setupBackends()
 B_disk = init_backend("disk_available");
 B_is_removable = init_backend("is_removable");
 B_is_mount = init_backend("is_mount");
 B_hard_link_count = init_backend("hard_link_count");
+B_device = init_backend('device');
 B_filesystem_type = init_backend("filesystem_type");
 B_owner = init_backend("get_owner");
-B_device = init_backend("device");
 B_is_dev_drive = init_backend('is_dev_drive');
 end
 end
@@ -92,8 +92,10 @@ end
 function test_hard_link_count(tc, B_hard_link_count)
 P = mfilename("fullpath") + ".m";
 
-r = stdlib.hard_link_count(P, B_hard_link_count);
-tc.verifyGreaterThanOrEqual(r, 1)
+[i, b] = stdlib.hard_link_count(P, B_hard_link_count);
+tc.assertEqual(char(b), B_hard_link_count)
+
+tc.verifyGreaterThanOrEqual(i, 1)
 end
 
 
@@ -130,8 +132,9 @@ end
 
 
 function test_device(tc, Po, B_device)
-i = stdlib.device(Po, B_device);
+[i, b] = stdlib.device(Po, B_device);
 tc.verifyClass(i, 'uint64')
+tc.assertEqual(char(b), B_device)
 
 if ~stdlib.exists(Po)
   tc.verifyEmpty(i)
@@ -144,8 +147,9 @@ end
 
 function test_inode(tc, Po, B_device)
 
-i = stdlib.inode(Po, B_device);
+[i, b] = stdlib.inode(Po, B_device);
 tc.verifyClass(i, 'uint64')
+tc.assertEqual(char(b), B_device)
 
 if ~stdlib.exists(Po)
   tc.verifyEmpty(i)

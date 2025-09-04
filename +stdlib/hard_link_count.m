@@ -2,27 +2,39 @@
 %
 %%% inputs
 % * file: path to check
+% * backend: backend to use
 %%% Outputs
-% * c: number of hard links
+% * i: number of hard links
 % * b: backend used
 %% Java backend references:
 %
 % * https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html#getPosixFileAttributes(java.nio.file.Path,java.nio.file.LinkOption...)
 % * https://docs.oracle.com/javase/tutorial/essential/io/links.html
 
-function [c, b] = hard_link_count(file, backend)
+function [i, b] = hard_link_count(file, backend)
 arguments
   file string
   backend (1,:) string = ["java", "python", "sys"]
 end
 
-o = stdlib.Backend(mfilename(), backend);
+i = [];
 
-if isscalar(file)
-  c = o.func(file);
-else
-  c = arrayfun(o.func, file);
+for b = backend
+  switch b
+    case "java"
+      i = stdlib.java.hard_link_count(file);
+    case "python"
+      if stdlib.matlabOlderThan('R2022a'), continue, end
+      i = stdlib.python.hard_link_count(file);
+    case "sys"
+      i = stdlib.sys.hard_link_count(file);
+    otherwise
+      error("stdlib:hard_link_count:ValueError", "Unknown backend: %s", b)
+  end
+
+  if ~isempty(i)
+    return
+  end
 end
 
-b = o.backend;
 end

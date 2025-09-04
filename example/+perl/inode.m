@@ -1,3 +1,6 @@
+%% PERL.INODE
+% several times slower than stdlib.sys.inode
+
 function [r, cmd] = inode(file)
 
 r = uint64.empty;

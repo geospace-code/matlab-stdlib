@@ -8,15 +8,8 @@ fun = @stdlib.inode
 end
 
 properties(TestParameter)
-backend
+backend = cellstr(["java", "python", "sys"])
 end
-
-methods (TestParameterDefinition, Static)
-function backend = setupBackend()
-  backend = init_backend('inode');
-end
-end
-
 
 methods (Test)
 
