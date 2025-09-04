@@ -22,9 +22,17 @@ end
 methods (Test)
 
 function bench_exist(tc, backend)
-tc.startMeasuring()
-y = tc.fun(tc.exist(1), tc.exist(2), backend);
-tc.stopMeasuring()
+while tc.keepMeasuring()
+  y = tc.fun(tc.exist(1), tc.exist(2), backend);
+end
+
+tc.verifyEqual(y, true)
+end
+
+function bench_main(tc)
+while tc.keepMeasuring()
+  y = tc.fun(tc.exist(1), tc.exist(2));
+end
 
 tc.verifyEqual(y, true)
 end

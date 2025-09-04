@@ -33,17 +33,7 @@ t = tempname();
 tc.verifyFalse(stdlib.samepath("", "", backend))
 tc.verifyFalse(stdlib.samepath(t, t, backend))
 end
-end
 
-
-methods (Test, TestTags={'R2024a'})
-function test_samepath_array(tc, backend)
-in = [string(mfilename), string(mfilename('fullpath'))] + ".m";
-r = stdlib.samepath(in, fliplr(in), backend);
-tc.verifyClass(r, 'logical')
-tc.verifyEqual(r, [true, true])
 end
-end
-
 
 end

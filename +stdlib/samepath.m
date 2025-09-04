@@ -13,24 +13,38 @@
 % * path1, path2: paths to compare
 % * backend: backend to use
 %%% Outputs
-% * ok: true if paths are the same
+% * i: true if paths are the same
 % * b: backend used
 
-function [ok, b] = samepath(path1, path2, backend)
+function [i, b] = samepath(path1, path2, backend)
 arguments
   path1 string
   path2 string
   backend (1,:) string = ["python", "java", "perl", "sys", "native"]
 end
 
-o = stdlib.Backend(mfilename(), backend);
-b = o.backend;
+i = logical.empty;
 
-if (isscalar(path1) && isscalar(path2)) || b == "native"
-  ok = o.func(path1, path2);
-else
-  ok = arrayfun(o.func, path1, path2);
+for b = backend
+  switch b
+    case "java"
+      i = stdlib.java.samepath(path1, path2);
+    case "native"
+      i = stdlib.native.samepath(path1, path2);
+    case "perl"
+      i = stdlib.perl.samepath(path1, path2);
+    case "python"
+      if stdlib.matlabOlderThan('R2022a'), continue, end
+      i = stdlib.python.samepath(path1, path2);
+    case "sys"
+      i = stdlib.sys.samepath(path1, path2);
+    otherwise
+      error("stdlib:hard_link_count:ValueError", "Unknown backend: %s", b)
+  end
+
+  if ~isempty(i)
+    return
+  end
 end
-
 
 end
