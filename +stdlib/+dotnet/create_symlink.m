@@ -6,9 +6,8 @@ arguments
   link (1,1) string
 end
 
-ok = false;
-
 if ~stdlib.exists(target) || stdlib.strempty(link) || stdlib.exists(link)
+  ok = false;
   return
 end
 
@@ -18,6 +17,7 @@ try
   ok = true;
 catch e
   dotnetException(e)
+  ok = logical.empty;
 end
 
 end

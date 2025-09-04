@@ -20,9 +20,9 @@ end
 
 methods (TestParameterDefinition, Static)
 function [B_create_symlink, B_read_symlink, B_is_symlink] = setupBackends()
-B_create_symlink = cellstr(["native", init_backend("create_symlink")]);
-B_read_symlink = cellstr(["native", init_backend("read_symlink")]);
-B_is_symlink = cellstr(["native", init_backend("is_symlink")]);
+B_create_symlink = init_backend("create_symlink");
+B_read_symlink = init_backend("read_symlink");
+B_is_symlink = init_backend("is_symlink");
 end
 end
 
@@ -47,13 +47,17 @@ end
 methods (Test)
 
 function test_is_symlink(tc, p, B_is_symlink)
-tc.verifyTrue(stdlib.is_symlink(tc.link, B_is_symlink), "failed to detect own link")
+[i, b] = stdlib.is_symlink(tc.link, B_is_symlink);
+
+tc.assertEqual(char(b), B_is_symlink)
+tc.assertTrue(i, "failed to detect own link")
+
 tc.verifyEqual(stdlib.is_symlink(p{1}, B_is_symlink), p{2}, p{1})
 end
 
 
 function test_read_symlink_empty(tc, Pre, B_read_symlink)
-tc.verifyEqual(stdlib.read_symlink(Pre, B_read_symlink), "")
+tc.verifyEqual(stdlib.read_symlink(Pre, B_read_symlink), string.empty)
 end
 
 

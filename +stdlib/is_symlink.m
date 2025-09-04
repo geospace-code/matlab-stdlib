@@ -4,31 +4,37 @@
 % * file: path to check
 % * backend: backend to use
 %%% Outputs
-% * ok: true if path is a symbolic link
+% * i: true if path is a symbolic link
 % * b: backend used
 
-function [ok, b] = is_symlink(file, backend)
+function [i, b] = is_symlink(file, backend)
 arguments
-  file string
+  file (1,1) string
   backend (1,:) string = ["native", "java", "python", "dotnet", "sys"]
 end
 
-if ismember('native', backend) || stdlib.strempty(backend)
-  try
-    ok = isSymbolicLink(file);
-    b = "native";
-    return
-  catch e
-    if e.identifier ~= "MATLAB:UndefinedFunction"
-      rethrow(e)
-    end
+i = logical.empty;
+
+for b = backend
+  switch b
+    case "java"
+      i = stdlib.java.is_symlink(file);
+    case "native"
+      i = stdlib.native.is_symlink(file);
+    case "dotnet"
+      i = stdlib.dotnet.is_symlink(file);
+    case "python"
+      if stdlib.matlabOlderThan('R2022a'), continue, end
+      i = stdlib.python.is_symlink(file);
+    case "sys"
+      i = stdlib.sys.is_symlink(file);
+    otherwise
+      error("stdlib:is_symlink:ValueError", "Unknown backend: %s", b)
   end
 
-  backend(ismember(backend, 'native')) = [];
+  if ~isempty(i)
+    return
+  end
 end
-
-o = stdlib.Backend(mfilename(), backend);
-b = o.backend;
-ok = o.func(file);
 
 end

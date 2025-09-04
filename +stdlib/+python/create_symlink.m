@@ -2,19 +2,19 @@ function ok = create_symlink(target, link)
 
 ok = false;
 
-t = py.str(target);
-l = py.str(link);
-
-if ~py.os.path.exists(t) || py.os.path.exists(l)
-  return
-end
-
 try
+  t = py.str(target);
+  l = py.str(link);
+
+  if ~py.os.path.exists(t) || py.os.path.exists(l)
+    return
+  end
+
   py.os.symlink(t, l);
   ok = true;
 catch e
-  warning(e.identifier, "create_symlink(%s, %s) failed: %s", target, link, e.message);
-  ok = false;
+  pythonException(e)
+  ok = logical.empty;
 end
 
 end

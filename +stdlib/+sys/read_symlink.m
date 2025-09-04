@@ -3,7 +3,7 @@ arguments
   file (1,1) string
 end
 
-r = "";
+r = string.empty;
 
 if isunix()
   cmd = sprintf('readlink -fn "%s"', file);
@@ -14,7 +14,7 @@ else
   % worried if searching for "Tag value: Symbolic Link" might be locale dependent
 end
 
-if stdlib.is_symlink(file)
+if stdlib.sys.is_symlink(file)
   [s, m] = system(cmd);
   if s == 0
     m = strip(string(m));

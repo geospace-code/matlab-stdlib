@@ -17,23 +17,28 @@ arguments
 end
 
 
-if ismember('native', backend) || stdlib.strempty(backend)
-  try
-    [ok, r] = isSymbolicLink(file);
-    r(~ok) = "";
-    b = "native";
-    return
-  catch e
-    if e.identifier ~= "MATLAB:UndefinedFunction"
-      rethrow(e)
-    end
+r = string.empty;
+
+for b = backend
+  switch b
+    case "java"
+      r = stdlib.java.read_symlink(file);
+    case "native"
+      r = stdlib.native.read_symlink(file);
+    case "dotnet"
+      r = stdlib.dotnet.read_symlink(file);
+    case "python"
+      if stdlib.matlabOlderThan('R2022a'), continue, end
+      r = stdlib.python.read_symlink(file);
+    case "sys"
+      r = stdlib.sys.read_symlink(file);
+    otherwise
+      error("stdlib:read_symlink:ValueError", "Unknown backend: %s", b)
   end
 
-  backend(ismember(backend, 'native')) = [];
+  if ~isempty(r)
+    return
+  end
 end
-
-o = stdlib.Backend(mfilename(), backend);
-b = o.backend;
-r = o.func(file);
 
 end

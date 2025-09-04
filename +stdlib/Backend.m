@@ -102,6 +102,18 @@ for m = backendReq
           pyv = stdlib.python_version();
           if any(pyv(1:2) < [3, 12]), continue, end
       end
+    case 'native'
+
+      switch functionName
+        case 'create_symlink'
+          % Some Windows R2025a give error 'MATLAB:io:filesystem:symlink:NeedsAdminPerms'
+          % 25.1.0.2973910 (R2025a) Update 1 gave this error for example.
+          if stdlib.matlabOlderThan('R2024b') || ispc()
+            continue
+          end
+        case {'is_symlink', 'read_symlink'}
+          if stdlib.matlabOlderThan('R2024b'), continue, end
+      end
   end
 
   if ~isempty(which(sprintf('%s.%s.%s', self.namespace, m, functionName)))

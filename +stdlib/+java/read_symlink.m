@@ -10,7 +10,7 @@ try
   r = string(java.nio.file.Files.readSymbolicLink(javaAbsolutePath(file)));
 catch e
   javaException(e)
-  r = "";
+  r = string.empty;
 end
 
 end

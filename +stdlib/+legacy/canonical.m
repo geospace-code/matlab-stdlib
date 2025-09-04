@@ -6,7 +6,9 @@ end
 
 c = "";
 
-if stdlib.strempty(file), return, end
+if stdlib.strempty(file)
+  return
+end
 
 [s, r] = fileattrib(file);
 

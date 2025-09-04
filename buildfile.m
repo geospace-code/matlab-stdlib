@@ -82,7 +82,7 @@ if ~isMATLABReleaseOlderThan('R2024a')
   plan('coverage').DisableIncremental = true;
 
   coverageReport = fullfile(reportDir, 'coverage-report.html');
-  if stdlib.checkout_license("MATLAB Test")
+  if ~isMATLABReleaseOlderThan('R2024b') && stdlib.checkout_license("MATLAB Test")
     plan("coverage").addCodeCoverage(matlabtest.plugins.codecoverage.StandaloneReport(coverageReport));
   else
     plan("coverage").addCodeCoverage(coverageReport);
