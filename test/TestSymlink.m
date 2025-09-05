@@ -50,14 +50,17 @@ function test_is_symlink(tc, p, B_is_symlink)
 [i, b] = stdlib.is_symlink(tc.link, B_is_symlink);
 
 tc.assertEqual(char(b), B_is_symlink)
-tc.assertTrue(i, "failed to detect own link")
+tc.assertTrue(i, "failed to detect own link " + tc.link)
 
 tc.verifyEqual(stdlib.is_symlink(p{1}, B_is_symlink), p{2}, p{1})
 end
 
 
 function test_read_symlink_empty(tc, Pre, B_read_symlink)
-tc.verifyEqual(stdlib.read_symlink(Pre, B_read_symlink), string.empty)
+[r, b] = stdlib.read_symlink(Pre, B_read_symlink);
+tc.assertEqual(char(b), B_read_symlink)
+
+tc.verifyEqual(r, string.empty)
 end
 
 
@@ -75,7 +78,10 @@ ano = fullfile(pwd(), 'another.lnk');
 
 h = @stdlib.create_symlink;
 
-tc.verifyFalse(h('', tempname(), B_create_symlink))
+[i, b] = h('', tempname(), B_create_symlink);
+tc.assertEqual(char(b), B_create_symlink)
+
+tc.verifyFalse(i)
 tc.verifyFalse(h(tc.target, tc.link, B_create_symlink), "should fail for existing symlink")
 
 exp = true;
