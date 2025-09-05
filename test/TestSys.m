@@ -102,7 +102,8 @@ tc.verifyGreaterThan(strlength(arch), 0, "CPU architecture should not be empty")
 end
 
 function test_ram_total(tc, B_ram_total)
-t = stdlib.ram_total(B_ram_total);
+[t, b] = stdlib.ram_total(B_ram_total);
+tc.assertEqual(char(b), B_ram_total)
 tc.verifyClass(t, 'uint64')
 tc.verifyGreaterThan(t, 0)
 end
@@ -110,7 +111,8 @@ end
 
 function test_ram_free(tc, B_ram_free)
 % don't verify less than or equal to total due to shaky system measurements'
-f = stdlib.ram_free(B_ram_free);
+[f, b] = stdlib.ram_free(B_ram_free);
+tc.assertEqual(char(b), B_ram_free)
 
 tc.verifyClass(f, 'uint64')
 if B_ram_free == "python" && ~stdlib.python.has_psutil()

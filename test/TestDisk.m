@@ -100,7 +100,8 @@ end
 
 
 function test_filesystem_type(tc, Ps, B_filesystem_type)
-t = stdlib.filesystem_type(Ps, B_filesystem_type);
+[t, b] = stdlib.filesystem_type(Ps, B_filesystem_type);
+tc.assertEqual(char(b), B_filesystem_type)
 tc.verifyClass(t, 'char')
 
 if ~stdlib.exists(Ps)

@@ -6,17 +6,35 @@
 % * file: path to check
 % * backend: backend to use
 %%% Outputs
-% * t: filesystem type
+% * r: filesystem type
 % * b: backend used
 
-function [t, b] = filesystem_type(file, backend)
+function [r, b] = filesystem_type(file, backend)
 arguments
   file
   backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
-o = stdlib.Backend(mfilename(), backend);
-t = o.func(file);
-b = o.backend;
+r = '';
+
+for b = backend
+  switch b
+    case "java"
+      r = stdlib.java.filesystem_type(file);
+    case "dotnet"
+      r = stdlib.dotnet.filesystem_type(file);
+    case "python"
+      if stdlib.matlabOlderThan('R2022a'), continue, end
+      r = stdlib.python.filesystem_type(file);
+    case "sys"
+      r = stdlib.sys.filesystem_type(file);
+    otherwise
+      error("stdlib:filesystem_type:ValueError", "Unknown backend: %s", b)
+  end
+
+  if ~isempty(r)
+    return
+  end
+end
 
 end
