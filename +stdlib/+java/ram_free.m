@@ -1,11 +1,16 @@
 function bytes = ram_free()
 
-b = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
+try
+  b = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
 
-if stdlib.java_api() < 14
-  bytes = b.getFreePhysicalMemorySize();
-else
-  bytes = b.getFreeMemorySize();
+  if stdlib.java_api() < 14
+    bytes = b.getFreePhysicalMemorySize();
+  else
+    bytes = b.getFreeMemorySize();
+  end
+catch e
+  javaException(e)
+  bytes = uint64.empty;
 end
 
 bytes = uint64(bytes);

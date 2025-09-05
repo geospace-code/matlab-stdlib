@@ -6,17 +6,34 @@
 %%% Inputs
 % * backend: backend to use
 %%% Outputs
-% * bytes: total physical RAM [bytes]
+% * i: total physical RAM [bytes]
 % * b: backend used
 
-function [bytes, b] = ram_total(backend)
+function [i, b] = ram_total(backend)
 arguments
   backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
-o = stdlib.Backend(mfilename(), backend);
-bytes = o.func();
+i = uint64.empty;
 
-b = o.backend;
+for b = backend
+  switch b
+    case 'dotnet'
+      i = stdlib.dotnet.ram_total();
+    case 'java'
+      i = stdlib.java.ram_total();
+    case 'python'
+      if stdlib.matlabOlderThan('R2022a'), continue, end
+      i = stdlib.python.ram_total();
+    case 'sys'
+      i = stdlib.sys.ram_total();
+    otherwise
+      error("stdlib:ram_total:ValueError", "Unknown backend: %s", b)
+  end
+
+  if ~isempty(i)
+    return
+  end
+end
 
 end

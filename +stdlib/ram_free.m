@@ -8,19 +8,34 @@
 %%% Inputs
 % * backend: backend to use
 %%% Outputs
-% * freebytes: free physical RAM [bytes]
+% * i: free physical RAM [bytes]
 % * b: backend used
 
 
-function [bytes, b] = ram_free(backend)
+function [i, b] = ram_free(backend)
 arguments
   backend (1,:) string = ["java", "python", "sys"]
 end
 
-o = stdlib.Backend(mfilename(), backend);
-bytes = o.func();
+i = uint64.empty;
 
-b = o.backend;
+for b = backend
+  switch b
+    case 'java'
+      i = stdlib.java.ram_free();
+    case 'python'
+      if stdlib.matlabOlderThan('R2022a'), continue, end
+      i = stdlib.python.ram_free();
+    case 'sys'
+      i = stdlib.sys.ram_free();
+    otherwise
+      error("stdlib:ram_free:ValueError", "Unknown backend: %s", b)
+  end
+
+  if ~isempty(i)
+    return
+  end
+end
 
 % * VisualBasic (needs Windows) is needed to do this with .NET.
 % * builtin memory() on Windows includes swap. The user could do that themselves.
