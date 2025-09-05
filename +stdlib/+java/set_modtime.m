@@ -8,6 +8,11 @@ end
 
 utc = convertTo(datetime(t, 'TimeZone', "UTC"), "posixtime");
 
-ok = java.io.File(file).setLastModified(int64(utc) * 1000);
+try
+  ok = java.io.File(file).setLastModified(int64(utc) * 1000);
+catch e
+  javaException(e)
+  ok = logical.empty;
+end
 
 end
