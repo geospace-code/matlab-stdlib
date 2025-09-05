@@ -27,9 +27,9 @@ if ~stdlib.exists(Ps)
   tc.verifyEmpty(p)
 else
   if isMATLABReleaseOlderThan('R2025a')
-    tc.verifyEqual(b, 'legacy')
+    tc.assertEqual(b, 'legacy')
   else
-    tc.verifyEqual(b, 'native')
+    tc.assertEqual(b, 'native')
   end
 
   tc.verifyThat(p, StartsWithSubstring("r"))
@@ -68,9 +68,9 @@ tc.assertTrue(r)
 [p, b] = stdlib.get_permissions(nw);
 
 if isMATLABReleaseOlderThan('R2025a')
-  tc.verifyEqual(b, 'legacy')
+  tc.assertEqual(b, 'legacy')
 else
-  tc.verifyEqual(b, 'native')
+  tc.assertEqual(b, 'native')
 end
 
 if ~ispc() || b ~= "legacy"

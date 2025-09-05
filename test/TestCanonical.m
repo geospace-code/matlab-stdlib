@@ -26,9 +26,9 @@ function test_canonical(tc, p)
 tc.verifyEqual(c, p{2})
 
 if stdlib.matlabOlderThan('R2024a')
-  tc.verifyEqual(b, 'legacy')
+  tc.assertEqual(b, 'legacy')
 else
-  tc.verifyEqual(b, 'native')
+  tc.assertEqual(b, 'native')
 end
 end
 
