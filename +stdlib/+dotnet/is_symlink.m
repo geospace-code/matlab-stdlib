@@ -5,6 +5,11 @@ arguments
   file (1,1) string
 end
 
+if ~stdlib.exists(file)
+  % necessary to avoid having to catch 'MATLAB:NET:CLRException:MethodInvoke' on Windows
+  y = false;
+  return
+end
 try
   if stdlib.dotnet_api() >= 6
     y = ~isempty(System.IO.FileInfo(file).LinkTarget);

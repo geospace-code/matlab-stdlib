@@ -1,4 +1,9 @@
-function [ok, cmd] = is_symlink(file)
+function [y, cmd] = is_symlink(file)
+
+if stdlib.strempty(file)
+  y = false;
+  return
+end
 
 if ispc()
   cmd = sprintf('fsutil reparsepoint query "%s"', file);
@@ -9,6 +14,6 @@ else
 end
 
 [s, ~] = system(cmd);
-ok = s == 0;
+y = s == 0;
 
 end

@@ -1,10 +1,15 @@
-function ok = is_symlink(file)
+function y = is_symlink(file)
+
+if stdlib.strempty(file)
+  y = false;
+  return
+end
 
 try
-  ok = java.nio.file.Files.isSymbolicLink(javaAbsolutePath(file));
+  y = java.nio.file.Files.isSymbolicLink(javaAbsolutePath(file));
 catch e
   javaException(e)
-  ok = logical.empty;
+  y = logical.empty;
 end
 
 end
