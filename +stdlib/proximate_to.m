@@ -3,19 +3,16 @@
 %%% Inputs
 % * base: directory to which the other path should be relative
 % * other: path to be made relative
-% * backend: backend to use
 %%% Outputs
 % * rel: relative path from base to other
-% * b: backend used
 
-function [rel, b] = proximate_to(base, other, backend)
+function rel = proximate_to(base, other)
 arguments
   base (1,1) string
   other (1,1) string
-  backend (1,:) string = ["python", "native"]
 end
 
-[rel, b] = stdlib.relative_to(base, other, backend);
+rel = stdlib.relative_to(base, other);
 if stdlib.strempty(rel)
   rel = other;
 end

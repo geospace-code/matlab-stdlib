@@ -5,7 +5,6 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
 
 properties (TestParameter)
 pr
-backend
 end
 
 
@@ -57,23 +56,19 @@ pr = [pr, {
 }];
 end
 end
-
-function backend = setupBackends()
-backend = init_backend("relative_to");
-end
 end
 
 
 methods (Test)
 
-function test_relative_to(tc, pr, backend)
-r = stdlib.relative_to(pr{1}, pr{2}, backend);
+function test_relative_to(tc, pr)
+r = stdlib.relative_to(pr{1}, pr{2});
 
 tc.verifyEqual(r, pr{3}, "relative_to(" + pr{1} + "," + pr{2}+")")
 end
 
-function test_proximate_to(tc, pr, backend)
-r = stdlib.proximate_to(pr{1}, pr{2}, backend);
+function test_proximate_to(tc, pr)
+r = stdlib.proximate_to(pr{1}, pr{2});
 
 tc.verifyEqual(r, pr{3}, "proximate_to(" + pr{1} + ", " + pr{2}+")")
 end
