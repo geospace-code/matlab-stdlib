@@ -41,7 +41,8 @@ end
 methods (Test)
 
 function test_disk_available(tc, Ps, B_disk)
-r = stdlib.disk_available(Ps, B_disk);
+[r, b] = stdlib.disk_available(Ps, B_disk);
+tc.assertEqual(char(b), B_disk)
 
 tc.verifyClass(r, 'uint64')
 
@@ -54,7 +55,8 @@ end
 
 
 function test_disk_capacity(tc, Ps, B_disk)
-r = stdlib.disk_capacity(Ps, B_disk);
+[r, b] = stdlib.disk_capacity(Ps, B_disk);
+tc.assertEqual(char(b), B_disk)
 
 tc.verifyClass(r, 'uint64')
 
