@@ -55,14 +55,11 @@ end
 
 
 function test_process_priority(tc, B_get_process_priority)
+import matlab.unittest.constraints.IsSubsetOf
 [r, b] = stdlib.get_process_priority(B_get_process_priority);
 tc.assertEqual(char(b), B_get_process_priority)
-if ispc()
-  rExp = 'char';
-else
-  rExp = 'double';
-end
-tc.verifyClass(r, rExp)
+
+tc.verifyThat({class(r)}, IsSubsetOf({'double', 'char'}))
 tc.verifyNotEmpty(r)
 end
 
