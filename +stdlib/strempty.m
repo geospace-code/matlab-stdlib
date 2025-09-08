@@ -6,7 +6,10 @@ function y = strempty(s)
 if isempty(s)
   y = true;
 else
-  y = (strlength(s) == 0) | ismissing(s);
+  y = (strlength(s) == 0);
+  if isstring(s)
+    y = y | ismissing(s);
+  end
 end
 
 end
