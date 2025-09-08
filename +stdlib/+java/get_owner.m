@@ -11,7 +11,7 @@ function n = get_owner(file)
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html#getOwner(java.nio.file.Path,java.nio.file.LinkOption...)
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/LinkOption.html
 
-n = "";
+n = '';
 if stdlib.strempty(file)
   return
 end
@@ -20,7 +20,7 @@ end
 % We only saw this issue with R2025a on windows-2025 GA runner image.
 
 try
-  n = string(java.nio.file.Files.getOwner(javaAbsolutePath(file), java.nio.file.LinkOption.values()));
+  n = char(java.nio.file.Files.getOwner(javaAbsolutePath(file), java.nio.file.LinkOption.values()));
 catch e
   javaException(e)
 end

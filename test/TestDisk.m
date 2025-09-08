@@ -168,10 +168,12 @@ end
 
 
 function test_owner(tc, Po, B_owner)
-o = stdlib.get_owner(Po, B_owner);
+[o, b] = stdlib.get_owner(Po, B_owner);
+tc.assertEqual(char(b), B_owner)
+tc.verifyClass(o, 'char')
 
 if ~stdlib.exists(Po)
-  tc.verifyEqual(o, "")
+  tc.verifyEqual(o, '')
 else
   tc.verifyGreaterThan(strlength(o), 0)
 end

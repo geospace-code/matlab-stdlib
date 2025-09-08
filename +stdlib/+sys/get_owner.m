@@ -3,7 +3,7 @@ arguments
   file (1,1) string
 end
 
-o = "";
+o = '';
 
 if ispc()
   cmd = sprintf('pwsh -c "if($x=Get-Acl -Path ''%s'') {$x.Owner}"', file);
@@ -16,7 +16,7 @@ end
 if stdlib.exists(file)
   [s, m] = system(cmd);
   if s == 0
-    o = string(strip(m));
+    o = strip(m);
   end
 end
 
