@@ -40,7 +40,10 @@ end
 
 
 function test_cpu_load(tc, B_cpu_load)
-r = stdlib.cpu_load(B_cpu_load);
+[r, b] = stdlib.cpu_load(B_cpu_load);
+tc.assertClass(r, 'double')
+tc.assertEqual(char(b), B_cpu_load)
+
 if ispc() && B_cpu_load == "python"
   tc.verifyEmpty(r)
 else

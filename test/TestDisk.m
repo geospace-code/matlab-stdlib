@@ -69,7 +69,8 @@ end
 
 
 function test_is_removable(tc, B_is_removable)
-y = stdlib.is_removable(pwd(), B_is_removable);
+[y, b] = stdlib.is_removable(pwd(), B_is_removable);
+tc.assertEqual(char(b), B_is_removable)
 tc.verifyClass(y, 'logical')
 end
 
@@ -117,7 +118,10 @@ end
 
 
 function test_is_dev_drive(tc, B_is_dev_drive)
-tc.verifyClass(stdlib.is_dev_drive(pwd(), B_is_dev_drive), 'logical')
+[r, b] = stdlib.is_dev_drive(pwd(), B_is_dev_drive);
+tc.assertEqual(char(b), B_is_dev_drive)
+
+tc.verifyClass(r, 'logical')
 end
 
 
@@ -174,17 +178,6 @@ end
 
 end
 
-
-function test_owner_array(tc, B_owner)
-
-o = stdlib.get_owner([".", pwd(), "not-exist", ""], B_owner);
-L = strlength(o);
-
-tc.verifyEqual(L(3:4), [0, 0])
-
-tc.verifyGreaterThan(L(1:2), 0);
-
-end
 
 end
 end

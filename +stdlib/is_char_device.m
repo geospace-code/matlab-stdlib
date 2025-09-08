@@ -7,7 +7,7 @@
 % * file: path to check
 % * backend: backend to use
 %%% Outputs
-% * ok: true if path is a character device
+% * i: true if path is a character device
 % * b: backend used
 %
 % Windows: Console handles
@@ -18,20 +18,28 @@
 % Ref: https://learn.microsoft.com/en-us/windows/console/console-handles
 
 
-function [ok, b] = is_char_device(file, backend)
+function [i, b] = is_char_device(file, backend)
 arguments
   file string
   backend (1,:) string = ["python", "sys"]
 end
 
-o = stdlib.Backend(mfilename(), backend);
+i = logical.empty;
 
-if isscalar(file)
-  ok = o.func(file);
-else
-  ok = arrayfun(o.func, file);
+for b = backend
+  switch b
+    case 'python'
+      if stdlib.matlabOlderThan('R2022a'), continue, end
+      i = stdlib.python.is_char_device(file);
+    case 'sys'
+      i = stdlib.sys.is_char_device(file);
+    otherwise
+      error("stdlib:is_char_device:ValueError", "Unknown backend: %s", b)
+  end
+
+  if ~isempty(i)
+    return
+  end
 end
-
-b = o.backend;
 
 end

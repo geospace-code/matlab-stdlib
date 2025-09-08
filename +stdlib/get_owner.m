@@ -4,23 +4,35 @@
 % * file: path to examine
 % * backend: backend to use
 %%% Outputs
-% * n: owner, or empty if path does not exist
+% * r: owner, or empty if path does not exist
 % * b: backend used
 
-function [n, b] = get_owner(file, backend)
+function [r, b] = get_owner(file, backend)
 arguments
   file string
   backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
-o = stdlib.Backend(mfilename(), backend);
+r = string.empty;
 
-if isscalar(file)
-  n = o.func(file);
-else
-  n = arrayfun(o.func, file);
+for b = backend
+  switch b
+    case "java"
+      r = stdlib.java.get_owner(file);
+    case "dotnet"
+      r = stdlib.dotnet.get_owner(file);
+    case "python"
+      if stdlib.matlabOlderThan('R2022a'), continue, end
+      r = stdlib.python.get_owner(file);
+    case "sys"
+      r = stdlib.sys.get_owner(file);
+    otherwise
+      error("stdlib:get_owner:ValueError", "Unknown backend: %s", b)
+  end
+
+  if ~isempty(r)
+    return
+  end
 end
-
-b = o.backend;
 
 end

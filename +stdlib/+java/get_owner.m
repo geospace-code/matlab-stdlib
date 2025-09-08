@@ -18,10 +18,9 @@ end
 
 % Java 1.8 benefits from absolute.
 % We only saw this issue with R2025a on windows-2025 GA runner image.
-opt = java.nio.file.LinkOption.values();
 
 try
-  n = string(java.nio.file.Files.getOwner(javaAbsolutePath(file), opt));
+  n = string(java.nio.file.Files.getOwner(javaAbsolutePath(file), java.nio.file.LinkOption.values()));
 catch e
   javaException(e)
 end

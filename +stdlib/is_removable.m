@@ -4,25 +4,32 @@
 %%% inputs
 % * file: path to check
 % * backend: backend to use
-%
 %%% Outputs
-% * ok: true if path is on a removable drive
+% * i: true if path is on a removable drive
 % * b: backend used
 
-function [ok, b] = is_removable(file, backend)
+function [i, b] = is_removable(file, backend)
 arguments
   file string
   backend (1,:) string = ["python", "sys"]
 end
 
-o = stdlib.Backend(mfilename(), backend);
+i = logical.empty;
 
-if isscalar(file)
-  ok = o.func(file);
-else
-  ok = arrayfun(o.func, file);
+for b = backend
+  switch b
+    case 'python'
+      if stdlib.matlabOlderThan('R2022a'), continue, end
+      i = stdlib.python.is_removable(file);
+    case 'sys'
+      i = stdlib.sys.is_removable(file);
+    otherwise
+      error("stdlib:is_removable:ValueError", "Unknown backend: %s", b)
+  end
+
+  if ~isempty(i)
+    return
+  end
 end
-
-b = o.backend;
 
 end
