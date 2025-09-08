@@ -1,5 +1,10 @@
 function n = hostname()
 
-n = char(java.net.InetAddress.getLocalHost().getHostName());
+try
+  n = char(java.net.InetAddress.getLocalHost().getHostName());
+catch e
+  javaException(e);
+  n = '';
+end
 
 end

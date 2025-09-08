@@ -1,9 +1,13 @@
 function u = get_uid()
 
+u = '';
+
 if ispc()
-  u = char(System.Security.Principal.WindowsIdentity.GetCurrent().User.Value);
-else
-  u = '';
+  try
+    u = char(System.Security.Principal.WindowsIdentity.GetCurrent().User.Value);
+  catch e
+    dotnetException(e)
+  end
 end
 
 end

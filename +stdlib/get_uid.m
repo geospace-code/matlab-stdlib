@@ -1,17 +1,34 @@
 %% GET_UID tell UID (numeric) of current user
 %
+%%% Inputs
+% * backend: preferred backend(s)
 %%% Outputs
 % * n: UID of current user
 % * b: backend used
 
-function [n, b] = get_uid(backend)
+function [i, b] = get_uid(backend)
 arguments
   backend (1,:) string = ["dotnet", "python", "perl"]
 end
 
-o = stdlib.Backend(mfilename(), backend);
-n = o.func();
+i = [];
 
-b = o.backend;
+for b = backend
+  switch b
+    case 'dotnet'
+      i = stdlib.dotnet.get_uid();
+    case 'python'
+      if stdlib.matlabOlderThan('R2022a'), continue, end
+      i = stdlib.python.get_uid();
+    case 'perl'
+      i = stdlib.perl.get_uid();
+    otherwise
+      error("stdlib:get_uid:ValueError", "Unknown backend: %s", b)
+  end
+
+  if ~isempty(i)
+    return
+  end
+end
 
 end

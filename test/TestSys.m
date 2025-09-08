@@ -74,14 +74,16 @@ end
 
 
 function test_hostname(tc, B_hostname)
-h = stdlib.hostname(B_hostname);
+[h, b] = stdlib.hostname(B_hostname);
+tc.assertEqual(char(b), B_hostname)
 tc.verifyClass(h, 'char')
 tc.verifyGreaterThan(strlength(h), 0)
 end
 
 
 function test_get_uid(tc, B_get_uid)
-u = stdlib.get_uid(B_get_uid);
+[u, b] = stdlib.get_uid(B_get_uid);
+tc.assertEqual(char(b), B_get_uid)
 if ispc()
   tc.verifyClass(u, 'char')
   tc.verifyGreaterThan(strlength(u), 0)
@@ -92,7 +94,8 @@ end
 
 
 function test_username(tc, B_username)
-u = stdlib.get_username(B_username);
+[u, b] = stdlib.get_username(B_username);
+tc.assertEqual(char(b), B_username)
 tc.verifyClass(u, 'char')
 tc.verifyGreaterThan(strlength(u), 0)
 end

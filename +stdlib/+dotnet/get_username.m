@@ -3,6 +3,11 @@
 function n = get_username()
 % https://learn.microsoft.com/en-us/dotnet/api/system.environment.username
 
-n = char(System.Environment.UserName);
+try
+  n = char(System.Environment.UserName);
+catch
+  dotnetException(e)
+  n = '';
+end
 
 end

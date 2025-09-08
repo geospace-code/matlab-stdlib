@@ -12,20 +12,28 @@
 % * Windows: is_mount("c:") false;  is_mount("C:\") true
 % * Linux, macOS, Windows: is_mount("/") true
 
-function [ok, b] = is_mount(file, backend)
+function [i, b] = is_mount(file, backend)
 arguments
   file string
   backend (1,:) string = ["python", "sys"]
 end
 
-o = stdlib.Backend(mfilename(), backend);
+i = logical.empty;
 
-if isscalar(file)
-  ok = o.func(file);
-else
-  ok = arrayfun(o.func, file);
+for b = backend
+  switch b
+    case 'python'
+      if stdlib.matlabOlderThan('R2022a'), continue, end
+      i = stdlib.python.is_mount(file);
+    case 'sys'
+      i = stdlib.sys.is_mount(file);
+    otherwise
+      error("stdlib:is_mount:ValueError", "Unknown backend: %s", b)
+  end
+
+  if ~isempty(i)
+    return
+  end
 end
-
-b = o.backend;
 
 end
