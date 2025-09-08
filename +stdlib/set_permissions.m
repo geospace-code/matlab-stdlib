@@ -17,6 +17,7 @@ arguments
   executable (1,1) {mustBeInteger}
 end
 
+b = '';
 
 if ~stdlib.exists(file)
   ok = false;
