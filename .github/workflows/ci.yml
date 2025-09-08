@@ -20,7 +20,7 @@ concurrency:
 jobs:
 
   matlab-at-least-r2024a:
-    timeout-minutes: &timeout 15
+    timeout-minutes: 15
     runs-on: ${{ matrix.os }}
 
     name: &job-name ${{ matrix.release }}-${{ matrix.os }}
@@ -74,7 +74,8 @@ jobs:
 
   matlab:
     needs: matlab-at-least-r2024a
-    timeout-minutes:  *timeout
+
+    timeout-minutes: 15
     runs-on: ${{ matrix.os }}
 
     name: *job-name
@@ -98,7 +99,7 @@ jobs:
 
     name: *job-name
 
-    timeout-minutes: *timeout
+    timeout-minutes: 15
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -112,3 +113,24 @@ jobs:
     - *tell-ext
 
     - *test-main
+
+
+  matlab-nojvm:
+    needs: matlab-at-least-r2024a
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        release: [R2024a]
+
+    steps:
+    - *matlab-install
+    - *checkout
+    - *tell-ext
+
+    - name: Main Tests NoJVM
+      uses: matlab-actions/run-build@v2
+      with:
+        tasks: test_main
+        startup-options: -nojvm
