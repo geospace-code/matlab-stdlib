@@ -6,16 +6,18 @@ function y = is_mount(filepath)
 
 y = logical.empty;
 
-p = py.pathlib.Path(filepath);
-if ~p.exists(), return, end
-
-% some Python on CI needs this. Didn't replicate on local Windows PC.
-if ispc() && strcmp(filepath, string(p.drive)) && ~endsWith(filepath, "/" | filesep)
-  y = false;
-  return
-end
 
 try %#ok<TRYNC>
+
+  p = py.pathlib.Path(filepath);
+  if ~p.exists(), return, end
+
+  % some Python on CI needs this. Didn't replicate on local Windows PC.
+  if ispc() && strcmp(filepath, string(p.drive)) && ~endsWith(filepath, "/" | filesep)
+    y = false;
+    return
+  end
+
   y = py.os.path.ismount(p);
 end
 

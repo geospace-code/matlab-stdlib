@@ -57,7 +57,12 @@ end
 function test_process_priority(tc, B_get_process_priority)
 [r, b] = stdlib.get_process_priority(B_get_process_priority);
 tc.assertEqual(char(b), B_get_process_priority)
-tc.verifyClass(r, 'double')
+if ispc()
+  rExp = 'char';
+else
+  rExp = 'double';
+end
+tc.verifyClass(r, rExp)
 tc.verifyNotEmpty(r)
 end
 

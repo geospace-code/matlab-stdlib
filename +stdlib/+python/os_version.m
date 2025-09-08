@@ -4,7 +4,7 @@ try
   os = char(py.platform.system());
   version = char(py.platform.version());
 catch e
-  warning(e.identifier, 'Failed to get OS version using Python: %s', e.message)
+  pythonException(e)
   os = '';
   version = '';
 end

@@ -1,8 +1,7 @@
 function i = hard_link_count(file)
 
-opt = java.nio.file.LinkOption.values();
 try
-  i = java.nio.file.Files.getAttribute(javaAbsolutePath(file), "unix:nlink", opt);
+  i = java.nio.file.Files.getAttribute(javaAbsolutePath(file), "unix:nlink", java.nio.file.LinkOption.values());
 catch e
   javaException(e)
   i = [];

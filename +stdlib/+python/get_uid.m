@@ -1,9 +1,13 @@
 function u = get_uid()
 
+u = [];
+
 if isunix()
-  u = double(py.os.geteuid());
-else
-  u = [];
+  try
+    u = double(py.os.geteuid());
+  catch e
+    pythonException(e)
+  end
 end
 
 end
