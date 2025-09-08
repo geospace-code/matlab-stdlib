@@ -15,9 +15,27 @@ arguments
   backend (1,:) string = ["sys", "python", "dotnet", "java"]
 end
 
-o = stdlib.Backend(mfilename(), backend);
+os = string.empty;
+version = string.empty;
 
-[os, version] = o.func();
-b = o.backend;
+for b = backend
+  switch b
+    case "java"
+      [os, version] = stdlib.java.os_version();
+    case "dotnet"
+      [os, version] = stdlib.dotnet.os_version();
+    case "python"
+      if stdlib.matlabOlderThan('R2022a'), continue, end
+      [os, version] = stdlib.python.os_version();
+    case "sys"
+      [os, version] = stdlib.sys.os_version();
+    otherwise
+      error("stdlib:os_version:ValueError", "Unknown backend: %s", b)
+  end
+
+  if ~isempty(os) && ~isempty(version)
+    return
+  end
+end
 
 end

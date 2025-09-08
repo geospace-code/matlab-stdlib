@@ -1,6 +1,11 @@
 function i = get_process_priority()
 
-p = System.Diagnostics.Process.GetCurrentProcess();
-i = p.PriorityClass;
+try
+  p = System.Diagnostics.Process.GetCurrentProcess();
+  i = double(p.PriorityClass);
+catch e
+  dotnetException(e)
+  i = [];
+end
 
 end

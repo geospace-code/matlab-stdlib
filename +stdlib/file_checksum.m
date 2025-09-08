@@ -12,15 +12,30 @@
 %
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#getInstance(java.lang.String)
 
-function [hash, b] = file_checksum(file, hash_method, backend)
+function [r, b] = file_checksum(file, hash_method, backend)
 arguments
   file
   hash_method
   backend (1,:) string = ["java", "dotnet", "sys"]
 end
 
-o = stdlib.Backend(mfilename(), backend);
-hash = o.func(file, hash_method);
-b = o.backend;
+r = '';
+
+for b = backend
+  switch b
+    case "java"
+      r = stdlib.java.file_checksum(file, hash_method);
+    case "dotnet"
+      r = stdlib.dotnet.file_checksum(file, hash_method);
+    case "sys"
+      r = stdlib.sys.file_checksum(file, hash_method);
+    otherwise
+      error("stdlib:file_checksum:ValueError", "Unknown backend: %s", b)
+  end
+
+  if ~isempty(r)
+    return
+  end
+end
 
 end

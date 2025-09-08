@@ -33,7 +33,9 @@ end
 methods (Test)
 
 function test_is_admin(tc, B_is_admin)
-i = stdlib.is_admin(B_is_admin);
+[i, b] = stdlib.is_admin(B_is_admin);
+tc.assertEqual(char(b), B_is_admin)
+
 tc.verifyClass(i, "logical")
 tc.verifyNotEmpty(i)
 end
@@ -53,13 +55,16 @@ end
 
 
 function test_process_priority(tc, B_get_process_priority)
-r = stdlib.get_process_priority(B_get_process_priority);
+[r, b] = stdlib.get_process_priority(B_get_process_priority);
+tc.assertEqual(char(b), B_get_process_priority)
+tc.verifyClass(r, 'double')
 tc.verifyNotEmpty(r)
 end
 
 
 function test_os_version(tc, B_os_version)
-[os, ver] = stdlib.os_version(B_os_version);
+[os, ver, b] = stdlib.os_version(B_os_version);
+tc.assertEqual(char(b), B_os_version)
 
 tc.verifyClass(os, 'char')
 tc.verifyClass(ver, 'char')

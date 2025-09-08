@@ -39,7 +39,11 @@ end
 methods (Test)
 
 function test_hash_text(tc, Ph, backend)
-tc.verifyEqual(stdlib.file_checksum(tc.file, Ph{1}, backend), Ph{2})
+[r, b] = stdlib.file_checksum(tc.file, Ph{1}, backend);
+tc.assertEqual(char(b), backend)
+tc.verifyClass(r, 'char')
+
+tc.verifyEqual(r, Ph{2})
 end
 
 function test_has_convenience(tc, Ph)

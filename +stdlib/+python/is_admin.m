@@ -1,5 +1,10 @@
 function y = is_admin()
 
+
+y = logical.empty;
+
+try
+
 if isunix()
   y = py.os.getuid() == 0;
 elseif ~stdlib.matlabOlderThan('R2024a')
@@ -9,8 +14,10 @@ elseif ~stdlib.matlabOlderThan('R2024a')
   f = py.getattr(shell32, 'IsUserAnAdmin');
 
   y = logical(f());
-else
-  y = logical.empty;
+end
+
+catch e
+  pythonException(e)
 end
 
 end

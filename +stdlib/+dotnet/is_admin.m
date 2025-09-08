@@ -7,7 +7,8 @@ try
   identity = System.Security.Principal.WindowsIdentity.GetCurrent();
   principal = System.Security.Principal.WindowsPrincipal(identity);
   y = principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
-catch
+catch e
+  dotnetException(e)
   y = logical.empty;
 end
 

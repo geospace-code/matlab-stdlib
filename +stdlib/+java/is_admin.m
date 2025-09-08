@@ -7,7 +7,8 @@ function ok = is_admin()
 
 try
   ok = com.sun.security.auth.module.UnixSystem().getUid() == 0;
-catch
+catch e
+  javaException(e)
   ok = logical.empty;
 end
 
