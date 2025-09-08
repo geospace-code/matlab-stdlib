@@ -50,6 +50,7 @@ if ispc() && B_cpu_load == "python"
   tc.verifyEmpty(r)
 else
   tc.verifyGreaterThanOrEqual(r, 0.)
+  % some CI systems report 0
 end
 end
 
