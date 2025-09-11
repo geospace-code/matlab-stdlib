@@ -5,7 +5,7 @@ try
   if i < 1
     i = [];
   end
-catch
+catch e
   javaException(e)
   i = [];
 end
