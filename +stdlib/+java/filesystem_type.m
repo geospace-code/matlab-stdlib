@@ -14,7 +14,8 @@ if stdlib.strempty(file)
 end
 
 try
-  t = char(java.nio.file.Files.getFileStore(javaPathObject(file)).type);
+  % Java 1.8 benefits from absolute path, especially on Windows
+  t = char(java.nio.file.Files.getFileStore(javaAbsolutePath(file)).type);
 catch e
   javaException(e)
 end
