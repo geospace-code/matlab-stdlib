@@ -1,4 +1,8 @@
 function a = file_attributes(p)
+arguments
+  p (1,1) string
+end
+% need arguments for Matlab < R2020b
 
 assert(strlength(p), 'Path must not be empty.')
 

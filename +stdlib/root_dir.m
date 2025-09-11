@@ -15,7 +15,7 @@ end
 
 r = repmat("", size(p));
 
-i = startsWith(p, "/" | filesep);
+i = startsWith(p, ["/", filesep]);
 r(i) = extractBefore(p(i), 2);
 
 if ispc()

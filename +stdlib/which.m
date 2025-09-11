@@ -44,7 +44,7 @@ end
 for p = fpath
   if stdlib.strempty(p), continue, end
 
-  if endsWith(p, "/" | filesep)
+  if endsWith(p, ["/", filesep])
     e = p + cmd;
   else
     e = p + "/" + cmd;

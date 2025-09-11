@@ -9,6 +9,6 @@ if isempty(pec)
 end
 pe = split(string(pec), pathsep);
 
-i = endsWith(stdlib.suffix(p), pe, IgnoreCase=true);
+i = endsWith(stdlib.suffix(p), pe, 'IgnoreCase', true);
 
 end

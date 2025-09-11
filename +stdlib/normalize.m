@@ -15,7 +15,7 @@ end
 
 parts = split(apath, ["/", filesep]);
 i0 = 1;
-if startsWith(apath, "/" | filesep)
+if startsWith(apath, ["/", filesep])
   n = extractBefore(apath, 2);
 elseif ispc() && strlength(apath) >= 2 && ~stdlib.strempty(stdlib.root_name(apath))
   n = parts(1);

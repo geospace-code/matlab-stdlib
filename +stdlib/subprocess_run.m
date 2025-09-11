@@ -38,7 +38,8 @@ end
 
 
 if ~stdlib.strempty(opt.cwd)
-  mustBeFolder(opt.cwd)
+  assert(isfolder(opt.cwd), opt.cwd + " is not a folder")
+
   cmd = join(["cd", opt.cwd, "&&", cmd]);
 end
 

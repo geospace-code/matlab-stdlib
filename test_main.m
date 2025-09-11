@@ -1,3 +1,7 @@
+%% TEST_MAIN Run all tests
+%
+% R2021a+ needed for over half of the tests
+
 function test_main(context, sel)
 arguments
   context = []
@@ -6,9 +10,6 @@ end
 
 import matlab.unittest.TestRunner
 import matlab.unittest.selectors.HasTag
-
-assert(~isMATLABReleaseOlderThan('R2020b'))
-% R2021a+ needed for over half of the tests
 
 if isempty(context)
   cwd = fileparts(mfilename('fullpath'));
@@ -19,10 +20,13 @@ test_root = fullfile(cwd, "test");
 
 tags = ["native_exe", releaseTestTags()];
 
-if isMATLABReleaseOlderThan('R2022b')
-  suite = testsuite(test_root, 'Tag', tags);
-else
+try
   suite = testsuite(test_root, 'Tag', tags, 'InvalidFileFoundAction', "error");
+catch e
+  if e.identifier ~= "MATLAB:InputParser:UnmatchedParameter"
+    rethrow(e)
+  end
+  suite = testsuite(test_root, 'Tag', tags);
 end
 
 % selectIf takes the subset of suite tests that meet "sel" conditions

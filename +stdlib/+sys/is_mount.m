@@ -9,7 +9,7 @@ if ~stdlib.exists(filepath), return, end
 
 if ispc()
   if ismember(filepath, ["/", "\"]) || ...
-      (endsWith(filepath, "/" | filesep) && isfolder(filepath) && filepath == stdlib.root(filepath))
+      (endsWith(filepath, ["/", filesep]) && isfolder(filepath) && filepath == stdlib.root(filepath))
     y = true;
     return
   end

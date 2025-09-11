@@ -13,7 +13,7 @@ try %#ok<TRYNC>
   if ~p.exists(), return, end
 
   % some Python on CI needs this. Didn't replicate on local Windows PC.
-  if ispc() && strcmp(filepath, string(p.drive)) && ~endsWith(filepath, "/" | filesep)
+  if ispc() && strcmp(filepath, string(p.drive)) && ~endsWith(filepath, ["/", filesep])
     y = false;
     return
   end
