@@ -127,7 +127,12 @@ jobs:
     steps:
     - *matlab-install
     - *checkout
-    - *tell-ext
+
+    - name: Matlab tell External Language Interface versions
+      uses: matlab-actions/run-command@v2
+      with:
+        command: stdlib.platform_tell()
+        startup-options: -nojvm
 
     - name: Main Tests NoJVM
       uses: matlab-actions/run-build@v2
