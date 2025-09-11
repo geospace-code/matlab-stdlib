@@ -5,7 +5,7 @@ function n = get_username()
 
 try
   n = char(System.Environment.UserName);
-catch
+catch e
   dotnetException(e)
   n = '';
 end
