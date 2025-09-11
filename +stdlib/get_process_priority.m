@@ -14,7 +14,7 @@ arguments
   backend (1,:) string = ["dotnet", "python", "sys"]
 end
 
-i = logical.empty;
+i = [];
 
 for b = backend
   switch b
