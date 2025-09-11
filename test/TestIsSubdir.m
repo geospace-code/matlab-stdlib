@@ -1,16 +1,31 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2021a', 'pure'}) ...
+          TestTags = {'R2019b', 'pure'}) ...
     TestIsSubdir < matlab.unittest.TestCase
 
 properties (TestParameter)
-p_is_prefix
-p_is_subdir
+p_is_prefix = init_is_prefix()
+p_is_subdir = init_is_subdir()
 end
 
 
-methods (TestParameterDefinition, Static)
+methods (Test)
 
-function[p_is_subdir, p_is_prefix] = init_is_subdir()
+function test_is_subdir(tc, p_is_subdir)
+tc.verifyEqual(stdlib.is_subdir(p_is_subdir{1}, p_is_subdir{2}), p_is_subdir{3}, ...
+ sprintf("subdir(%s, %s)", p_is_subdir{1}, p_is_subdir{2}))
+end
+
+function test_is_prefix(tc, p_is_prefix)
+tc.verifyEqual(stdlib.is_prefix(p_is_prefix{1}, p_is_prefix{2}), p_is_prefix{3}, ...
+  sprintf("prefix(%s, %s)", p_is_prefix{1}, p_is_prefix{2}))
+end
+
+end
+
+end
+
+
+function p = init_is_subdir()
 
 p = {
     {"a/b", "a/b", false}, ...
@@ -30,8 +45,12 @@ if ispc
 else
   p{end+1} = {"/", "/", false};
 end
+end
 
-p_is_subdir = p;
+
+function p = init_is_prefix()
+
+p = init_is_subdir();
 
 p{1}{3} = true;
 p{2}{3} = false;
@@ -40,24 +59,5 @@ p{6}{3} = true;
 p{7}{3} = false;
 p{8}{3} = false;
 p{10}{3} = true;
-p_is_prefix = p;
-end
-
-end
-
-
-methods (Test)
-
-function test_is_subdir(tc, p_is_subdir)
-tc.verifyEqual(stdlib.is_subdir(p_is_subdir{1}, p_is_subdir{2}), p_is_subdir{3}, ...
- sprintf("subdir(%s, %s)", p_is_subdir{1}, p_is_subdir{2}))
-end
-
-function test_is_prefix(tc, p_is_prefix)
-tc.verifyEqual(stdlib.is_prefix(p_is_prefix{1}, p_is_prefix{2}), p_is_prefix{3}, ...
-  sprintf("prefix(%s, %s)", p_is_prefix{1}, p_is_prefix{2}))
-end
-
-end
 
 end
