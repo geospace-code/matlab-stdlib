@@ -1,13 +1,23 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2021a', 'impure'}) ...
+          TestTags = {'R2019b', 'impure'}) ...
     TestExpanduser < matlab.unittest.TestCase
 
 properties (TestParameter)
-p
+p = init_exp()
 end
 
 
-methods (TestParameterDefinition, Static)
+methods (Test)
+
+function test_expanduser(tc, p)
+tc.verifyEqual(stdlib.expanduser(p{1}), p{2})
+end
+
+end
+
+end
+
+
 function p = init_exp()
 
 if ispc
@@ -25,16 +35,5 @@ p = {{'', ""}, {"", ""}, ...
 {"~/c", fullfile(h, "c")}, ...
 {"~//c", fullfile(h, "c")}, ...
 {"~" + filesep() + "c", fullfile(h, "c")}};
-
-end
-end
-
-methods (Test)
-
-function test_expanduser(tc, p)
-tc.verifyEqual(stdlib.expanduser(p{1}), p{2})
-end
-
-end
 
 end

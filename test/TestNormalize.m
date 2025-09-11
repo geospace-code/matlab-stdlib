@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2021a', 'pure'}) ...
+          TestTags = {'R2019b', 'pure'}) ...
     TestNormalize < matlab.unittest.TestCase
 
 properties (TestParameter)
@@ -16,11 +16,28 @@ p = {
   {"./a/.", "a"}, ...
   {"../a", "../a"}
 };
-d
+d = init_drop_slash()
 end
 
 
-methods (TestParameterDefinition, Static)
+methods (Test)
+
+function test_normalize(tc, p)
+c = stdlib.normalize(p{1});
+
+tc.verifyEqual(c, p{2}, ...
+  sprintf("normalize(%s)", p{1}))
+end
+
+function test_drop_slash(tc, d)
+tc.verifyEqual(stdlib.drop_slash(d{1}), d{2}, ...
+  sprintf("drop_slash(%s)", d{1}))
+end
+
+end
+
+end
+
 
 function d = init_drop_slash()
 d = {...
@@ -42,27 +59,6 @@ if ispc()
     {"c:/a/b//", "c:/a/b"}
   };
   d = [d, dd];
-end
-
-end
-
-end
-
-
-methods (Test)
-
-function test_normalize(tc, p)
-c = stdlib.normalize(p{1});
-
-tc.verifyEqual(c, p{2}, ...
-  sprintf("normalize(%s)", p{1}))
-end
-
-function test_drop_slash(tc, d)
-tc.verifyEqual(stdlib.drop_slash(d{1}), d{2}, ...
-  sprintf("drop_slash(%s)", d{1}))
-end
-
 end
 
 end

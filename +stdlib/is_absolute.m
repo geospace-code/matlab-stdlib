@@ -6,17 +6,13 @@
 
 function y = is_absolute(p)
 arguments
-  p string
+  p (1,1) string
 end
 
-y = false(size(p));
+y = ~stdlib.strempty(stdlib.root_dir(p));
 
-i = ~stdlib.strempty(stdlib.root_dir(p));
-
-y(i) = true;
-
-if ispc()
-  y(i) = ~stdlib.strempty(stdlib.root_name(p(i)));
+if ispc() && y
+  y = ~stdlib.strempty(stdlib.root_name(p));
 end
 
 end

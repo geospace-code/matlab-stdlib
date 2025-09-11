@@ -56,24 +56,4 @@ tc.verifyEqual(stdlib.resolve(a, false), b)
 end
 end
 
-
-methods (Test, TestTags={'R2024a'})
-function test_resolve_array(tc)
-tc.assumeFalse(isMATLABReleaseOlderThan('R2024a'))
-
-in = ["", "hi", "/ok"];
-c = stdlib.resolve(in, false);
-
-Pwd = stdlib.posix(pwd());
-
-exp = [pwd(), Pwd + "/hi", "/ok"];
-if ispc()
-  exp(3) = Pwd + "/ok";
-end
-
-tc.verifyEqual(c, exp)
-end
-
-end
-
 end

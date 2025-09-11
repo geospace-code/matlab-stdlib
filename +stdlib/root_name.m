@@ -7,14 +7,13 @@
 
 function r = root_name(p)
 arguments
-  p string
+  p (1,1) string
 end
 
-r = repmat("", size(p));
+r = "";
 
-if ispc()
-  i = startsWith(p, lettersPattern(1) + ":");
-  r(i) = extractBefore(p(i), 3);
+if ispc() && ~isempty(regexp(p, '^[A-Za-z]:', 'once'))
+  r = extractBefore(p, 3);
 end
 
 end

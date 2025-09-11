@@ -17,7 +17,7 @@
 
 function c = absolute(p, base)
 arguments
-  p string
+  p (1,1) string
   base (1,1) string = pwd()
 end
 

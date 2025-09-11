@@ -10,17 +10,15 @@
 
 function r = root_dir(p)
 arguments
-  p string
+  p (1,1) string
 end
 
-r = repmat("", size(p));
+r = "";
 
-i = startsWith(p, ["/", filesep]);
-r(i) = extractBefore(p(i), 2);
-
-if ispc()
-  i = startsWith(p, lettersPattern(1) + ":" + characterListPattern("/" + filesep));
-  r(i) = extractBetween(p(i), 3, 3);
+if startsWith(p, ["/", filesep])
+  r = extractBefore(p, 2);
+elseif ispc() && ~isempty(regexp(p, '^[A-Za-z]:[\\/]','once'))
+  r = extractBetween(p, 3, 3);
 end
 
 end

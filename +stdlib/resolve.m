@@ -11,7 +11,7 @@
 
 function r = resolve(p, strict)
 arguments
-  p string
+  p (1,1) string
   strict (1,1) logical = false
 end
 

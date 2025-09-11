@@ -10,18 +10,15 @@
 
 function p = parent(file)
 arguments
-  file string
+  file (1,1) string
 end
 
 p = fileparts(stdlib.drop_slash(file));
 
-i = stdlib.strempty(p);
-p(i) = ".";
-
-% the ~all(i) is for Windows Matlab < R2025a
-if ispc() && ~all(i)
-  i = p(~i) == stdlib.root_name(file(~i));
-  p(i) = p(i) + "/";
+if stdlib.strempty(p)
+  p = ".";
+elseif ispc() && p == stdlib.root_name(file)
+  p = p + "/";
 end
 
 end
