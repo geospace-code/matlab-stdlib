@@ -1,78 +1,74 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2021a', 'impure'}) ...
+          TestTags = {'R2019b', 'impure'}) ...
     TestSys < matlab.unittest.TestCase
 
 
 properties (TestParameter)
-B_cpu_load
-B_ram_free
-B_ram_total
-B_is_admin
-B_os_version
-B_hostname
-B_username
-B_get_uid
-B_get_process_priority
-end
-
-methods (TestParameterDefinition, Static)
-function [B_cpu_load, B_ram_free, B_ram_total, B_is_admin, B_os_version, B_hostname, B_username, B_get_uid, B_get_process_priority] = setupBackends()
-B_cpu_load = init_backend("cpu_load");
-B_ram_free = init_backend("ram_free");
-B_ram_total = init_backend("ram_total");
-B_is_admin = init_backend("is_admin");
-B_os_version = init_backend("os_version");
-B_hostname = init_backend("hostname");
-B_username = init_backend("get_username");
-B_get_uid = init_backend('get_uid');
-B_get_process_priority = init_backend('get_process_priority');
-end
+B_jps = {'java', 'python', 'sys'}
+B_jdps = {'java', 'dotnet', 'python', 'sys'}
+B_jdpps = {'java', 'dotnet', 'perl', 'python', 'sys'}
+B_dpp = {'dotnet', 'perl', 'python'}
+B_dps = {'dotnet', 'python', 'sys'}
 end
 
 
 methods (Test)
 
-function test_is_admin(tc, B_is_admin)
-[i, b] = stdlib.is_admin(B_is_admin);
-tc.assertEqual(char(b), B_is_admin)
-
+function test_is_admin(tc, B_jdpps)
+[i, b] = stdlib.is_admin(B_jdpps);
+tc.assertEqual(char(b), B_jdpps)
 tc.verifyClass(i, "logical")
-tc.verifyNotEmpty(i)
+
+if ismember(B_jdpps, stdlib.Backend().select('is_admin'))
+  tc.verifyNotEmpty(i)
+else
+  tc.verifyEmpty(i)
+end
 end
 
 
-function test_cpu_load(tc, B_cpu_load)
-[r, b] = stdlib.cpu_load(B_cpu_load);
+function test_cpu_load(tc, B_jps)
+[r, b] = stdlib.cpu_load(B_jps);
 tc.assertClass(r, 'double')
-tc.assertEqual(char(b), B_cpu_load)
+tc.assertEqual(char(b), B_jps)
 
-if ispc() && B_cpu_load == "python"
-  tc.verifyEmpty(r)
-else
+if ismember(B_jps, stdlib.Backend().select('cpu_load'))
   tc.verifyGreaterThanOrEqual(r, 0.)
   % some CI systems report 0
+else
+  tc.verifyEmpty(r)
 end
 end
 
 
-function test_process_priority(tc, B_get_process_priority)
+function test_process_priority(tc, B_dps)
 import matlab.unittest.constraints.IsSubsetOf
-[r, b] = stdlib.get_process_priority(B_get_process_priority);
-tc.assertEqual(char(b), B_get_process_priority)
-
+[r, b] = stdlib.get_process_priority(B_dps);
+tc.assertEqual(char(b), B_dps)
 tc.verifyThat({class(r)}, IsSubsetOf({'double', 'char'}))
-tc.verifyNotEmpty(r)
+
+if ismember(B_dps, stdlib.Backend().select('get_process_priority'))
+  tc.verifyNotEmpty(r)
+else
+  tc.verifyEmpty(r)
+end
 end
 
 
-function test_os_version(tc, B_os_version)
-[os, ver, b] = stdlib.os_version(B_os_version);
-tc.assertEqual(char(b), B_os_version)
+function test_os_version(tc, B_jdps)
+[os, ver, b] = stdlib.os_version(B_jdps);
+tc.assertEqual(char(b), B_jdps)
 
 tc.verifyClass(os, 'char')
 tc.verifyClass(ver, 'char')
-tc.verifyGreaterThan(strlength(os), 0, "expected non-empty os")
-tc.verifyGreaterThan(strlength(ver), 0, "expected non-empty version")
+
+if ismember(B_jdps, stdlib.Backend().select('os_version'))
+  tc.verifyGreaterThan(strlength(os), 0, "expected non-empty os")
+  tc.verifyGreaterThan(strlength(ver), 0, "expected non-empty version")
+else
+  tc.verifyEmpty(os)
+  tc.verifyEmpty(ver)
+end
 end
 
 
@@ -81,31 +77,46 @@ tc.verifyTrue(stdlib.checkRAM(1, "double"))
 end
 
 
-function test_hostname(tc, B_hostname)
-[h, b] = stdlib.hostname(B_hostname);
-tc.assertEqual(char(b), B_hostname)
+function test_hostname(tc, B_jdps)
+[h, b] = stdlib.hostname(B_jdps);
+tc.assertEqual(char(b), B_jdps)
 tc.verifyClass(h, 'char')
-tc.verifyGreaterThan(strlength(h), 0)
+
+if ismember(B_jdps, stdlib.Backend().select('hostname'))
+  tc.verifyGreaterThan(strlength(h), 0)
+else
+  tc.verifyEmpty(h)
+end
 end
 
 
-function test_get_uid(tc, B_get_uid)
-[u, b] = stdlib.get_uid(B_get_uid);
-tc.assertEqual(char(b), B_get_uid)
-if ispc()
-  tc.verifyClass(u, 'char')
+function test_get_uid(tc, B_dpp)
+[u, b] = stdlib.get_uid(B_dpp);
+tc.assertEqual(char(b), B_dpp)
+
+if ismember(B_dpp, stdlib.Backend().select('get_uid'))
+  if ispc()
+    tc.verifyClass(u, 'char')
+    tc.verifyGreaterThan(strlength(u), 0)
+  else
+    tc.verifyNotEmpty(u)
+  end
+else
+  tc.verifyEmpty(u)
+end
+end
+
+
+function test_username(tc, B_jdps)
+[u, b] = stdlib.get_username(B_jdps);
+tc.assertEqual(char(b), B_jdps)
+tc.verifyClass(u, 'char')
+
+if ismember(B_jdps, stdlib.Backend().select('get_username'))
   tc.verifyGreaterThan(strlength(u), 0)
 else
-  tc.verifyNotEmpty(u)
+  tc.verifyEmpty(u)
 end
-end
-
-
-function test_username(tc, B_username)
-[u, b] = stdlib.get_username(B_username);
-tc.assertEqual(char(b), B_username)
-tc.verifyClass(u, 'char')
-tc.verifyGreaterThan(strlength(u), 0)
 end
 
 
@@ -115,24 +126,29 @@ tc.verifyClass(arch, 'char')
 tc.verifyGreaterThan(strlength(arch), 0, "CPU architecture should not be empty")
 end
 
-function test_ram_total(tc, B_ram_total)
-[t, b] = stdlib.ram_total(B_ram_total);
-tc.assertEqual(char(b), B_ram_total)
+function test_ram_total(tc, B_jdps)
+[t, b] = stdlib.ram_total(B_jdps);
+tc.assertEqual(char(b), B_jdps)
 tc.verifyClass(t, 'uint64')
-tc.verifyGreaterThan(t, 0)
+
+if ismember(B_jdps, stdlib.Backend().select('ram_total'))
+  tc.verifyGreaterThan(t, 0)
+else
+  tc.verifyEmpty(t)
+end
 end
 
 
-function test_ram_free(tc, B_ram_free)
+function test_ram_free(tc, B_jps)
 % don't verify less than or equal to total due to shaky system measurements'
-[f, b] = stdlib.ram_free(B_ram_free);
-tc.assertEqual(char(b), B_ram_free)
-
+[f, b] = stdlib.ram_free(B_jps);
+tc.assertEqual(char(b), B_jps)
 tc.verifyClass(f, 'uint64')
-if B_ram_free == "python" && ~stdlib.python.has_psutil()
-  tc.verifyEmpty(f)
-else
+
+if ismember(B_jps, stdlib.Backend().select('ram_free'))
   tc.verifyGreaterThan(f, 0)
+else
+  tc.verifyEmpty(f)
 end
 end
 
