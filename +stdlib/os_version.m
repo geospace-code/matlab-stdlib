@@ -15,8 +15,8 @@ arguments
   backend (1,:) string = ["sys", "python", "dotnet", "java"]
 end
 
-os = string.empty;
-version = string.empty;
+os = '';
+version = '';
 
 for b = backend
   switch b
