@@ -8,6 +8,8 @@
 %%% Outputs
 % * ok (1,1) logical
 % * b: backend used
+%
+% native backend is much more robust, if available
 
 function [ok, b] = set_permissions(file, readable, writable, executable)
 arguments

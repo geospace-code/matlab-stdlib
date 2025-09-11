@@ -4,6 +4,8 @@
 % * file: path to file or folder
 %%% Outputs
 % * ok: true if file is writable
+%
+% the legacy backend is actually significantly faster for single files
 
 function [ok, b] = is_writable(file)
 arguments

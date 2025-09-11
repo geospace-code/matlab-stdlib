@@ -4,6 +4,8 @@
 % file: single path string
 %%% Outputs
 % ok: true if file is readable
+%
+% the legacy backend is actually significantly faster for single files
 
 function [ok, b] = is_readable(file)
 arguments
