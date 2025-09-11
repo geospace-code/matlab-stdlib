@@ -1,14 +1,30 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2021a', 'pure'}) ...
+          TestTags = {'R2019b', 'pure'}) ...
     TestRelative < matlab.unittest.TestCase
 
 
 properties (TestParameter)
-pr
+pr = init_rel();
 end
 
 
-methods (TestParameterDefinition, Static)
+methods (Test)
+
+function test_relative_to(tc, pr)
+r = stdlib.relative_to(pr{1}, pr{2});
+
+tc.verifyEqual(r, pr{3}, "relative_to(" + pr{1} + "," + pr{2}+")")
+end
+
+function test_proximate_to(tc, pr)
+r = stdlib.proximate_to(pr{1}, pr{2});
+
+tc.verifyEqual(r, pr{3}, "proximate_to(" + pr{1} + ", " + pr{2}+")")
+end
+
+end
+end
+
 
 function pr = init_rel()
 
@@ -54,24 +70,5 @@ pr = [pr, {
 {"/", "/", "."}, ...
 {"/dev/null", "/dev/null", "."}, ...
 }];
-end
-end
-end
-
-
-methods (Test)
-
-function test_relative_to(tc, pr)
-r = stdlib.relative_to(pr{1}, pr{2});
-
-tc.verifyEqual(r, pr{3}, "relative_to(" + pr{1} + "," + pr{2}+")")
-end
-
-function test_proximate_to(tc, pr)
-r = stdlib.proximate_to(pr{1}, pr{2});
-
-tc.verifyEqual(r, pr{3}, "proximate_to(" + pr{1} + ", " + pr{2}+")")
-end
-
 end
 end
