@@ -12,25 +12,9 @@ p = {
 {'.', false}, ...
 {matlab_path(), true}
 }
-peb
+peb = init_exe_bin()
 end
 
-
-methods (TestParameterDefinition, Static)
-function peb = init_exe_bin()
-peb = {
-{fileparts(mfilename('fullpath')) + "/../Readme.md", false}; ...
-{matlab_path, false}; ...
-{'/bin/ls', true}; ...
-{tempname(), false}
-};
-
-if ispc
-  peb{2}{2} = true;
-  peb{3}{2} = false;
-end
-end
-end
 
 methods(TestClassSetup)
 function test_dirs(tc)
@@ -38,7 +22,8 @@ tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 end
 end
 
-methods(Test, TestTags={'R2021a'})
+
+methods(Test, TestTags={'R2019b'})
 
 function test_is_exe(tc, p)
 r = stdlib.is_exe(p{1});
@@ -73,10 +58,26 @@ end
 
 end
 
+%% Helper functions
 
 function f = matlab_path()
 f = fullfile(matlabroot, "bin/matlab");
 if ispc()
   f = f + ".exe";
+end
+end
+
+
+function peb = init_exe_bin()
+peb = {
+{fileparts(mfilename('fullpath')) + "/../Readme.md", false}; ...
+{matlab_path, false}; ...
+{'/bin/ls', true}; ...
+{tempname(), false}
+};
+
+if ispc
+  peb{2}{2} = true;
+  peb{3}{2} = false;
 end
 end
