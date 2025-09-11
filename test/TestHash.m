@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2021a', 'impure'}) ...
+          TestTags = {'R2019b', 'impure'}) ...
     TestHash < matlab.unittest.TestCase
 
 properties
@@ -9,15 +9,9 @@ end
 properties (TestParameter)
 Ph = {{'md5', '5d41402abc4b2a76b9719d911017c592'}, ...
       {'sha-256', '2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824'}}
-backend
+backend = {'java', 'dotnet', 'sys'}
 end
 
-
-methods (TestParameterDefinition, Static)
-function backend = setupBackends()
-  backend = init_backend("file_checksum");
-end
-end
 
 methods(TestClassSetup)
 function create_file(tc)
@@ -39,12 +33,18 @@ end
 methods (Test)
 
 function test_hash_text(tc, Ph, backend)
+
 [r, b] = stdlib.file_checksum(tc.file, Ph{1}, backend);
 tc.assertEqual(char(b), backend)
 tc.verifyClass(r, 'char')
 
-tc.verifyEqual(r, Ph{2})
+if ismember(backend, stdlib.Backend().select('file_checksum'))
+  tc.verifyEqual(r, Ph{2})
+else
+  tc.assertEmpty(r)
 end
+end
+
 
 function test_has_convenience(tc, Ph)
 switch Ph{1}
