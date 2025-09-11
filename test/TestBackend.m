@@ -130,7 +130,8 @@ tc.verifyThat(i, IsFile)
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('samepath').backends))
 tc.verifyTrue(i)
 
-[i, b] = stdlib.set_modtime("nobody", datetime());
+tc.assertTrue(stdlib.touch('time.txt'))
+[i, b] = stdlib.set_modtime("time.txt", datetime());
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('set_modtime').backends))
 tc.verifyNotEmpty(i)
 
