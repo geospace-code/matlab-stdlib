@@ -7,7 +7,7 @@ switch class(e)
         % pass
       case {'MATLAB:undefinedVarOrClass', 'MATLAB:NET:NETInterfaceUnsupported'}
         % .NET not enabled
-      case 'MATLAB:subscripting:classHasNoPropertyOrMethod'
+      case {'MATLAB:NET:INVALIDMEMBER', 'MATLAB:subscripting:classHasNoPropertyOrMethod', 'MATLAB:NET:CLRException:MethodInvoke'}
         % .NET too old or not supported on this platform
       otherwise
         rethrow(e)

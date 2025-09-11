@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2021a', 'symlink', 'impure'}) ...
+          TestTags = {'R2019b', 'symlink', 'impure'}) ...
     TestSymlink < matlab.unittest.TestCase
 
 properties
@@ -12,18 +12,8 @@ p = {{"not-exist", false}, ...
     {mfilename("fullpath") + ".m", false}, ...
     {"", false}};
 Pre = {'', "", tempname()}
-B_create_symlink
-B_read_symlink
-B_is_symlink
-end
-
-
-methods (TestParameterDefinition, Static)
-function [B_create_symlink, B_read_symlink, B_is_symlink] = setupBackends()
-B_create_symlink = init_backend("create_symlink");
-B_read_symlink = init_backend("read_symlink");
-B_is_symlink = init_backend("is_symlink");
-end
+B_create_symlink = {'native', 'dotnet', 'python', 'sys'}
+B_is_symlink = {'native', 'java', 'python', 'dotnet', 'sys'}
 end
 
 
@@ -50,24 +40,34 @@ function test_is_symlink(tc, p, B_is_symlink)
 [i, b] = stdlib.is_symlink(tc.link, B_is_symlink);
 
 tc.assertEqual(char(b), B_is_symlink)
+
+if ismember(B_is_symlink, stdlib.Backend().select('is_symlink'))
 tc.assertTrue(i, "failed to detect own link " + tc.link)
 
 tc.verifyEqual(stdlib.is_symlink(p{1}, B_is_symlink), p{2}, p{1})
+else
+  tc.verifyEmpty(i)
+end
 end
 
 
-function test_read_symlink_empty(tc, Pre, B_read_symlink)
-[r, b] = stdlib.read_symlink(Pre, B_read_symlink);
-tc.assertEqual(char(b), B_read_symlink)
+function test_read_symlink_empty(tc, Pre, B_is_symlink)
+[r, b] = stdlib.read_symlink(Pre, B_is_symlink);
+tc.assertEqual(char(b), B_is_symlink)
 
 tc.verifyEqual(r, string.empty)
 end
 
 
-function test_read_symlink(tc, B_read_symlink)
-r = stdlib.read_symlink(tc.link, B_read_symlink);
+function test_read_symlink(tc, B_is_symlink)
+r = stdlib.read_symlink(tc.link, B_is_symlink);
 tc.verifyClass(r, 'string')
-tc.verifyEqual(r, string(tc.target))
+
+if ismember(B_is_symlink, stdlib.Backend().select('read_symlink'))
+  tc.verifyEqual(r, string(tc.target))
+else
+  tc.verifyEmpty(r)
+end
 end
 
 
@@ -75,21 +75,50 @@ function test_create_symlink(tc, B_create_symlink)
 tc.applyFixture(matlab.unittest.fixtures.SuppressedWarningsFixture(["MATLAB:io:filesystem:symlink:TargetNotFound","MATLAB:io:filesystem:symlink:FileExists"]))
 
 ano = fullfile(pwd(), 'another.lnk');
-
-h = @stdlib.create_symlink;
-
-[i, b] = h('', tempname(), B_create_symlink);
-tc.assertEqual(char(b), B_create_symlink)
-
-tc.verifyFalse(i)
-tc.verifyFalse(h(tc.target, tc.link, B_create_symlink), "should fail for existing symlink")
-
-exp = true;
-
 tc.assertThat(ano, ~matlab.unittest.constraints.IsFile)
 tc.assertFalse(stdlib.is_symlink(ano))
 
-tc.verifyEqual(h(tc.target, ano, B_create_symlink), exp)
+r = stdlib.create_symlink(tc.target, ano, B_create_symlink);
+
+if ismember(B_create_symlink, stdlib.Backend().select('create_symlink'))
+  tc.verifyTrue(r)
+elseif ispc() && B_create_symlink == "native"
+  tc.verifyTrue(isempty(r) || r)
+else
+  tc.verifyEmpty(r)
+end
+end
+
+
+function test_create_symlink_empty(tc, B_create_symlink)
+[i, b] = stdlib.create_symlink('', tempname(), B_create_symlink);
+tc.assertEqual(char(b), B_create_symlink)
+
+if ismember(B_create_symlink, stdlib.Backend().select('create_symlink'))
+  if ispc() && B_create_symlink == "native"
+    tc.verifyTrue( isempty(i) || ~i )
+  else
+    tc.verifyFalse(i)
+  end
+else
+  tc.verifyTrue( isempty(i) || ~i )
+end
+end
+
+
+function test_create_symlink_exist(tc, B_create_symlink)
+i = stdlib.create_symlink(tc.target, tc.link, B_create_symlink);
+
+if ismember(B_create_symlink, stdlib.Backend().select('create_symlink'))
+  if ispc() && B_create_symlink == "native"
+    tc.verifyTrue( isempty(i) || ~i )
+  else
+    tc.verifyFalse(i, "should fail for existing symlink")
+  end
+else
+  tc.verifyTrue( isempty(i) || ~i )
+end
+
 end
 
 end
