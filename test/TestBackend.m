@@ -94,7 +94,12 @@ tc.verifyNotEmpty(i);
 
 [i, b] = stdlib.is_dev_drive('.');
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('is_dev_drive').backends))
-tc.verifyNotEmpty(i)
+if ~ispc() || stdlib.is_admin()
+  tc.verifyNotEmpty(i)
+else
+  tc.verifyEmpty(i)
+end
+
 
 [i, b] = stdlib.is_mount('.');
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('is_mount').backends))
