@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2021a', 'impure'}) ...
+          TestTags = {'R2019b', 'impure'}) ...
   TestDisk < matlab.unittest.TestCase
 
 properties
@@ -9,27 +9,9 @@ end
 properties (TestParameter)
 Ps = {".", "", "/", getenv("SystemDrive"), "not-exist"}
 Po = {mfilename("fullpath") + ".m", pwd(), ".", "", "not-exist"}
-B_disk
-B_is_removable
-B_is_mount
-B_hard_link_count
-B_filesystem_type
-B_owner
-B_device
-B_is_dev_drive
-end
-
-methods (TestParameterDefinition, Static)
-function [B_disk, B_is_removable, B_is_mount, B_hard_link_count, B_device, B_filesystem_type, B_owner, B_is_dev_drive] = setupBackends()
-B_disk = init_backend("disk_available");
-B_is_removable = init_backend("is_removable");
-B_is_mount = init_backend("is_mount");
-B_hard_link_count = init_backend("hard_link_count");
-B_device = init_backend('device');
-B_filesystem_type = init_backend("filesystem_type");
-B_owner = init_backend("get_owner");
-B_is_dev_drive = init_backend('is_dev_drive');
-end
+B_ps = {'python', 'sys'}
+B_jps = {'java', 'python', 'sys'}
+B_jdps = {'java', 'dotnet', 'python', 'sys'}
 end
 
 methods(TestClassSetup)
@@ -40,9 +22,9 @@ end
 
 methods (Test)
 
-function test_disk_available(tc, Ps, B_disk)
-[r, b] = stdlib.disk_available(Ps, B_disk);
-tc.assertEqual(char(b), B_disk)
+function test_disk_available(tc, Ps, B_jdps)
+[r, b] = stdlib.disk_available(Ps, B_jdps);
+tc.assertEqual(char(b), B_jdps)
 
 tc.verifyClass(r, 'uint64')
 
@@ -54,9 +36,9 @@ end
 end
 
 
-function test_disk_capacity(tc, Ps, B_disk)
-[r, b] = stdlib.disk_capacity(Ps, B_disk);
-tc.assertEqual(char(b), B_disk)
+function test_disk_capacity(tc, Ps, B_jdps)
+[r, b] = stdlib.disk_capacity(Ps, B_jdps);
+tc.assertEqual(char(b), B_jdps)
 
 tc.verifyClass(r, 'uint64')
 
@@ -68,46 +50,49 @@ end
 end
 
 
-function test_is_removable(tc, B_is_removable)
-[y, b] = stdlib.is_removable(pwd(), B_is_removable);
-tc.assertEqual(char(b), B_is_removable)
+function test_is_removable(tc, B_ps)
+[y, b] = stdlib.is_removable(pwd(), B_ps);
+tc.assertEqual(char(b), B_ps)
 tc.verifyClass(y, 'logical')
 end
 
-
-function test_is_mount(tc, B_is_mount)
-y = stdlib.is_mount(pwd(), B_is_mount);
+function test_is_mount(tc, B_ps)
+y = stdlib.is_mount(pwd(), B_ps);
 
 tc.verifyClass(y, 'logical')
-tc.verifyTrue(stdlib.is_mount("/", B_is_mount))
-tc.verifyEmpty(stdlib.is_mount(tempname(), B_is_mount))
+tc.verifyTrue(stdlib.is_mount("/", B_ps))
+tc.verifyEmpty(stdlib.is_mount(tempname(), B_ps))
 
 if ispc()
   sd = getenv("SystemDrive");
   tc.assertTrue(sd == stdlib.root_name(sd), sd)
-  tc.verifyFalse(stdlib.is_mount(sd, B_is_mount), sd)
-  tc.verifyTrue(stdlib.is_mount(sd + "/", B_is_mount), sd)
-  tc.verifyTrue(stdlib.is_mount(sd + "\", B_is_mount), sd)
+  tc.verifyFalse(stdlib.is_mount(sd, B_ps), sd)
+  tc.verifyTrue(stdlib.is_mount(sd + "/", B_ps), sd)
+  tc.verifyTrue(stdlib.is_mount(sd + "\", B_ps), sd)
 end
 end
 
 
-function test_hard_link_count(tc, B_hard_link_count)
+function test_hard_link_count(tc, B_jps)
 P = mfilename("fullpath") + ".m";
 
-[i, b] = stdlib.hard_link_count(P, B_hard_link_count);
-tc.assertEqual(char(b), B_hard_link_count)
+[i, b] = stdlib.hard_link_count(P, B_jps);
+tc.assertEqual(char(b), B_jps)
 
-tc.verifyGreaterThanOrEqual(i, 1)
+if ismember(B_jps, stdlib.Backend().select('hard_link_count'))
+  tc.verifyGreaterThanOrEqual(i, 1)
+else
+  tc.assertEmpty(i)
+end
 
 i = stdlib.hard_link_count('');
 tc.verifyEmpty(i)
 end
 
 
-function test_filesystem_type(tc, Ps, B_filesystem_type)
-[t, b] = stdlib.filesystem_type(Ps, B_filesystem_type);
-tc.assertEqual(char(b), B_filesystem_type)
+function test_filesystem_type(tc, Ps, B_jdps)
+[t, b] = stdlib.filesystem_type(Ps, B_jdps);
+tc.assertEqual(char(b), B_jdps)
 tc.verifyClass(t, 'char')
 
 if ~stdlib.exists(Ps)
@@ -120,9 +105,9 @@ end
 end
 
 
-function test_is_dev_drive(tc, B_is_dev_drive)
-[r, b] = stdlib.is_dev_drive(pwd(), B_is_dev_drive);
-tc.assertEqual(char(b), B_is_dev_drive)
+function test_is_dev_drive(tc, B_ps)
+[r, b] = stdlib.is_dev_drive(pwd(), B_ps);
+tc.assertEqual(char(b), B_ps)
 
 tc.verifyClass(r, 'logical')
 end
@@ -141,38 +126,47 @@ tc.verifyTrue(stdlib.remove(f), "failed to remove file " + f)
 end
 
 
-function test_device(tc, Po, B_device)
-[i, b] = stdlib.device(Po, B_device);
+function test_device(tc, Po, B_jps)
+[i, b] = stdlib.device(Po, B_jps);
 tc.verifyClass(i, 'uint64')
-tc.assertEqual(char(b), B_device)
+tc.assertEqual(char(b), B_jps)
 
-if ~stdlib.exists(Po)
-  tc.verifyEmpty(i)
+if ismember(B_jps, stdlib.Backend().select('device'))
+  if ~stdlib.exists(Po)
+    tc.verifyEmpty(i)
+  else
+    tc.assertNotEmpty(i)
+    tc.assertGreaterThan(i, 0)
+  end
 else
-  tc.assertNotEmpty(i)
-  tc.assertGreaterThan(i, 0)
+  tc.assertEmpty(i)
 end
 end
 
 
-function test_inode(tc, Po, B_device)
+function test_inode(tc, Po, B_jps)
 
-[i, b] = stdlib.inode(Po, B_device);
+[i, b] = stdlib.inode(Po, B_jps);
 tc.verifyClass(i, 'uint64')
-tc.assertEqual(char(b), B_device)
+tc.assertEqual(char(b), B_jps)
 
-if ~stdlib.exists(Po)
-  tc.verifyEmpty(i)
+if ismember(B_jps, stdlib.Backend().select('inode'))
+  if ~stdlib.exists(Po)
+    tc.verifyEmpty(i)
+  else
+    tc.assertNotEmpty(i)
+    tc.assertGreaterThan(i, 0)
+  end
 else
-  tc.assertNotEmpty(i)
-  tc.assertGreaterThan(i, 0)
+  tc.assertEmpty(i)
 end
+
 end
 
 
-function test_owner(tc, Po, B_owner)
-[o, b] = stdlib.get_owner(Po, B_owner);
-tc.assertEqual(char(b), B_owner)
+function test_owner(tc, Po, B_jdps)
+[o, b] = stdlib.get_owner(Po, B_jdps);
+tc.assertEqual(char(b), B_jdps)
 tc.verifyClass(o, 'char')
 
 if ~stdlib.exists(Po)
