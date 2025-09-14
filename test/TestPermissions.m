@@ -14,7 +14,7 @@ end
 end
 
 
-methods (Test, TestTags={'R2021a'})
+methods (Test, TestTags={'R2019b'})
 
 function test_get_permissions(tc, Ps)
 import matlab.unittest.constraints.StartsWithSubstring
@@ -25,7 +25,7 @@ tc.verifyClass(p, "char")
 if ~stdlib.exists(Ps)
   tc.verifyEmpty(p)
 else
-  if isMATLABReleaseOlderThan('R2025a')
+  if stdlib.matlabOlderThan('R2025a')
     tc.assertEqual(b, 'legacy')
   else
     tc.assertEqual(b, 'native')
@@ -66,7 +66,7 @@ tc.assertTrue(r)
 
 [p, b] = stdlib.get_permissions(nw);
 
-if isMATLABReleaseOlderThan('R2025a')
+if stdlib.matlabOlderThan('R2025a')
   tc.assertEqual(b, 'legacy')
 else
   tc.assertEqual(b, 'native')
@@ -88,7 +88,7 @@ import matlab.unittest.constraints.StartsWithSubstring
 
 % This ONLY works with the new setPermissions.
 % fileattrib can not even set the permissions on Linux.
-tc.assumeFalse(isMATLABReleaseOlderThan('R2025a'))
+tc.assumeFalse(stdlib.matlabOlderThan('R2025a'))
 
 nr = fullfile(pwd(), "no-read");
 
