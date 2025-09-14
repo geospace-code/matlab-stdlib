@@ -17,14 +17,16 @@ else
   cmd = sprintf('stat -c %%h ''%s''', file);
 end
 
-if stdlib.exists(file)
-  [status, output] = system(cmd);
-  if status == 0
-    if ispc()
-      n = 1 + startsWith(output, "HardLink");
-    else
-      n = str2double(output);
-    end
+if stdlib.strempty(file)
+  return
+end
+
+[status, output] = system(cmd);
+if status == 0
+  if ispc()
+    n = 1 + startsWith(output, "HardLink");
+  else
+    n = str2double(output);
   end
 end
 

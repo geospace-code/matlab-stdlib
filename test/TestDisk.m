@@ -99,6 +99,9 @@ P = mfilename("fullpath") + ".m";
 tc.assertEqual(char(b), B_hard_link_count)
 
 tc.verifyGreaterThanOrEqual(i, 1)
+
+i = stdlib.hard_link_count('');
+tc.verifyEmpty(i)
 end
 
 
