@@ -6,19 +6,23 @@
 %%% Outputs
 % ok: true if path is a file and has executable permissions
 %
-% the legacy backend is like 40x faster than native.
+% this method is like 40x faster than native.
 
-function [ok, b] = is_exe(file)
+function y = is_exe(file)
 arguments
-  file string
+  file (1,1) string
 end
 
-if isscalar(file)
-  ok = stdlib.legacy.is_exe(file);
-  b = 'legacy';
-else
-  ok = stdlib.native.is_exe(file);
-  b = 'native';
+y = false;
+
+if ispc() && ~stdlib.native.has_windows_executable_suffix(file)
+  return
+end
+
+a = stdlib.legacy.file_attributes(file);
+
+if ~isempty(a)
+  y = ~a.directory && (a.UserExecute || a.GroupExecute || a.OtherExecute);
 end
 
 end
