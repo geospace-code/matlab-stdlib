@@ -10,16 +10,16 @@ arguments
   file
 end
 
+t = datetime.empty;
+
 finf = dir(file);
-if isfolder(file)
+if ~isempty(finf) && finf.isdir
   % find which index of the struct array has member name == '.'
   i = find(strcmp({finf.name}, '.'), 1);
   finf = finf(i);
 end
 
-if isempty(finf)
-  t = datetime.empty;
-else
+if ~isempty(finf)
   t = datetime(finf.datenum, 'ConvertFrom', 'datenum');
 end
 
