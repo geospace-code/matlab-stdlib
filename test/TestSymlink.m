@@ -25,7 +25,7 @@ tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
 
 tc.link = fullfile(pwd(), 'my.lnk');
 
-tc.target = strcat(mfilename("fullpath"), '.m');
+tc.target = append(mfilename("fullpath"), '.m');
 
 tc.assumeTrue(stdlib.create_symlink(tc.target, tc.link), ...
     "failed to create test link " + tc.link)

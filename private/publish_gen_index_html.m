@@ -37,7 +37,7 @@ end
 copyfile(styleFile, outdir)
 
 [~, n, s] = fileparts(styleFile);
-styleName = strcat(n, s);
+styleName = append(n, s);
 [head, body] = index_html(styleName, pkg_name, tagline, git_txt, project_url);
 
 fid = fopen(readme, 'w');
@@ -71,7 +71,7 @@ outdir = fileparts(fopen(fid));
 %   pkg_name = pkg_name + "." + subname(2:end);
 %   relpath = subname(2:end) + "/";
 %   outdir = fullfile(outdir, relpath);
-%   fprintf(fid, strcat('<h3>', pkg_name, '</h3>', newline));
+%   fprintf(fid, append('<h3>', pkg_name, '</h3>', newline));
 % else
 relpath = "";
 % end

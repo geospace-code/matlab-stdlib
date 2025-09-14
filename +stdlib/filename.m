@@ -7,7 +7,7 @@
 
 function f = filename(p, backend)
 arguments
-  p (1,1) string
+  p
   backend = 'fileparts'
 end
 

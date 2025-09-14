@@ -17,7 +17,7 @@ if ispc()
   % Get-CimInstance works, but is 100x slower
   % c0 = 'pwsh -c "(Get-CimInstance -ClassName Win32_Volume -Filter \"DriveLetter = ''';
   % c2 = '''\").SerialNumber"';
-  % cmd = strcat(c0, rn, c2);
+  % cmd = append(c0, rn, c2);
 
   cmd = sprintf('vol "%s"', rn);
 elseif ismac()

@@ -9,7 +9,7 @@ if isempty(par)
   if ispc()
     rn = stdlib.root_name(pth);
     if strlength(pth) && strlength(rn) && startsWith(pth, rn)
-      par = strcat(rn, filesep);
+      par = append(rn, filesep);
     end
   end
 else
