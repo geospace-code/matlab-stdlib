@@ -3,26 +3,19 @@
 %%% Inputs
 % * p: path to file
 %%% Outputs
-% * s: size in bytes; NaN if file does not exist
+% * s: size in bytes; empty if file does not exist
 
 function s = file_size(p)
 arguments
-  p string
+  p (1,1) string
 end
 
-s = NaN(size(p));
+s = [];
 
-i = isfile(p);
+d = dir(p);
 
-if ~any(i)
-  return
-elseif isscalar(p)
-  d = dir(p);
-else
-  d = arrayfun(@dir, p(i));
+if isscalar(d) && ~d.isdir
+  s = d.bytes;
 end
-
-i = i & ~isempty(d);
-s(i) = [d.bytes];
 
 end
