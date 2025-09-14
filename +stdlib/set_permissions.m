@@ -19,23 +19,21 @@ arguments
   executable (1,1) {mustBeInteger}
 end
 
-b = '';
-
-if ~stdlib.exists(file)
-  ok = false;
-  return
-end
 
 try
   ok = stdlib.native.set_permissions(file, readable, writable, executable);
   b = 'native';
 catch e
-  if e.identifier ~= "MATLAB:UndefinedFunction"
-    rethrow(e)
+  switch e.identifier
+    case 'MATLAB:UndefinedFunction'
+      ok = stdlib.legacy.set_permissions(file, readable, writable, executable);
+      b = 'legacy';
+    case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
+      ok = false;
+      b = '';
+    otherwise
+      rethrow(e)
   end
-
-  ok = stdlib.legacy.set_permissions(file, readable, writable, executable);
-  b = 'legacy';
 end
 
 end
