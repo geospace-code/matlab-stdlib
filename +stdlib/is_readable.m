@@ -5,7 +5,7 @@
 %%% Outputs
 % ok: true if file is readable
 %
-% the legacy backend is actually significantly faster for single files
+% the legacy backend is like 40x faster than native
 
 function [ok, b] = is_readable(file)
 arguments

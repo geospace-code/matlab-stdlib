@@ -20,7 +20,6 @@ function test_get_permissions(tc, Ps)
 import matlab.unittest.constraints.StartsWithSubstring
 
 [p, b] = stdlib.get_permissions(Ps);
-
 tc.verifyClass(p, "char")
 
 if ~stdlib.exists(Ps)

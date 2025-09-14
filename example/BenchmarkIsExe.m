@@ -17,9 +17,9 @@ if ispc()
   e = e + ".exe";
 end
 
-tc.startMeasuring()
-y = fun(e);
-tc.stopMeasuring()
+while tc.keepMeasuring()
+  y = fun(e);
+end
 
 tc.verifyEqual(y, true)
 end

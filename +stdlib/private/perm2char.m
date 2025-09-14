@@ -2,22 +2,28 @@
 
 function p = perm2char(v)
 arguments
-  v (1,1)
+  v {mustBeScalarOrEmpty}
+end
+
+if isempty(v)
+  p = '';
+  return
 end
 
 
 p = '---------';
 
-if isa(v, "matlab.io.WindowsPermissions") || isa(v, "matlab.io.UnixPermissions")
-  if v.Readable,  p(1) = 'r'; end
-  if v.Writable,  p(2) = 'w'; end
-elseif isstruct(v)
-  if v.UserRead,  p(1) = 'r'; end
-  if v.UserWrite, p(2) = 'w'; end
-else
-  % cloud / remote locations we don't handle
-  p = '';
-  return
+switch class(v)
+  case {'matlab.io.WindowsPermissions', 'matlab.io.UnixPermissions'}
+    if v.Readable,  p(1) = 'r'; end
+    if v.Writable,  p(2) = 'w'; end
+  case 'struct'
+    if v.UserRead,  p(1) = 'r'; end
+    if v.UserWrite, p(2) = 'w'; end
+  otherwise
+    % cloud / remote locations we don't handle
+    p = '';
+    return
 end
 
 if isa(v, "matlab.io.WindowsPermissions") || ispc()

@@ -1,13 +1,11 @@
 function y = is_readable(file)
-arguments
-  file (1,1) string
-end
 
-if stdlib.exists(file)
-  a = stdlib.legacy.file_attributes(file);
+y = false;
+
+a = stdlib.legacy.file_attributes(file);
+
+if ~isempty(a)
   y = a.UserRead || a.GroupRead || a.OtherRead;
-else
-  y = false;
 end
 
 end

@@ -4,11 +4,17 @@ arguments
 end
 % need arguments and stdlib.strempty for Matlab < R2020b
 
-assert(~stdlib.strempty(p), 'Path must not be empty.');
+a = struct.empty;
+
+if stdlib.strempty(p)
+  return
+end
 
 [status, s] = fileattrib(p);
 
-assert(status == 1, "'%s' is not a file or directory.", p);
+if status ~= 1
+  return
+end
 
 a = s;
 for n = ["GroupRead", "GroupWrite", "GroupExecute", "OtherRead", "OtherWrite", "OtherExecute"]

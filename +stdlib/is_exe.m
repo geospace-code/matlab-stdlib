@@ -6,7 +6,7 @@
 %%% Outputs
 % ok: true if path is a file and has executable permissions
 %
-% the legacy backend is actually significantly faster for single files
+% the legacy backend is like 40x faster than native.
 
 function [ok, b] = is_exe(file)
 arguments
