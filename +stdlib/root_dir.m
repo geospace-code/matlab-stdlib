@@ -9,16 +9,16 @@
 % * root_dir('path/to/file') returns ''
 
 function r = root_dir(p)
-arguments
-  p (1,1) string
-end
-
-r = "";
 
 if startsWith(p, ["/", filesep])
   r = extractBefore(p, 2);
-elseif ispc() && ~isempty(regexp(p, '^[A-Za-z]:[\\/]','once'))
-  r = extractBetween(p, 3, 3);
+elseif ispc()
+  r = regexp(p, '(?<=^[A-Za-z]:)([\\/])', 'match', 'once');
+  if ismissing(r)
+    r = "";
+  end
+else
+  r = extractBefore(p, 1);
 end
 
 end

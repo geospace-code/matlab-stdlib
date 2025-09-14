@@ -77,7 +77,7 @@ if ismember(B_ps, stdlib.Backend().select('is_mount'))
 
   if ispc()
     sd = getenv("SystemDrive");
-    tc.assertTrue(sd == stdlib.root_name(sd), sd)
+    tc.assertEqual(sd, stdlib.root_name(sd))
     tc.verifyFalse(stdlib.is_mount(sd, B_ps), sd)
     tc.verifyTrue(stdlib.is_mount(sd + "/", B_ps), sd)
     tc.verifyTrue(stdlib.is_mount(sd + "\", B_ps), sd)

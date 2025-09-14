@@ -6,14 +6,11 @@
 
 
 function r = root_name(p)
-arguments
-  p (1,1) string
-end
-
-r = "";
 
 if ispc() && ~isempty(regexp(p, '^[A-Za-z]:', 'once'))
   r = extractBefore(p, 3);
+else
+  r = extractBefore(p, 1);
 end
 
 end
