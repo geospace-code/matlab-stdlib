@@ -9,14 +9,13 @@
 % * s: Character vector or string scalar containing the file name without directory or suffix.
 %
 % Note: fileparts() was about 100x faster then using multiple steps with pattern.
+
 function s = stem(filepath)
-arguments
-  filepath string
-end
 
 [~, s, e] = fileparts(filepath);
 
-i = stdlib.strempty(s);
-s(i) = e(i);
+if stdlib.strempty(s)
+  s = e;
+end
 
 end
