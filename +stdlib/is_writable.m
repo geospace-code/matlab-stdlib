@@ -3,21 +3,21 @@
 %%% Inputs
 % * file: path to file or folder
 %%% Outputs
-% * ok: true if file is writable
+% * y: true if file is writable
 %
-% the legacy backend is like 40x faster than native
+% this method is like 40x faster than native
 
-function [ok, b] = is_writable(file)
+function y = is_writable(file)
 arguments
-  file string
+  file (1,1) string
 end
 
-if isscalar(file)
-  ok = stdlib.legacy.is_writable(file);
-  b = 'legacy';
+a = stdlib.legacy.file_attributes(file);
+
+if isempty(a)
+  y = false;
 else
-  ok = stdlib.native.is_writable(file);
-  b = 'native';
+  y = a.UserWrite || a.GroupWrite || a.OtherWrite;
 end
 
 end

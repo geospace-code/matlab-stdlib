@@ -3,21 +3,21 @@
 %%% Inputs
 % file: single path string
 %%% Outputs
-% ok: true if file is readable
+% y: true if file is readable
 %
-% the legacy backend is like 40x faster than native
+% this method is like 40x faster than native
 
-function [ok, b] = is_readable(file)
+function y = is_readable(file)
 arguments
-  file string
+  file (1,1) string
 end
 
-if isscalar(file)
-  ok = stdlib.legacy.is_readable(file);
-  b = 'legacy';
+a = stdlib.legacy.file_attributes(file);
+
+if isempty(a)
+  y = false;
 else
-  ok = stdlib.native.is_readable(file);
-  b = 'native';
+  y = a.UserRead || a.GroupRead || a.OtherRead;
 end
 
 end
