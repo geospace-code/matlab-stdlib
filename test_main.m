@@ -1,6 +1,6 @@
 %% TEST_MAIN Run all tests
 %
-% R2021a+ needed for over half of the tests
+% Matlab >= R2020a recommended
 
 function test_main(context, sel)
 arguments
@@ -26,7 +26,16 @@ catch e
   if e.identifier ~= "MATLAB:InputParser:UnmatchedParameter"
     rethrow(e)
   end
-  suite = testsuite(test_root, 'Tag', tags);
+
+  try
+    suite = testsuite(test_root, 'Tag', tags);
+  catch e
+    if e.identifier == "MATLAB:expectedScalartext"
+      suite = testsuite(test_root, 'Tag', "R2019b");
+    else
+      rethrow(e)
+    end
+  end
 end
 
 % selectIf takes the subset of suite tests that meet "sel" conditions

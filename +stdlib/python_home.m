@@ -6,7 +6,7 @@ try
   pe = pyenv();
   h = pe.Home;
 catch
-  h = '';
+  h = string.empty;
 end
 
 end
