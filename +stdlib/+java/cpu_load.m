@@ -14,7 +14,7 @@ try
   end
 catch e
   javaException(e)
-  L = logical.empty;
+  L = [];
 end
 
 end
