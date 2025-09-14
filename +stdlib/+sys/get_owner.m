@@ -13,6 +13,7 @@ else
   cmd = sprintf('stat -c %%U "%s"', file);
 end
 
+% Windows needs exists() rather than just ~strempty()
 if stdlib.exists(file)
   [s, m] = system(cmd);
   if s == 0

@@ -4,8 +4,10 @@ arguments
 end
 
 cmd = '';
-y = logical.empty;
-if ~stdlib.exists(filepath), return, end
+if ~stdlib.exists(filepath)
+  y = false;
+  return
+end
 
 if ispc()
   if ismember(filepath, ["/", "\"]) || ...

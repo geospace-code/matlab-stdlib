@@ -67,18 +67,23 @@ tc.verifyClass(y, 'logical')
 end
 
 function test_is_mount(tc, B_ps)
-y = stdlib.is_mount(pwd(), B_ps);
-
+[y,b] = stdlib.is_mount(pwd(), B_ps);
+tc.assertEqual(char(b), B_ps)
 tc.verifyClass(y, 'logical')
-tc.verifyTrue(stdlib.is_mount("/", B_ps))
-tc.verifyEmpty(stdlib.is_mount(tempname(), B_ps))
 
-if ispc()
-  sd = getenv("SystemDrive");
-  tc.assertTrue(sd == stdlib.root_name(sd), sd)
-  tc.verifyFalse(stdlib.is_mount(sd, B_ps), sd)
-  tc.verifyTrue(stdlib.is_mount(sd + "/", B_ps), sd)
-  tc.verifyTrue(stdlib.is_mount(sd + "\", B_ps), sd)
+if ismember(B_ps, stdlib.Backend().select('is_mount'))
+  tc.verifyTrue(stdlib.is_mount("/", B_ps))
+  tc.verifyFalse(stdlib.is_mount(tempname(), B_ps))
+
+  if ispc()
+    sd = getenv("SystemDrive");
+    tc.assertTrue(sd == stdlib.root_name(sd), sd)
+    tc.verifyFalse(stdlib.is_mount(sd, B_ps), sd)
+    tc.verifyTrue(stdlib.is_mount(sd + "/", B_ps), sd)
+    tc.verifyTrue(stdlib.is_mount(sd + "\", B_ps), sd)
+  end
+else
+  tc.verifyEmpty(y)
 end
 end
 
@@ -105,12 +110,16 @@ function test_filesystem_type(tc, Ps, B_jdps)
 tc.assertEqual(char(b), B_jdps)
 tc.verifyClass(t, 'char')
 
-if ~stdlib.exists(Ps)
-  tc.verifyEmpty(t)
+if ismember(B_jdps, stdlib.Backend().select('filesystem_type'))
+  if ~stdlib.exists(Ps)
+    tc.verifyEmpty(t)
+  else
+    tc.assumeFalse(isempty(t) && tc.CI, "Some CI block viewing their filesystem type")
+    tc.assertNotEmpty(t)
+    tc.verifyGreaterThan(strlength(t), 0)
+  end
 else
-  tc.assumeFalse(isempty(t) && tc.CI, "Some CI block viewing their filesystem type")
-  tc.assertNotEmpty(t)
-  tc.verifyGreaterThan(strlength(t), 0)
+  tc.verifyEmpty(t)
 end
 end
 

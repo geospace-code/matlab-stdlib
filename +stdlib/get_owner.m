@@ -13,7 +13,7 @@ arguments
   backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 
-r = string.empty;
+r = '';
 
 for b = backend
   switch b
