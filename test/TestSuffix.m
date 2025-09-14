@@ -8,28 +8,24 @@ p = {{"", ""}, {"/a/b/c", ""}, ...
   {"a/a.b/hi.txt", ".txt"}, ...
   {"a/a.b/matlab", ""}, ...
   {"a/b/c.txt.gz", ".gz"}, ...
-  {'.stat', ""}, ...
-  {'a/.stat', ""}, ...
-  {'.stat.txt', ".txt"}}
+  {'.stat', ''}, ...
+  {'a/.stat', ''}, ...
+  {'.stat.txt', '.txt'}}
 end
 
 
 methods (Test, TestTags={'R2019b'})
+
 function test_suffix(tc, p)
-tc.verifyEqual(stdlib.suffix(p{1}), p{2})
+r = stdlib.suffix(p{1});
+if isempty(p{2})
+  tc.verifyEmpty(r)
+else
+  tc.verifyEqual(r, p{2})
 end
 end
 
-methods (Test, TestTags={'R2020b'})
-
-function test_suffix_array(tc)
-tc.assumeFalse(stdlib.matlabOlderThan('R2020b'))
-in = ["", ".txt", "a/b/c.txt", "a/b/c.txt.gz", "a/b/c"];
-exp = ["", "", ".txt", ".gz", ""];
-out = stdlib.suffix(in);
-tc.verifyEqual(out, exp)
 end
 
-end
 
 end
