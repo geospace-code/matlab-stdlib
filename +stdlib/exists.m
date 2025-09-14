@@ -10,6 +10,9 @@
 % * ok: true if exists
 
 function y = exists(p)
+arguments
+  p string
+end
 
 y = isfile(p) | isfolder(p);
 
