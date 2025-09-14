@@ -15,16 +15,19 @@ end
 switch backend
   case 'fileparts'
     [~, f, ext] = fileparts(p);
-    f = f + ext;
+    f = append(f, ext);
 % the pattern backend is a litle slower than regexp. Commented out for < R2020b compatibility
   % case 'pattern'
   %   f = extractAfter(p, asManyOfPattern(wildcardPattern + ("/" | filesep)));
   case 'regexp'
-    f = regexp(p, ['[^/\' filesep ']*$'], 'match', 'once');
-    if ismissing(f)
-      f = "";
+    i = regexp(p, ['[^/\' filesep ']*$'], 'once');
+    if isempty(i)
+      f = extractBefore(p, 1);
+    else
+      f = extractAfter(p, i-1);
     end
-  otherwise, error('must be backend "pattern", "regexp" or "fileparts"')
+  otherwise
+    error('must be backend "regexp" or "fileparts"')
 end
 
 end
