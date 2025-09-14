@@ -9,9 +9,6 @@ o = '';
 
 try
   ntAccountType = System.Type.GetType('System.Security.Principal.NTAccount');
-  if isempty(ntAccountType)
-    return
-  end
 
   if isfolder(file)
     fsec = System.IO.Directory.GetAccessControl(file);

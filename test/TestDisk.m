@@ -28,11 +28,16 @@ tc.assertEqual(char(b), B_jdps)
 
 tc.verifyClass(r, 'uint64')
 
-if stdlib.exists(Ps)
-  tc.verifyGreaterThanOrEqual(r, 0)
+if ismember(B_jdps, stdlib.Backend().select('disk_available'))
+  if stdlib.exists(Ps)
+    tc.verifyGreaterThanOrEqual(r, 0)
+  else
+    tc.verifyEmpty(r)
+  end
 else
   tc.verifyEmpty(r)
 end
+
 end
 
 
@@ -42,11 +47,16 @@ tc.assertEqual(char(b), B_jdps)
 
 tc.verifyClass(r, 'uint64')
 
-if stdlib.exists(Ps)
-  tc.verifyGreaterThanOrEqual(r, 0)
+if ismember(B_jdps, stdlib.Backend().select('disk_capacity'))
+  if stdlib.exists(Ps)
+    tc.verifyGreaterThanOrEqual(r, 0)
+  else
+    tc.verifyEmpty(r)
+  end
 else
   tc.verifyEmpty(r)
 end
+
 end
 
 
@@ -169,10 +179,14 @@ function test_owner(tc, Po, B_jdps)
 tc.assertEqual(char(b), B_jdps)
 tc.verifyClass(o, 'char')
 
-if ~stdlib.exists(Po)
-  tc.verifyEqual(o, '')
+if ismember(B_jdps, stdlib.Backend().select('get_owner'))
+  if ~stdlib.exists(Po)
+    tc.verifyEqual(o, '')
+  else
+    tc.verifyGreaterThan(strlength(o), 0)
+  end
 else
-  tc.verifyGreaterThan(strlength(o), 0)
+  tc.verifyEmpty(o)
 end
 
 end
