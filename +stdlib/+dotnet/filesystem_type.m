@@ -4,6 +4,7 @@ function t = filesystem_type(file)
 
 
 t = '';
+% Windows needs exists() not just strempty()
 if ~stdlib.exists(file)
   return
 end

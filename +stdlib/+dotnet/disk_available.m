@@ -3,6 +3,7 @@
 function i = disk_available(file)
 
 i = uint64.empty;
+% Windows needs exists() not just strempty()
 if ~stdlib.exists(file)
   return
 end
