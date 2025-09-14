@@ -16,6 +16,7 @@ arguments
 end
 
 ok = false;
+featureName = string.empty;
 
 % If ~feature('webui'), Java can crash while checking out the license cache.
 % feature('webui') is false for Matlab < R2025a if not using the "New Desktop"
@@ -34,8 +35,7 @@ if isempty(name)
 end
 
 if ~usejava('jvm')
-  disp('Java must be enabled to lookup license names.')
-  return
+  warning('Java must be enabled to lookup license names.')
 end
 
 featureName = product2feature(name);
