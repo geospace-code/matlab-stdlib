@@ -9,13 +9,10 @@
 % this method is like 40x faster than native.
 
 function y = is_exe(file)
-arguments
-  file (1,1) string
-end
 
 y = false;
 
-if ispc() && ~stdlib.native.has_windows_executable_suffix(file)
+if ispc() && ~has_windows_executable_suffix(file)
   return
 end
 

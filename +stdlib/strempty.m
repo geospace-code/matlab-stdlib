@@ -7,6 +7,8 @@ if isempty(s)
   y = true;
 elseif ischar(s)
   y = isempty(s);
+elseif iscell(s)
+  y = strlength(s) == 0;
 elseif isstring(s)
   y = (strlength(s) == 0) | ismissing(s);
 end
