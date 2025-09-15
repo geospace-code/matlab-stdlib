@@ -1,5 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'impure'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}) ...
     TestExists < matlab.unittest.TestCase
 
 properties (TestParameter)
@@ -18,19 +17,28 @@ end
 methods (Test, TestTags={'R2018a'})
 
 function test_exists(tc, Ps)
-ok = stdlib.exists(Ps{1});
-tc.verifyEqual(ok, Ps{2}, Ps{1})
+r = stdlib.exists(Ps{1});
+tc.verifyEqual(r, Ps{2}, Ps{1})
+
+r = stdlib.exists(string(Ps{1}));
+tc.verifyEqual(r, Ps{2})
 end
 
 
 function test_is_readable(tc, Ps)
 r = stdlib.is_readable(Ps{1});
 tc.verifyEqual(r, Ps{2})
+
+r = stdlib.is_readable(string(Ps{1}));
+tc.verifyEqual(r, Ps{2});
 end
 
 function test_is_writable(tc, Ps)
 r = stdlib.is_writable(Ps{1});
 tc.verifyEqual(r, Ps{2})
+
+r = stdlib.is_writable(string(Ps{1}));
+tc.verifyEqual(r, Ps{2});
 end
 end
 
@@ -46,6 +54,8 @@ tc.assertClass(r, 'logical')
 
 if ismember(B_is_char_device, stdlib.Backend().select('is_char_device'))
   tc.verifyTrue(r, n)
+
+  tc.verifyTrue(stdlib.is_char_device(string(n), B_is_char_device))
 else
   tc.verifyEmpty(r)
 end
@@ -58,11 +68,10 @@ end
 function Ps = init_val()
 Ps = {
   {pwd(), true}, ...
-  {mfilename("fullpath") + ".m", true}, ...
-  {fileparts(mfilename("fullpath")) + "/../Readme.md", true}, ...
+  {[mfilename("fullpath"), '.m'], true}, ...
+  {[fileparts(mfilename("fullpath")), '/../Readme.md'], true}, ...
   {tempname(), false}, ...
-  {'', false}, ...
-  {"", false}
+  {'', false}
 };
 if ispc()
   % On Windows, the root of the system drive is considered to exist
