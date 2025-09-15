@@ -1,22 +1,17 @@
-function ok = set_modtime(file, dt)
-arguments
-  file (1,1) string
-  dt (1,1) datetime
-end
+function ok = set_modtime(file, time)
 
-if ~isfile(file)
-  ok = false;
-  return
-end
-
-utc = convertTo(datetime(dt, 'TimeZone', "UTC"), "posixtime");
+utc = convertTo(datetime(time, 'TimeZone', "UTC"), "posixtime");
 
 try
   s = py.os.stat(file);
   py.os.utime(file, py.tuple([s.st_atime, utc]));
   ok = true;
 catch e
-  ok = logical.empty;
+  if e.identifier == "MATLAB:Python:PyException" && contains(e.message, "FileNotFoundError")
+    ok = false;
+  else
+    ok = logical.empty;
+  end
 end
 
 end
