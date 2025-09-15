@@ -32,18 +32,19 @@ catch e
   try
     suite = testsuite(test_root, 'Tag', rtags);
   catch e
-    if e.identifier == "MATLAB:expectedScalartext"
-      suite = testsuite(test_root);
+    switch e.identifier
+      case {'MATLAB:expectedScalartext', 'MATLAB:expectedScalar'}
+        suite = testsuite(test_root);
 
-      assert(numel(rtags) > 0, "No test tags found for this Matlab release")
-      ts = HasTag(rtags(1));
-      if numel(rtags) > 1
-        for t = rtags(2:end)
-          ts = ts | HasTag(t);
+        assert(numel(rtags) > 0, "No test tags found for this Matlab release")
+        ts = HasTag(rtags(1));
+        if numel(rtags) > 1
+          for t = rtags(2:end)
+            ts = ts | HasTag(t);
+          end
         end
-      end
-      sel = sel & ts;
-    else
+        sel = sel & ts;
+    otherwise
       rethrow(e)
     end
   end
