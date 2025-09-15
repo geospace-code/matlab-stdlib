@@ -18,7 +18,7 @@ if stdlib.strempty(p)
     p = string(p);
   end
 elseif ispc() && strcmp(p, stdlib.root_name(file))
-  p = append(p, '/');
+  p = stdlib.append(p, '/');
 end
 
 end

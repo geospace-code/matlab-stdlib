@@ -31,15 +31,15 @@ if stdlib.is_absolute(base)
 else
   c = pwd();
   if ~stdlib.strempty(base)
-    c = append(c, '/', base);
+    c = stdlib.append(c, '/', base);
   end
 end
 
 if ~stdlib.strempty(p)
   if endsWith(c, ["/", filesep])
-    c = append(c, p);
+    c = stdlib.append(c, p);
   else
-    c = append(c, '/', p);
+    c = stdlib.append(c, '/', p);
   end
 end
 

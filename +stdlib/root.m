@@ -3,6 +3,6 @@
 
 function r = root(p)
 
-r = append(stdlib.root_name(p), stdlib.root_dir(p));
+r = stdlib.append(stdlib.root_name(p), stdlib.root_dir(p));
 
 end

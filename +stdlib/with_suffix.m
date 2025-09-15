@@ -14,6 +14,6 @@ if stdlib.strempty(f)
   f = p;
 end
 
-f = append(f, suffix);
+f = stdlib.append(f, suffix);
 
 end

@@ -45,9 +45,9 @@ for p = fpath
   if stdlib.strempty(p), continue, end
 
   if endsWith(p, ["/", filesep])
-    e = p + cmd;
+    e = stdlib.append(p, cmd);
   else
-    e = p + "/" + cmd;
+    e = stdlib.append(p, '/', cmd);
   end
   if isfile(e) && stdlib.is_exe(e)
     if find_all

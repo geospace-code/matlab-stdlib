@@ -152,7 +152,7 @@ reader = java.io.BufferedReader(java.io.InputStreamReader(stream));
 
 line = reader.readLine();
 while ~isempty(line)
-  msg = append(msg, string(line), newline);
+  msg = stdlib.append(msg, string(line), newline);
   line = reader.readLine();
 end
 msg = strip(msg);

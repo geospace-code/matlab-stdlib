@@ -14,9 +14,9 @@ elseif ~stdlib.strempty(rdo)
 
   if ~stdlib.strempty(rnb)
     if endsWith(rnb, ["/", filesep])
-      p = append(rnb, other);
+      p = stdlib.append(rnb, other);
     else
-      p = append(rnb, '/', other);
+      p = stdlib.append(rnb, '/', other);
     end
   else
     p = other;
@@ -26,9 +26,9 @@ elseif ~stdlib.strempty(base)
 
   if ~stdlib.strempty(other)
     if endsWith(base, ["/", filesep])
-      p = append(base, other);
+      p = stdlib.append(base, other);
     else
-      p = append(base, '/', other);
+      p = stdlib.append(base, '/', other);
     end
   else
     p = base;

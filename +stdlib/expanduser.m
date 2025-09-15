@@ -29,7 +29,7 @@ if i1 - i0 == 0 || strlength(file) == i1
     e = string(e);
   end
 else
-  e = append(home, '/', extractAfter(file, i1));
+  e = stdlib.append(home, '/', extractAfter(file, i1));
 end
 
 end

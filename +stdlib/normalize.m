@@ -26,9 +26,9 @@ for i = i0:length(parts)
     if n == ""
       n = parts(i);
     elseif ismember(n, ["/", filesep])
-      n = append(n, parts(i));
+      n = stdlib.append(n, parts(i));
     else
-      n = append(n, '/', parts(i));
+      n = stdlib.append(n, '/', parts(i));
     end
   end
 end

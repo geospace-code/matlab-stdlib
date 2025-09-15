@@ -42,7 +42,7 @@ if ispc()
     end
   else
     if startsWith(co.ShortName, "INTEL" | "MSVC")
-      shell = join([append('"',string(co.Details.CommandLineShell),'"'), ...
+      shell = join([stdlib.append('"',string(co.Details.CommandLineShell),'"'), ...
                   co.Details.CommandLineShellArg], " ");
     elseif startsWith(co.ShortName, "mingw64")
       shell = "set PATH=" + fileparts(comp) + pathsep + "%PATH%";
