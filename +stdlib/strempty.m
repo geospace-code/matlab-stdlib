@@ -5,11 +5,10 @@ function y = strempty(s)
 
 if isempty(s)
   y = true;
-else
-  y = (strlength(s) == 0);
-  if isstring(s)
-    y = y | ismissing(s);
-  end
+elseif ischar(s)
+  y = isempty(s);
+elseif isstring(s)
+  y = (strlength(s) == 0) | ismissing(s);
 end
 
 end
