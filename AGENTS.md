@@ -25,3 +25,14 @@ These rules apply under the namespace "stdlib" (directory +stdlib/) and all its 
 - The code must not require any Matlab toolboxes, only base Matlab functionality
 - Prohibited to use Matlab factory function "isMATLABReleaseOlderThan()" as it is slow and not available for Matlab < R2020b. Instead we use stdlib.matlabOlderThan() which is like 200x faster than isMATLABReleaseOlderThan() and works for Matlab >= R2016b
 - When an exception is encountered, we generally desire that the code return an "empty" value of the appropriate type. In certain cases we may throw or rethrow an error.
+
+## Dev notes
+
+- The code in stdlib.python_version, stdlib.has_python has distinct use of persistent variables, we have carefully reviewed it and are satified with its performance and correctness regarding persistent variables.
+- I do not wish to implement cache reset in python_version() or perl_version().
+
+The code in the following list of stdlib.* functions is of the highest priority to be correct and efficient, as it's fundamental to correct filesystem operations. These functions are used by many other functions in this and other projects.
+
+```
+absolute(), canonical(), cpu_count(), exists(), expanduser(), file_checksum(), file_size(), filename(), h5save(), h5exists(), h5size(), is_absolute(), is_exe, join(), makedir(), parent(), posix(), resolve(), root(), samepath(), stem(), suffix(), with_suffix()
+```
