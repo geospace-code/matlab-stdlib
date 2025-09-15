@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'impure'}) ...
+          TestTags = {'R2019a'}) ...
   TestResolve < matlab.unittest.TestCase
 
 properties (TestParameter)
@@ -13,7 +13,7 @@ end
 end
 
 
-methods (Test, TestTags={'R2019b'})
+methods (Test)
 
 function test_resolve_relative(tc)
 import matlab.unittest.constraints.StartsWithSubstring

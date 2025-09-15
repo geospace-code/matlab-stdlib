@@ -9,11 +9,8 @@
 % * n: normalized path
 
 function n = normalize(apath)
-arguments
-  apath (1,1) string
-end
 
-parts = split(apath, ["/", filesep]);
+parts = split(string(apath), ["/", filesep]);
 i0 = 1;
 if startsWith(apath, ["/", filesep])
   n = extractBefore(apath, 2);
@@ -29,9 +26,9 @@ for i = i0:length(parts)
     if n == ""
       n = parts(i);
     elseif ismember(n, ["/", filesep])
-      n = n + parts(i);
+      n = append(n, parts(i));
     else
-      n = n + "/" + parts(i);
+      n = append(n, '/', parts(i));
     end
   end
 end
@@ -40,5 +37,8 @@ if stdlib.strempty(n)
   n = ".";
 end
 
+if ischar(apath)
+  n = char(n);
+end
 
 end

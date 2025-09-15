@@ -14,8 +14,15 @@ To detect if a specific language interface is available, we provide functions st
 There is a namespace stdlib.sys defined under +stdlib/+sys/ that provided system() calls using the system shell as a last-restort fallback if no external language interface is available on the end user computer running Matlab.
 The namespace stdlib.native and stdlib.legacy use plain Matlab code, and allow switching between "modern" and "legacy" implementations of functions as needed.
 
-The self-test functions under "test/" directory can be used by Matlab >= R2019b as invoked by "test_main.m" at the top level of the project directory.
+The self-test functions under "test/" directory can be used by Matlab >= R2019a as invoked by "test_main.m" at the top level of the project directory.
 Matlab >= R2022b can alternatively use "buildtool test" to run the self-tests.
+
+The key limitations to minimum Matlab version are:
+
+* R2017b: fileparts() supports string type. fileparts() is used in many places in the code as it's 5-10x faster than regexp() for filename parsing.
+* R2019a: append() for string and char types. strcat() has the side effect of trimming whitespace, so we prefer append() for string concatenation in case a user path has trailing whitespace.
+* R2019b: function argument validation block "arguments"
+
 
 ## Dev Rules
 
@@ -25,6 +32,7 @@ These rules apply under the namespace "stdlib" (directory +stdlib/) and all its 
 - The code must not require any Matlab toolboxes, only base Matlab functionality
 - Prohibited to use Matlab factory function "isMATLABReleaseOlderThan()" as it is slow and not available for Matlab < R2020b. Instead we use stdlib.matlabOlderThan() which is like 200x faster than isMATLABReleaseOlderThan() and works for Matlab >= R2016b
 - When an exception is encountered, we generally desire that the code return an "empty" value of the appropriate type. In certain cases we may throw or rethrow an error.
+- where the output represents a filesystem path, the output should be a string type if any input is string type, otherwise char type.
 
 ## Dev notes
 
