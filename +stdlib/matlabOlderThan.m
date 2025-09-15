@@ -4,6 +4,7 @@
 % our simpler checks is about 200x faster than isMATLABReleaseOlderThan(release)
 
 function isOlder = matlabOlderThan(release)
+assert(nargin == 1, 'Specify Matlab release like ''R2025a''')
 
 % converting to char about 2x fast as extract*() on string()
 % length on char 10+% faster than strlength(string())
@@ -11,6 +12,10 @@ r = char(release);
 assert(length(r) == 6 && r(1) == 'R', 'Matlab release must be like ''R2025a''')
 
 curr = version('-release');
+if isempty(curr)
+  isOlder = true;
+  return
+end
 
 if strcmp(curr(1:4), r(2:5))
   isOlder = curr(5) < r(6);
