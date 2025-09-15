@@ -10,9 +10,9 @@ if ~isempty(perle)
   return
 end
 
-cwd = fileparts(mfilename("fullpath"));
+ps = [fileparts(mfilename("fullpath")), '/private/executable.pl'];
 
-[r, s] = perl(cwd + "/private/executable.pl");
+[r, s] = perl(ps);
 
 if s == 0 && isfile(r)
   exe = r;
