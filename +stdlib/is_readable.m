@@ -9,7 +9,7 @@
 
 function y = is_readable(file)
 
-a = stdlib.legacy.file_attributes(file);
+a = file_attributes(file);
 
 if isempty(a)
   y = false;

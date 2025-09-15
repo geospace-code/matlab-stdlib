@@ -12,13 +12,20 @@ end
 
 ps = [fileparts(mfilename("fullpath")), '/private/executable.pl'];
 
-[r, s] = perl(ps);
+exe = string.empty;
+
+try
+  [r, s] = perl(ps);
+catch e
+  if strcmp(e.identifier, 'MATLAB:perl:FileNotFound')
+    return
+  end
+  rethrow(e)
+end
 
 if s == 0 && isfile(r)
   exe = r;
   perle = r;
-else
-  exe = string.empty;
 end
 
 end

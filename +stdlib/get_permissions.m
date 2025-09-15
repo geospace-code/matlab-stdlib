@@ -16,7 +16,7 @@ try
 catch e
   switch e.identifier
     case 'MATLAB:UndefinedFunction'
-      perm = perm2char(stdlib.legacy.file_attributes(file));
+      perm = perm2char(file_attributes(file));
       b = 'legacy';
     case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
       perm = '';

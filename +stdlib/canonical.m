@@ -22,7 +22,7 @@ if stdlib.strempty(file)
   return
 end
 
-[s, r] = fileattrib(file);
+[s, r] = fileAttribCompatible(file);
 
 if s == 1
   c = r.Name;

@@ -16,7 +16,7 @@ if ispc() && ~has_windows_executable_suffix(file)
   return
 end
 
-a = stdlib.legacy.file_attributes(file);
+a = file_attributes(file);
 
 if ~isempty(a)
   y = ~a.directory && (a.UserExecute || a.GroupExecute || a.OtherExecute);
