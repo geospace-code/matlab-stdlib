@@ -16,23 +16,31 @@
 % non-existant path is made absolute relative to pwd
 
 function c = absolute(p, base)
-arguments
-  p (1,1) string
-  base (1,1) string = pwd()
+if nargin < 2
+  base = pwd();
 end
 
-i = stdlib.is_absolute(p);
-c(i) = p(i);
+if stdlib.is_absolute(p)
+  c = p;
+  return
+end
 
 % avoid infinite recursion
-if ~stdlib.is_absolute(base)
-  base = fullfile(pwd(), base);
+if stdlib.is_absolute(base)
+  c = base;
+else
+  c = pwd();
+  if ~stdlib.strempty(base)
+    c = append(c, '/', base);
+  end
 end
 
-i = ~i;
-c(i) = base;
-
-i = i & ~stdlib.strempty(p);
-c(i) = fullfile(base, p(i));
+if ~stdlib.strempty(p)
+  if endsWith(c, ["/", filesep])
+    c = append(c, p);
+  else
+    c = append(c, '/', p);
+  end
+end
 
 end
