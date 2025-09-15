@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'pure'}) ...
+          TestTags = {'R2019a', 'pure'}) ...
     TestSuffix < matlab.unittest.TestCase
 
 properties (TestParameter)
@@ -14,7 +14,7 @@ p = {{"", ""}, {"/a/b/c", ""}, ...
 end
 
 
-methods (Test, TestTags={'R2019b'})
+methods (Test)
 
 function test_suffix(tc, p)
 r = stdlib.suffix(p{1});

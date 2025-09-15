@@ -3,9 +3,11 @@
 % Matlab >= R2020a recommended
 
 function test_main(context, sel)
-arguments
-  context = []
-  sel = ~HasTag("exe") & ~HasTag("java_exe")
+if nargin < 1
+  context = [];
+end
+if nargin < 2
+  sel = (~HasTag("exe") & ~HasTag("java_exe")) | HasTag("native_exe");
 end
 
 import matlab.unittest.TestRunner
@@ -18,20 +20,29 @@ else
 end
 test_root = fullfile(cwd, "test");
 
-tags = ["native_exe", releaseTestTags()];
+rtags = releaseTestTags();
 
 try
-  suite = testsuite(test_root, 'Tag', tags, 'InvalidFileFoundAction', "error");
+  suite = testsuite(test_root, 'Tag', rtags, 'InvalidFileFoundAction', "error");
 catch e
   if e.identifier ~= "MATLAB:InputParser:UnmatchedParameter"
     rethrow(e)
   end
 
   try
-    suite = testsuite(test_root, 'Tag', tags);
+    suite = testsuite(test_root, 'Tag', rtags);
   catch e
     if e.identifier == "MATLAB:expectedScalartext"
-      suite = testsuite(test_root, 'Tag', "R2019b");
+      suite = testsuite(test_root);
+
+      assert(numel(rtags) > 0, "No test tags found for this Matlab release")
+      ts = HasTag(rtags(1));
+      if numel(rtags) > 1
+        for t = rtags(2:end)
+          ts = ts | HasTag(t);
+        end
+      end
+      sel = sel & ts;
     else
       rethrow(e)
     end

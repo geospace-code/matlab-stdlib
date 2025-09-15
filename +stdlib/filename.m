@@ -6,9 +6,8 @@
 % filename (including suffix) without directory
 
 function f = filename(p, backend)
-arguments
-  p
-  backend = 'fileparts'
+if nargin < 2
+  backend = 'fileparts';
 end
 
 % fileparts is 5x to 10x faster than regexp and pattern

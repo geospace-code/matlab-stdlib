@@ -1,11 +1,9 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2019b', 'pure'}) ...
+          TestTags = {'R2019a', 'pure'}) ...
     TestIsAbsolute < matlab.unittest.TestCase
 
 properties (TestParameter)
-p = {{"", false}, {"x", false}, {"x:", false}}
-pu = {{"x:/foo", false}, {"/foo", true}}
-pw = {{"x:/foo", true}, {"/foo", false}}
+p = init_p()
 end
 
 
@@ -17,27 +15,16 @@ tc.verifyEqual(ok, p{2}, p{1})
 end
 
 end
-
-
-methods (Test, TestTags={'unix'})
-
-function test_is_absolute_unix(tc, pu)
-tc.assumeTrue(isunix())
-ok = stdlib.is_absolute(pu{1});
-tc.verifyEqual(ok, pu{2}, pu{1})
-end
-
 end
 
 
-methods (Test, TestTags={'windows'})
+function p = init_p()
+p = {{"", false}, {"x", false}, {"x:", false}};
 
-function test_is_absolute_windows(tc, pw)
-tc.assumeTrue(ispc())
-ok = stdlib.is_absolute(pw{1});
-tc.verifyEqual(ok, pw{2}, pw{1})
-end
-
+if ispc()
+  p = [p, {{"x:/foo", true}, {"/foo", false}}];
+else
+  p = [p, {{"x:/foo", false}, {"/foo", true}}];
 end
 
 end

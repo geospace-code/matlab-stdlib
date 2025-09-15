@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'pure'}) ...
+          TestTags = {'R2019a', 'pure'}) ...
     TestStem < matlab.unittest.TestCase
 
 properties (TestParameter)
@@ -19,7 +19,7 @@ p = {...
 end
 
 
-methods (Test, TestTags={'R2019b'})
+methods (Test)
 
 function test_stem(tc, p)
 tc.verifyEqual(stdlib.stem(p{1}), p{2})
