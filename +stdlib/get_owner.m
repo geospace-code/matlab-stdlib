@@ -9,7 +9,7 @@
 
 function [r, b] = get_owner(file, backend)
 arguments
-  file string
+  file
   backend (1,:) string = ["java", "dotnet", "python", "sys"]
 end
 

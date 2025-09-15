@@ -9,7 +9,7 @@
 
 function [i, b] = inode(file, backend)
 arguments
-  file string
+  file
   backend (1,:) string = ["java", "python", "sys"]
 end
 

@@ -20,7 +20,7 @@
 
 function [i, b] = is_char_device(file, backend)
 arguments
-  file string
+  file
   backend (1,:) string = ["python", "sys"]
 end
 

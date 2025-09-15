@@ -9,10 +9,6 @@
 % * b: backend used
 
 function [perm, b] = get_permissions(file)
-arguments
-  file (1,1) string
-end
-
 
 try
   perm = perm2char(filePermissions(file));

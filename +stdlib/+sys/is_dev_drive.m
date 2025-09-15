@@ -3,7 +3,6 @@ function [y, cmd] = is_dev_drive(fpath)
 y = false;
 cmd = '';
 
-
 if ispc()
   cmd = sprintf('fsutil devdrv query ''%s''', fpath);
   [s, m] = system(cmd);

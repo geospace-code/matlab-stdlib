@@ -9,7 +9,7 @@
 
 function [i, b] = is_dev_drive(file, backend)
 arguments
-  file (1,1) string
+  file
   backend (1,:) string = ["python", "sys"]
 end
 
