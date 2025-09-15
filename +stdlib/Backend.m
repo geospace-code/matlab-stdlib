@@ -24,9 +24,17 @@ end
 methods
 
 function self = Backend(functionName, backendReq)
-arguments
-  functionName (1,1) string = ""
-  backendReq (1,:) string = string.empty
+% arguments
+%   functionName (1,1) string = ""
+%   backendReq (1,:) string = string.empty
+% end
+if nargin < 1
+  functionName = "";
+end
+if nargin < 2
+  backendReq = string.empty;
+else
+  backendReq = string(backendReq);
 end
 
 if isempty(backendReq) || ~isscalar(backendReq)
@@ -46,11 +54,19 @@ end
 
 
 function backendAvailable = select(self, functionName, backendReq, firstOnly)
-arguments
-  self
-  functionName (1,1) string
-  backendReq (1,:) string = string.empty
-  firstOnly (1,1) logical = false
+% arguments
+%   self
+%   functionName (1,1) string
+%   backendReq (1,:) string = string.empty
+%   firstOnly (1,1) logical = false
+% end
+if nargin < 3
+  backendReq = string.empty;
+else
+  backendReq = string(backendReq);
+end
+if nargin < 4
+  firstOnly = false;
 end
 
 backendAvailable = string.empty;
@@ -129,10 +145,15 @@ end
 
 
 function func = getFunc(self, functionName, backendReq)
-arguments
-  self
-  functionName (1,1) string
-  backendReq (1,:) string = string.empty
+% arguments
+%   self
+%   functionName (1,1) string
+%   backendReq (1,:) string = string.empty
+% end
+if nargin < 3
+  backendReq = string.empty;
+else
+  backendReq = string(backendReq);
 end
 
 if isscalar(backendReq)
