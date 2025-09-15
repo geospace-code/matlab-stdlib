@@ -14,9 +14,9 @@ end
 if stdlib.sys.is_symlink(file)
   [s, m] = system(cmd);
   if s == 0
-    m = strip(string(m));
+    m = deblank(m);
     if strlength(m) > 0
-      r = m;
+      r = string(m);
     end
   end
 end

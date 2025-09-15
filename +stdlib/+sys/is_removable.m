@@ -36,16 +36,16 @@ if ispc()
 
 elseif ismac()
 
-  cmd2 = sprintf('diskutil info "%s"', m1);
+  cmd2 = sprintf('diskutil info "%s"', deblank(m1));
   [s2, m2] = system(cmd2);
   y = s2 == 0 && contains(m2, "Removable Media:" + whitespacePattern + "Removable");
 
 else
 
-  dev = strip(extractAfter(m1, '/dev/'));
+  dev = deblank(extractAfter(m1, '/dev/'));
   f1 = sprintf('/sys/class/block/%s/removable', dev);
   if isfile(f1)
-    y = strip(fileread(f1)) == "1";
+    y = startsWith(fileread(f1), '1');
   end
 
 end

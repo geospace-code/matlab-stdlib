@@ -17,7 +17,7 @@ end
 [r, msg] = system(cmd);
 
 if r == 0
-  s = strip(msg);
+  s = deblank(msg);
 else
   s = getenv("SHELL");
 end

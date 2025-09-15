@@ -15,7 +15,7 @@ if status ~= 0
   return
 end
 
-L = str2double(strip(m));
+L = str2double(m);
 
 if ispc()
   L = L / 100.;

@@ -11,7 +11,7 @@ end
 [s, m] = system(cmd);
 if s == 0
   if ispc()
-    i = strip(m);
+    i = deblank(m);
   else
     i = str2double(m);
   end

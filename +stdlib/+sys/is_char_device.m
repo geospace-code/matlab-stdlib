@@ -5,7 +5,7 @@ cmd = '';
 if ispc()
   % https://learn.microsoft.com/en-us/windows/console/console-handles
   charDevs = ["NUL", "CONIN$", "CONOUT$"];
-  ok = contains(file, charDevs);
+  ok = ismember(file, charDevs);
 else
   cmd = sprintf('test -c %s', file);
 

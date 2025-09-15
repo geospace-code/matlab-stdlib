@@ -94,6 +94,6 @@ setenv("GFORTRAN_STDOUT_UNIT", outold);
 setenv("GFORTRAN_STDERR_UNIT", errold);
 setenv("GFORTRAN_STDIN_UNIT", inold);
 
-msg = strip(msg);
+msg = deblank(msg);
 
 end

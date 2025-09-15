@@ -15,7 +15,7 @@ if ispc()
   a = getenv("PROCESSOR_ARCHITECTURE");
 else
   [~, a] = system('uname -m');
-  a = strip(a);
+  a = deblank(a);
 end
 
 end

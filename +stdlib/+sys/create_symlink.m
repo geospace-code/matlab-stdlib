@@ -10,7 +10,7 @@ else
   cmd = sprintf('ln -s "%s" "%s"', target, link);
 end
 
-if stdlib.exists(target) && strlength(link) && ~stdlib.exists(link)
+if stdlib.exists(target) && ~stdlib.strempty(link) && ~stdlib.exists(link)
   [stat, m] = system(cmd);
   ok = stat == 0;
 end

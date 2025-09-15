@@ -14,7 +14,7 @@ end
 if stdlib.exists(file)
   [s, m] = system(cmd);
   if s == 0
-    o = strip(m);
+    o = deblank(m);
   end
 end
 

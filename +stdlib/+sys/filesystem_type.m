@@ -1,7 +1,4 @@
 function [t, cmd] = filesystem_type(file)
-arguments
-  file (1,1) string
-end
 
 t = '';
 
@@ -19,7 +16,7 @@ end
 if stdlib.exists(file)
   [s, t] = system(cmd);
   if s == 0
-    t = strip(t);
+    t = deblank(t);
   end
 end
 

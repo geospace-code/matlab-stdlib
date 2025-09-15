@@ -10,14 +10,14 @@ end
 
 [s, os] = system(cmd1);
 if s == 0
-  os = strip(os);
+  os = deblank(os);
 else
   os = '';
 end
 
 [s, version] = system(cmd2);
 if s == 0
-  version = strip(version);
+  version = deblank(version);
 else
   version = '';
 end
