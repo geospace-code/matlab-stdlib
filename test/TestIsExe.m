@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'pure'}) ...
+          TestTags = {'R2019b', 'pure'}) ...
     TestIsExe < matlab.unittest.TestCase
 
 properties (TestParameter)
@@ -23,7 +23,7 @@ end
 end
 
 
-methods(Test, TestTags={'R2019b'})
+methods(Test)
 
 function test_is_exe(tc, p)
 r = stdlib.is_exe(p{1});

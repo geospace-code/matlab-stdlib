@@ -15,7 +15,7 @@ end
 end
 
 
-methods (Test, TestTags={'R2019b'})
+methods (Test, TestTags={'R2019a'})
 
 function test_exists(tc, Ps)
 ok = stdlib.exists(Ps{1});
@@ -32,8 +32,10 @@ function test_is_writable(tc, Ps)
 r = stdlib.is_writable(Ps{1});
 tc.verifyEqual(r, Ps{2})
 end
+end
 
 
+methods (Test, TestTags={'R2019b'})
 function test_is_char_device(tc, B_is_char_device)
 % /dev/stdin may not be available on CI systems
 n = stdlib.null_file();
@@ -48,7 +50,6 @@ else
   tc.verifyEmpty(r)
 end
 end
-
 end
 
 end
