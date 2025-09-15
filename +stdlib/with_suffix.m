@@ -7,16 +7,13 @@
 % * f: modified filename
 
 function f = with_suffix(p, suffix)
-arguments
-  p string
-  suffix string
-end
 
 f = extractBefore(p, stdlib.suffix(p));
 
-i = stdlib.strempty(f);
-f(i) = p(i);
+if stdlib.strempty(f)
+  f = p;
+end
 
-f = f + suffix;
+f = append(f, suffix);
 
 end
