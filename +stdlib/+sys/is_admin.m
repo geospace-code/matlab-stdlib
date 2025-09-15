@@ -13,12 +13,10 @@ if s ~= 0
   return
 end
 
-r = string(strip(r));
-
 if ispc()
-  y = r == "True";
+  y = startsWith(r, 'True');
 else
-  y = r == "0";
+  y = startsWith(r, '0');
 end
 
 end
