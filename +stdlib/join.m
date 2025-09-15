@@ -1,10 +1,6 @@
 %% JOIN join two paths with posix file separator
 
 function p = join(base, other)
-arguments
-  base (1,1) string
-  other (1,1) string
-end
 
 rno = stdlib.root_name(other);
 rnb = stdlib.root_name(base);
@@ -18,9 +14,9 @@ elseif ~stdlib.strempty(rdo)
 
   if ~stdlib.strempty(rnb)
     if endsWith(rnb, ["/", filesep])
-      p = rnb + other;
+      p = append(rnb, other);
     else
-      p = rnb + "/" + other;
+      p = append(rnb, '/', other);
     end
   else
     p = other;
@@ -30,9 +26,9 @@ elseif ~stdlib.strempty(base)
 
   if ~stdlib.strempty(other)
     if endsWith(base, ["/", filesep])
-      p = base + other;
+      p = append(base, other);
     else
-      p = base + "/" + other;
+      p = append(base, '/', other);
     end
   else
     p = base;
