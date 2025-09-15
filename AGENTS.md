@@ -20,6 +20,7 @@ Matlab >= R2022b can alternatively use "buildtool test" to run the self-tests.
 The key limitations to minimum Matlab version are:
 
 * R2017b: fileparts() supports string type. fileparts() is used in many places in the code as it's 5-10x faster than regexp() for filename parsing.
+* R2018a: fileattrib() supports string type
 * R2019b: function argument validation block "arguments"
 
 
