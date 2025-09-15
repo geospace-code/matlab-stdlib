@@ -1,9 +1,6 @@
 %% SYS.IS_REMOVABLE
 
 function y = is_removable(filepath)
-arguments
-  filepath (1,1) string
-end
 
 y = false;
 
@@ -14,7 +11,7 @@ if ispc()
   end
   r = extractBefore(r, 2);
 
-  psFile = fullfile(fileparts(mfilename('fullpath')), "isRemovableDrive.ps1");
+  psFile = fullfile(fileparts(mfilename('fullpath')), 'isRemovableDrive.ps1');
   mustBeFile(psFile)
 
   psCmd = sprintf('. ''%s''; IsRemovableDrive -DriveLetter ''%s''', psFile, r);

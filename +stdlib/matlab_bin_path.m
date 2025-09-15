@@ -9,9 +9,9 @@ function mpaths = matlab_bin_path()
 mpaths.arch = computer("arch");
 mpaths.root = matlabroot;
 
-mpaths.bin = fullfile(matlabroot, "bin");
+mpaths.bin = fullfile(matlabroot, 'bin');
 
-mpaths.extern_bin = fullfile(matlabroot, "extern/bin", mpaths.arch);
+mpaths.extern_bin = fullfile(matlabroot, 'extern/bin', mpaths.arch);
 
 mpaths.arch_bin = fullfile(mpaths.bin, mpaths.arch);
 

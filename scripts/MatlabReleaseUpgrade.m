@@ -49,7 +49,7 @@ end
 
 function exe = legacy_update_path(name)
 
-r = fullfile(matlabroot, "bin", computer("arch"));
+r = fullfile(matlabroot, 'bin', computer("arch"));
 mustBeFolder(r)
 exe = fullfile(r, name);
 
@@ -74,9 +74,9 @@ else
 end
 mustBeFolder(head)
 
-bin_tail = fullfile("bin", arch);
+bin_tail = fullfile('bin', arch);
 
-infoFile = fullfile(head, "LatestInstall.info");
+infoFile = fullfile(head, 'LatestInstall.info');
 mustBeFile(infoFile)
 fid = fopen(infoFile);
 while ~feof(fid)

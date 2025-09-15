@@ -37,7 +37,7 @@ tc.assertTrue(stdlib.is_mex_fun("stdlib.remove"))
 
 d = tc.createTemporaryFolder();
 
-tc.assumeTrue(stdlib.touch(fullfile(d, "junk.txt")))
+tc.assumeTrue(stdlib.touch(fullfile(d, 'junk.txt')))
 tc.verifyFalse(stdlib.remove(d), "should not remove directory recursively")
 end
 

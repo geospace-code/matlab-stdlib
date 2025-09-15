@@ -3,12 +3,11 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
     TestHDF4 < matlab.unittest.TestCase
 
 properties
-file
+file = fullfile(matlabroot, 'toolbox/matlab/demos/example.hdf')
 end
 
 methods (TestClassSetup)
-function setup_file(tc)
-tc.file = fullfile(matlabroot, "toolbox/matlab/demos/example.hdf");
+function check_file(tc)
 tc.assumeThat(tc.file, matlab.unittest.constraints.IsFile)
 end
 end
@@ -16,11 +15,10 @@ end
 methods (Test)
 
 function test_exists(tc)
-import matlab.unittest.constraints.IsScalar
 
 e = stdlib.h4exists(tc.file, "Example SDS");
 
-tc.verifyThat(e, IsScalar)
+tc.verifyThat(e, matlab.unittest.constraints.IsScalar)
 tc.verifyTrue(e);
 
 tc.verifyFalse(stdlib.h4exists(tc.file, "/j"))

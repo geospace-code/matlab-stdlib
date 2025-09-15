@@ -2,7 +2,7 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
     BenchmarkIsExe < matlab.perftest.TestCase
 
 properties
-exist = fullfile(matlabroot, "bin/matlab")
+exist = fullfile(matlabroot, 'bin/matlab')
 end
 
 properties (TestParameter)

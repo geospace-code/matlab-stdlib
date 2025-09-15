@@ -18,7 +18,7 @@ if isempty(context)
 else
   cwd = context.Plan.RootFolder;
 end
-test_root = fullfile(cwd, "test");
+test_root = [cwd, '/test'];
 
 rtags = releaseTestTags();
 

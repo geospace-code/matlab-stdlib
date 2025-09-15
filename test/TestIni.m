@@ -10,8 +10,6 @@ function test_example(tc)
 cwd = fileparts(mfilename('fullpath'));
 example = cwd + "/example.ini";
 
-tc.assertThat(example, matlab.unittest.constraints.IsFile)
-
 s = stdlib.ini2struct(example);
 tc.verifyClass(s, 'struct')
 tc.verifyEqual(s.DATA.keyNum, 113);

@@ -17,10 +17,10 @@
 % * b: backend used
 
 function [i, b] = samepath(path1, path2, backend)
-arguments
-  path1
-  path2
-  backend (1,:) string = ["python", "java", "perl", "sys", "native"]
+if nargin < 3
+  backend = ["python", "java", "perl", "sys", "native"];
+else
+  backend = string(backend);
 end
 
 i = logical.empty;

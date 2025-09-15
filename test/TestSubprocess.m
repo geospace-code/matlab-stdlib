@@ -54,11 +54,10 @@ methods (Test, TestTags={'exe'})
 % The test "buildtool test:exe" automatically builds them
 
 function test_stdout_stderr(tc, lang_out)
-import matlab.unittest.constraints.IsFile
 
 cwd = fileparts(mfilename('fullpath'));
 exe = fullfile(cwd, "stdout_stderr_" + lang_out + ".exe");
-tc.assumeThat(exe, IsFile)
+tc.assumeThat(exe, matlab.unittest.constraints.IsFile)
 
 [status, msg] = stdlib.subprocess_run(exe);
 

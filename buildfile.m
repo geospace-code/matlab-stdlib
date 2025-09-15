@@ -14,8 +14,8 @@ reportDir = fullfile(plan.RootFolder, 'reports');
 if ~isfolder(reportDir)
   mkdir(reportDir);
 end
-pkg_root = fullfile(plan.RootFolder, "+stdlib");
-test_root = fullfile(plan.RootFolder, "test");
+pkg_root = fullfile(plan.RootFolder, '+stdlib');
+test_root = fullfile(plan.RootFolder, 'test');
 
 if ~isMATLABReleaseOlderThan("R2023b")
   plan("clean") = matlab.buildtool.tasks.CleanTask();
@@ -114,7 +114,7 @@ function publishTask(context)
 pkg_name = '+stdlib';
 pkg_root = fullfile(context.Plan.RootFolder, pkg_name);
 html_dir = fullfile(pkg_root, 'html');
-contents = fullfile(pkg_root, "Contents.m");
+contents = fullfile(pkg_root, 'Contents.m');
 
 % styleFile = fullfile(context.Plan.RootFolder, "private/style.css");
 %
