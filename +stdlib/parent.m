@@ -9,16 +9,16 @@
 % stdlib.parent("a/b/c/") == "a/b"
 
 function p = parent(file)
-arguments
-  file (1,1) string
-end
 
 p = fileparts(stdlib.drop_slash(file));
 
 if stdlib.strempty(p)
-  p = ".";
-elseif ispc() && p == stdlib.root_name(file)
-  p = p + "/";
+  p = '.';
+  if isstring(file)
+    p = string(p);
+  end
+elseif ispc() && strcmp(p, stdlib.root_name(file))
+  p = append(p, '/');
 end
 
 end
