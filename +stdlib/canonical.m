@@ -7,29 +7,29 @@
 % This also resolves Windows short paths to long paths.
 %
 %%% Inputs
-% * p: path to make canonical
+% * file: path to make canonical
 % * strict: if true, only return canonical path if it exists. If false, return normalized path if path does not exist.
 %%% Outputs
 % * c: canonical path, if determined
-% * b: backend used
 
-function [c, b] = canonical(p, strict)
-arguments
-  p string
-  strict (1,1) logical = false
+function c = canonical(file, strict)
+if nargin < 2
+  strict = false;
 end
 
-try
-  c = stdlib.native.canonical(p, strict);
-  b = 'native';
-catch e
-  switch e.identifier
-    case {'MATLAB:UndefinedFunction', 'MATLAB:undefinedVarOrClass'}
-      c = stdlib.legacy.canonical(p, strict);
-      b = 'legacy';
-    otherwise
-      rethrow(e)
-  end
+if stdlib.strempty(file)
+  c = extractBefore(file, 1);
+  return
+end
+
+[s, r] = fileattrib(file);
+
+if s == 1
+  c = r.Name;
+elseif ~strict
+  c = stdlib.normalize(file);
+else
+  c = extractBefore(file, 1);
 end
 
 end

@@ -3,11 +3,11 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
   TestCanonical < matlab.unittest.TestCase
 
 properties (TestParameter)
-p = {{'', ""}, ...
+p = {{'', ''}, ...
 {"", ""}, ...
 {"not-exist", "not-exist"}, ...
 {"a/../b", "a/../b"}, ...
-{append(mfilename("fullpath"), '.m/..'), string(fileparts(mfilename("fullpath")))}, ...
+{append(mfilename("fullpath"), '.m/..'), fileparts(mfilename("fullpath"))}, ...
 {"not-exist/a/..", "not-exist/a/.."}, ...
 {"./not-exist", "not-exist"}
 };
@@ -22,33 +22,10 @@ end
 
 methods (Test, TestTags={'R2019b'})
 function test_canonical(tc, p)
-[c, b] = stdlib.canonical(p{1}, false);
-tc.verifyEqual(c, p{2})
-
-if stdlib.matlabOlderThan('R2024a')
-  tc.assertEqual(b, 'legacy')
-else
-  tc.assertEqual(b, 'native')
-end
-end
-
-function test_legacy_canonical(tc, p)
-c = stdlib.legacy.canonical(p{1}, false);
+c = stdlib.canonical(p{1}, false);
 tc.verifyEqual(c, p{2})
 end
-end
 
-
-methods (Test, TestTags={'R2024a'})
-function test_canonical_array(tc)
-tc.assumeFalse(stdlib.matlabOlderThan('R2024a'))
-
-in = ["", "hi", "/ok"];
-
-c = stdlib.canonical(in, false);
-exp = ["", "hi", "/ok"];
-tc.verifyEqual(c, exp)
-end
 end
 
 end

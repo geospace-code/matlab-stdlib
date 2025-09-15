@@ -48,8 +48,8 @@ function test_resolve_fullpath(tc, p)
 
 a = p;
 switch a
-  case {'', "", '.', "."}, b = string(pwd());
-  case {'..', ".."}, b = string(fileparts(pwd()));
+  case {'', "", '.', "."}, b = pwd();
+  case {'..', ".."}, b = fileparts(pwd());
 end
 
 tc.verifyEqual(stdlib.resolve(a, false), b)
