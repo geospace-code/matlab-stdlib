@@ -1,7 +1,4 @@
 function [y, cmd] = is_dev_drive(fpath)
-arguments
-  fpath (1,1) string
-end
 
 y = false;
 cmd = '';

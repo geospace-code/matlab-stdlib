@@ -2,19 +2,19 @@
 % resolve path, to cwd if relative
 % effectively canonical(absolute(p))
 %%% Inputs
-% * p: path to make absolute
+% * file: path to make absolute
+% * strict: if true, return empty if path does not exist (default: false)
 %%% Outputs
 % * c: resolved path
 
 % distinct from canonical(), resolve() always returns absolute path
 % non-existant path is made absolute relative to pwd
 
-function r = resolve(p, strict)
-arguments
-  p (1,1) string
-  strict (1,1) logical = false
+function r = resolve(file, strict)
+if nargin < 2
+  strict = false;
 end
 
-r = stdlib.canonical(stdlib.absolute(p), strict);
+r = stdlib.canonical(stdlib.absolute(file), strict);
 
 end

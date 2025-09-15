@@ -3,9 +3,6 @@
 % Powershell is 0, 1, or 2
 
 function [n, cmd] = hard_link_count(file)
-arguments
-  file (1,1) string
-end
 
 n = [];
 

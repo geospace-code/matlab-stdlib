@@ -1,9 +1,5 @@
 %% SYS.FILE_CHECKSUM compute checksum of file
 function [hash, cmd] = file_checksum(file, hash_method)
-arguments
-  file (1,1) string
-  hash_method (1,1) string
-end
 
 switch lower(hash_method)
   case {"sha-256", "sha256"}
@@ -27,7 +23,10 @@ end
 
 [s, m] = system(cmd);
 
-assert(s == 0, "failed to compute SHA256 hash of %s: %s", file, m)
+if s ~= 0
+  hash = '';
+  return
+end
 
 switch lower(hash_method)
   case {"sha-256", "sha256"}

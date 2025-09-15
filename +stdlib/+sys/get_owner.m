@@ -1,7 +1,4 @@
 function [o, cmd] = get_owner(file)
-arguments
-  file (1,1) string
-end
 
 o = '';
 

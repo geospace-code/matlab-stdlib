@@ -1,7 +1,4 @@
 function [ok, cmd] = is_char_device(file)
-arguments
-  file (1,1) string
-end
 
 cmd = '';
 

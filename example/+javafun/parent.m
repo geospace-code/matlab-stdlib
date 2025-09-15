@@ -1,7 +1,4 @@
 function par = parent(pth)
-arguments
-  pth (1,1) string
-end
 
 par = java.io.File(pth).getParent();
 if isempty(par)

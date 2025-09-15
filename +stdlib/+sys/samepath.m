@@ -1,8 +1,4 @@
 function y = samepath(path1, path2)
-arguments
-  path1 (1,1) string
-  path2 (1,1) string
-end
 
 y = false;
 

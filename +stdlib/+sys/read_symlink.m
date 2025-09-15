@@ -1,7 +1,4 @@
 function [r, cmd] = read_symlink(file)
-arguments
-  file (1,1) string
-end
 
 r = string.empty;
 

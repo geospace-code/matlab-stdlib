@@ -1,11 +1,9 @@
 function y = is_char_device(file)
-arguments
-  file (1,1) string
-end
 
 try
   y = py.pathlib.Path(file).is_char_device();
-catch
+catch e
+  pythonException(e)
   y = logical.empty;
 end
 
