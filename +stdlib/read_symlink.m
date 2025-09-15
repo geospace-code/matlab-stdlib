@@ -12,7 +12,7 @@
 
 function [r, b] = read_symlink(file, backend)
 arguments
-  file string
+  file
   backend (1,:) string = ["native", "java", "dotnet", "python", "sys"]
 end
 

@@ -9,7 +9,7 @@
 
 function [i, b] = is_symlink(file, backend)
 arguments
-  file (1,1) string
+  file
   backend (1,:) string = ["native", "java", "python", "dotnet", "sys"]
 end
 

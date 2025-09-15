@@ -1,11 +1,8 @@
 function a = file_attributes(p)
-arguments
-  p (1,1) string
-end
-% need arguments and stdlib.strempty for Matlab < R2020b
 
 a = struct.empty;
 
+% need stdlib.strempty for Matlab < R2020b
 if stdlib.strempty(p)
   return
 end

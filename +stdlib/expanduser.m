@@ -10,10 +10,6 @@
 % * e: expanded path
 
 function e = expanduser(file)
-arguments
-  file (1,1) string
-end
-
 
 pat = ['~[/\', filesep, ']+|^~$'];
 
@@ -25,12 +21,15 @@ if isempty(i0)
   return
 end
 
-home = string(stdlib.homedir());
+home = stdlib.homedir();
 
 if i1 - i0 == 0 || strlength(file) == i1
   e = home;
+  if isstring(file)
+    e = string(e);
+  end
 else
-  e = strjoin([home, extractAfter(file, i1)], filesep);
+  e = append(home, '/', extractAfter(file, i1));
 end
 
 end

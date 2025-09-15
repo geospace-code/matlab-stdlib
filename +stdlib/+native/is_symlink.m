@@ -1,11 +1,8 @@
 function i = is_symlink(file)
 
-try
+if ~stdlib.matlabOlderThan('R2024b')
   i = isSymbolicLink(file);
-catch e
-  if e.identifier ~= "MATLAB:UndefinedFunction"
-    rethrow(e)
-  end
+else
   i = logical.empty;
 end
 

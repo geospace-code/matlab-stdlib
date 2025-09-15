@@ -18,8 +18,8 @@
 
 function [i, b] = samepath(path1, path2, backend)
 arguments
-  path1 string
-  path2 string
+  path1
+  path2
   backend (1,:) string = ["python", "java", "perl", "sys", "native"]
 end
 

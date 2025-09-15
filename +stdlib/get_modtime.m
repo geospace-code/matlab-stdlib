@@ -6,9 +6,6 @@
 % * t: modification time, or empty if path does not exist
 
 function t = get_modtime(file)
-arguments
-  file
-end
 
 t = datetime.empty;
 

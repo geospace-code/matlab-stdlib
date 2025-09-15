@@ -8,9 +8,6 @@
 % this method is like 40x faster than native
 
 function y = is_readable(file)
-arguments
-  file (1,1) string
-end
 
 a = stdlib.legacy.file_attributes(file);
 

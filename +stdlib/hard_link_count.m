@@ -13,7 +13,7 @@
 
 function [i, b] = hard_link_count(file, backend)
 arguments
-  file string
+  file
   backend (1,:) string = ["java", "python", "sys"]
 end
 
