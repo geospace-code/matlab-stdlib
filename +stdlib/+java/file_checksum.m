@@ -2,12 +2,8 @@
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#getInstance(java.lang.String)
 
 function hash = file_checksum(file, hash_method)
-arguments
-  file (1,1) string
-  hash_method (1,1) string
-end
 
-if ismember(hash_method, ["sha256", "SHA256"])
+if strcmpi(hash_method, 'sha256')
   hash_method = "SHA-256";
 end
 
