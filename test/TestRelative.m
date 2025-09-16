@@ -40,7 +40,8 @@ pr = {{'', '', ''}, ...
 
 root = fileparts(fileparts(mfilename('fullpath')));
 if ~isempty(root)
-  pr{end+1} = {root, [root, '/test/', mfilename(), '.m'], ['test/', mfilename, '.m']};
+  pr{end+1} = {root, fullfile(root, 'test', [mfilename(), '.m']), ...
+                     fullfile('test', [mfilename, '.m'])};
 end
 
 
