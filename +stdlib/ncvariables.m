@@ -9,18 +9,11 @@
 % * names: variable names
 
 function names = ncvariables(file, group)
-arguments
-  file
-  group (1,1) string = ""
+if nargin < 2
+  group = '/';
 end
 
-
-if stdlib.strempty(group)
-  finf = ncinfo(file);
-else
-  finf = ncinfo(file, group);
-end
-
+finf = ncinfo(file, group);
 ds = finf.Variables(:);
 
 if isempty(ds)

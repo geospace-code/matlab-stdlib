@@ -10,15 +10,23 @@
 % * opts.dims: name and size of dimensions
 % * opts.type: class of variable e.g. int32, single
 
-function ncsave(filename, varname, A, opts)
-arguments
-  filename (1,1) string
-  varname (1,1) string
-  A {mustBeNonempty}
-  opts.dims cell = {}
-  opts.type (1,1) string = ""
-  opts.compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0
-end
+function ncsave(filename, varname, A, varargin)
+% arguments
+%   filename (1,1) string
+%   varname (1,1) string
+%   A {mustBeNonempty}
+%   opts.dims cell = {}
+%   opts.type (1,1) string = ""
+%   opts.compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0
+% end
+
+p = inputParser;
+addParameter(p, 'dims', {});
+addParameter(p, 'type', '');
+addParameter(p, 'compressLevel', 0, @(x) mustBeInteger(x) && mustBeNonnegative(x));
+parse(p, varargin{:});
+
+opts = p.Results;
 
 if isnumeric(A)
   mustBeReal(A)

@@ -2,13 +2,22 @@
 % normally users will use ncsave() instead of this function
 
 function ncsave_new(file, varname, A, sizeA, ncdims, compressLevel)
-arguments
-  file
-  varname
-  A
-  sizeA (1,:) double {mustBeInteger,mustBeNonnegative} = []
-  ncdims (1,:) cell = {}
-  compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0
+% arguments
+%   file
+%   varname
+%   A
+%   sizeA (1,:) double {mustBeInteger,mustBeNonnegative} = []
+%   ncdims (1,:) cell = {}
+%   compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0
+% end
+if nargin < 4
+  sizeA = [];
+end
+if nargin < 5
+  ncdims = {};
+end
+if nargin < 6
+  compressLevel = 0;
 end
 
 if isscalar(A)

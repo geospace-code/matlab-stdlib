@@ -2,12 +2,12 @@
 % normally users will use ncsave() instead of this function
 
 function ncsave_exist(filename, varname, A, sizeA)
-arguments
-  filename
-  varname
-  A
-  sizeA (1,:) {mustBePositive, mustBeInteger}
-end
+% arguments
+%   filename
+%   varname
+%   A
+%   sizeA (1,:) {mustBePositive, mustBeInteger}
+% end
 
 diskshape = stdlib.ncsize(filename, varname);
 

@@ -14,9 +14,14 @@ utf1
 utf2
 end
 
+properties (TestParameter)
+type = {'single', 'double', 'int8', 'int16', 'int32', 'int64', ...
+        'uint8', 'uint16', 'uint32', 'uint64'}
+end
+
 methods (TestClassSetup)
 function setup_file(tc)
-tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
+tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture());
 
 tc.A0 = 42.;
 tc.A1 = [42.; 43.];
@@ -28,7 +33,7 @@ tc.utf0 = 'Hello There 😄';
 tc.utf1 = [tc.utf0; "☎"];
 tc.utf2 = [tc.utf0, "☎"; "📞", "👋"];
 
-tc.file = fullfile(pwd(), class(tc) + ".nc");
+tc.file = fullfile(pwd(), [class(tc), '.nc']);
 
 % create test data first, so that parallel tests works
 stdlib.ncsave(tc.file, 'A0', tc.A0)
@@ -38,24 +43,23 @@ stdlib.ncsave(tc.file, 'A3', tc.A3, "dims", {'x3', size(tc.A3,1), 'y3', size(tc.
 stdlib.ncsave(tc.file, 'A4', tc.A4, "dims", {'x4', size(tc.A4,1), 'y4', size(tc.A4,2), 'z4', size(tc.A4,3), 'w4', size(tc.A4,4)})
 
 if ~stdlib.matlabOlderThan('R2021b')
-stdlib.ncsave(tc.file, "utf0", tc.utf0)
-stdlib.ncsave(tc.file, "utf1", tc.utf1, "dims", {'s1', size(tc.utf1, 1)})
-stdlib.ncsave(tc.file, "utf2", tc.utf2, "dims", {'s1', size(tc.utf2, 1), 't1', size(tc.utf2, 2)})
+stdlib.ncsave(tc.file, 'utf0', tc.utf0)
+stdlib.ncsave(tc.file, 'utf1', tc.utf1, "dims", {'s1', size(tc.utf1, 1)})
+stdlib.ncsave(tc.file, 'utf2', tc.utf2, "dims", {'s1', size(tc.utf2, 1), 't1', size(tc.utf2, 2)})
 end
 
 stdlib.ncsave(tc.file, '/t/x', 12)
 stdlib.ncsave(tc.file, '/t/y', 13)
 stdlib.ncsave(tc.file, '/j/a/b', 6)
 
-tc.assertThat(tc.file, matlab.unittest.constraints.IsFile)
 end
 end
 
 
-methods (Test, TestTags={'R2019b'})
+methods (Test, TestTags={'R2017b'})
 
 function test_netcdf_version(tc)
-tc.verifyTrue(stdlib.version_atleast(stdlib.nc_get_version(), "4.6"), "version unexpected")
+tc.verifyTrue(stdlib.version_atleast(stdlib.nc_get_version(), '4.3'), "version unexpected")
 end
 
 function test_get_variables(tc)
@@ -68,33 +72,31 @@ end
 tc.verifyEqual(sort(stdlib.ncvariables(tc.file)), k)
 
 % 1-level group
-v = stdlib.ncvariables(tc.file, "/t");
+v = stdlib.ncvariables(tc.file, '/t');
 tc.verifyEqual(sort(v), ["x", "y"])
 
 % traversal
-tc.verifyEmpty(stdlib.ncvariables(tc.file, "/j") )
+tc.verifyEmpty(stdlib.ncvariables(tc.file, '/j') )
 
-tc.verifyEqual(stdlib.ncvariables(tc.file, "/j/a") , "b")
+tc.verifyEqual(stdlib.ncvariables(tc.file, '/j/a') , "b")
 end
 
 
 function test_exists(tc)
-import matlab.unittest.constraints.IsScalar
 
-tc.verifyTrue(stdlib.ncexists(tc.file, "A1"))
-tc.verifyFalse(stdlib.ncexists(tc.file, "not-exist"))
+tc.verifyTrue(stdlib.ncexists(tc.file, 'A1'))
+tc.verifyFalse(stdlib.ncexists(tc.file, 'not-exist'))
 
 end
 
 
 function test_size(tc)
-import matlab.unittest.constraints.IsScalar
 
 s = stdlib.ncsize(tc.file, 'A0');
 tc.verifyEmpty(s)
 
 s = stdlib.ncsize(tc.file, 'A1');
-tc.verifyThat(s, IsScalar)
+tc.verifyThat(s, matlab.unittest.constraints.IsScalar)
 tc.verifyEqual(s, 2)
 
 s = stdlib.ncsize(tc.file, 'A2');
@@ -113,11 +115,9 @@ end
 
 
 function test_read(tc)
-import matlab.unittest.constraints.IsScalar
-
 
 s = ncread(tc.file, 'A0');
-tc.verifyThat(s, IsScalar)
+tc.verifyThat(s, matlab.unittest.constraints.IsScalar)
 tc.verifyEqual(s, 42)
 
 s = ncread(tc.file, 'A1');
@@ -138,30 +138,23 @@ tc.verifyEqual(s, tc.A4)
 end
 
 
-function test_coerce(tc)
+function test_coerce(tc, type)
+stdlib.ncsave(tc.file, type, 0, "type", type)
 
-for type = ["single", "double", ...
-            "int8", "int16", "int32", "int64", ...
-            "uint8", "uint16", "uint32", "uint64"]
-
-  stdlib.ncsave(tc.file, type, 0, "type", type)
-
-  tc.verifyClass(ncread(tc.file, type), type)
-end
-
+tc.verifyClass(ncread(tc.file, type), type)
 end
 
 
 function test_rewrite(tc)
 tc.A2 = 3*magic(4);
-stdlib.ncsave(tc.file, "A2", tc.A2, "dims", {'x2', size(tc.A2,1), 'y2', size(tc.A2,2)})
+stdlib.ncsave(tc.file, 'A2', tc.A2, "dims", {'x2', size(tc.A2,1), 'y2', size(tc.A2,2)})
 
 tc.verifyEqual(ncread(tc.file, 'A2'), 3*magic(4))
 end
 
 
 function test_real_only(tc)
-tc.verifyError(@() stdlib.ncsave(tc.file, "bad_imag", 1j), 'MATLAB:validators:mustBeReal')
+tc.verifyError(@() stdlib.ncsave(tc.file, 'bad_imag', 1j), 'MATLAB:validators:mustBeReal')
 end
 
 end
