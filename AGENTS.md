@@ -13,14 +13,14 @@ To detect if a specific language interface is available, we provide functions st
 There is a namespace stdlib.sys defined under +stdlib/+sys/ that provided system() calls using the system shell as a last-restort fallback if no external language interface is available on the end user computer running Matlab.
 The namespace stdlib.native and stdlib.legacy use plain Matlab code, and allow switching between "modern" and "legacy" implementations of functions as needed.
 
-The self-test functions under "test/" directory can be used by Matlab >= R2019a as invoked by "test_main.m" at the top level of the project directory.
+The self-test functions under "test/" directory can be used by Matlab >= R2017b as invoked by "test_main.m" at the top level of the project directory.
 Matlab >= R2022b can alternatively use "buildtool test" to run the self-tests.
 
 Key limitations to minimum Matlab version include:
 
 * R2017b: builtin isfolder(), isfile() available
 * R2017b: fileparts() supports string type. fileparts() is used in many places in the code as it's 5-10x faster than regexp() for filename parsing.
-* R2018a: fileattrib() supports string type
+* R2018a: fileattrib(), fullfile() supports string type
 * R2018a: mfilename('fullpath') tells the full path to the matlab .m file currently running (empty for older Matlab)
 * R2019b: function argument validation block "arguments"
 
@@ -33,7 +33,7 @@ In particular, using GNU Octave with functions having a backend as shown in [API
 
 These rules apply under the namespace "stdlib" (directory +stdlib/) and all its sub-namespaces (subdirectories +stdlib/+*).
 
-- The code syntax must work for Matlab >= R2019b
+- The code syntax must work for Matlab >= R2019b (preferably Matlab >= R2017b)
 - The code must not require any Matlab toolboxes, only base Matlab functionality
 - Prohibited to use Matlab factory function "isMATLABReleaseOlderThan()" as it is slow and not available for Matlab < R2020b. Instead we use stdlib.matlabOlderThan() which is like 200x faster than isMATLABReleaseOlderThan() and works for Matlab >= R2016b
 - When an exception is encountered, we generally desire that the code return an "empty" value of the appropriate type. In certain cases we may throw or rethrow an error.

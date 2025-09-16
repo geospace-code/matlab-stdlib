@@ -7,9 +7,8 @@
 Matlab users coming from other languages will benefit from the functionality contained within this user-developed, unofficial "stdlib" standard library of functions.
 These system, filesystem, and HDF5 / HDF4 / NetCDF functions are used by numerous independent projects.
 
-Matlab R2019b is the absolute minimum version required due to use of
-[function argument validation](https://www.mathworks.com/help/matlab/ref/arguments.html).
-Full functionality is available with R2021a and newer.
+Matlab R2017b is the absolute minimum version required.
+Full functionality is available with R2019b and newer.
 
 ## Self-tests
 
@@ -21,7 +20,7 @@ Matlab R2022b and newer:
 buildtool test
 ```
 
-Matlab R2021a and newer (R2022b and newer can use `buildtool test`):
+Matlab R2017b and newer:
 
 ```matlab
 test_main
@@ -42,7 +41,7 @@ Normally the user does not specify the backend as we prioritize faster backends.
   * Windows: all supported Matlab releases
   * Linux / macOS: R2024b and newer
 * [Java](./Readme_java.md): all supported Matlab releases
-* [Perl](https://www.mathworks.com/help/matlab/ref/perl.html):  all supported Matlab releases. This uses a system() call to Perl, which is bundled with Matlab on Windows and generally available on Linux and macOS
+* [Perl](https://www.mathworks.com/help/matlab/ref/perl.html):  Matlab R2018a and newer. This uses a system() call to Perl, which is bundled with Matlab on Windows and generally available on Linux and macOS
 * [Python](https://www.mathworks.com/help/matlab/call-python-libraries.html): Matlab R2022b and newer
 * System shell calls: all supported Matlab releases. As a backup when the platform doesn't have the primary (faster) methods available, the system shell can be called for some functions.
 

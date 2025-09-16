@@ -1,4 +1,4 @@
-%% DOTNET.GET_HOSTNAME get the computer network hostname
+%% DOTNET.HOSTNAME get the computer network hostname
 
 function n = hostname()
 
