@@ -1,7 +1,4 @@
 function [y, cmd] = is_mount(filepath)
-arguments
-  filepath (1,1) string
-end
 
 cmd = '';
 if ~stdlib.exists(filepath)

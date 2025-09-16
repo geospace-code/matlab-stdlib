@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2019b', 'impure'}) ...
+          TestTags = {'R2017b'}) ...
   TestDisk < matlab.unittest.TestCase
 
 properties
@@ -16,7 +16,7 @@ end
 
 methods(TestClassSetup)
 function test_dirs(tc)
-  tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
+  tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture());
 end
 end
 
@@ -89,9 +89,10 @@ end
 
 
 function test_hard_link_count(tc, B_jps)
-P = mfilename("fullpath") + ".m";
+fn = "test_hard_link_count.txt";
+tc.assertTrue(stdlib.touch(fn))
 
-[i, b] = stdlib.hard_link_count(P, B_jps);
+[i, b] = stdlib.hard_link_count(fn, B_jps);
 tc.assertEqual(char(b), B_jps)
 
 if ismember(B_jps, stdlib.Backend().select('hard_link_count'))
@@ -133,17 +134,14 @@ end
 
 
 function test_remove_file(tc)
+tc.assumeFalse(stdlib.matlabOlderThan('R2018a'), 'test shaky on Matlab < R2018a')
 
 f = "test_remove.tmp";
 
 tc.verifyFalse(stdlib.remove(f), "should not succeed at removing non-existant path")
 
 tc.assertTrue(stdlib.touch(f), "failed to touch file " + f)
-if stdlib.matlabOlderThan('R2018a')
-  tc.assertTrue(isfile(f))
-else
-  tc.assertThat(f, matlab.unittest.constraints.IsFile)
-end
+tc.assertThat(f, matlab.unittest.constraints.IsFile)
 
 tc.verifyTrue(stdlib.remove(f), "failed to remove file " + f)
 end

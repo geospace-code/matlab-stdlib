@@ -10,9 +10,10 @@
 % * b: backend used
 
 function [r, b] = filesystem_type(file, backend)
-arguments
-  file
-  backend (1,:) string = ["java", "dotnet", "python", "sys"]
+if nargin < 2
+  backend = ["java", "dotnet", "python", "sys"];
+else
+  backend = string(backend);
 end
 
 r = '';

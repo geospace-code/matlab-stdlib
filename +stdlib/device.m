@@ -8,9 +8,10 @@
 % * b: backend used
 
 function [i, b] = device(file, backend)
-arguments
-  file
-  backend (1,:) string = ["java", "python", "sys"]
+if nargin < 2
+  backend = ["java", "python", "sys"];
+else
+  backend = string(backend);
 end
 
 i = uint64.empty;

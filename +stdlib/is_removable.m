@@ -9,9 +9,10 @@
 % * b: backend used
 
 function [i, b] = is_removable(file, backend)
-arguments
-  file string
-  backend (1,:) string = ["python", "sys"]
+if nargin < 2
+  backend = ["python", "sys"];
+else
+  backend = string(backend);
 end
 
 i = logical.empty;

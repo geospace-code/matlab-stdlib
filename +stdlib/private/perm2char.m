@@ -1,9 +1,6 @@
 %% NATIVE.PERM2CHAR convert file permissions to permission string
 
 function p = perm2char(v)
-arguments
-  v {mustBeScalarOrEmpty}
-end
 
 if isempty(v)
   p = '';

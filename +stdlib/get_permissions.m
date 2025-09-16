@@ -15,7 +15,7 @@ try
   b = 'native';
 catch e
   switch e.identifier
-    case 'MATLAB:UndefinedFunction'
+    case {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}
       perm = perm2char(file_attributes(file));
       b = 'legacy';
     case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'

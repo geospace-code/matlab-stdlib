@@ -11,9 +11,10 @@
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html#getUsableSpace()
 
 function [i, b] = disk_available(file, backend)
-arguments
-  file
-  backend (1,:) string = ["java", "dotnet", "python", "sys"]
+if nargin < 2
+  backend = ["java", "dotnet", "python", "sys"];
+else
+  backend = string(backend);
 end
 
 i = uint64.empty;

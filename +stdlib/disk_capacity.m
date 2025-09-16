@@ -9,9 +9,10 @@
 % * b: backend used
 
 function [i, b] = disk_capacity(file, backend)
-arguments
-  file
-  backend (1,:) string = ["java", "dotnet", "python", "sys"]
+if nargin < 2
+  backend = ["java", "dotnet", "python", "sys"];
+else
+  backend = string(backend);
 end
 
 i = uint64.empty;

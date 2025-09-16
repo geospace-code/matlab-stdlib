@@ -12,9 +12,10 @@
 % * https://docs.oracle.com/javase/tutorial/essential/io/links.html
 
 function [i, b] = hard_link_count(file, backend)
-arguments
-  file
-  backend (1,:) string = ["java", "python", "sys"]
+if nargin < 2
+  backend = ["java", "python", "sys"];
+else
+  backend = string(backend);
 end
 
 i = [];

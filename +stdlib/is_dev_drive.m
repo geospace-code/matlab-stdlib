@@ -8,9 +8,10 @@
 % * b: backend used
 
 function [i, b] = is_dev_drive(file, backend)
-arguments
-  file
-  backend (1,:) string = ["python", "sys"]
+if nargin < 2
+  backend = ["python", "sys"];
+else
+  backend = string(backend);
 end
 
 i = logical.empty;
