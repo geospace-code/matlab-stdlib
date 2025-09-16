@@ -2,7 +2,9 @@
 
 function pid = get_pid()
 
-if stdlib.matlabOlderThan('R2025a')
+if stdlib.isoctave()
+  pid = getpid();
+elseif stdlib.matlabOlderThan('R2025a')
   pid = feature('getpid');
 else
   pid = matlabProcessID;

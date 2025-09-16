@@ -4,8 +4,8 @@ pid = stdlib.get_pid();
 
 if ispc()
   cmd = sprintf('pwsh -c "(Get-Process -Id %d).PriorityClass"', pid);
-else
-  cmd = sprintf('ps -o ni= -p %d', pid);
+else  % Linux, macOS
+  cmd = sprintf('ps -o pri= -p %d', pid);
 end
 
 [s, m] = system(cmd);

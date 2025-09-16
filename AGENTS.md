@@ -3,7 +3,6 @@
 ## Project Overview
 
 This is a standard library project for Matlab, designed to provide a collection of commonly used functions and utilities to enhance productivity and streamline development in Matlab.
-We generally are not compatible with GNU Octave as the syntax we use is too new to be supported yet by GNU Octave.
 The namespace of the project is "stdlib" as indicated by all the project functions being under directory "+stdlib/"
 
 A primary purpose of this project is to use the external language interfaces provided by Matlab to call functions written in other scripting languages IF the language interface is enabled on the specific computer where Matlab is running.
@@ -25,6 +24,10 @@ Key limitations to minimum Matlab version include:
 * R2018a: mfilename('fullpath') tells the full path to the matlab .m file currently running (empty for older Matlab)
 * R2019b: function argument validation block "arguments"
 
+## GNU Octave compatibility
+
+Numerous functions are also compatible with GNU Octave, but Octave is not a primary target of this project.
+In particular, using GNU Octave with functions having a backend as shown in [API.md](./API.md), directly use the "stdlib.sys" namespace as Octave doesn't have built-in strings yet to support auto-backend selection.
 
 ## Dev Rules
 

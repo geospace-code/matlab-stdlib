@@ -10,8 +10,10 @@
 
 
 function [i, b] = get_process_priority(backend)
-arguments
-  backend (1,:) string = ["dotnet", "python", "sys"]
+if nargin < 1
+  backend = ["dotnet", "python", "sys"];
+else
+  backend = string(backend);
 end
 
 i = [];
