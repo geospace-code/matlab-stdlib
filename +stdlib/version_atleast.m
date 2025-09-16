@@ -9,13 +9,12 @@
 % * r: logical
 
 function r = version_atleast(in, ref)
-arguments
-  in (1,1) string
-  ref (1,1) string
-end
 
-parts1 = str2double(split(in, "."));
-parts2 = str2double(split(ref, "."));
+in = string(in);
+ref = string(ref);
+
+parts1 = str2double(split(in, '.'));
+parts2 = str2double(split(ref, '.'));
 
 r = true;
 
