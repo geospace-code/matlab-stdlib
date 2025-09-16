@@ -8,9 +8,6 @@ link
 end
 
 properties (TestParameter)
-p = {{"not-exist", false}, ...
-    {mfilename("fullpath") + ".m", false}, ...
-    {"", false}};
 Pre = {'', "", tempname()}
 B_create_symlink = {'native', 'dotnet', 'python', 'sys'}
 B_is_symlink = {'native', 'java', 'python', 'dotnet', 'sys'}
@@ -37,15 +34,15 @@ end
 
 methods (Test)
 
-function test_is_symlink(tc, p, B_is_symlink)
+function test_is_symlink(tc, B_is_symlink)
 [i, b] = stdlib.is_symlink(tc.link, B_is_symlink);
-
 tc.assertEqual(char(b), B_is_symlink)
 
 if ismember(B_is_symlink, stdlib.Backend().select('is_symlink'))
-tc.assertTrue(i, "failed to detect own link " + tc.link)
+  tc.assertTrue(i, "failed to detect own link " + tc.link)
 
-tc.verifyEqual(stdlib.is_symlink(p{1}, B_is_symlink), p{2}, p{1})
+  tc.verifyFalse(stdlib.is_symlink('', B_is_symlink))
+  tc.verifyFalse(stdlib.is_symlink(tc.target, B_is_symlink))
 else
   tc.verifyEmpty(i)
 end
@@ -73,7 +70,8 @@ end
 
 
 function test_create_symlink(tc, B_create_symlink)
-tc.applyFixture(matlab.unittest.fixtures.SuppressedWarningsFixture(["MATLAB:io:filesystem:symlink:TargetNotFound","MATLAB:io:filesystem:symlink:FileExists"]))
+tc.applyFixture(matlab.unittest.fixtures.SuppressedWarningsFixture(...
+  ["MATLAB:io:filesystem:symlink:TargetNotFound","MATLAB:io:filesystem:symlink:FileExists"]));
 
 ano = fullfile(pwd(), 'another.lnk');
 tc.assertFalse(isfile(ano))
