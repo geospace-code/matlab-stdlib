@@ -8,9 +8,10 @@
 % * b: backend used
 
 function [i, b] = is_symlink(file, backend)
-arguments
-  file
-  backend (1,:) string = ["native", "java", "python", "dotnet", "sys"]
+if nargin < 2
+  backend = ["native", "java", "python", "dotnet", "sys"];
+else
+  backend = string(backend);
 end
 
 i = logical.empty;

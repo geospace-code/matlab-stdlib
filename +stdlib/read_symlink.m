@@ -11,9 +11,10 @@
 % * b: backend used
 
 function [r, b] = read_symlink(file, backend)
-arguments
-  file
-  backend (1,:) string = ["native", "java", "dotnet", "python", "sys"]
+if nargin < 2
+  backend = ["native", "java", "python", "dotnet", "sys"];
+else
+  backend = string(backend);
 end
 
 

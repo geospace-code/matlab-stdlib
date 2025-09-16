@@ -11,10 +11,10 @@
 % For example, Matlab 25.1.0.2973910 R2025a Update 1 gave this error.
 
 function [i, b] = create_symlink(target, link, backend)
-arguments
-  target
-  link
-  backend (1,:) string = ["native", "dotnet", "python", "sys"]
+if nargin < 3
+  backend = ["native", "dotnet", "python", "sys"];
+else
+  backend = string(backend);
 end
 
 i = logical.empty;
