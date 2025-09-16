@@ -7,14 +7,15 @@
 % fsize: vector of variable size per dimension. Empty if scalar variable.
 
 function fsize = h4size(file, variable)
-arguments
-  file
-  variable (1,1) string
-end
+% arguments
+%   file
+%   variable (1,1) string
+% end
 
-sds = hdfinfo(file).SDS;
+finf = hdfinfo(file);
+sds = finf.SDS;
 
-i = {sds.Name} == variable;
+i = strcmp({sds.Name}, variable);
 if ~any(i)
   error(variable + " is not an SDS in " + file)
 end

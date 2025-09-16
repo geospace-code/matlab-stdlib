@@ -6,12 +6,13 @@ function exists = h4exists(file, variable)
 % * variable: path of variable in file
 %%% Outputs
 % * exists: boolean
-arguments
-  file
-  variable (1,1) string
-end
+% arguments
+%   file
+%   variable (1,1) string
+% end
 
-sds = hdfinfo(file).SDS;
+finf = hdfinfo(file);
+sds = finf.SDS;
 exists = ismember(variable, sds.Name);
 
 end
