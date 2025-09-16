@@ -8,7 +8,7 @@ end
 
 methods(TestClassSetup)
 function test_dirs(tc)
-tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
+tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture());
 end
 end
 

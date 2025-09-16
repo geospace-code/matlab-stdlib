@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2019b', 'impure'}) ...
+          TestTags = {'R2017b', 'impure'}) ...
     TestHash < matlab.unittest.TestCase
 
 properties
@@ -15,7 +15,7 @@ end
 
 methods(TestClassSetup)
 function create_file(tc)
-tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
+tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture());
 
 tc.file = fullfile(pwd(), class(tc));
 

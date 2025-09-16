@@ -13,10 +13,10 @@
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#getInstance(java.lang.String)
 
 function [r, b] = file_checksum(file, hash_method, backend)
-arguments
-  file
-  hash_method
-  backend (1,:) string = ["java", "dotnet", "sys"]
+if nargin < 3
+  backend = ["java", "dotnet", "sys"];
+else
+  backend = string(backend);
 end
 
 r = '';
