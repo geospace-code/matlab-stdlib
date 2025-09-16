@@ -11,25 +11,26 @@
 
 function e = expanduser(file)
 
+e = char(file);
+
 pat = ['~[/\', filesep, ']+|^~$'];
 
-[i0, i1] = regexp(file, pat, 'once');
+[i0, i1] = regexp(e, pat, 'once');
 
-if isempty(i0)
-  % no leading ~ or it's ~user, which we don't handle
-  e = file;
-  return
+if ~isempty(i0)
+
+  home = stdlib.homedir();
+
+  if i1 - i0 == 0 || length(e) == i1
+    e = home;
+  else
+    e = [home, '/', e(i1+1:end)];
+  end
+
 end
 
-home = stdlib.homedir();
-
-if i1 - i0 == 0 || strlength(file) == i1
-  e = home;
-  if isstring(file)
-    e = string(e);
-  end
-else
-  e = stdlib.append(home, '/', extractAfter(file, i1));
+if isstring(file)
+  e = string(e);
 end
 
 end

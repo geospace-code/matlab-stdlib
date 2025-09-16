@@ -11,7 +11,7 @@ function r = is_rosetta()
 
 if ismac()
   [s, raw] = system('sysctl -n sysctl.proc_translated');
-  r = s == 0 && startsWith(raw, '1');
+  r = s == 0 && raw(1) == '1';
 else
   r = false;
 end

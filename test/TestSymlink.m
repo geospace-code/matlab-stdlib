@@ -20,9 +20,9 @@ methods(TestMethodSetup)
 function setup_symlink(tc)
 tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture());
 
-tc.link = [pwd(), '/my.lnk'];
+tc.link = fullfile(pwd(), 'my.lnk');
 
-tc.target = [pwd(), '/my_target.txt'];
+tc.target = fullfile(pwd(), 'my_target.txt');
 tc.assertTrue(stdlib.touch(tc.target), "failed to create test target " + tc.target)
 
 tc.assertTrue(stdlib.create_symlink(tc.target, tc.link), ...

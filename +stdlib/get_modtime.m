@@ -7,8 +7,6 @@
 
 function t = get_modtime(file)
 
-t = datetime.empty;
-
 % char() for Matlab < R2018a
 finf = dir(char(file));
 
@@ -18,7 +16,13 @@ if ~isempty(finf) && finf.isdir
   finf = finf(i);
 end
 
-if ~isempty(finf)
+if isempty(finf)
+  t = datetime.empty;
+else
+  t = finf.datenum;
+end
+
+try %#ok<TRYNC>
   t = datetime(finf.datenum, 'ConvertFrom', 'datenum');
 end
 

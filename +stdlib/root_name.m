@@ -7,10 +7,16 @@
 
 function r = root_name(p)
 
-if ispc() && ~isempty(regexp(p, '^[A-Za-z]:', 'once'))
-  r = extractBefore(p, 3);
+c = char(p);
+
+if ispc() && ~isempty(regexp(c, '^[A-Za-z]:', 'once'))
+  r = c(1:2);
 else
-  r = extractBefore(p, 1);
+  r = '';
+end
+
+if isstring(p)
+  r = string(r);
 end
 
 end

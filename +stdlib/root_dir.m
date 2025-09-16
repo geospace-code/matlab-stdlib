@@ -10,17 +10,22 @@
 
 function r = root_dir(p)
 
-if startsWith(p, ["/", filesep])
-  r = extractBefore(p, 2);
+c = char(p);
+r = '';
+
+if isempty(c)
+  % pass
+elseif ismember(c(1), ["/", filesep])
+  r = c(1);
 elseif ispc()
-  m = regexp(p, '^[A-Za-z]:([\\/])', 'tokens', 'once');
-  if isempty(m)
-    r = extractBefore(p, 1);
-  else
+  m = regexp(c, '^[A-Za-z]:([\\/])', 'tokens', 'once');
+  if ~isempty(m)
     r = m{1};
   end
-else
-  r = extractBefore(p, 1);
+end
+
+if isstring(p)
+  r = string(r);
 end
 
 end
