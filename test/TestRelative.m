@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2019b', 'pure'}) ...
+          TestTags = {'R2017b', 'pure'}) ...
     TestRelative < matlab.unittest.TestCase
 
 
@@ -12,14 +12,18 @@ methods (Test)
 
 function test_relative_to(tc, pr)
 r = stdlib.relative_to(pr{1}, pr{2});
-
 tc.verifyEqual(r, pr{3}, "relative_to(" + pr{1} + "," + pr{2}+")")
+
+r = stdlib.relative_to(string(pr{1}), pr{2});
+tc.verifyEqual(r, string(pr{3}))
 end
 
 function test_proximate_to(tc, pr)
 r = stdlib.proximate_to(pr{1}, pr{2});
-
 tc.verifyEqual(r, pr{3}, "proximate_to(" + pr{1} + ", " + pr{2}+")")
+
+r = stdlib.proximate_to(string(pr{1}), pr{2});
+tc.verifyEqual(r, string(pr{3}))
 end
 
 end
@@ -28,13 +32,18 @@ end
 
 function pr = init_rel()
 
-root = fileparts(fileparts(mfilename('fullpath')));
-
-pr = {{"", "", ""}, ...
-{pwd(), pwd(), "."}, ...
-{fileparts(pwd()), pwd(), "test"}, ...
-{root, fullfile(root, "test", mfilename() + ".m"), fullfile("test", mfilename + ".m")}
+pr = {{'', '', ''}, ...
+{pwd(), pwd(), '.'}, ...
+{fileparts(pwd()), pwd(), 'test'}
 };
+
+
+root = fileparts(fileparts(mfilename('fullpath')));
+if ~isempty(root)
+  pr{end+1} = {root, [root, '/test/', mfilename(), '.m'], ['test/', mfilename, '.m']};
+end
+
+
 % NOTE: ".." in relative_to(base) is ambiguous including for python.pathlib, C++ <filesystem>, etc.
 
 % if stdlib.has_python() || stdlib.has_dotnet()
@@ -67,8 +76,8 @@ if ispc()
 else
 
 pr = [pr, {
-{"/", "/", "."}, ...
-{"/dev/null", "/dev/null", "."}, ...
+{'/', '/', '.'}, ...
+{'/dev/null', '/dev/null', '.'}, ...
 }];
 end
 end
