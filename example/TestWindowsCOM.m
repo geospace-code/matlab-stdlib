@@ -12,11 +12,10 @@ tc.verifyEqual(windows_shortname(Pn{1}), Pn{2})
 end
 
 function test_short_folder(tc)
-import matlab.unittest.constraints.IsFolder
 
 progdir = getenv("PROGRAMFILES");
 if ispc()
-  tc.assertThat(progdir, IsFolder, "$Env:PROGRAMFILES is not a directory")
+  tc.assertThat(progdir, matlab.unittest.constraints.IsFolder, "$Env:PROGRAMFILES is not a directory")
 end
 
 short = windows_shortname(progdir);

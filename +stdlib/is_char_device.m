@@ -19,9 +19,10 @@
 
 
 function [i, b] = is_char_device(file, backend)
-arguments
-  file
-  backend (1,:) string = ["python", "sys"]
+if nargin < 2
+  backend = ["python", "sys"];
+else
+  backend = string(backend);
 end
 
 i = logical.empty;

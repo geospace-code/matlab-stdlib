@@ -3,9 +3,9 @@
 function nul = null_file()
 
 if ispc
-  nul = "NUL";
+  nul = 'NUL';
 else
-  nul = "/dev/null";
+  nul = '/dev/null';
 end
 
 end

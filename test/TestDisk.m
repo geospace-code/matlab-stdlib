@@ -134,12 +134,16 @@ end
 
 function test_remove_file(tc)
 
-f = tempname();
+f = "test_remove.tmp";
 
 tc.verifyFalse(stdlib.remove(f), "should not succeed at removing non-existant path")
 
-tc.assumeTrue(stdlib.touch(f), "failed to touch file " + f)
-tc.assumeThat(f, matlab.unittest.constraints.IsFile)
+tc.assertTrue(stdlib.touch(f), "failed to touch file " + f)
+if stdlib.matlabOlderThan('R2018a')
+  tc.assertTrue(isfile(f))
+else
+  tc.assertThat(f, matlab.unittest.constraints.IsFile)
+end
 
 tc.verifyTrue(stdlib.remove(f), "failed to remove file " + f)
 end

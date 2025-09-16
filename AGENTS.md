@@ -17,8 +17,9 @@ The namespace stdlib.native and stdlib.legacy use plain Matlab code, and allow s
 The self-test functions under "test/" directory can be used by Matlab >= R2019a as invoked by "test_main.m" at the top level of the project directory.
 Matlab >= R2022b can alternatively use "buildtool test" to run the self-tests.
 
-The key limitations to minimum Matlab version are:
+Key limitations to minimum Matlab version include:
 
+* R2017b: builtin isfolder(), isfile() available
 * R2017b: fileparts() supports string type. fileparts() is used in many places in the code as it's 5-10x faster than regexp() for filename parsing.
 * R2018a: fileattrib() supports string type
 * R2018a: mfilename('fullpath') tells the full path to the matlab .m file currently running (empty for older Matlab)

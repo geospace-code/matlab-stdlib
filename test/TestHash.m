@@ -25,7 +25,11 @@ tc.assumeGreaterThan(fid, 0);
 fprintf(fid, "hello");
 fclose(fid);
 
-tc.assertThat(tc.file, matlab.unittest.constraints.IsFile)
+if stdlib.matlabOlderThan('R2018a')
+  tc.assumeTrue(isfile(tc.file))
+else
+  tc.assertThat(tc.file, matlab.unittest.constraints.IsFile)
+end
 end
 end
 

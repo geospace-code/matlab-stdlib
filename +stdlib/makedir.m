@@ -8,7 +8,8 @@ function makedir(direc)
 direc = stdlib.expanduser(direc);
 
 if ~stdlib.strempty(direc) && ~isfolder(direc)
-  [~] = mkdir(direc);
+  % char() is for Matlab < R2018a
+  [~] = mkdir(char(direc));
 end
 
 ok = isfolder(direc);
