@@ -2,7 +2,7 @@
 
 function ok = set_modtime(file, time)
 
-utc = convertTo(datetime(time, 'TimeZone', "UTC"), "posixtime");
+utc = posixtime(datetime(time, 'TimeZone', "UTC"));
 
 try
   ok = java.io.File(file).setLastModified(int64(utc) * 1000);
