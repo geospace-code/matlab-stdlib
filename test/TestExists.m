@@ -66,13 +66,24 @@ end
 
 
 function Ps = init_val()
+
+
 Ps = {
   {pwd(), true}, ...
-  {[mfilename("fullpath"), '.m'], true}, ...
-  {[fileparts(mfilename("fullpath")), '/../Readme.md'], true}, ...
   {tempname(), false}, ...
   {'', false}
 };
+
+o = mfilename('fullpath');
+if ~isempty(o)
+  o = [o, '.m'];
+  Ps = [Ps, {
+    {o, true}, ...
+    {[fileparts(o), '/../Readme.md'], true}
+    }
+  ];
+end
+
 if ispc()
   % On Windows, the root of the system drive is considered to exist
   systemDrive = getenv("SystemDrive");

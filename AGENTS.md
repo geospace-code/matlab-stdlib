@@ -21,6 +21,7 @@ The key limitations to minimum Matlab version are:
 
 * R2017b: fileparts() supports string type. fileparts() is used in many places in the code as it's 5-10x faster than regexp() for filename parsing.
 * R2018a: fileattrib() supports string type
+* R2018a: mfilename('fullpath') tells the full path to the matlab .m file currently running (empty for older Matlab)
 * R2019b: function argument validation block "arguments"
 
 

@@ -10,15 +10,7 @@ if stdlib.strempty(file)
   return
 end
 
-
-try
-  [s, r, id] = fileattrib(file);
-catch e
-  if strcmp(e.identifier, 'MATLAB:string')
-    [s, r, id] = fileattrib(char(file));
-  else
-    rethrow(e)
-  end
-end
+% char() for Matlab < R2018a
+[s, r, id] = fileattrib(char(file));
 
 end

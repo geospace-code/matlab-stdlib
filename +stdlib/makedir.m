@@ -3,25 +3,18 @@
 % This function works around that bug in Matlab mkdir().
 
 function makedir(direc)
-arguments
-  direc string
-end
 
 %% to avoid confusing making ./~/mydir
-for i = numel(direc)
-  direc(i) = stdlib.expanduser(direc(i));
+direc = stdlib.expanduser(direc);
+
+if ~stdlib.strempty(direc) && ~isfolder(direc)
+  [~] = mkdir(direc);
 end
 
-i = ~stdlib.strempty(direc) & ~isfolder(direc);
-
-for d = direc(i)
-  [~] = mkdir(d);
-end
-
-ok = isfolder(direc(i));
+ok = isfolder(direc);
 
 if nargout == 0
-  assert(all(ok), "Failed to create directories: %s", strjoin(direc(~ok), ", "));
+  assert(ok, "Failed to create directory: %s", direc)
 end
 
 end

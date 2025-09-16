@@ -9,7 +9,8 @@ function s = file_size(file)
 
 s = [];
 
-d = dir(file);
+% char() for Matlab < R2018a
+d = dir(char(file));
 
 if isscalar(d) && ~d.isdir
   s = d.bytes;
