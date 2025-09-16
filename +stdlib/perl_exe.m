@@ -12,7 +12,7 @@ end
 
 ps = [fileparts(mfilename("fullpath")), '/private/executable.pl'];
 
-exe = string.empty;
+exe = '';
 
 try
   [r, s] = perl(ps);

@@ -13,9 +13,11 @@ function r = root_dir(p)
 if startsWith(p, ["/", filesep])
   r = extractBefore(p, 2);
 elseif ispc()
-  r = regexp(p, '(?<=^[A-Za-z]:)([\\/])', 'match', 'once');
-  if ismissing(r)
-    r = "";
+  m = regexp(p, '^[A-Za-z]:([\\/])', 'tokens', 'once');
+  if isempty(m)
+    r = extractBefore(p, 1);
+  else
+    r = m{1};
   end
 else
   r = extractBefore(p, 1);

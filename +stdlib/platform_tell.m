@@ -44,6 +44,8 @@ if ismac()
   raw.xcode_version = stdlib.xcode_version();
 end
 
+if ~stdlib.isoctave()
+
 langs = {'C', 'Cpp', 'Fortran'};
 for i = 1:length(langs)
   lang = langs{i};
@@ -57,6 +59,8 @@ for i = 1:length(langs)
     raw.(ct) = co.Name;
     raw.(vt) = co.Version;
   end
+end
+
 end
 
 try
