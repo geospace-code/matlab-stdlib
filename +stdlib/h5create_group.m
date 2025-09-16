@@ -7,10 +7,10 @@
 % * HDF5 file handle
 
 function fid = h5create_group(file, hpath)
-arguments
-  file (1,1)
-  hpath (1,1) string
-end
+% arguments
+%   file (1,1)
+%   hpath (1,1) string
+% end
 
 % polymorphic fid/filename
 if isa(file, 'H5ML.id')
@@ -25,17 +25,18 @@ else
 end
 
 % are there any groups
-grps = split(hpath, "/");
+grps = split(hpath, '/');
 if length(grps) < 3
   return
 end
 
 % recursively create groups as needed
 plist = 'H5P_DEFAULT';
-groot = H5G.open(fid, "/");
+groot = H5G.open(fid, '/');
 
 for i = 0:length(grps) - 3
-  n = join(grps(1:i+2), "/");
+  n = join(grps(1:i+2), '/');
+  n = n{1};
 
   if ~H5L.exists(groot, n, plist)
     gid = H5G.create(fid, n, plist, plist, plist);

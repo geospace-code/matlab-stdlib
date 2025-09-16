@@ -1,9 +1,9 @@
 function A = coerce_ds(A, dtype)
 % used by h5save and ncsave
-arguments
-  A
-  dtype (1,1) string
-end
+% arguments
+%   A
+%   dtype (1,1) string
+% end
 
 if ischar(A)
   A = string(A);

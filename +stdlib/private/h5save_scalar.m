@@ -1,12 +1,12 @@
 function h5save_scalar(filename, hpath, A)
 %% write HDF5 scalar as a scalar
 %  h5create doesn't support scalars
-arguments
-  filename (1,1) string
-  hpath (1,1) string
-  A (1,1)
-end
-% filename must be a scalar string--char does not work
+% arguments
+%   filename (1,1) string
+%   hpath (1,1) string
+%   A (1,1)
+% end
+
 
 dcpl = 'H5P_DEFAULT';
 
@@ -45,9 +45,9 @@ switch C
   case 'double', t = 'H5T_NATIVE_DOUBLE';
   case 'single', t = 'H5T_NATIVE_FLOAT';
   case {'int8', 'int16', 'int32', 'int64'}
-    t = "H5T_STD_I" + C(4:end) + "LE";
+    t = ['H5T_STD_I', C(4:end), 'LE'];
   case {'uint8', 'uint16', 'uint32', 'uint64'}
-    t = "H5T_STD_U" + C(5:end) + "LE";
+    t = ['H5T_STD_U', C(5:end), 'LE'];
   otherwise, error('h5save:class2h5t: unknown data class %s', class(A))
 end
 

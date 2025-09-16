@@ -2,13 +2,20 @@
 % normally users will use h5save() instead of this function
 
 function h5save_new(filename, varname, A, sizeA, compressLevel)
-arguments
-  filename
-  varname
-  A
-  sizeA (1,:) double {mustBeInteger,mustBeNonnegative} = []
-  compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0
+% arguments
+%   filename
+%   varname
+%   A
+%   sizeA (1,:) double {mustBeInteger,mustBeNonnegative} = []
+%   compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0
+% end
+if nargin < 4
+  sizeA = [];
 end
+if nargin < 5
+  compressLevel = 0;
+end
+
 
 if isempty(sizeA)
   sizeA = defaultSize(A);

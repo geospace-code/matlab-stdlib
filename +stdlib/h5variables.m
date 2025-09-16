@@ -9,16 +9,11 @@
 % * names: variable names
 
 function names = h5variables(file, group)
-arguments
-  file
-  group (1,1) string = ""
+if nargin < 2
+  group = '/';
 end
 
-if stdlib.strempty(group)
-  finf = h5info(file);
-else
-  finf = h5info(file, group);
-end
+finf = h5info(file, group);
 
 ds = finf.Datasets;
 

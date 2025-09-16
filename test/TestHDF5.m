@@ -16,9 +16,9 @@ end
 
 properties (TestParameter)
 str = {"string", 'char'}
-type = {"single", "double", ...
-            "int8", "int16", "int32", "int64", ...
-            "uint8", "uint16", "uint32", "uint64", "string"}
+type = {'single', 'double', ...
+            'int8', 'int16', 'int32', 'int64', ...
+            'uint8', 'uint16', 'uint32', 'uint64', 'string'}
 end
 
 methods(TestClassSetup)
@@ -34,9 +34,9 @@ end
 methods(TestMethodSetup)
 
 function setup_file(tc)
-tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
+tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture());
 
-tc.file = fullfile(pwd(), class(tc) + ".h5");
+tc.file = [pwd(), class(tc), '.h5'];
 
 % create test data first, so that parallel tests works
 stdlib.h5save(tc.file, '/A0', tc.A0)
@@ -57,13 +57,12 @@ stdlib.h5save(tc.file, '/t/x', 12)
 stdlib.h5save(tc.file, '/t/y', 13)
 stdlib.h5save(tc.file, '/j/a/b', 6)
 
-tc.assertThat(tc.file, matlab.unittest.constraints.IsFile)
 end
 
 end
 
 
-methods (Test, TestTags = {'R2019b'})
+methods (Test, TestTags = {'R2017b'})
 
 function test_auto_chunk_size(tc)
 
@@ -89,19 +88,19 @@ end
 tc.verifyEqual(sort(v), k)
 
 % 1-level group
-v = stdlib.h5variables(tc.file, "/t");
+v = stdlib.h5variables(tc.file, '/t');
 tc.verifyEqual(sort(v), ["x", "y"])
 
 % traversal
-tc.verifyEmpty(stdlib.h5variables(tc.file, "/j") )
+tc.verifyEmpty(stdlib.h5variables(tc.file, '/j') )
 
-tc.verifyEqual(stdlib.h5variables(tc.file, "/j/a") , "b")
+tc.verifyEqual(stdlib.h5variables(tc.file, '/j/a') , "b")
 
 end
 
 
 function test_exists(tc)
-e = stdlib.h5exists(tc.file, "/A0");
+e = stdlib.h5exists(tc.file, '/A0');
 
 tc.verifyThat(e, matlab.unittest.constraints.IsScalar)
 tc.verifyTrue(e);
@@ -178,11 +177,11 @@ end
 
 function test_shape(tc)
 
-stdlib.h5save(tc.file, "/vector1", 34, "size", 1)
+stdlib.h5save(tc.file, '/vector1', 34, "size", 1)
 s = stdlib.h5size(tc.file, '/vector1');
 tc.verifyEqual(s, 1);
 
-stdlib.h5save(tc.file, "/scalar", 34, "size", 0)
+stdlib.h5save(tc.file, '/scalar', 34, "size", 0)
 s = stdlib.h5size(tc.file, '/scalar');
 tc.verifyEmpty(s);
 
@@ -195,14 +194,14 @@ if ismember(type, ["string", "char"])
   tc.assumeFalse(stdlib.matlabOlderThan("R2020b"))
 end
 
-stdlib.h5save(tc.file, "/" + type, 0, "type", type)
+stdlib.h5save(tc.file, ['/', type], 0, "type", type)
 
 switch type
 case "string", vt = 'char';
 otherwise, vt = type;
 end
 
-tc.verifyClass(h5read(tc.file, "/"+type), vt)
+tc.verifyClass(h5read(tc.file, ['/', type]), vt)
 
 end
 
@@ -216,33 +215,39 @@ end
 
 function test_int8(tc)
 
-stdlib.h5save(tc.file, "/i1", int8(127))
+stdlib.h5save(tc.file, '/i1', int8(127))
 
-a = h5read(tc.file, "/i1");
+a = h5read(tc.file, '/i1');
 tc.verifyEqual(a, int8(127))
 
 % test rewrite
-stdlib.h5save(tc.file, "/i1", int8(-128))
+stdlib.h5save(tc.file, '/i1', int8(-128))
 
-a = h5read(tc.file, "/i1");
+a = h5read(tc.file, '/i1');
 tc.verifyEqual(a, int8(-128))
 
 % test int8 array
-stdlib.h5save(tc.file, "/Ai1", int8([1, 2]))
-a = h5read(tc.file, "/Ai1");
+stdlib.h5save(tc.file, '/Ai1', int8([1, 2]))
+a = h5read(tc.file, '/Ai1');
 tc.verifyEqual(a, int8([1;2]))
 end
 
 function test_real_only(tc)
 
-tc.verifyError(@() stdlib.h5save(tc.file, "/bad_imag", 1j), 'MATLAB:validators:mustBeReal')
-tc.verifyError(@() stdlib.h5variables(tc.file, '/nothere'), 'MATLAB:imagesci:h5info:unableToFind')
+tc.verifyError(@() stdlib.h5save(tc.file, '/bad_imag', 1j), 'MATLAB:validators:mustBeReal')
+
+if stdlib.matlabOlderThan('R2018a')
+  eid = 'MATLAB:imagesci:h5info:libraryError';
+else
+  eid = 'MATLAB:imagesci:h5info:unableToFind';
+end
+tc.verifyError(@() stdlib.h5variables(tc.file, '/nothere'), eid)
 end
 
 end
 
 
-methods (Test, TestTags=["R2020b", "hdf5"])
+methods (Test, TestTags={'R2020b'})
 
 function test_string(tc, str)
 tc.assumeFalse(stdlib.matlabOlderThan("R2020b"))
