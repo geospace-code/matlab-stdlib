@@ -3,12 +3,12 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
     TestWhich < matlab.unittest.TestCase
 
 properties (TestParameter)
-mexe = {matlabroot + "/bin/matlab", ...
+mexe = {[matlabroot '/bin/matlab'], ...
         fullfile(matlabroot, 'bin/matlab')}
 end
 
 
-methods (Test, TestTags = {'R2019b'})
+methods (Test, TestTags = {'R2017b'})
 
 function test_which_name(tc)
 
@@ -27,7 +27,7 @@ end
 for n = names
   exe = stdlib.which(n);
   tc.verifyNotEmpty(exe, "Executable not found: " + n)
-  tc.verifyThat(exe, matlab.unittest.constraints.IsFile, "Executable is not a file: " + n)
+  tc.verifyTrue(isfile(exe), "Executable is not a file: " + n)
   tc.verifyTrue(stdlib.is_exe(exe), "Executable is not executable: " + n)
 end
 
@@ -36,12 +36,12 @@ end
 
 function test_which_absolute(tc, mexe)
 
-r = string(mexe);
+r = mexe;
 if ispc()
-  r = r + ".exe";
+  r = [r, '.exe'];
 end
 
-tc.assumeThat(r, matlab.unittest.constraints.IsFile)
+tc.assumeTrue(isfile(r))
 tc.assumeTrue(stdlib.is_exe(r))
 
 tc.verifyGreaterThan(strlength(stdlib.which(r)), 0, "Expected which(" + r + " ) to find " + r)
@@ -72,7 +72,7 @@ fx = matlab.unittest.fixtures.EnvironmentVariableFixture('PATH', '');
 tc.applyFixture(fx)
 
 tc.verifyEmpty(stdlib.which('matlab'), "Matlab found by which() given empty path")
-tc.verifyNotEmpty(stdlib.which('matlab', matlabroot + "/bin"))
+tc.verifyNotEmpty(stdlib.which('matlab', [matlabroot, '/bin']))
 end
 end
 

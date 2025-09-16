@@ -8,17 +8,23 @@
 % find_all option finds all executables specified under PATH, instead of only the first
 
 function exe = which(cmd, fpath, find_all)
-arguments
-  cmd (1,1) string
-  fpath (1,:) string = string.empty
-  find_all (1,1) logical = false
+% arguments
+%   cmd (1,1) string
+%   fpath (1,:) string = string.empty
+%   find_all (1,1) logical = false
+% end
+if nargin < 2
+  fpath = string.empty;
+end
+if nargin < 3
+  find_all = false;
 end
 
 exe = string.empty;
 
 %% on Windows, append .exe if not suffix is given
 if ispc() && stdlib.strempty(stdlib.suffix(cmd))
-  cmd = cmd + ".exe";
+  cmd = stdlib.append(cmd, '.exe');
 end
 %% full filename was given
 if stdlib.is_exe(cmd)
@@ -34,11 +40,17 @@ end
 
 % path given
 if stdlib.strempty(fpath)
-  fpath = string(getenv('PATH'));
+  fpath = getenv('PATH');
 end
 
+fpath = string(fpath);
+
 if isscalar(fpath)
-  fpath = split(fpath, pathsep).';
+  fpath = split(fpath, pathsep);
+end
+
+if iscolumn(fpath)
+  fpath = fpath.';
 end
 
 for p = fpath
