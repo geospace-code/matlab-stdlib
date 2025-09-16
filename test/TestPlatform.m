@@ -18,7 +18,19 @@ end
 
 methods (Test, TestTags={'R2017b', 'toolbox'})
 
+function test_has_parallel_toolbox(tc)
+y = stdlib.has_parallel_toolbox();
+tc.verifyClass(y, 'logical')
+tc.verifyNotEmpty(y)
+end
+
+end
+
+
+methods (Test, TestTags={'R2018a'})
+
 function test_toolbox_used(tc)
+tc.assumeFalse(stdlib.matlabOlderThan('R2018a'))
 r = fullfile(fileparts(fileparts(mfilename('fullpath'))), '+stdlib');
 [mathworksUsed, userFun] = stdlib.toolbox_used(r);
 Nlicense = length(mathworksUsed);
@@ -32,23 +44,13 @@ tc.verifyEqual(userFun, string.empty)
 tc.verifyEqual(length(mathworksUsed), 1)
 end
 
-
-function test_has_parallel_toolbox(tc)
-y = stdlib.has_parallel_toolbox();
-tc.verifyClass(y, 'logical')
-tc.verifyNotEmpty(y)
-end
-
-end
-
-
-methods (Test, TestTags={'R2018a'})
 function test_perl(tc)
 tc.assumeFalse(stdlib.matlabOlderThan('R2018a'))
 tc.verifyNotEmpty(stdlib.perl_exe())
 tc.verifyNotEmpty(stdlib.perl_version())
 tc.verifyTrue(stdlib.has_perl(), "Matlab docs indicate that Perl should always be available")
 end
+
 end
 
 
@@ -59,6 +61,7 @@ r = stdlib.platform_tell();
 tc.verifyClass(r, 'char')
 tc.verifyNotEmpty(r)
 end
+
 
 function test_is_cygwin(tc)
 tc.verifyFalse(stdlib.is_cygwin())
@@ -131,8 +134,6 @@ end
 function test_cpu_count(tc)
 tc.verifyGreaterThan(stdlib.cpu_count(), 0)
 end
-
-
 
 end
 

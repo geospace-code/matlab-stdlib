@@ -1,8 +1,8 @@
 %% PYTHON.HAS_PSUTIL is Python psutil module availble
 
 function y = has_psutil(force_old)
-arguments
-  force_old (1,1) logical = false
+if nargin < 1
+  force_old = false;
 end
 
 y = false;
