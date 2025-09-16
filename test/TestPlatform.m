@@ -1,5 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2019b', 'impure'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}) ...
     TestPlatform < matlab.unittest.TestCase
 
 properties
@@ -7,8 +6,9 @@ CI = getenv('CI') == "true" || getenv('GITHUB_ACTIONS') == "true"
 end
 
 
-methods (Test, TestTags = {'toolbox', 'java'})
+methods (Test, TestTags = {'R2018a', 'java', 'toolbox'})
 function test_all_toolboxes(tc)
+tc.assumeFalse(stdlib.matlabOlderThan('R2018a'))
 tc.assumeTrue(stdlib.has_java())
 tbx = stdlib.allToolboxes();
 tc.verifyClass(tbx, 'table')
@@ -16,7 +16,7 @@ end
 end
 
 
-methods (Test, TestTags={'toolbox'})
+methods (Test, TestTags={'R2017b', 'toolbox'})
 
 function test_toolbox_used(tc)
 r = fullfile(fileparts(fileparts(mfilename('fullpath'))), '+stdlib');
@@ -42,21 +42,23 @@ end
 end
 
 
-methods (Test)
+methods (Test, TestTags={'R2018a'})
+function test_perl(tc)
+tc.assumeFalse(stdlib.matlabOlderThan('R2018a'))
+tc.verifyNotEmpty(stdlib.perl_exe())
+tc.verifyNotEmpty(stdlib.perl_version())
+tc.verifyTrue(stdlib.has_perl(), "Matlab docs indicate that Perl should always be available")
+end
+end
+
+
+methods (Test, TestTags={'R2017b'})
 
 function test_platform_tell(tc)
 r = stdlib.platform_tell();
 tc.verifyClass(r, 'char')
 tc.verifyNotEmpty(r)
 end
-
-
-function test_perl(tc)
-tc.verifyNotEmpty(stdlib.perl_exe())
-tc.verifyNotEmpty(stdlib.perl_version())
-tc.verifyTrue(stdlib.has_perl(), "Matlab docs indicate that Perl should always be available")
-end
-
 
 function test_is_cygwin(tc)
 tc.verifyFalse(stdlib.is_cygwin())

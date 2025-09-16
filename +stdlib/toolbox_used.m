@@ -7,9 +7,6 @@
 % * funUser: all user function files under pkgPath
 
 function [tbxMathworks, funUser] = toolbox_used(pkgPath)
-arguments
-  pkgPath string
-end
 
 [user, mathworks] = matlab.codetools.requiredFilesAndProducts(pkgPath);
 

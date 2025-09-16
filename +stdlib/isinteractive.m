@@ -1,6 +1,7 @@
-%% ISINTERACTIVE tell if being run interactively
+%% ISINTERACTIVE tell if graphical desktop is being used
 %
-% we try to consider the "-nodesktop" mode as interactive.
+% "matlab -nodesktop" mode outputs false.
+%
 % * get(0,'ScreenSize') often isn't relable anymore, it will show a display
 % size on HPC for example, maybe due to Xvfb or such.
 % Nowadays (R2025a+) one can make plots without Java enabled -nojvm too.
@@ -8,7 +9,7 @@
 
 function g = isinteractive()
 
-if batchStartupOptionUsed()
+if ~stdlib.matlabOlderThan('R2019b') && batchStartupOptionUsed()
   g = false;
 else
   g = matlab.desktop.editor.isEditorAvailable() || ...

@@ -6,7 +6,7 @@
 
 function mpaths = matlab_bin_path()
 
-mpaths.arch = computer("arch");
+mpaths.arch = computer('arch');
 mpaths.root = matlabroot;
 
 mpaths.bin = fullfile(matlabroot, 'bin');

@@ -49,7 +49,7 @@ end
 
 function exe = legacy_update_path(name)
 
-r = fullfile(matlabroot, 'bin', computer("arch"));
+r = fullfile(matlabroot, 'bin', computer('arch'));
 mustBeFolder(r)
 exe = fullfile(r, name);
 
@@ -58,7 +58,7 @@ end
 
 function exe = new_update_path(name)
 
-arch = computer("arch");
+arch = computer('arch');
 
 if ismac()
   head = fullfile(getenv('HOME'), 'Library/Application Support/MathWorks');

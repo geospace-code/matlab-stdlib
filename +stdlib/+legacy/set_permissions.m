@@ -1,11 +1,4 @@
 function ok = set_permissions(file, readable, writable, executable)
-arguments
-  file
-  readable (1,1) {mustBeInteger}
-  writable (1,1) {mustBeInteger}
-  executable (1,1) {mustBeInteger}
-end
-
 
 mode = '';
 % mode is space-delimited
@@ -34,7 +27,7 @@ if isempty(mode) && stdlib.exists(file)
   return
 end
 
-[s, msg, id] = fileattrib(file, mode);
+[s, msg, id] = fileattrib(char(file), mode);
 ok = s == 1;
 if ~ok
   warning(id, "Failed to set permissions %s for %s: %s", mode, file, msg)

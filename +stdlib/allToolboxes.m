@@ -1,14 +1,13 @@
 %% ALLTOOLBOXES tell all the Matlab toolboxes known for this Matlab release
-% requires: java
+% requires: java, Matlab >= R2018a
 
 function names = allToolboxes()
 
 tbx = com.mathworks.product.util.ProductIdentifier.values; %#ok<JAPIMATHWORKS>
 
-% R2021a has a bug that requires the comma-separated syntax
 names = table('Size', [numel(tbx), 2], ...
-              'VariableTypes',["string", "string"], ...
-              'VariableNames',["product", "license"]);
+              'VariableTypes', {'string', 'string'}, ...
+              'VariableNames', {'product', 'license'});
 names.product = string(tbx);
 
 for i = 1:numel(tbx)

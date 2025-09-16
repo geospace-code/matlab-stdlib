@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'pure'}) ...
+          TestTags = {'R2017b'}) ...
     TestParent < matlab.unittest.TestCase
 
 properties (TestParameter)
@@ -7,7 +7,7 @@ p = init_parent()
 end
 
 
-methods (Test, TestTags={'R2019b'})
+methods (Test)
 
 function test_parent(tc, p)
 pr = stdlib.parent(p{1});
