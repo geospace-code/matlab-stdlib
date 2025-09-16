@@ -17,11 +17,6 @@ if nargin < 2
   strict = false;
 end
 
-if stdlib.strempty(file)
-  c = extractBefore(file, 1);
-  return
-end
-
 [s, r] = fileAttribCompatible(file);
 
 if s == 1
@@ -29,7 +24,11 @@ if s == 1
 elseif ~strict
   c = stdlib.normalize(file);
 else
-  c = extractBefore(file, 1);
+  c = '';
+end
+
+if isstring(file)
+  c = string(c);
 end
 
 end
