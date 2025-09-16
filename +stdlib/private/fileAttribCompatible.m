@@ -2,6 +2,15 @@
 
 function [s, r, id] = fileAttribCompatible(file)
 
+% need stdlib.strempty for Matlab < R2020b
+if stdlib.strempty(file)
+  r = struct.empty;
+  s = 0;
+  id = 'MATLAB:FILEATTRIB:CannotFindFile';
+  return
+end
+
+
 try
   [s, r, id] = fileattrib(file);
 catch e
