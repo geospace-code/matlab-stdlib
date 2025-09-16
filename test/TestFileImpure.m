@@ -30,7 +30,7 @@ function test_null_file(tc)
 n = stdlib.null_file;
 
 if ispc()
-  tc.verifyEqual(n, "NUL")
+  tc.verifyEqual(n, 'NUL')
 elseif stdlib.matlabOlderThan('R2019b')
   tc.verifyEqual(n, '/dev/null')
 else

@@ -23,7 +23,7 @@ name_arch = '';
 
 if ispc()
   os = 'windows';
-  switch getenv("PROCESSOR_ARCHITECTURE")
+  switch getenv('PROCESSOR_ARCHITECTURE')
     case 'ARM64', name_arch = 'arm64';
     case 'AMD64', name_arch = 'x86_64';
   end

@@ -6,6 +6,8 @@
 %    fullfile(matlabroot, 'bin/matlab')
 % is a shell script and thus is FALSE for this function.
 %
+% Requires Matlab >= R2018a for the hex literals (0xNN).
+%
 % Inputs:
 % * filename: path to file
 % Outputs:

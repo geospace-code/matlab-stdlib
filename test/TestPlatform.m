@@ -3,7 +3,7 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
     TestPlatform < matlab.unittest.TestCase
 
 properties
-CI = getenv("CI") == "true" || getenv("GITHUB_ACTIONS") == "true"
+CI = getenv('CI') == "true" || getenv('GITHUB_ACTIONS') == "true"
 end
 
 
@@ -11,7 +11,7 @@ methods (Test, TestTags = {'toolbox', 'java'})
 function test_all_toolboxes(tc)
 tc.assumeTrue(stdlib.has_java())
 tbx = stdlib.allToolboxes();
-tc.verifyClass(tbx, "table")
+tc.verifyClass(tbx, 'table')
 end
 end
 

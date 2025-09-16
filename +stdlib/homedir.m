@@ -3,9 +3,9 @@
 function h = homedir()
 
 if ispc()
-  h = getenv("USERPROFILE");
+  h = getenv('USERPROFILE');
 else
-  h = getenv("HOME");
+  h = getenv('HOME');
 end
 
 end

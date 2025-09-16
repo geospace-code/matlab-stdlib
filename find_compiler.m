@@ -16,10 +16,10 @@ if ismac()
 elseif ispc()
   p = getenv('CMPLR_ROOT');
   if isempty(p)
-    p = getenv("MW_MINGW64_LOC");
+    p = getenv('MW_MINGW64_LOC');
   end
   if isempty(p)
-    p = getenv("MINGWROOT");
+    p = getenv('MINGWROOT');
   end
   if ~endsWith(p, "bin" | "bin/")
     p = p + "/bin";

@@ -1,6 +1,6 @@
 function i = has_windows_executable_suffix(file)
 
-pec = getenv("PATHEXT");
+pec = getenv('PATHEXT');
 if isempty(pec)
   pec = '.COM;.EXE;.BAT;.CMD;';
 end

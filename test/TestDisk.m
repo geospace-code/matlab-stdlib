@@ -7,7 +7,7 @@ CI = is_ci()
 end
 
 properties (TestParameter)
-Ps = {".", "", "/", getenv("SystemDrive"), "not-exist"}
+Ps = {".", "", "/", getenv('SystemDrive'), "not-exist"}
 Po = {mfilename("fullpath") + ".m", pwd(), ".", "", "not-exist"}
 B_ps = {'python', 'sys'}
 B_jps = {'java', 'python', 'sys'}
@@ -76,7 +76,7 @@ if ismember(B_ps, stdlib.Backend().select('is_mount'))
   tc.verifyFalse(stdlib.is_mount(tempname(), B_ps))
 
   if ispc()
-    sd = getenv("SystemDrive");
+    sd = getenv('SystemDrive');
     tc.assertEqual(sd, stdlib.root_name(sd))
     tc.verifyFalse(stdlib.is_mount(sd, B_ps), sd)
     tc.verifyTrue(stdlib.is_mount(sd + "/", B_ps), sd)

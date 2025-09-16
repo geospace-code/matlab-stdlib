@@ -13,7 +13,7 @@ end
 
 function test_short_folder(tc)
 
-progdir = getenv("PROGRAMFILES");
+progdir = getenv('PROGRAMFILES');
 if ispc()
   tc.assertThat(progdir, matlab.unittest.constraints.IsFolder, "$Env:PROGRAMFILES is not a directory")
 end

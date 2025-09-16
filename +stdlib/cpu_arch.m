@@ -12,7 +12,7 @@
 function a = cpu_arch()
 
 if ispc()
-  a = getenv("PROCESSOR_ARCHITECTURE");
+  a = getenv('PROCESSOR_ARCHITECTURE');
 else
   [~, a] = system('uname -m');
   a = deblank(a);

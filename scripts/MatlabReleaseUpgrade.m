@@ -61,16 +61,16 @@ function exe = new_update_path(name)
 arch = computer("arch");
 
 if ismac()
-  head = fullfile(getenv("HOME"), 'Library/Application Support/MathWorks');
+  head = fullfile(getenv('HOME'), 'Library/Application Support/MathWorks');
   if ~isfolder(head)
     head = '/Library/Application Support/MathWorks';
   end
   head = fullfile(head, 'ServiceHost');
 elseif ispc()
-  head = fullfile(getenv("LOCALAPPDATA"), 'MathWorks/ServiceHost');
+  head = fullfile(getenv('LOCALAPPDATA'), 'MathWorks/ServiceHost');
 else
   hostname = char(java.net.InetAddress.getLocalHost().getHostName());
-  head = fullfile(getenv("HOME"), '.MathWorks/ServiceHost', hostname);
+  head = fullfile(getenv('HOME'), '.MathWorks/ServiceHost', hostname);
 end
 mustBeFolder(head)
 

@@ -11,18 +11,18 @@ co = mex.getCompilerConfigurations(lang);
 
 if isempty(co)
   switch lang
-    case "fortran"
-      comp = getenv("FC");
+    case 'fortran'
+      comp = getenv('FC');
       if isempty(comp)
         disp("set FC environment variable to the Fortran compiler path via get_compiler('fortran'), or do 'mex -setup Fortran")
       end
-    case "c++"
-      comp = getenv("CXX");
+    case 'c++'
+      comp = getenv('CXX');
       if isempty(comp)
         disp("set CXX environment variable to the C++ compiler path via get_compiler('c++'), or do 'mex -setup c++")
       end
-    case "c"
-      comp = getenv("CC");
+    case 'c'
+      comp = getenv('CC');
       if isempty(comp)
         disp("set CC environment variable to the C compiler path via get_compiler('c'), or do 'mex -setup c'")
       end

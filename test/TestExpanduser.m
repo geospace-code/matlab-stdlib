@@ -25,9 +25,9 @@ end
 function p = init_exp()
 
 if ispc
-  h = getenv("USERPROFILE");
+  h = getenv('USERPROFILE');
 else
-  h = getenv("HOME");
+  h = getenv('HOME');
 end
 
 p = {

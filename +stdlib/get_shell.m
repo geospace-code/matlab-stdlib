@@ -19,7 +19,7 @@ end
 if r == 0
   s = deblank(msg);
 else
-  s = getenv("SHELL");
+  s = getenv('SHELL');
 end
 
 end

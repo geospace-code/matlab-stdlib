@@ -16,9 +16,9 @@ else
 
 if ~strlength(installDir)
   if ispc()
-    installDir = getenv("USERPROFILE");
+    installDir = getenv('USERPROFILE');
   else
-    installDir = getenv("HOME");
+    installDir = getenv('HOME');
   end
   installDir = fullfile(installDir, '.dotnet');
 end
@@ -47,7 +47,7 @@ if ~stdlib.is_matlab_online()
 end
 
 if isunix()
-  setenv("DOTNET_ROOT", installDir)
+  setenv('DOTNET_ROOT', installDir)
 
   disp("add to " + fullfile(userpath, 'startup.m') + " the line:")
   disp("setenv('DOTNET_ROOT','" + installDir + "')")

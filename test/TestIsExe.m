@@ -1,14 +1,13 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2019b', 'pure'}) ...
+          TestTags = {'R2017b', 'pure'}) ...
     TestIsExe < matlab.unittest.TestCase
 
 properties (TestParameter)
 % we don't test plain files like Readme.md b/c some systems like Matlab Online
 % have permissions like 777 everywhere
 p = {
-{"not-exist", false}, ...
+{'not-exist', false}, ...
 {'', false}, ...
-{"", false}, ...
 {'.', false}, ...
 {matlab_path(), true}
 }
@@ -18,7 +17,7 @@ end
 
 methods(TestClassSetup)
 function test_dirs(tc)
-tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
+tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture());
 end
 end
 
@@ -32,35 +31,33 @@ end
 
 
 function test_is_executable_binary(tc, peb)
+tc.assumeFalse(stdlib.matlabOlderThan('R2018a'), 'hex literals not supported < R2018a')
 b = stdlib.is_executable_binary(peb{1});
 tc.verifyEqual(b, peb{2}, peb{1})
 end
+
 end
-
-
-
 end
 
 %% Helper functions
 
 function f = matlab_path()
-f = fullfile(matlabroot, "bin/matlab");
+f = fullfile(matlabroot, 'bin/matlab');
 if ispc()
-  f = f + ".exe";
+  f = [f, '.exe'];
 end
 end
 
 
 function peb = init_exe_bin()
 peb = {
-{fileparts(mfilename('fullpath')) + "/../Readme.md", false}; ...
-{matlab_path, false}; ...
+{matlab_path(), false}; ...
 {'/bin/ls', true}; ...
 {tempname(), false}
 };
 
 if ispc
-  peb{2}{2} = true;
-  peb{3}{2} = false;
+  peb{1}{2} = true;
+  peb{2}{2} = false;
 end
 end

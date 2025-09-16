@@ -34,7 +34,7 @@ end
 
 % path given
 if stdlib.strempty(fpath)
-  fpath = string(getenv("PATH"));
+  fpath = string(getenv('PATH'));
 end
 
 if isscalar(fpath)

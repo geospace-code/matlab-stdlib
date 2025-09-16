@@ -77,12 +77,12 @@ end
 % Matlab grabs the stdout, stderr, stdin handles of a Gfortran program, even when it's using Java.
 % We must disable this behavior for the duration the running process.
 
-outold = getenv("GFORTRAN_STDOUT_UNIT");
-setenv("GFORTRAN_STDOUT_UNIT", "6");
-errold = getenv("GFORTRAN_STDERR_UNIT");
-setenv("GFORTRAN_STDERR_UNIT", "0");
-inold = getenv("GFORTRAN_STDIN_UNIT");
-setenv("GFORTRAN_STDIN_UNIT", "5");
+outold = getenv('GFORTRAN_STDOUT_UNIT');
+setenv('GFORTRAN_STDOUT_UNIT', '6');
+errold = getenv('GFORTRAN_STDERR_UNIT');
+setenv('GFORTRAN_STDERR_UNIT', '0');
+inold = getenv('GFORTRAN_STDIN_UNIT');
+setenv('GFORTRAN_STDIN_UNIT', '5');
 
 if opt.echo
   disp(cmd)
@@ -90,9 +90,9 @@ end
 
 [status, msg] = system(join(cmd), env_pairs{:});
 
-setenv("GFORTRAN_STDOUT_UNIT", outold);
-setenv("GFORTRAN_STDERR_UNIT", errold);
-setenv("GFORTRAN_STDIN_UNIT", inold);
+setenv('GFORTRAN_STDOUT_UNIT', outold);
+setenv('GFORTRAN_STDERR_UNIT', errold);
+setenv('GFORTRAN_STDIN_UNIT', inold);
 
 msg = deblank(msg);
 

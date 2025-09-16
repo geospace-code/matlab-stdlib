@@ -14,7 +14,7 @@ end
 end
 
 
-methods (Test, TestTags={'R2018a'})
+methods (Test, TestTags={'R2017b'})
 
 function test_exists(tc, Ps)
 r = stdlib.exists(Ps{1});
@@ -86,7 +86,7 @@ end
 
 if ispc()
   % On Windows, the root of the system drive is considered to exist
-  systemDrive = getenv("SystemDrive");
+  systemDrive = getenv('SystemDrive');
   if ~isempty(systemDrive)
     Ps{end+1} = {systemDrive, true};
   end
