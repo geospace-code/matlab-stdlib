@@ -23,7 +23,7 @@ switch class(v)
     return
 end
 
-if isa(v, "matlab.io.WindowsPermissions") || ispc()
+if isa(v, 'matlab.io.WindowsPermissions') || ispc()
 
   if p(1) == 'r'
     p(3) = 'x';
