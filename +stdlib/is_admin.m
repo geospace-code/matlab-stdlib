@@ -5,8 +5,10 @@
 % * b: backend used
 
 function [i, b] = is_admin(backend)
-arguments
-  backend (1,:) string = ["java", "dotnet", "perl", "python", "sys"]
+if nargin < 1
+  backend = ["java", "dotnet", "perl", "python", "sys"];
+else
+  backend = string(backend);
 end
 
 i = logical.empty;

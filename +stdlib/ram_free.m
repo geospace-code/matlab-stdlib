@@ -13,8 +13,10 @@
 
 
 function [i, b] = ram_free(backend)
-arguments
-  backend (1,:) string = ["java", "python", "sys"]
+if nargin < 1
+  backend = ["java", "python", "sys"];
+else
+  backend = string(backend);
 end
 
 i = uint64.empty;

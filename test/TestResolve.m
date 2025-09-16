@@ -3,7 +3,7 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
   TestResolve < matlab.unittest.TestCase
 
 properties (TestParameter)
-p = {'', "", ".", ".."}
+p = {'', "", '.', ".", ".."}
 end
 
 methods(TestClassSetup)
@@ -46,13 +46,16 @@ end
 
 function test_resolve_fullpath(tc, p)
 
-a = p;
-switch a
+switch p
   case {'', "", '.', "."}, b = pwd();
   case {'..', ".."}, b = fileparts(pwd());
 end
 
-tc.verifyEqual(stdlib.resolve(a, false), b)
+if isstring(p)
+  b = string(b);
+end
+
+tc.verifyEqual(stdlib.resolve(p, true), b)
 end
 end
 

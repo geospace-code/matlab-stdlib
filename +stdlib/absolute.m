@@ -43,4 +43,8 @@ if ~stdlib.strempty(p)
   end
 end
 
+if isstring(p)
+  c = string(c);
+end
+
 end

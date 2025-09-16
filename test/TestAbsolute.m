@@ -3,7 +3,7 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
     TestAbsolute < matlab.unittest.TestCase
 
 properties (TestParameter)
-p1 = {'', "hi", "./hi", "../hi"};
+p1 = {'', "", "hi", './hi', "../hi"};
 p2 = {{'', ''}, {'', 'hi'}, {"hi", ""}, {'there', 'hi'}};
 end
 
@@ -23,6 +23,10 @@ if strlength(p1)
   r = stdlib.append(pwd(), '/', p1);
 else
   r = pwd();
+end
+
+if isstring(p1)
+  r = string(r);
 end
 
 rabs = stdlib.absolute(p1);

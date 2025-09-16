@@ -7,8 +7,10 @@
 % * b: backend used
 
 function [r, b] = get_username(backend)
-arguments
-  backend (1,:) string = ["java", "dotnet", "python", "sys"]
+if nargin < 1
+  backend = ["java", "dotnet", "python", "sys"];
+else
+  backend = string(backend);
 end
 
 r = '';

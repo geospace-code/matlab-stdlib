@@ -21,7 +21,7 @@ end
 
 if s == 1
   c = r.Name;
-elseif ~strict
+elseif ~strict && ~stdlib.strempty(r)
   c = stdlib.normalize(file);
 else
   c = '';
