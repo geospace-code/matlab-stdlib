@@ -7,8 +7,10 @@
 % * b: backend used
 
 function [i, b] = get_uid(backend)
-arguments
-  backend (1,:) string = ["dotnet", "python", "perl"]
+if nargin < 1
+  backend = ["dotnet", "python", "perl"];
+else
+  backend = string(backend);
 end
 
 i = [];

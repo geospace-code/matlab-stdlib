@@ -1,15 +1,20 @@
 %% CHECKRAM estimate if RAM will fit a new array
 % checks that requested memory for the new array won't exceed AVAILABLE RAM with Matlab
 %
+%%% Inputs
+% * newSize: vector of array per-dimension lengths
+% * myclass: name of class
+%%% Outputs
+% * OK: logical if array is predicted to fit in RAM
+% * newSizeBytes: estimated array memory usage
+% * freebytes: current free RAM (before allocating array)
+%
 % This script is optimistic as Matlab won't always be able to
 % create an array using ALL available RAM, but at least you know when you
 % certainly CAN'T create an array without digging deep into swap or worse.
 
+
 function [OK,newSizeBytes,freebytes] = checkRAM(newSize, myclass)
-arguments
-  newSize (1,:) {mustBeNumeric}
-  myclass
-end
 
 % get available RAM
 freebytes = stdlib.ram_free();
