@@ -11,7 +11,7 @@ if ispc()
   end
   r = extractBefore(r, 2);
 
-  psFile = fullfile(fileparts(mfilename('fullpath')), 'isRemovableDrive.ps1');
+  psFile = [fileparts(mfilename('fullpath')), '/isRemovableDrive.ps1'];
   mustBeFile(psFile)
 
   psCmd = sprintf('. ''%s''; IsRemovableDrive -DriveLetter ''%s''', psFile, r);
@@ -35,14 +35,15 @@ elseif ismac()
 
   cmd2 = sprintf('diskutil info "%s"', deblank(m1));
   [s2, m2] = system(cmd2);
-  y = s2 == 0 && contains(m2, "Removable Media:" + whitespacePattern + "Removable");
+  y = s2 == 0 && ~isempty(regexp(m2, "Removable Media:\s*(Removable)", 'once'));
 
 else
 
   dev = deblank(extractAfter(m1, '/dev/'));
   f1 = sprintf('/sys/class/block/%s/removable', dev);
   if isfile(f1)
-    y = startsWith(fileread(f1), '1');
+    d = fileread(f1);
+    y = d(1) == '1';
   end
 
 end
