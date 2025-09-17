@@ -89,7 +89,7 @@ end
 
 
 function test_hard_link_count(tc, B_jps)
-fn = "test_hard_link_count.txt";
+fn = 'test_hard_link_count.txt';
 tc.assertTrue(stdlib.touch(fn))
 
 [i, b] = stdlib.hard_link_count(fn, B_jps);
@@ -136,7 +136,7 @@ end
 function test_remove_file(tc)
 tc.assumeFalse(stdlib.matlabOlderThan('R2018a'), 'test shaky on Matlab < R2018a')
 
-f = "test_remove.tmp";
+f = 'test_remove.tmp';
 
 tc.verifyFalse(stdlib.remove(f), "should not succeed at removing non-existant path")
 

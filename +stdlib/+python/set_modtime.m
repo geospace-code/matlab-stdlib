@@ -1,6 +1,6 @@
 function ok = set_modtime(file, time)
 
-utc = posixtime(datetime(time, 'TimeZone', "UTC"));
+utc = posixtime(datetime(time, 'TimeZone', 'UTC'));
 
 try
   s = py.os.stat(file);

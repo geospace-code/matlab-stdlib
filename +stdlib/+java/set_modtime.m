@@ -3,7 +3,7 @@
 function ok = set_modtime(file, time)
 
 try
-  utc = posixtime(datetime(time, 'TimeZone', "UTC"));
+  utc = posixtime(datetime(time, 'TimeZone', 'UTC'));
 catch e
   if ~strcmp(e.identifier, 'Octave:undefined-function')
     rethrow(e)

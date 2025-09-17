@@ -62,7 +62,7 @@ end
 end
 
 
-methods (Test, TestTags = {'R2017b'})
+methods (Test, TestTags = {'R2017a'})
 
 function test_auto_chunk_size(tc)
 

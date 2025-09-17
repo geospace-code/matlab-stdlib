@@ -28,7 +28,7 @@ fn = 'touch.txt';
 tc.assertTrue(stdlib.touch(fn))
 t0 = stdlib.get_modtime(fn);
 
-ok = stdlib.set_modtime(fn, datetime("tomorrow"), B_set_modtime);
+ok = stdlib.set_modtime(fn, datetime('tomorrow'), B_set_modtime);
 
 if ismember(B_set_modtime, stdlib.Backend().select('set_modtime'))
   tc.assertTrue(ok)
