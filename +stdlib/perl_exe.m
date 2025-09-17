@@ -23,7 +23,7 @@ catch e
   rethrow(e)
 end
 
-if s == 0 && isfile(r)
+if s == 0 && stdlib.is_file(r)
   exe = r;
   perle = r;
 end

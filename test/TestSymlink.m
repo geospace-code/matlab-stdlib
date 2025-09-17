@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2017b', 'symlink'}) ...
+          TestTags = {'R2017a', 'symlink'}) ...
     TestSymlink < matlab.unittest.TestCase
 
 properties
@@ -74,7 +74,6 @@ tc.applyFixture(matlab.unittest.fixtures.SuppressedWarningsFixture(...
   ["MATLAB:io:filesystem:symlink:TargetNotFound","MATLAB:io:filesystem:symlink:FileExists"]));
 
 ano = fullfile(pwd(), 'another.lnk');
-tc.assertFalse(isfile(ano))
 tc.assertFalse(stdlib.is_symlink(ano))
 
 r = stdlib.create_symlink(tc.target, ano, B_create_symlink);

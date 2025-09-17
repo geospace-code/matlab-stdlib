@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2017b', 'hdf4'}) ...
+          TestTags = {'R2017a', 'hdf4'}) ...
     TestHDF4 < matlab.unittest.TestCase
 
 properties
@@ -8,7 +8,7 @@ end
 
 methods (TestClassSetup)
 function check_file(tc)
-tc.assumeTrue(isfile(tc.file), "HDF4 file not found: " + tc.file)
+tc.assumeTrue(stdlib.is_file(tc.file), "HDF4 file not found: " + tc.file)
 end
 end
 
