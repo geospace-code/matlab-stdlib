@@ -41,9 +41,14 @@ else
 
   dev = deblank(extractAfter(m1, '/dev/'));
   f1 = sprintf('/sys/class/block/%s/removable', dev);
-  if isfile(f1)
+
+  try
     d = fileread(f1);
     y = d(1) == '1';
+  catch e
+    if ~strcmp(e.identifier, 'MATLAB:fileread:cannotOpenFile')
+      rethrow(e)
+    end
   end
 
 end
