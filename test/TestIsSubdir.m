@@ -12,12 +12,12 @@ methods (Test)
 
 function test_is_subdir(tc, p_is_subdir)
 tc.verifyEqual(stdlib.is_subdir(p_is_subdir{1}, p_is_subdir{2}), p_is_subdir{3}, ...
- sprintf("subdir(%s, %s)", p_is_subdir{1}, p_is_subdir{2}))
+ sprintf('subdir(%s, %s)', p_is_subdir{1}, p_is_subdir{2}))
 end
 
 function test_is_prefix(tc, p_is_prefix)
 tc.verifyEqual(stdlib.is_prefix(p_is_prefix{1}, p_is_prefix{2}), p_is_prefix{3}, ...
-  sprintf("prefix(%s, %s)", p_is_prefix{1}, p_is_prefix{2}))
+  sprintf('prefix(%s, %s)', p_is_prefix{1}, p_is_prefix{2}))
 end
 
 end

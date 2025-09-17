@@ -14,7 +14,7 @@ function MatlabReleaseUpgrade()
 
 cmd = getUpgradePath();
 
-fprintf("Matlab upgrade command:\n\n%s\n\n", cmd);
+fprintf('Matlab upgrade command:\n\n%s\n\n', cmd);
 
 end
 

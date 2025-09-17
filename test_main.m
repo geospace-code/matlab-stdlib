@@ -7,7 +7,7 @@ if nargin < 1
   context = [];
 end
 if nargin < 2
-  sel = (~HasTag("exe") & ~HasTag("java_exe")) | HasTag("native_exe");
+  sel = (~HasTag('exe') & ~HasTag('java_exe')) | HasTag('native_exe');
 end
 
 import matlab.unittest.TestRunner
@@ -36,7 +36,7 @@ catch e
       case {'MATLAB:expectedScalartext', 'MATLAB:expectedScalar'}
         suite = testsuite(test_root);
 
-        assert(numel(rtags) > 0, "No test tags found for this Matlab release")
+        assert(numel(rtags) > 0, 'No test tags found for this Matlab release')
         ts = HasTag(rtags(1));
         if numel(rtags) > 1
           for t = rtags(2:end)
@@ -56,18 +56,18 @@ suite = suite.selectIf(sel);
 runner = TestRunner.withTextOutput;
 r = runner.run(suite);
 
-assert(~isempty(r), "No tests were run")
+assert(~isempty(r), 'No tests were run')
 
 Lf = sum([r.Failed]);
 Lok = sum([r.Passed]);
 Lk = sum([r.Incomplete]);
 Lt = numel(r);
-assert(Lf == 0, sprintf("%d / %d tests failed", Lf, Lt))
+assert(Lf == 0, sprintf('%d / %d tests failed', Lf, Lt))
 
 if Lk
-  fprintf("%d / %d tests skipped\n", Lk, Lt);
+  fprintf('%d / %d tests skipped\n', Lk, Lt);
 end
 
-fprintf("%d / %d tests succeeded\n", Lok, Lt);
+fprintf('%d / %d tests succeeded\n', Lok, Lt);
 
 end

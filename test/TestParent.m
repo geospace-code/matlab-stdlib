@@ -11,7 +11,7 @@ methods (Test)
 
 function test_parent(tc, p)
 pr = stdlib.parent(p{1});
-tc.verifyEqual(pr, p{2}, sprintf("parent(%s)", p{1}))
+tc.verifyEqual(pr, p{2}, sprintf('parent(%s)', p{1}))
 end
 
 end

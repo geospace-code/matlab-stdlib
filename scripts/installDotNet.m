@@ -32,7 +32,7 @@ scr = websave(fullfile(installDir, 'dotnet-install.sh'), url);
 
 cmd = sprintf('sh -c "%s --install-dir %s"', scr, installDir);
 
-assert(stdlib.set_permissions(scr, 0, 0, 1), sprintf("chmod +x %s", scr))
+assert(stdlib.set_permissions(scr, 0, 0, 1), sprintf('chmod +x %s', scr))
 end
 
 disp(cmd)

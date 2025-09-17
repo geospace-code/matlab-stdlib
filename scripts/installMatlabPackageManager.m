@@ -18,11 +18,11 @@ pexe = fullfile(installDir, exe);
 
 pexe = websave(pexe, url);
 
-fprintf("installed MPM %s\n", pexe);
+fprintf('installed MPM %s\n', pexe);
 
 % make the program executable
 if isunix()
   root = fileparts(fileparts(mfilename('fullpath')));
   addpath(root)
-  assert(stdlib.set_permissions(pexe, 0, 0, 1), sprintf("chmod +x %s", pexe))
+  assert(stdlib.set_permissions(pexe, 0, 0, 1), sprintf('chmod +x %s', pexe))
 end

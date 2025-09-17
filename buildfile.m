@@ -201,7 +201,7 @@ readme = publish(pn + ".Contents", evalCode=false, showCode=false);
 movefile(readme, html_dir + "/index.html");
 readme = html_dir + "/index.html";
 
-fprintf("\nweb('file:///%s') to view docs\n\n", readme);
+fprintf('\nweb("file:///%s") to view docs\n\n', readme);
 end
 
 

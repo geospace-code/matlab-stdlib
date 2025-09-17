@@ -44,10 +44,10 @@ end
 mustBeNonempty(name_arch)
 
 % Compose the URL for the download.
-archive_name = sprintf("cmake-%s-%s-%s", cmake_version, os, name_arch);
+archive_name = sprintf('cmake-%s-%s-%s', cmake_version, os, name_arch);
 archive_file = archive_name + ext;
 archive_path = fullfile(prefix, archive_file);
-url = sprintf("https://github.com/Kitware/CMake/releases/download/v%s/%s", cmake_version, archive_file);
+url = sprintf('https://github.com/Kitware/CMake/releases/download/v%s/%s', cmake_version, archive_file);
 
 fprintf('%s => %s\n', url, archive_path);
 if ~isfolder(prefix)
