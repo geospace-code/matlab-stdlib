@@ -43,7 +43,9 @@ function test_makedir(tc)
 d = 'test_makedir.dir';
 stdlib.makedir(d)
 
-if stdlib.matlabOlderThan('R2018a')
+if stdlib.matlabOlderThan('R2017b')
+  tc.assertTrue(exist(d, 'dir') == 7)
+elseif stdlib.matlabOlderThan('R2018a')
   tc.assertTrue(isfolder(d))
 else
   tc.verifyThat(d, matlab.unittest.constraints.IsFolder)

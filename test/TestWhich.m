@@ -8,7 +8,7 @@ mexe = {[matlabroot '/bin/matlab'], ...
 end
 
 
-methods (Test, TestTags = {'R2017b'})
+methods (Test, TestTags = {'R2017a'})
 
 function test_which_name(tc)
 
@@ -27,7 +27,6 @@ end
 for n = names
   exe = stdlib.which(n);
   tc.verifyNotEmpty(exe, "Executable not found: " + n)
-  tc.verifyTrue(isfile(exe), "Executable is not a file: " + n)
   tc.verifyTrue(stdlib.is_exe(exe), "Executable is not executable: " + n)
 end
 
@@ -41,7 +40,6 @@ if ispc()
   r = [r, '.exe'];
 end
 
-tc.assumeTrue(isfile(r))
 tc.assumeTrue(stdlib.is_exe(r))
 
 tc.verifyGreaterThan(strlength(stdlib.which(r)), 0, "Expected which(" + r + " ) to find " + r)
@@ -50,7 +48,7 @@ end
 
 
 function test_which_onepath(tc)
-tc.verifyNotEmpty(stdlib.which("matlab", fullfile(matlabroot, 'bin')), ...
+tc.verifyNotEmpty(stdlib.which('matlab', fullfile(matlabroot, 'bin')), ...
     "Matlab not found by which() given specific path=")
 end
 
@@ -59,7 +57,7 @@ function test_which_multipath(tc)
 paths = split(string(getenv('PATH')), pathsep);
 paths(end+1) = fullfile(matlabroot, 'bin');
 
-tc.verifyNotEmpty(stdlib.which("matlab", paths), "Matlab not found by which()")
+tc.verifyNotEmpty(stdlib.which('matlab', paths), "Matlab not found by which()")
 end
 
 end
