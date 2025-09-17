@@ -1,7 +1,5 @@
 function [ok, cmd] = set_modtime(file, dt)
 
-ok = false;
-
 tiso = string(datetime(dt), 'yyyy-MM-dd HH:mm:ss');
 
 if ispc()
@@ -13,9 +11,7 @@ else
 end
 % https://man7.org/linux/man-pages/man1/touch.1.html
 
-if isfile(file)
-  [s, ~] = system(cmd);
-  ok = s == 0;
-end
+[s, ~] = system(cmd);
+ok = s == 0;
 
 end
