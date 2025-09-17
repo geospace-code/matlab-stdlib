@@ -61,7 +61,7 @@ for p = fpath
   else
     e = stdlib.append(p, '/', cmd);
   end
-  if isfile(e) && stdlib.is_exe(e)
+  if stdlib.is_exe(e)
     if find_all
       exe(end+1) = e; %#ok<AGROW>
     else

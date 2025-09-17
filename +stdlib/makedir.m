@@ -10,11 +10,15 @@ function makedir(direc)
 %% to avoid confusing making ./~/mydir
 direc = stdlib.expanduser(direc);
 
-if ~stdlib.strempty(direc) && ~isfolder(direc)
-  [~] = mkdir(direc);
+if ~stdlib.strempty(direc)
+  [s, ~] = mkdir(direc);
 end
 
-ok = isfolder(direc);
+ok = s == 1;
+
+if ~stdlib.matlabOlderThan('R2017b')
+  ok = ok && isfolder(direc);
+end
 
 if nargout == 0
   assert(ok, 'Failed to create directory: %s', direc)
