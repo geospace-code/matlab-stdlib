@@ -27,3 +27,5 @@ else
 end
 
 end
+
+%!assert (stdlib.matlabOlderThan('R2011a'))

@@ -9,7 +9,7 @@ p = filePermissions(file);
 assert(isscalar(p), "set_permissions: one file only")
 
 k = string.empty;
-v = logical.empty;
+v = logical([]);
 
 if readable ~= 0
   k(end+1) = "Readable";

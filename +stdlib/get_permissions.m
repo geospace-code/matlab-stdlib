@@ -27,3 +27,7 @@ catch e
 end
 
 end
+
+%!test
+%! addpath('private')
+%! assert(length(stdlib.get_permissions('.')) > 8)

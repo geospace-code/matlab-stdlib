@@ -10,7 +10,7 @@ catch e
   if e.identifier == "MATLAB:Python:PyException" && contains(e.message, "FileNotFoundError")
     ok = false;
   else
-    ok = logical.empty;
+    ok = logical([]);
   end
 end
 

@@ -11,14 +11,15 @@
 
 function [i, b] = cpu_load(backend)
 if nargin < 1
-  backend = ["java", "python", "sys"];
+  backend = {'java', 'python', 'sys'};
 else
-  backend = string(backend);
+  backend = cellstr(backend);
 end
 
 i = [];
 
-for b = backend
+for j = 1:numel(backend)
+  b = backend{j};
   switch b
     case 'java'
       i = stdlib.java.cpu_load();
@@ -37,3 +38,5 @@ for b = backend
 end
 
 end
+
+%!assert (stdlib.cpu_load() >= 0)

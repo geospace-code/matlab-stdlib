@@ -1,8 +1,8 @@
 function [os, version] = os_version()
 
 try
-  os = char(java.lang.System.getProperty('os.name'));
-  version = char(java.lang.System.getProperty('os.version'));
+  os = char(javaMethod('getProperty', 'java.lang.System', 'os.name'));
+  version = char(javaMethod('getProperty', 'java.lang.System', 'os.version'));
 catch e
   javaException(e)
   os = '';

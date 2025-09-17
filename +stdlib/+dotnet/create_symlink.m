@@ -13,7 +13,7 @@ try
   ok = true;
 catch e
   dotnetException(e)
-  ok = logical.empty;
+  ok = logical([]);
 end
 
 end

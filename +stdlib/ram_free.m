@@ -14,14 +14,15 @@
 
 function [i, b] = ram_free(backend)
 if nargin < 1
-  backend = ["java", "python", "sys"];
+  backend = {'java', 'python', 'sys'};
 else
-  backend = string(backend);
+  backend = cellstr(backend);
 end
 
-i = uint64.empty;
+i = uint64([]);
 
-for b = backend
+for j = 1:numel(backend)
+  b = backend{j};
   switch b
     case 'java'
       i = stdlib.java.ram_free();
@@ -43,3 +44,5 @@ end
 % * builtin memory() on Windows includes swap. The user could do that themselves.
 
 end
+
+%!assert (stdlib.ram_free() > 0)

@@ -14,3 +14,9 @@ if ok
 end
 
 end
+
+%!test
+%! addpath([pwd() '/+java/private'])
+%! f = tempname();
+%! assert(stdlib.touch(f))
+%! assert(stdlib.remove(f))

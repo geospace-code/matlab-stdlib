@@ -14,7 +14,7 @@ try
   ok = true;
 catch e
   pythonException(e)
-  ok = logical.empty;
+  ok = logical([]);
 end
 
 end

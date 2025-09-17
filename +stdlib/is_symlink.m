@@ -9,14 +9,15 @@
 
 function [i, b] = is_symlink(file, backend)
 if nargin < 2
-  backend = ["native", "java", "python", "dotnet", "sys"];
+  backend = {'native', 'java', 'python', 'dotnet', 'sys'};
 else
-  backend = string(backend);
+  backend = cellstr(backend);
 end
 
-i = logical.empty;
+i = logical([]);
 
-for b = backend
+for j = 1:numel(backend)
+  b = backend{j};
   switch b
     case "java"
       i = stdlib.java.is_symlink(file);
@@ -39,3 +40,6 @@ for b = backend
 end
 
 end
+
+
+%!assert (islogical(stdlib.is_symlink('.')))

@@ -35,3 +35,5 @@ perlv = v;
 perlv_cached = true;
 
 end
+
+%!assert (~isempty(stdlib.perl_version()))

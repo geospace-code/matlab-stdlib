@@ -1,7 +1,7 @@
 function L = cpu_load()
 
 try
-  b = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
+  b = javaMethod('getOperatingSystemMXBean', 'java.lang.management.ManagementFactory');
 
   L = b.getSystemLoadAverage();
   if L < 0

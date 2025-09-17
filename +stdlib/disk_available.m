@@ -12,14 +12,15 @@
 
 function [i, b] = disk_available(file, backend)
 if nargin < 2
-  backend = ["java", "dotnet", "python", "sys"];
+  backend = {'java', 'dotnet', 'python', 'sys'};
 else
-  backend = string(backend);
+  backend = cellstr(backend);
 end
 
-i = uint64.empty;
+i = uint64([]);
 
-for b = backend
+for j = 1:numel(backend)
+  b = backend{j};
   switch b
     case 'dotnet'
       i = stdlib.dotnet.disk_available(file);
@@ -40,3 +41,7 @@ for b = backend
 end
 
 end
+
+%!test
+%! addpath([pwd() '/+dotnet/private'])
+%!assert (stdlib.disk_available('.') > 0)

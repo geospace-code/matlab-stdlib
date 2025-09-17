@@ -23,3 +23,9 @@ if ~isempty(a)
 end
 
 end
+
+%!test
+%! if isunix()
+%! assert(stdlib.is_exe([matlabroot, '/bin/octave']))
+%! end
+%!assert (~stdlib.is_exe('.'))

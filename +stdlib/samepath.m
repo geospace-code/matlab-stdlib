@@ -18,14 +18,15 @@
 
 function [i, b] = samepath(path1, path2, backend)
 if nargin < 3
-  backend = ["python", "java", "perl", "sys", "native"];
+  backend = {'python', 'java', 'perl', 'sys', 'native'};
 else
-  backend = string(backend);
+  backend = cellstr(backend);
 end
 
-i = logical.empty;
+i = logical([]);
 
-for b = backend
+for j = 1:numel(backend)
+  b = backend{j};
   switch b
     case "java"
       i = stdlib.java.samepath(path1, path2);
@@ -48,3 +49,5 @@ for b = backend
 end
 
 end
+
+%!assert (stdlib.samepath('.', pwd()))

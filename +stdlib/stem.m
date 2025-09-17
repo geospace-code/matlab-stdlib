@@ -19,3 +19,5 @@ if stdlib.strempty(s)
 end
 
 end
+
+%!assert (stdlib.stem('a/b.c'), 'b')

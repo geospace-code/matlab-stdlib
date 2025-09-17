@@ -9,3 +9,5 @@ if stdlib.strempty(n)
 end
 
 end
+
+%!assert (stdlib.suffix('a//d.cl.as'), '.as')

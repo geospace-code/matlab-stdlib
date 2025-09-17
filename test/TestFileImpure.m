@@ -16,8 +16,8 @@ end
 methods (Test)
 
 function test_file_size(tc)
-n = "test_file_size.bin";
-fid = fopen(n, "wb");
+n = 'test_file_size.bin';
+fid = fopen(n, 'wb');
 fwrite(fid, 0, 'uint8');
 fclose(fid);
 

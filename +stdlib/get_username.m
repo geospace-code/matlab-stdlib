@@ -8,14 +8,15 @@
 
 function [r, b] = get_username(backend)
 if nargin < 1
-  backend = ["java", "dotnet", "python", "sys"];
+  backend = {'java', 'dotnet', 'python', 'sys'};
 else
-  backend = string(backend);
+  backend = cellstr(backend);
 end
 
 r = '';
 
-for b = backend
+for j = 1:numel(backend)
+  b = backend{j};
   switch b
     case "java"
       r = stdlib.java.get_username();
@@ -36,3 +37,6 @@ for b = backend
 end
 
 end
+
+
+%!assert (~isempty(stdlib.get_username()))

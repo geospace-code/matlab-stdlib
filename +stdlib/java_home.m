@@ -3,7 +3,7 @@
 function h = java_home()
 
 try
-  h = java.lang.System.getProperty('java.home');
+  h = javaMethod('getProperty', 'java.lang.System', 'java.home');
 catch
   h = '';
 end

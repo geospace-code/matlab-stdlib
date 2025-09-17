@@ -13,3 +13,6 @@ if ~strcmp(d, '/') && ~strcmp(d, stdlib.root(s))
 end
 
 end
+
+
+%!assert (stdlib.drop_slash('a//b/'), 'a/b')

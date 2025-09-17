@@ -12,15 +12,16 @@
 
 function [r, b] = read_symlink(file, backend)
 if nargin < 2
-  backend = ["native", "java", "python", "dotnet", "sys"];
+  backend = {'native', 'java', 'python', 'dotnet', 'sys'};
 else
-  backend = string(backend);
+  backend = cellstr(backend);
 end
 
 
 r = string.empty;
 
-for b = backend
+for j = 1:numel(backend)
+  b = backend{j};
   switch b
     case "java"
       r = stdlib.java.read_symlink(file);
@@ -43,3 +44,7 @@ for b = backend
 end
 
 end
+
+%!test
+%! pkg load tablicious
+%!assert (isempty(stdlib.read_symlink('.')))

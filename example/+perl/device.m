@@ -2,7 +2,7 @@
 
 function [r, cmd] = device(file)
 
-r = uint64.empty;
+r = uint64([]);
 
 exe = stdlib.perl_exe();
 if stdlib.strempty(exe)

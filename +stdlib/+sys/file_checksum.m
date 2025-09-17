@@ -31,10 +31,8 @@ end
 switch lower(hash_method)
   case {"sha-256", "sha256"}
     hash = regexp(m, '^\w{64}','match','once','lineanchors');
-    assert(strlength(hash)==64, 'SHA256 hash is 64 characters')
   case "md5"
     hash = regexp(m, '^\w{32}','match','once','lineanchors');
-    assert(strlength(hash)==32, 'MD5 hash is 32 characters')
 end
 
 end

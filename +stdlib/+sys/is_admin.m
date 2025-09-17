@@ -9,7 +9,7 @@ end
 [s, r] = system(cmd);
 if s ~= 0
   warning("stdlib:is_admin:RuntimeError", "Failed to execute command '%s': %s", cmd, r);
-  y = logical.empty;
+  y = logical([]);
   return
 end
 

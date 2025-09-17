@@ -20,6 +20,7 @@ if isunix() && ~ismac()
   end
 end
 
-mustBeInteger(w)
-
 end
+
+%!test
+%! mustBeInteger(stdlib.is_wsl())

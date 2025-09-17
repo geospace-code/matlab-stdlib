@@ -17,7 +17,7 @@ else
   backend = string(backend);
 end
 
-i = logical.empty;
+i = logical([]);
 
 for b = backend
   switch b

@@ -9,7 +9,7 @@ if ispc()
   if s == 0
     y = contains(m, ["This is a trusted developer volume", "this developer volume"]);
   else
-    y = logical.empty;
+    y = logical([]);
   end
 end
 end

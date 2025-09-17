@@ -6,14 +6,15 @@
 
 function [i, b] = is_admin(backend)
 if nargin < 1
-  backend = ["java", "dotnet", "perl", "python", "sys"];
+  backend = {'java', 'dotnet', 'perl', 'python', 'sys'};
 else
-  backend = string(backend);
+  backend = cellstr(backend);
 end
 
-i = logical.empty;
+i = logical([]);
 
-for b = backend
+for j = 1:numel(backend)
+  b = backend{j};
   switch b
     case "java"
       i = stdlib.java.is_admin();
@@ -36,3 +37,5 @@ for b = backend
 end
 
 end
+
+%!assert (islogical(stdlib.is_admin()))

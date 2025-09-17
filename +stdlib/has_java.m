@@ -7,3 +7,5 @@ function y = has_java()
 y = usejava('jvm');
 
 end
+
+%!assert(islogical(stdlib.has_java()))

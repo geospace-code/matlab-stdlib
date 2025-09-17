@@ -4,11 +4,12 @@
 % * file: path to examine
 %%% Outputs
 % * t: modification time, or empty if path does not exist
+%
+% Matlab < R2018a needs char input
 
 function t = get_modtime(file)
 
-% char() for Matlab < R2018a
-finf = dir(char(file));
+finf = dir(file);
 
 if ~isempty(finf) && finf.isdir
   % find which index of the struct array has member name == '.'
@@ -27,3 +28,5 @@ try %#ok<TRYNC>
 end
 
 end
+
+%!assert (stdlib.get_modtime('.') > 0)

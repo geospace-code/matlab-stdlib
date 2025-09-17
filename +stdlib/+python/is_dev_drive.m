@@ -3,7 +3,7 @@ function y = is_dev_drive(fpath)
 try
   y = py.os.path.isdevdrive(fpath);
 catch
-  y = logical.empty;
+  y = logical([]);
 end
 
 end

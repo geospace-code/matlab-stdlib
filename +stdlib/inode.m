@@ -9,14 +9,15 @@
 
 function [i, b] = inode(file, backend)
 if nargin < 2
-  backend = ["java", "python", "sys"];
+  backend = {'java', 'python', 'sys'};
 else
-  backend = string(backend);
+  backend = cellstr(backend);
 end
 
-i = uint64.empty;
+i = uint64([]);
 
-for b = backend
+for j = 1:numel(backend)
+  b = backend{j};
   switch b
     case "java"
       i = stdlib.java.inode(file);
@@ -35,3 +36,6 @@ for b = backend
 end
 
 end
+
+
+%!assert (stdlib.inode('.') > 0)

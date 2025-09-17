@@ -20,7 +20,7 @@ try
 catch e
   switch e.identifier
     case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
-      y = logical.empty;
+      y = logical([]);
     otherwise
       rethrow(e)
   end

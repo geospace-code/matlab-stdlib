@@ -41,3 +41,6 @@ else
 end
 
 end
+
+
+%!assert (stdlib.join('a', 'b'), 'a/b')

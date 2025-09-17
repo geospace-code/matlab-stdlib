@@ -6,7 +6,7 @@ try
 catch e
   switch e.identifier
     case {'MATLAB:UndefinedFunction', 'MATLAB:io:filesystem:symlink:NeedsAdminPerms'}
-      i = logical.empty;
+      i = logical([]);
     case {'MATLAB:io:filesystem:symlink:FileExists', 'MATLAB:io:filesystem:symlink:TargetNotFound'}
       i = false;
     otherwise

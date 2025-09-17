@@ -48,3 +48,5 @@ if isstring(p)
 end
 
 end
+
+%!assert(~isempty(stdlib.absolute('')))

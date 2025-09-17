@@ -14,3 +14,5 @@ function y = exists(fpath)
 y = isfile(fpath) || isfolder(fpath);
 
 end
+
+%!assert (stdlib.exists('.'))

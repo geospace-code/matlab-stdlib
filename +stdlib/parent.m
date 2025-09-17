@@ -22,3 +22,5 @@ elseif ispc() && strcmp(p, stdlib.root_name(file))
 end
 
 end
+
+%!assert (stdlib.parent('a/b/'), 'a')

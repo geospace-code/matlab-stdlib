@@ -15,7 +15,9 @@ end
 
 try
   % Java 1.8 benefits from absolute path, especially on Windows
-  t = char(java.nio.file.Files.getFileStore(javaAbsolutePath(file)).type);
+  p = javaAbsolutePath(file);
+  s = javaMethod('getFileStore', 'java.nio.file.Files', p);
+  t = char(s.type);
 catch e
   javaException(e)
 end

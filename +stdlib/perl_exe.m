@@ -29,3 +29,5 @@ if s == 0 && isfile(r)
 end
 
 end
+
+%!assert (isfile(stdlib.perl_exe()))

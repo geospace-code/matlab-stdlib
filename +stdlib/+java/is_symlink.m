@@ -6,10 +6,11 @@ if stdlib.strempty(file)
 end
 
 try
-  y = java.nio.file.Files.isSymbolicLink(javaAbsolutePath(file));
+  p = javaAbsolutePath(file);
+  y = javaMethod('isSymbolicLink', 'java.nio.file.Files', p);
 catch e
   javaException(e)
-  y = logical.empty;
+  y = logical([]);
 end
 
 end

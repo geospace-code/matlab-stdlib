@@ -14,3 +14,5 @@ elseif isstring(s)
 end
 
 end
+
+%!assert (stdlib.strempty(''))

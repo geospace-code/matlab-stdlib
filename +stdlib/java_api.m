@@ -3,7 +3,7 @@
 function a = java_api()
 
 try
-  a = java.lang.System.getProperty('java.specification.version');
+  a = javaMethod('getProperty', 'java.lang.System', 'java.specification.version');
   a = str2double(a);
 catch
   a = [];

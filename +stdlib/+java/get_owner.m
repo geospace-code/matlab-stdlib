@@ -20,7 +20,9 @@ end
 % We only saw this issue with R2025a on windows-2025 GA runner image.
 
 try
-  n = char(java.nio.file.Files.getOwner(javaAbsolutePath(file), java.nio.file.LinkOption.values()));
+  p = javaAbsolutePath(file);
+  opt = javaMethod('values', 'java.nio.file.LinkOption');
+  n = char(javaMethod('getOwner', 'java.nio.file.Files', p, opt));
 catch e
   javaException(e)
 end

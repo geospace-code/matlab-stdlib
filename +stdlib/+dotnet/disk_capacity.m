@@ -2,7 +2,7 @@
 
 function i = disk_capacity(file)
 
-i = uint64.empty;
+i = uint64([]);
 % Windows needs exists() not just strempty()
 if ~stdlib.exists(file)
   return

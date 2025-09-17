@@ -13,14 +13,15 @@
 
 function [i, b] = hard_link_count(file, backend)
 if nargin < 2
-  backend = ["java", "python", "sys"];
+  backend = {'java', 'python', 'sys'};
 else
-  backend = string(backend);
+  backend = cellstr(backend);
 end
 
 i = [];
 
-for b = backend
+for j = 1:numel(backend)
+  b = backend{j};
   switch b
     case "java"
       i = stdlib.java.hard_link_count(file);
@@ -39,3 +40,6 @@ for b = backend
 end
 
 end
+
+
+%!assert (stdlib.hard_link_count('.') > 0)

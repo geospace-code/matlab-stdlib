@@ -30,3 +30,8 @@ switch backend
 end
 
 end
+
+
+%!test
+%! pkg load tablicious
+%! assert(strcmp(stdlib.filename('a/.bc'), '.bc'))

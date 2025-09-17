@@ -3,7 +3,7 @@ function a = file_attributes(p)
 [status, a] = fileAttribCompatible(p);
 
 if status ~= 1
-  a = struct.empty;
+  a = struct([]);
   return
 end
 

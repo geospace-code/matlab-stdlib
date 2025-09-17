@@ -18,3 +18,5 @@ end
 r = stdlib.canonical(stdlib.absolute(file), strict);
 
 end
+
+%!assert (stdlib.resolve('.'), pwd())

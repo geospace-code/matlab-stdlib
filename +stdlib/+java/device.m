@@ -1,6 +1,6 @@
 function i = device(file)
 
-i = uint64.empty;
+i = uint64([]);
 
 if stdlib.strempty(file)
   return
@@ -10,8 +10,10 @@ end
 % seen on older Matlab versions on HPC
 
 try
-  opt = java.nio.file.LinkOption.values();
-  i = java.nio.file.Files.getAttribute(javaAbsolutePath(file), "unix:dev", opt);
+  opt = javaMethod('values', 'java.nio.file.LinkOption');
+  p = javaAbsolutePath(file);
+  i = javaMethod('getAttribute', 'java.nio.file.Files', p, 'unix:dev', opt);
+  % i = java.nio.file.Files.getAttribute(javaAbsolutePath(file), "unix:dev", opt);
 catch e
   javaException(e)
 end

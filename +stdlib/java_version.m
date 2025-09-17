@@ -10,7 +10,7 @@
 function v = java_version()
 
 try
-  v = java.lang.System.getProperty('java.version');
+  v = javaMethod('getProperty', 'java.lang.System', 'java.version');
 catch
   v = '';
 end

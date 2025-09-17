@@ -12,15 +12,16 @@
 
 function [os, version, b] = os_version(backend)
 if nargin < 1
-  backend = ["sys", "python", "dotnet", "java"];
+  backend = {'sys', 'python', 'dotnet', 'java'};
 else
-  backend = string(backend);
+  backend = cellstr(backend);
 end
 
 os = '';
 version = '';
 
-for b = backend
+for j = 1:numel(backend)
+  b = backend{j};
   switch b
     case "java"
       [os, version] = stdlib.java.os_version();
@@ -41,3 +42,9 @@ for b = backend
 end
 
 end
+
+
+%!test
+%! [o, v] = stdlib.os_version();
+%! assert(~isempty(o))
+%! assert(~isempty(v))

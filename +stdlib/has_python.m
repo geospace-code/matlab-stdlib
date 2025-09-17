@@ -7,3 +7,5 @@ function y = has_python()
 y = ~isempty(stdlib.python_version());
 
 end
+
+%!assert(~stdlib.has_python())

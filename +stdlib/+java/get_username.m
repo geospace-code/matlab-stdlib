@@ -1,7 +1,7 @@
 function n = get_username()
 
 try
-  n = char(java.lang.System.getProperty('user.name'));
+  n = char(javaMethod('getProperty', 'java.lang.System', 'user.name'));
 catch e
   javaException(e)
   n = '';

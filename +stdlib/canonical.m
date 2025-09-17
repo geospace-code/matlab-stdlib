@@ -32,3 +32,5 @@ if isstring(file)
 end
 
 end
+
+%!assert (length(stdlib.canonical('.')) > 1)

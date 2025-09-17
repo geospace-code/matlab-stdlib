@@ -8,7 +8,7 @@ else
   c = 'print $< == 0 ? 1 : 0';
 end
 
-y = logical.empty;
+y = logical([]);
 
 exe = stdlib.perl_exe();
 if stdlib.strempty(exe)

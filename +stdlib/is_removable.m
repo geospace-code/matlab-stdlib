@@ -10,14 +10,15 @@
 
 function [i, b] = is_removable(file, backend)
 if nargin < 2
-  backend = ["python", "sys"];
+  backend = {'python', 'sys'};
 else
-  backend = string(backend);
+  backend = cellstr(backend);
 end
 
-i = logical.empty;
+i = logical([]);
 
-for b = backend
+for j = 1:numel(backend)
+  b = backend{j};
   switch b
     case 'python'
       if stdlib.matlabOlderThan('R2022a'), continue, end
@@ -34,3 +35,5 @@ for b = backend
 end
 
 end
+
+%!assert (islogical(stdlib.is_removable('.')))

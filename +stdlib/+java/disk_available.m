@@ -1,7 +1,8 @@
 function i = disk_available(file)
 
 try
-  i = java.io.File(file).getUsableSpace();
+  o = javaObject('java.io.File', file);
+  i = javaMethod('getUsableSpace', o);
   if i < 1
     i = [];
   end

@@ -18,7 +18,7 @@ try
   end
 catch e
   dotnetException(e)
-  y = logical.empty;
+  y = logical([]);
 end
 
 end

@@ -18,3 +18,5 @@ else
 end
 
 end
+
+%!assert (stdlib.is_readable('.'))

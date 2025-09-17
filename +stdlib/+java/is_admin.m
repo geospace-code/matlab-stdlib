@@ -6,10 +6,11 @@ function ok = is_admin()
 
 
 try
-  ok = com.sun.security.auth.module.UnixSystem().getUid() == 0;
+  unixSystem = javaObject('com.sun.security.auth.module.UnixSystem');
+  ok = unixSystem.getUid() == 0;
 catch e
   javaException(e)
-  ok = logical.empty;
+  ok = logical([]);
 end
 
 end

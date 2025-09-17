@@ -34,3 +34,9 @@ if isstring(file)
 end
 
 end
+
+
+%!assert(stdlib.expanduser('~'), stdlib.homedir())
+%!assert(stdlib.expanduser('~/'), stdlib.homedir())
+%!assert(stdlib.expanduser('~/abd'), [stdlib.homedir(), '/abd'])
+%!assert(stdlib.expanduser('abc'), 'abc')

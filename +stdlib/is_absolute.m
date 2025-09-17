@@ -12,3 +12,5 @@ if ispc() && y
 end
 
 end
+
+%!assert (~stdlib.is_absolute('a'))

@@ -10,24 +10,25 @@
 
 function [i, b] = set_modtime(file, time, backend)
 if nargin < 3
-  backend = ["java", "python", "sys"];
+  backend = {'java', 'python', 'sys'};
 else
-  backend = string(backend);
+  backend = cellstr(backend);
 end
 
-i = logical.empty;
+i = logical([]);
 
-for b = backend
+for j = 1:numel(backend)
+  b = backend{j};
   switch b
-    case "java"
+    case 'java'
       i = stdlib.java.set_modtime(file, time);
-    case "python"
+    case 'python'
       if stdlib.matlabOlderThan('R2022a'), continue, end
       i = stdlib.python.set_modtime(file, time);
-    case "sys"
+    case 'sys'
       i = stdlib.sys.set_modtime(file, time);
     otherwise
-      error("stdlib:set_modtime:ValueError", "Unknown backend: %s", b)
+      error('stdlib:set_modtime:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)
@@ -36,3 +37,10 @@ for b = backend
 end
 
 end
+
+%!test
+%! pkg load tablicious
+%! f = tempname();
+%! assert(stdlib.touch(f))
+%! assert(stdlib.set_modtime(f, datetime('now')))
+%! assert(stdlib.remove(f))

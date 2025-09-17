@@ -13,3 +13,5 @@ end
 pid = uint64(pid);
 
 end
+
+%!assert(stdlib.get_pid() > 0)

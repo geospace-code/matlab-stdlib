@@ -2,7 +2,7 @@
 
 function v = java_vendor()
 
-v = java.lang.System.getProperty('java.vendor');
+v = javaMethod('getProperty', 'java.lang.System', 'java.vendor');
 
 v = char(v);
 

@@ -29,3 +29,10 @@ if isstring(p)
 end
 
 end
+
+%!test
+%! if ispc()
+%!   assert(strcmp(strcmp.root_dir('c:/hi'), '/'))
+%! else
+%!   assert(strcmp(stdlib.root_dir('/a/.bc'), '/'))
+%! end

@@ -23,3 +23,6 @@ if ischar(txt) && all(cellfun(@ischar, varargin))
 end
 
 end
+
+
+%!assert(stdlib.append('a','b'), 'ab')

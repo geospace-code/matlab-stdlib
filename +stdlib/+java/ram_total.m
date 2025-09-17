@@ -5,7 +5,7 @@ function bytes = ram_total()
 % https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getTotalMemorySize()
 
 try
-  b = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
+  b = javaMethod('getOperatingSystemMXBean', 'java.lang.management.ManagementFactory');
 
   if stdlib.java_api() < 14
     bytes = b.getTotalPhysicalMemorySize();

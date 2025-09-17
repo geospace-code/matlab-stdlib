@@ -3,22 +3,34 @@
 
 function json = platform_tell()
 
-try
-  r = matlabRelease().Release;
-catch
-  r = ['R' version('-release')];
+
+
+raw = struct('matlab_arch', computer('arch'));
+
+if ~stdlib.isoctave()
+  try
+    r = matlabRelease().Release;
+  catch
+    r = ['R' version('-release')];
+  end
+  raw.matlab_release = r;
+
+  m = stdlib.matlab_bin_path();
+  raw.matlab_extern_bin = m.extern_bin;
+  raw.matlab_root = m.root;
+  raw.matlab_arch_bin = m.arch_bin;
+  raw.matlab_bin = m.bin;
 end
 
-raw = struct('matlab_release', r, ...
-'matlab_arch', computer('arch'), ...
-'hdf5', stdlib.h5get_version(), ...
-'netcdf', stdlib.nc_get_version());
+h5v = stdlib.h5get_version();
+if ~isempty(h5v)
+  raw.hdf5 = h5v;
+end
 
-m = stdlib.matlab_bin_path();
-raw.matlab_extern_bin = m.extern_bin;
-raw.matlab_root = m.root;
-raw.matlab_arch_bin = m.arch_bin;
-raw.matlab_bin = m.bin;
+ncv = stdlib.nc_get_version();
+if ~isempty(ncv)
+  raw.netcdf = ncv;
+end
 
 if stdlib.has_java()
   raw.java_vendor = stdlib.java_vendor();

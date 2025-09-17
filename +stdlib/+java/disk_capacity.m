@@ -1,7 +1,8 @@
 function i = disk_capacity(file)
 
 try
-  i = java.io.File(file).getTotalSpace();
+  o = javaObject('java.io.File', file);
+  i = javaMethod('getTotalSpace', o);
   if i < 1
     i = [];
   end
