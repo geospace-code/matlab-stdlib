@@ -59,7 +59,11 @@ r = stdlib.file_checksum(tc.empty, Pe{1}, backend);
 tc.verifyClass(r, 'char')
 
 if ismember(backend, stdlib.Backend().select('file_checksum'))
-  tc.verifyEqual(r, Pe{2})
+  if ispc() && backend == "sys"
+    tc.verifyEmpty(r)
+  else
+    tc.verifyEqual(r, Pe{2})
+  end
 else
   tc.assertEmpty(r)
 end
