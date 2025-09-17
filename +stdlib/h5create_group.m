@@ -20,10 +20,11 @@ else
   try
     fid = H5F.open(file, 'H5F_ACC_RDWR', dcpl);
   catch e
-    if strcmp(e.identifier, 'MATLAB:imagesci:hdf5io:resourceNotFound')
-      fid = H5F.create(file);
-    else
-      rethrow(e)
+    switch e.identifier
+      case {'MATLAB:imagesci:hdf5io:resourceNotFound', 'MATLAB:imagesci:hdf5lib:fileOpenErr'}
+        fid = H5F.create(file);
+      otherwise
+        rethrow(e)
     end
   end
 end
