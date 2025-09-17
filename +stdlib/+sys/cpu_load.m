@@ -5,9 +5,9 @@ L = NaN;
 if ispc()
   cmd = 'pwsh -c "Get-CimInstance -ClassName Win32_Processor | Measure-Object -Property LoadPercentage -Average | Select-Object -ExpandProperty Average"';
 elseif ismac()
-  cmd = "sysctl -n vm.loadavg | awk '{print $2}'";
+  cmd = 'sysctl -n vm.loadavg | awk ''{print $2}''';
 else
-  cmd = "cat /proc/loadavg | awk '{print $1}'";
+  cmd = 'cat /proc/loadavg | awk ''{print $1}''';
 end
 
 [status, m] = system(cmd);

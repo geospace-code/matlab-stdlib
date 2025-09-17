@@ -7,7 +7,7 @@ if ispc()
 elseif ismac()
   cmd = 'sysctl -n vm.page_free_count';
 else
-  cmd = "free -b | awk '/Mem:/ {print $4}'";
+  cmd = 'free -b | awk ''/Mem:/ {print $4}''';
 end
 
 [s, m] = system(cmd);

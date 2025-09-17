@@ -19,7 +19,7 @@ end
 end
 
 
-methods (Test, TestTags = "native_exe")
+methods (Test, TestTags = {'native_exe'})
 
 function test_cwd(tc)
 

@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2017b', 'impure'}) ...
+          TestTags = {'R2017a'}) ...
     TestHash < matlab.unittest.TestCase
 
 properties
@@ -25,13 +25,11 @@ fid = fopen(tc.file, "w");
 tc.assumeGreaterThan(fid, 0);
 fprintf(fid, "hello");
 fclose(fid);
-tc.assumeTrue(isfile(tc.file))
 tc.assertEqual(stdlib.file_size(tc.file), 5)
 
 fid = fopen(tc.empty, "w");
 tc.assumeGreaterThan(fid, 0);
 fclose(fid);
-tc.assumeTrue(isfile(tc.empty))
 tc.assertEqual(stdlib.file_size(tc.empty), 0)
 end
 end

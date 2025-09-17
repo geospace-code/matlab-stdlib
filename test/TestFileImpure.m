@@ -40,7 +40,7 @@ end
 
 
 function test_makedir(tc)
-d = "test_makedir.dir";
+d = 'test_makedir.dir';
 stdlib.makedir(d)
 
 if stdlib.matlabOlderThan('R2018a')
