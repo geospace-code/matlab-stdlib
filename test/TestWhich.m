@@ -25,7 +25,7 @@ end
 % stdlib.which()
 % virus scanners may block stdlib.which("cmd.exe") on Windows
 for n = names
-  exe = stdlib.which(n);
+  exe = stdlib.which(char(n));  % char() for Matlab < R2017b
   tc.verifyNotEmpty(exe, "Executable not found: " + n)
   tc.verifyTrue(stdlib.is_exe(exe), "Executable is not executable: " + n)
 end

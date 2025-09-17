@@ -1,25 +1,30 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}) ...
     TestPermissions < matlab.unittest.TestCase
 
+properties
+file = 'perm.txt'
+end
+
 properties (TestParameter)
-Ps = {".", pwd(), "", tempname(), mfilename('fullpath') + ".m"}
+Ps = {".", pwd(), "", tempname(), 'perm.txt'}
 end
 
 
-methods(TestMethodSetup)
+methods(TestClassSetup)
 function w_dirs(tc)
   tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture());
+  tc.assertTrue(stdlib.touch(tc.file))
 end
 end
 
 
-methods (Test, TestTags={'R2017b'})
+methods (Test, TestTags={'R2017a'})
 
 function test_get_permissions(tc, Ps)
 import matlab.unittest.constraints.StartsWithSubstring
 
 [p, b] = stdlib.get_permissions(Ps);
-tc.verifyClass(p, "char")
+tc.verifyClass(p, 'char')
 
 if ~stdlib.exists(Ps)
   tc.verifyEmpty(p)
@@ -30,8 +35,8 @@ else
     tc.assertEqual(b, 'native')
   end
 
-  tc.verifyThat(p, StartsWithSubstring("r"))
-  if isfile(p) && strcmp(stdlib.suffix(p), '.m')
+  tc.verifyThat(p, StartsWithSubstring('r'))
+  if ~ispc() && strcmp(Ps, tc.file)
     tc.verifyEqual(p(3), '-')
   end
 end
@@ -44,7 +49,6 @@ if ispc()
   matlab_exe = [matlab_exe, '.exe'];
 end
 
-tc.assertTrue(isfile(matlab_exe))
 p = stdlib.get_permissions(matlab_exe);
 
 tc.assertNotEmpty(p)
