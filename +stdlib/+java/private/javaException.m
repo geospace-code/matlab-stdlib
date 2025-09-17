@@ -1,7 +1,7 @@
 function javaException(e)
 
 switch e.identifier
-  case 'MATLAB:Java:ClassLoad'
+  case {'MATLAB:Java:ClassLoad', 'MATLAB:Java:JVMInitialize'}
     % Java class not available e.g. wrong OS for this class
   case ''
     % pass GNU Octave
