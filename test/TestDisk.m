@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2017b'}) ...
+          TestTags = {'R2017a'}) ...
   TestDisk < matlab.unittest.TestCase
 
 properties
@@ -7,8 +7,7 @@ CI = is_ci()
 end
 
 properties (TestParameter)
-Ps = {".", "", "/", getenv('SystemDrive'), "not-exist"}
-Po = {mfilename("fullpath") + ".m", pwd(), ".", "", "not-exist"}
+Ps = {'.', '', '/', pwd(), getenv('SystemDrive'), 'not-exist'}
 B_ps = {'python', 'sys'}
 B_jps = {'java', 'python', 'sys'}
 B_jdps = {'java', 'dotnet', 'python', 'sys'}
@@ -147,13 +146,13 @@ tc.verifyTrue(stdlib.remove(f), "failed to remove file " + f)
 end
 
 
-function test_device(tc, Po, B_jps)
-[i, b] = stdlib.device(Po, B_jps);
+function test_device(tc, Ps, B_jps)
+[i, b] = stdlib.device(Ps, B_jps);
 tc.verifyClass(i, 'uint64')
 tc.assertEqual(char(b), B_jps)
 
 if ismember(B_jps, stdlib.Backend().select('device'))
-  if ~stdlib.exists(Po)
+  if ~stdlib.exists(Ps)
     tc.verifyEmpty(i)
   else
     tc.assertNotEmpty(i)
@@ -165,14 +164,14 @@ end
 end
 
 
-function test_inode(tc, Po, B_jps)
+function test_inode(tc, Ps, B_jps)
 
-[i, b] = stdlib.inode(Po, B_jps);
+[i, b] = stdlib.inode(Ps, B_jps);
 tc.verifyClass(i, 'uint64')
 tc.assertEqual(char(b), B_jps)
 
 if ismember(B_jps, stdlib.Backend().select('inode'))
-  if ~stdlib.exists(Po)
+  if ~stdlib.exists(Ps)
     tc.verifyEmpty(i)
   else
     tc.assertNotEmpty(i)
@@ -185,13 +184,13 @@ end
 end
 
 
-function test_owner(tc, Po, B_jdps)
-[o, b] = stdlib.get_owner(Po, B_jdps);
+function test_owner(tc, Ps, B_jdps)
+[o, b] = stdlib.get_owner(Ps, B_jdps);
 tc.assertEqual(char(b), B_jdps)
 tc.verifyClass(o, 'char')
 
 if ismember(B_jdps, stdlib.Backend().select('get_owner'))
-  if ~stdlib.exists(Po)
+  if ~stdlib.exists(Ps)
     tc.verifyEqual(o, '')
   else
     tc.verifyGreaterThan(strlength(o), 0)

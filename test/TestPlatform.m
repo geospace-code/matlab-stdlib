@@ -16,7 +16,7 @@ end
 end
 
 
-methods (Test, TestTags={'R2017b', 'toolbox'})
+methods (Test, TestTags={'R2017a', 'toolbox'})
 
 function test_has_parallel_toolbox(tc)
 y = stdlib.has_parallel_toolbox();
@@ -54,7 +54,7 @@ end
 end
 
 
-methods (Test, TestTags={'R2017b'})
+methods (Test, TestTags={'R2017a'})
 
 function test_platform_tell(tc)
 r = stdlib.platform_tell();

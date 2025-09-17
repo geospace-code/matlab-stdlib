@@ -11,15 +11,7 @@
 
 function y = exists(fpath)
 
-try
-  y = isfile(fpath) || isfolder(fpath);
-catch e
-  if strcmp(e.identifier, 'MATLAB:UndefinedFunction')
-    y = exist(fpath,'file') == 2 || exist(fpath, 'dir') == 7;
-  else
-    rethrow(e)
-  end
-end
+y = stdlib.is_file(fpath) || stdlib.is_folder(fpath);
 
 end
 
