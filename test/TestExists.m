@@ -14,14 +14,16 @@ end
 end
 
 
-methods (Test, TestTags={'R2017a'})
+methods (Test, TestTags={'R2016a'})
 
 function test_exists(tc, Ps)
 r = stdlib.exists(Ps{1});
 tc.verifyEqual(r, Ps{2}, Ps{1})
 
-r = stdlib.exists(string(Ps{1}));
-tc.verifyEqual(r, Ps{2})
+if ~stdlib.matlabOlderThan('R2016b')
+  r = stdlib.exists(string(Ps{1}));
+  tc.verifyEqual(r, Ps{2})
+end
 end
 
 
@@ -29,16 +31,20 @@ function test_is_readable(tc, Ps)
 r = stdlib.is_readable(Ps{1});
 tc.verifyEqual(r, Ps{2})
 
-r = stdlib.is_readable(string(Ps{1}));
-tc.verifyEqual(r, Ps{2});
+if ~stdlib.matlabOlderThan('R2016b')
+  r = stdlib.is_readable(string(Ps{1}));
+  tc.verifyEqual(r, Ps{2});
+end
 end
 
 function test_is_writable(tc, Ps)
 r = stdlib.is_writable(Ps{1});
 tc.verifyEqual(r, Ps{2})
 
-r = stdlib.is_writable(string(Ps{1}));
-tc.verifyEqual(r, Ps{2});
+if ~stdlib.matlabOlderThan('R2016b')
+  r = stdlib.is_writable(string(Ps{1}));
+  tc.verifyEqual(r, Ps{2});
+end
 end
 end
 
@@ -55,7 +61,9 @@ tc.assertClass(r, 'logical')
 if ismember(B_is_char_device, stdlib.Backend().select('is_char_device'))
   tc.verifyTrue(r, n)
 
-  tc.verifyTrue(stdlib.is_char_device(string(n), B_is_char_device))
+  if ~stdlib.matlabOlderThan('R2016b')
+    tc.verifyTrue(stdlib.is_char_device(string(n), B_is_char_device))
+  end
 else
   tc.verifyEmpty(r)
 end

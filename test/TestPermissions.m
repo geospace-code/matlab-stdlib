@@ -18,7 +18,7 @@ end
 end
 
 
-methods (Test, TestTags={'R2017a'})
+methods (Test, TestTags={'R2016a'})
 
 function test_get_permissions(tc, Ps)
 import matlab.unittest.constraints.StartsWithSubstring

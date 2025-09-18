@@ -18,7 +18,7 @@ try
   b = 'native';
 catch e
   switch e.identifier
-    case 'MATLAB:UndefinedFunction'
+    case {'MATLAB:UndefinedFunction', 'MATLAB:m_illegal_character'}
       ok = stdlib.legacy.set_permissions(file, readable, writable, executable);
       b = 'legacy';
     case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
