@@ -1,8 +1,9 @@
 %% TEST_MAIN Run all tests
-%
-% Matlab >= R2020a recommended
 
 function test_main(context, sel)
+import matlab.unittest.TestRunner
+import matlab.unittest.selectors.HasTag
+
 if nargin < 1
   context = [];
 end
@@ -10,8 +11,6 @@ if nargin < 2
   sel = (~HasTag('exe') & ~HasTag('java_exe')) | HasTag('native_exe');
 end
 
-import matlab.unittest.TestRunner
-import matlab.unittest.selectors.HasTag
 
 if isempty(context)
   cwd = fileparts(mfilename('fullpath'));
@@ -20,12 +19,48 @@ else
 end
 test_root = strcat(cwd, '/test');
 
-rtags = releaseTestTags();
+suite = define_suite(test_root, sel);
+
+runner = TestRunner.withTextOutput;
+r = runner.run(suite);
+
+assert(~isempty(r), 'No tests were run')
+
+Lf = sum([r.Failed]);
+Lok = sum([r.Passed]);
+Lk = sum([r.Incomplete]);
+Lt = numel(r);
+assert(Lf == 0, sprintf('%d / %d tests failed', Lf, Lt))
+
+if Lk
+  fprintf('%d / %d tests skipped\n', Lk, Lt);
+end
+
+fprintf('%d / %d tests succeeded\n', Lok, Lt);
+
+end
+
+
+function suite = define_suite(test_root, sel)
 
 try
-  suite = testsuite(test_root, 'Tag', rtags, 'InvalidFileFoundAction', "error");
+  rtags = releaseTestTags();
 catch e
-  if e.identifier ~= "MATLAB:InputParser:UnmatchedParameter"
+  % Matlab < R2016b
+  if strcmp(e.identifier, 'MATLAB:m_illegal_character')
+    suite = testsuite(test_root);
+    sel = sel & HasTag('R2016a');
+    suite = suite.selectIf(sel);
+    return
+  else
+    rethrow(e)
+  end
+end
+
+try
+  suite = testsuite(test_root, 'Tag', rtags, 'InvalidFileFoundAction', 'error');
+catch e
+  if ~strcmp(e.identifier, 'MATLAB:InputParser:UnmatchedParameter')
     rethrow(e)
   end
 
@@ -50,24 +85,7 @@ catch e
   end
 end
 
-% selectIf takes the subset of suite tests that meet "sel" conditions
+% selectIf takes the subset of suite tests that meet 'sel' conditions
 suite = suite.selectIf(sel);
-
-runner = TestRunner.withTextOutput;
-r = runner.run(suite);
-
-assert(~isempty(r), 'No tests were run')
-
-Lf = sum([r.Failed]);
-Lok = sum([r.Passed]);
-Lk = sum([r.Incomplete]);
-Lt = numel(r);
-assert(Lf == 0, sprintf('%d / %d tests failed', Lf, Lt))
-
-if Lk
-  fprintf('%d / %d tests skipped\n', Lk, Lt);
-end
-
-fprintf('%d / %d tests succeeded\n', Lok, Lt);
 
 end
