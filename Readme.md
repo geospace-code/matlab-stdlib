@@ -23,6 +23,13 @@ Matlab R2017a and newer:
 test_main
 ```
 
+For the functions compatible with GNU Octave:
+
+```octave
+addpath(pwd)
+oruntests('+stdlib/')
+```
+
 ## External language backends
 
 Our functions that aren't possible in native Matlab code are implemented using Matlab's no-compile

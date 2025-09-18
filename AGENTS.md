@@ -24,16 +24,13 @@ Key limitations to minimum Matlab version include:
 * R2018a: mfilename('fullpath') tells the full path to the matlab .m file currently running (empty for older Matlab)
 * R2019b: function argument validation block "arguments"
 
-## GNU Octave compatibility
-
-Numerous functions are also compatible with GNU Octave, but Octave is not a primary target of this project.
-In particular, using GNU Octave with functions having a backend as shown in [API.md](./API.md), directly use the "stdlib.sys" namespace as Octave doesn't have built-in strings yet to support auto-backend selection.
+Numerous functions are also compatible with GNU Octave.
 
 ## Dev Rules
 
 These rules apply under the namespace "stdlib" (directory +stdlib/) and all its sub-namespaces (subdirectories +stdlib/+*).
 
-- The code syntax must work for Matlab >= R2019b (preferably Matlab >= R2017b)
+- The code syntax must work for Matlab >= R2019b (preferably Matlab >= R2017a)
 - The code must not require any Matlab toolboxes, only base Matlab functionality
 - Prohibited to use Matlab factory function "isMATLABReleaseOlderThan()" as it is slow and not available for Matlab < R2020b. Instead we use stdlib.matlabOlderThan() which is like 200x faster than isMATLABReleaseOlderThan() and works for Matlab >= R2016b
 - When an exception is encountered, we generally desire that the code return an "empty" value of the appropriate type. In certain cases we may throw or rethrow an error.
