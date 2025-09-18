@@ -1,6 +1,6 @@
 %% MAKEDIR make directory and check for success
 %
-% malformed paths can be "created" but are not accessible.
+% malformed paths can be 'created' but are not accessible.
 % This function works around that bug in Matlab mkdir().
 %
 % Matlab < R2018a needs char input

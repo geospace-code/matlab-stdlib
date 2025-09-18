@@ -32,7 +32,7 @@ for j = 1:numel(backend)
     case 'sys'
       i = stdlib.sys.disk_available(file);
     otherwise
-      error("stdlib:disk_available:ValueError", "Unknown backend: %s", b)
+      error('stdlib:disk_available:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)

@@ -12,9 +12,9 @@ if isunix() && ~ismac()
   if fid >= 1
     v = fscanf(fid, '%s');
     fclose(fid);
-    if endsWith(v, "microsoft-standard-WSL2")
+    if endsWith(v, 'microsoft-standard-WSL2')
       w = 2;
-    elseif endsWith(v, "-Microsoft")
+    elseif endsWith(v, '-Microsoft')
       w = 1;
     end
   end

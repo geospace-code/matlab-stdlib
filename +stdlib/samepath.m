@@ -3,7 +3,7 @@
 % true if inputs resolve to same path.
 % Both paths must exist.
 %
-% NOTE: in general on Windows same(".", "not-exist/..") is true, but on
+% NOTE: in general on Windows same('.', 'not-exist/..') is true, but on
 % Unix it is false.
 % In C/C++ access() or stat() the same behavior is observed Windows vs Unix.
 %
@@ -28,19 +28,19 @@ i = logical([]);
 for j = 1:numel(backend)
   b = backend{j};
   switch b
-    case "java"
+    case 'java'
       i = stdlib.java.samepath(path1, path2);
-    case "native"
+    case 'native'
       i = stdlib.native.samepath(path1, path2);
-    case "perl"
+    case 'perl'
       i = stdlib.perl.samepath(path1, path2);
-    case "python"
+    case 'python'
       if stdlib.matlabOlderThan('R2022a'), continue, end
       i = stdlib.python.samepath(path1, path2);
-    case "sys"
+    case 'sys'
       i = stdlib.sys.samepath(path1, path2);
     otherwise
-      error("stdlib:hard_link_count:ValueError", "Unknown backend: %s", b)
+      error('stdlib:hard_link_count:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)

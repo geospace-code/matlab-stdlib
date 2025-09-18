@@ -1,5 +1,5 @@
 %% GET_PROCESS_PRIORITY get priority of the current Matlab session
-% This is an integer value like "nice" on Unix-like systems
+% This is an integer value like 'nice' on Unix-like systems
 % On Windows systems the char value is like 'Normal'
 %
 %%% Inputs
@@ -21,15 +21,15 @@ i = [];
 for j = 1:numel(backend)
   b = backend{j};
   switch b
-    case "dotnet"
+    case 'dotnet'
       i = stdlib.dotnet.get_process_priority();
-    case "python"
+    case 'python'
       if stdlib.matlabOlderThan('R2022a'), continue, end
       i = stdlib.python.get_process_priority();
-    case "sys"
+    case 'sys'
       i = stdlib.sys.get_process_priority();
     otherwise
-      error("stdlib:get_process_priority:ValueError", "Unknown backend: %s", b)
+      error('stdlib:get_process_priority:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)

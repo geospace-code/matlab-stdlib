@@ -28,7 +28,7 @@ for i = 1:min(length(parts1), length(parts2))
 end
 
 % If all common parts are equal, check for longer versions
-% If "ref" is longer and its remaining parts are not all zeros, then "in" is less.
+% If 'ref' is longer and its remaining parts are not all zeros, then 'in' is less.
 if length(parts1) < length(parts2)
   if any(parts2(length(parts1)+1:end) > 0)
     r = false;

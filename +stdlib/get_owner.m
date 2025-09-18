@@ -19,17 +19,17 @@ r = '';
 for j = 1:numel(backend)
   b = backend{j};
   switch b
-    case "java"
+    case 'java'
       r = stdlib.java.get_owner(file);
-    case "dotnet"
+    case 'dotnet'
       r = stdlib.dotnet.get_owner(file);
-    case "python"
+    case 'python'
       if stdlib.matlabOlderThan('R2022a'), continue, end
       r = stdlib.python.get_owner(file);
-    case "sys"
+    case 'sys'
       r = stdlib.sys.get_owner(file);
     otherwise
-      error("stdlib:get_owner:ValueError", "Unknown backend: %s", b)
+      error('stdlib:get_owner:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(r)

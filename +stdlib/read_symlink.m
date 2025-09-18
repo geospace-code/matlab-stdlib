@@ -23,19 +23,19 @@ r = string.empty;
 for j = 1:numel(backend)
   b = backend{j};
   switch b
-    case "java"
+    case 'java'
       r = stdlib.java.read_symlink(file);
-    case "native"
+    case 'native'
       r = stdlib.native.read_symlink(file);
-    case "dotnet"
+    case 'dotnet'
       r = stdlib.dotnet.read_symlink(file);
-    case "python"
+    case 'python'
       if stdlib.matlabOlderThan('R2022a'), continue, end
       r = stdlib.python.read_symlink(file);
-    case "sys"
+    case 'sys'
       r = stdlib.sys.read_symlink(file);
     otherwise
-      error("stdlib:read_symlink:ValueError", "Unknown backend: %s", b)
+      error('stdlib:read_symlink:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(r)

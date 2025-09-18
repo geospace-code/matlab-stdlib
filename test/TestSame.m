@@ -54,7 +54,7 @@ end
 function test_samepath_notexist(tc, backend)
 
 t = tempname();
-r1 = stdlib.samepath("", "", backend);
+r1 = stdlib.samepath('', '', backend);
 r2 = stdlib.samepath(t, t, backend);
 
 if ismember(backend, stdlib.Backend().select('samepath'))

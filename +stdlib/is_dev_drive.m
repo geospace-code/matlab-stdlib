@@ -25,7 +25,7 @@ for j = 1:numel(backend)
     case 'sys'
       i = stdlib.sys.is_dev_drive(file);
     otherwise
-      error("stdlib:is_dev_drive:ValueError", "Unknown backend: %s", b)
+      error('stdlib:is_dev_drive:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)

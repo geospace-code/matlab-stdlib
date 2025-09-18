@@ -9,8 +9,8 @@
 %
 % Examples:
 %
-% * Windows: is_mount("c:") false;  is_mount("C:\") true
-% * Linux, macOS, Windows: is_mount("/") true
+% * Windows: is_mount('c:') false;  is_mount('C:\') true
+% * Linux, macOS, Windows: is_mount('/') true
 
 function [i, b] = is_mount(file, backend)
 if nargin < 2
@@ -30,7 +30,7 @@ for j = 1:numel(backend)
     case 'sys'
       i = stdlib.sys.is_mount(file);
     otherwise
-      error("stdlib:is_mount:ValueError", "Unknown backend: %s", b)
+      error('stdlib:is_mount:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)

@@ -3,7 +3,7 @@
 %%% Inputs
 % * backend: backend to use
 %%% Outputs
-% * i: Returns the "recent cpu usage" for the whole system.
+% * i: Returns the 'recent cpu usage' for the whole system.
 % * b: backend used
 %
 % This value is a double greater than 0.
@@ -29,7 +29,7 @@ for j = 1:numel(backend)
     case 'sys'
       i = stdlib.sys.cpu_load();
     otherwise
-      error("stdlib:cpu_load:ValueError", "Unknown backend: %s", b)
+      error('stdlib:cpu_load:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)

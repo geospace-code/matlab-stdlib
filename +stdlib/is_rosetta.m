@@ -5,7 +5,7 @@
 % * r: true if running under Rosetta
 % * b: backend used
 %
-% "uname -m" reports "x86_64" from within Matlab on Apple Silicon if using Rosetta
+% 'uname -m' reports 'x86_64' from within Matlab on Apple Silicon if using Rosetta
 
 function r = is_rosetta()
 

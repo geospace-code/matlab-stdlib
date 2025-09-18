@@ -4,7 +4,7 @@
 %
 %%% Inputs
 % * file: file or to hash
-% * hash_method:  "MD5", "SHA-1", "SHA-256", etc.
+% * hash_method:  'MD5', 'SHA-1', 'SHA-256', etc.
 % * backend: backend to use
 %%% Outputs
 % * hash: string hash

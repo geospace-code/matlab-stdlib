@@ -8,7 +8,7 @@ end
 
 methods (TestClassSetup)
 function check_file(tc)
-tc.assumeTrue(stdlib.is_file(tc.file), "HDF4 file not found: " + tc.file)
+tc.assumeTrue(stdlib.is_file(tc.file), 'HDF4 file not found:')
 end
 end
 
@@ -16,17 +16,17 @@ methods (Test)
 
 function test_exists(tc)
 
-e = stdlib.h4exists(tc.file, "Example SDS");
+e = stdlib.h4exists(tc.file, 'Example SDS');
 
 tc.verifyThat(e, matlab.unittest.constraints.IsScalar)
 tc.verifyTrue(e);
 
-tc.verifyFalse(stdlib.h4exists(tc.file, "/j"))
+tc.verifyFalse(stdlib.h4exists(tc.file, '/j'))
 end
 
 
 function test_size(tc)
-s = stdlib.h4size(tc.file, "Example SDS");
+s = stdlib.h4size(tc.file, 'Example SDS');
 tc.verifyEqual(s, [16, 5])
 end
 

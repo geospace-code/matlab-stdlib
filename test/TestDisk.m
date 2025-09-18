@@ -71,15 +71,15 @@ tc.assertEqual(char(b), B_ps)
 tc.verifyClass(y, 'logical')
 
 if ismember(B_ps, stdlib.Backend().select('is_mount'))
-  tc.verifyTrue(stdlib.is_mount("/", B_ps))
+  tc.verifyTrue(stdlib.is_mount('/', B_ps))
   tc.verifyFalse(stdlib.is_mount(tempname(), B_ps))
 
   if ispc()
     sd = getenv('SystemDrive');
     tc.assertEqual(sd, stdlib.root_name(sd))
     tc.verifyFalse(stdlib.is_mount(sd, B_ps), sd)
-    tc.verifyTrue(stdlib.is_mount(sd + "/", B_ps), sd)
-    tc.verifyTrue(stdlib.is_mount(sd + "\", B_ps), sd)
+    tc.verifyTrue(stdlib.is_mount([sd '/'], B_ps), sd)
+    tc.verifyTrue(stdlib.is_mount([sd filesep], B_ps), sd)
   end
 else
   tc.verifyEmpty(y)
@@ -114,7 +114,7 @@ if ismember(B_jdps, stdlib.Backend().select('filesystem_type'))
   if ~stdlib.exists(Ps)
     tc.verifyEmpty(t)
   else
-    tc.assumeFalse(isempty(t) && tc.CI, "Some CI block viewing their filesystem type")
+    tc.assumeFalse(isempty(t) && tc.CI, 'Some CI block viewing their filesystem type')
     tc.assertNotEmpty(t)
     tc.verifyGreaterThan(strlength(t), 0)
   end
@@ -137,12 +137,12 @@ tc.assumeFalse(stdlib.matlabOlderThan('R2018a'), 'test shaky on Matlab < R2018a'
 
 f = 'test_remove.tmp';
 
-tc.verifyFalse(stdlib.remove(f), "should not succeed at removing non-existant path")
+tc.verifyFalse(stdlib.remove(f), 'should not succeed at removing non-existant path')
 
-tc.assertTrue(stdlib.touch(f), "failed to touch file " + f)
+tc.assertTrue(stdlib.touch(f))
 tc.assertThat(f, matlab.unittest.constraints.IsFile)
 
-tc.verifyTrue(stdlib.remove(f), "failed to remove file " + f)
+tc.verifyTrue(stdlib.remove(f))
 end
 
 

@@ -12,7 +12,7 @@ try
   h5info(file, variable);
   exists = true;
 catch e
-  if e.identifier ~= "MATLAB:imagesci:h5info:unableToFind"
+  if ~strcmp(e.identifier, 'MATLAB:imagesci:h5info:unableToFind')
     rethrow(e)
   end
 

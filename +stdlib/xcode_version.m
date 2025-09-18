@@ -12,7 +12,7 @@ if ismac()
       v = t{1};
     end
   else
-    warning("stdlib:xcode_version:runtimeError", "%d failed to get Command Line Tools Xcode version", s)
+    warning('stdlib:xcode_version:runtimeError', '%d failed to get Command Line Tools Xcode version', s)
   end
 end
 

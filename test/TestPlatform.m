@@ -2,7 +2,7 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
     TestPlatform < matlab.unittest.TestCase
 
 properties
-CI = getenv('CI') == "true" || getenv('GITHUB_ACTIONS') == "true"
+CI = strcmp(getenv('CI'), 'true') || strcmp(getenv('GITHUB_ACTIONS'), 'true');
 end
 
 
@@ -35,7 +35,7 @@ r = fullfile(fileparts(fileparts(mfilename('fullpath'))), '+stdlib');
 [mathworksUsed, userFun] = stdlib.toolbox_used(r);
 Nlicense = length(mathworksUsed);
 tc.verifyGreaterThanOrEqual(Nlicense, 1)
-tc.verifyTrue(ismember("MATLAB", mathworksUsed))
+tc.verifyTrue(ismember('MATLAB', mathworksUsed))
 tc.verifyGreaterThan(length(userFun), 200) % we have over 200 stdlib functions
 
 % don't use paid toolboxes without checking they exist, otherwise this function fails
@@ -48,7 +48,7 @@ function test_perl(tc)
 tc.assumeFalse(stdlib.matlabOlderThan('R2018a'))
 tc.verifyNotEmpty(stdlib.perl_exe())
 tc.verifyNotEmpty(stdlib.perl_version())
-tc.verifyTrue(stdlib.has_perl(), "Matlab docs indicate that Perl should always be available")
+tc.verifyTrue(stdlib.has_perl(), 'Matlab docs indicate that Perl should always be available')
 end
 
 end
@@ -85,7 +85,7 @@ end
 
 
 function test_get_shell(tc)
-tc.assumeFalse(tc.CI, "get_shell is not tested in CI due to platform differences")
+tc.assumeFalse(tc.CI, 'get_shell is not tested in CI due to platform differences')
 tc.verifyClass(stdlib.get_shell(), 'char')
 tc.verifyGreaterThan(strlength(stdlib.get_shell()), 0)
 end

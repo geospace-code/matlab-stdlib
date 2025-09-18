@@ -26,7 +26,7 @@ for j = 1:numel(backend)
     case 'sys'
       i = stdlib.sys.is_removable(file);
     otherwise
-      error("stdlib:is_removable:ValueError", "Unknown backend: %s", b)
+      error('stdlib:is_removable:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)

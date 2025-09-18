@@ -1,5 +1,5 @@
 %% RAM_FREE get free physical RAM
-% What "free" memory means has many definitions across computing platforms.
+% What 'free' memory means has many definitions across computing platforms.
 % The user must consider total memory and monitor swap usage.
 %
 % get free physical RAM across operating systems
@@ -32,7 +32,7 @@ for j = 1:numel(backend)
     case 'sys'
       i = stdlib.sys.ram_free();
     otherwise
-      error("stdlib:ram_free:ValueError", "Unknown backend: %s", b)
+      error('stdlib:ram_free:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)

@@ -6,7 +6,7 @@ file = 'perm.txt'
 end
 
 properties (TestParameter)
-Ps = {".", pwd(), "", tempname(), 'perm.txt'}
+Ps = {'.', pwd(), '', tempname(), 'perm.txt'}
 end
 
 
@@ -76,7 +76,7 @@ else
 end
 
 if ~ispc() || ~strcmp(b, 'legacy')
-  tc.verifyThat(p, StartsWithSubstring("r-"), "no-write permission failed to set")
+  tc.verifyThat(p, StartsWithSubstring('r-'), 'no-write permission failed to set')
 end
 
 end
@@ -100,7 +100,7 @@ tc.assertTrue(stdlib.set_permissions(nr, -1, 0, 0))
 p = stdlib.get_permissions(nr);
 
 if ~ispc()
-  tc.verifyThat(p, StartsWithSubstring("-"), "no-read permission failed to set")
+  tc.verifyThat(p, StartsWithSubstring('-'), 'no-read permission failed to set')
 end
 end
 

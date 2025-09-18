@@ -1,6 +1,6 @@
 %% ISINTERACTIVE tell if graphical desktop is being used
 %
-% "matlab -nodesktop" mode outputs false.
+% 'matlab -nodesktop' mode outputs false.
 %
 % * get(0,'ScreenSize') often isn't relable anymore, it will show a display
 % size on HPC for example, maybe due to Xvfb or such.

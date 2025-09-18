@@ -11,7 +11,7 @@ function fsize = h5size(file, variable)
 finf = h5info(file, variable);
 dsi = finf.Dataspace;
 
-if dsi.Type == "scalar"
+if strcmp(dsi.Type, 'scalar')
   fsize = [];
 else
   fsize = dsi.Size;

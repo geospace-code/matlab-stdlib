@@ -36,7 +36,7 @@ for j = 1:numel(backend)
     case 'sys'
       i = stdlib.sys.is_char_device(file);
     otherwise
-      error("stdlib:is_char_device:ValueError", "Unknown backend: %s", b)
+      error('stdlib:is_char_device:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)

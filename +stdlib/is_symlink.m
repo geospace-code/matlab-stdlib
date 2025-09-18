@@ -19,19 +19,19 @@ i = logical([]);
 for j = 1:numel(backend)
   b = backend{j};
   switch b
-    case "java"
+    case 'java'
       i = stdlib.java.is_symlink(file);
-    case "native"
+    case 'native'
       i = stdlib.native.is_symlink(file);
-    case "dotnet"
+    case 'dotnet'
       i = stdlib.dotnet.is_symlink(file);
-    case "python"
+    case 'python'
       if stdlib.matlabOlderThan('R2022a'), continue, end
       i = stdlib.python.is_symlink(file);
-    case "sys"
+    case 'sys'
       i = stdlib.sys.is_symlink(file);
     otherwise
-      error("stdlib:is_symlink:ValueError", "Unknown backend: %s", b)
+      error('stdlib:is_symlink:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)

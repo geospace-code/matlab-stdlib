@@ -10,26 +10,27 @@
 
 function [r, b] = hostname(backend)
 if nargin < 1
-  backend = ["java", "dotnet", "python", "sys"];
+  backend = {'java', 'dotnet', 'python', 'sys'};
 else
   backend = string(backend);
 end
 
 r = '';
 
-for b = backend
+for i = 1:numel(backend)
+  b = backend{i};
   switch b
-    case "java"
+    case 'java'
       r = stdlib.java.hostname();
-    case "dotnet"
+    case 'dotnet'
       r = stdlib.dotnet.hostname();
-    case "python"
+    case 'python'
       if stdlib.matlabOlderThan('R2022a'), continue, end
       r = stdlib.python.hostname();
-    case "sys"
+    case 'sys'
       r = stdlib.sys.hostname();
     otherwise
-      error("stdlib:hostname:ValueError", "Unknown backend: %s", b)
+      error('stdlib:hostname:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(r)

@@ -12,7 +12,7 @@ try
   ncinfo(file, variable);
   exists = true;
 catch e
-  if e.identifier ~= "MATLAB:imagesci:netcdf:unknownLocation"
+  if ~strcmp(e.identifier, 'MATLAB:imagesci:netcdf:unknownLocation')
     rethrow(e)
   end
 

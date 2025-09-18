@@ -26,7 +26,7 @@ for j = 1:numel(backend)
     case 'perl'
       i = stdlib.perl.get_uid();
     otherwise
-      error("stdlib:get_uid:ValueError", "Unknown backend: %s", b)
+      error('stdlib:get_uid:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)

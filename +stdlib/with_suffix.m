@@ -2,7 +2,7 @@
 %
 %%% Inputs
 % * p: path to modify
-% * suffix: file extension with "." e.g. ".dat"
+% * suffix: file extension with '.' e.g. '.dat'
 %%% Outputs
 % * f: modified filename
 

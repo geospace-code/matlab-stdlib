@@ -15,7 +15,7 @@ r = '';
 
 if isempty(c)
   % pass
-elseif ismember(c(1), ["/", filesep])
+elseif ismember(c(1), {'/', filesep})
   r = c(1);
 elseif ispc()
   m = regexp(c, '^[A-Za-z]:([\\/])', 'tokens', 'once');

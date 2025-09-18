@@ -21,13 +21,13 @@ methods(TestClassSetup)
 function create_file(tc)
 tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture());
 
-fid = fopen(tc.file, "w");
+fid = fopen(tc.file, 'w');
 tc.assumeGreaterThan(fid, 0);
-fprintf(fid, "hello");
+fprintf(fid, 'hello');
 fclose(fid);
 tc.assertEqual(stdlib.file_size(tc.file), 5)
 
-fid = fopen(tc.empty, "w");
+fid = fopen(tc.empty, 'w');
 tc.assumeGreaterThan(fid, 0);
 fclose(fid);
 tc.assertEqual(stdlib.file_size(tc.empty), 0)
@@ -57,7 +57,7 @@ r = stdlib.file_checksum(tc.empty, Pe{1}, backend);
 tc.verifyClass(r, 'char')
 
 if ismember(backend, stdlib.Backend().select('file_checksum'))
-  if ispc() && backend == "sys"
+  if ispc() && strcmp(backend, 'sys')
     tc.verifyEmpty(r)
   else
     tc.verifyEqual(r, Pe{2})

@@ -1,7 +1,7 @@
 % IS_EXECUTABLE_BINARY Check if a file is an executable binary by examining magic numbers
 %
 % NOTE: on Unix-like operating systems, often times what users run thinking
-% it's a "program" is actually a shell script invoking a binary with
+% it's a 'program' is actually a shell script invoking a binary with
 % options.
 %    fullfile(matlabroot, 'bin/matlab')
 % is a shell script and thus is FALSE for this function.

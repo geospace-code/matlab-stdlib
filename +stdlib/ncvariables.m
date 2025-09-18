@@ -1,6 +1,6 @@
 %% NCVARIABLES get NetCDF dataset names
 % get dataset names in a file under group
-% default is datasets under "/", optionally under "/group"
+% default is datasets under '/', optionally under '/group'
 %
 %%% Inputs
 % * file: filename

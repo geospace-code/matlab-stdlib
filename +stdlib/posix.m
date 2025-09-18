@@ -1,6 +1,6 @@
 %% POSIX posix format of path with '/' separator
-% convert a path to a Posix string path separated with "/" even on Windows.
-% If Windows path also have escaping "\" this breaks
+% convert a path to a Posix string path separated with '/' even on Windows.
+% If Windows path also have escaping '\' this breaks
 %
 
 function r = posix(p)

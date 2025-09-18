@@ -21,17 +21,17 @@ r = '';
 for j = 1:numel(backend)
   b = backend{j};
   switch b
-    case "java"
+    case 'java'
       r = stdlib.java.filesystem_type(file);
-    case "dotnet"
+    case 'dotnet'
       r = stdlib.dotnet.filesystem_type(file);
-    case "python"
+    case 'python'
       if stdlib.matlabOlderThan('R2022a'), continue, end
       r = stdlib.python.filesystem_type(file);
-    case "sys"
+    case 'sys'
       r = stdlib.sys.filesystem_type(file);
     otherwise
-      error("stdlib:filesystem_type:ValueError", "Unknown backend: %s", b)
+      error('stdlib:filesystem_type:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(r)

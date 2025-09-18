@@ -9,7 +9,7 @@ try
   gcp('nocreate');
   y = true;
 catch e
-  if e.identifier ~= "MATLAB:UndefinedFunction"
+  if ~strcmp(e.identifier, 'MATLAB:UndefinedFunction')
     rethrow(e)
   end
   y = false;

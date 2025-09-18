@@ -31,7 +31,7 @@ for j = 1:numel(backend)
     case 'sys'
       i = stdlib.sys.ram_total();
     otherwise
-      error("stdlib:ram_total:ValueError", "Unknown backend: %s", b)
+      error('stdlib:ram_total:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)

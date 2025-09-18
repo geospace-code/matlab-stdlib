@@ -5,8 +5,8 @@
 %%% Outputs
 % * par: parent directory of path
 %% Examples:
-% stdlib.parent("a/b/c") == "a/b"
-% stdlib.parent("a/b/c/") == "a/b"
+% stdlib.parent('a/b/c') 'a/b'
+% stdlib.parent('a/b/c/') 'a/b'
 
 function p = parent(file)
 

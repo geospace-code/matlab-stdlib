@@ -17,7 +17,7 @@ sds = finf.SDS;
 
 i = strcmp({sds.Name}, variable);
 if ~any(i)
-  error(variable + " is not an SDS in " + file)
+  error('%s is not an SDS in %s', variable, file)
 end
 
 fsize = [sds(i).Dims.Size];

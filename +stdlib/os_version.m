@@ -23,17 +23,17 @@ version = '';
 for j = 1:numel(backend)
   b = backend{j};
   switch b
-    case "java"
+    case 'java'
       [os, version] = stdlib.java.os_version();
-    case "dotnet"
+    case 'dotnet'
       [os, version] = stdlib.dotnet.os_version();
-    case "python"
+    case 'python'
       if stdlib.matlabOlderThan('R2022a'), continue, end
       [os, version] = stdlib.python.os_version();
-    case "sys"
+    case 'sys'
       [os, version] = stdlib.sys.os_version();
     otherwise
-      error("stdlib:os_version:ValueError", "Unknown backend: %s", b)
+      error('stdlib:os_version:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(os) && ~isempty(version)

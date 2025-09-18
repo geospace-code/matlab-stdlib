@@ -23,15 +23,15 @@ i = [];
 for j = 1:numel(backend)
   b = backend{j};
   switch b
-    case "java"
+    case 'java'
       i = stdlib.java.hard_link_count(file);
-    case "python"
+    case 'python'
       if stdlib.matlabOlderThan('R2022a'), continue, end
       i = stdlib.python.hard_link_count(file);
-    case "sys"
+    case 'sys'
       i = stdlib.sys.hard_link_count(file);
     otherwise
-      error("stdlib:hard_link_count:ValueError", "Unknown backend: %s", b)
+      error('stdlib:hard_link_count:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)

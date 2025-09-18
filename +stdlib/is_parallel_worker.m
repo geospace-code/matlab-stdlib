@@ -20,7 +20,7 @@ function ispar = is_parallel_worker()
 try
   ispar = ~isempty(getCurrentWorker());
 catch e
-  if e.identifier ~= "MATLAB:UndefinedFunction"
+  if ~strcmp(e.identifier, 'MATLAB:UndefinedFunction')
      rethrow(e)
   end
   ispar = false;

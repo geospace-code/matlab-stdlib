@@ -19,15 +19,15 @@ i = uint64([]);
 for j = 1:numel(backend)
   b = backend{j};
   switch b
-    case "java"
+    case 'java'
       i = stdlib.java.device(file);
-    case "python"
+    case 'python'
       if stdlib.matlabOlderThan('R2022a'), continue, end
       i = stdlib.python.device(file);
-    case "sys"
+    case 'sys'
       i = stdlib.sys.device(file);
     otherwise
-      error("stdlib:device:ValueError", "Unknown backend: %s", b)
+      error('stdlib:device:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)

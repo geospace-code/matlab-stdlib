@@ -30,7 +30,7 @@ for j = 1:numel(backend)
     case 'sys'
       i = stdlib.sys.disk_capacity(file);
     otherwise
-      error("stdlib:disk_capacity:ValueError", "Unknown backend: %s", b)
+      error('stdlib:disk_capacity:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)

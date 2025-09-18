@@ -16,19 +16,19 @@ i = logical([]);
 for j = 1:numel(backend)
   b = backend{j};
   switch b
-    case "java"
+    case 'java'
       i = stdlib.java.is_admin();
-    case "dotnet"
+    case 'dotnet'
       i = stdlib.dotnet.is_admin();
-    case "perl"
+    case 'perl'
       i = stdlib.perl.is_admin();
-    case "python"
+    case 'python'
       if stdlib.matlabOlderThan('R2022a'), continue, end
       i = stdlib.python.is_admin();
-    case "sys"
+    case 'sys'
       i = stdlib.sys.is_admin();
     otherwise
-      error("stdlib:is_admin:ValueError", "Unknown backend: %s", b)
+      error('stdlib:is_admin:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(i)

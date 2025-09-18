@@ -13,6 +13,6 @@ function exists = h4exists(file, variable)
 
 finf = hdfinfo(file);
 sds = finf.SDS;
-exists = ismember(variable, sds.Name);
+exists = any(isequal(variable, sds.Name));
 
 end

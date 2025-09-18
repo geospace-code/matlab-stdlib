@@ -42,6 +42,7 @@ end
 
 
 function suite = define_suite(test_root, sel)
+import matlab.unittest.selectors.HasTag
 
 try
   rtags = releaseTestTags();

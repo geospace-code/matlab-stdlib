@@ -10,7 +10,7 @@ if ~isempty(perle)
   return
 end
 
-ps = [fileparts(mfilename("fullpath")), '/private/executable.pl'];
+ps = [fileparts(mfilename('fullpath')), '/private/executable.pl'];
 
 exe = '';
 

@@ -17,7 +17,7 @@ methods (Test)
 function test_is_admin(tc, B_jdpps)
 [i, b] = stdlib.is_admin(B_jdpps);
 tc.assertEqual(char(b), B_jdpps)
-tc.verifyClass(i, "logical")
+tc.verifyClass(i, 'logical')
 
 if ismember(B_jdpps, stdlib.Backend().select('is_admin'))
   tc.verifyNotEmpty(i)
@@ -63,8 +63,8 @@ tc.verifyClass(os, 'char')
 tc.verifyClass(ver, 'char')
 
 if ismember(B_jdps, stdlib.Backend().select('os_version'))
-  tc.verifyGreaterThan(strlength(os), 0, "expected non-empty os")
-  tc.verifyGreaterThan(strlength(ver), 0, "expected non-empty version")
+  tc.verifyGreaterThan(strlength(os), 0, 'expected non-empty os')
+  tc.verifyGreaterThan(strlength(ver), 0, 'expected non-empty version')
 else
   tc.verifyEmpty(os)
   tc.verifyEmpty(ver)
@@ -73,7 +73,7 @@ end
 
 
 function test_checkRAM(tc)
-tc.verifyTrue(stdlib.checkRAM(1, "double"))
+tc.verifyTrue(stdlib.checkRAM(1, 'double'))
 end
 
 
@@ -123,7 +123,7 @@ end
 function test_cpu_arch(tc)
 arch = stdlib.cpu_arch();
 tc.verifyClass(arch, 'char')
-tc.verifyGreaterThan(strlength(arch), 0, "CPU architecture should not be empty")
+tc.verifyGreaterThan(strlength(arch), 0, 'CPU architecture should not be empty')
 end
 
 function test_ram_total(tc, B_jdps)

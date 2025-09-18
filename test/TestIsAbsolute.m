@@ -19,12 +19,12 @@ end
 
 
 function p = init_p()
-p = {{"", false}, {"x", false}, {"x:", false}};
+p = {{'', false}, {'x', false}, {'x:', false}};
 
 if ispc()
-  p = [p, {{"x:/foo", true}, {"/foo", false}}];
+  p = [p, {{'x:/foo', true}, {'/foo', false}}];
 else
-  p = [p, {{"x:/foo", false}, {"/foo", true}}];
+  p = [p, {{'x:/foo', false}, {'/foo', true}}];
 end
 
 end

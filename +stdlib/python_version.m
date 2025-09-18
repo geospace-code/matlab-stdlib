@@ -2,7 +2,7 @@
 %
 % uses persistent variable to cache the Python version.
 % If the environment changes, the cached version will be invalid.
-% this persistent cache is cleared by "clear functions"
+% this persistent cache is cleared by 'clear functions'
 %
 %%% Inputs
 % * force_old: (optional) boolean flag to force checking of Python on Matlab < R2022a
@@ -12,7 +12,7 @@
 %
 % we need to do at least one Python function call to handle cases
 % where the environment has changed since pyenv() was set. For example
-% HPC with "module load python3..."
+% HPC with 'module load python3...'
 
 function [v, msg] = python_version(force_old)
 if nargin < 1

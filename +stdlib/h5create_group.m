@@ -2,7 +2,7 @@
 %
 %%% Inputs
 % * file: HDF5 file (string or H5ML.id)
-% * hpath: HDF5 group/dataset -- ensure final character is "/" if hpath is only a group
+% * hpath: HDF5 group/dataset -- ensure final character is '/' if hpath is only a group
 %%% Outputs
 % * HDF5 file handle
 
