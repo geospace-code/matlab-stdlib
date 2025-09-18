@@ -13,7 +13,7 @@ To detect if a specific language interface is available, we provide functions st
 There is a namespace stdlib.sys defined under +stdlib/+sys/ that provided system() calls using the system shell as a last-restort fallback if no external language interface is available on the end user computer running Matlab.
 The namespace stdlib.native and stdlib.legacy use plain Matlab code, and allow switching between "modern" and "legacy" implementations of functions as needed.
 
-The self-test functions under "test/" directory can be used by Matlab >= R2017b as invoked by "test_main.m" at the top level of the project directory.
+The self-test functions under "test/" directory can be used by Matlab >= R2017a as invoked by "test_main.m" at the top level of the project directory.
 Matlab >= R2022b can alternatively use "buildtool test" to run the self-tests.
 
 Key limitations to minimum Matlab version include:

@@ -16,9 +16,7 @@ end
 
 ok = s == 1;
 
-if ~stdlib.matlabOlderThan('R2017b')
-  ok = ok && isfolder(direc);
-end
+ok = ok && stdlib.is_folder(direc);
 
 if nargout == 0
   assert(ok, 'Failed to create directory: %s', direc)

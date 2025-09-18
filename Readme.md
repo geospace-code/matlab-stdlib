@@ -7,9 +7,6 @@
 Matlab users coming from other languages will benefit from the functionality contained within this user-developed, unofficial "stdlib" standard library of functions.
 These system, filesystem, and HDF5 / HDF4 / NetCDF functions are used by numerous independent projects.
 
-Matlab R2017b is the absolute minimum version required.
-Full functionality is available with R2019b and newer.
-
 ## Self-tests
 
 The self-tests can be run from the top matlab-stdlib/ directory.
@@ -20,7 +17,7 @@ Matlab R2022b and newer:
 buildtool test
 ```
 
-Matlab R2017b and newer:
+Matlab R2017a and newer:
 
 ```matlab
 test_main
