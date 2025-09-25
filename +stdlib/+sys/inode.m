@@ -17,7 +17,7 @@ end
 if s == 0
   if ispc()
     m = strrep(m, "File ID is ", "");
-    % https://www.mathworks.com/help/releases/R2025a/matlab/ref/hex2dec.html
+    % https://www.mathworks.com/help/matlab/ref/hex2dec.html
     i = sscanf(m, '%lx', 1);
     if i == intmax('uint64')
       L = strlength(m);

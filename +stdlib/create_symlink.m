@@ -6,9 +6,6 @@
 %%% Outputs
 % * i: true if successful
 % * b: backend used
-%
-% Some Windows Matlab R2025a give error 'MATLAB:io:filesystem:symlink:NeedsAdminPerms'
-% For example, Matlab 25.1.0.2973910 R2025a Update 1 gave this error.
 
 function [i, b] = create_symlink(target, link, backend)
 if nargin < 3

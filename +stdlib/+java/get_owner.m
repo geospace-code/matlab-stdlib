@@ -1,10 +1,5 @@
 %% JAVA.GET_OWNER get owner of file
-%
-% if stdlib.exists() was not adequate here, as on some CI systems, say Windows with Matlab
-% R2025a, despite the same setup on a laptop working.
-% stdlib.exists() was true, the Java function threw java.nio.file.NoSuchFileException.
-%
-% this try-catch is faster and more robust
+
 
 function n = get_owner(file)
 
@@ -18,7 +13,11 @@ end
 
 % Java 1.8 benefits from absolute.
 % We only saw this issue with R2025a on windows-2025 GA runner image.
-
+%
+% if stdlib.exists() was not adequate here, as on some CI systems, despite the same setup on a laptop working.
+% stdlib.exists() was true, the Java function threw java.nio.file.NoSuchFileException.
+%
+% this try-catch is faster and more robust
 try
   p = javaAbsolutePath(file);
   opt = javaMethod('values', 'java.nio.file.LinkOption');
