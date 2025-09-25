@@ -14,7 +14,7 @@ function [i, b] = create_symlink(target, link, backend)
 if nargin < 3
   backend = {'native', 'dotnet', 'python', 'sys'};
 else
-  backend = string(backend);
+  backend = cellstr(backend);
 end
 
 i = logical([]);

@@ -12,7 +12,7 @@ function [r, b] = hostname(backend)
 if nargin < 1
   backend = {'java', 'dotnet', 'python', 'sys'};
 else
-  backend = string(backend);
+  backend = cellstr(backend);
 end
 
 r = '';

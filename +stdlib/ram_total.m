@@ -13,7 +13,7 @@ function [i, b] = ram_total(backend)
 if nargin < 1
   backend = {'java', 'dotnet', 'python', 'sys'};
 else
-  backend = string(backend);
+  backend = cellstr(backend);
 end
 
 i = uint64([]);
