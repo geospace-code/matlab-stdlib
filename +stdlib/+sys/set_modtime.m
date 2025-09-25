@@ -1,13 +1,18 @@
 function [ok, cmd] = set_modtime(file, dt)
 
-tiso = string(datetime(dt), 'yyyy-MM-dd HH:mm:ss');
+if ispc()
+  fmt = 'yyyy-MM-dd HH:mm:ss';
+else
+  fmt = 'yyyyMMddHHmm';
+end
+
 
 if ispc()
-  cmd = sprintf('pwsh -c "(Get-Item ''%s'').LastWriteTime = ''%s''"', file, tiso);
+  cmd = sprintf('pwsh -c "(Get-Item ''%s'').LastWriteTime = ''%s''"', file, string(datetime(dt), fmt));
 elseif ismac()
-  cmd = sprintf('touch -mt %s "%s"', string(dt, 'yyyyMMddHHmm'), file);
+  cmd = sprintf('touch -mt %s "%s"', string(datetime(dt), fmt), file);
 else
-  cmd = sprintf('touch -t %s "%s"', string(dt, 'yyyyMMddHHmm'), file);
+  cmd = sprintf('touch -t %s "%s"', string(datetime(dt), fmt), file);
 end
 % https://man7.org/linux/man-pages/man1/touch.1.html
 
