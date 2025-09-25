@@ -28,9 +28,9 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-22.04, windows-2025, macos-latest]
-        release: [R2024a, R2024b, R2025a]
+        release: [R2024a, R2024b, R2025b]
 # Linux:
-#   R2022b..R2025a needs GCC 10.x and hence Github Actions runner ubuntu-22.04.
+#   R2022b..R2025b needs GCC 10.x and hence Github Actions runner ubuntu-22.04.
 #   if using ubuntu-latest the java_exe tests fail.
 #   R2021a..R2022a officially need Ubuntu 20.04, which is no longer available on Github Actions
 # macOS:
