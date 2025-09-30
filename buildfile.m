@@ -74,18 +74,19 @@ end
 
 if ~isMATLABReleaseOlderThan('R2024a')
 
-  plan('coverage') = matlab.buildtool.tasks.TestTask(test_root, ...
+  ct = matlab.buildtool.tasks.TestTask(test_root, ...
     Description="Run code coverage", ...
     Dependencies='exe', ...
     SourceFiles=pkg_root, ...
     Strict=false);
-  plan('coverage').DisableIncremental = true;
+  ct.DisableIncremental = true;
 
+  % https://www.mathworks.com/help/releases/R2025b/matlab/ref/matlab.buildtool.tasks.testtask.addcodecoverage.html
   coverageReport = fullfile(reportDir, 'coverage-report.html');
-  if ~isMATLABReleaseOlderThan('R2024b') && stdlib.checkout_license("MATLAB Test")
-    plan("coverage").addCodeCoverage(matlabtest.plugins.codecoverage.StandaloneReport(coverageReport));
-  else
-    plan("coverage").addCodeCoverage(coverageReport);
+  try
+    plan("coverage") = ct.addCodeCoverage(matlabtest.plugins.codecoverage.StandaloneReport(coverageReport));
+  catch
+    plan("coverage") = ct.addCodeCoverage(coverageReport);
   end
 end
 
