@@ -46,7 +46,7 @@ Normally the user does not specify the backend as we prioritize faster backends.
   * Linux / macOS: R2024b and newer
 * [Java](./Readme_java.md): all supported Matlab releases
 * [Perl](https://www.mathworks.com/help/matlab/ref/perl.html):  Matlab R2018a and newer. This uses a system() call to Perl, which is bundled with Matlab on Windows and generally available on Linux and macOS
-* [Python](https://www.mathworks.com/help/matlab/call-python-libraries.html): Matlab R2022b and newer
+* [Python](https://www.mathworks.com/help/matlab/call-python-libraries.html): Matlab R2022b and newer. `stdlib.has_python` checks that the Python version set by `pyenv()` is compatible with the Matlab release.
 * System shell calls: all supported Matlab releases. As a backup when the platform doesn't have the primary (faster) methods available, the system shell can be called for some functions.
 
 ## Acknowledgments
