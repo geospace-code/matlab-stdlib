@@ -83,7 +83,7 @@ for m = backendReq
       end
 
       switch functionName
-        case {'create_symlink', 'ram_total', 'read_symlink'}
+        case {'create_symlink', 'ram_total', 'read_symlink', 'uptime'}
           if stdlib.dotnet_api() < 6, continue, end
         case {'get_owner', 'get_uid', 'is_admin'}
           if isunix(), continue, end
@@ -108,7 +108,7 @@ for m = backendReq
       end
 
       switch functionName
-        case {'filesystem_type', 'is_removable', 'ram_total', 'ram_free'}
+        case {'filesystem_type', 'is_removable', 'ram_total', 'ram_free', 'uptime'}
           if ~stdlib.python.has_psutil(); continue, end
         case {'cpu_load', 'get_owner', 'get_process_priority', 'get_uid'}
           if ispc(), continue, end

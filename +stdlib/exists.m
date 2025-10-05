@@ -8,6 +8,8 @@
 % * fpath: path to check
 %%% Outputs
 % * ok: true if exists
+%
+% this approach is at least 10x faster than checking empty on fileattrib() or dir()
 
 function y = exists(fpath)
 
