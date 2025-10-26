@@ -1,7 +1,9 @@
 # Using Java in standard library for Matlab
 
-Java is not required for this project, but some functions are implemented with an optional Java backend.
-They are tested with and should work with Java versions 8, 11, 17, 21, and more.
+Java-based functions should work with any
+[Java version compatible with the Matlab release](https://www.mathworks.com/support/requirements/openjdk.html).
+Matlab in general does not bundle Java from the factory installation, but Java may have been installed by a system administrator.
+One cannot assume that Java will or will not be present on a given Matlab installation.
 
 Matlab's
 [Java language interface](https://www.mathworks.com/help/matlab/using-java-libraries-in-matlab.html)
@@ -12,7 +14,7 @@ Our optional Java backend functions use only factory Java class--no third-party 
 
 ## Java backend diagnostic functions
 
-Tell JVM version:
+Tell Java Virtual Machine (JVM) version:
 
 ```matlab
 version("-java")
@@ -51,13 +53,11 @@ As general information (not used by Matlab-stdlib), non-factory Java classes can
 ## Configure Matlab JVM
 
 The Matlab Java interface is like other Matlab external languages such as Python.
-The Matlab default
+Matlab
 [JVM can be configured](https://www.mathworks.com/help/matlab/matlab_external/configure-your-system-to-use-java.html)
 to a compatible Java library by using the
 [jenv](https://www.mathworks.com/help/matlab/ref/jenv.html)
 Matlab function.
-Matlab vs. Java
-[version compatibility table](https://www.mathworks.com/support/requirements/openjdk.html).
 
 For example, to use the
 [JDK 17 on macOS](https://www.oracle.com/java/technologies/downloads/#jdk17-mac)
@@ -81,7 +81,7 @@ winget install Microsoft.OpenJDK.11
 ```
 
 To
-[revert back to the factory JRE](https://www.mathworks.com/help/matlab/ref/matlab_jenv.html)
+[revert back to the default JRE](https://www.mathworks.com/help/matlab/ref/matlab_jenv.html)
 if Matlab can't start or has problems, from system Terminal (not within Matlab):
 
 ```sh
