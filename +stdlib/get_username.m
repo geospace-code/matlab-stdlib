@@ -23,8 +23,9 @@ for j = 1:numel(backend)
     case 'dotnet'
       r = stdlib.dotnet.get_username();
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      r = stdlib.python.get_username();
+      if stdlib.has_python()
+        r = stdlib.python.get_username();
+      end
     case 'sys'
       r = stdlib.sys.get_username();
     otherwise

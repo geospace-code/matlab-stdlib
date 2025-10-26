@@ -22,8 +22,9 @@ for j = 1:numel(backend)
     case 'java'
       i = stdlib.java.device(file);
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      i = stdlib.python.device(file);
+      if stdlib.has_python()
+        i = stdlib.python.device(file);
+      end
     case 'sys'
       i = stdlib.sys.device(file);
     otherwise

@@ -24,8 +24,9 @@ for j = 1:numel(backend)
     case 'dotnet'
       i = stdlib.dotnet.get_process_priority();
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      i = stdlib.python.get_process_priority();
+      if stdlib.has_python()
+        i = stdlib.python.get_process_priority();
+      end
     case 'sys'
       i = stdlib.sys.get_process_priority();
     otherwise

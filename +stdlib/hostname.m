@@ -25,8 +25,9 @@ for i = 1:numel(backend)
     case 'dotnet'
       r = stdlib.dotnet.hostname();
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      r = stdlib.python.hostname();
+      if stdlib.has_python()
+        r = stdlib.python.hostname();
+      end
     case 'sys'
       r = stdlib.sys.hostname();
     otherwise

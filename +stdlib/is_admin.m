@@ -23,8 +23,9 @@ for j = 1:numel(backend)
     case 'perl'
       i = stdlib.perl.is_admin();
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      i = stdlib.python.is_admin();
+      if stdlib.has_python()
+        i = stdlib.python.is_admin();
+      end
     case 'sys'
       i = stdlib.sys.is_admin();
     otherwise

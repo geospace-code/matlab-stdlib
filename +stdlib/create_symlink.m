@@ -24,8 +24,9 @@ for j = 1:numel(backend)
     case 'dotnet'
       i = stdlib.dotnet.create_symlink(target, link);
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      i = stdlib.python.create_symlink(target, link);
+      if stdlib.has_python()
+        i = stdlib.python.create_symlink(target, link);
+      end
     case 'sys'
       i = stdlib.sys.create_symlink(target, link);
     otherwise

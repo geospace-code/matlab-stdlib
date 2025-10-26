@@ -26,8 +26,9 @@ for j = 1:numel(backend)
     case 'java'
       i = stdlib.java.hard_link_count(file);
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      i = stdlib.python.hard_link_count(file);
+      if stdlib.has_python()
+        i = stdlib.python.hard_link_count(file);
+      end
     case 'sys'
       i = stdlib.sys.hard_link_count(file);
     otherwise

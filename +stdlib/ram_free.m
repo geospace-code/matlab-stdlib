@@ -27,8 +27,9 @@ for j = 1:numel(backend)
     case 'java'
       i = stdlib.java.ram_free();
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      i = stdlib.python.ram_free();
+      if stdlib.has_python()
+        i = stdlib.python.ram_free();
+      end
     case 'sys'
       i = stdlib.sys.ram_free();
     otherwise

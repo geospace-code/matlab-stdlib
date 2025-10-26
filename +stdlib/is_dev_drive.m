@@ -20,8 +20,9 @@ for j = 1:numel(backend)
   b = backend{j};
   switch b
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      i = stdlib.python.is_dev_drive(file);
+      if stdlib.has_python()
+        i = stdlib.python.is_dev_drive(file);
+      end
     case 'sys'
       i = stdlib.sys.is_dev_drive(file);
     otherwise

@@ -19,8 +19,9 @@ for i = 1:numel(backend)
     case 'dotnet'
       r = stdlib.dotnet.uptime();
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      r = stdlib.python.uptime();
+      if stdlib.has_python()
+        r = stdlib.python.uptime();
+      end
     case 'sys'
       r = stdlib.sys.uptime();
     otherwise

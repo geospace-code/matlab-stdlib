@@ -25,8 +25,9 @@ for j = 1:numel(backend)
     case 'java'
       i = stdlib.java.disk_capacity(file);
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      i = stdlib.python.disk_capacity(file);
+      if stdlib.has_python()
+        i = stdlib.python.disk_capacity(file);
+      end
     case 'sys'
       i = stdlib.sys.disk_capacity(file);
     otherwise

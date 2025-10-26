@@ -28,8 +28,9 @@ for j = 1:numel(backend)
     case 'dotnet'
       [os, version] = stdlib.dotnet.os_version();
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      [os, version] = stdlib.python.os_version();
+      if stdlib.has_python()
+        [os, version] = stdlib.python.os_version();
+      end
     case 'sys'
       [os, version] = stdlib.sys.os_version();
     otherwise

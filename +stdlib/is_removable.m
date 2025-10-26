@@ -21,8 +21,9 @@ for j = 1:numel(backend)
   b = backend{j};
   switch b
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      i = stdlib.python.is_removable(file);
+      if stdlib.has_python()
+        i = stdlib.python.is_removable(file);
+      end
     case 'sys'
       i = stdlib.sys.is_removable(file);
     otherwise

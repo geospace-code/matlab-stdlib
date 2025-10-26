@@ -35,8 +35,9 @@ for j = 1:numel(backend)
     case 'perl'
       i = stdlib.perl.samepath(path1, path2);
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      i = stdlib.python.samepath(path1, path2);
+      if stdlib.has_python()
+        i = stdlib.python.samepath(path1, path2);
+      end
     case 'sys'
       i = stdlib.sys.samepath(path1, path2);
     otherwise

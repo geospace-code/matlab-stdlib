@@ -24,8 +24,9 @@ for j = 1:numel(backend)
     case 'java'
       i = stdlib.java.cpu_load();
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      i = stdlib.python.cpu_load();
+      if stdlib.has_python()
+        i = stdlib.python.cpu_load();
+      end
     case 'sys'
       i = stdlib.sys.cpu_load();
     otherwise

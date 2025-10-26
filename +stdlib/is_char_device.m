@@ -31,8 +31,9 @@ for j = 1:numel(backend)
   b = backend{j};
   switch b
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      i = stdlib.python.is_char_device(file);
+      if stdlib.has_python()
+        i = stdlib.python.is_char_device(file);
+      end
     case 'sys'
       i = stdlib.sys.is_char_device(file);
     otherwise

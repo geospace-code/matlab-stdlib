@@ -30,8 +30,9 @@ for j = 1:numel(backend)
     case 'dotnet'
       r = stdlib.dotnet.read_symlink(file);
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      r = stdlib.python.read_symlink(file);
+      if stdlib.has_python()
+        r = stdlib.python.read_symlink(file);
+      end
     case 'sys'
       r = stdlib.sys.read_symlink(file);
     otherwise

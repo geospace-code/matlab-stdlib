@@ -24,8 +24,9 @@ for j = 1:numel(backend)
     case 'dotnet'
       r = stdlib.dotnet.get_owner(file);
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      r = stdlib.python.get_owner(file);
+      if stdlib.has_python()
+        r = stdlib.python.get_owner(file);
+      end
     case 'sys'
       r = stdlib.sys.get_owner(file);
     otherwise

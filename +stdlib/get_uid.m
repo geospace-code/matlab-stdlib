@@ -21,8 +21,9 @@ for j = 1:numel(backend)
     case 'dotnet'
       i = stdlib.dotnet.get_uid();
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      i = stdlib.python.get_uid();
+      if stdlib.has_python()
+        i = stdlib.python.get_uid();
+      end
     case 'perl'
       i = stdlib.perl.get_uid();
     otherwise
