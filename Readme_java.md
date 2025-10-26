@@ -77,7 +77,7 @@ jenv("/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home/")
 On Windows, obtain OpenJDK with WinGet, which installs under "$Env:ProgramFiles/Microsoft/jdk-*":
 
 ```sh
-winget install Microsoft.OpenJDK.11
+winget install Microsoft.OpenJDK.21
 ```
 
 To

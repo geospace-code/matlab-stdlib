@@ -12,7 +12,7 @@ end
 % for example, Python 3.13 isn't compatible with Matlab R2025a, and this should catch that.
 % by PythonError ImportError: PyCapsule_Import could not import module "libmwbuffer"'
 try
-  py.tuple([1,1])
+  py.tuple([1,1]);
 catch
   return
 end
