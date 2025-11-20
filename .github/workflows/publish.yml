@@ -32,7 +32,8 @@ jobs:
 
     strategy:
       matrix:
-        release: ["latest"]
+        release: ["latest-including-prerelease"]
+# FIXME: temporary until R2026a is released
 
     environment:
       name: github-pages

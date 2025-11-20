@@ -108,32 +108,27 @@ end
 
 function publishTask(context)
 % publish HTML inline documentation strings to individual HTML files
+% requires Matlab >= R2026a
 %
 % References:
 % https://www.mathworks.com/help/matlab/matlab_prog/display-custom-documentation.html
 % https://www.mathworks.com/help/matlab/matlab_prog/create-a-help-summary-contents-m.html
-pkg_name = '+stdlib';
-pkg_root = fullfile(context.Plan.RootFolder, pkg_name);
+pkg_dir = '+stdlib';
+pkg_name = extractAfter(pkg_dir, '+');
+pkg_root = fullfile(context.Plan.RootFolder, pkg_dir);
 html_dir = fullfile(pkg_root, 'html');
 contents = fullfile(pkg_root, 'Contents.m');
 
-% styleFile = fullfile(context.Plan.RootFolder, "private/style.css");
-%
-% readme = publish_gen_index_html("stdlib", ...
-%   "A standard library of functions for Matlab.", ...
-%   "https://github.com/geospace-code/matlab-stdlib", ...
-%   html_dir, styleFile);
+if ~isfolder(html_dir)
+  mkdir(html_dir);
+end
 
-pkg = what(pkg_root);
-funcs = string(pkg.m).';
-pn = extractAfter(pkg_name, 1);
-
+%% HTML front matter
 txt = ["%% Standard library of functions for MATLAB", "%"];
 
-repo = gitrepo(pkg.path);
+repo = gitrepo(pkg_root);
 txt(end+1) = "% Git branch / commit: " +  repo.CurrentBranch.Name + " " + ...
   repo.LastCommit.ID{1}(1:8) + " " + string(repo.LastCommit.CommitterDate);
-
 
 txt = [txt, "%", "% <https://github.com/geospace-code/matlab-stdlib GitHub Source Code>", "%", ...
 "% Library Functions:", "%", ...
@@ -141,44 +136,35 @@ txt = [txt, "%", "% <https://github.com/geospace-code/matlab-stdlib GitHub Sourc
 
 writelines(join(txt, newline), contents, WriteMode="overwrite")
 
-
+%% iterate over namespace functions
 Nbe = struct(dotnet=0, java=0, perl=0, python=0, sys=0, native=0, legacy=0, top_level=0);
+
+funcs = namespaceFunctions(pkg_name).';
+backends = innerNamespaces(pkg_name).';
 
 for m = funcs
   Nbe.top_level = Nbe.top_level + 1;
 
-  if m == "Contents.m"
-    continue
-  end
-
-  [~, name] = fileparts(m);
-
-  doc_fn = publish(pn + "." + name, evalCode=false, outputDir=html_dir);
+  doc_fn = publish(m.NamespaceName + "." + m.Name, evalCode=false, outputDir=html_dir);
   disp(doc_fn)
 
   % inject summary for each function
-  help_txt = splitlines(string(help(pn + "." + name)));
-  words = split(strip(help_txt(1)), " ");
+  assert(~isempty(m.Description))
 
-  % error if no docstring
-  fname = words(1);
-  assert(endsWith(fname, name, IgnoreCase=true), "fname %s does not match name %s \nis there a docstring at the top of the .m file?", fname, name)
-
-  line = "% <tr><td><a href=" + name + ".html>" + fname + "</a></td><td>";
-  if numel(words) > 1
-    line = join([line,  words(2:end).']);
-  end
+  line = "% <tr><td><a href=" + m.Name + ".html>" + m.Name + "</a></td><td>";
+  line = join([line, m.Description]);
 
   req = "";
-  for bkd = string(pkg.packages).'
-    subfun = pn + "." + bkd + "." + name;
+  for b = backends
+    subfun = b + "." + m.Name;
+    bn = extractAfter(b, '.');
     if ~isempty(which(subfun))
-      Nbe.(bkd) = Nbe.(bkd) + 1;
+      Nbe.(bn) = Nbe.(bn) + 1;
 
-      doc_fn = publish(subfun, evalCode=false, outputDir=html_dir + "/" + bkd);
+      doc_fn = publish(subfun, evalCode=false, outputDir=html_dir + "/" + bn);
       disp(doc_fn)
 
-      req = req + " <a href=" + bkd + "/" + name + ".html>" + bkd + "</a>";
+      req = req + " <a href=" + bn + "/" + m.Name + ".html>" + bn + "</a>";
     end
   end
 
@@ -197,7 +183,7 @@ end
 
 writelines(join(line, newline), contents, WriteMode="append")
 
-readme = publish(pn + ".Contents", evalCode=false, showCode=false);
+readme = publish(pkg_name + ".Contents", evalCode=false, showCode=false);
 
 movefile(readme, html_dir + "/index.html");
 readme = html_dir + "/index.html";
