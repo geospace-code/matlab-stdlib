@@ -1,4 +1,8 @@
 function ok = set_permissions(file, readable, writable, executable)
+%% LEGACY.SET_PERMISSIONS set file permissions
+%
+% it is strongly recommended to use filePermissions instead, as setting permissions via fileattrib
+% often fails
 
 mode = '';
 % mode is space-delimited
