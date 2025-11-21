@@ -1,5 +1,5 @@
-%% SYS.FILE_CHECKSUM compute checksum of file
 function [hash, cmd] = file_checksum(file, hash_method)
+% SYS.FILE_CHECKSUM compute checksum of file
 
 switch lower(hash_method)
   case {"sha-256", "sha256"}

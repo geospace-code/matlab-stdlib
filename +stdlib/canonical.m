@@ -1,4 +1,5 @@
-%% CANONICAL Canonicalize path
+function c = canonical(file, strict)
+% CANONICAL Canonicalize path
 % c = canonical(p);
 % If exists, canonical absolute path is returned.
 % if any component of path does not exist, normalized relative path is returned.
@@ -12,7 +13,6 @@
 %%% Outputs
 % * c: canonical path, if determined
 
-function c = canonical(file, strict)
 if nargin < 2
   strict = false;
 end

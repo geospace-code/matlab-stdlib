@@ -1,6 +1,5 @@
-%% DOTNET.UPTIME get system uptime
-
 function t = uptime()
+% DOTNET.UPTIME get system uptime
 
 try
   tms = System.Environment.TickCount64;

@@ -1,4 +1,5 @@
-%% CHECKOUT_LICENSE checkout Matlab license
+function [ok, featureName] = checkout_license(packageName)
+% CHECKOUT_LICENSE checkout Matlab license
 % NOTE: checking out a license holds that license as long as Matlab is
 % running. This could impact other users at an institution with a limited
 % number of networked licenses. Only use this function at point-of-use,
@@ -10,7 +11,6 @@
 % This function better tells that a function can
 % be used rather than just checking if the relevant toolbox is installed.
 
-function [ok, featureName] = checkout_license(packageName)
 arguments
   packageName (1,1) string
 end

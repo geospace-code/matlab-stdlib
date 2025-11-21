@@ -1,6 +1,5 @@
-%% NATIVE.PERM2CHAR convert file permissions to permission string
-
 function p = perm2char(v)
+% NATIVE.PERM2CHAR convert file permissions to permission string
 
 if isempty(v)
   p = '';

@@ -1,6 +1,5 @@
-%% DOTNET.IS_SYMLINK check if a file is a symbolic link
-
 function y = is_symlink(file)
+% DOTNET.IS_SYMLINK check if a file is a symbolic link
 
 if ~stdlib.exists(file)
   % necessary to avoid having to catch 'MATLAB:NET:CLRException:MethodInvoke' on Windows

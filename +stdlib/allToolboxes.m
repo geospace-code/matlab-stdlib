@@ -1,7 +1,6 @@
-%% ALLTOOLBOXES tell all the Matlab toolboxes known for this Matlab release
-% requires: java, Matlab >= R2018a
-
 function names = allToolboxes()
+% ALLTOOLBOXES tell all the Matlab toolboxes known for this Matlab release
+% requires: java, Matlab >= R2018a
 
 tbx = com.mathworks.product.util.ProductIdentifier.values; %#ok<JAPIMATHWORKS>
 

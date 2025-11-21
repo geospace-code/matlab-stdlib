@@ -1,6 +1,5 @@
-%% PERL.GET_UID tell UID (numeric) of current user
-
 function u = get_uid()
+% PERL.GET_UID tell UID (numeric) of current user
 
 u = [];
 if ispc()

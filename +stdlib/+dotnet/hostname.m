@@ -1,8 +1,8 @@
-%% DOTNET.HOSTNAME get the computer network hostname
-
 function n = hostname()
-
-%n = char(System.Environment.MachineName);
+% DOTNET.HOSTNAME get the computer network hostname
+%
+% alternative for machine name:
+% n = char(System.Environment.MachineName);
 % https://learn.microsoft.com/en-us/dotnet/api/system.environment.machinename
 
 try

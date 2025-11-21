@@ -1,6 +1,5 @@
 function y = is_admin()
 
-
 y = logical([]);
 
 try

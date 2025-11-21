@@ -1,6 +1,5 @@
-%% JAVA.SET_MODTIME set the modification time of a filepath
-
 function ok = set_modtime(file, time)
+% JAVA.SET_MODTIME set the modification time of a filepath
 
 try
   utc = posixtime(datetime(time, 'TimeZone', 'UTC'));

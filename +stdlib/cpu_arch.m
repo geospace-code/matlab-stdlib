@@ -1,4 +1,5 @@
-%% CPU_ARCH get the Operating System CPU architecture
+function a = cpu_arch()
+% CPU_ARCH get the Operating System CPU architecture
 %
 % This function retrieves the CPU architecture of the current operating system.
 % The physical CPU architecture can be obscured and even determining it in high-level
@@ -8,8 +9,6 @@
 %
 %%% Outputs
 % * a: the CPU architecture as a character vector:
-
-function a = cpu_arch()
 
 if ispc()
   a = getenv('PROCESSOR_ARCHITECTURE');

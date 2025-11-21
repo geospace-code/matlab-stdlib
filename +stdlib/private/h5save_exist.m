@@ -1,7 +1,7 @@
-%% H5SAVE_EXIST write data to existing HDF5 dataset
+function h5save_exist(filename, varname, A, sizeA)
+% H5SAVE_EXIST write data to existing HDF5 dataset
 % normally users use h5save() instead of this function
 
-function h5save_exist(filename, varname, A, sizeA)
 % arguments
 %   filename
 %   varname

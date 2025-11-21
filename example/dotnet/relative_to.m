@@ -1,8 +1,7 @@
-%% DOTNET.RELATIVE_TO find the relative path to other from base
+function rel = relative_to(base, other)
+% DOTNET.RELATIVE_TO find the relative path to other from base
 %
 % not normally used because it's overly complex
-
-function rel = relative_to(base, other)
 
 assert(stdlib.dotnet_api() >= 5)
 

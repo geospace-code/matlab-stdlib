@@ -1,6 +1,6 @@
-%% PYTHON.HAS_PSUTIL is Python psutil module availble
-
 function y = has_psutil(force_old)
+% PYTHON.HAS_PSUTIL is Python psutil module availble
+
 if nargin < 1
   force_old = false;
 end

@@ -1,8 +1,7 @@
-%% SYS.HARD_LINK_COUNT number of hard links to file
+function [n, cmd] = hard_link_count(file)
+% SYS.HARD_LINK_COUNT number of hard links to file
 %
 % Powershell is 0, 1, or 2
-
-function [n, cmd] = hard_link_count(file)
 
 n = [];
 

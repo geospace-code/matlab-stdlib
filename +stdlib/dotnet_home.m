@@ -1,6 +1,5 @@
-%% DOTNET_HOME give .NET RuntimeLocation
-
 function h = dotnet_home()
+% DOTNET_HOME give .NET RuntimeLocation
 
 h = string.empty;
 

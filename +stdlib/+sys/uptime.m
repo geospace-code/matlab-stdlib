@@ -1,6 +1,5 @@
-%% SYS.UPTIME
-
 function t = uptime()
+% SYS.UPTIME Get system uptime in seconds.
 
 t = [];
 

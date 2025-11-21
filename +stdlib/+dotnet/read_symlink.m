@@ -1,7 +1,6 @@
-%% DOTNET.READ_SYMLINK resolve the symbolic links of a filepath
-% .NET >= 6 required
-
 function r = read_symlink(file)
+% DOTNET.READ_SYMLINK resolve the symbolic links of a filepath
+% .NET >= 6 required
 
 try
   h = System.IO.FileInfo(file);

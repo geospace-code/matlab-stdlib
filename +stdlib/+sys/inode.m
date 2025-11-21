@@ -1,6 +1,5 @@
-%% SYS.INODE get file inode
-
 function [i, cmd] = inode(file)
+% SYS.INODE get file inode
 
 i = [];
 

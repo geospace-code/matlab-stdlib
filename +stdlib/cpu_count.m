@@ -1,5 +1,5 @@
-%% CPU_COUNT how many CPUs are available
 function N = cpu_count()
+% CPU_COUNT how many CPUs are available
 
 N = maxNumCompThreads;
 

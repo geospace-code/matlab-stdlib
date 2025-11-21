@@ -1,6 +1,5 @@
-%% SYS.IS_REMOVABLE
-
 function y = is_removable(filepath)
+% SYS.IS_REMOVABLE check if path is on removable drive
 
 y = false;
 

@@ -1,4 +1,3 @@
-
 function [ok, cmd, m] = create_symlink(target, link)
 
 ok = false;

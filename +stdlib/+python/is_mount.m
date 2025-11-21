@@ -1,9 +1,7 @@
-%% PYTHON.IS_MOUNT is path a mount point
-%
-% https://docs.python.org/3/library/os.path.html#os.path.ismount
-
 function y = is_mount(filepath)
-
+% PYTHON.IS_MOUNT is path a mount point
+%
+% Ref: https://docs.python.org/3/library/os.path.html#os.path.ismount
 
 try
   y = false;

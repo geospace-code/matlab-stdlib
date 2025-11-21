@@ -1,6 +1,5 @@
-%% FILEATTRIBCOMPATIBLE fileattrib required char until R2018a; this provides a seamless fallback
-
 function [s, r, id] = fileAttribCompatible(file)
+% FILEATTRIBCOMPATIBLE fileattrib required char until R2018a; this provides a seamless fallback
 
 % need stdlib.strempty for Matlab < R2020b
 if stdlib.strempty(file)

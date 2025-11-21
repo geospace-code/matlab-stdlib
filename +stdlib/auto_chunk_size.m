@@ -1,4 +1,5 @@
-%% AUTO_CHUNK_SIZE determine HDF5 / NetCDF4 chunk size
+function csize = auto_chunk_size(dims)
+% AUTO_CHUNK_SIZE determine HDF5 / NetCDF4 chunk size
 %
 % based on https://github.com/h5py/h5py/blob/master/h5py/_hl/filters.py
 % refer to https://support.hdfgroup.org/HDF5/Tutor/layout.html
@@ -6,7 +7,7 @@
 %%% Inputs
 % * dims: proposed dataset dimensions (like size())
 
-function csize = auto_chunk_size(dims)
+
 % arguments
 %   dims (1,:) {mustBeInteger,mustBePositive}
 % end

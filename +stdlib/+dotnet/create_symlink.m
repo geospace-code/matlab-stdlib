@@ -1,6 +1,5 @@
-%% DOTNET.CREATE_SYMLINK create symbolic link to target
-
 function ok = create_symlink(target, link)
+% DOTNET.CREATE_SYMLINK create symbolic link to target
 
 if ~stdlib.exists(target) || stdlib.strempty(link) || stdlib.exists(link)
   ok = false;

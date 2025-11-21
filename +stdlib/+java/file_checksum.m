@@ -1,7 +1,7 @@
-%% JAVA.FILE_CHECKSUM compute checksum hash of file
-% Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#getInstance(java.lang.String)
-
 function hash = file_checksum(file, hash_method)
+% JAVA.FILE_CHECKSUM compute checksum hash of file
+%
+% Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#getInstance(java.lang.String)
 
 if strcmpi(hash_method, 'sha256')
   hash_method = "SHA-256";

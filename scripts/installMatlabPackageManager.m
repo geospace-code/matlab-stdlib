@@ -1,7 +1,7 @@
-%% Download and install official Matlab Package Manger (mpm)
-% https://www.mathworks.com/help/install/ug/get-mpm-os-command-line.html
-
 function pexe = installMatlabPackageManager(installDir)
+% installMatlabPackageManager Download and install official Matlab Package Manger (mpm)
+%
+% Ref: https://www.mathworks.com/help/install/ug/get-mpm-os-command-line.html
 arguments
   installDir (1,1) string = fileparts(mfilename('fullpath'))
 end

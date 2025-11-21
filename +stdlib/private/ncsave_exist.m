@@ -1,7 +1,7 @@
-%% NCSAVE_EXIST save a variable to a NetCDF4 existing dataset
+function ncsave_exist(filename, varname, A, sizeA)
+% NCSAVE_EXIST save a variable to a NetCDF4 existing dataset
 % normally users will use ncsave() instead of this function
 
-function ncsave_exist(filename, varname, A, sizeA)
 % arguments
 %   filename
 %   varname

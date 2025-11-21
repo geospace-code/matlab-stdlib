@@ -1,7 +1,6 @@
-%% DOTNET.GET_OWNER get the owner of a filepath
-
 function o = get_owner(file)
-
+% DOTNET.GET_OWNER get the owner of a filepath
+%
 % This is not yet possible with .NET on Unix, even with .NET 10.
 % It would require Pinvoke or external Mono.Unix
 

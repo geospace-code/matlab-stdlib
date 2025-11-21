@@ -1,7 +1,7 @@
-%% NCSAVE_NEW Save a variable to an new NetCDF4 dataset
+function ncsave_new(file, varname, A, sizeA, ncdims, compressLevel)
+% NCSAVE_NEW Save a variable to an new NetCDF4 dataset
 % normally users will use ncsave() instead of this function
 
-function ncsave_new(file, varname, A, sizeA, ncdims, compressLevel)
 % arguments
 %   file
 %   varname

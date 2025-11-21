@@ -1,6 +1,5 @@
-%% DOTNET.DISK_AVAILABLE find the disk space available to the user
-
 function i = disk_available(file)
+% DOTNET.DISK_AVAILABLE find the disk space available to the user
 
 i = uint64([]);
 % Windows needs exists() not just strempty()

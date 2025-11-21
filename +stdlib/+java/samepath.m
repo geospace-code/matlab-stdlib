@@ -1,6 +1,5 @@
-%% JAVA.SAMEPATH are inputs the same path
-
 function y = samepath(path1, path2)
+% JAVA.SAMEPATH are inputs the same path
 
 try
   f1 = javaObject('java.io.File', path1);

@@ -1,10 +1,8 @@
-%% JAVA.FILESYSTEM_TYPE
-
-
-function t = filesystem_type(file)
+function t = filesystem_type(p)
+% JAVA.FILESYSTEM_TYPE get filesystem type holding a given path
 
 t = '';
-if stdlib.strempty(file)
+if stdlib.strempty(p)
   return
 end
 
@@ -15,7 +13,7 @@ try
 % stdlib.exists() was true, the Java function threw java.nio.file.NoSuchFileException.
 %
 % this try-catch is faster and more robust
-  p = javaAbsolutePath(file);
+  p = javaAbsolutePath(p);
   s = javaMethod('getFileStore', 'java.nio.file.Files', p);
   t = char(s.type);
 catch e

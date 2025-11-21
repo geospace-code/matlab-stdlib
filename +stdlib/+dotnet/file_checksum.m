@@ -1,8 +1,8 @@
-%% DOTNET.FILE_CHECKSUM compute checksum has of file
-
+function hash = file_checksum(file, hash_method)
+% DOTNET.FILE_CHECKSUM compute checksum has of file
+%
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#getInstance(java.lang.String)
 
-function hash = file_checksum(file, hash_method)
 
 if strcmpi(hash_method, 'sha256')
   hash_method = "SHA-256";

@@ -1,7 +1,7 @@
-%% H5SAVE_NEW Save a variable to an new HDF5 dataset
+function h5save_new(filename, varname, A, sizeA, compressLevel)
+% H5SAVE_NEW Save a variable to an new HDF5 dataset
 % normally users will use h5save() instead of this function
 
-function h5save_new(filename, varname, A, sizeA, compressLevel)
 % arguments
 %   filename
 %   varname

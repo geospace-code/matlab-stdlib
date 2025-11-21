@@ -1,5 +1,5 @@
-%% JAVAPATHOBJECT Return a Java nio.file.Path object for a given file path.
 function o = javaPathObject(p)
+% JAVAPATHOBJECT Return a Java nio.file.Path object for a given file path.
 
 o = java.nio.file.Paths.get(p, javaArray('java.lang.String', 0));
 

@@ -1,6 +1,5 @@
-%% DOTNET_VERSION version string
-
 function v = dotnet_version()
+% DOTNET_VERSION version string
 
 try
   vs = System.Environment.Version;

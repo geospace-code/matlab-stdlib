@@ -1,6 +1,5 @@
 function i = hard_link_count(file)
 
-
 i = [];
 if stdlib.strempty(file)
   return
