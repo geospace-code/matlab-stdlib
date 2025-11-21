@@ -9,12 +9,19 @@
 
 function y = is_writable(file)
 
-a = file_attributes(file);
-
-if isempty(a)
-  y = false;
-else
-  y = a.UserWrite || a.GroupWrite || a.OtherWrite;
+try
+  a = filePermissions(file);
+  y = a.Writable;
+catch e
+  switch e.identifier
+    case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
+      y = false;
+    case {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}
+      a = file_attributes(file);
+      y = ~isempty(a) && (a.UserWrite || a.GroupWrite || a.OtherWrite);
+    otherwise
+      rethrow(e)
+  end
 end
 
 end

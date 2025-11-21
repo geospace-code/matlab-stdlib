@@ -17,18 +17,34 @@ if nargin < 2
   strict = false;
 end
 
-[s, r] = fileAttribCompatible(file);
+c = '';
 
-if s == 1
-  c = r.Name;
-elseif ~strict && ~stdlib.strempty(r)
-  c = stdlib.normalize(file);
-else
-  c = '';
-end
+try
+  p = filePermissions(file);
+  c = p.AbsolutePath;
+  if ischar(file)
+    c = char(c);
+  end
+catch e
+  switch e.identifier
+    case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
+      if ~strict && ~stdlib.strempty(file)
+        c = stdlib.normalize(file);
+      end
+    case {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}
+      [s, r] = fileAttribCompatible(file);
+      if s == 1
+        c = r.Name;
+      elseif ~strict && ~stdlib.strempty(r)
+        c = stdlib.normalize(file);
+      end
+    otherwise
+      rethrow(e)
+  end
 
-if isstring(file)
-  c = string(c);
+  if isstring(file)
+    c = string(c);
+  end
 end
 
 end

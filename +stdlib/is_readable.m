@@ -9,12 +9,19 @@
 
 function y = is_readable(file)
 
-a = file_attributes(file);
-
-if isempty(a)
-  y = false;
-else
-  y = a.UserRead || a.GroupRead || a.OtherRead;
+try
+  a = filePermissions(file);
+  y = a.Readable;
+catch e
+  switch e.identifier
+    case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
+      y = false;
+    case {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}
+      a = file_attributes(file);
+      y = ~isempty(a) && (a.UserRead || a.GroupRead || a.OtherRead);
+    otherwise
+      rethrow(e)
+  end
 end
 
 end

@@ -16,10 +16,26 @@ if ispc() && ~has_windows_executable_suffix(file)
   return
 end
 
-a = file_attributes(file);
 
-if ~isempty(a)
-  y = ~a.directory && (a.UserExecute || a.GroupExecute || a.OtherExecute);
+try
+  a = filePermissions(file);
+  if a.Type == matlab.io.FileSystemEntryType.File
+    if ispc
+      y = a.Readable;
+    else
+      y = a.UserExecute || a.GroupExecute || a.OtherExecute;
+    end
+  end
+catch e
+  switch e.identifier
+    case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
+      y = false;
+    case {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}
+      a = file_attributes(file);
+      y = ~isempty(a) && ~a.directory && (a.UserExecute || a.GroupExecute || a.OtherExecute);
+    otherwise
+      rethrow(e)
+  end
 end
 
 end
