@@ -4,8 +4,6 @@
 % * file: path to file or folder
 %%% Outputs
 % * y: true if file is writable
-%
-% this method is like 40x faster than native
 
 function y = is_writable(file)
 

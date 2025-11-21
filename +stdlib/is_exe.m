@@ -2,11 +2,9 @@
 % does not check if the file is actually a binary executable
 %
 %%% inputs
-% file: path to check
+% * file: path to check
 %%% Outputs
-% ok: true if path is a file and has executable permissions
-%
-% this method is like 40x faster than native.
+% * y: true if path is a file and has executable permissions
 
 function y = is_exe(file)
 

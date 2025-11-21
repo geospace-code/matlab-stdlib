@@ -23,7 +23,7 @@ Matlab R2017a and newer:
 test_main
 ```
 
-For the functions compatible with GNU Octave:
+For the functions compatible with GNU Octave, from the matlab-stdlib/ directory:
 
 ```octave
 addpath(pwd)

@@ -1,11 +1,9 @@
 %% IS_READABLE is file readable
 %
 %%% Inputs
-% file: single path string
+% * file: single path string
 %%% Outputs
-% y: true if file is readable
-%
-% this method is like 40x faster than native
+% * y: true if file is readable
 
 function y = is_readable(file)
 
