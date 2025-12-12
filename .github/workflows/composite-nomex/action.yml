@@ -54,7 +54,7 @@ runs:
 
   - name: upload logfile
     if: ${{ hashFiles(matrix.release-runner.os-test.log) != '' }}
-    uses: actions/upload-artifact@v4
+    uses: actions/upload-artifact@v6
     with:
       name: ${{ matrix.release }}-${{ runner.os }}-test-log
       path: ${{ matrix.release }}-${{ runner.os }}-test.log
