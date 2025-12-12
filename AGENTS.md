@@ -3,20 +3,31 @@
 ## Project Overview
 
 This is a standard library project for Matlab, designed to provide a collection of commonly used functions and utilities to enhance productivity and streamline development in Matlab.
+The project has a strong emphasis on cross-platform compatibility, performance, and ease of use.
 The namespace of the project is "stdlib" as indicated by all the project functions being under directory "+stdlib/"
 
-A primary purpose of this project is to use the external language interfaces provided by Matlab to call functions written in other scripting languages IF the language interface is enabled on the specific computer where Matlab is running.
-The specific languages supported are Python (namespace stdlib.python under +stdlib/+python/), Java (namespace stdlib.java under +stdlib/+java/), Perl (namespace stdlib.perl under +stdlib/+perl/), .NET (namespace stdlib.dotnet under +stdlib/+dotnet/).
-Not every language interface may be available on every system, and the availability of specific language interfaces may depend on the installation and configuration of the Matlab environment.
-To detect if a specific language interface is available, we provide functions stdlib.has_python(), stdlib.has_java(), stdlib.has_perl(), stdlib.has_dotnet(), which return logical true or false. These stdlib.has_*() functions are intended to run very quickly, caching the result using Matlab "persistent" variables as needed to make them efficient to call multiple times.
+This project is free to use the external language interfaces provided by Matlab to call functions written in other scripting languages IF the language interface is enabled on the specific computer where Matlab is running.
+We do not use user-compiled MEX files or require any Matlab toolboxes, only base Matlab functionality.
+The specific external languages supported (if available on the user system) are
 
-There is a namespace stdlib.sys defined under +stdlib/+sys/ that provided system() calls using the system shell as a last-restort fallback if no external language interface is available on the end user computer running Matlab.
-The namespace stdlib.native and stdlib.legacy use plain Matlab code, and allow switching between "modern" and "legacy" implementations of functions as needed.
+* Python: namespace stdlib.python under +stdlib/+python/, availability check stdlib.has_python()
+* Java: namespace stdlib.java under +stdlib/+java/, availability check stdlib.has_java()
+* Perl: namespace stdlib.perl under +stdlib/+perl/, availability check stdlib.has_perl()
+* .NET: namespace stdlib.dotnet under +stdlib/+dotnet/, availability check stdlib.has_dotnet()
+
+There are a few other namespaces that are not external language interfaces:
+
+* stdlib.sys under +stdlib/+sys/ uses system() calls to the system shell as a last-resort fallback. The speed of these calls is generally much slower than the other language interfaces.
+* stdlib.native under +stdlib/+native/ uses plain Matlab code to implement functions.
+* stdlib.legacy under +stdlib/+legacy/ uses plain Matlab code to implement functions for older Matlab versions that don't have the specific stdlib.native implementation for that function.
+
+Not every language interface may be available on every system, and the availability of specific language interfaces may depend on the installation and configuration of the Matlab environment.
+These stdlib.has_*() functions are intended to run very quickly, caching the result using Matlab "persistent" variables as needed to make them efficient to call multiple times.
 
 The self-test functions under "test/" directory can be used by Matlab >= R2017a as invoked by "test_main.m" at the top level of the project directory.
-Matlab >= R2022b can alternatively use "buildtool test" to run the self-tests.
+Matlab >= R2022b should use "buildtool test" to run the self-tests.
 
-Key limitations to minimum Matlab version include:
+Key limitations driving minimum Matlab version include:
 
 * R2017b: builtin isfolder(), isfile() available
 * R2017b: fileparts() supports string type. fileparts() is used in many places in the code as it's 5-10x faster than regexp() for filename parsing.
