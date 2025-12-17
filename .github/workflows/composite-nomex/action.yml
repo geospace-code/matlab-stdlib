@@ -6,33 +6,19 @@ runs:
 
   steps:
 
-  - name: Main Tests
+  - name: All Tests (>= R2024b)
     if: ${{ matrix.release >= 'R2024b' }}
     uses: matlab-actions/run-build@v2
     with:
-      tasks: test:main
+      tasks: test:main test:java test:java_exe test:exe
 
 
-  - name: Main Tests (< R2024b)
+  - name: Main and Java Tests (< R2024b)
     if: ${{ matrix.release >= 'R2022b' && matrix.release < 'R2024b' }}
     uses: matlab-actions/run-build@v2
     with:
-      tasks: test_main
-
-
-  - name: Java, JavaExe Test
-    if: ${{ matrix.release >= 'R2024b' }}
-    uses: matlab-actions/run-build@v2
-    with:
-      tasks: test:java test:java_exe test:exe
-      startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test.log
-
-
-  - name: Java Test (R2022b..R2024a)
-    if: ${{ matrix.release >= 'R2022b' && matrix.release < 'R2024b' }}
-    uses: matlab-actions/run-build@v2
-    with:
-      tasks: test_java
+      tasks: test_main test_java
+      startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test-main.log
 
 
   - name: JavaExe Test (R2023b..R2024a)
@@ -40,7 +26,7 @@ runs:
     uses: matlab-actions/run-build@v2
     with:
       tasks: test_java_exe test_exe
-      startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test.log
+      startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test-exe.log
 
 
 # note: "source-folder" adds all subfolders to Matlab path
@@ -49,13 +35,14 @@ runs:
     if: ${{ matrix.release < 'R2022b' }}
     uses: matlab-actions/run-command@v2
     with:
-      startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test.log
+      startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test-main.log
       command: test_main
 
+
   - name: upload logfile
-    if: ${{ hashFiles(matrix.release-runner.os-test.log) != '' }}
+    if: ${{ hashFiles(matrix.release-runner.os-test-main.log) != '' }}
     uses: actions/upload-artifact@v6
     with:
       name: ${{ matrix.release }}-${{ runner.os }}-test-log
-      path: ${{ matrix.release }}-${{ runner.os }}-test.log
+      path: ${{ matrix.release }}-${{ runner.os }}-test*.log
       retention-days: 1
