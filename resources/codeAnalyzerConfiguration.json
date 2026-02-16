@@ -1,0 +1,10 @@
+{
+    "checks": {
+        "FILEATTRIB": {
+            "enabled": false
+        },
+        "FEATGPID" : {
+            "enabled": false
+        }
+    }
+}
