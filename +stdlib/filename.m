@@ -15,7 +15,7 @@ switch backend
   case 'fileparts'
     [~, f, ext] = fileparts(p);
     f = stdlib.append(f, ext);
-% the pattern backend is a litle slower than regexp. Commented out for < R2020b compatibility
+% the pattern backend is a little slower than regexp. Commented out for < R2020b compatibility
   % case 'pattern'
   %   f = extractAfter(p, asManyOfPattern(wildcardPattern + ("/" | filesep)));
   case 'regexp'
