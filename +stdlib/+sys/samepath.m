@@ -2,13 +2,13 @@ function y = samepath(path1, path2)
 
 y = false;
 
-if ~stdlib.exists(path1) || ~stdlib.exists(path2)
-  return
-end
-
 if ispc()
-  y = stdlib.sys.device(path1) == stdlib.sys.device(path2) && ...
+  y = stdlib.sys.device(path1) == stdlib.sys.device(path2) & ...
       stdlib.sys.inode(path1) == stdlib.sys.inode(path2);
+  if isempty(y)
+    y = false;
+  end
+
   return
 end
 
@@ -26,7 +26,6 @@ cmd = stdlib.append(cmd1, ' && ', cmd2);
 
 [s, m] = system(cmd);
 if s ~= 0
-  warning("stdlib:sys:samepath:RuntimeError", "stdlib.sys.samepath(%s, %s) failed: %s", path1, path2, m)
   return
 end
 
