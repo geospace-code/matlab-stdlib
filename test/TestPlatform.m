@@ -114,6 +114,14 @@ else
 end
 end
 
+function test_windows_long_paths_enabled(tc)
+if ispc
+  tc.verifyClass(stdlib.windows_long_paths_enabled(), 'logical')
+else
+  tc.verifyFalse(stdlib.windows_long_paths_enabled())
+end
+end
+
 
 function test_xcode_version(tc)
 if ismac()
