@@ -11,7 +11,7 @@ root = fileparts(fileparts(mfilename('fullpath')));
 addpath(root)
 
 if ispc()
-  cmd = "winget install Microsoft.DotNet.SDK.9";
+  cmd = "winget install Microsoft.DotNet.SDK.10";
 else
 
 if ~strlength(installDir)
