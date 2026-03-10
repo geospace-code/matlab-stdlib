@@ -69,12 +69,6 @@ delete(archive_path);
 disp("Installation complete in " + prefix)
 
 newpath = fullfile(dest_dir, stub, 'bin');
-if isunix()
-  disp("Please add the following line to your shell configuration file (e.g., .bashrc, .zshrc, .profile) to update your PATH:")
-  fprintf('  export PATH="%s":$PATH\n', newpath);
-else
-  disp("Please add to user environment variable PATH")
-  disp(newpath)
-end
+disp("CMake is located in " + newpath)
 
 end

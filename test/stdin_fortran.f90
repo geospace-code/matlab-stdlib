@@ -17,6 +17,6 @@ if (i == iostat_end) error stop "stdin was truncated -- add a newline at the end
 if (i /= 0) error stop "stdin read error"
 
 
-write(output_unit, '(i0)') a + b
+print '(i0)', a + b
 
 end program
