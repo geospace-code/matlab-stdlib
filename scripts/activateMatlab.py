@@ -35,7 +35,9 @@ def _registry_search(release: str) -> Path | None:
 
         return Path(matlab_path)
     except (AttributeError, OSError) as e:
-        logging.debug(f"Registry key not found {e}, falling back to ProgramFiles search.")
+        logging.debug(
+            f"Registry key not found {e}, falling back to ProgramFiles search."
+        )
         return None
 
 
@@ -66,7 +68,7 @@ def _macos_search(release: str) -> Path | None:
     """Search for Matlab in common macOS application directories."""
 
     arch = platform.machine()
-    match (arch):
+    match arch:
         case "x86_64":
             tail = "maci64"
         case "arm64":
@@ -76,7 +78,9 @@ def _macos_search(release: str) -> Path | None:
 
     roots = ["~/Applications", "/Applications"]
     for root in roots:
-        if (p := Path(root).expanduser() / f"MATLAB_{release}.app" / "bin" / tail).is_dir():
+        if (
+            p := Path(root).expanduser() / f"MATLAB_{release}.app" / "bin" / tail
+        ).is_dir():
             return p
 
     if (r := shutil.which("matlab")) is not None:
@@ -114,7 +118,9 @@ def read_release(release: str, matlab_binpath: Path) -> str | None:
         tree = ET.parse(xml_path)
         root = tree.getroot()
         if root.tag != "MathWorks_version_info":
-            logging.error(f"Expected root element 'MathWorks_version_info', found '{root.tag}'")
+            logging.error(
+                f"Expected root element 'MathWorks_version_info', found '{root.tag}'"
+            )
             return None
 
         release_element = root.find("release")
@@ -129,7 +135,9 @@ def read_release(release: str, matlab_binpath: Path) -> str | None:
             logging.info(f"Found valid Matlab release {release_name} in {xml_path}")
             return release_name
         else:
-            logging.warning(f"Matlab release {release_name} does not match requested {release}.")
+            logging.warning(
+                f"Matlab release {release_name} does not match requested {release}."
+            )
             return None
     except ET.ParseError as e:
         logging.error(f"Failed to parse VersionInfo.xml: {e}")
@@ -144,7 +152,7 @@ def find_matlab_exe(release: str, name: str) -> str | None:
 
     mr = None
 
-    match (os.name):
+    match os.name:
         case "nt":
             mr = _windows_search(release)
         case "darwin":
@@ -161,7 +169,9 @@ def find_matlab_exe(release: str, name: str) -> str | None:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Find the MathWorksProductAuthorizer executable.")
+    parser = argparse.ArgumentParser(
+        description="Find the MathWorksProductAuthorizer executable."
+    )
     parser.add_argument(
         "release",
         help="Specify the MATLAB version to search for (e.g., R2023a)",
@@ -172,7 +182,9 @@ if __name__ == "__main__":
         default="MathWorksProductAuthorizer",
         help="Name of the executable to search for (default: MathWorksProductAuthorizer)",
     )
-    parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose output")
+    parser.add_argument(
+        "-v", "--verbose", action="store_true", help="Enable verbose output"
+    )
     args = parser.parse_args()
 
     if args.verbose:
@@ -183,7 +195,9 @@ if __name__ == "__main__":
         raise SystemExit(f"Could not find {args.name} for release {args.release}.")
 
     if (release := read_release(args.release, Path(exe).parent)) is None:
-        raise SystemExit(f"Matlab release {args.release} was not found under {Path(exe).parent}.")
+        raise SystemExit(
+            f"Matlab release {args.release} was not found under {Path(exe).parent}."
+        )
 
     print(f"Matlab {release} '{args.name}' executable found:")
     print(exe)
