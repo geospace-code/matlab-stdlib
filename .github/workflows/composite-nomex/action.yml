@@ -1,4 +1,5 @@
-name: "matlab-nomex"
+name: "composite-nomex"
+description: "Run Matlab tests without MEX files"
 
 runs:
 
