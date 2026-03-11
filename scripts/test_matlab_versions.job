@@ -1,0 +1,12 @@
+#!/bin/bash -l
+
+# set of tests takes about 5 minutes per run
+# we have 18 Matlab versions tested so about 90 minutes - add margin
+
+#$ -l h_rt=3:00:00
+
+#$ -l mem_per_core=3G
+
+module load python3
+
+python -m pytest scripts/test_matlab_versions.py -sv
