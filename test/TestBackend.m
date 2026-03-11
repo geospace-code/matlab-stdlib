@@ -38,7 +38,7 @@ tc.verifyGreaterThanOrEqual(i, 0)
 
 [i, b] = stdlib.create_symlink(readme, "Readme.lnk");
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('create_symlink').backends))
-tc.verifyTrue(i)
+tc.verifyTrue(i, "backend " + b + " should have been available in Backend.backends()")
 
 [i, b] = stdlib.device('.');
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('device').backends))

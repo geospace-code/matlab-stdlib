@@ -41,6 +41,8 @@ if stdlib.matlabOlderThan('R2022a') && ~force_old
 end
 
 % glitchy Python load can error on sys.version_info
+% if pyenv() hasn't ever been configured, may get uncatchable error
+% bad lexical cast: source type value could not be interpreted as target
 try
   v = pvt_python_version();
 catch e
