@@ -16,7 +16,7 @@ end
 [s, m] = system(cmd);
 if s == 0
   if ispc()
-    m = strrep(m, "File ID is ", "");
+    m = strrep(m, 'File ID is ', '');
     % https://www.mathworks.com/help/matlab/ref/hex2dec.html
     i = sscanf(m, '%lx', 1);
     if i == intmax('uint64')
