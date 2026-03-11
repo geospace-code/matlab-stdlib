@@ -4,11 +4,13 @@
 
 function y = has_python()
 
-r = matlabRelease();
-if ispc && r.Release == "R2026a" && r.Stage == "prerelease"
-  % avoid python due to bug
-  y = false;
-  return
+try  %#ok<TRYNC>
+  r = matlabRelease();
+  if ispc && r.Release == "R2026a" && r.Stage == "prerelease"
+    % avoid python due to bug
+    y = false;
+    return
+  end
 end
 
 y = ~isempty(stdlib.python_version());
