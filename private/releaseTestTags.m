@@ -18,7 +18,9 @@ releasesKnown = [
 
 % takes releases not newer than this release
 idx = find(releasesKnown >= r, 1, 'first');
-if ~isempty(idx)
+if isempty(idx)
+  tags = releasesKnown;
+else
   tags = releasesKnown(1:idx);
 end
 
