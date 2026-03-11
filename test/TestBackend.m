@@ -11,11 +11,14 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
 
 properties
 root = fileparts(fileparts(mfilename('fullpath')))
+wd
 end
 
 methods(TestClassSetup)
 function test_dirs(tc)
-  tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
+  fx = matlab.unittest.fixtures.WorkingFolderFixture();
+  tc.wd = fx.Folder;
+  tc.applyFixture(fx)
 end
 end
 
@@ -24,7 +27,7 @@ function test_backend(tc)
 import matlab.unittest.constraints.IsSubsetOf
 
 
-readme = tc.root + "/Readme.md";
+readme = fullfile(tc.root, 'Readme.md');
 if stdlib.matlabOlderThan('R2018a')
   tc.assertTrue(isfile(readme))
 else
@@ -36,9 +39,11 @@ tc.assertThat(b, IsSubsetOf(stdlib.Backend('cpu_load').backends))
 tc.verifyGreaterThanOrEqual(i, 0)
 % some CI systems report 0
 
-[i, b] = stdlib.create_symlink(readme, "Readme.lnk");
+% best to use full path to avoid issues on HPC etc.
+sym_fn = fullfile(tc.wd, 'Readme.lnk');
+[i, b] = stdlib.create_symlink(readme, sym_fn);
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('create_symlink').backends))
-tc.verifyTrue(i, "backend " + b + " should have been available in Backend.backends()")
+tc.verifyTrue(i,  "could not create_symlink " + sym_fn)
 
 [i, b] = stdlib.device('.');
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('device').backends))
