@@ -28,7 +28,10 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-22.04, windows-latest, macos-latest]
-        release: [R2024a, R2024b, R2025b, latest-including-prerelease]
+        release: [R2024a, R2024b, R2025b]
+
+#  latest-including-prerelease has CI-only glitches for R2026a prerelease
+
 # Linux:
 #   R2022b..R2025b needs GCC 10.x and hence Github Actions runner ubuntu-22.04.
 #   if using ubuntu-latest the java_exe tests fail.
