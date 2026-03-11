@@ -11,9 +11,9 @@
 % be used rather than just checking if the relevant toolbox is installed.
 
 function [ok, featureName] = checkout_license(packageName)
-arguments
-  packageName (1,1) string
-end
+% arguments
+%   packageName (1,1) string
+% end
 
 ok = false;
 featureName = string.empty;
