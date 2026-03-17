@@ -1,6 +1,7 @@
 import pytest
 import subprocess
 import platform
+from pathlib import Path
 
 # these are HPC system specific
 version_keys = [
@@ -24,6 +25,8 @@ version_keys = [
 "2017a",
 ]
 
+R = Path(__file__).parents[1]
+
 
 @pytest.mark.skipif(not platform.system() == "Linux", reason="HPC only")
 @pytest.mark.parametrize("version", version_keys)
@@ -42,4 +45,4 @@ def test_matlab_version(version):
     else:
         cmd = lcmd + "matlab -r 'test_main; exit'"
 
-    subprocess.check_call(cmd, shell=True)
+    subprocess.check_call(cmd, shell=True, cwd=R)
