@@ -1,3 +1,10 @@
+"""
+get Matlab version by parsing VersionInfo.xml
+This file is present back to at least Matlab R2016a
+This is much faster than running `matlab -batch "disp(version)"` and parsing the output,
+which can take several to tens of seconds to start up Matlab.
+"""
+
 import argparse
 import xml.etree.ElementTree as ET
 import shutil
