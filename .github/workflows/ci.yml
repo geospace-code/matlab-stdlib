@@ -8,7 +8,6 @@ on:
     - "**.cpp"
     - ".github/workflows/ci.yml"
     - ".github/workflows/*/action.yml"
-    - "!private/publish_gen_index_html.m"
     - "!scripts/**"
     - "!example/**"
 
