@@ -29,8 +29,9 @@ except ModuleNotFoundError:
 def _registry_search(release: str) -> Path | None:
     try:
         # must use "\" as path separator in Windows registry
-        matlab_path = winreg.QueryValue(
-            winreg.HKEY_LOCAL_MACHINE, rf"SOFTWARE\MathWorks\{release}\MATLAB"
+        matlab_path = winreg.QueryValue(  # type: ignore[attr-defined]
+            winreg.HKEY_LOCAL_MACHINE,  # type: ignore[attr-defined]
+            rf"SOFTWARE\MathWorks\{release}\MATLAB",
         )
 
         return Path(matlab_path)

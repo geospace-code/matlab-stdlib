@@ -5,24 +5,24 @@ from pathlib import Path
 
 # these are HPC system specific
 version_keys = [
-"2025b",
-"2025a",
-"2024b",
-"2024a",
-"2023b",
-"2023a",
-"2022b",
-"2022a",
-"2021b",
-"2021a",
-"2020b",
-"2020a",
-"2019b",
-"2019a",
-"2018b",
-"2018a",
-"2017b",
-"2017a",
+    "2025b",
+    "2025a",
+    "2024b",
+    "2024a",
+    "2023b",
+    "2023a",
+    "2022b",
+    "2022a",
+    "2021b",
+    "2021a",
+    "2020b",
+    "2020a",
+    "2019b",
+    "2019a",
+    "2018b",
+    "2018a",
+    "2017b",
+    "2017a",
 ]
 
 R = Path(__file__).parents[1]
@@ -32,7 +32,9 @@ R = Path(__file__).parents[1]
 @pytest.mark.parametrize("version", version_keys)
 def test_matlab_version(version):
 
-    ret = subprocess.run(f"module is-avail matlab/{version}", shell=True, capture_output=True, text=True)
+    ret = subprocess.run(
+        f"module is-avail matlab/{version}", shell=True, capture_output=True, text=True
+    )
     if ret.returncode != 0:
         pytest.skip(f"MATLAB version {version} not available {ret.stderr}")
 

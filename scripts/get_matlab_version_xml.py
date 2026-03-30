@@ -28,14 +28,18 @@ def get_matlab_version(root: Path) -> str:
         raise FileNotFoundError(xmlPath)
 
     tree = ET.parse(xmlPath)
-    root = tree.getroot()
+    xroot = tree.getroot()
 
-    return root.find('version').text
+    v = xroot.find("version")
+
+    return v.text.strip() if v is not None and v.text is not None else "Unknown version"
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Get MATLAB version from VersionInfo.xml")
-    parser.add_argument('matlab_root', nargs='?', help="Path to MATLAB root directory")
+    parser = argparse.ArgumentParser(
+        description="Get MATLAB version from VersionInfo.xml"
+    )
+    parser.add_argument("matlab_root", nargs="?", help="Path to MATLAB root directory")
     args = parser.parse_args()
 
     root = Path(args.matlab_root) if args.matlab_root else get_matlab_root()
