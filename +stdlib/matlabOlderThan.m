@@ -1,7 +1,7 @@
 %% MATLABOLDERTHAN compare Matlab release name only e.g. R2025a
 % works for Matlab >= R2016b
 %
-% our simpler checks is about 200x faster than isMATLABReleaseOlderThan(release)
+% our implementation is about 200x faster than isMATLABReleaseOlderThan(release)
 
 function isOlder = matlabOlderThan(release)
 assert(nargin == 1, 'Specify Matlab release like ''R2025a''')

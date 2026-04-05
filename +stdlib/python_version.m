@@ -14,10 +14,7 @@
 % where the environment has changed since pyenv() was set. For example
 % HPC with 'module load python3...'
 
-function [v, msg] = python_version(force_old)
-if nargin < 1
-  force_old = false;
-end
+function [v, msg] = python_version()
 
 persistent stdlib_py_version pyv_cached
 
@@ -35,10 +32,6 @@ end
 % We use a separate private function to workaround that.
 
 v = [];
-
-if stdlib.matlabOlderThan('R2022a') && ~force_old
-  return
-end
 
 % glitchy Python load can error on sys.version_info
 % if pyenv() hasn't ever been configured, may get uncatchable error

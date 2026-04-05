@@ -2,18 +2,17 @@
 %
 % https://www.mathworks.com/support/requirements/python-compatibility.html
 
-function y = has_python()
+function y = has_python(enable_check)
 
-try  %#ok<TRYNC>
-  r = matlabRelease();
-  if ispc && r.Release == "R2026a" && r.Stage == "prerelease"
-    % avoid python due to bug
-    y = false;
-    return
-  end
+y = false;
+
+if nargin == 0
+  enable_check = ~stdlib.matlabOlderThan('R2022a');
 end
 
-y = ~isempty(stdlib.python_version());
+if enable_check
+  y = ~isempty(stdlib.python_version());
+end
 
 end
 

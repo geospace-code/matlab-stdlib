@@ -109,14 +109,20 @@ for m = backendReq
 
       switch functionName
         case {'filesystem_type', 'is_removable', 'ram_total', 'ram_free', 'uptime'}
-          if ~stdlib.python.has_psutil(); continue, end
+          if ~stdlib.has_python() || ~stdlib.python.has_psutil()
+            continue
+          end
         case {'cpu_load', 'get_owner', 'get_process_priority', 'get_uid'}
           if ispc(), continue, end
         case 'is_admin'
           if ispc() && stdlib.matlabOlderThan('R2024a'), continue, end
         case 'is_dev_drive'
-          pyv = stdlib.python_version();
-          if any(pyv(1:2) < [3, 12]), continue, end
+          if stdlib.has_python()
+            pyv = stdlib.python_version();
+            if isempty(pyv) || any(pyv(1:2) < [3, 12])
+              continue
+            end
+          end
       end
     case 'native'
 
