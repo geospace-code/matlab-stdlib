@@ -23,8 +23,9 @@ for j = 1:numel(backend)
     case 'java'
       i = stdlib.java.set_modtime(file, time);
     case 'python'
-      if stdlib.matlabOlderThan('R2022a'), continue, end
-      i = stdlib.python.set_modtime(file, time);
+      if stdlib.has_python()
+        i = stdlib.python.set_modtime(file, time);
+      end
     case 'sys'
       i = stdlib.sys.set_modtime(file, time);
     otherwise
