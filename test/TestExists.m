@@ -3,9 +3,30 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
 
 properties (TestParameter)
 Ps = init_val()
-B_is_char_device = {'python', 'sys'}
+
+backend_chardev
+not_backend_chardev
 end
 
+
+methods (TestParameterDefinition, Static)
+function [backend_chardev, not_backend_chardev] = setup_backend()
+  rpath = fileparts(fileparts(mfilename('fullpath')));
+  addpath(rpath)
+
+  not_backend_chardev = {};
+  backend_chardev = {};
+  for b = ["python", "sys"]
+    if isempty(stdlib.is_char_device(rpath, b))
+      not_backend_chardev{end+1} = char(b); %#ok<AGROW>
+    else
+      backend_chardev{end+1} = char(b); %#ok<AGROW>
+    end
+  end
+
+  rmpath(rpath)
+end
+end
 
 methods(TestClassSetup)
 function test_dirs(tc)
@@ -50,24 +71,28 @@ end
 
 
 methods (Test, TestTags={'R2019b'})
-function test_is_char_device(tc, B_is_char_device)
+function test_is_char_device(tc, backend_chardev)
 % /dev/stdin may not be available on CI systems
 n = stdlib.null_file();
 
-[r, b] = stdlib.is_char_device(n, B_is_char_device);
-tc.assertEqual(char(b), B_is_char_device)
+[r, b] = stdlib.is_char_device(n, backend_chardev);
+tc.assertEqual(b, backend_chardev)
 tc.assertClass(r, 'logical')
 
-if ismember(B_is_char_device, stdlib.Backend().select('is_char_device'))
-  tc.verifyTrue(r, n)
+tc.verifyTrue(r, n)
 
-  if ~stdlib.matlabOlderThan('R2016b')
-    tc.verifyTrue(stdlib.is_char_device(string(n), B_is_char_device))
-  end
-else
-  tc.verifyEmpty(r)
+if ~stdlib.matlabOlderThan('R2016b')
+  tc.verifyTrue(stdlib.is_char_device(string(n), backend_chardev))
 end
 end
+
+function test_missing_backend(tc, not_backend_chardev)
+n = stdlib.null_file();
+[r, b] = stdlib.is_char_device(n, not_backend_chardev);
+tc.verifyEqual(b, not_backend_chardev)
+tc.verifyEmpty(r)
+end
+
 end
 
 end
