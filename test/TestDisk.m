@@ -59,6 +59,18 @@ end
 end
 
 
+function test_ulimit(tc, B_ps)
+[i, b] = stdlib.get_max_open_files(B_ps);
+tc.assertEqual(char(b), B_ps)
+tc.verifyClass(i, 'uint64')
+if ispc() || (B_ps == "python" && ~stdlib.has_python())
+  tc.verifyEmpty(i)
+else
+  tc.verifyGreaterThan(i, 0)
+end
+end
+
+
 function test_is_removable(tc, B_ps)
 [y, b] = stdlib.is_removable(pwd(), B_ps);
 tc.assertEqual(char(b), B_ps)
