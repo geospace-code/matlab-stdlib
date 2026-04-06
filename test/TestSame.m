@@ -12,7 +12,28 @@ p = {...
 {'..', './..'}, ...
 {'same.txt', './same.txt'}}
 
-backend = {'python', 'java', 'perl', 'sys', 'native'}
+backend
+not_backend
+end
+
+
+methods (TestParameterDefinition, Static)
+function [backend, not_backend] = setup_backend()
+  rpath = fileparts(fileparts(mfilename('fullpath')));
+  addpath(rpath)
+
+  not_backend = {};
+  backend = {};
+  for b = ["python", "java", "perl", "sys", "native"]
+    if isempty(stdlib.samepath(rpath, rpath, b))
+      not_backend{end+1} = char(b); %#ok<AGROW>
+    else
+      backend{end+1} = char(b); %#ok<AGROW>
+    end
+  end
+
+  rmpath(rpath)
+end
 end
 
 
@@ -30,24 +51,23 @@ methods(Test)
 
 function test_samepath(tc, p, backend)
 [r, b] = stdlib.samepath(p{:}, backend);
-tc.assertEqual(char(b), backend)
+tc.assertEqual(b, backend)
 tc.verifyClass(r, 'logical')
 
-if ismember(backend, stdlib.Backend().select('samepath'))
-  tc.verifyTrue(r, [p{1} ' ' p{2}])
-else
-  tc.assertEmpty(r)
+tc.verifyTrue(r, [p{1} ' ' p{2}])
 end
+
+
+function test_missing_backend(tc, not_backend)
+[r, b] = stdlib.samepath('.', '.', not_backend);
+tc.verifyEqual(b, not_backend)
+tc.verifyEmpty(r)
 end
 
 
 function test_samepath_cwd(tc, backend)
 r = stdlib.samepath('.', tc.cwd, backend);
-if ismember(backend, stdlib.Backend().select('samepath'))
-  tc.verifyTrue(r)
-else
-  tc.verifyEmpty(r)
-end
+tc.verifyTrue(r)
 end
 
 
@@ -57,13 +77,9 @@ t = tempname();
 r1 = stdlib.samepath('', '', backend);
 r2 = stdlib.samepath(t, t, backend);
 
-if ismember(backend, stdlib.Backend().select('samepath'))
-  tc.verifyFalse(r1)
-  tc.verifyFalse(r2)
-else
-  tc.assertEmpty(r1)
-  tc.assertEmpty(r2)
-end
+tc.verifyFalse(r1)
+tc.verifyFalse(r2)
+
 end
 
 end
