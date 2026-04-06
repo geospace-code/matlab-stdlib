@@ -145,7 +145,7 @@ backends = innerNamespaces(pkg_name).';
 for m = funcs
   Nbe.top_level = Nbe.top_level + 1;
 
-  doc_fn = publish(m.NamespaceName + "." + m.Name, evalCode=false, outputDir=html_dir);
+  doc_fn = publish(m.NamespaceName + "." + m.Name, evalCode=false, showCode=false, outputDir=html_dir);
   disp(doc_fn)
 
   % inject summary for each function
@@ -161,7 +161,7 @@ for m = funcs
     if ~isempty(which(subfun))
       Nbe.(bn) = Nbe.(bn) + 1;
 
-      doc_fn = publish(subfun, evalCode=false, outputDir=html_dir + "/" + bn);
+      doc_fn = publish(subfun, evalCode=false, showCode=false, outputDir=html_dir + "/" + bn);
       disp(doc_fn)
 
       req = req + " <a href=" + bn + "/" + m.Name + ".html>" + bn + "</a>";
