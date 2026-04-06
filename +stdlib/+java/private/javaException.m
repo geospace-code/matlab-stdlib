@@ -9,6 +9,8 @@ switch e.identifier
     switch class(e.ExceptionObject)
       case {'java.nio.file.NoSuchFileException', 'java.nio.file.NotLinkException', 'java.lang.UnsupportedOperationException'}
         % pass
+      case 'java.lang.NullPointerException'
+        % empty input
       otherwise
         rethrow(e)
     end
