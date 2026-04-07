@@ -42,7 +42,7 @@ jobs:
     steps:
     - &matlab-install
       name: Install MATLAB
-      uses: matlab-actions/setup-matlab@v2
+      uses: matlab-actions/setup-matlab@v3
       with:
         release: ${{ matrix.release }}
         cache: true
@@ -57,14 +57,14 @@ jobs:
 
     - &tell-ext
       name: Matlab tell External Language Interface versions
-      uses: matlab-actions/run-command@v2
+      uses: matlab-actions/run-command@v3
       with:
         command: stdlib.platform_tell()
 
     - &code-issues
       name: Check codeIssues
       if: ${{ matrix.release >= 'R2024a' || matrix.release == 'latest-including-prerelease' }}
-      uses: matlab-actions/run-build@v2
+      uses: matlab-actions/run-build@v3
       with:
         tasks: check
     # Matlab < R2024a has false positives that would break tests
@@ -91,6 +91,8 @@ jobs:
 
     steps:
     - *matlab-install
+    - *mac-fc
+
     - *checkout
     - *tell-ext
 
@@ -133,13 +135,13 @@ jobs:
   #   - *checkout
 
   #   - name: Matlab tell External Language Interface versions
-  #     uses: matlab-actions/run-command@v2
+  #     uses: matlab-actions/run-command@v3
   #     with:
   #       command: stdlib.platform_tell()
   #       startup-options: -nojvm
 
   #   - name: Main Tests NoJVM
-  #     uses: matlab-actions/run-build@v2
+  #     uses: matlab-actions/run-build@v3
   #     with:
   #       tasks: test_main
   #       startup-options: -nojvm

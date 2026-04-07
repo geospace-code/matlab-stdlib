@@ -45,16 +45,16 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Install MATLAB
-        uses: matlab-actions/setup-matlab@v2
+        uses: matlab-actions/setup-matlab@v3
         with:
           release: ${{ matrix.release }}
-          cache: false
+          cache: true
 
       - name: Run Matlab buildtool
-        uses: matlab-actions/run-build@v2
+        uses: matlab-actions/run-build@v3
         with:
           tasks: publish
 # don't run "test" task as then even "clean" will leave Matlab in cached state where
@@ -68,4 +68,4 @@ jobs:
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

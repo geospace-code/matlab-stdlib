@@ -9,14 +9,14 @@ runs:
 
   - name: All Tests (>= R2024b)
     if: ${{ matrix.release >= 'R2024b' || matrix.release == 'latest-including-prerelease' }}
-    uses: matlab-actions/run-build@v2
+    uses: matlab-actions/run-build@v3
     with:
       tasks: test:main test:java test:java_exe test:exe
 
 
   - name: Main and Java Tests (< R2024b)
     if: ${{ matrix.release >= 'R2022b' && matrix.release < 'R2024b' }}
-    uses: matlab-actions/run-build@v2
+    uses: matlab-actions/run-build@v3
     with:
       tasks: test_main test_java
       startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test-main.log
@@ -24,7 +24,7 @@ runs:
 
   - name: JavaExe Test (R2023b..R2024a)
     if: ${{ matrix.release >= 'R2023b' && matrix.release < 'R2024b' }}
-    uses: matlab-actions/run-build@v2
+    uses: matlab-actions/run-build@v3
     with:
       tasks: test_java_exe test_exe
       startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test-exe.log
@@ -34,7 +34,7 @@ runs:
 # https://github.com/matlab-actions/run-tests?tab=readme-ov-file#run-matlab-tests
   - name: Non-buildtool tests (< R2022b)
     if: ${{ matrix.release < 'R2022b' }}
-    uses: matlab-actions/run-command@v2
+    uses: matlab-actions/run-command@v3
     with:
       startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test-main.log
       command: test_main
