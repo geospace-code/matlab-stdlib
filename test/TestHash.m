@@ -40,7 +40,7 @@ methods (Test)
 function test_hash_text(tc, Ph, backend)
 
 [r, b] = stdlib.file_checksum(tc.file, Ph{1}, backend);
-tc.assertEqual(char(b), backend)
+tc.assertEqual(b, backend)
 tc.verifyClass(r, 'char')
 
 if ismember(backend, stdlib.Backend().select('file_checksum'))

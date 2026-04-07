@@ -16,7 +16,7 @@ methods (Test)
 
 function test_is_admin(tc, B_jdpps)
 [i, b] = stdlib.is_admin(B_jdpps);
-tc.assertEqual(char(b), B_jdpps)
+tc.assertEqual(b, B_jdpps)
 tc.verifyClass(i, 'logical')
 
 if ismember(B_jdpps, stdlib.Backend().select('is_admin'))
@@ -30,7 +30,7 @@ end
 function test_cpu_load(tc, B_jps)
 [r, b] = stdlib.cpu_load(B_jps);
 tc.assertClass(r, 'double')
-tc.assertEqual(char(b), B_jps)
+tc.assertEqual(b, B_jps)
 
 if ismember(B_jps, stdlib.Backend().select('cpu_load'))
   tc.verifyGreaterThanOrEqual(r, 0.)
@@ -44,7 +44,7 @@ end
 function test_process_priority(tc, B_dps)
 import matlab.unittest.constraints.IsSubsetOf
 [r, b] = stdlib.get_process_priority(B_dps);
-tc.assertEqual(char(b), B_dps)
+tc.assertEqual(b, B_dps)
 tc.verifyThat({class(r)}, IsSubsetOf({'double', 'char'}))
 
 if ismember(B_dps, stdlib.Backend().select('get_process_priority'))
@@ -57,7 +57,7 @@ end
 
 function test_os_version(tc, B_jdps)
 [os, ver, b] = stdlib.os_version(B_jdps);
-tc.assertEqual(char(b), B_jdps)
+tc.assertEqual(b, B_jdps)
 
 tc.verifyClass(os, 'char')
 tc.verifyClass(ver, 'char')
@@ -79,7 +79,7 @@ end
 
 function test_hostname(tc, B_jdps)
 [h, b] = stdlib.hostname(B_jdps);
-tc.assertEqual(char(b), B_jdps)
+tc.assertEqual(b, B_jdps)
 tc.verifyClass(h, 'char')
 
 if ismember(B_jdps, stdlib.Backend().select('hostname'))
@@ -92,7 +92,7 @@ end
 
 function test_get_uid(tc, B_dpp)
 [u, b] = stdlib.get_uid(B_dpp);
-tc.assertEqual(char(b), B_dpp)
+tc.assertEqual(b, B_dpp)
 
 if ismember(B_dpp, stdlib.Backend().select('get_uid'))
   if ispc()
@@ -109,7 +109,7 @@ end
 
 function test_username(tc, B_jdps)
 [u, b] = stdlib.get_username(B_jdps);
-tc.assertEqual(char(b), B_jdps)
+tc.assertEqual(b, B_jdps)
 tc.verifyClass(u, 'char')
 
 if ismember(B_jdps, stdlib.Backend().select('get_username'))
@@ -128,7 +128,7 @@ end
 
 function test_ram_total(tc, B_jdps)
 [t, b] = stdlib.ram_total(B_jdps);
-tc.assertEqual(char(b), B_jdps)
+tc.assertEqual(b, B_jdps)
 tc.verifyClass(t, 'uint64')
 
 if ismember(B_jdps, stdlib.Backend().select('ram_total'))
@@ -142,7 +142,7 @@ end
 function test_ram_free(tc, B_jps)
 % don't verify less than or equal to total due to shaky system measurements'
 [f, b] = stdlib.ram_free(B_jps);
-tc.assertEqual(char(b), B_jps)
+tc.assertEqual(b, B_jps)
 tc.verifyClass(f, 'uint64')
 
 if ismember(B_jps, stdlib.Backend().select('ram_free'))

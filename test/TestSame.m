@@ -30,7 +30,7 @@ methods(Test)
 
 function test_samepath(tc, p, backend)
 [r, b] = stdlib.samepath(p{:}, backend);
-tc.assertEqual(char(b), backend)
+tc.assertEqual(b, backend)
 tc.verifyClass(r, 'logical')
 
 if ismember(backend, stdlib.Backend().select('samepath'))

@@ -55,7 +55,7 @@ function test_is_char_device(tc, B_is_char_device)
 n = stdlib.null_file();
 
 [r, b] = stdlib.is_char_device(n, B_is_char_device);
-tc.assertEqual(char(b), B_is_char_device)
+tc.assertEqual(b, B_is_char_device)
 tc.assertClass(r, 'logical')
 
 if ismember(B_is_char_device, stdlib.Backend().select('is_char_device'))

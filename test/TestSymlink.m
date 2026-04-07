@@ -35,7 +35,7 @@ methods (Test)
 
 function test_is_symlink(tc, B_is_symlink)
 [i, b] = stdlib.is_symlink(tc.link, B_is_symlink);
-tc.assertEqual(char(b), B_is_symlink)
+tc.assertEqual(b, B_is_symlink)
 
 if ismember(B_is_symlink, stdlib.Backend().select('is_symlink'))
   tc.assertTrue(i, 'failed to detect own link')
@@ -50,7 +50,7 @@ end
 
 function test_read_symlink_empty(tc, Pre, B_is_symlink)
 [r, b] = stdlib.read_symlink(Pre, B_is_symlink);
-tc.assertEqual(char(b), B_is_symlink)
+tc.assertEqual(b, B_is_symlink)
 
 tc.verifyEqual(r, string.empty)
 end
@@ -89,7 +89,7 @@ end
 
 function test_create_symlink_empty(tc, B_create_symlink)
 [i, b] = stdlib.create_symlink('', tempname(), B_create_symlink);
-tc.assertEqual(char(b), B_create_symlink)
+tc.assertEqual(b, B_create_symlink)
 
 if ismember(B_create_symlink, stdlib.Backend().select('create_symlink'))
   if ispc() && strcmp(B_create_symlink, 'native')
