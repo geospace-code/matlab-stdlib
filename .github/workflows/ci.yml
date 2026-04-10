@@ -42,6 +42,7 @@ jobs:
     steps:
     - &matlab-install
       name: Install MATLAB
+      timeout-minutes: 5
       uses: matlab-actions/setup-matlab@v3
       with:
         release: ${{ matrix.release }}
