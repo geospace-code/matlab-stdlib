@@ -1,4 +1,8 @@
 %% HAS_PYTHON checks if Python is available in the current environment.
+% By default, Matlab >= R2022a will check for Python availability.
+% On some systems, Python may be broken in ways not detected by this function.
+% The check can be per-session persistently disabled by `stdlib.has_python(false)`.
+% The check can be per-session persistently enabled by `stdlib.has_python(true)`.
 %
 % https://www.mathworks.com/support/requirements/python-compatibility.html
 
