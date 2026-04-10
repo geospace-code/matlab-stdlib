@@ -56,8 +56,8 @@ end
 
 methods (Test, TestTags={'R2017a'})
 
-function test_platform_tell(tc)
-r = stdlib.platform_tell();
+function test_doctor(tc)
+r = stdlib.doctor();
 tc.verifyClass(r, 'char')
 tc.verifyNotEmpty(r)
 end

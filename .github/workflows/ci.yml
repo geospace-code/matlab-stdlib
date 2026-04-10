@@ -59,7 +59,7 @@ jobs:
       name: Matlab tell External Language Interface versions
       uses: matlab-actions/run-command@v3
       with:
-        command: stdlib.platform_tell()
+        command: stdlib.doctor()
 
     - &code-issues
       name: Check codeIssues
@@ -137,7 +137,7 @@ jobs:
   #   - name: Matlab tell External Language Interface versions
   #     uses: matlab-actions/run-command@v3
   #     with:
-  #       command: stdlib.platform_tell()
+  #       command: stdlib.doctor()
   #       startup-options: -nojvm
 
   #   - name: Main Tests NoJVM

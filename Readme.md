@@ -39,19 +39,25 @@ The
 "backend" column tells which functions have selectable backend implementations.
 By default, when the "backend" is not specified to a function having selectable backend, the algorithm searches for the first available backend and uses that.
 
-[.NET](https://www.mathworks.com/help/matlab/call-net-from-matlab.html)
-support in MATLAB includes:
-  * Windows: all supported Matlab releases
-  * Linux or macOS: R2024b and newer
-
-For macOS, `brew install dotnet` and then in Matlab `edit(fullfile(userpath, 'startup.m'))` and add the line `setenv('DOTNET_ROOT', '/opt/homebrew/opt/dotnet/libexec')` where the path is determined from `brew --prefix dotnet`.
-
-Other language backends include:
+Matlab external backends include:
 
 * [Java](./Readme_java.md): all supported Matlab releases
 * [Perl](https://www.mathworks.com/help/matlab/ref/perl.html):  Matlab R2018a and newer. This uses a system() call to Perl.
-* [Python](https://www.mathworks.com/help/matlab/call-python-libraries.html): Matlab R2022b and newer. `stdlib.has_python` checks that the Python version set by `pyenv()` is compatible with the Matlab release.
+* [Python](https://www.mathworks.com/help/matlab/call-python-libraries.html): Matlab R2022b and newer. `stdlib.has_python` checks that the Python version set by `pyenv()` is compatible with the Matlab release. If there is a problem with Python on a particular Matlab install, `stdlib.has_python(false)` disables the Python backend for that Matlab session.
 * System shell calls: all supported Matlab releases. As a backup when the platform doesn't have the primary (faster) methods available, the system shell can be called for some functions.
+* .NET as described below.
+
+### .NET from Matlab
+
+[.NET](https://www.mathworks.com/help/matlab/call-net-from-matlab.html)
+support in MATLAB when a compatible
+[.NET SDK is installed](https://www.scivision.dev/matlab-dotnet-linux-macos)
+includes:
+
+* Windows: all supported Matlab releases, installed from `winget search Microsoft.DotNet.SDK`
+* Linux or macOS: R2024b and newer
+
+For macOS, `brew install dotnet` and then in Matlab `edit(fullfile(userpath, 'startup.m'))` and add the line `setenv('DOTNET_ROOT', '/opt/homebrew/opt/dotnet/libexec')` where the path is determined from `brew --prefix dotnet`.
 
 ## Acknowledgments
 

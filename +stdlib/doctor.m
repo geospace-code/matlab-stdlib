@@ -1,9 +1,8 @@
-%% PLATFORM_TELL - Display information about the platform and environment
+%% DOCTOR - Display information about the platform and environment
 % works back to very old Matlab (R2011b at least)
+% inspired by "brew doctor" and "conda info"
 
-function json = platform_tell()
-
-
+function json = doctor()
 
 raw = struct('matlab_arch', computer('arch'));
 
