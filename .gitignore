@@ -16,6 +16,7 @@ resources/
 
 *.mex*
 *.exe
+*.oct
 
 test/printenv
 test/stdout_stderr_c

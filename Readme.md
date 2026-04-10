@@ -62,3 +62,9 @@ For macOS, `brew install dotnet` and then in Matlab `edit(fullfile(userpath, 'st
 ## Acknowledgments
 
 Stdlib for Matlab was partly funded by NASA NNH19ZDA001N-HDEE grant 80NSSC20K0176.
+
+## Relevant Matlab / GNU Octave projects
+
+* [Matlab or GNU Octave HDF5 interface](https://www.mathworks.com/matlabcentral/fileexchange/180491-easyh5-a-tiny-hdf5-reader-writer-for-matlab-octave)
+* [GNU Octave hdf5oct package](https://gnu-octave.github.io/packages/hdf5oct/)
+* [GNU Octave netcdf package](https://gnu-octave.github.io/packages/netcdf/)

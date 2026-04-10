@@ -1,5 +1,7 @@
 * text=auto
 
+*.oct binary
+
 *.fig binary
 *.mat binary
 *.mdl binary diff merge=mlAutoMerge

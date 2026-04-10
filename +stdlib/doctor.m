@@ -4,7 +4,8 @@
 
 function json = doctor()
 
-raw = struct('matlab_arch', computer('arch'));
+raw = struct('matlab', []);
+raw.matlab.arch = computer('arch');
 
 if ~stdlib.isoctave()
   try
@@ -12,13 +13,13 @@ if ~stdlib.isoctave()
   catch
     r = ['R' version('-release')];
   end
-  raw.matlab_release = r;
+  raw.matlab.release = r;
 
   m = stdlib.matlab_bin_path();
-  raw.matlab_extern_bin = m.extern_bin;
-  raw.matlab_root = m.root;
-  raw.matlab_arch_bin = m.arch_bin;
-  raw.matlab_bin = m.bin;
+  raw.matlab.extern_bin = m.extern_bin;
+  raw.matlab.root = m.root;
+  raw.matlab.arch_bin = m.arch_bin;
+  raw.matlab.bin = m.bin;
 end
 
 h5v = stdlib.h5get_version();
@@ -32,27 +33,27 @@ if ~isempty(ncv)
 end
 
 if stdlib.has_java()
-  raw.java_vendor = stdlib.java_vendor();
-  raw.java_version = stdlib.java_version();
-  raw.java_home = stdlib.java_home();
+  raw.java.vendor = stdlib.java_vendor();
+  raw.java.version = stdlib.java_version();
+  raw.java.home = stdlib.java_home();
 end
 
 if stdlib.has_dotnet()
-  raw.dotnet_version = stdlib.dotnet_version();
+  raw.dotnet.version = stdlib.dotnet_version();
 end
 
 if stdlib.has_perl()
-  raw.perl_version = sprintf('%d.%d.%d', stdlib.perl_version());
-  raw.perl_exe = stdlib.perl_exe();
+  raw.perl.version = sprintf('%d.%d.%d', stdlib.perl_version());
+  raw.perl.exe = stdlib.perl_exe();
 end
 
 if stdlib.has_python()
-  raw.python_version = sprintf('%d.%d.%d', stdlib.python_version());
-  raw.python_home = stdlib.python_home();
+  raw.python.version = sprintf('%d.%d.%d', stdlib.python_version());
+  raw.python.home = stdlib.python_home();
 end
 
 if ismac()
-  raw.xcode_version = stdlib.xcode_version();
+  raw.xcode.version = stdlib.xcode_version();
 end
 
 if ~stdlib.isoctave()
@@ -61,18 +62,17 @@ langs = {'C', 'Cpp', 'Fortran'};
 for i = 1:length(langs)
   lang = langs{i};
   co = mex.getCompilerConfigurations(lang);
-  ct = ['compiler_' lang];
-  vt = ['compiler_' lang '_version'];
-  raw.(ct) = '';
-  raw.(vt) = '';
+  raw.compiler.(lang).name = '';
+  raw.compiler.(lang).version = '';
 
   if ~isempty(co)
-    raw.(ct) = co.Name;
-    raw.(vt) = co.Version;
+    raw.compiler.(lang).name = co(1).Name;
+    raw.compiler.(lang).version = co(1).Version;
   end
 end
 
 end
+
 
 try
   json = jsonencode(raw, 'PrettyPrint', true);
