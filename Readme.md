@@ -57,7 +57,12 @@ includes:
 * Windows: all supported Matlab releases, installed from `winget search Microsoft.DotNet.SDK`
 * Linux or macOS: R2024b and newer
 
-For macOS, `brew install dotnet` and then in Matlab `edit(fullfile(userpath, 'startup.m'))` and add the line `setenv('DOTNET_ROOT', '/opt/homebrew/opt/dotnet/libexec')` where the path is determined from `brew --prefix dotnet`.
+For macOS, `brew install dotnet` and then in Matlab `edit(fullfile(userpath, 'startup.m'))` and add the lines
+
+```matlab
+setenv('HOMEBREW_PREFIX', '/opt/homebrew')
+setenv('DOTNET_ROOT', [getenv('HOMEBREW_PREFIX') '/opt/dotnet/libexec'])
+```
 
 ## Acknowledgments
 
