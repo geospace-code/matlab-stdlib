@@ -44,7 +44,6 @@ runs:
     if: ${{ hashFiles(matrix.release-runner.os-test-main.log) != '' }}
     uses: actions/upload-artifact@v7
     with:
-      archive: false
       name: ${{ matrix.release }}-${{ runner.os }}-test-log
       path: ${{ matrix.release }}-${{ runner.os }}-test*.log
       retention-days: 1
