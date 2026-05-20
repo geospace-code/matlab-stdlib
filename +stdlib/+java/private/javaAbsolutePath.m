@@ -1,10 +1,7 @@
 function javaPath = javaAbsolutePath(file)
 % java.lang.System.getProperty('user.path') is stuck to where Java started
 
-if ischar(file) || isstring(file)
-  file = javaObject('java.io.File', file);
-end
-javaPath = file.toPath();
+javaPath = javaPathObject(file);
 
 if ~javaPath.isAbsolute()
   % auxiliary variable for Matlab < R2019b
