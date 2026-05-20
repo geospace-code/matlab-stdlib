@@ -18,26 +18,17 @@ concurrency:
 
 jobs:
 
-  matlab-at-least-r2024a:
+  linux-2024a-newer:
     timeout-minutes: 15
-    runs-on: ${{ matrix.os }}
-
-    name: &job-name ${{ matrix.release }}-${{ matrix.os }}
+    runs-on: ubuntu-22.04
 
     strategy:
       matrix:
-        os: [ubuntu-22.04, windows-latest, macos-latest]
-        release: [R2024a, R2024b, R2025b]
-
-#  latest-including-prerelease has CI-only glitches for R2026a prerelease
+        release: [R2024a, R2025b, R2026a]
 
 # Linux:
 #   R2022b..R2025b needs GCC 10.x and hence Github Actions runner ubuntu-22.04.
 #   if using ubuntu-latest the java_exe tests fail.
-#   R2021a..R2022a officially need Ubuntu 20.04, which is no longer available on Github Actions
-# macOS:
-#   Matlab >= R2023b compatible with Xcode 15
-#   Matlab >= R2024b compatible with Xcode 16
 
     steps:
     - &matlab-install
@@ -47,11 +38,6 @@ jobs:
       with:
         release: ${{ matrix.release }}
         cache: true
-
-    - &mac-fc
-      name: Fortran FC
-      if: runner.os == 'macOS'
-      run: echo "FC=gfortran-15" >> $GITHUB_ENV
 
     - &checkout
       uses: actions/checkout@v6
@@ -74,21 +60,63 @@ jobs:
       name: Main Tests
       uses: ./.github/workflows/composite-nomex
 
+  macos-2024a-newer:
+    timeout-minutes: 15
+    runs-on: macos-latest
 
-  matlab:
-    needs: matlab-at-least-r2024a
+    strategy:
+      matrix:
+        release: [R2025b, R2026a]
+
+# macOS:
+#   Matlab >= R2023b compatible with Xcode 15
+#   Matlab >= R2024b compatible with Xcode 16
+
+    steps:
+    - *matlab-install
+
+    - &mac-fc
+      name: Fortran FC
+      if: runner.os == 'macOS'
+      run: echo "FC=gfortran-15" >> $GITHUB_ENV
+
+    - *checkout
+
+    - *tell-ext
+
+    - *test-main
+
+
+  windows-2024a-newer:
+    timeout-minutes: 15
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        release: [R2025b, R2026a]
+
+    steps:
+    - *matlab-install
+
+    - *checkout
+
+    - *tell-ext
+
+    - *test-main
+
+
+  matlab-2022a-2023b:
+    needs: linux-2024a-newer
 
     timeout-minutes: 15
     runs-on: ${{ matrix.os }}
-
-    name: *job-name
 
     strategy:
       matrix:
         # windows and macos also work, just saving CI resources
         os: [ubuntu-22.04]
-        release: [R2022a,  R2023b]
-# R2022b, R2023a, works, saving CI resources
+        release: [R2023b]
+# R2022a, R2022b, R2023a, R2023b works, saving CI resources
 
     steps:
     - *matlab-install
@@ -99,27 +127,26 @@ jobs:
 
     - *test-main
 
+# just saving CI resources
+#   matlab-older-R2022a:
+#   R2021a..R2022a officially need Ubuntu 20.04, which is no longer available on Github Actions
+#     needs: linux-2024a-newer
 
-  matlab-less-than-R2022a:
-    needs: matlab-at-least-r2024a
+#     timeout-minutes: 15
+#     runs-on: ${{ matrix.os }}
 
-    name: *job-name
+#     strategy:
+#       matrix:
+#         os: [ubuntu-22.04]
+#         release: [R2021a]
+# # , R2021b  works, saving CI resources
 
-    timeout-minutes: 15
-    runs-on: ${{ matrix.os }}
+#     steps:
+#     - *matlab-install
+#     - *checkout
+#     - *tell-ext
 
-    strategy:
-      matrix:
-        os: [ubuntu-22.04]
-        release: [R2021a]
-# , R2021b  works, saving CI resources
-
-    steps:
-    - *matlab-install
-    - *checkout
-    - *tell-ext
-
-    - *test-main
+#     - *test-main
 
 # just saving CI resources
   # matlab-nojvm:
