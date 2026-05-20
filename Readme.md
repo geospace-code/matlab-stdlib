@@ -23,13 +23,6 @@ Matlab R2017a and newer:
 test_main
 ```
 
-For the functions compatible with GNU Octave, from the matlab-stdlib/ directory:
-
-```octave
-addpath(pwd)
-oruntests('+stdlib/')
-```
-
 ## External language backends
 
 Our functions that aren't possible in native Matlab code are implemented using Matlab's no-compile
@@ -64,12 +57,36 @@ setenv('HOMEBREW_PREFIX', '/opt/homebrew')
 setenv('DOTNET_ROOT', [getenv('HOMEBREW_PREFIX') '/opt/dotnet/libexec'])
 ```
 
+## GNU Octave
+
+Many matlab-stdlib functions work in GNU Octave.
+
+To use matlab-stdlib **HDF5** functions in GNU Octave requires the
+[hdf5oct package](https://gnu-octave.github.io/packages/hdf5oct/).
+
+```octave
+pkg install hdf5oct
+```
+
+Then when wanting to use HDF5 functions, first do:
+
+```octave
+pkg load hdf5oct
+```
+
+To use matlab-stdlib **NetCDF** functions in GNU Octave requires the
+[netcdf package](https://gnu-octave.github.io/packages/netcdf/).
+
+```octave
+pkg install netcdf
+```
+
+Then when wanting to use NetCDF functions, first do:
+
+```octave
+pkg load netcdf
+```
+
 ## Acknowledgments
 
 Stdlib for Matlab was partly funded by NASA NNH19ZDA001N-HDEE grant 80NSSC20K0176.
-
-## Relevant Matlab / GNU Octave projects
-
-* [Matlab or GNU Octave HDF5 interface](https://www.mathworks.com/matlabcentral/fileexchange/180491-easyh5-a-tiny-hdf5-reader-writer-for-matlab-octave)
-* [GNU Octave hdf5oct package](https://gnu-octave.github.io/packages/hdf5oct/)
-* [GNU Octave netcdf package](https://gnu-octave.github.io/packages/netcdf/)
