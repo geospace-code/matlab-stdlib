@@ -60,6 +60,21 @@ jobs:
       name: Main Tests
       uses: ./.github/workflows/composite-nomex
 
+    - name: package
+      if: ${{ matrix.release == 'R2026a' }}
+      uses: matlab-actions/run-command@v3
+      with:
+        startup-options: -sd ${{ github.workspace }}/scripts
+        command: packageToolbox()
+
+    - name: upload .mltbx
+      if: ${{ hashFiles('stdlib.mltbx') != '' && matrix.release == 'R2026a' }}
+      uses: actions/upload-artifact@v7
+      with:
+        name: stdlib.mltbx
+        path: stdlib.mltbx
+
+
   macos-2024a-newer:
     timeout-minutes: 15
     runs-on: macos-latest
