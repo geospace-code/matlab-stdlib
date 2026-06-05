@@ -14,7 +14,7 @@
 
 function [i, b] = ram_free(backend)
 if nargin < 1
-  backend = {'java', 'python', 'sys'};
+  backend = {'java', 'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -30,8 +30,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.ram_free();
       end
-    case 'sys'
-      i = stdlib.sys.ram_free();
+    case 'shell'
+      i = stdlib.shell.ram_free();
     otherwise
       error('stdlib:ram_free:ValueError', 'Unknown backend: %s', b)
   end

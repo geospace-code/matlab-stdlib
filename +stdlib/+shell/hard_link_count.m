@@ -1,4 +1,4 @@
-%% SYS.HARD_LINK_COUNT number of hard links to file
+%% shell.HARD_LINK_COUNT number of hard links to file
 %
 % Powershell is 0, 1, or 2
 

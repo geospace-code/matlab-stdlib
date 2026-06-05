@@ -11,7 +11,7 @@
 
 function [r, b] = filesystem_type(file, backend)
 if nargin < 2
-  backend = {'java', 'dotnet', 'python', 'sys'};
+  backend = {'java', 'dotnet', 'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -29,8 +29,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         r = stdlib.python.filesystem_type(file);
       end
-    case 'sys'
-      r = stdlib.sys.filesystem_type(file);
+    case 'shell'
+      r = stdlib.shell.filesystem_type(file);
     otherwise
       error('stdlib:filesystem_type:ValueError', 'Unknown backend: %s', b)
   end

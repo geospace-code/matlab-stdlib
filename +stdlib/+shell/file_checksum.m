@@ -1,4 +1,4 @@
-%% SYS.FILE_CHECKSUM compute checksum of file
+%% shell.FILE_CHECKSUM compute checksum of file
 function [hash, cmd] = file_checksum(file, hash_method)
 
 switch lower(hash_method)

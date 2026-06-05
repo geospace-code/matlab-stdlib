@@ -9,7 +9,7 @@
 
 function [i, b] = is_symlink(file, backend)
 if nargin < 2
-  backend = {'native', 'java', 'python', 'dotnet', 'sys'};
+  backend = {'native', 'java', 'python', 'dotnet', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -29,8 +29,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.is_symlink(file);
       end
-    case 'sys'
-      i = stdlib.sys.is_symlink(file);
+    case 'shell'
+      i = stdlib.shell.is_symlink(file);
     otherwise
       error('stdlib:is_symlink:ValueError', 'Unknown backend: %s', b)
   end

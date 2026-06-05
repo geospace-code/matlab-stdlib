@@ -2,7 +2,7 @@
 % the user can specify a backend, or else this class automatically
 % determines suitable backends for the system.
 %
-% * 'sys' is usually the slowest, but most compatible.
+% * 'shell' is usually the slowest, but most compatible.
 % * 'python' or 'dotnet' are among the fastest, but not always available
 % * 'java' and 'perl' are usually available and medium speed
 % * 'native' uses the latest Matlab syntax available
@@ -16,7 +16,7 @@ namespace = "stdlib"
 end
 
 properties
-backends string = ["native", "legacy", "sys"]
+backends string = ["native", "legacy", "shell"]
 func
 backend
 end

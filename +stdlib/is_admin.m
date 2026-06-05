@@ -6,7 +6,7 @@
 
 function [i, b] = is_admin(backend)
 if nargin < 1
-  backend = {'java', 'dotnet', 'perl', 'python', 'sys'};
+  backend = {'java', 'dotnet', 'perl', 'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -26,8 +26,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.is_admin();
       end
-    case 'sys'
-      i = stdlib.sys.is_admin();
+    case 'shell'
+      i = stdlib.shell.is_admin();
     otherwise
       error('stdlib:is_admin:ValueError', 'Unknown backend: %s', b)
   end

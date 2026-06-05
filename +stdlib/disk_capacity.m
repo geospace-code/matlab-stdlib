@@ -10,7 +10,7 @@
 
 function [i, b] = disk_capacity(file, backend)
 if nargin < 2
-  backend = {'java', 'dotnet', 'python', 'sys'};
+  backend = {'java', 'dotnet', 'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -28,8 +28,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.disk_capacity(file);
       end
-    case 'sys'
-      i = stdlib.sys.disk_capacity(file);
+    case 'shell'
+      i = stdlib.shell.disk_capacity(file);
     otherwise
       error('stdlib:disk_capacity:ValueError', 'Unknown backend: %s', b)
   end

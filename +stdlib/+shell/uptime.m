@@ -1,4 +1,4 @@
-%% SYS.UPTIME
+%% shell.UPTIME
 
 function t = uptime()
 

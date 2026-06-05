@@ -8,9 +8,9 @@ end
 
 properties (TestParameter)
 Ps = {'.', '', '/', pwd(), getenv('SystemDrive'), 'not-exist'}
-B_ps = {'python', 'sys'}
-B_jps = {'java', 'python', 'sys'}
-B_jdps = {'java', 'dotnet', 'python', 'sys'}
+B_ps = {'python', 'shell'}
+B_jps = {'java', 'python', 'shell'}
+B_jdps = {'java', 'dotnet', 'python', 'shell'}
 end
 
 methods(TestClassSetup)

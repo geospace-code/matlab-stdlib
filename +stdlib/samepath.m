@@ -18,7 +18,7 @@
 
 function [i, b] = samepath(path1, path2, backend)
 if nargin < 3
-  backend = {'python', 'java', 'perl', 'sys', 'native'};
+  backend = {'python', 'java', 'perl', 'shell', 'native'};
 else
   backend = cellstr(backend);
 end
@@ -38,8 +38,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.samepath(path1, path2);
       end
-    case 'sys'
-      i = stdlib.sys.samepath(path1, path2);
+    case 'shell'
+      i = stdlib.shell.samepath(path1, path2);
     otherwise
       error('stdlib:hard_link_count:ValueError', 'Unknown backend: %s', b)
   end

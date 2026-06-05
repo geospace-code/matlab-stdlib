@@ -9,7 +9,7 @@
 
 function [r, b] = get_owner(file, backend)
 if nargin < 2
-  backend = {'java', 'dotnet', 'python', 'sys'};
+  backend = {'java', 'dotnet', 'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -27,8 +27,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         r = stdlib.python.get_owner(file);
       end
-    case 'sys'
-      r = stdlib.sys.get_owner(file);
+    case 'shell'
+      r = stdlib.shell.get_owner(file);
     otherwise
       error('stdlib:get_owner:ValueError', 'Unknown backend: %s', b)
   end

@@ -10,7 +10,7 @@
 
 function [r, b] = hostname(backend)
 if nargin < 1
-  backend = {'java', 'dotnet', 'python', 'sys'};
+  backend = {'java', 'dotnet', 'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -28,8 +28,8 @@ for i = 1:numel(backend)
       if stdlib.has_python()
         r = stdlib.python.hostname();
       end
-    case 'sys'
-      r = stdlib.sys.hostname();
+    case 'shell'
+      r = stdlib.shell.hostname();
     otherwise
       error('stdlib:hostname:ValueError', 'Unknown backend: %s', b)
   end
@@ -41,4 +41,4 @@ end
 
 end
 
-%!assert (~isempty(stdlib.sys.hostname()))
+%!assert (~isempty(stdlib.shell.hostname()))

@@ -6,7 +6,7 @@
 
 function [r, b] = uptime(backend)
 if nargin < 1
-  backend = {'dotnet', 'python', 'sys'};
+  backend = {'dotnet', 'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -22,8 +22,8 @@ for i = 1:numel(backend)
       if stdlib.has_python()
         r = stdlib.python.uptime();
       end
-    case 'sys'
-      r = stdlib.sys.uptime();
+    case 'shell'
+      r = stdlib.shell.uptime();
     otherwise
       error('stdlib:hostname:ValueError', 'Unknown backend: %s', b)
   end

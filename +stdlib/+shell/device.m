@@ -1,4 +1,4 @@
-%% SYS.DEVICE get drive index
+%% shell.DEVICE get drive index
 %
 %%% Inputs
 % * p: path

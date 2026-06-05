@@ -14,7 +14,7 @@
 
 function [r, b] = file_checksum(file, hash_method, backend)
 if nargin < 3
-  backend = {'java', 'dotnet', 'sys'};
+  backend = {'java', 'dotnet', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -28,8 +28,8 @@ for j = 1:numel(backend)
       r = stdlib.java.file_checksum(file, hash_method);
     case 'dotnet'
       r = stdlib.dotnet.file_checksum(file, hash_method);
-    case 'sys'
-      r = stdlib.sys.file_checksum(file, hash_method);
+    case 'shell'
+      r = stdlib.shell.file_checksum(file, hash_method);
     otherwise
       error('stdlib:file_checksum:ValueError', 'Unknown backend: %s', b)
   end
@@ -44,7 +44,7 @@ end
 %!test
 %! f = tempname();
 %! assert(stdlib.touch(f))
-%! hs = stdlib.file_checksum(f, 'sha256', 'sys');
+%! hs = stdlib.file_checksum(f, 'sha256', 'shell');
 %! assert(length(hs) == 64)
 %! if stdlib.has_java()
 %! hj = stdlib.file_checksum(f, 'sha256', 'java');

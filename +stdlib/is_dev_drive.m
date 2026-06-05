@@ -9,7 +9,7 @@
 
 function [i, b] = is_dev_drive(file, backend)
 if nargin < 2
-  backend = {'python', 'sys'};
+  backend = {'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -23,8 +23,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.is_dev_drive(file);
       end
-    case 'sys'
-      i = stdlib.sys.is_dev_drive(file);
+    case 'shell'
+      i = stdlib.shell.is_dev_drive(file);
     otherwise
       error('stdlib:is_dev_drive:ValueError', 'Unknown backend: %s', b)
   end

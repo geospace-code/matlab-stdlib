@@ -11,7 +11,7 @@
 
 function [i, b] = ram_total(backend)
 if nargin < 1
-  backend = {'java', 'dotnet', 'python', 'sys'};
+  backend = {'java', 'dotnet', 'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -29,8 +29,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.ram_total();
       end
-    case 'sys'
-      i = stdlib.sys.ram_total();
+    case 'shell'
+      i = stdlib.shell.ram_total();
     otherwise
       error('stdlib:ram_total:ValueError', 'Unknown backend: %s', b)
   end
