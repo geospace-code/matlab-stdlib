@@ -97,9 +97,7 @@ jobs:
 
     steps:
     - *matlab-install
-
     - *checkout
-
     - *tell-ext
 
     - *test-main
