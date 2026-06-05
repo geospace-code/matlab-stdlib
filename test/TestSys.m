@@ -4,11 +4,11 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
 
 
 properties (TestParameter)
-B_jps = {'java', 'python', 'sys'}
-B_jdps = {'java', 'dotnet', 'python', 'sys'}
-B_jdpps = {'java', 'dotnet', 'perl', 'python', 'sys'}
+B_jps = {'java', 'python', 'shell'}
+B_jdps = {'java', 'dotnet', 'python', 'shell'}
+B_jdpps = {'java', 'dotnet', 'perl', 'python', 'shell'}
 B_dpp = {'dotnet', 'perl', 'python'}
-B_dps = {'dotnet', 'python', 'sys'}
+B_dps = {'dotnet', 'python', 'shell'}
 end
 
 

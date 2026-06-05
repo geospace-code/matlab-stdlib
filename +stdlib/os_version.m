@@ -12,7 +12,7 @@
 
 function [os, version, b] = os_version(backend)
 if nargin < 1
-  backend = {'sys', 'python', 'dotnet', 'java'};
+  backend = {'shell', 'python', 'dotnet', 'java'};
 else
   backend = cellstr(backend);
 end
@@ -31,8 +31,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         [os, version] = stdlib.python.os_version();
       end
-    case 'sys'
-      [os, version] = stdlib.sys.os_version();
+    case 'shell'
+      [os, version] = stdlib.shell.os_version();
     otherwise
       error('stdlib:os_version:ValueError', 'Unknown backend: %s', b)
   end

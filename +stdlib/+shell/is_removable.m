@@ -1,4 +1,4 @@
-%% SYS.IS_REMOVABLE
+%% shell.IS_REMOVABLE
 
 function y = is_removable(filepath)
 
@@ -40,7 +40,7 @@ elseif ismac()
 else
 
   dev = deblank(extractAfter(m1, '/dev/'));
-  f1 = sprintf('/sys/class/block/%s/removable', dev);
+  f1 = sprintf('/shell/class/block/%s/removable', dev);
 
   try
     d = fileread(f1);

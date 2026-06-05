@@ -1,5 +1,5 @@
 %% PERL.INODE
-% several times slower than stdlib.sys.inode
+% several times slower than stdlib.shell.inode
 
 function [r, cmd] = inode(file)
 

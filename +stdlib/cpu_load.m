@@ -11,7 +11,7 @@
 
 function [i, b] = cpu_load(backend)
 if nargin < 1
-  backend = {'java', 'python', 'sys'};
+  backend = {'java', 'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -27,8 +27,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.cpu_load();
       end
-    case 'sys'
-      i = stdlib.sys.cpu_load();
+    case 'shell'
+      i = stdlib.shell.cpu_load();
     otherwise
       error('stdlib:cpu_load:ValueError', 'Unknown backend: %s', b)
   end

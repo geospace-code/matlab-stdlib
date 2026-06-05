@@ -12,7 +12,7 @@
 
 function [i, b] = disk_available(file, backend)
 if nargin < 2
-  backend = {'java', 'dotnet', 'python', 'sys'};
+  backend = {'java', 'dotnet', 'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -30,8 +30,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.disk_available(file);
       end
-    case 'sys'
-      i = stdlib.sys.disk_available(file);
+    case 'shell'
+      i = stdlib.shell.disk_available(file);
     otherwise
       error('stdlib:disk_available:ValueError', 'Unknown backend: %s', b)
   end

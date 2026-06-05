@@ -9,7 +9,7 @@
 
 function [i, b] = create_symlink(target, link, backend)
 if nargin < 3
-  backend = {'native', 'dotnet', 'python', 'sys'};
+  backend = {'native', 'dotnet', 'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -27,8 +27,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.create_symlink(target, link);
       end
-    case 'sys'
-      i = stdlib.sys.create_symlink(target, link);
+    case 'shell'
+      i = stdlib.shell.create_symlink(target, link);
     otherwise
       error('stdlib:create_symlink:ValueError', 'Unknown backend: %s', b)
   end

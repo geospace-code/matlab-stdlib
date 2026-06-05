@@ -3,7 +3,7 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
 
 properties (TestParameter)
 Ps = init_val()
-B_is_char_device = {'python', 'sys'}
+B_is_char_device = {'python', 'shell'}
 end
 
 

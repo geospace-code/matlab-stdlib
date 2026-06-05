@@ -11,7 +11,7 @@
 
 function [i, b] = get_process_priority(backend)
 if nargin < 1
-  backend = {'dotnet', 'python', 'sys'};
+  backend = {'dotnet', 'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -27,8 +27,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.get_process_priority();
       end
-    case 'sys'
-      i = stdlib.sys.get_process_priority();
+    case 'shell'
+      i = stdlib.shell.get_process_priority();
     otherwise
       error('stdlib:get_process_priority:ValueError', 'Unknown backend: %s', b)
   end

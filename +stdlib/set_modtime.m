@@ -10,7 +10,7 @@
 
 function [i, b] = set_modtime(file, time, backend)
 if nargin < 3
-  backend = {'java', 'python', 'sys'};
+  backend = {'java', 'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -26,8 +26,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.set_modtime(file, time);
       end
-    case 'sys'
-      i = stdlib.sys.set_modtime(file, time);
+    case 'shell'
+      i = stdlib.shell.set_modtime(file, time);
     otherwise
       error('stdlib:set_modtime:ValueError', 'Unknown backend: %s', b)
   end

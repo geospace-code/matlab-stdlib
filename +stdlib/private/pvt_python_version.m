@@ -20,10 +20,10 @@ catch
 end
 
 % this line may error like
-% "Python Error: TypeError: cannot create 'sys.version_info' instances"
+% "Python Error: TypeError: cannot create 'shell.version_info' instances"
 % if Python version incompatible or something got corrupted in loading Python library
 % try restarting Matlab
-vi = py.sys.version_info;
+vi = py.shell.version_info;
 v = [double(vi.major), double(vi.minor), double(vi.micro)];
 
 vv = split(vs, ".");

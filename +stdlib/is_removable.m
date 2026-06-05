@@ -10,7 +10,7 @@
 
 function [i, b] = is_removable(file, backend)
 if nargin < 2
-  backend = {'python', 'sys'};
+  backend = {'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -24,8 +24,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.is_removable(file);
       end
-    case 'sys'
-      i = stdlib.sys.is_removable(file);
+    case 'shell'
+      i = stdlib.shell.is_removable(file);
     otherwise
       error('stdlib:is_removable:ValueError', 'Unknown backend: %s', b)
   end

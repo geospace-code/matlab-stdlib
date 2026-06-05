@@ -8,7 +8,7 @@ fun = @stdlib.inode
 end
 
 properties(TestParameter)
-backend = cellstr(["java", "python", "sys"])
+backend = cellstr(["java", "python", "shell"])
 end
 
 methods (Test)

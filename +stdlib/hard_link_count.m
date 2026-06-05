@@ -13,7 +13,7 @@
 
 function [i, b] = hard_link_count(file, backend)
 if nargin < 2
-  backend = {'java', 'python', 'sys'};
+  backend = {'java', 'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -29,8 +29,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.hard_link_count(file);
       end
-    case 'sys'
-      i = stdlib.sys.hard_link_count(file);
+    case 'shell'
+      i = stdlib.shell.hard_link_count(file);
     otherwise
       error('stdlib:hard_link_count:ValueError', 'Unknown backend: %s', b)
   end

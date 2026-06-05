@@ -33,7 +33,7 @@ end
 
 v = [];
 
-% glitchy Python load can error on sys.version_info
+% glitchy Python load can error on shell.version_info
 % if pyenv() hasn't ever been configured, may get uncatchable error
 % bad lexical cast: source type value could not be interpreted as target
 try

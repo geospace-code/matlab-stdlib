@@ -8,7 +8,7 @@
 
 function [r, b] = get_username(backend)
 if nargin < 1
-  backend = {'java', 'dotnet', 'python', 'sys'};
+  backend = {'java', 'dotnet', 'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -26,8 +26,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         r = stdlib.python.get_username();
       end
-    case 'sys'
-      r = stdlib.sys.get_username();
+    case 'shell'
+      r = stdlib.shell.get_username();
     otherwise
       error('stdlib:get_username:ValueError', 'Unknown backend: %s', b)
   end

@@ -11,7 +11,7 @@ else
   % worried if searching for "Tag value: Symbolic Link" might be locale dependent
 end
 
-if stdlib.sys.is_symlink(file)
+if stdlib.shell.is_symlink(file)
   [s, m] = system(cmd);
   if s == 0
     m = deblank(m);

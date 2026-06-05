@@ -137,7 +137,7 @@ txt = [txt, "%", "% <https://github.com/geospace-code/matlab-stdlib GitHub Sourc
 writelines(join(txt, newline), contents, WriteMode="overwrite")
 
 %% iterate over namespace functions
-Nbe = struct(dotnet=0, java=0, perl=0, python=0, sys=0, native=0, legacy=0, top_level=0);
+Nbe = struct(dotnet=0, java=0, perl=0, python=0, shell=0, native=0, legacy=0, top_level=0);
 
 funcs = namespaceFunctions(pkg_name).';
 backends = innerNamespaces(pkg_name).';

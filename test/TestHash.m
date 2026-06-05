@@ -13,7 +13,7 @@ Pe = {{'md5', 'd41d8cd98f00b204e9800998ecf8427e'}, ...
 
 Ph = {{'md5', '5d41402abc4b2a76b9719d911017c592'}, ...
       {'sha-256', '2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824'}}
-backend = {'java', 'dotnet', 'sys'}
+backend = {'java', 'dotnet', 'shell'}
 end
 
 
@@ -57,7 +57,7 @@ r = stdlib.file_checksum(tc.empty, Pe{1}, backend);
 tc.verifyClass(r, 'char')
 
 if ismember(backend, stdlib.Backend().select('file_checksum'))
-  if ispc() && strcmp(backend, 'sys')
+  if ispc() && strcmp(backend, 'shell')
     tc.verifyEmpty(r)
   else
     tc.verifyEqual(r, Pe{2})

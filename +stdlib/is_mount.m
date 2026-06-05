@@ -14,7 +14,7 @@
 
 function [i, b] = is_mount(file, backend)
 if nargin < 2
-  backend = {'python', 'sys'};
+  backend = {'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -28,8 +28,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.is_mount(file);
       end
-    case 'sys'
-      i = stdlib.sys.is_mount(file);
+    case 'shell'
+      i = stdlib.shell.is_mount(file);
     otherwise
       error('stdlib:is_mount:ValueError', 'Unknown backend: %s', b)
   end

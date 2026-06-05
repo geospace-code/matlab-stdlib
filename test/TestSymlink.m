@@ -9,8 +9,8 @@ end
 
 properties (TestParameter)
 Pre = {'', tempname()}
-B_create_symlink = {'native', 'dotnet', 'python', 'sys'}
-B_is_symlink = {'native', 'java', 'python', 'dotnet', 'sys'}
+B_create_symlink = {'native', 'dotnet', 'python', 'shell'}
+B_is_symlink = {'native', 'java', 'python', 'dotnet', 'shell'}
 end
 
 

@@ -3,8 +3,8 @@ function y = samepath(path1, path2)
 y = false;
 
 if ispc()
-  y = stdlib.sys.device(path1) == stdlib.sys.device(path2) & ...
-      stdlib.sys.inode(path1) == stdlib.sys.inode(path2);
+  y = stdlib.shell.device(path1) == stdlib.shell.device(path2) & ...
+      stdlib.shell.inode(path1) == stdlib.shell.inode(path2);
   if isempty(y)
     y = false;
   end

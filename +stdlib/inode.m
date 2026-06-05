@@ -9,7 +9,7 @@
 
 function [i, b] = inode(file, backend)
 if nargin < 2
-  backend = {'java', 'python', 'sys'};
+  backend = {'java', 'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -25,8 +25,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.inode(file);
       end
-    case 'sys'
-      i = stdlib.sys.inode(file);
+    case 'shell'
+      i = stdlib.shell.inode(file);
     otherwise
       error('stdlib:inode:ValueError', 'Unknown backend: %s', b)
   end

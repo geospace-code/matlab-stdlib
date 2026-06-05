@@ -1,4 +1,4 @@
-%% SYS.INODE get file inode
+%% shell.INODE get file inode
 
 function [i, cmd] = inode(file)
 

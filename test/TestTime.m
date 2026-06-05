@@ -3,8 +3,8 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
     TestTime < matlab.unittest.TestCase
 
 properties (TestParameter)
-B_jps = {'java', 'python', 'sys'}
-B_dps = {'dotnet', 'python', 'sys'}
+B_jps = {'java', 'python', 'shell'}
+B_dps = {'dotnet', 'python', 'shell'}
 end
 
 

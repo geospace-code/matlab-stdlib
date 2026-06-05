@@ -17,7 +17,7 @@ The specific external languages supported (if available on the user system) are
 
 There are a few other namespaces that are not external language interfaces:
 
-* stdlib.sys under +stdlib/+sys/ uses system() calls to the system shell as a last-resort fallback. The speed of these calls is generally much slower than the other language interfaces.
+* stdlib.shell under +stdlib/+shell/ uses system() calls to the system shell as a last-resort fallback. The speed of these calls is generally much slower than the other language interfaces.
 * stdlib.native under +stdlib/+native/ uses plain Matlab code to implement functions.
 * stdlib.legacy under +stdlib/+legacy/ uses plain Matlab code to implement functions for older Matlab versions that don't have the specific stdlib.native implementation for that function.
 

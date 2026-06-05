@@ -1,4 +1,4 @@
-%% SYS.RELATIVE_TO get relative path to other from base
+%% shell.RELATIVE_TO get relative path to other from base
 %
 % this works but is slow
 

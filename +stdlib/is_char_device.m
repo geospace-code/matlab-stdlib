@@ -20,7 +20,7 @@
 
 function [i, b] = is_char_device(file, backend)
 if nargin < 2
-  backend = {'python', 'sys'};
+  backend = {'python', 'shell'};
 else
   backend = cellstr(backend);
 end
@@ -34,8 +34,8 @@ for j = 1:numel(backend)
       if stdlib.has_python()
         i = stdlib.python.is_char_device(file);
       end
-    case 'sys'
-      i = stdlib.sys.is_char_device(file);
+    case 'shell'
+      i = stdlib.shell.is_char_device(file);
     otherwise
       error('stdlib:is_char_device:ValueError', 'Unknown backend: %s', b)
   end
