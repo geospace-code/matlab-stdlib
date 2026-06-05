@@ -2,6 +2,7 @@ Filesystem.class
 CodeIssues.sarif
 *.xml
 *.html
+*.mltbx
 
 mpm
 mpm.exe
