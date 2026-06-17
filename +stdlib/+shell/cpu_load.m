@@ -11,14 +11,12 @@ else
 end
 
 [status, m] = system(cmd);
-if status ~= 0
-  return
-end
+if status == 0
+  L = str2double(m);
 
-L = str2double(m);
-
-if ispc()
-  L = L / 100.;
+  if ispc()
+    L = L / 100.;
+  end
 end
 
 end

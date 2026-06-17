@@ -23,16 +23,15 @@ end
 
 [s, m] = system(cmd);
 
-if s ~= 0
-  hash = '';
-  return
-end
-
-switch lower(hash_method)
+if s == 0
+  switch lower(hash_method)
   case {"sha-256", "sha256"}
     hash = regexp(m, '^\w{64}','match','once','lineanchors');
   case "md5"
     hash = regexp(m, '^\w{32}','match','once','lineanchors');
+  end
+else
+  hash = '';
 end
 
 end
