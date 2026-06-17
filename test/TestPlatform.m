@@ -27,30 +27,32 @@ end
 end
 
 
-methods (Test, TestTags={'R2018a'})
-
+methods (Test, TestTags={'R2026a'})
 function test_toolbox_used(tc)
-tc.assumeFalse(stdlib.matlabOlderThan('R2018a'))
-r = fullfile(fileparts(fileparts(mfilename('fullpath'))), '+stdlib');
-[mathworksUsed, userFun] = stdlib.toolbox_used(r);
+tc.assumeFalse(stdlib.matlabOlderThan('R2026a'))
+
+[mathworksUsed, userFun] = stdlib.toolbox_used('stdlib');
+
 Nlicense = length(mathworksUsed);
 tc.verifyGreaterThanOrEqual(Nlicense, 1)
 tc.verifyTrue(ismember('MATLAB', mathworksUsed))
 tc.verifyGreaterThan(length(userFun), 200) % we have over 200 stdlib functions
 
 % don't use paid toolboxes without checking they exist, otherwise this function fails
-[mathworksUsed, userFun] = stdlib.toolbox_used(["which", "disp"]);
+[mathworksUsed, userFun] = stdlib.toolbox_used('disp');
 tc.verifyEqual(userFun, string.empty)
 tc.verifyEqual(length(mathworksUsed), 1)
 end
+end
 
+
+methods (Test, TestTags={'R2018a'})
 function test_perl(tc)
 tc.assumeFalse(stdlib.matlabOlderThan('R2018a'))
 tc.verifyNotEmpty(stdlib.perl_exe())
 tc.verifyNotEmpty(stdlib.perl_version())
 tc.verifyTrue(stdlib.has_perl(), 'Matlab docs indicate that Perl should always be available')
 end
-
 end
 
 
