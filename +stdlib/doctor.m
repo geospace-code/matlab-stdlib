@@ -8,12 +8,7 @@ raw = struct('matlab', []);
 raw.matlab.arch = computer('arch');
 
 if ~stdlib.isoctave()
-  try
-    r = matlabRelease().Release;
-  catch
-    r = ['R' version('-release')];
-  end
-  raw.matlab.release = r;
+  raw.matlab.release = stdlib.matlab_release();
 
   m = stdlib.matlab_bin_path();
   raw.matlab.extern_bin = m.extern_bin;
