@@ -20,8 +20,21 @@ end
 
 y = false;
 
+matlab_too_old = stdlib.matlabOlderThan('R2022a');
+
+% FIXME: update whenever a Windows Matlab ARM64 release is made
+windows_arm_mismatch = ispc() && stdlib.shell.cpu_arch() == "ARM64" && computer('arch') == "win64";
+
+if matlab_too_old || windows_arm_mismatch
+  if windows_arm_mismatch
+    warning('Python check is disabled on Windows ARM64 when Matlab is not ARM64.');
+  end
+  py_enable = false;
+  return
+end
+
 if nargin == 0
-  enable_check = ~stdlib.matlabOlderThan('R2022a');
+  enable_check = true;
 end
 
 if enable_check
@@ -29,7 +42,6 @@ if enable_check
 end
 
 py_enable = y;
-
 end
 
 %!assert(~stdlib.has_python())
