@@ -1,4 +1,5 @@
 * text=auto
+*.m text eol=lf
 
 *.oct binary
 
