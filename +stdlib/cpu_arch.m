@@ -6,6 +6,9 @@
 % This method is as used by
 % <https://cmake.org/cmake/help/latest/variable/CMAKE_HOST_SYSTEM_PROCESSOR.html CMake>.
 %
+% Experimental: we have made available
+%   stdlib.shell.cpu_arch()
+%
 %%% Outputs
 % * a: the CPU architecture as a character vector:
 
