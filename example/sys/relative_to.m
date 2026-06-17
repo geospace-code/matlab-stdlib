@@ -27,7 +27,7 @@ if status == 0
     r = stdlib.normalize(r);
   end
 else
-  warning("stdlib:relative_to:OSError", "Failed to compute relative path: %s", r);
+  warning('stdlib:relative_to:OSError', 'Failed to compute relative path: %s', r);
 end
 
 end

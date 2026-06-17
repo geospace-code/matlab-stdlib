@@ -1,10 +1,10 @@
 %% ABSOLUTE Determine absolute path
 % c = absolute(p);
-% Path "p" need not exist.
+% Path need not exist.
 % Absolute path will be relative to pwd if path does not exist.
 %
 % c = absolute(p, base);
-% the "base" path is used instead of pwd.
+% the 'base' path is used instead of pwd.
 %
 %%% Inputs
 % * p: path to make absolute
