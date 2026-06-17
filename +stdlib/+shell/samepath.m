@@ -25,15 +25,14 @@ cmd2 = sprintf('stat %s %%d:%%i "%s"', flag, path2);
 cmd = stdlib.append(cmd1, ' && ', cmd2);
 
 [s, m] = system(cmd);
-if s ~= 0
-  return
+if s == 0
+
+  % m = splitlines(m);
+  % to allow older Matlab / Octave compatibility
+  m = strsplit(m, {'\n', '\r'});
+  assert(length(m) >= 2, "samepath(%s, %s) failed: unexpected output", path1, path2);
+
+  y = strcmp(m{1}, m{2});
 end
-
-% m = splitlines(m);
-% to allow older Matlab / Octave compatibility
-m = strsplit(m, {'\n', '\r'});
-assert(length(m) >= 2, "samepath(%s, %s) failed: unexpected output", path1, path2);
-
-y = strcmp(m{1}, m{2});
 
 end

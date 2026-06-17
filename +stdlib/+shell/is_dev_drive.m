@@ -1,8 +1,5 @@
 function [y, cmd] = is_dev_drive(fpath)
 
-y = false;
-cmd = '';
-
 if ispc()
   cmd = sprintf('fsutil devdrv query ''%s''', fpath);
   [s, m] = system(cmd);
@@ -11,5 +8,9 @@ if ispc()
   else
     y = logical([]);
   end
+else
+  y = false;
+  cmd = '';
 end
+
 end

@@ -20,25 +20,18 @@ if ispc()
 else
   cmd = sprintf('df "%s" | tail -n 1 | awk ''{print $1}''', filepath);
 end
+
 [s1, m1] = system(cmd);
+
 if s1 ~= 0
   warning('stdlib:is_removable:OSError', '%s', m1)
-  return
-end
-
-
-if ispc()
-
+elseif ispc()
   y = contains(m1, "True");
-
 elseif ismac()
-
   cmd2 = sprintf('diskutil info "%s"', deblank(m1));
   [s2, m2] = system(cmd2);
   y = s2 == 0 && ~isempty(regexp(m2, "Removable Media:\s*(Removable)", 'once'));
-
 else
-
   dev = deblank(extractAfter(m1, '/dev/'));
   f1 = sprintf('/shell/class/block/%s/removable', dev);
 
@@ -50,7 +43,6 @@ else
       rethrow(e)
     end
   end
-
 end
 
 end

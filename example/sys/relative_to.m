@@ -19,14 +19,15 @@ else
 end
 
 [status, r] = system(cmd);
-if status ~= 0
+
+if status == 0
+  r = string(strip(r));
+
+  if ispc()
+    r = stdlib.normalize(r);
+  end
+else
   warning("stdlib:relative_to:OSError", "Failed to compute relative path: %s", r);
-end
-
-r = string(strip(r));
-
-if ispc()
-  r = stdlib.normalize(r);
 end
 
 end
