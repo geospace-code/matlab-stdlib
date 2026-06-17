@@ -5,14 +5,18 @@
 
 function y = has_parallel_toolbox()
 
-try
-  gcp('nocreate');
-  y = true;
-catch e
-  if ~strcmp(e.identifier, 'MATLAB:UndefinedFunction')
-    rethrow(e)
+if ~stdlib.matlabOlderThan('R2020b')
+  y = canUseParallelPool();
+else
+  try
+    gcp('nocreate');
+    y = true;
+  catch e
+    if ~strcmp(e.identifier, 'MATLAB:UndefinedFunction')
+      rethrow(e)
+    end
+    y = false;
   end
-  y = false;
 end
 
 end
