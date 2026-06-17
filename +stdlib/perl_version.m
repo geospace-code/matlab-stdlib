@@ -1,6 +1,6 @@
 %% PERL_VERSION get the Perl version used by MATLAB
 % cached for speed
-% to clear cache do "clear functions"
+% to clear cache do 'clear functions'
 %
 %%% Output
 % * v: 1x3 vector of major, minor, micro version e.g. Perl 5.32.1 = [5, 32, 1]
