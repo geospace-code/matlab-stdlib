@@ -27,7 +27,7 @@ windows_arm_mismatch = ispc() && stdlib.shell.cpu_arch() == "ARM64" && computer(
 
 if matlab_too_old || windows_arm_mismatch
   if windows_arm_mismatch
-    warning('Python check is disabled on Windows ARM64 when Matlab is not ARM64.');
+    disp('stdlib.has_python: Python check is disabled on Windows ARM64 when Matlab is not ARM64.');
   end
   py_enable = false;
   return
