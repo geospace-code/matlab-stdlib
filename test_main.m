@@ -44,19 +44,7 @@ end
 function suite = define_suite(test_root, sel)
 import matlab.unittest.selectors.HasTag
 
-try
-  rtags = releaseTestTags();
-catch e
-  % Matlab < R2016b
-  if strcmp(e.identifier, 'MATLAB:m_illegal_character')
-    suite = testsuite(test_root);
-    sel = sel & HasTag('R2016a');
-    suite = suite.selectIf(sel);
-    return
-  else
-    rethrow(e)
-  end
-end
+rtags = releaseTestTags();
 
 try
   suite = testsuite(test_root, 'Tag', rtags, 'InvalidFileFoundAction', 'error');

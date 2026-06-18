@@ -11,17 +11,14 @@
 % * b: backend used
 
 function [r, b] = read_symlink(file, backend)
-if nargin < 2
-  backend = {'native', 'java', 'python', 'dotnet', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  file {mustBeTextScalar, mustBeFileOrFolder}
+  backend (1,:) string = ["native", "java", "python", "dotnet", "shell"]
 end
-
 
 r = string.empty;
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'java'
       r = stdlib.java.read_symlink(file);

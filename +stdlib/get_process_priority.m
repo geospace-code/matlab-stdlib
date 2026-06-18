@@ -10,16 +10,13 @@
 
 
 function [i, b] = get_process_priority(backend)
-if nargin < 1
-  backend = {'dotnet', 'python', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  backend (1,:) string = ["dotnet", "python", "shell"]
 end
 
 i = [];
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'dotnet'
       i = stdlib.dotnet.get_process_priority();
@@ -39,6 +36,3 @@ for j = 1:numel(backend)
 end
 
 end
-
-%!test
-%! mustBeInteger(stdlib.get_process_priority())

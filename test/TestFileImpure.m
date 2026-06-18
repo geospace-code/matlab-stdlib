@@ -31,8 +31,6 @@ n = stdlib.null_file;
 
 if ispc()
   tc.verifyEqual(n, 'NUL')
-elseif stdlib.matlabOlderThan('R2019b')
-  tc.verifyEqual(n, '/dev/null')
 else
   tc.verifyThat(n, matlab.unittest.constraints.IsFile)
 end
@@ -43,11 +41,7 @@ function test_makedir(tc)
 d = 'test_makedir.dir';
 stdlib.makedir(d)
 
-if stdlib.matlabOlderThan('R2018a')
-  tc.assertTrue(stdlib.is_folder(d))
-else
-  tc.verifyThat(d, matlab.unittest.constraints.IsFolder)
-end
+tc.verifyThat(d, matlab.unittest.constraints.IsFolder)
 end
 
 

@@ -16,8 +16,9 @@
 % non-existant path is made absolute relative to pwd
 
 function c = absolute(p, base)
-if nargin < 2
-  base = pwd();
+arguments
+  p {mustBeTextScalar}
+  base {mustBeTextScalar} = pwd()
 end
 
 if stdlib.is_absolute(p)
@@ -48,5 +49,3 @@ if isstring(p)
 end
 
 end
-
-%!assert(~isempty(stdlib.absolute('')))

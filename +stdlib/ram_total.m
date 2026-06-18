@@ -10,16 +10,13 @@
 % * b: backend used
 
 function [i, b] = ram_total(backend)
-if nargin < 1
-  backend = {'java', 'dotnet', 'python', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  backend (1,:) string = ["java", "dotnet", "python", "shell"]
 end
 
 i = uint64([]);
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'dotnet'
       i = stdlib.dotnet.ram_total();
@@ -41,5 +38,3 @@ for j = 1:numel(backend)
 end
 
 end
-
-%!assert (stdlib.ram_total() > 0)

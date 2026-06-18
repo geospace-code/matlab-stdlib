@@ -24,9 +24,7 @@ function test_canonical(tc, p)
 c = stdlib.canonical(p{1}, false);
 tc.verifyEqual(c, p{2})
 
-if ~stdlib.matlabOlderThan('R2017b')
-  tc.verifyEqual(stdlib.canonical(string(p{1}), false), string(p{2}))
-end
+tc.verifyEqual(stdlib.canonical(string(p{1}), false), string(p{2}))
 end
 
 function test_canonical_cwd(tc)

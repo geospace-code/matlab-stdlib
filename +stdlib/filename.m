@@ -6,8 +6,9 @@
 % filename (including suffix) without directory
 
 function f = filename(p, backend)
-if nargin < 2
-  backend = 'fileparts';
+arguments
+  p {mustBeTextScalar}
+  backend {mustBeTextScalar} = 'fileparts'
 end
 
 % fileparts is 5x to 10x faster than regexp and pattern
@@ -30,8 +31,3 @@ switch backend
 end
 
 end
-
-
-%!test
-%! pkg load tablicious
-%! assert(strcmp(stdlib.filename('a/.bc'), '.bc'))

@@ -11,6 +11,9 @@
 % Note: fileparts() was about 100x faster then using multiple steps with pattern.
 
 function s = stem(filepath)
+arguments
+  filepath {mustBeTextScalar}
+end
 
 [~, s, e] = fileparts(filepath);
 
@@ -19,5 +22,3 @@ if stdlib.strempty(s)
 end
 
 end
-
-%!assert (stdlib.stem('a/b.c'), 'b')

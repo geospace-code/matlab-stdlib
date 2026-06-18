@@ -31,7 +31,6 @@ end
 
 
 function test_is_executable_binary(tc, peb)
-tc.assumeFalse(stdlib.matlabOlderThan('R2018a'), 'hex literals not supported < R2018a')
 b = stdlib.is_executable_binary(peb{1});
 tc.verifyEqual(b, peb{2}, peb{1})
 end

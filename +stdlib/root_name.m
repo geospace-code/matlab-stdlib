@@ -6,6 +6,9 @@
 
 
 function r = root_name(p)
+arguments
+  p {mustBeTextScalar}
+end
 
 c = char(p);
 
@@ -20,10 +23,3 @@ if isstring(p)
 end
 
 end
-
-%!test
-%! if ispc()
-%!   assert(strcmp(strcmp.root_name('c:/hi'), 'c:'))
-%! else
-%!   assert(strcmp(stdlib.root_name('/a/.bc'), ''))
-%! end

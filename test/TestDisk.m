@@ -23,7 +23,7 @@ methods (Test)
 
 function test_disk_available(tc, Ps, B_jdps)
 [r, b] = stdlib.disk_available(Ps, B_jdps);
-tc.assertEqual(b, B_jdps)
+tc.assertMatches(b, B_jdps)
 
 tc.verifyClass(r, 'uint64')
 
@@ -42,7 +42,7 @@ end
 
 function test_disk_capacity(tc, Ps, B_jdps)
 [r, b] = stdlib.disk_capacity(Ps, B_jdps);
-tc.assertEqual(b, B_jdps)
+tc.assertMatches(b, B_jdps)
 
 tc.verifyClass(r, 'uint64')
 
@@ -61,7 +61,7 @@ end
 
 function test_ulimit(tc, B_ps)
 [i, b] = stdlib.get_max_open_files(B_ps);
-tc.assertEqual(b, B_ps)
+tc.assertMatches(b, B_ps)
 tc.verifyClass(i, 'uint64')
 if ispc() || (B_ps == "python" && ~stdlib.has_python())
   tc.verifyEmpty(i)
@@ -73,13 +73,13 @@ end
 
 function test_is_removable(tc, B_ps)
 [y, b] = stdlib.is_removable(pwd(), B_ps);
-tc.assertEqual(b, B_ps)
+tc.assertMatches(b, B_ps)
 tc.verifyClass(y, 'logical')
 end
 
 function test_is_mount(tc, B_ps)
 [y,b] = stdlib.is_mount(pwd(), B_ps);
-tc.assertEqual(b, B_ps)
+tc.assertMatches(b, B_ps)
 tc.verifyClass(y, 'logical')
 
 if ismember(B_ps, stdlib.Backend().select('is_mount'))
@@ -104,7 +104,7 @@ fn = 'test_hard_link_count.txt';
 tc.assertTrue(stdlib.touch(fn))
 
 [i, b] = stdlib.hard_link_count(fn, B_jps);
-tc.assertEqual(b, B_jps)
+tc.assertMatches(b, B_jps)
 
 if ismember(B_jps, stdlib.Backend().select('hard_link_count'))
   tc.verifyGreaterThanOrEqual(i, 1)
@@ -119,7 +119,7 @@ end
 
 function test_filesystem_type(tc, Ps, B_jdps)
 [t, b] = stdlib.filesystem_type(Ps, B_jdps);
-tc.assertEqual(b, B_jdps)
+tc.assertMatches(b, B_jdps)
 tc.verifyClass(t, 'char')
 
 if ismember(B_jdps, stdlib.Backend().select('filesystem_type'))
@@ -138,15 +138,13 @@ end
 
 function test_is_dev_drive(tc, B_ps)
 [r, b] = stdlib.is_dev_drive(pwd(), B_ps);
-tc.assertEqual(b, B_ps)
+tc.assertMatches(b, B_ps)
 
 tc.verifyClass(r, 'logical')
 end
 
 
 function test_remove_file(tc)
-tc.assumeFalse(stdlib.matlabOlderThan('R2018a'), 'test shaky on Matlab < R2018a')
-
 f = 'test_remove.tmp';
 
 tc.verifyFalse(stdlib.remove(f), 'should not succeed at removing non-existant path')
@@ -159,38 +157,36 @@ end
 
 
 function test_device(tc, Ps, B_jps)
-[i, b] = stdlib.device(Ps, B_jps);
-tc.verifyClass(i, 'uint64')
-tc.assertEqual(b, B_jps)
-
-if ismember(B_jps, stdlib.Backend().select('device'))
-  if ~stdlib.exists(Ps)
-    tc.verifyEmpty(i)
-  else
-    tc.assertNotEmpty(i)
-    tc.assertGreaterThan(i, 0)
-  end
+if ~stdlib.exists(Ps)
+  tc.verifyError(@() stdlib.device(Ps), 'MATLAB:validators:mustBeFileOrFolder')
 else
-  tc.assertEmpty(i)
+  [i, b] = stdlib.device(Ps, B_jps);
+  if ismember(B_jps, stdlib.Backend().select('device'))
+    tc.verifyClass(i, 'uint64')
+    tc.verifyMatches(b, B_jps)
+    tc.assertNotEmpty(i, Ps)
+    tc.assertGreaterThan(i, 0)
+  else
+    tc.verifyEmpty(i)
+  end
 end
 end
 
 
 function test_inode(tc, Ps, B_jps)
 
-[i, b] = stdlib.inode(Ps, B_jps);
-tc.verifyClass(i, 'uint64')
-tc.assertEqual(b, B_jps)
-
-if ismember(B_jps, stdlib.Backend().select('inode'))
-  if ~stdlib.exists(Ps)
-    tc.verifyEmpty(i)
-  else
-    tc.assertNotEmpty(i)
-    tc.assertGreaterThan(i, 0)
-  end
+if ~stdlib.exists(Ps)
+  tc.verifyError(@() stdlib.inode(Ps), 'MATLAB:validators:mustBeFileOrFolder')
 else
-  tc.assertEmpty(i)
+  [i, b] = stdlib.inode(Ps, B_jps);
+  if ismember(B_jps, stdlib.Backend().select('inode'))
+    tc.verifyClass(i, 'uint64')
+    tc.verifyMatches(b, B_jps)
+    tc.assertNotEmpty(i, Ps)
+    tc.assertGreaterThan(i, 0)
+  else
+    tc.verifyEmpty(i)
+  end
 end
 
 end
@@ -198,7 +194,7 @@ end
 
 function test_owner(tc, Ps, B_jdps)
 [o, b] = stdlib.get_owner(Ps, B_jdps);
-tc.assertEqual(b, B_jdps)
+tc.assertMatches(b, B_jdps)
 tc.verifyClass(o, 'char')
 
 if ismember(B_jdps, stdlib.Backend().select('get_owner'))

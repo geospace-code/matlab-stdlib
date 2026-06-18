@@ -7,6 +7,9 @@
 % * y: true if path is a file and has executable permissions
 
 function y = is_exe(file)
+arguments
+  file {mustBeTextScalar}
+end
 
 y = false;
 
@@ -37,9 +40,3 @@ catch e
 end
 
 end
-
-%!test
-%! if isunix()
-%! assert(stdlib.is_exe([matlabroot, '/bin/octave']))
-%! end
-%!assert (~stdlib.is_exe('.'))

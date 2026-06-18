@@ -24,9 +24,7 @@ else
   tc.verifyEqual(r, p{2})
 end
 
-if ~stdlib.matlabOlderThan('R2017b')
-  tc.verifyEqual(stdlib.suffix(string(p{1})), string(p{2}))
-end
+tc.verifyEqual(stdlib.suffix(string(p{1})), string(p{2}))
 
 end
 

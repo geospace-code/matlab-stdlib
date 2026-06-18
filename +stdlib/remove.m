@@ -5,6 +5,10 @@
 % a boolean success status.
 
 function ok = remove(filepath)
+arguments
+  filepath {mustBeTextScalar}
+end
+
 ok = false;
 
 if ~stdlib.exists(filepath)

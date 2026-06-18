@@ -22,11 +22,9 @@ methods (Test)
 function test_with_suffix(tc, p)
 tc.verifyEqual(stdlib.with_suffix(p{1}, p{2}), p{3})
 
-if ~stdlib.matlabOlderThan('R2017b')
-  tc.verifyEqual(stdlib.with_suffix(string(p{1}), p{2}), string(p{3}))
-  tc.verifyEqual(stdlib.with_suffix(p{1}, string(p{2})), string(p{3}))
-  tc.verifyEqual(stdlib.with_suffix(string(p{1}), string(p{2})), string(p{3}))
-end
+tc.verifyEqual(stdlib.with_suffix(string(p{1}), p{2}), string(p{3}))
+tc.verifyEqual(stdlib.with_suffix(p{1}, string(p{2})), string(p{3}))
+tc.verifyEqual(stdlib.with_suffix(string(p{1}), string(p{2})), string(p{3}))
 end
 
 end

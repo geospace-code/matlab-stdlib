@@ -9,16 +9,14 @@
 % * b: backend used
 
 function [i, b] = disk_capacity(file, backend)
-if nargin < 2
-  backend = {'java', 'dotnet', 'python', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  file {mustBeTextScalar}
+  backend (1,:) string = ["java", "dotnet", "python", "shell"]
 end
 
 i = uint64([]);
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'dotnet'
       i = stdlib.dotnet.disk_capacity(file);
@@ -40,7 +38,3 @@ for j = 1:numel(backend)
 end
 
 end
-
-%!test
-%! addpath([pwd() '/+dotnet/private'])
-%!assert (stdlib.disk_capacity('.') > 0)

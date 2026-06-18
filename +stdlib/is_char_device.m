@@ -19,16 +19,15 @@
 
 
 function [i, b] = is_char_device(file, backend)
-if nargin < 2
-  backend = {'python', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  file {mustBeTextScalar}
+  backend (1,:) string = ["python", "shell"]
 end
+
 
 i = logical([]);
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'python'
       if stdlib.has_python()
@@ -46,5 +45,3 @@ for j = 1:numel(backend)
 end
 
 end
-
-%!assert (~stdlib.is_char_device('.'))

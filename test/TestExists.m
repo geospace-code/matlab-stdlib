@@ -20,10 +20,8 @@ function test_exists(tc, Ps)
 r = stdlib.exists(Ps{1});
 tc.verifyEqual(r, Ps{2}, Ps{1})
 
-if ~stdlib.matlabOlderThan('R2016b')
-  r = stdlib.exists(string(Ps{1}));
-  tc.verifyEqual(r, Ps{2})
-end
+r = stdlib.exists(string(Ps{1}));
+tc.verifyEqual(r, Ps{2})
 end
 
 
@@ -31,20 +29,16 @@ function test_is_readable(tc, Ps)
 r = stdlib.is_readable(Ps{1});
 tc.verifyEqual(r, Ps{2})
 
-if ~stdlib.matlabOlderThan('R2016b')
-  r = stdlib.is_readable(string(Ps{1}));
-  tc.verifyEqual(r, Ps{2});
-end
+r = stdlib.is_readable(string(Ps{1}));
+tc.verifyEqual(r, Ps{2});
 end
 
 function test_is_writable(tc, Ps)
 r = stdlib.is_writable(Ps{1});
 tc.verifyEqual(r, Ps{2})
 
-if ~stdlib.matlabOlderThan('R2016b')
-  r = stdlib.is_writable(string(Ps{1}));
-  tc.verifyEqual(r, Ps{2});
-end
+r = stdlib.is_writable(string(Ps{1}));
+tc.verifyEqual(r, Ps{2});
 end
 end
 
@@ -55,15 +49,13 @@ function test_is_char_device(tc, B_is_char_device)
 n = stdlib.null_file();
 
 [r, b] = stdlib.is_char_device(n, B_is_char_device);
-tc.assertEqual(b, B_is_char_device)
+tc.assertMatches(b, B_is_char_device)
 tc.assertClass(r, 'logical')
 
 if ismember(B_is_char_device, stdlib.Backend().select('is_char_device'))
   tc.verifyTrue(r, n)
 
-  if ~stdlib.matlabOlderThan('R2016b')
-    tc.verifyTrue(stdlib.is_char_device(string(n), B_is_char_device))
-  end
+  tc.verifyTrue(stdlib.is_char_device(string(n), B_is_char_device))
 else
   tc.verifyEmpty(r)
 end

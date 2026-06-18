@@ -8,16 +8,15 @@
 % * b: backend used
 
 function [i, b] = is_symlink(file, backend)
-if nargin < 2
-  backend = {'native', 'java', 'python', 'dotnet', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  file {mustBeTextScalar}
+  backend (1,:) string = ["native", "java", "python", "dotnet", "shell"]
 end
+
 
 i = logical([]);
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'java'
       i = stdlib.java.is_symlink(file);
@@ -41,6 +40,3 @@ for j = 1:numel(backend)
 end
 
 end
-
-
-%!assert (islogical(stdlib.is_symlink('.')))

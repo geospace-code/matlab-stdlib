@@ -9,6 +9,9 @@
 % * n: normalized path
 
 function n = normalize(apath)
+arguments
+  apath {mustBeTextScalar}
+end
 
 parts = split(string(apath), ["/", filesep]);
 i0 = 1;
