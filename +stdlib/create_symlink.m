@@ -8,16 +8,15 @@
 % * b: backend used
 
 function [i, b] = create_symlink(target, link, backend)
-if nargin < 3
-  backend = {'native', 'dotnet', 'python', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  target {mustBeTextScalar}
+  link {mustBeTextScalar}
+  backend (1,:) string = ["native", "dotnet", "python", "shell"]
 end
 
 i = logical([]);
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'native'
       i = stdlib.native.create_symlink(target, link);

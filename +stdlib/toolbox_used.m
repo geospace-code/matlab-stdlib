@@ -7,6 +7,9 @@
 % * funUser: all user function files under pkgPath
 
 function [tbxMathworks, funUser] = toolbox_used(name)
+arguments
+  name {mustBeTextScalar}
+end
 
 n = name;
 

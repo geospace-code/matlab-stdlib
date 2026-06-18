@@ -3,12 +3,14 @@
 %
 % our implementation is about 200x faster than isMATLABReleaseOlderThan(release)
 
-function isOlder = matlabOlderThan(release)
-assert(nargin == 1, 'Specify Matlab release like ''R2025a''')
+function isOlder = matlabOlderThan(r)
+arguments
+  r char {mustBeTextScalar}
+end
 
 % converting to char about 2x fast as extract*() on string()
 % length on char 10+% faster than strlength(string())
-r = char(release);
+
 assert(length(r) == 6 && r(1) == 'R', 'Matlab release must be like ''R2025a''')
 
 curr = version('-release');
@@ -27,5 +29,3 @@ else
 end
 
 end
-
-%!assert (stdlib.matlabOlderThan('R2011a'))

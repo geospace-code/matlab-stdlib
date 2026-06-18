@@ -1,6 +1,9 @@
 %% SUFFIX last suffix of filename
 
 function s = suffix(p)
+arguments
+  p {mustBeTextScalar}
+end
 
 [~, n, s] = fileparts(p);
 
@@ -9,5 +12,3 @@ if stdlib.strempty(n)
 end
 
 end
-
-%!assert (stdlib.suffix('a//d.cl.as'), '.as')

@@ -12,9 +12,7 @@ methods (Test)
 function test_expanduser(tc, p)
 tc.verifyEqual(stdlib.expanduser(p{1}), p{2})
 
-if ~stdlib.matlabOlderThan('R2016b')
-  tc.verifyEqual(stdlib.expanduser(string(p{1})), string(p{2}))
-end
+tc.verifyEqual(stdlib.expanduser(string(p{1})), string(p{2}))
 end
 
 end

@@ -7,9 +7,9 @@
 % https://www.mathworks.com/support/requirements/python-compatibility.html
 
 function y = has_python(enable_check)
-% arguments
-%   enable_check (1,1) logical = ~stdlib.matlabOlderThan('R2022a');
-% end
+arguments
+  enable_check (1,1) logical = ~stdlib.matlabOlderThan('R2022a');
+end
 
 persistent py_enable
 
@@ -18,28 +18,20 @@ if ~isempty(py_enable) && nargin == 0
   return
 end
 
-y = false;
-
-matlab_too_old = stdlib.matlabOlderThan('R2022a');
 
 % FIXME: update whenever a Windows Matlab ARM64 release is made
 windows_arm_mismatch = ispc() && stdlib.shell.cpu_arch() == "ARM64" && computer('arch') == "win64";
 
-if matlab_too_old || windows_arm_mismatch
+if ~enable_check || windows_arm_mismatch
   if windows_arm_mismatch
     disp('stdlib.has_python: Python check is disabled on Windows ARM64 when Matlab is not ARM64.');
   end
+  y = false;
   py_enable = false;
   return
 end
 
-if nargin == 0
-  enable_check = true;
-end
-
-if enable_check
-  y = ~isempty(stdlib.python_version());
-end
+y = ~isempty(stdlib.python_version());
 
 py_enable = y;
 end

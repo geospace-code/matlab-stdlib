@@ -9,16 +9,18 @@
 % * root_dir('path/to/file') returns ''
 
 function r = root_dir(p)
+arguments
+  p {mustBeTextScalar}
+end
 
-c = char(p);
 r = '';
 
-if isempty(c)
-  % pass
-elseif ismember(c(1), {'/', filesep})
-  r = c(1);
+if stdlib.strempty(p)
+  r = p;
+elseif startsWith(p, ["/", filesep])
+  r = extractBefore(p, 2);
 elseif ispc()
-  m = regexp(c, '^[A-Za-z]:([\\/])', 'tokens', 'once');
+  m = regexp(p, '^[A-Za-z]:([\\/])', 'tokens', 'once');
   if ~isempty(m)
     r = m{1};
   end
@@ -29,10 +31,3 @@ if isstring(p)
 end
 
 end
-
-%!test
-%! if ispc()
-%!   assert(strcmp(strcmp.root_dir('c:/hi'), '/'))
-%! else
-%!   assert(strcmp(stdlib.root_dir('/a/.bc'), '/'))
-%! end

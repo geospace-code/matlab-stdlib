@@ -11,10 +11,10 @@
 % https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html#relativize-java.nio.file.Path-
 
 function rel = relative_to(base, target)
-% arguments
-%   base (1,1) string
-%   target (1,1) string
-% end
+arguments
+  base {mustBeTextScalar}
+  target {mustBeTextScalar}
+end
 
 % matlab.io.internal.filesystem.relativepath only works on Windows (!) and only
 % then with / filesep.

@@ -1,4 +1,3 @@
-function exists = h4exists(file, variable)
 %% H4EXISTS check if object exists in HDF4 file
 %
 %%% Inputs
@@ -6,10 +5,12 @@ function exists = h4exists(file, variable)
 % * variable: path of variable in file
 %%% Outputs
 % * exists: boolean
-% arguments
-%   file
-%   variable (1,1) string
-% end
+
+function exists = h4exists(file, variable)
+arguments
+  file {mustBeTextScalar}
+  variable {mustBeTextScalar}
+end
 
 finf = hdfinfo(file);
 sds = finf.SDS;

@@ -17,16 +17,16 @@
 % * b: backend used
 
 function [i, b] = samepath(path1, path2, backend)
-if nargin < 3
-  backend = {'python', 'java', 'perl', 'shell', 'native'};
-else
-  backend = cellstr(backend);
+arguments
+  path1 {mustBeTextScalar, mustBeFileOrFolder}
+  path2 {mustBeTextScalar, mustBeFileOrFolder}
+  backend (1,:) string = ["python", "java", "perl", "shell", "native"]
 end
+
 
 i = logical([]);
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'java'
       i = stdlib.java.samepath(path1, path2);
@@ -50,5 +50,3 @@ for j = 1:numel(backend)
 end
 
 end
-
-%!assert (stdlib.samepath('.', pwd()))

@@ -14,6 +14,3 @@ if isunix() && ~ismac()
 end
 
 end
-
-
-%!assert (islogical(stdlib.is_cygwin()))

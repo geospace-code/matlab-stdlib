@@ -9,6 +9,9 @@
 % * b: backend used
 
 function [perm, b] = get_permissions(file)
+arguments
+  file {mustBeTextScalar}
+end
 
 try
   perm = perm2char(filePermissions(file));
@@ -27,7 +30,3 @@ catch e
 end
 
 end
-
-%!test
-%! addpath('private')
-%! assert(length(stdlib.get_permissions('.')) > 8)

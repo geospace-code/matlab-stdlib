@@ -13,16 +13,15 @@
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#getInstance(java.lang.String)
 
 function [r, b] = file_checksum(file, hash_method, backend)
-if nargin < 3
-  backend = {'java', 'dotnet', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  file {mustBeTextScalar}
+  hash_method {mustBeTextScalar}
+  backend (1,:) string = ["java", "dotnet", "shell"]
 end
 
 r = '';
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'java'
       r = stdlib.java.file_checksum(file, hash_method);
@@ -40,13 +39,3 @@ for j = 1:numel(backend)
 end
 
 end
-
-%!test
-%! f = tempname();
-%! assert(stdlib.touch(f))
-%! hs = stdlib.file_checksum(f, 'sha256', 'shell');
-%! assert(length(hs) == 64)
-%! if stdlib.has_java()
-%! hj = stdlib.file_checksum(f, 'sha256', 'java');
-%! assert(strcmp(hs, hj))
-%! end

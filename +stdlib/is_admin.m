@@ -5,16 +5,13 @@
 % * b: backend used
 
 function [i, b] = is_admin(backend)
-if nargin < 1
-  backend = {'java', 'dotnet', 'perl', 'python', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  backend (1,:) string = ["java", "dotnet", "perl", "python", "shell"]
 end
 
 i = logical([]);
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'java'
       i = stdlib.java.is_admin();

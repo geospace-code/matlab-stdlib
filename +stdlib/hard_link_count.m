@@ -12,16 +12,14 @@
 % * https://docs.oracle.com/javase/tutorial/essential/io/links.html
 
 function [i, b] = hard_link_count(file, backend)
-if nargin < 2
-  backend = {'java', 'python', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  file {mustBeTextScalar}
+  backend (1,:) string = ["java", "python", "shell"]
 end
 
 i = [];
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'java'
       i = stdlib.java.hard_link_count(file);

@@ -7,6 +7,10 @@
 % * rel: relative path from base to other
 
 function rel = proximate_to(base, other)
+arguments
+  base {mustBeTextScalar}
+  other {mustBeTextScalar}
+end
 
 rel = stdlib.relative_to(base, other);
 if stdlib.strempty(rel)

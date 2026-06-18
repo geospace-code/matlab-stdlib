@@ -2,6 +2,9 @@
 % requires: java
 
 function r = is_regular_file(file)
+arguments
+  file {mustBeTextScalar}
+end
 % needs absolute()
 file = stdlib.absolute(file);
 

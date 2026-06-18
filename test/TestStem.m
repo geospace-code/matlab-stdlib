@@ -24,9 +24,7 @@ methods (Test)
 function test_stem(tc, p)
 tc.verifyEqual(stdlib.stem(p{1}), p{2})
 
-if ~stdlib.matlabOlderThan('R2017b')
-  tc.verifyEqual(stdlib.stem(string(p{1})), string(p{2}))
-end
+tc.verifyEqual(stdlib.stem(string(p{1})), string(p{2}))
 end
 
 end

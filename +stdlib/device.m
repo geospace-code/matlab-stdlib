@@ -8,16 +8,14 @@
 % * b: backend used
 
 function [i, b] = device(file, backend)
-if nargin < 2
-  backend = {'java', 'python', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  file {mustBeTextScalar, mustBeFileOrFolder}
+  backend (1,:) string = ["java", "python", "shell"]
 end
 
 i = uint64([]);
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'java'
       i = stdlib.java.device(file);
@@ -37,6 +35,3 @@ for j = 1:numel(backend)
 end
 
 end
-
-
-%!assert (stdlib.device('.') > 0)

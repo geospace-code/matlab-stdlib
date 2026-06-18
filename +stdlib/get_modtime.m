@@ -5,9 +5,11 @@
 %%% Outputs
 % * t: modification time, or empty if path does not exist
 %
-% Matlab < R2018a needs char input
 
 function t = get_modtime(file)
+arguments
+  file {mustBeTextScalar}
+end
 
 finf = dir(file);
 
@@ -28,5 +30,3 @@ try %#ok<TRYNC>
 end
 
 end
-
-%!assert (stdlib.get_modtime('.') > 0)

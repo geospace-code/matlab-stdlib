@@ -6,6 +6,9 @@
 % Matlab < R2018a needs char input
 
 function makedir(direc)
+arguments
+  direc {mustBeTextScalar}
+end
 
 %% to avoid confusing making ./~/mydir
 direc = stdlib.expanduser(direc);

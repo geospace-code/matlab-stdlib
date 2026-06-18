@@ -11,12 +11,11 @@
 % non-existant path is made absolute relative to pwd
 
 function r = resolve(file, strict)
-if nargin < 2
-  strict = false;
+arguments
+  file {mustBeTextScalar}
+  strict (1,1) logical = false
 end
 
 r = stdlib.canonical(stdlib.absolute(file), strict);
 
 end
-
-%!assert (stdlib.resolve('.'), pwd())

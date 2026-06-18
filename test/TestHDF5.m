@@ -236,11 +236,7 @@ function test_real_only(tc)
 
 tc.verifyError(@() stdlib.h5save(tc.file, '/bad_imag', 1j), 'MATLAB:validators:mustBeReal')
 
-if stdlib.matlabOlderThan('R2018a')
-  eid = 'MATLAB:imagesci:h5info:libraryError';
-else
-  eid = 'MATLAB:imagesci:h5info:unableToFind';
-end
+eid = 'MATLAB:imagesci:h5info:unableToFind';
 tc.verifyError(@() stdlib.h5variables(tc.file, '/nothere'), eid)
 end
 

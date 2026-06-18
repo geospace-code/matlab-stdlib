@@ -24,7 +24,7 @@ There are a few other namespaces that are not external language interfaces:
 Not every language interface may be available on every system, and the availability of specific language interfaces may depend on the installation and configuration of the Matlab environment.
 These stdlib.has_*() functions are intended to run very quickly, caching the result using Matlab "persistent" variables as needed to make them efficient to call multiple times.
 
-The self-test functions under "test/" directory can be used by Matlab >= R2017a as invoked by "test_main.m" at the top level of the project directory.
+The self-test functions under "test/" directory can be used by Matlab >= R2020b as invoked by "test_main.m" at the top level of the project directory.
 Matlab >= R2022b should use "buildtool test" to run the self-tests.
 
 Key limitations driving minimum Matlab version include:
@@ -34,6 +34,7 @@ Key limitations driving minimum Matlab version include:
 * R2018a: fileattrib(), fullfile() supports string type
 * R2018a: mfilename('fullpath') tells the full path to the matlab .m file currently running (empty for older Matlab)
 * R2019b: function argument validation block "arguments"
+* R2020b: `mustBeTextScalar()`, `mustBeText()` functions for function argument validation, used in many places in the code.
 
 Numerous functions are also compatible with GNU Octave.
 
@@ -41,9 +42,9 @@ Numerous functions are also compatible with GNU Octave.
 
 These rules apply under the namespace "stdlib" (directory +stdlib/) and all its sub-namespaces (subdirectories +stdlib/+*).
 
-- The code syntax must work for Matlab >= R2019b (preferably Matlab >= R2017a)
+- The code syntax must work for Matlab >= R2020b
 - The code must not require any Matlab toolboxes, only base Matlab functionality
-- Prohibited to use Matlab factory function "isMATLABReleaseOlderThan()" as it is slow and not available for Matlab < R2020b. Instead we use stdlib.matlabOlderThan() which is like 200x faster than isMATLABReleaseOlderThan() and works for Matlab >= R2016b
+- Prohibited to use Matlab factory function "isMATLABReleaseOlderThan()" as it is slow. Instead we use stdlib.matlabOlderThan() which is like 200x faster than isMATLABReleaseOlderThan() and works for Matlab >= R2016b
 - When an exception is encountered, we generally desire that the code return an "empty" value of the appropriate type. In certain cases we may throw or rethrow an error.
 - where the output represents a filesystem path, the output should be a string type if any input is string type, otherwise char type.
 

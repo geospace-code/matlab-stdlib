@@ -23,5 +23,3 @@ else
 end
 
 end
-
-%!assert (~isempty(stdlib.get_shell()))

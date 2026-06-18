@@ -2,6 +2,9 @@
 % that means literally string.empty OR strlength == 0
 
 function y = strempty(s)
+arguments
+  s {mustBeText}
+end
 
 if isempty(s)
   y = true;
@@ -14,5 +17,3 @@ elseif isstring(s)
 end
 
 end
-
-%!assert (stdlib.strempty(''))

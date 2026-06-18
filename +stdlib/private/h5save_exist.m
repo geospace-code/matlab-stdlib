@@ -2,15 +2,13 @@
 % normally users use h5save() instead of this function
 
 function h5save_exist(filename, varname, A, sizeA)
-% arguments
-%   filename
-%   varname
-%   A
-%   sizeA (1,:) double {mustBeInteger,mustBeNonnegative} = []
-% end
-if nargin < 4
-  sizeA = [];
+arguments
+  filename
+  varname
+  A
+  sizeA (1,:) double {mustBeInteger,mustBeNonnegative} = []
 end
+
 
 diskshape = stdlib.h5size(filename, varname);
 if length(diskshape) >= 2
