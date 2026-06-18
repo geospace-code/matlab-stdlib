@@ -8,7 +8,6 @@ end
 
 methods (Test, TestTags = {'R2018a', 'java', 'toolbox'})
 function test_all_toolboxes(tc)
-tc.assumeFalse(stdlib.matlabOlderThan('R2018a'))
 tc.assumeTrue(stdlib.has_java())
 tbx = stdlib.allToolboxes();
 tc.verifyClass(tbx, 'table')
@@ -48,7 +47,6 @@ end
 
 methods (Test, TestTags={'R2018a'})
 function test_perl(tc)
-tc.assumeFalse(stdlib.matlabOlderThan('R2018a'))
 tc.verifyNotEmpty(stdlib.perl_exe())
 tc.verifyNotEmpty(stdlib.perl_version())
 tc.verifyTrue(stdlib.has_perl(), 'Matlab docs indicate that Perl should always be available')

@@ -13,9 +13,7 @@ function test_parent(tc, p)
 pr = stdlib.parent(p{1});
 tc.verifyEqual(pr, p{2}, sprintf('parent(%s)', p{1}))
 
-if ~stdlib.matlabOlderThan('R2017b')
-  tc.verifyEqual(stdlib.parent(string(p{1})), string(p{2}))
-end
+tc.verifyEqual(stdlib.parent(string(p{1})), string(p{2}))
 
 end
 

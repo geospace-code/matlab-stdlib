@@ -5,16 +5,13 @@
 % * b: backend used
 
 function [r, b] = uptime(backend)
-if nargin < 1
-  backend = {'dotnet', 'python', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  backend (1,:) string = ["dotnet", "python", "shell"]
 end
 
 r = '';
 
-for i = 1:numel(backend)
-  b = backend{i};
+for b = backend
   switch b
     case 'dotnet'
       r = stdlib.dotnet.uptime();
@@ -25,7 +22,7 @@ for i = 1:numel(backend)
     case 'shell'
       r = stdlib.shell.uptime();
     otherwise
-      error('stdlib:hostname:ValueError', 'Unknown backend: %s', b)
+      error('stdlib:uptime:ValueError', 'Unknown backend: %s', b)
   end
 
   if ~isempty(r)

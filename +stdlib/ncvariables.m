@@ -9,8 +9,9 @@
 % * names: variable names
 
 function names = ncvariables(file, group)
-if nargin < 2
-  group = '/';
+arguments
+  file {mustBeTextScalar, mustBeFile}
+  group {mustBeTextScalar} = '/'
 end
 
 finf = ncinfo(file, group);

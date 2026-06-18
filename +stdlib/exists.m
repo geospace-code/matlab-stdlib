@@ -12,9 +12,10 @@
 % this approach is at least 10x faster than checking empty on fileattrib() or dir()
 
 function y = exists(fpath)
+arguments
+  fpath {mustBeTextScalar}
+end
 
 y = stdlib.is_file(fpath) || stdlib.is_folder(fpath);
 
 end
-
-%!assert (stdlib.exists('.'))

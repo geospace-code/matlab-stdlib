@@ -1,6 +1,10 @@
 %% JOIN join two paths with posix file separator
 
 function p = join(base, other)
+arguments
+  base {mustBeTextScalar}
+  other {mustBeTextScalar}
+end
 
 rno = stdlib.root_name(other);
 rnb = stdlib.root_name(base);

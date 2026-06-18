@@ -9,16 +9,13 @@
 % Ref: https://docs.oracle.com/javase/8/docs/api/java/net/InetAddress.html#getHostName--
 
 function [r, b] = hostname(backend)
-if nargin < 1
-  backend = {'java', 'dotnet', 'python', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  backend (1,:) string = ["java", "dotnet", "python", "shell"]
 end
 
 r = '';
 
-for i = 1:numel(backend)
-  b = backend{i};
+for b = backend
   switch b
     case 'java'
       r = stdlib.java.hostname();

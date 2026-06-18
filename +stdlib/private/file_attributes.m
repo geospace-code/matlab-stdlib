@@ -1,9 +1,9 @@
-function a = file_attributes(p)
+function r = file_attributes(file)
 
-[status, a] = fileAttribCompatible(p);
+[s, r] = fileattrib(file);
 
-if status ~= 1
-  a = struct([]);
+if s ~= 1
+  r = struct([]);
   return
 end
 
@@ -11,8 +11,8 @@ pv = {'GroupRead', 'GroupWrite', 'GroupExecute', 'OtherRead', 'OtherWrite', 'Oth
 
 for i = 1:numel(pv)
   n = pv{i};
-  if ~isfield(a, n) || isnan(a.(n))
-    a.(n) = false;
+  if ~isfield(r, n) || isnan(r.(n))
+    r.(n) = false;
   end
 end
 

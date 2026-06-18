@@ -15,6 +15,10 @@
 
 
 function [OK,newSizeBytes,freebytes] = checkRAM(newSize, myclass)
+arguments
+  newSize (1,:) {mustBePositive, mustBeInteger}
+  myclass {mustBeTextScalar}
+end
 
 % get available RAM
 freebytes = stdlib.ram_free();

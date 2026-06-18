@@ -8,16 +8,14 @@
 % * b: backend used
 
 function [r, b] = get_owner(file, backend)
-if nargin < 2
-  backend = {'java', 'dotnet', 'python', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  file {mustBeTextScalar}
+  backend (1,:) string = ["java", "dotnet", "python", "shell"]
 end
 
 r = '';
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'java'
       r = stdlib.java.get_owner(file);
@@ -39,6 +37,3 @@ for j = 1:numel(backend)
 end
 
 end
-
-
-%!assert (~isempty(stdlib.get_owner('.')))

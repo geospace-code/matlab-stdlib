@@ -2,11 +2,7 @@
 
 function v = h5get_version()
 
-try
-  [major, minor, rel] = H5.get_libversion();
-  v = sprintf('%d.%d.%d', major, minor, rel);
-catch
-  v = '';
-end
+[major, minor, rel] = H5.get_libversion();
+v = sprintf('%d.%d.%d', major, minor, rel);
 
 end

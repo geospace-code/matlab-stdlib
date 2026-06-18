@@ -6,6 +6,9 @@
 % * y: true if file is writable
 
 function y = is_writable(file)
+arguments
+  file {mustBeTextScalar}
+end
 
 try
   a = filePermissions(file);
@@ -23,5 +26,3 @@ catch e
 end
 
 end
-
-%!assert (islogical(stdlib.is_writable('.')))

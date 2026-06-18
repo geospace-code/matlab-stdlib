@@ -6,6 +6,9 @@
 % * y: true if file is readable
 
 function y = is_readable(file)
+arguments
+  file {mustBeTextScalar}
+end
 
 try
   a = filePermissions(file);
@@ -23,5 +26,3 @@ catch e
 end
 
 end
-
-%!assert (stdlib.is_readable('.'))

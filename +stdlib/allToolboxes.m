@@ -1,5 +1,5 @@
 %% ALLTOOLBOXES tell all the Matlab toolboxes known for this Matlab release
-% requires: java, Matlab >= R2018a
+% requires: java
 
 function names = allToolboxes()
 

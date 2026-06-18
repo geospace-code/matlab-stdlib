@@ -2,10 +2,6 @@
 
 function v = nc_get_version()
 
-try
-  v = netcdf.inqLibVers;
-catch
-  v = '';
-end
+v = netcdf.inqLibVers;
 
 end

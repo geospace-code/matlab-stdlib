@@ -9,6 +9,9 @@
 % * root_dir('path/to/file') returns ''
 
 function r = root_dir(p)
+arguments
+  p {mustBeTextScalar}
+end
 
 c = char(p);
 r = '';

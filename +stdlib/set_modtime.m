@@ -9,16 +9,15 @@
 % * b: backend used
 
 function [i, b] = set_modtime(file, time, backend)
-if nargin < 3
-  backend = {'java', 'python', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  file {mustBeTextScalar, mustBeFile}
+  time (1,1) datetime
+  backend (1,:) string = ["java", "python", "shell"]
 end
 
 i = logical([]);
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'java'
       i = stdlib.java.set_modtime(file, time);

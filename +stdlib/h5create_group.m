@@ -7,10 +7,10 @@
 % * HDF5 file handle
 
 function fid = h5create_group(file, hpath)
-% arguments
-%   file (1,1)
-%   hpath (1,1) string
-% end
+arguments
+  file (1,1)
+  hpath {mustBeTextScalar}
+end
 
 % polymorphic fid/filename
 if isa(file, 'H5ML.id')

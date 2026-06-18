@@ -1,6 +1,9 @@
 %% DROP_SLASH drop repeated and trailing slash
 
 function d = drop_slash(filepath)
+arguments
+  filepath {mustBeTextScalar}
+end
 
 s = stdlib.posix(filepath);
 
@@ -13,6 +16,3 @@ if ~strcmp(d, '/') && ~strcmp(d, stdlib.root(s))
 end
 
 end
-
-
-%!assert (stdlib.drop_slash('a//b/'), 'a/b')

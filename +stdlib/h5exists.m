@@ -7,6 +7,10 @@
 % * exists: boolean
 
 function exists = h5exists(file, variable)
+arguments
+  file {mustBeTextScalar}
+  variable {mustBeTextScalar}
+end
 
 try
   h5info(file, variable);

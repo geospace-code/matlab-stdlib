@@ -9,7 +9,7 @@
 
 function g = isinteractive()
 
-if ~stdlib.matlabOlderThan('R2019b') && batchStartupOptionUsed()
+if batchStartupOptionUsed()
   g = false;
 else
   g = matlab.desktop.editor.isEditorAvailable() || ...

@@ -6,6 +6,9 @@
 % * n: Filename. Empty if file handle is invalid.
 
 function n = handle2filename(fileHandle)
+arguments
+  fileHandle (1,1)
+end
 
 n = '';
 

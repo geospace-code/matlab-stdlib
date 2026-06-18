@@ -7,6 +7,10 @@
 % * f: modified filename
 
 function f = with_suffix(p, suffix)
+arguments
+  p {mustBeTextScalar}
+  suffix {mustBeTextScalar}
+end
 
 f = extractBefore(p, stdlib.suffix(p));
 

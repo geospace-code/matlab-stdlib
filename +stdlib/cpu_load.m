@@ -10,16 +10,13 @@
 % If the system recent cpu usage is not available, the backend returns a negative or NaN value.
 
 function [i, b] = cpu_load(backend)
-if nargin < 1
-  backend = {'java', 'python', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  backend (1,:) string = ["java", "python", "shell"]
 end
 
 i = [];
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'java'
       i = stdlib.java.cpu_load();
@@ -39,5 +36,3 @@ for j = 1:numel(backend)
 end
 
 end
-
-%!assert (stdlib.cpu_load() >= 0)

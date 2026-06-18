@@ -11,17 +11,14 @@
 % Ref: https://bugs.openjdk.org/browse/JDK-8274840
 
 function [os, version, b] = os_version(backend)
-if nargin < 1
-  backend = {'shell', 'python', 'dotnet', 'java'};
-else
-  backend = cellstr(backend);
+arguments
+  backend (1,:) string = ["shell", "python", "dotnet", "java"];
 end
 
 os = '';
 version = '';
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'java'
       [os, version] = stdlib.java.os_version();

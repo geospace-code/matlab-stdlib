@@ -3,18 +3,13 @@
 % <https://www.mathworks.com/help/parallel-computing/recommended-system-limits-for-macintosh-and-linux.html Parallel Computing>
 
 function [omax, b] = get_max_open_files(backend)
-
-if nargin < 1
-  backend = {'python', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  backend (1,:) string = ["python", "shell"]
 end
 
 omax = uint64([]);
 
-for j = 1:numel(backend)
-	b = backend{j};
-
+for b = backend
 	switch b
 		case 'python'
 			if stdlib.has_python()
@@ -32,8 +27,3 @@ for j = 1:numel(backend)
 end
 
 end
-
-%!test
-%! n = stdlib.get_max_open_files();
-%! assert(isscalar(n));
-%! assert(n > 0);

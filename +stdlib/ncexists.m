@@ -7,6 +7,10 @@
 % * exists: boolean
 
 function exists = ncexists(file, variable)
+arguments
+  file {mustBeTextScalar, mustBeFile}
+  variable {mustBeTextScalar}
+end
 
 try
   ncinfo(file, variable);

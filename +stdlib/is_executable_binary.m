@@ -18,6 +18,9 @@
 % (ELF) formats.
 
 function y = is_executable_binary(filename)
+arguments
+  filename {mustBeTextScalar}
+end
 
 y = false;
 

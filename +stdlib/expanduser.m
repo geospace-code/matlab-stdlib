@@ -10,6 +10,9 @@
 % * e: expanded path
 
 function e = expanduser(file)
+arguments
+  file {mustBeTextScalar}
+end
 
 e = char(file);
 
@@ -34,9 +37,3 @@ if isstring(file)
 end
 
 end
-
-
-%!assert(stdlib.expanduser('~'), stdlib.homedir())
-%!assert(stdlib.expanduser('~/'), stdlib.homedir())
-%!assert(stdlib.expanduser('~/abd'), [stdlib.homedir(), '/abd'])
-%!assert(stdlib.expanduser('abc'), 'abc')

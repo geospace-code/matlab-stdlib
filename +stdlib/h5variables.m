@@ -9,8 +9,9 @@
 % * names: variable names
 
 function names = h5variables(file, group)
-if nargin < 2
-  group = '/';
+arguments
+  file {mustBeTextScalar}
+  group {mustBeTextScalar} = '/'
 end
 
 finf = h5info(file, group);

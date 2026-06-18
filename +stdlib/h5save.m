@@ -18,23 +18,15 @@
 % Likewise, the type of the dataset may be explicitly specified with the 'type' argument.
 %  h5save(filename, dataset_name, dataset, type='int32')
 
-function h5save(filename, varname, A, varargin)
-% arguments
-%   filename (1,1) string
-%   varname (1,1) string
-%   A {mustBeNonempty}
-%   opts.size (1,:) double {mustBeInteger,mustBeNonnegative} = []
-%   opts.type (1,1) string = ''
-%   opts.compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0
-% end
-
-p = inputParser;
-addParameter(p, 'size', []);
-addParameter(p, 'type', '');
-addParameter(p, 'compressLevel', 0, @(x) mustBeInteger(x) && mustBeNonnegative(x));
-parse(p, varargin{:});
-
-opts = p.Results;
+function h5save(filename, varname, A, opts)
+arguments
+  filename (1,1) string
+  varname (1,1) string
+  A {mustBeNonempty}
+  opts.size (1,:) double {mustBeInteger,mustBeNonnegative} = []
+  opts.type (1,1) string = ''
+  opts.compressLevel (1,1) double {mustBeInteger,mustBeNonnegative} = 0
+end
 
 if isnumeric(A)
   mustBeReal(A)
@@ -50,7 +42,7 @@ try
   h5save_exist(filename, varname, A, opts.size)
 catch e
   switch e.identifier
-    case {'MATLAB:imagesci:hdf5io:resourceNotFound', 'MATLAB:imagesci:h5info:unableToFind', 'MATLAB:imagesci:h5info:fileOpenErr', 'MATLAB:imagesci:h5info:libraryError'}
+      case {'MATLAB:validators:mustBeFile', 'MATLAB:imagesci:hdf5io:resourceNotFound', 'MATLAB:imagesci:h5info:unableToFind', 'MATLAB:imagesci:h5info:fileOpenErr', 'MATLAB:imagesci:h5info:libraryError'}
       h5save_new(filename, varname, A, opts.size, opts.compressLevel)
     otherwise
       rethrow(e)

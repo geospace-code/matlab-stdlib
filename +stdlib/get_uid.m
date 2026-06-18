@@ -7,16 +7,13 @@
 % * b: backend used
 
 function [i, b] = get_uid(backend)
-if nargin < 1
-  backend = {'dotnet', 'python', 'perl'};
-else
-  backend = cellstr(backend);
+arguments
+  backend (1,:) string = ["dotnet", "python", "perl"]
 end
 
 i = [];
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'dotnet'
       i = stdlib.dotnet.get_uid();
@@ -36,6 +33,3 @@ for j = 1:numel(backend)
 end
 
 end
-
-%!test
-%! mustBeInteger(stdlib.get_uid())

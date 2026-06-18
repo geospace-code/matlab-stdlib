@@ -4,6 +4,9 @@
 % * non-Windows, absolute paths must start with a slash
 
 function y = is_absolute(p)
+arguments
+  p {mustBeTextScalar}
+end
 
 y = ~stdlib.strempty(stdlib.root_dir(p));
 
@@ -12,5 +15,3 @@ if ispc() && y
 end
 
 end
-
-%!assert (~stdlib.is_absolute('a'))

@@ -12,6 +12,12 @@
 % native backend is much more robust, if available
 
 function [ok, b] = set_permissions(file, readable, writable, executable)
+arguments
+  file {mustBeTextScalar, mustBeFileOrFolder}
+  readable (1,1) {mustBeInteger, mustBeMember(readable, [-1, 0, 1])}
+  writable (1,1) {mustBeInteger, mustBeMember(writable, [-1, 0, 1])}
+  executable (1,1) {mustBeInteger, mustBeMember(executable, [-1, 0, 1])}
+end
 
 try
   ok = stdlib.native.set_permissions(file, readable, writable, executable);

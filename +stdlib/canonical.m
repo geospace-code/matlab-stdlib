@@ -13,8 +13,9 @@
 % * c: canonical path, if determined
 
 function c = canonical(file, strict)
-if nargin < 2
-  strict = false;
+arguments
+  file {mustBeTextScalar}
+  strict (1,1) logical = false
 end
 
 c = '';
@@ -26,20 +27,22 @@ try
     c = char(c);
   end
 catch e
-  switch e.identifier
-    case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
-      if ~strict && ~stdlib.strempty(file)
-        c = stdlib.normalize(file);
-      end
-    case {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}
-      [s, r] = fileAttribCompatible(file);
-      if s == 1
-        c = r.Name;
-      elseif ~strict && ~stdlib.strempty(r)
-        c = stdlib.normalize(file);
-      end
-    otherwise
-      rethrow(e)
+  if ~stdlib.strempty(file)
+    switch e.identifier
+      case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
+        if ~strict
+          c = stdlib.normalize(file);
+        end
+      case {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}
+        [s, r] = fileattrib(file);
+        if s == 1
+          c = r.Name;
+        elseif ~strict
+          c = stdlib.normalize(file);
+        end
+      otherwise
+        rethrow(e)
+    end
   end
 
   if isstring(file)
@@ -48,5 +51,3 @@ catch e
 end
 
 end
-
-%!assert (length(stdlib.canonical('.')) > 1)

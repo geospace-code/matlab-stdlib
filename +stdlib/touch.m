@@ -1,6 +1,9 @@
 %% TOUCH create file if not exists, else update modification time
 
 function ok = touch(file)
+arguments
+  file {mustBeTextScalar}
+end
 
 fid = fopen(file, 'a');
 ok = fid > 0 && fclose(fid) == 0;
@@ -10,9 +13,3 @@ if ok
 end
 
 end
-
-%!test
-%! addpath([pwd() '/+java/private'])
-%! f = tempname();
-%! assert(stdlib.touch(f))
-%! assert(stdlib.remove(f))

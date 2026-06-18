@@ -28,11 +28,8 @@ import matlab.unittest.constraints.IsSubsetOf
 
 
 readme = fullfile(tc.root, 'Readme.md');
-if stdlib.matlabOlderThan('R2018a')
-  tc.assertTrue(isfile(readme))
-else
-  tc.assertThat(readme, matlab.unittest.constraints.IsFile)
-end
+
+tc.assertThat(readme, matlab.unittest.constraints.IsFile)
 
 [i, b] = stdlib.cpu_load();
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('cpu_load').backends))
@@ -138,11 +135,7 @@ tc.verifyGreaterThan(i, 0)
 
 [i, b] = stdlib.read_symlink('Readme.lnk');
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('read_symlink').backends))
-if stdlib.matlabOlderThan('R2018a')
-  tc.assertTrue(isfile(i))
-else
-  tc.assertThat(i, matlab.unittest.constraints.IsFile)
-end
+tc.assertThat(i, matlab.unittest.constraints.IsFile)
 
 [i, b] = stdlib.samepath(readme, readme);
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('samepath').backends))

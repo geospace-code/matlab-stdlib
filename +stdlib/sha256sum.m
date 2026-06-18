@@ -2,5 +2,10 @@
 
 
 function hash = sha256sum(file)
+arguments
+  file {mustBeTextScalar, mustBeFile}
+end
+
 hash = stdlib.file_checksum(file, 'SHA-256');
+
 end

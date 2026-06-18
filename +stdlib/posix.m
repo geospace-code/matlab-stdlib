@@ -4,6 +4,9 @@
 %
 
 function r = posix(p)
+arguments
+  p {mustBeTextScalar}
+end
 
 if ispc
   r = strrep(p, '\', '/');
@@ -12,5 +15,3 @@ else
 end
 
 end
-
-%!assert (stdlib.posix('/'), '/')

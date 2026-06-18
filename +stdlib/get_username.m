@@ -7,10 +7,8 @@
 % * b: backend used
 
 function [r, b] = get_username(backend)
-if nargin < 1
-  backend = {'java', 'dotnet', 'python', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  backend (1,:) string = ["java", "dotnet", "python", "shell"]
 end
 
 r = '';

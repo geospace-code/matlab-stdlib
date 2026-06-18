@@ -30,7 +30,7 @@ methods(Test)
 
 function test_samepath(tc, p, backend)
 [r, b] = stdlib.samepath(p{:}, backend);
-tc.assertEqual(b, backend)
+tc.assertMatches(b, backend)
 tc.verifyClass(r, 'logical')
 
 if ismember(backend, stdlib.Backend().select('samepath'))
@@ -51,19 +51,8 @@ end
 end
 
 
-function test_samepath_notexist(tc, backend)
-
-t = tempname();
-r1 = stdlib.samepath('', '', backend);
-r2 = stdlib.samepath(t, t, backend);
-
-if ismember(backend, stdlib.Backend().select('samepath'))
-  tc.verifyFalse(r1)
-  tc.verifyFalse(r2)
-else
-  tc.assertEmpty(r1)
-  tc.assertEmpty(r2)
-end
+function test_samepath_notexist(tc)
+tc.verifyError(@() stdlib.samepath(tempname(), tempname()), 'MATLAB:validators:mustBeFileOrFolder')
 end
 
 end
