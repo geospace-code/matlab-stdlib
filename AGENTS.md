@@ -44,7 +44,7 @@ These rules apply under the namespace "stdlib" (directory +stdlib/) and all its 
 
 - The code syntax must work for Matlab >= R2020b
 - The code must not require any Matlab toolboxes, only base Matlab functionality
-- Prohibited to use Matlab factory function "isMATLABReleaseOlderThan()" as it is slow. Instead we use stdlib.matlabOlderThan() which is like 200x faster than isMATLABReleaseOlderThan() and works for Matlab >= R2016b
+- Prohibited to use Matlab factory function "isMATLABReleaseOlderThan()" as it is slow, except in ./test_main.m or ./buildfile.m. Instead we use stdlib.matlabOlderThan() which is like 200x faster than isMATLABReleaseOlderThan() and works for Matlab >= R2016b
 - When an exception is encountered, we generally desire that the code return an "empty" value of the appropriate type. In certain cases we may throw or rethrow an error.
 - where the output represents a filesystem path, the output should be a string type if any input is string type, otherwise char type.
 

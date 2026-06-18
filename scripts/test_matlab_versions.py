@@ -38,6 +38,6 @@ def test_matlab_version(version):
     elif version >= "2019a":
         cmd = lcmd + "matlab -batch test_main"
     else:
-        cmd = lcmd + "matlab -r 'test_main; exit'"
+        cmd = lcmd + "matlab -batch 'test_main'"
 
     subprocess.check_call(cmd, shell=True, cwd=R)
