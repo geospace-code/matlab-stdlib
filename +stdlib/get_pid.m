@@ -2,19 +2,10 @@
 
 function pid = get_pid()
 
-try
+if stdlib.matlabOlderThan('R2025a')
+  pid = uint64(feature('getpid'));
+else
   pid = matlabProcessID;
-catch e
-  switch e.identifier
-    case 'MATLAB:UndefinedFunction'
-      pid = feature('getpid');
-    case 'Octave:undefined-function'
-      pid = getpid();
-    otherwise
-      rethrow(e)
-  end
 end
-
-pid = uint64(pid);
 
 end
