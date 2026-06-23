@@ -5,7 +5,7 @@ try
   i = double(p.PriorityClass);
 catch e
   dotnetException(e)
-  i = [];
+  i = missing;
 end
 
 end

@@ -1,7 +1,7 @@
 function y = is_admin()
 
 
-y = logical([]);
+y = missing;
 
 try
 

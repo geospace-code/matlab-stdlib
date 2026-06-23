@@ -7,7 +7,7 @@ try
   n = char(System.Environment.UserName);
 catch e
   dotnetException(e)
-  n = '';
+  n = missing;
 end
 
 end

@@ -81,9 +81,9 @@ end
 function test_is_mount(tc, B_ps)
 [y,b] = stdlib.is_mount(pwd(), B_ps);
 tc.assertMatches(b, B_ps)
-tc.verifyClass(y, 'logical')
 
 if ismember(B_ps, stdlib.Backend().select('is_mount'))
+  tc.verifyClass(y, 'logical')
   tc.verifyTrue(stdlib.is_mount('/', B_ps))
   tc.verifyFalse(stdlib.is_mount(tempname(), B_ps))
 
@@ -95,7 +95,7 @@ if ismember(B_ps, stdlib.Backend().select('is_mount'))
     tc.verifyTrue(stdlib.is_mount([sd filesep], B_ps), sd)
   end
 else
-  tc.verifyEmpty(y)
+  tc.verifyEqual(y, missing)
 end
 end
 
@@ -110,11 +110,11 @@ tc.assertMatches(b, B_jps)
 if ismember(B_jps, stdlib.Backend().select('hard_link_count'))
   tc.verifyGreaterThanOrEqual(i, 1)
 else
-  tc.assertEmpty(i)
+  tc.assertEqual(i, missing)
 end
 
 i = stdlib.hard_link_count('');
-tc.verifyEmpty(i)
+  tc.verifyEqual(i, missing)
 end
 
 

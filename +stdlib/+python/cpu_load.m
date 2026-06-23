@@ -1,6 +1,6 @@
 function L = cpu_load()
 
-L = [];
+L = missing;
 
 try %#ok<TRYNC>
   L = py.os.getloadavg();

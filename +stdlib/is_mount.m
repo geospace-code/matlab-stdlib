@@ -19,7 +19,7 @@ else
   backend = cellstr(backend);
 end
 
-i = logical([]);
+i = missing;
 
 for j = 1:numel(backend)
   b = backend{j};
@@ -34,7 +34,7 @@ for j = 1:numel(backend)
       error('stdlib:is_mount:ValueError', 'Unknown backend: %s', b)
   end
 
-  if ~isempty(i)
+  if ~ismissing(i)
     return
   end
 end

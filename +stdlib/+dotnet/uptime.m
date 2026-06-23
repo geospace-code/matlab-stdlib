@@ -8,7 +8,7 @@ try
   t = ts.TotalSeconds;
 catch e
   dotnetException(e)
-  t = [];
+  t = missing;
 end
 
 end

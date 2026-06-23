@@ -4,7 +4,7 @@ try
   n = char(javaMethod('getProperty', 'java.lang.System', 'user.name'));
 catch e
   javaException(e)
-  n = '';
+  n = missing;
 end
 
 end

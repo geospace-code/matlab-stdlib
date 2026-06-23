@@ -17,26 +17,25 @@ methods (Test)
 function test_is_admin(tc, B_jdpps)
 [i, b] = stdlib.is_admin(B_jdpps);
 tc.assertMatches(b, B_jdpps)
-tc.verifyClass(i, 'logical')
 
 if ismember(B_jdpps, stdlib.Backend().select('is_admin'))
-  tc.verifyNotEmpty(i)
+  tc.verifyClass(i, 'logical')
 else
-  tc.verifyEmpty(i)
+  tc.verifyEqual(i, missing)
 end
 end
 
 
 function test_cpu_load(tc, B_jps)
 [r, b] = stdlib.cpu_load(B_jps);
-tc.assertClass(r, 'double')
 tc.assertMatches(b, B_jps)
 
 if ismember(B_jps, stdlib.Backend().select('cpu_load'))
+  tc.assertClass(r, 'double')
   tc.verifyGreaterThanOrEqual(r, 0.)
   % some CI systems report 0
 else
-  tc.verifyEmpty(r)
+  tc.verifyEqual(r, missing)
 end
 end
 
@@ -45,12 +44,11 @@ function test_process_priority(tc, B_dps)
 import matlab.unittest.constraints.IsSubsetOf
 [r, b] = stdlib.get_process_priority(B_dps);
 tc.assertMatches(b, B_dps)
-tc.verifyThat({class(r)}, IsSubsetOf({'double', 'char'}))
 
 if ismember(B_dps, stdlib.Backend().select('get_process_priority'))
-  tc.verifyNotEmpty(r)
+  tc.verifyThat({class(r)}, IsSubsetOf({'double', 'char'}))
 else
-  tc.verifyEmpty(r)
+  tc.verifyEqual(r, missing)
 end
 end
 
@@ -99,10 +97,10 @@ if ismember(B_dpp, stdlib.Backend().select('get_uid'))
     tc.verifyClass(u, 'char')
     tc.verifyGreaterThan(strlength(u), 0)
   else
-    tc.verifyNotEmpty(u)
+    tc.verifyNotEqual(u, missing)
   end
 else
-  tc.verifyEmpty(u)
+  tc.verifyEqual(u, missing)
 end
 end
 
@@ -110,12 +108,12 @@ end
 function test_username(tc, B_jdps)
 [u, b] = stdlib.get_username(B_jdps);
 tc.assertMatches(b, B_jdps)
-tc.verifyClass(u, 'char')
 
 if ismember(B_jdps, stdlib.Backend().select('get_username'))
+  tc.verifyClass(u, 'char')
   tc.verifyGreaterThan(strlength(u), 0)
 else
-  tc.verifyEmpty(u)
+  tc.verifyEqual(u, missing)
 end
 end
 

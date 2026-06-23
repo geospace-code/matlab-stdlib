@@ -10,7 +10,7 @@ arguments
   file {mustBeTextScalar}
 end
 
-s = [];
+s = missing;
 
 d = dir(file);
 

@@ -1,7 +1,6 @@
 function i = get_process_priority()
 
-
-i = [];
+i = missing;
 
 if ~ispc()
   try

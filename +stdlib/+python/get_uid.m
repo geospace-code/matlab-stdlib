@@ -1,6 +1,6 @@
 function u = get_uid()
 
-u = [];
+u = missing;
 
 if isunix()
   try

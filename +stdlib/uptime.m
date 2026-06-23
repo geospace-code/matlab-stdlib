@@ -9,7 +9,7 @@ arguments
   backend (1,:) string = ["dotnet", "python", "shell"]
 end
 
-r = '';
+r = missing;
 
 for b = backend
   switch b
@@ -25,7 +25,7 @@ for b = backend
       error('stdlib:uptime:ValueError', 'Unknown backend: %s', b)
   end
 
-  if ~isempty(r)
+  if ~ismissing(r)
     return
   end
 end

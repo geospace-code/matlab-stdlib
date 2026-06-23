@@ -16,7 +16,7 @@ if s == 0
     i = str2double(m);
   end
 else
-  i = [];
+  i = missing;
 end
 
 end

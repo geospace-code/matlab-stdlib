@@ -3,7 +3,7 @@
 function y = is_admin()
 
 
-y = logical([]);
+y = missing;
 if ~ispc()
   return
 end

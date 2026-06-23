@@ -49,7 +49,7 @@ if ismember(B_dps, stdlib.Backend().select('uptime'))
   tc.verifyClass(t1, 'double')
 else
   t1 = stdlib.uptime(B_dps);
-  tc.verifyEmpty(t1)
+  tc.verifyEqual(t1, missing)
 end
 end
 
