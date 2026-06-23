@@ -13,19 +13,11 @@ end
 
 n = name;
 
-try
-
+if ~stdlib.matlabOlderThan('R2026a')
   f = namespaceFunctions(name);
   if ~isempty(f)
     n = f(1).NamespaceName + "." + string({f.Name});
   end
-
-catch e
-
-  if ~strcmp(e.identifier, 'MATLAB:UndefinedFunction')
-    rethrow(e)
-  end
-
 end
 
 if ispc()
