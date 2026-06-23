@@ -3,11 +3,9 @@
 function h = java_home()
 
 try
-  h = javaMethod('getProperty', 'java.lang.System', 'java.home');
+  h = char(javaMethod('getProperty', 'java.lang.System', 'java.home'));
 catch
-  h = '';
+  h = missing;
 end
-
-h = char(h);
 
 end
