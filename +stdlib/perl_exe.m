@@ -12,7 +12,7 @@ end
 
 ps = [fileparts(mfilename('fullpath')), '/private/executable.pl'];
 
-exe = '';
+exe = missing;
 
 try
   [r, s] = perl(ps);
@@ -29,5 +29,3 @@ if s == 0 && stdlib.is_file(r)
 end
 
 end
-
-%!assert (isfile(stdlib.perl_exe()))

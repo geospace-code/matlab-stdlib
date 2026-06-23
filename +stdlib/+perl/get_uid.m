@@ -8,7 +8,7 @@ if ispc()
 end
 
 exe = stdlib.perl_exe();
-if stdlib.strempty(exe)
+if ismissing(exe)
   return
 end
 

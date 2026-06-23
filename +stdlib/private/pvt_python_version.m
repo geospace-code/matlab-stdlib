@@ -1,6 +1,6 @@
 function v = pvt_python_version()
 
-v = [];
+v = missing;
 
 pe = pyenv();
 % e.g. bad lexical cast: source type value could not be interpreted as target

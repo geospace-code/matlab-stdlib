@@ -5,7 +5,7 @@ function [i, cmd] = device(file)
 i = missing;
 
 exe = stdlib.perl_exe();
-if stdlib.strempty(exe)
+if ismissing(exe)
   return
 end
 

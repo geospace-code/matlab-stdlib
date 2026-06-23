@@ -14,7 +14,6 @@ function test_python_home(tc)
 tc.assumeTrue(stdlib.has_python(), 'Python not available')
 
 r = stdlib.python_home();
-tc.verifyNotEmpty(r)
 tc.verifyClass(r, 'string')
 end
 

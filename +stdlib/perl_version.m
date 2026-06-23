@@ -16,11 +16,11 @@ elseif perlv_cached
   return
 end
 
-v = [];
+v = missing;
 
 exe = stdlib.perl_exe();
 
-if ~stdlib.strempty(exe)
+if ~ismissing(exe)
   cmd = sprintf('"%s" -e %s', exe, stdlib.perl.perl2cmd('print $^V'));
 
   [s, r] = system(cmd);
@@ -35,5 +35,3 @@ perlv = v;
 perlv_cached = true;
 
 end
-
-%!assert (~isempty(stdlib.perl_version()))

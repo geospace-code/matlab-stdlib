@@ -11,7 +11,7 @@ end
 y = missing;
 
 exe = stdlib.perl_exe();
-if stdlib.strempty(exe)
+if ismissing(exe)
   return
 end
 
@@ -19,6 +19,6 @@ cmd = sprintf('"%s" -e "%s"', exe, c);
 
 [s, m] = system(cmd);
 
-y = s == 0 && m == "1";
+y = s == 0 && m(1) == '1';
 
 end

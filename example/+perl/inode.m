@@ -6,7 +6,7 @@ function [i, cmd] = inode(file)
 i = missing;
 
 exe = stdlib.perl_exe();
-if stdlib.strempty(exe)
+if ismissing(exe)
   return
 end
 
