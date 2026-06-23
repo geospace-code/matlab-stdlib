@@ -1,6 +1,6 @@
 function [t, cmd] = filesystem_type(file)
 
-t = '';
+t = missing;
 
 if ispc()
   cmd = sprintf('pwsh -c ([System.IO.DriveInfo][System.IO.Path]::GetFullPath(''%s'')).DriveFormat', file);
