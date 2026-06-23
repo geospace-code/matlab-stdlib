@@ -1,6 +1,6 @@
 function [o, cmd] = get_owner(file)
 
-o = '';
+o = missing;
 
 if ispc()
   cmd = sprintf('pwsh -c "if($x=Get-Acl -Path ''%s'') {$x.Owner}"', file);

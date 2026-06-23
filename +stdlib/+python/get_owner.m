@@ -1,6 +1,6 @@
 function n = get_owner(file)
 
-n = '';
+n = missing;
 
 if stdlib.strempty(file)
   return
