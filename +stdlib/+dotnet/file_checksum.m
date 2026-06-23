@@ -23,7 +23,7 @@ try
   hash = sprintf('%.2x', uint8(inst.Hash));
 catch e
   dotnetException(e)
-  hash = '';
+  hash = missing;
 end
 
 fclose(fid);

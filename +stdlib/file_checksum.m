@@ -19,7 +19,7 @@ arguments
   backend (1,:) string = ["java", "dotnet", "shell"]
 end
 
-r = '';
+r = missing;
 
 for b = backend
   switch b
@@ -33,7 +33,7 @@ for b = backend
       error('stdlib:file_checksum:ValueError', 'Unknown backend: %s', b)
   end
 
-  if ~isempty(r)
+  if ~ismissing(r)
     return
   end
 end
