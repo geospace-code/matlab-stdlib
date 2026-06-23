@@ -13,20 +13,15 @@ arguments
   file {mustBeTextScalar}
 end
 
-try
+if stdlib.matlabOlderThan('R2025a')
+  if ~stdlib.exists(file)
+    error('MATLAB:io:filesystem:filePermissions:CannotFindLocation', '%s', file)
+  end
+  perm = perm2char(file_attributes(file));
+  b = 'legacy';
+else
   perm = perm2char(filePermissions(file));
   b = 'native';
-catch e
-  switch e.identifier
-    case {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}
-      perm = perm2char(file_attributes(file));
-      b = 'legacy';
-    case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
-      perm = '';
-      b = '';
-    otherwise
-      rethrow(e)
-  end
 end
 
 end

@@ -10,19 +10,12 @@ arguments
   file {mustBeTextScalar}
 end
 
-try
+if stdlib.matlabOlderThan('R2025a')
+  a = file_attributes(file);
+  y = a.UserWrite || a.GroupWrite || a.OtherWrite;
+else
   a = filePermissions(file);
   y = a.Writable;
-catch e
-  switch e.identifier
-    case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
-      y = false;
-    case {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}
-      a = file_attributes(file);
-      y = ~isempty(a) && (a.UserWrite || a.GroupWrite || a.OtherWrite);
-    otherwise
-      rethrow(e)
-  end
 end
 
 end

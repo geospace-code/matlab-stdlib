@@ -16,9 +16,14 @@ y = false;
 if ispc() && ~has_windows_executable_suffix(file)
   return
 end
+if ~stdlib.exists(file)
+  return
+end
 
-
-try
+if stdlib.matlabOlderThan('R2025a')
+  a = file_attributes(file);
+  y = ~a.directory && (a.UserExecute || a.GroupExecute || a.OtherExecute);
+else
   a = filePermissions(file);
   if a.Type == matlab.io.FileSystemEntryType.File
     if ispc
@@ -27,16 +32,7 @@ try
       y = a.UserExecute || a.GroupExecute || a.OtherExecute;
     end
   end
-catch e
-  switch e.identifier
-    case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
-      y = false;
-    case {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}
-      a = file_attributes(file);
-      y = ~isempty(a) && ~a.directory && (a.UserExecute || a.GroupExecute || a.OtherExecute);
-    otherwise
-      rethrow(e)
-  end
+
 end
 
 end

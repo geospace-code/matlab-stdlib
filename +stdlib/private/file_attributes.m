@@ -3,7 +3,7 @@ function r = file_attributes(file)
 [s, r] = fileattrib(file);
 
 if s ~= 1
-  r = struct([]);
+  r = missing;
   return
 end
 
