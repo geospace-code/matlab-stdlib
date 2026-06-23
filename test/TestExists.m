@@ -66,14 +66,14 @@ n = stdlib.null_file();
 
 [r, b] = stdlib.is_char_device(n, B_is_char_device);
 tc.assertMatches(b, B_is_char_device)
-tc.assertClass(r, 'logical')
 
 if ismember(B_is_char_device, stdlib.Backend().select('is_char_device'))
+  tc.assertClass(r, 'logical')
   tc.verifyTrue(r, n)
 
   tc.verifyTrue(stdlib.is_char_device(string(n), B_is_char_device))
 else
-  tc.verifyEmpty(r)
+  tc.verifyEqual(r, missing)
 end
 end
 end

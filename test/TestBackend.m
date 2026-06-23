@@ -96,7 +96,7 @@ tc.verifyNotEmpty(i)
 
 [i,b] = stdlib.is_char_device('.');
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('is_char_device').backends));
-tc.verifyNotEmpty(i);
+tc.verifyNotEqual(i, missing);
 
 [i, b] = stdlib.is_dev_drive('.');
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('is_dev_drive').backends))
