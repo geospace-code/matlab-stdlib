@@ -14,7 +14,7 @@ arguments
 end
 
 
-i = logical([]);
+i = missing;
 
 for b = backend
   switch b
@@ -34,7 +34,7 @@ for b = backend
       error('stdlib:is_symlink:ValueError', 'Unknown backend: %s', b)
   end
 
-  if ~isempty(i)
+  if ~ismissing(i)
     return
   end
 end

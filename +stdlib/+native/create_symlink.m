@@ -1,5 +1,11 @@
 function i = create_symlink(target, link)
 
+i = missing;
+
+if stdlib.matlabOlderThan('R2024b')
+  return
+end
+
 try
   createSymbolicLink(link, target);
   i = true;
@@ -12,8 +18,6 @@ catch e
       else
         rethrow(e)
       end
-    case {'MATLAB:UndefinedFunction'}
-      i = logical([]);
     case {'MATLAB:io:filesystem:symlink:FileExists', 'MATLAB:io:filesystem:symlink:TargetNotFound'}
       i = false;
     otherwise

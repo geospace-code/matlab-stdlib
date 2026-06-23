@@ -18,7 +18,7 @@ try
   end
 catch e
   dotnetException(e)
-  y = logical([]);
+  y = missing;
 end
 
 end

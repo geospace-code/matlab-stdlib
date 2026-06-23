@@ -10,7 +10,7 @@ try
   y = javaMethod('isSymbolicLink', 'java.nio.file.Files', p);
 catch e
   javaException(e)
-  y = logical([]);
+  y = missing;
 end
 
 end
