@@ -3,8 +3,7 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
   TestCanonical < matlab.unittest.TestCase
 
 properties (TestParameter)
-p = {{'', ''}, ...
-{'', ''}, ...
+p = {
 {'not-exist', 'not-exist'}, ...
 {'a/../b', 'a/../b'}, ...
 {'not-exist/a/..', 'not-exist/a/..'}, ...
@@ -27,9 +26,17 @@ tc.verifyEqual(c, p{2})
 tc.verifyEqual(stdlib.canonical(string(p{1}), false), string(p{2}))
 end
 
-function test_canonical_cwd(tc)
+function test_canonical_empty(tc)
+tc.verifyEqual(stdlib.canonical('', false), pwd())
+tc.verifyEqual(stdlib.canonical('', true), pwd())
+tc.verifyEqual(stdlib.canonical(""), string(pwd()))
+end
+
+function test_canonical_strict(tc)
 c = stdlib.canonical('.', true);
 tc.verifyEqual(c, pwd())
+
+tc.verifyEqual(stdlib.canonical('not-exist', true), missing)
 end
 
 end

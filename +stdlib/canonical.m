@@ -18,36 +18,27 @@ arguments
   strict (1,1) logical = false
 end
 
-c = '';
-
-try
+if stdlib.strempty(file)
+  c = pwd();
+elseif ~stdlib.exists(file)
+  if strict
+    c = missing;
+    return
+  end
+  c = stdlib.normalize(file);
+elseif stdlib.matlabOlderThan('R2025a')
+  c = stdlib.legacy.canonical(file);
+elseif stdlib.matlabOlderThan('R2026b')
   p = filePermissions(file);
   c = p.AbsolutePath;
-  if ischar(file)
-    c = char(c);
-  end
-catch e
-  if ~stdlib.strempty(file)
-    switch e.identifier
-      case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
-        if ~strict
-          c = stdlib.normalize(file);
-        end
-      case {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}
-        [s, r] = fileattrib(file);
-        if s == 1
-          c = r.Name;
-        elseif ~strict
-          c = stdlib.normalize(file);
-        end
-      otherwise
-        rethrow(e)
-    end
-  end
+else
+  c = resolveFilePath(file, ResolveSymbolicLinks=true);
+end
 
-  if isstring(file)
-    c = string(c);
-  end
+if isstring(file)
+  c = string(c);
+elseif ischar(file)
+  c = char(c);
 end
 
 end
