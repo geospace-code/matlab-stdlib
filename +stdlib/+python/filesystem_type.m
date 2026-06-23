@@ -1,6 +1,6 @@
 function t = filesystem_type(file)
 
-t = '';
+t = missing;
 
 try
 % important for heuristic matching

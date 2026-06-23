@@ -3,7 +3,7 @@
 function t = filesystem_type(file)
 
 
-t = '';
+t = missing;
 % Windows needs exists() not just strempty()
 if ~stdlib.exists(file)
   return

@@ -121,18 +121,17 @@ end
 function test_filesystem_type(tc, Ps, B_jdps)
 [t, b] = stdlib.filesystem_type(Ps, B_jdps);
 tc.assertMatches(b, B_jdps)
-tc.verifyClass(t, 'char')
 
 if ismember(B_jdps, stdlib.Backend().select('filesystem_type'))
   if ~stdlib.exists(Ps)
-    tc.verifyEmpty(t)
+    tc.verifyEqual(t, missing)
   else
-    tc.assumeFalse(isempty(t) && tc.CI, 'Some CI block viewing their filesystem type')
-    tc.assertNotEmpty(t)
+    tc.verifyClass(t, 'char')
+    tc.assumeFalse(any(ismissing(t)) && tc.CI, 'Some CI block viewing their filesystem type')
     tc.verifyGreaterThan(strlength(t), 0)
   end
 else
-  tc.verifyEmpty(t)
+  tc.verifyEqual(t, missing)
 end
 end
 

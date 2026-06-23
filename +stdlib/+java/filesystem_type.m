@@ -3,7 +3,7 @@
 
 function t = filesystem_type(file)
 
-t = '';
+t = missing;
 if stdlib.strempty(file)
   return
 end
