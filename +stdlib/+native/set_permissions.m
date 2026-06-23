@@ -1,9 +1,5 @@
 function ok = set_permissions(file, readable, writable, executable)
 
-mustBeInteger(readable)
-mustBeInteger(writable)
-mustBeInteger(executable)
-
 p = filePermissions(file);
 
 assert(isscalar(p), "set_permissions: one file only")
