@@ -6,7 +6,8 @@ file = 'perm.txt'
 end
 
 properties (TestParameter)
-Ps = {'.', pwd(), '', tempname(), 'perm.txt'}
+Ps = {'.', pwd(), 'perm.txt'}
+Pe = {'', tempname()}
 end
 
 
@@ -20,25 +21,28 @@ end
 
 methods (Test, TestTags={'R2016a'})
 
+function test_not_exist(tc, Pe)
+
+e = 'MATLAB:io:filesystem:filePermissions:CannotFindLocation';
+tc.verifyError(@() stdlib.get_permissions(Pe), e)
+
+end
+
 function test_get_permissions(tc, Ps)
 import matlab.unittest.constraints.StartsWithSubstring
 
 [p, b] = stdlib.get_permissions(Ps);
 tc.verifyClass(p, 'char')
 
-if ~stdlib.exists(Ps)
-  tc.verifyEmpty(p)
+if stdlib.matlabOlderThan('R2025a')
+  tc.assertEqual(b, 'legacy')
 else
-  if stdlib.matlabOlderThan('R2025a')
-    tc.assertEqual(b, 'legacy')
-  else
-    tc.assertEqual(b, 'native')
-  end
+  tc.assertEqual(b, 'native')
+end
 
-  tc.verifyThat(p, StartsWithSubstring('r'))
-  if ~ispc() && strcmp(Ps, tc.file)
-    tc.verifyEqual(p(3), '-')
-  end
+tc.verifyThat(p, StartsWithSubstring('r'))
+if ~ispc() && strcmp(Ps, tc.file)
+  tc.verifyEqual(p(3), '-')
 end
 end
 

@@ -24,6 +24,10 @@ r = stdlib.exists(string(Ps{1}));
 tc.verifyEqual(r, Ps{2})
 end
 
+function test_not_exists(tc)
+tc.verifyFalse(stdlib.exists(''))
+tc.verifyFalse(stdlib.exists(tempname()))
+end
 
 function test_is_readable(tc, Ps)
 r = stdlib.is_readable(Ps{1});
@@ -33,12 +37,24 @@ r = stdlib.is_readable(string(Ps{1}));
 tc.verifyEqual(r, Ps{2});
 end
 
+function test_is_readable_not_exist(tc)
+e = 'MATLAB:io:filesystem:filePermissions:CannotFindLocation';
+tc.verifyError(@() stdlib.is_readable(''), e)
+tc.verifyError(@() stdlib.is_readable('not-here'), e)
+end
+
 function test_is_writable(tc, Ps)
 r = stdlib.is_writable(Ps{1});
 tc.verifyEqual(r, Ps{2})
 
 r = stdlib.is_writable(string(Ps{1}));
 tc.verifyEqual(r, Ps{2});
+end
+
+function test_is_writable_not_exist(tc)
+e = 'MATLAB:io:filesystem:filePermissions:CannotFindLocation';
+tc.verifyError(@() stdlib.is_writable(''), e)
+tc.verifyError(@() stdlib.is_writable('not-here'), e)
 end
 end
 
@@ -68,11 +84,7 @@ end
 function Ps = init_val()
 
 
-Ps = {
-  {pwd(), true}, ...
-  {tempname(), false}, ...
-  {'', false}
-};
+Ps = {{pwd(), true}};
 
 o = mfilename('fullpath');
 if ~isempty(o)

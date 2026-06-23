@@ -10,18 +10,15 @@ arguments
   file {mustBeTextScalar}
 end
 
-try
+if stdlib.matlabOlderThan('R2025a')
+  a = file_attributes(file);
+  y = a.UserRead || a.GroupRead || a.OtherRead;
+else
   a = filePermissions(file);
-  y = a.Readable;
-catch e
-  switch e.identifier
-    case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
-      y = false;
-    case {'MATLAB:UndefinedFunction', 'Octave:undefined-function'}
-      a = file_attributes(file);
-      y = ~isempty(a) && (a.UserRead || a.GroupRead || a.OtherRead);
-    otherwise
-      rethrow(e)
+  if ismissing(a)
+    y = missing;
+  else
+    y = a.Readable;
   end
 end
 
