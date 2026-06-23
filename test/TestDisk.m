@@ -62,10 +62,10 @@ end
 function test_ulimit(tc, B_ps)
 [i, b] = stdlib.get_max_open_files(B_ps);
 tc.assertMatches(b, B_ps)
-tc.verifyClass(i, 'uint64')
 if ispc() || (B_ps == "python" && ~stdlib.has_python())
-  tc.verifyEmpty(i)
+  tc.verifyEqual(i, missing)
 else
+  tc.verifyClass(i, 'uint64')
   tc.verifyGreaterThan(i, 0)
 end
 end

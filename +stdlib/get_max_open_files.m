@@ -7,7 +7,7 @@ arguments
   backend (1,:) string = ["python", "shell"]
 end
 
-omax = uint64([]);
+omax = missing;
 
 for b = backend
 	switch b
@@ -21,7 +21,7 @@ for b = backend
 			error('stdlib:get_max_open_files:ValueError', 'Unknown backend: %s', b)
 	end
 
-	if ~isempty(omax)
+	if ~ismissing(omax)
 		return
 	end
 end
