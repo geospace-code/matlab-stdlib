@@ -1,12 +1,12 @@
 function [n, cmd] = hostname()
 
+n = missing;
+
 cmd = 'hostname';
-[s, n] = system(cmd);
+[s, r] = system(cmd);
 
 if s == 0
-  n = deblank(n);
-else
-  n = '';
+  n = deblank(r);
 end
 
 end

@@ -9,7 +9,7 @@ try
   n = char(System.Net.Dns.GetHostName());
 catch e
   dotnetException(e);
-  n = '';
+  n = missing;
 end
 
 % https://learn.microsoft.com/en-us/dotnet/api/system.net.dns.gethostname

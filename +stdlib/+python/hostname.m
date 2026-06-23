@@ -4,7 +4,7 @@ try
   n = char(py.socket.gethostname());
 catch e
   pythonException(e)
-  n = '';
+  n = missing;
 end
 
 end
