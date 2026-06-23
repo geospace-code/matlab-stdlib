@@ -129,12 +129,12 @@ end
 function test_ram_total(tc, B_jdps)
 [t, b] = stdlib.ram_total(B_jdps);
 tc.assertMatches(b, B_jdps)
-tc.verifyClass(t, 'uint64')
 
 if ismember(B_jdps, stdlib.Backend().select('ram_total'))
+  tc.verifyClass(t, 'uint64')
   tc.verifyGreaterThan(t, 0)
 else
-  tc.verifyEmpty(t)
+  tc.verifyEqual(t, missing)
 end
 end
 
@@ -143,12 +143,12 @@ function test_ram_free(tc, B_jps)
 % don't verify less than or equal to total due to shaky system measurements'
 [f, b] = stdlib.ram_free(B_jps);
 tc.assertMatches(b, B_jps)
-tc.verifyClass(f, 'uint64')
 
 if ismember(B_jps, stdlib.Backend().select('ram_free'))
+  tc.verifyClass(f, 'uint64')
   tc.verifyGreaterThan(f, 0)
 else
-  tc.verifyEmpty(f)
+  tc.verifyEqual(f, missing)
 end
 end
 

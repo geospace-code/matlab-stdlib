@@ -15,7 +15,7 @@ arguments
 end
 
 
-i = logical([]);
+i = missing;
 
 for b = backend
   switch b
@@ -29,11 +29,9 @@ for b = backend
       error('stdlib:is_removable:ValueError', 'Unknown backend: %s', b)
   end
 
-  if ~isempty(i)
+  if ~ismissing(i)
     return
   end
 end
 
 end
-
-%!assert (islogical(stdlib.is_removable('.')))

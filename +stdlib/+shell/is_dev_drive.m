@@ -6,7 +6,7 @@ if ispc()
   if s == 0
     y = contains(m, ["This is a trusted developer volume", "this developer volume"]);
   else
-    y = logical([]);
+    y = missing;
   end
 else
   y = false;

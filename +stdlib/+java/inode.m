@@ -1,6 +1,6 @@
 function i = inode(file)
 
-i = uint64([]);
+i = missing;
 
 if stdlib.strempty(file)
   return
@@ -14,9 +14,9 @@ try
   p = javaAbsolutePath(file);
   i = javaMethod('getAttribute', 'java.nio.file.Files', p, 'unix:ino', opt);
   % i = java.nio.file.Files.getAttribute(javaAbsolutePath(file), "unix:ino", opt);
+  i = uint64(i);
 catch e
   javaException(e)
 end
 
-i = uint64(i);
 end

@@ -2,7 +2,7 @@
 
 function [i, cmd] = inode(file)
 
-i = [];
+i = missing;
 
 if ispc()
   % https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-file
@@ -26,8 +26,7 @@ if s == 0
   else
     i = str2double(m);
   end
+  i = uint64(i);
 end
-
-i = uint64(i);
 
 end

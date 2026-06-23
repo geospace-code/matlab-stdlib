@@ -1,6 +1,6 @@
 function [t, cmd] = disk_available(file)
 
-t = [];
+t = missing;
 
 if ispc()
   cmd = sprintf('pwsh -c ([System.IO.DriveInfo][System.IO.Path]::GetFullPath(''%s'')).AvailableFreeSpace', file);
@@ -17,12 +17,10 @@ else
 end
 
 if stdlib.exists(file)
-  [s, t] = system(cmd);
+  [s, r] = system(cmd);
   if s == 0
-    t = str2double(t);
+    t = uint64(str2double(r));
   end
 end
-
-t = uint64(t);
 
 end

@@ -8,11 +8,10 @@ try
   else
     bytes = b.getFreeMemorySize();
   end
+  bytes = uint64(bytes);
 catch e
   javaException(e)
-  bytes = [];
+  bytes = missing;
 end
-
-bytes = uint64(bytes);
 
 end

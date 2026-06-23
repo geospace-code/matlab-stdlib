@@ -60,7 +60,7 @@ if ismember(B_is_symlink, stdlib.Backend().select('read_symlink'))
   tc.verifyClass(r, 'string')
   tc.verifyEqual(r, string(tc.target))
 else
-  tc.verifyTrue(ismissing(r))
+  tc.verifyEqual(r, missing)
 end
 end
 

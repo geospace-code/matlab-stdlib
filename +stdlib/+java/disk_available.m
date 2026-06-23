@@ -4,13 +4,14 @@ try
   o = javaObject('java.io.File', file);
   i = javaMethod('getUsableSpace', o);
   if i < 1
-    i = [];
+    i = missing;
+  else
+    i = uint64(i);
   end
 catch e
   javaException(e)
-  i = [];
+  i = missing;
 end
 
-i = uint64(i);
 
 end

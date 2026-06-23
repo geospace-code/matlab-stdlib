@@ -7,10 +7,10 @@ try
     case 'free', i = u.free;
     otherwise, error('stdlib:python:disk_usage:valueError', 'unknown disk_usage property %s', v)
   end
+  i = uint64(i);
 catch
-  i = [];
+  i = missing;
 end
 
-i = uint64(i);
 
 end

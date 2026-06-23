@@ -101,9 +101,9 @@ tc.verifyNotEqual(i, missing);
 [i, b] = stdlib.is_dev_drive('.');
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('is_dev_drive').backends))
 if ~ispc() || stdlib.is_admin()
-  tc.verifyNotEmpty(i)
+  tc.verifyNotEqual(i, missing)
 else
-  tc.verifyEmpty(i)
+  tc.verifyEqual(i, missing)
 end
 
 
@@ -113,7 +113,7 @@ tc.verifyNotEmpty(i)
 
 [i, b] = stdlib.is_removable('.');
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('is_removable').backends))
-tc.verifyNotEmpty(i)
+tc.verifyNotEqual(i, missing)
 
 [i, b] = stdlib.is_symlink(readme);
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('is_symlink').backends))

@@ -5,9 +5,9 @@ function bytes = ram_total()
   % https://learn.microsoft.com/en-us/dotnet/api/system.gcmemoryinfo.totalavailablememorybytes
 try
   bytes = System.GC.GetGCMemoryInfo().TotalAvailableMemoryBytes;
+  bytes = uint64(bytes);
 catch
-  bytes = [];
+  bytes = missing;
 end
 
-bytes = uint64(bytes);
 end
