@@ -1,6 +1,6 @@
 function [L, cmd, m] = cpu_load()
 
-L = NaN;
+L = missing;
 
 if ispc()
   cmd = 'pwsh -c "Get-CimInstance -ClassName Win32_Processor | Measure-Object -Property LoadPercentage -Average | Select-Object -ExpandProperty Average"';

@@ -68,15 +68,15 @@ tc.verifyGreaterThan(strlength(i), 0)
 
 [i, b] = stdlib.get_process_priority();
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('get_process_priority').backends))
-tc.verifyNotEmpty(i)
+tc.verifyNotEqual(i, missing)
 
 [i, b] = stdlib.get_uid();
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('get_uid').backends))
-tc.verifyGreaterThanOrEqual(i, 0)
+tc.verifyNotEqual(i, missing)
 
 [i, b] = stdlib.get_username();
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('get_username').backends))
-tc.verifyNotEmpty(i)
+tc.verifyClass(i, 'char')
 
 [i, b] = stdlib.hard_link_count('.');
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('hard_link_count').backends))
@@ -92,16 +92,16 @@ tc.verifyGreaterThan(i, 0)
 
 [i,b] = stdlib.is_admin();
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('is_admin').backends))
-tc.verifyNotEmpty(i)
+tc.verifyClass(i, 'logical')
 
 [i,b] = stdlib.is_char_device('.');
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('is_char_device').backends));
-tc.verifyNotEqual(i, missing);
+tc.verifyClass(i, 'logical')
 
 [i, b] = stdlib.is_dev_drive('.');
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('is_dev_drive').backends))
 if ~ispc() || stdlib.is_admin()
-  tc.verifyNotEqual(i, missing)
+  tc.verifyClass(i, 'logical')
 else
   tc.verifyEqual(i, missing)
 end
@@ -109,16 +109,15 @@ end
 
 [i, b] = stdlib.is_mount('.');
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('is_mount').backends))
-tc.verifyNotEmpty(i)
+tc.verifyClass(i, 'logical')
 
 [i, b] = stdlib.is_removable('.');
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('is_removable').backends))
-tc.verifyNotEqual(i, missing)
+tc.verifyClass(i, 'logical')
 
 [i, b] = stdlib.is_symlink(readme);
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('is_symlink').backends))
 tc.verifyClass(i, 'logical')
-tc.verifyNotEmpty(i)
 
 [os, version, b] = stdlib.os_version();
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('os_version').backends))

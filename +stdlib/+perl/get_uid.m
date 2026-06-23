@@ -2,7 +2,7 @@
 
 function u = get_uid()
 
-u = [];
+u = missing;
 if ispc()
   return
 end

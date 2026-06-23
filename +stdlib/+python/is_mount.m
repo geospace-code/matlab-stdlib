@@ -21,7 +21,7 @@ try
   y = py.os.path.ismount(p);
 catch e
   pythonException(e)
-  y = logical([]);
+  y = missing;
 end
 
 end

@@ -1,7 +1,7 @@
 function i = hard_link_count(file)
 
 
-i = [];
+i = missing;
 if stdlib.strempty(file)
   return
 end

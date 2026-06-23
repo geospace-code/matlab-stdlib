@@ -10,7 +10,7 @@ try
   ok = unixSystem.getUid() == 0;
 catch e
   javaException(e)
-  ok = logical([]);
+  ok = missing;
 end
 
 end

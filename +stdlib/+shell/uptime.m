@@ -2,7 +2,7 @@
 
 function t = uptime()
 
-t = [];
+t = missing;
 
 if ispc()
   [s, m] = system('pwsh -c "(Get-Uptime).TotalSeconds"');

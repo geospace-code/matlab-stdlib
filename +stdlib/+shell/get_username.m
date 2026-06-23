@@ -10,7 +10,7 @@ end
 if s == 0
   n = deblank(n);
 else
-  n = '';
+  n = missing;
 end
 
 end

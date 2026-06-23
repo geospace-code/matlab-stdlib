@@ -4,7 +4,7 @@ try
   n = char(py.getpass.getuser());
 catch e
   pythonException(e)
-  n = '';
+  n = missing;
 end
 
 end

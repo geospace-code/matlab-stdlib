@@ -11,7 +11,7 @@ arguments
   backend (1,:) string = ["java", "dotnet", "python", "shell"]
 end
 
-r = '';
+r = missing;
 
 for j = 1:numel(backend)
   b = backend{j};
@@ -30,7 +30,7 @@ for j = 1:numel(backend)
       error('stdlib:get_username:ValueError', 'Unknown backend: %s', b)
   end
 
-  if ~isempty(r)
+  if ~ismissing(r)
     return
   end
 end

@@ -4,7 +4,7 @@ try
   c = double(py.os.stat(file).st_nlink);
 catch e
   pythonException(e)
-  c = [];
+  c = missing;
 end
 
 end

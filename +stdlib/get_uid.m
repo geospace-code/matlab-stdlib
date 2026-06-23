@@ -11,7 +11,7 @@ arguments
   backend (1,:) string = ["dotnet", "python", "perl"]
 end
 
-i = [];
+i = missing;
 
 for b = backend
   switch b
@@ -27,7 +27,7 @@ for b = backend
       error('stdlib:get_uid:ValueError', 'Unknown backend: %s', b)
   end
 
-  if ~isempty(i)
+  if ~ismissing(i)
     return
   end
 end

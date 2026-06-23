@@ -4,7 +4,7 @@
 
 function [n, cmd] = hard_link_count(file)
 
-n = [];
+n = missing;
 
 if ispc()
   cmd = sprintf('pwsh -c "(Get-Item ''%s'').LinkType"', file);
