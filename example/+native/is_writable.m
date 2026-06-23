@@ -8,16 +8,6 @@ if isunix
   props = [props, "GroupWrite", "OtherWrite"];
 end
 
-try
-  y = getPermissions(filePermissions(file), props);
-catch e
-  switch e.identifier
-    case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
-      y = logical([]);
-    otherwise
-      rethrow(e)
-  end
-end
-
+y = getPermissions(filePermissions(file), props);
 
 end
