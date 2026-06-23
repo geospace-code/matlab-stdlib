@@ -1,5 +1,5 @@
 %% HAS_PYTHON checks if Python is available in the current environment.
-% By default, Matlab >= R2022a will check for Python availability.
+% By default, does not check for Python availability.
 % On some systems, Python may be broken in ways not detected by this function.
 % The check can be per-session persistently disabled by `stdlib.has_python(false)`.
 % The check can be per-session persistently enabled by `stdlib.has_python(true)`.
@@ -8,8 +8,9 @@
 
 function y = has_python(enable_check)
 arguments
-  enable_check (1,1) logical = ~stdlib.matlabOlderThan('R2022a');
+  enable_check (1,1) logical = false
 end
+% ~stdlib.matlabOlderThan('R2022a')
 
 persistent py_enable
 
@@ -35,5 +36,3 @@ y = ~isempty(stdlib.python_version());
 
 py_enable = y;
 end
-
-%!assert(~stdlib.has_python())
