@@ -14,7 +14,7 @@ arguments
   backend (1,:) string = ["native", "dotnet", "python", "shell"]
 end
 
-i = logical([]);
+i = missing;
 
 for b = backend
   switch b
@@ -32,7 +32,7 @@ for b = backend
       error('stdlib:create_symlink:ValueError', 'Unknown backend: %s', b)
   end
 
-  if ~isempty(i)
+  if ~ismissing(i)
     return
   end
 end

@@ -144,7 +144,7 @@ tc.verifyTrue(i)
 tc.assertTrue(stdlib.touch('time.txt'))
 [i, b] = stdlib.set_modtime("time.txt", datetime());
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('set_modtime').backends))
-tc.verifyNotEmpty(i)
+tc.verifyTrue(i)
 
 
 end

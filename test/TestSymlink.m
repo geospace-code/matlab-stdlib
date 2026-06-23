@@ -25,7 +25,8 @@ tc.link = fullfile(pwd(), 'my.lnk');
 tc.target = fullfile(pwd(), 'my_target.txt');
 tc.assertTrue(stdlib.touch(tc.target), 'failed to create test target')
 
-tc.assertTrue(stdlib.create_symlink(tc.target, tc.link), 'failed to create test link')
+ok = stdlib.create_symlink(tc.target, tc.link);
+tc.assertTrue(ok, 'failed to create test link')
 end
 end
 
@@ -43,7 +44,7 @@ if ismember(B_is_symlink, stdlib.Backend().select('is_symlink'))
   tc.verifyFalse(stdlib.is_symlink('', B_is_symlink))
   tc.verifyFalse(stdlib.is_symlink(tc.target, B_is_symlink))
 else
-  tc.verifyEmpty(i)
+  tc.verifyEqual(i, missing)
 end
 end
 
@@ -77,9 +78,9 @@ r = stdlib.create_symlink(tc.target, ano, B_create_symlink);
 if ismember(B_create_symlink, stdlib.Backend().select('create_symlink'))
   tc.verifyTrue(r)
 elseif ispc() && strcmp(B_create_symlink, 'native')
-  tc.verifyTrue(isempty(r) || r)
+  tc.verifyTrue(ismissing(r) || r)
 else
-  tc.verifyEmpty(r)
+  tc.verifyEqual(r, missing)
 end
 end
 
@@ -90,12 +91,12 @@ tc.assertMatches(b, B_create_symlink)
 
 if ismember(B_create_symlink, stdlib.Backend().select('create_symlink'))
   if ispc() && strcmp(B_create_symlink, 'native')
-    tc.verifyTrue( isempty(i) || ~i )
+    tc.verifyTrue( ismissing(i) || ~i )
   else
     tc.verifyFalse(i)
   end
 else
-  tc.verifyTrue( isempty(i) || ~i )
+  tc.verifyTrue( ismissing(i) || ~i )
 end
 end
 
@@ -105,12 +106,12 @@ i = stdlib.create_symlink(tc.target, tc.link, B_create_symlink);
 
 if ismember(B_create_symlink, stdlib.Backend().select('create_symlink'))
   if ispc() && strcmp(B_create_symlink, 'native')
-    tc.verifyTrue( isempty(i) || ~i )
+    tc.verifyTrue( ismissing(i) || ~i )
   else
     tc.verifyFalse(i, 'should fail for existing symlink')
   end
 else
-  tc.verifyTrue( isempty(i) || ~i )
+  tc.verifyTrue( ismissing(i) || ~i )
 end
 
 end

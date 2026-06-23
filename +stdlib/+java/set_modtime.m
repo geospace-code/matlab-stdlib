@@ -16,7 +16,7 @@ try
   ok = javaMethod('setLastModified', o, int64(utc) * 1000);
 catch e
   javaException(e)
-  ok = logical([]);
+  ok = missing;
 end
 
 end

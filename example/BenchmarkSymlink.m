@@ -51,7 +51,6 @@ i = stdlib.is_symlink(tc.not_exist, is_backend);
 tc.stopMeasuring()
 
 tc.verifyClass(i, 'logical')
-tc.assertNotEmpty(i)
 tc.verifyFalse(i)
 end
 

@@ -9,7 +9,7 @@ try
   y = py.pathlib.Path(file).is_symlink();
 catch e
   pythonException(e)
-  y = logical([]);
+  y = missing;
 end
 
 end

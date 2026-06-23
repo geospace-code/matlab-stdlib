@@ -36,7 +36,7 @@ if ismember(B_jps, stdlib.Backend().select('set_modtime'))
   t1 = stdlib.get_modtime(fn);
   tc.verifyGreaterThanOrEqual(t1, t0)
 else
-  tc.assertEmpty(ok)
+  tc.assertEqual(ok, missing)
 end
 end
 
