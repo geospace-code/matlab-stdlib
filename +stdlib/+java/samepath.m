@@ -13,7 +13,7 @@ try
   end
 catch e
   javaException(e)
-  y = logical([]);
+  y = missing;
 end
 
 end

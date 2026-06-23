@@ -7,7 +7,7 @@ catch e
     y = false;
   else
     pythonException(e)
-    y = logical([]);
+    y = missing;
   end
 end
 

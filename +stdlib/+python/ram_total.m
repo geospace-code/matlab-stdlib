@@ -2,12 +2,10 @@ function n = ram_total()
 
 try
   vm = py.psutil.virtual_memory();
-  n = vm.total;
+  n = uint64(vm.total);
 catch e
   pythonException(e)
-  n = [];
+  n = missing;
 end
-
-n = uint64(n);
 
 end

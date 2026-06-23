@@ -13,7 +13,7 @@ arguments
   backend (1,:) string = ["java", "python", "shell"]
 end
 
-i = uint64([]);
+i = missing;
 
 for b = backend
   switch b
@@ -29,7 +29,7 @@ for b = backend
       error('stdlib:device:ValueError', 'Unknown backend: %s', b)
   end
 
-  if ~isempty(i)
+  if ~ismissing(i)
     return
   end
 end

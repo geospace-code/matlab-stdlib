@@ -16,7 +16,7 @@ arguments
   backend (1,:) string = ["java", "dotnet", "python", "shell"]
 end
 
-i = uint64([]);
+i = missing;
 
 for b = backend
   switch b
@@ -34,7 +34,7 @@ for b = backend
       error('stdlib:disk_available:ValueError', 'Unknown backend: %s', b)
   end
 
-  if ~isempty(i)
+  if ~ismissing(i)
     return
   end
 end

@@ -2,7 +2,7 @@
 
 function i = disk_available(file)
 
-i = uint64([]);
+i = missing;
 % Windows needs exists() not just strempty()
 if ~stdlib.exists(file)
   return
@@ -12,10 +12,9 @@ try
 % absolutizing is necessary for Windows especially
   i = System.IO.DriveInfo(System.IO.Path.GetFullPath(file)).AvailableFreeSpace();
 % https://learn.microsoft.com/en-us/dotnet/api/system.io.driveinfo.availablefreespace
+  i = uint64(i);
 catch e
   dotnetException(e)
 end
-
-i = uint64(i);
 
 end

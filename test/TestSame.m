@@ -31,12 +31,12 @@ methods(Test)
 function test_samepath(tc, p, backend)
 [r, b] = stdlib.samepath(p{:}, backend);
 tc.assertMatches(b, backend)
-tc.verifyClass(r, 'logical')
 
 if ismember(backend, stdlib.Backend().select('samepath'))
+  tc.verifyClass(r, 'logical')
   tc.verifyTrue(r, [p{1} ' ' p{2}])
 else
-  tc.assertEmpty(r)
+  tc.assertEqual(r, missing)
 end
 end
 
@@ -46,7 +46,7 @@ r = stdlib.samepath('.', tc.cwd, backend);
 if ismember(backend, stdlib.Backend().select('samepath'))
   tc.verifyTrue(r)
 else
-  tc.verifyEmpty(r)
+  tc.verifyEqual(r, missing)
 end
 end
 

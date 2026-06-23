@@ -1,6 +1,6 @@
 function [t, cmd] = disk_capacity(file)
 
-t = [];
+t = missing;
 
 if ispc()
   cmd = sprintf('pwsh -c ([System.IO.DriveInfo][System.IO.Path]::GetFullPath(''%s'')).TotalSize', file);
@@ -16,10 +16,8 @@ end
 if stdlib.exists(file)
   [s, t] = system(cmd);
   if s == 0
-    t = str2double(t);
+    t = uint64(str2double(t));
   end
 end
-
-t = uint64(t);
 
 end

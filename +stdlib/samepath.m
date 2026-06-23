@@ -24,7 +24,7 @@ arguments
 end
 
 
-i = logical([]);
+i = missing;
 
 for b = backend
   switch b
@@ -41,10 +41,10 @@ for b = backend
     case 'shell'
       i = stdlib.shell.samepath(path1, path2);
     otherwise
-      error('stdlib:hard_link_count:ValueError', 'Unknown backend: %s', b)
+      error('stdlib:samepath:ValueError', 'Unknown backend: %s', b)
   end
 
-  if ~isempty(i)
+  if ~ismissing(i)
     return
   end
 end

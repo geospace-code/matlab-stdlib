@@ -25,16 +25,15 @@ function test_disk_available(tc, Ps, B_jdps)
 [r, b] = stdlib.disk_available(Ps, B_jdps);
 tc.assertMatches(b, B_jdps)
 
-tc.verifyClass(r, 'uint64')
-
 if ismember(B_jdps, stdlib.Backend().select('disk_available'))
   if stdlib.exists(Ps)
+    tc.verifyClass(r, 'uint64')
     tc.verifyGreaterThanOrEqual(r, 0)
   else
-    tc.verifyEmpty(r)
+    tc.verifyEqual(r, missing)
   end
 else
-  tc.verifyEmpty(r)
+  tc.verifyEqual(r, missing)
 end
 
 end
@@ -44,16 +43,16 @@ function test_disk_capacity(tc, Ps, B_jdps)
 [r, b] = stdlib.disk_capacity(Ps, B_jdps);
 tc.assertMatches(b, B_jdps)
 
-tc.verifyClass(r, 'uint64')
 
 if ismember(B_jdps, stdlib.Backend().select('disk_capacity'))
   if stdlib.exists(Ps)
+   tc.verifyClass(r, 'uint64')
     tc.verifyGreaterThanOrEqual(r, 0)
   else
-    tc.verifyEmpty(r)
+    tc.verifyEqual(r, missing)
   end
 else
-  tc.verifyEmpty(r)
+  tc.verifyEqual(r, missing)
 end
 
 end
@@ -74,7 +73,9 @@ end
 function test_is_removable(tc, B_ps)
 [y, b] = stdlib.is_removable(pwd(), B_ps);
 tc.assertMatches(b, B_ps)
-tc.verifyClass(y, 'logical')
+if ~ismissing(y)
+  tc.verifyClass(y, 'logical')
+end
 end
 
 function test_is_mount(tc, B_ps)
@@ -139,8 +140,9 @@ end
 function test_is_dev_drive(tc, B_ps)
 [r, b] = stdlib.is_dev_drive(pwd(), B_ps);
 tc.assertMatches(b, B_ps)
-
-tc.verifyClass(r, 'logical')
+if ~ismissing(r)
+  tc.verifyClass(r, 'logical')
+end
 end
 
 
@@ -167,7 +169,7 @@ else
     tc.assertNotEmpty(i, Ps)
     tc.assertGreaterThan(i, 0)
   else
-    tc.verifyEmpty(i)
+    tc.verifyEqual(i, missing)
   end
 end
 end
@@ -185,7 +187,7 @@ else
     tc.assertNotEmpty(i, Ps)
     tc.assertGreaterThan(i, 0)
   else
-    tc.verifyEmpty(i)
+    tc.verifyEqual(i, missing)
   end
 end
 

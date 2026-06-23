@@ -9,7 +9,7 @@
 
 function [i, cmd] = device(p)
 
-i = [];
+i = missing;
 
 if ispc()
   rn = stdlib.root_name(stdlib.absolute(p));
@@ -33,14 +33,13 @@ if stdlib.exists(p)
       r = regexp(m, '[A-F0-9]{4}-[A-F0-9]{4}', 'match', 'once');
       if strlength(r) == 9
         r = [r(1:4) r(6:9)];
-        i = hex2dec(r);
+        i = uint64(hex2dec(r));
       end
     else
-      i = str2double(m);
+      i = uint64(str2double(m));
     end
   end
 end
 
-i = uint64(i);
 
 end

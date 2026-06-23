@@ -22,7 +22,7 @@ try
   end
 catch e
   pythonException(e)
-  y = logical([]);
+  y = missing;
 end
 
 end

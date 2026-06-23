@@ -1,6 +1,6 @@
 function [r, cmd] = samepath(file1, file2)
 
-r = logical([]);
+r = missing;
 
 try %#ok<TRYNC>
   exe = stdlib.perl_exe();

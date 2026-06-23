@@ -13,7 +13,7 @@ arguments
   backend (1,:) string = ["python", "shell"]
 end
 
-i = logical([]);
+i = missing;
 
 for b = backend
   switch b
@@ -27,11 +27,9 @@ for b = backend
       error('stdlib:is_dev_drive:ValueError', 'Unknown backend: %s', b)
   end
 
-  if ~isempty(i)
+  if ~ismissing(i)
     return
   end
 end
 
 end
-
-%!assert (islogical(stdlib.is_dev_drive('.')))
