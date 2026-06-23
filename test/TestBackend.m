@@ -84,7 +84,7 @@ tc.verifyGreaterThan(i, 0)
 
 [i, b] = stdlib.hostname();
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('hostname').backends))
-tc.verifyNotEmpty(i)
+tc.verifyClass(i, 'char')
 
 [i, b] = stdlib.inode(readme);
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('inode').backends))

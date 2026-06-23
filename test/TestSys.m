@@ -78,12 +78,12 @@ end
 function test_hostname(tc, B_jdps)
 [h, b] = stdlib.hostname(B_jdps);
 tc.assertMatches(b, B_jdps)
-tc.verifyClass(h, 'char')
 
 if ismember(B_jdps, stdlib.Backend().select('hostname'))
+  tc.verifyClass(h, 'char')
   tc.verifyGreaterThan(strlength(h), 0)
 else
-  tc.verifyEmpty(h)
+  tc.verifyEqual(h, missing)
 end
 end
 
