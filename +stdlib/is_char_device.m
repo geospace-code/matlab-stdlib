@@ -25,7 +25,7 @@ arguments
 end
 
 
-i = logical([]);
+i = missing;
 
 for b = backend
   switch b
@@ -39,7 +39,7 @@ for b = backend
       error('stdlib:is_char_device:ValueError', 'Unknown backend: %s', b)
   end
 
-  if ~isempty(i)
+  if ~ismissing(i)
     return
   end
 end
