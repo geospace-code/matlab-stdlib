@@ -32,7 +32,9 @@ if ~enable_check || windows_arm_mismatch
   return
 end
 
-y = ~isempty(stdlib.python_version());
+v = stdlib.python_version();
+y = ~any(ismissing(v)) & ~isempty(v);
 
 py_enable = y;
+
 end

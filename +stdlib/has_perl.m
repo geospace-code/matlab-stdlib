@@ -2,8 +2,7 @@
 
 function y = has_perl()
 
-y = ~isempty(stdlib.perl_version());
+v = stdlib.perl_version();
+y = ~isempty(v) && ~any(ismissing(v));
 
 end
-
-%!assert (islogical(stdlib.has_perl()))

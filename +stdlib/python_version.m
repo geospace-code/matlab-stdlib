@@ -18,7 +18,7 @@ function [v, msg] = python_version()
 
 persistent stdlib_py_version pyv_cached
 
-msg = '';
+msg = missing;
 
 if isempty(pyv_cached)
   pyv_cached = false;

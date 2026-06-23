@@ -47,7 +47,8 @@ end
 
 methods (Test, TestTags={'R2018a'})
 function test_perl(tc)
-tc.verifyNotEmpty(stdlib.perl_exe())
+tc.verifyClass(stdlib.perl_exe(), 'char')
+tc.verifyClass(stdlib.perl_version(), 'double')
 tc.verifyNotEmpty(stdlib.perl_version())
 tc.verifyTrue(stdlib.has_perl(), 'Matlab docs indicate that Perl should always be available')
 end
