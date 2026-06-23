@@ -5,7 +5,7 @@ function o = get_owner(file)
 % This is not yet possible with .NET on Unix, even with .NET 10.
 % It would require Pinvoke or external Mono.Unix
 
-o = '';
+o = missing;
 
 try
   ntAccountType = System.Type.GetType('System.Security.Principal.NTAccount');

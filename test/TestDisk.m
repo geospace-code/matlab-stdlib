@@ -196,16 +196,16 @@ end
 function test_owner(tc, Ps, B_jdps)
 [o, b] = stdlib.get_owner(Ps, B_jdps);
 tc.assertMatches(b, B_jdps)
-tc.verifyClass(o, 'char')
 
 if ismember(B_jdps, stdlib.Backend().select('get_owner'))
   if ~stdlib.exists(Ps)
-    tc.verifyEqual(o, '')
+    tc.verifyEqual(o, missing)
   else
+  tc.verifyClass(o, 'char')
     tc.verifyGreaterThan(strlength(o), 0)
   end
 else
-  tc.verifyEmpty(o)
+  tc.verifyEqual(o, missing)
 end
 
 end
