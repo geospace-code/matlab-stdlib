@@ -26,6 +26,11 @@ function test_not_exist(tc, Pe)
 e = 'MATLAB:io:filesystem:filePermissions:CannotFindLocation';
 tc.verifyError(@() stdlib.get_permissions(Pe), e)
 
+if stdlib.matlabOlderThan('R2025a')
+  e = 'MATLAB:FILEATTRIB:CannotFindFile';
+end
+tc.verifyError(@() stdlib.set_permissions(Pe, 0, 0, 0), e)
+
 end
 
 function test_get_permissions(tc, Ps)

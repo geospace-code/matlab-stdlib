@@ -13,26 +13,18 @@
 
 function [ok, b] = set_permissions(file, readable, writable, executable)
 arguments
-  file {mustBeTextScalar, mustBeFileOrFolder}
+  file {mustBeTextScalar}
   readable (1,1) {mustBeInteger, mustBeMember(readable, [-1, 0, 1])}
   writable (1,1) {mustBeInteger, mustBeMember(writable, [-1, 0, 1])}
   executable (1,1) {mustBeInteger, mustBeMember(executable, [-1, 0, 1])}
 end
 
-try
+if stdlib.matlabOlderThan('R2025a')
+  ok = stdlib.legacy.set_permissions(file, readable, writable, executable);
+  b = 'legacy';
+else
   ok = stdlib.native.set_permissions(file, readable, writable, executable);
   b = 'native';
-catch e
-  switch e.identifier
-    case {'MATLAB:UndefinedFunction', 'MATLAB:m_illegal_character'}
-      ok = stdlib.legacy.set_permissions(file, readable, writable, executable);
-      b = 'legacy';
-    case 'MATLAB:io:filesystem:filePermissions:CannotFindLocation'
-      ok = false;
-      b = '';
-    otherwise
-      rethrow(e)
-  end
 end
 
 end
