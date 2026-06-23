@@ -30,7 +30,7 @@ end
 
 if ispc()
   old = getenv('KMP_DUPLICATE_LIB_OK');
-  setenv('KMP_DUPLICATE_LIB_OK', 'TRUE');
+  setenv('KMP_DUPLICATE_LIB_OK', 'TRUE')
 
   % otherwise,
   %   matlab -batch "buildtool test"

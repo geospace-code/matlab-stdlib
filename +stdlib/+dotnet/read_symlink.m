@@ -9,7 +9,7 @@ try
   % on Unix, this can be empty if the file is not a symlink
 catch e
   dotnetException(e)
-  r = string.empty;
+  r = missing;
 end
 
 end

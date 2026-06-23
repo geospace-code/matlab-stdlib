@@ -55,12 +55,12 @@ end
 
 function test_read_symlink(tc, B_is_symlink)
 r = stdlib.read_symlink(tc.link, B_is_symlink);
-tc.verifyClass(r, 'string')
 
 if ismember(B_is_symlink, stdlib.Backend().select('read_symlink'))
+  tc.verifyClass(r, 'string')
   tc.verifyEqual(r, string(tc.target))
 else
-  tc.verifyEmpty(r)
+  tc.verifyTrue(ismissing(r))
 end
 end
 

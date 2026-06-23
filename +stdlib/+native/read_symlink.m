@@ -1,12 +1,9 @@
 function r = read_symlink(file)
 
-if ~stdlib.matlabOlderThan('R2024b')
-  [ok, r] = isSymbolicLink(file);
-  if ~ok
-    r = string.empty;
-  end
+if stdlib.matlabOlderThan('R2024b')
+  r = missing;
 else
-  r = string.empty;
+  [~, r] = isSymbolicLink(file);
 end
 
 end

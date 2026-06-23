@@ -1,6 +1,6 @@
 function [r, cmd] = read_symlink(file)
 
-r = string.empty;
+r = missing;
 
 if isunix()
   cmd = sprintf('readlink -fn "%s"', file);
