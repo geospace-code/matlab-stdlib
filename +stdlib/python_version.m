@@ -36,11 +36,14 @@ v = [];
 % glitchy Python load can error on shell.version_info
 % if pyenv() hasn't ever been configured, may get uncatchable error
 % bad lexical cast: source type value could not be interpreted as target
+old = getenv('KMP_DUPLICATE_LIB_OK');
+setenv('KMP_DUPLICATE_LIB_OK', 'TRUE')
 try
   v = pvt_python_version();
 catch e
   msg = e.message;
 end
+setenv('KMP_DUPLICATE_LIB_OK', old)
 
 % cache the result - even if empty -- because the check takes up to 1000 ms say on HPC
 stdlib_py_version = v;
