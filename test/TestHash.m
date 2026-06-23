@@ -41,12 +41,12 @@ function test_hash_text(tc, Ph, backend)
 
 [r, b] = stdlib.file_checksum(tc.file, Ph{1}, backend);
 tc.assertMatches(b, backend)
-tc.verifyClass(r, 'char')
 
 if ismember(backend, stdlib.Backend().select('file_checksum'))
+  tc.verifyClass(r, 'char')
   tc.verifyEqual(r, Ph{2})
 else
-  tc.assertEmpty(r)
+  tc.assertEqual(r, missing)
 end
 end
 
@@ -54,16 +54,16 @@ end
 function test_hash_empty(tc, Pe, backend)
 
 r = stdlib.file_checksum(tc.empty, Pe{1}, backend);
-tc.verifyClass(r, 'char')
 
 if ismember(backend, stdlib.Backend().select('file_checksum'))
   if ispc() && strcmp(backend, 'shell')
-    tc.verifyEmpty(r)
+    tc.verifyEqual(r, missing)
   else
+    tc.verifyClass(r, 'char')
     tc.verifyEqual(r, Pe{2})
   end
 else
-  tc.assertEmpty(r)
+  tc.assertEqual(r, missing)
 end
 end
 

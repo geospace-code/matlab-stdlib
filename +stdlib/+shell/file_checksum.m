@@ -2,7 +2,7 @@
 function [hash, cmd] = file_checksum(file, hash_method)
 
 switch lower(hash_method)
-  case {"sha-256", "sha256"}
+  case {'sha-256', 'sha256'}
     if ismac()
       cmd = sprintf('shasum --algorithm 256 --binary "%s"', file);
     elseif ispc()
@@ -10,7 +10,7 @@ switch lower(hash_method)
     else
       cmd = sprintf('sha256sum --binary "%s"', file);
     end
-  case "md5"
+  case 'md5'
     if ismac()
       cmd = sprintf('md5 -r "%s"', file);
     elseif ispc()
@@ -25,13 +25,13 @@ end
 
 if s == 0
   switch lower(hash_method)
-  case {"sha-256", "sha256"}
+  case {'sha-256', 'sha256'}
     hash = regexp(m, '^\w{64}','match','once','lineanchors');
-  case "md5"
+  case 'md5'
     hash = regexp(m, '^\w{32}','match','once','lineanchors');
   end
 else
-  hash = '';
+  hash = missing;
 end
 
 end

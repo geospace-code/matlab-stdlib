@@ -4,13 +4,13 @@
 function hash = file_checksum(file, hash_method)
 
 if strcmpi(hash_method, 'sha256')
-  hash_method = "SHA-256";
+  hash_method = 'SHA-256';
 end
 
 file_chunk = 10e6;  % arbitrary (bytes) didn't seem to be very sensitive for speed
 
 fid = fopen(file, 'r');
-assert(fid > 1, "could not open file %s", file)
+assert(fid > 1, 'could not open file %s', file)
 
 try
 
@@ -27,7 +27,7 @@ try
 
 catch e
   javaException(e)
-  hash = '';
+  hash = missing;
 end
 
 fclose(fid);
