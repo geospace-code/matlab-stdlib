@@ -1,6 +1,6 @@
 function r = read_symlink(file)
 
-r = string.empty;
+r = missing;
 
 try
   p = py.pathlib.Path(file);

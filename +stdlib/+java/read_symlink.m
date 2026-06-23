@@ -11,7 +11,7 @@ try
   r = string(javaMethod('readSymbolicLink', 'java.nio.file.Files', p));
 catch e
   javaException(e)
-  r = string.empty;
+  r = missing;
 end
 
 end

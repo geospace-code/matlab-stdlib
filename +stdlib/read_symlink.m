@@ -16,7 +16,7 @@ arguments
   backend (1,:) string = ["native", "java", "python", "dotnet", "shell"]
 end
 
-r = string.empty;
+r = missing;
 
 for b = backend
   switch b
@@ -36,7 +36,7 @@ for b = backend
       error('stdlib:read_symlink:ValueError', 'Unknown backend: %s', b)
   end
 
-  if ~isempty(r)
+  if ~ismissing(r)
     return
   end
 end
