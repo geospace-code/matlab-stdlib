@@ -35,6 +35,3 @@ for b = backend
 end
 
 end
-
-
-%!assert (stdlib.inode('.') > 0)

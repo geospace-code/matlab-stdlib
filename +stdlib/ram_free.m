@@ -42,5 +42,3 @@ end
 % * builtin memory() on Windows includes swap. The user could do that themselves.
 
 end
-
-%!assert (stdlib.ram_free() > 0)

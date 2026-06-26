@@ -35,5 +35,3 @@ for b = backend
 end
 
 end
-
-%!assert (islogical(stdlib.is_admin()))

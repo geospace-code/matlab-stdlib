@@ -49,11 +49,6 @@ end
 end
 
 
-function test_read_symlink_not_symlink(tc, Pre)
-tc.verifyError(@() stdlib.read_symlink(Pre), 'MATLAB:validators:mustBeFileOrFolder')
-end
-
-
 function test_read_symlink(tc, B_is_symlink)
 r = stdlib.read_symlink(tc.link, B_is_symlink);
 
@@ -86,18 +81,7 @@ end
 
 
 function test_create_symlink_empty(tc, B_create_symlink)
-[i, b] = stdlib.create_symlink('', tempname(), B_create_symlink);
-tc.assertMatches(b, B_create_symlink)
-
-if ismember(B_create_symlink, stdlib.Backend().select('create_symlink'))
-  if ispc() && strcmp(B_create_symlink, 'native')
-    tc.verifyTrue( ismissing(i) || ~i )
-  else
-    tc.verifyFalse(i)
-  end
-else
-  tc.verifyTrue( ismissing(i) || ~i )
-end
+tc.verifyError(@() stdlib.create_symlink('', '', B_create_symlink), 'MATLAB:validators:mustBeNonzeroLengthText')
 end
 
 

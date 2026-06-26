@@ -22,7 +22,7 @@ end
 cmd1 = sprintf('stat %s %%d:%%i "%s"', flag, path1);
 cmd2 = sprintf('stat %s %%d:%%i "%s"', flag, path2);
 
-cmd = stdlib.append(cmd1, ' && ', cmd2);
+cmd = stdlib.append(cmd1, stdlib.cmdsep(), cmd2);
 
 [s, m] = system(cmd);
 if s == 0

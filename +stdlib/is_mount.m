@@ -13,16 +13,14 @@
 % * Linux, macOS, Windows: is_mount('/') true
 
 function [i, b] = is_mount(file, backend)
-if nargin < 2
-  backend = {'python', 'shell'};
-else
-  backend = cellstr(backend);
+arguments
+  file {mustBeTextScalar}
+  backend (1,:) string = ["python", "shell"]
 end
 
 i = missing;
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'python'
       if stdlib.has_python()
@@ -40,5 +38,3 @@ for j = 1:numel(backend)
 end
 
 end
-
-%!assert (islogical(stdlib.is_mount('.')))

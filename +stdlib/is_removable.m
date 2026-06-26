@@ -10,7 +10,7 @@
 
 function [i, b] = is_removable(file, backend)
 arguments
-  file {mustBeTextScalar, mustBeFileOrFolder}
+  file {mustBeTextScalar}
   backend (1,:) string = ["python", "shell"]
 end
 

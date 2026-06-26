@@ -40,7 +40,7 @@ end
 if ~stdlib.strempty(opt.cwd)
   assert(isfolder(opt.cwd), opt.cwd + " is not a folder")
 
-  cmd = join(["cd", opt.cwd, "&&", cmd]);
+  cmd = join(["cd", opt.cwd, stdlib.cmdsep(), cmd]);
 end
 
 if ~stdlib.strempty(opt.stdin)
@@ -49,16 +49,16 @@ end
 
 
 if ~opt.stderr
-  if ispc
-    cmd = join([cmd, "2> nul"]);
+  if ispc()
+    cmd = join([cmd, "2> NUL"]);
   else
     cmd = join([cmd, "2> /dev/null"]);
   end
 end
 
 if ~opt.stdout
-  if ispc
-    cmd = join([cmd, "> nul"]);
+  if ispc()
+    cmd = join([cmd, "> NUL"]);
   else
     cmd = join([cmd, "> /dev/null"]);
   end

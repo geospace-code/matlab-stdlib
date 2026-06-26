@@ -37,5 +37,3 @@ for b = backend
 end
 
 end
-
-%!assert (~isempty(stdlib.shell.hostname()))

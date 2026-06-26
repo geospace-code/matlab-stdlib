@@ -13,8 +13,7 @@ end
 
 r = missing;
 
-for j = 1:numel(backend)
-  b = backend{j};
+for b = backend
   switch b
     case 'java'
       r = stdlib.java.get_username();
@@ -36,6 +35,3 @@ for j = 1:numel(backend)
 end
 
 end
-
-
-%!assert (~isempty(stdlib.get_username()))

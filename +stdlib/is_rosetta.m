@@ -17,6 +17,3 @@ else
 end
 
 end
-
-
-%!assert(islogical(stdlib.is_rosetta()))

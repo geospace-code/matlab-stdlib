@@ -12,7 +12,7 @@
 
 function [r, b] = read_symlink(file, backend)
 arguments
-  file {mustBeTextScalar, mustBeFileOrFolder}
+  file {mustBeTextScalar}
   backend (1,:) string = ["native", "java", "python", "dotnet", "shell"]
 end
 
@@ -42,7 +42,3 @@ for b = backend
 end
 
 end
-
-%!test
-%! pkg load tablicious
-%!assert (isempty(stdlib.read_symlink('.')))
