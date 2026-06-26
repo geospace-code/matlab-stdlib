@@ -5,7 +5,7 @@
 % * file: path to make absolute
 % * strict: if true, return empty if path does not exist (default: false)
 %%% Outputs
-% * c: resolved path
+% * c: string: resolved path
 
 % distinct from canonical(), resolve() always returns absolute path
 % non-existant path is made absolute relative to pwd

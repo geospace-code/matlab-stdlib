@@ -7,6 +7,6 @@ function y = samepath(path1, path2)
 c1 = stdlib.canonical(path1, true);
 c2 = stdlib.canonical(path2, true);
 
-y = strlength(c1) && strcmp(c1, c2);
+y = ~ismissing(c1) && strlength(c1) && c1 == c2;
 
 end
