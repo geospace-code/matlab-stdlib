@@ -23,7 +23,7 @@ for i = 1:length(context.Task.Inputs)
 
   cmd = join([comp, src.paths, outFlag + exe]);
   if ~isempty(shell)
-    cmd = join([shell, "&&", cmd]);
+    cmd = join([shell, stdlib.cmdsep(), cmd]);
   end
 
   disp(cmd)

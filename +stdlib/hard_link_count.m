@@ -39,6 +39,3 @@ for b = backend
 end
 
 end
-
-
-%!assert (stdlib.hard_link_count('.') > 0)

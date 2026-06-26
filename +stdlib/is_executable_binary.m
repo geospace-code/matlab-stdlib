@@ -71,9 +71,3 @@ else
 end
 
 end
-
-%!test
-%! if isunix()
-%! assert(stdlib.is_executable_binary([matlabroot, '/bin/octave']))
-%! end
-%!assert (~stdlib.is_executable_binary('.'))

@@ -9,8 +9,8 @@
 
 function [i, b] = create_symlink(target, link, backend)
 arguments
-  target {mustBeTextScalar}
-  link {mustBeTextScalar}
+  target {mustBeTextScalar,mustBeNonzeroLengthText}
+  link {mustBeTextScalar,mustBeNonzeroLengthText}
   backend (1,:) string = ["native", "dotnet", "python", "shell"]
 end
 
