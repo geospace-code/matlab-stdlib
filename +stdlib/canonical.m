@@ -10,7 +10,7 @@
 % * file: path to make canonical
 % * strict: if true, only return canonical path if it exists. If false, return normalized path if path does not exist.
 %%% Outputs
-% * c: canonical path, if determined
+% * c: string: canonical path or missing
 
 function c = canonical(file, strict)
 arguments
@@ -29,16 +29,11 @@ elseif ~stdlib.exists(file)
 elseif stdlib.matlabOlderThan('R2025a')
   c = stdlib.legacy.canonical(file);
 elseif stdlib.matlabOlderThan('R2026b')
-  p = filePermissions(file);
-  c = p.AbsolutePath;
+  c = filePermissions(file).AbsolutePath;
 else
   c = resolveFilePath(file, ResolveSymbolicLinks=true);
 end
 
-if isstring(file)
-  c = string(c);
-elseif ischar(file)
-  c = char(c);
-end
+c = string(c);
 
 end
