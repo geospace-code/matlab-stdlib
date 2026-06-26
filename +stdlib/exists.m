@@ -16,6 +16,6 @@ arguments
   fpath {mustBeTextScalar}
 end
 
-y = stdlib.is_file(fpath) || stdlib.is_folder(fpath);
+y = isfile(fpath) || isfolder(fpath);
 
 end
