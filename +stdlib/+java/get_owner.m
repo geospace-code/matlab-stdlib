@@ -23,7 +23,7 @@ try
   opt = javaMethod('values', 'java.nio.file.LinkOption');
   n = char(javaMethod('getOwner', 'java.nio.file.Files', p, opt));
 catch e
-  javaException(e)
+  javaException(e);
 end
 
 end

@@ -11,8 +11,7 @@ try
   y = any(isequal(fmt, {System.IO.DriveType.Removable, ...
                         System.IO.DriveType.CDRom}));
 catch e
-  dotnetException(e)
-  y = false;
+  y = dotnetException(e);
 end
 
 end

@@ -14,7 +14,7 @@ try
 % https://learn.microsoft.com/en-us/dotnet/api/system.io.driveinfo.availablefreespace
   i = uint64(i);
 catch e
-  dotnetException(e)
+  dotnetException(e);
 end
 
 end

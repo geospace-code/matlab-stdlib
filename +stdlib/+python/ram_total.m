@@ -4,8 +4,7 @@ try
   vm = py.psutil.virtual_memory();
   n = uint64(vm.total);
 catch e
-  pythonException(e)
-  n = missing;
+  n = pythonException(e);
 end
 
 end

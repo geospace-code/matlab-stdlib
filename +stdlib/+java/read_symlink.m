@@ -10,8 +10,7 @@ try
   p = javaAbsolutePath(file);
   r = string(javaMethod('readSymbolicLink', 'java.nio.file.Files', p));
 catch e
-  javaException(e)
-  r = missing;
+  r = javaException(e);
 end
 
 end

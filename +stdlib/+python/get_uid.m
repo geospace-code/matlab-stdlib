@@ -6,7 +6,7 @@ if isunix()
   try
     u = double(py.os.geteuid());
   catch e
-    pythonException(e)
+    pythonException(e);
   end
 end
 

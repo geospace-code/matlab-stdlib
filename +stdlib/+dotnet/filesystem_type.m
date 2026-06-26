@@ -14,7 +14,7 @@ end
 try
   t = char(System.IO.DriveInfo(System.IO.Path.GetFullPath(file)).DriveFormat);
 catch e
-  dotnetException(e)
+  dotnetException(e);
 end
 
 end

@@ -19,7 +19,7 @@ try
   s = javaMethod('getFileStore', 'java.nio.file.Files', p);
   t = char(s.type);
 catch e
-  javaException(e)
+  javaException(e);
 end
 
 end

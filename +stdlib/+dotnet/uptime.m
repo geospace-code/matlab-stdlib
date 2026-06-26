@@ -7,8 +7,7 @@ try
   ts = System.TimeSpan.FromMilliseconds(tms);
   t = ts.TotalSeconds;
 catch e
-  dotnetException(e)
-  t = missing;
+  t = dotnetException(e);
 end
 
 end

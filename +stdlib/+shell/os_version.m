@@ -1,4 +1,4 @@
-function [os, version] = os_version()
+function [os, vers] = os_version()
 
 if ispc()
   cmd1 = 'pwsh -c "(Get-CimInstance -ClassName Win32_OperatingSystem).Caption"';
@@ -12,14 +12,14 @@ end
 if s == 0
   os = deblank(os);
 else
-  os = '';
+  os = missing;
 end
 
-[s, version] = system(cmd2);
+[s, vers] = system(cmd2);
 if s == 0
-  version = deblank(version);
+  vers = deblank(vers);
 else
-  version = '';
+  vers = missing;
 end
 
 end

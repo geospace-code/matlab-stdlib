@@ -4,7 +4,7 @@ arguments
   target (1,1) string
 end
 
-rel = "";
+rel = missing;
 
 if stdlib.strempty(base) || stdlib.strempty(target)
   return
@@ -13,7 +13,7 @@ end
 try
   rel = string(py.str(py.pathlib.Path(target).relative_to(base)));
 catch e
-  pythonException(e)
+  pythonException(e);
 end
 
 end

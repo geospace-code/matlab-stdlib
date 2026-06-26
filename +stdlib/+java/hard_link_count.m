@@ -12,7 +12,7 @@ try
   i = javaMethod('getAttribute', 'java.nio.file.Files', p, 'unix:nlink', opt);
   % i = java.nio.file.Files.getAttribute(javaAbsolutePath(file), "unix:nlink", java.nio.file.LinkOption.values());
 catch e
-  javaException(e)
+  javaException(e);
 end
 
 end

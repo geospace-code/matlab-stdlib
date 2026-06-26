@@ -26,8 +26,7 @@ try
   hash = sprintf('%.2x', typecast(inst.digest, 'uint8'));
 
 catch e
-  javaException(e)
-  hash = missing;
+  hash = javaException(e);
 end
 
 fclose(fid);

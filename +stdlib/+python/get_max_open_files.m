@@ -12,8 +12,7 @@ try
 	lim = py.resource.getrlimit(py.resource.RLIMIT_NOFILE);
 	omax = uint64(lim(1));
 catch e
-	pythonException(e)
-	omax = missing;
+	pythonException(e);
 end
 
 end

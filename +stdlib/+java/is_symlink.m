@@ -9,8 +9,7 @@ try
   p = javaAbsolutePath(file);
   y = javaMethod('isSymbolicLink', 'java.nio.file.Files', p);
 catch e
-  javaException(e)
-  y = missing;
+  y = javaException(e);
 end
 
 end

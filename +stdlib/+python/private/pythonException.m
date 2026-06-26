@@ -1,4 +1,4 @@
-function pythonException(e)
+function m = pythonException(e)
 
 switch e.identifier
   case {'MATLAB:Python:PythonUnavailable', 'MATLAB:undefinedVarOrClass'}
@@ -9,5 +9,7 @@ switch e.identifier
     end
   otherwise, rethrow(e)
 end
+
+m = missing;
 
 end

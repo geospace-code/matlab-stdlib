@@ -12,8 +12,7 @@ try
     y = false;
   end
 catch e
-  javaException(e)
-  y = missing;
+  y = javaException(e);
 end
 
 end

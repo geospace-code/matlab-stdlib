@@ -10,8 +10,7 @@ try
   end
   bytes = uint64(bytes);
 catch e
-  javaException(e)
-  bytes = missing;
+  bytes = javaException(e);
 end
 
 end

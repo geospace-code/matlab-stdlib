@@ -3,8 +3,7 @@ function y = is_dev_drive(fpath)
 try
   y = py.os.path.isdevdrive(fpath);
 catch e
-  pythonException(e)
-  y = missing;
+  y = pythonException(e);
 end
 
 end

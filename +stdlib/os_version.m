@@ -15,8 +15,8 @@ arguments
   backend (1,:) string = ["shell", "python", "dotnet", "java"];
 end
 
-os = '';
-version = '';
+os = missing;
+version = missing;
 
 for b = backend
   switch b
@@ -34,15 +34,9 @@ for b = backend
       error('stdlib:os_version:ValueError', 'Unknown backend: %s', b)
   end
 
-  if ~isempty(os) && ~isempty(version)
+  if ~any(ismissing(os)) && ~any(ismissing(version))
     return
   end
 end
 
 end
-
-
-%!test
-%! [o, v] = stdlib.os_version();
-%! assert(~isempty(o))
-%! assert(~isempty(v))

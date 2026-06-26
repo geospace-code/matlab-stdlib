@@ -126,9 +126,9 @@ end
 
 function test_xcode_version(tc)
 if ismac()
-  tc.verifyNotEmpty(stdlib.xcode_version())
+  tc.verifyClass(stdlib.xcode_version(), 'char')
 else
-  tc.verifyEmpty(stdlib.xcode_version())
+  tc.verifyEqual(stdlib.xcode_version(), missing)
 end
 end
 

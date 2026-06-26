@@ -6,8 +6,7 @@ catch e
   if strcmp(e.identifier, 'MATLAB:Python:PyException') && contains(e.message, 'FileNotFoundError')
     y = false;
   else
-    pythonException(e)
-    y = missing;
+    y = pythonException(e);
   end
 end
 

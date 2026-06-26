@@ -15,8 +15,7 @@ try
   o = javaObject('java.io.File', file);
   ok = javaMethod('setLastModified', o, int64(utc) * 1000);
 catch e
-  javaException(e)
-  ok = missing;
+  ok = javaException(e);
 end
 
 end

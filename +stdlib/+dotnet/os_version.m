@@ -8,9 +8,9 @@ try
   version = char(vs(end));
   os = char(join(vs(1:end-1)));
 catch e
-  dotnetException(e)
-  os = '';
-  version = '';
+  dotnetException(e);
+  os = missing;
+  version = missing;
 end
 
 end

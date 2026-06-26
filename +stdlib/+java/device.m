@@ -16,7 +16,7 @@ try
   % i = java.nio.file.Files.getAttribute(javaAbsolutePath(file), "unix:dev", opt);
   i = uint64(i);
 catch e
-  javaException(e)
+  javaException(e);
 end
 
 end

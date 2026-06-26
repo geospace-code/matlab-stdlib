@@ -9,7 +9,7 @@ end
 try
   n = char(py.pathlib.Path(file).owner());
 catch e
-  pythonException(e)
+  pythonException(e);
 end
 
 end
