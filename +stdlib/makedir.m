@@ -2,10 +2,11 @@
 %
 % malformed paths can be 'created' but are not accessible.
 % This function works around that bug in Matlab mkdir().
+% ok is true even if direc already exists.
 %
 % Matlab < R2018a needs char input
 
-function makedir(direc)
+function ok = makedir(direc)
 arguments
   direc {mustBeTextScalar}
 end
@@ -13,13 +14,14 @@ end
 %% to avoid confusing making ./~/mydir
 direc = stdlib.expanduser(direc);
 
+ok = false;
+
 if ~stdlib.strempty(direc)
   [s, ~] = mkdir(direc);
+  ok = s == 1;
 end
 
-ok = s == 1;
-
-ok = ok && stdlib.is_folder(direc);
+ok = ok && isfolder(direc);
 
 if nargout == 0
   assert(ok, 'Failed to create directory: %s', direc)
