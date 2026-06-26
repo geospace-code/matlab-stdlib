@@ -10,16 +10,10 @@ arguments
   p {mustBeTextScalar}
 end
 
-c = char(p);
-
-if ispc() && ~isempty(regexp(c, '^[A-Za-z]:', 'once'))
-  r = c(1:2);
+if ispc() && ~isempty(regexp(p, '^[A-Za-z]:', 'once'))
+  r = extractBefore(p, 3);
 else
   r = '';
-end
-
-if isstring(p)
-  r = string(r);
 end
 
 end
