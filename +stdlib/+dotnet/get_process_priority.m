@@ -4,8 +4,7 @@ try
   p = System.Diagnostics.Process.GetCurrentProcess();
   i = double(p.PriorityClass);
 catch e
-  dotnetException(e)
-  i = missing;
+  i = dotnetException(e);
 end
 
 end

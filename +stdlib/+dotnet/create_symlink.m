@@ -12,8 +12,7 @@ try
   System.IO.File.CreateSymbolicLink(link, target);
   ok = true;
 catch e
-  dotnetException(e)
-  ok = missing;
+  ok = dotnetException(e);
 end
 
 end

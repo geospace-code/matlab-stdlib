@@ -1,7 +1,5 @@
 function L = cpu_load()
 
-L = missing;
-
 try
   b = javaMethod('getOperatingSystemMXBean', 'java.lang.management.ManagementFactory');
 
@@ -15,7 +13,7 @@ try
     end
   end
 catch e
-  javaException(e)
+  L = javaException(e);
 end
 
 end

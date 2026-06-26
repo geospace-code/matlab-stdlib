@@ -5,8 +5,6 @@ function o = get_owner(file)
 % This is not yet possible with .NET on Unix, even with .NET 10.
 % It would require Pinvoke or external Mono.Unix
 
-o = missing;
-
 try
   ntAccountType = System.Type.GetType('System.Security.Principal.NTAccount');
 
@@ -15,6 +13,7 @@ try
   elseif isfile(file)
     fsec = System.IO.File.GetAccessControl(file);
   else
+    o = missing;
     return
   end
 
@@ -22,7 +21,7 @@ try
 
   o = char(owner.ToString());
 catch e
-  dotnetException(e)
+  o = dotnetException(e);
 end
 
 end

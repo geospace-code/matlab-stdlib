@@ -14,7 +14,7 @@ try
   principal = System.Security.Principal.WindowsPrincipal(identity);
   y = principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
 catch e
-  dotnetException(e)
+  dotnetException(e);
 end
 
 end

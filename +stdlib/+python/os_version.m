@@ -1,12 +1,12 @@
-function [os, version] = os_version()
+function [os, vers] = os_version()
 
 try
   os = char(py.platform.system());
-  version = char(py.platform.version());
+  vers = char(py.platform.version());
 catch e
-  pythonException(e)
-  os = '';
-  version = '';
+  pythonException(e);
+  os = missing;
+  vers = missing;
 end
 
 end

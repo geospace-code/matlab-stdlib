@@ -8,8 +8,7 @@ end
 try
   y = py.pathlib.Path(file).is_symlink();
 catch e
-  pythonException(e)
-  y = missing;
+  y = pythonException(e);
 end
 
 end

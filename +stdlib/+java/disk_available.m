@@ -9,8 +9,7 @@ try
     i = uint64(i);
   end
 catch e
-  javaException(e)
-  i = missing;
+  i = javaException(e);
 end
 
 

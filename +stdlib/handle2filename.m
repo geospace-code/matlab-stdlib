@@ -10,7 +10,7 @@ arguments
   fileHandle (1,1)
 end
 
-n = '';
+n = missing;
 
 if fileHandle >= 0
   n = fopen(fileHandle);

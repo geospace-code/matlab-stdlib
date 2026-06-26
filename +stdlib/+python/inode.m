@@ -6,8 +6,7 @@ try
   % because on Windows st_dev is a 64-bit unsigned integer
   i = uint64(i);
 catch e
-  pythonException(e)
-  i = missing;
+  i = pythonException(e);
 end
 
 

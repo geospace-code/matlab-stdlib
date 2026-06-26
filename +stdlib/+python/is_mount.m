@@ -20,8 +20,7 @@ try
 
   y = py.os.path.ismount(p);
 catch e
-  pythonException(e)
-  y = missing;
+  y = pythonException(e);
 end
 
 end

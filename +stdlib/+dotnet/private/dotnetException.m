@@ -1,4 +1,4 @@
-function dotnetException(e)
+function r = dotnetException(e)
 
 switch class(e)
   case 'MException'
@@ -20,5 +20,7 @@ switch class(e)
         rethrow(e)
     end
 end
+
+r = missing;
 
 end

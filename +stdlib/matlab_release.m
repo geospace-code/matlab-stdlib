@@ -1,14 +1,14 @@
 %% MATLAB_RELEASE get current Matlab release
 %
 %%% Outputs
-% * r: char of current Matlab release
+% * r: string of current Matlab release
 
 function r = matlab_release()
 
 try
-  r = char(matlabRelease().Release);
+  r = matlabRelease().Release;
 catch
-  r = ['R' version('-release')];
+  r = "R" + version('-release');
 end
 
 end

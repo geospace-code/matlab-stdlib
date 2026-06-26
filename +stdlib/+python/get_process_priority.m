@@ -7,7 +7,7 @@ if ~ispc()
     pid = py.os.getpid();
     i = double(py.os.getpriority(py.os.PRIO_PROCESS, pid));
   catch e
-    pythonException(e)
+    pythonException(e);
   end
 end
 

@@ -8,8 +8,7 @@ function n = hostname()
 try
   n = char(System.Net.Dns.GetHostName());
 catch e
-  dotnetException(e);
-  n = missing;
+  n = dotnetException(e);
 end
 
 % https://learn.microsoft.com/en-us/dotnet/api/system.net.dns.gethostname

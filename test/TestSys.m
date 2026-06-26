@@ -57,15 +57,14 @@ function test_os_version(tc, B_jdps)
 [os, ver, b] = stdlib.os_version(B_jdps);
 tc.assertMatches(b, B_jdps)
 
-tc.verifyClass(os, 'char')
-tc.verifyClass(ver, 'char')
-
 if ismember(B_jdps, stdlib.Backend().select('os_version'))
+  tc.verifyClass(os, 'char')
+  tc.verifyClass(ver, 'char')
   tc.verifyGreaterThan(strlength(os), 0, 'expected non-empty os')
   tc.verifyGreaterThan(strlength(ver), 0, 'expected non-empty version')
 else
-  tc.verifyEmpty(os)
-  tc.verifyEmpty(ver)
+  tc.verifyEqual(os, missing)
+  tc.verifyEqual(ver, missing)
 end
 end
 

@@ -1,4 +1,6 @@
-function javaException(e)
+function v = javaException(e)
+
+v = missing;
 
 switch e.identifier
   case {'MATLAB:Java:ClassLoad', 'MATLAB:Java:JVMInitialize'}

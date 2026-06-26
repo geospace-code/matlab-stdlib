@@ -9,8 +9,7 @@ try
   unixSystem = javaObject('com.sun.security.auth.module.UnixSystem');
   ok = unixSystem.getUid() == 0;
 catch e
-  javaException(e)
-  ok = missing;
+  ok = javaException(e);
 end
 
 end

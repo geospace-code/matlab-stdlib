@@ -8,8 +8,7 @@ try
   r = string(h.LinkTarget);
   % on Unix, this can be empty if the file is not a symlink
 catch e
-  dotnetException(e)
-  r = missing;
+  r = dotnetException(e);
 end
 
 end

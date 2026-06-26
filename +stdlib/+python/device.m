@@ -5,8 +5,7 @@ try
   % Matlab <= R2022a wants int64 before uint64, but this can make OverflowError on Windows within Python
   % because on Windows st_dev is a 64-bit unsigned integer
 catch e
-  pythonException(e)
-  i = missing;
+  i = pythonException(e);
 end
 
 

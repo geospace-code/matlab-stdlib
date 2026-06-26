@@ -121,8 +121,8 @@ tc.verifyClass(i, 'logical')
 
 [os, version, b] = stdlib.os_version();
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('os_version').backends))
-tc.verifyNotEmpty(os)
-tc.verifyNotEmpty(version)
+tc.verifyClass(os, 'char')
+tc.verifyClass(version, 'char')
 
 [i, b] = stdlib.ram_free();
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('ram_free').backends))

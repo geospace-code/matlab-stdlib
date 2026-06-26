@@ -17,7 +17,7 @@ elseif ~stdlib.matlabOlderThan('R2024a')
 end
 
 catch e
-  pythonException(e)
+  pythonException(e);
 end
 
 end

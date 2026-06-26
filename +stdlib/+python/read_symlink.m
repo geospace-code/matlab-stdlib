@@ -15,7 +15,7 @@ try
     r = extractAfter(r, '\\?\');
   end
 catch e
-  pythonException(e)
+  pythonException(e);
 end
 
 end

@@ -6,7 +6,7 @@ try
   a = javaMethod('getProperty', 'java.lang.System', 'java.specification.version');
   a = str2double(a);
 catch
-  a = [];
+  a = missing;
 end
 
 end

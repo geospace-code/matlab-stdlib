@@ -1,7 +1,5 @@
 function i = disk_capacity(file)
 
-i = missing;
-
 try
   o = javaObject('java.io.File', file);
   i = javaMethod('getTotalSpace', o);
@@ -11,7 +9,7 @@ try
     i = uint64(i);
   end
 catch e
-  javaException(e)
+  i = javaException(e);
 end
 
 end

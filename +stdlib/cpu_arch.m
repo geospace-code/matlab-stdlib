@@ -22,5 +22,3 @@ else
 end
 
 end
-
-%!assert (~isempty(stdlib.cpu_arch()))

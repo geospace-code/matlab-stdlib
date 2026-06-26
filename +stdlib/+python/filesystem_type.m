@@ -21,7 +21,7 @@ try
     end
   end
 catch e
-  pythonException(e)
+  pythonException(e);
 end
 
 end

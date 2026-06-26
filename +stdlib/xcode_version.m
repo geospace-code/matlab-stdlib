@@ -2,7 +2,7 @@
 
 function v = xcode_version()
 
-v = '';
+v = missing;
 
 if ismac()
   [s, m] = system('pkgutil --pkg-info com.apple.pkg.CLTools_Executables');

@@ -13,8 +13,7 @@ try
   py.os.symlink(t, l);
   ok = true;
 catch e
-  pythonException(e)
-  ok = missing;
+  ok = pythonException(e);
 end
 
 end
