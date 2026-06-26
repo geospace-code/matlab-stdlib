@@ -8,7 +8,7 @@ end
 
 methods (TestClassSetup)
 function check_file(tc)
-tc.assumeTrue(stdlib.is_file(tc.file), 'HDF4 file not found:')
+tc.assumeThat(tc.file, matlab.unittest.constraints.IsFile, 'HDF4 file not found')
 end
 end
 

@@ -39,7 +39,7 @@ end
 
 function test_makedir(tc)
 d = 'test_makedir.dir';
-stdlib.makedir(d)
+tc.assertTrue(stdlib.makedir(d))
 
 tc.verifyThat(d, matlab.unittest.constraints.IsFolder)
 end
