@@ -14,26 +14,15 @@ arguments
   file {mustBeTextScalar}
 end
 
-e = char(file);
-
+% regex designed to pass-thru ~user
 pat = ['~[/\', filesep, ']+|^~$'];
 
-[i0, i1] = regexp(e, pat, 'once');
+[i0, i1] = regexp(file, pat, 'once');
 
-if ~isempty(i0)
-
-  home = stdlib.homedir();
-
-  if i1 - i0 == 0 || length(e) == i1
-    e = home;
-  else
-    e = [home, '/', e(i1+1:end)];
-  end
-
-end
-
-if isstring(file)
-  e = string(e);
+if isempty(i0)
+  e = file;
+else
+  e = fullfile(stdlib.homedir(), extractAfter(file, i1));
 end
 
 end
