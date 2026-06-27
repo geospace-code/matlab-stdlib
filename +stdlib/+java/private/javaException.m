@@ -3,7 +3,7 @@ function v = javaException(e)
 v = missing;
 
 switch e.identifier
-  case {'MATLAB:Java:ClassLoad', 'MATLAB:Java:JVMInitialize'}
+  case {'MATLAB:Java:ClassLoad', 'MATLAB:Java:JVMInitialize', 'MATLAB:Java:UnableToRead'}
     % Java class not available e.g. wrong OS for this class
   case ''
     % pass GNU Octave
