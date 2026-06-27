@@ -1,12 +1,12 @@
 %% JAVA_API Java API version
 
-function a = java_api()
+function a = api()
 
 try
   a = javaMethod('getProperty', 'java.lang.System', 'java.specification.version');
   a = str2double(a);
-catch
-  a = missing;
+catch e
+  a = javaException(e);
 end
 
 end

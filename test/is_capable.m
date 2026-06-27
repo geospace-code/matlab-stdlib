@@ -13,7 +13,7 @@ if contains(n, ".dotnet.")
 
 elseif contains(n, ".java.")
 
-  japi = stdlib.java_api();
+  japi = stdlib.java.api();
   tc.assumeGreaterThan(japi, 0, "Java not available")
 
 elseif contains(n, 'python')

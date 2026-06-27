@@ -27,11 +27,9 @@ if ~isempty(ncv)
   raw.netcdf = ncv;
 end
 
-if stdlib.has_java()
-  raw.java.vendor = stdlib.java_vendor();
-  raw.java.version = stdlib.java_version();
-  raw.java.home = stdlib.java_home();
-end
+raw.java.vendor = stdlib.java.vendor();
+raw.java.version = stdlib.java.version();
+raw.java.home = stdlib.java.home();
 
 if stdlib.has_dotnet()
   raw.dotnet.version = stdlib.dotnet_version();

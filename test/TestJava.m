@@ -6,19 +6,19 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
 methods(Test)
 
 function test_java_vendor(tc)
-v = stdlib.java_vendor();
+v = stdlib.java.vendor();
 tc.verifyGreaterThan(strlength(v), 0)
 end
 
 
 function test_java_version(tc)
-v = stdlib.java_version();
+v = stdlib.java.version();
 tc.verifyGreaterThanOrEqual(strlength(v), 4)
 end
 
 
 function test_java_api(tc)
-v = stdlib.java_api();
+v = stdlib.java.api();
 tc.assertGreaterThanOrEqual(v, 1.8, 'Java Specification Version >= 1.8 is required for Matlab-stdlib')
 end
 
