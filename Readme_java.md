@@ -23,19 +23,19 @@ version("-java")
 Get the Java API level:
 
 ```matlab
-stdlib.java_api()
+stdlib.java.api()
 ```
 
 Get the Java vendor:
 
 ```matlab
-stdlib.java_vendor()
+stdlib.java.vendor()
 ```
 
 Get the Java version:
 
 ```matlab
-stdlib.java_version()
+stdlib.java.version()
 ```
 
 Tell JVM details:

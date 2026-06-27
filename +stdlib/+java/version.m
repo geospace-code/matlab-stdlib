@@ -1,4 +1,4 @@
-%% JAVA_VERSION get version of Java Virtual Machine
+%% JAVA.VERSION get version of Java Virtual Machine
 %
 % this gives a long string with more detail
 % version('-java')
@@ -7,12 +7,12 @@
 % java.lang.Runtime.version()
 % java.lang.Runtime.getRuntime().version
 
-function v = java_version()
+function v = version()
 
 try
   v = char(javaMethod('getProperty', 'java.lang.System', 'java.version'));
-catch
-  v = missing;
+catch e
+  v = javaException(e);
 end
 
 end
