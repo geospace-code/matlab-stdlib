@@ -1,10 +1,6 @@
 function [y, cmd] = is_mount(filepath)
 
 cmd = '';
-if ~stdlib.exists(filepath)
-  y = false;
-  return
-end
 
 if ispc()
   fs = {'/', filesep};

@@ -93,13 +93,15 @@ end
 end
 
 function test_is_mount(tc, B_ps)
-[y,b] = stdlib.is_mount(pwd(), B_ps);
+
+p = '/';
+
+[y,b] = stdlib.is_mount(p, B_ps);
 tc.assertMatches(b, B_ps)
 
 if ismember(B_ps, stdlib.Backend().select('is_mount'))
   tc.verifyClass(y, 'logical')
-  tc.verifyTrue(stdlib.is_mount('/', B_ps))
-  tc.verifyFalse(stdlib.is_mount(tempname(), B_ps))
+  tc.assertError(@() stdlib.is_mount(tempname(), B_ps), 'MATLAB:validators:mustBeFolder')
 
   if ispc()
     sd = getenv('SystemDrive');
