@@ -1,9 +1,9 @@
 function c = hard_link_count(file)
 
-try
+if stdlib.has_python()
   c = double(py.os.stat(file).st_nlink);
-catch e
-  c = pythonException(e);
+else
+  c = missing;
 end
 
 end
