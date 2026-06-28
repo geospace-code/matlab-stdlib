@@ -68,7 +68,7 @@ for m = backendReq
 
       switch functionName
         case {'create_symlink', 'ram_total', 'read_symlink', 'uptime'}
-          if stdlib.dotnet_api() < 6, continue, end
+          if stdlib.dotnet.api() < 6, continue, end
         case {'get_owner', 'get_uid', 'is_admin'}
           if isunix(), continue, end
       end

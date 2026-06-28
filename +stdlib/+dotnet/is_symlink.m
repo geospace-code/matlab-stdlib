@@ -8,7 +8,7 @@ if ~stdlib.exists(file)
   return
 end
 try
-  if stdlib.dotnet_api() >= 6
+  if stdlib.dotnet.api() >= 6
     y = ~isempty(System.IO.FileInfo(file).LinkTarget);
   else
     attr = char(System.IO.File.GetAttributes(file).ToString());
