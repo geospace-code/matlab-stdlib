@@ -1,9 +1,9 @@
 function t = uptime()
 
-try
+if stdlib.has_python() && stdlib.python.has_psutil()
   t0 = py.psutil.boot_time();
   t = py.time.time() - t0;
-catch
+else
   t = missing;
 end
 
