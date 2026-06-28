@@ -2,19 +2,13 @@
 
 function t = filesystem_type(file)
 
-
-t = missing;
 % Windows needs exists() not just strempty()
-if ~stdlib.exists(file)
-  return
-end
-
 % https://learn.microsoft.com/en-us/dotnet/api/system.io.driveinfo.driveformat
 
-try
+if stdlib.has_dotnet()
   t = char(System.IO.DriveInfo(System.IO.Path.GetFullPath(file)).DriveFormat);
-catch e
-  dotnetException(e);
+else
+  t = missing;
 end
 
 end

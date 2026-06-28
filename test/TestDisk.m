@@ -129,23 +129,30 @@ else
   tc.assertEqual(i, missing)
 end
 
-tc.assertError(@() stdlib.hard_link_count(''), 'MATLAB:validators:mustBeFileOrFolder')
+tc.assertError(@() stdlib.hard_link_count('', B_jps), 'MATLAB:validators:mustBeFileOrFolder')
 
 end
 
 
 function test_filesystem_type(tc, Ps, B_jdps)
+
+if ~isfolder(Ps)
+  if ~strlength(Ps)
+    e = 'MATLAB:validators:mustBeNonzeroLengthText';
+  else
+    e = 'MATLAB:validators:mustBeFolder';
+  end
+  tc.assertError(@() stdlib.filesystem_type(Ps, B_jdps), e)
+  return
+end
+
 [t, b] = stdlib.filesystem_type(Ps, B_jdps);
 tc.assertMatches(b, B_jdps)
 
 if ismember(B_jdps, stdlib.Backend().select('filesystem_type'))
-  if ~stdlib.exists(Ps)
-    tc.verifyEqual(t, missing)
-  else
-    tc.verifyClass(t, 'char')
-    tc.assumeFalse(any(ismissing(t)) && tc.CI, 'Some CI block viewing their filesystem type')
-    tc.verifyGreaterThan(strlength(t), 0)
-  end
+  tc.verifyClass(t, 'char')
+  tc.assumeFalse(any(ismissing(t)) && tc.CI, 'Some CI block viewing their filesystem type')
+  tc.verifyGreaterThan(strlength(t), 0)
 else
   tc.verifyEqual(t, missing)
 end
