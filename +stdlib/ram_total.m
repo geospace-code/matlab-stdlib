@@ -11,26 +11,12 @@
 
 function [i, b] = ram_total(backend)
 arguments
-  backend (1,:) string = ["java", "dotnet", "python", "shell"]
+  backend (1,:) string {mustBeNonempty} = ["java", "dotnet", "python", "shell"]
 end
 
-i = missing;
-
 for b = backend
-  switch b
-    case 'dotnet'
-      i = stdlib.dotnet.ram_total();
-    case 'java'
-      i = stdlib.java.ram_total();
-    case 'python'
-      if stdlib.has_python()
-        i = stdlib.python.ram_total();
-      end
-    case 'shell'
-      i = stdlib.shell.ram_total();
-    otherwise
-      error('stdlib:ram_total:ValueError', 'Unknown backend: %s', b)
-  end
+  f = str2func("stdlib." + b + ".ram_total");
+  i = f();
 
   if ~ismissing(i)
     return
