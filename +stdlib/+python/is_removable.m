@@ -2,6 +2,7 @@ function y = is_removable(file)
 
 y = false;
 
+if stdlib.has_python()
 % important for heuristic matching
 try
   p = py.str(file);
@@ -22,6 +23,10 @@ try
   end
 catch e
   y = pythonException(e);
+end
+
+else
+  y = missing;
 end
 
 end

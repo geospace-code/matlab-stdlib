@@ -10,24 +10,13 @@
 
 function [i, b] = is_removable(file, backend)
 arguments
-  file {mustBeTextScalar}
-  backend (1,:) string = ["python", "shell"]
+  file (1,1) string {mustBeFolder}
+  backend (1,:) string {mustBeNonempty} = ["python", "shell"]
 end
 
-
-i = missing;
-
 for b = backend
-  switch b
-    case 'python'
-      if stdlib.has_python()
-        i = stdlib.python.is_removable(file);
-      end
-    case 'shell'
-      i = stdlib.shell.is_removable(file);
-    otherwise
-      error('stdlib:is_removable:ValueError', 'Unknown backend: %s', b)
-  end
+  f = str2func("stdlib." + b + ".is_removable");
+  i = f(file);
 
   if ~ismissing(i)
     return
