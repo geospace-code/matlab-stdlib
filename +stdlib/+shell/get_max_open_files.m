@@ -1,7 +1,7 @@
 %% shell.get_max_open_files  Get process open-file soft limit via shell
-function omax = get_max_open_files()
+function m = get_max_open_files()
 
-omax = missing;
+m = missing;
 
 if ~ispc()
 
@@ -10,7 +10,7 @@ if s == 0
   o = str2double(strtrim(m));
 
   if isfinite(o) && o > 0
-    omax = uint64(o);
+    m = uint64(o);
   end
 end
 
