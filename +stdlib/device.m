@@ -9,25 +9,13 @@
 
 function [i, b] = device(file, backend)
 arguments
-  file {mustBeTextScalar, mustBeFileOrFolder}
-  backend (1,:) string = ["java", "python", "shell"]
+  file (1,1) string {mustBeFileOrFolder}
+  backend (1,:) string {mustBeNonempty} = ["java", "python", "shell"]
 end
 
-i = missing;
-
 for b = backend
-  switch b
-    case 'java'
-      i = stdlib.java.device(file);
-    case 'python'
-      if stdlib.has_python()
-        i = stdlib.python.device(file);
-      end
-    case 'shell'
-      i = stdlib.shell.device(file);
-    otherwise
-      error('stdlib:device:ValueError', 'Unknown backend: %s', b)
-  end
+  f = str2func("stdlib." + b + ".device");
+  i = f(file);
 
   if ~ismissing(i)
     return

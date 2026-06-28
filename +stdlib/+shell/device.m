@@ -26,20 +26,17 @@ else
   cmd = sprintf('stat -c %%d "%s"', p);
 end
 
-if stdlib.exists(p)
-  [s, m] = system(cmd);
-  if s == 0
-    if ispc()
-      r = regexp(m, '[A-F0-9]{4}-[A-F0-9]{4}', 'match', 'once');
-      if strlength(r) == 9
-        r = [r(1:4) r(6:9)];
-        i = uint64(hex2dec(r));
-      end
-    else
-      i = uint64(str2double(m));
+[s, m] = system(cmd);
+if s == 0
+  if ispc()
+    r = regexp(m, '[A-F0-9]{4}-[A-F0-9]{4}', 'match', 'once');
+    if strlength(r) == 9
+      r = [r(1:4) r(6:9)];
+      i = uint64(hex2dec(r));
     end
+  else
+    i = uint64(str2double(m));
   end
 end
-
 
 end
