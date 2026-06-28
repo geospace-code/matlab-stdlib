@@ -159,7 +159,7 @@ end
 
 function test_device(tc, Ps, B_jps)
 if ~stdlib.exists(Ps)
-  tc.verifyError(@() stdlib.device(Ps), 'MATLAB:validators:mustBeFileOrFolder')
+  tc.verifyError(@() stdlib.device(Ps, B_jps), 'MATLAB:validators:mustBeFileOrFolder')
 else
   [i, b] = stdlib.device(Ps, B_jps);
   if ismember(B_jps, stdlib.Backend().select('device'))
@@ -177,7 +177,7 @@ end
 function test_inode(tc, Ps, B_jps)
 
 if ~stdlib.exists(Ps)
-  tc.verifyError(@() stdlib.inode(Ps), 'MATLAB:validators:mustBeFileOrFolder')
+  tc.verifyError(@() stdlib.inode(Ps, B_jps), 'MATLAB:validators:mustBeFileOrFolder')
 else
   [i, b] = stdlib.inode(Ps, B_jps);
   if ismember(B_jps, stdlib.Backend().select('inode'))
@@ -194,6 +194,11 @@ end
 
 
 function test_owner(tc, Ps, B_jdps)
+
+if ~stdlib.exists(Ps)
+  tc.verifyError(@() stdlib.get_owner(Ps, B_jdps), 'MATLAB:validators:mustBeFileOrFolder')
+else
+
 [o, b] = stdlib.get_owner(Ps, B_jdps);
 tc.assertMatches(b, B_jdps)
 
@@ -207,6 +212,8 @@ if ismember(B_jdps, stdlib.Backend().select('get_owner'))
 else
   tc.verifyEqual(o, missing)
 end
+
+end % stdlib.exists
 
 end
 
