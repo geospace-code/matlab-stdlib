@@ -6,14 +6,14 @@ methods (Test, TestTags = {'R2020b', 'python'})
 
 function test_has_python(tc)
 tc.assumeTrue(stdlib.has_python())
-v = stdlib.python_version();
+v = stdlib.python.version();
 tc.verifyTrue(all(v >= [3, 8, 0]), 'expected Python >= 3.8')
 end
 
 function test_python_home(tc)
 tc.assumeTrue(stdlib.has_python(), 'Python not available')
 
-r = stdlib.python_home();
+r = stdlib.python.home();
 tc.verifyClass(r, 'string')
 end
 

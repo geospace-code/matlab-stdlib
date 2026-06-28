@@ -51,8 +51,8 @@ These rules apply under the namespace "stdlib" (directory +stdlib/) and all its 
 
 ## Dev notes
 
-- The code in stdlib.python_version, stdlib.has_python has distinct use of persistent variables, we have carefully reviewed it and are satified with its performance and correctness regarding persistent variables.
-- I do not wish to implement cache reset in python_version() or perl_version().
+- The code in stdlib.python.version, stdlib.has_python has distinct use of persistent variables, we have carefully reviewed it and are satified with its performance and correctness regarding persistent variables.
+- I do not wish to implement cache reset in stdlib.python.version() or stdlib.perl.version().
 
 The code in the following list of stdlib.* functions is of the highest priority to be correct and efficient, as it's fundamental to correct filesystem operations. These functions are used by many other functions in this and other projects.
 

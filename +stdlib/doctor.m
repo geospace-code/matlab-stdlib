@@ -42,8 +42,8 @@ if stdlib.has_perl()
 end
 
 if stdlib.has_python()
-  raw.python.version = sprintf('%d.%d.%d', stdlib.python_version());
-  raw.python.home = stdlib.python_home();
+  raw.python.version = sprintf('%d.%d.%d', stdlib.python.version());
+  raw.python.home = stdlib.python.home();
 end
 
 if ismac()

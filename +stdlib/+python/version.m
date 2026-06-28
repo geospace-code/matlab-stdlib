@@ -1,4 +1,4 @@
-%% PYTHON_VERSION get the Python version used by MATLAB
+%% PYTHON.VERSION get the Python version used by MATLAB
 %
 % uses persistent variable to cache the Python version.
 % If the environment changes, the cached version will be invalid.
@@ -14,7 +14,7 @@
 % where the environment has changed since pyenv() was set. For example
 % HPC with 'module load python3...'
 
-function [v, msg] = python_version()
+function [v, msg] = version()
 
 persistent stdlib_py_version pyv_cached
 
