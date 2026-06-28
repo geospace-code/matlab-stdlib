@@ -1,9 +1,9 @@
 function n = hostname()
 
-try
+if stdlib.has_java()
   n = char(java.net.InetAddress.getLocalHost().getHostName());
-catch e
-  n = javaException(e);
+else
+  n = missing;
 end
 
 end
