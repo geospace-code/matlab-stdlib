@@ -1,18 +1,16 @@
 %% SUBPROCESS_RUN run process
 %
-% with optional cwd, env. vars, stdin, timeout
-%
 % handles command lines with spaces
 % input each segment of the command as an element in a string array
 % this is how python subprocess.run works
 %
 %%% Inputs
 % * cmd: command line. Windows paths should use filesep '\'
-% * opt.env: environment variable struct to set
-% * opt.cwd: working directory to use while running command
-% * opt.stdin: string to pass to subprocess stdin pipe
-% * opt.stdout: logical to indicate whether to use pipe for stdout
-% * opt.stderr: logical to indicate whether to use pipe for stderr
+% * env: environment variable struct to set
+% * cwd: working directory to use while running command
+% * stdin: string to pass to subprocess stdin pipe
+% * stdout: logical to indicate whether to use pipe for stdout
+% * stderr: logical to indicate whether to use pipe for stderr
 %%% Outputs
 % * status: 0 is generally success. Other codes as per the
 % program / command run
@@ -25,7 +23,7 @@
 %
 % NOTE: if cwd option used, any paths must be absolute, or they are relative to pwd.
 
-function [status, msg] = subprocess_run(cmd, opt)
+function [status, msg, err] = subprocess_run(cmd, opt)
 arguments
   cmd (1,:) string
   opt.env (1,1) struct = struct()
@@ -36,9 +34,13 @@ arguments
   opt.echo (1,1) logical = false
 end
 
+err = string.empty;
+% for compatibility with implementations that return stderr separately.
+% Matlab system() returns combined stdout and stderr in msg, and leaves err empty.
+
 
 if ~stdlib.strempty(opt.cwd)
-  assert(isfolder(opt.cwd), opt.cwd + " is not a folder")
+  mustBeFolder(opt.cwd)
 
   cmd = join(["cd", opt.cwd, stdlib.cmdsep(), cmd]);
 end

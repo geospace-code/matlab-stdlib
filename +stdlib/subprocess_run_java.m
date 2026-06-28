@@ -1,4 +1,4 @@
-%% JAVA_RUN run process for Matlab only
+%% SUBPROCESS_RUN_JAVA run process using Java ProcessBuilder interface
 %
 % with optional cwd, env. vars, stdin, timeout
 %
@@ -8,12 +8,12 @@
 %
 %%% Inputs
 % * cmd_array: vector of string to compose a command line
-% * opt.env: environment variable struct to set
-% * opt.cwd: working directory to use while running command
-% * opt.stdin: string to pass to subprocess stdin pipe - OK to use with timeout
-% * opt.timeout: time to wait for process to complete before erroring (seconds)
-% * opt.stdout: logical to indicate whether to use pipe for stdout
-% * opt.stderr: logical to indicate whether to use pipe for stderr
+% * env: environment variable struct to set
+% * cwd: working directory to use while running command
+% * stdin: string to pass to subprocess stdin pipe - OK to use with timeout
+% * timeout: time to wait for process to complete before erroring (seconds)
+% * stdout: logical to indicate whether to use pipe for stdout
+% * stderr: logical to indicate whether to use pipe for stderr
 %%% Outputs
 % * status: 0 is generally success. -1 if timeout. Other codes as per the
 % program / command run
@@ -21,9 +21,9 @@
 % * stderr: stderr from process
 %
 %% Example
-% subprocess_run(["mpiexec", "-help2"])
-% subprocess_run(["sh", "-c", "ls", "-l"])
-% subprocess_run(["cmd", "/c", "dir", "/Q", "/L"])
+% subprocess_run_java(["mpiexec", "-help2"])
+% subprocess_run_java(["sh", "-c", "ls", "-l"])
+% subprocess_run_java(["cmd", "/c", "dir", "/Q", "/L"])
 %
 % NOTE: if cwd option used, any paths must be absolute or relative to cwd.
 % otherwise, they are relative to pwd.
@@ -31,7 +31,7 @@
 % uses Matlab Java ProcessBuilder interface to run subprocess and use stdin/stdout pipes
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html
 
-function [status, stdout, stderr] = java_run(cmd, opt)
+function [status, stdout, stderr] = subprocess_run_java(cmd, opt)
 arguments
   cmd (1,:) string
   opt.env (1,1) struct = struct()
@@ -40,7 +40,10 @@ arguments
   opt.timeout (1,1) int64 = 0
   opt.stdout (1,1) logical = true
   opt.stderr (1,1) logical = true
+  opt.echo (1,1) logical = false
 end
+
+% opt.echo is unused, but is a real option of subprocess_run()
 
 if (opt.stdout || opt.stderr) && opt.timeout > 0
   error("stderr or stdout and timeout options are mutually exclusive")
@@ -152,7 +155,7 @@ reader = java.io.BufferedReader(java.io.InputStreamReader(stream));
 
 line = reader.readLine();
 while ~isempty(line)
-  msg = stdlib.append(msg, string(line), newline);
+  msg = join([msg, string(line)], newline);
   line = reader.readLine();
 end
 msg = strip(msg);
