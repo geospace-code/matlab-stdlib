@@ -13,11 +13,9 @@ else
   cmd = sprintf('df -B1 "%s" | awk ''NR==2 {print $2}''', file);
 end
 
-if stdlib.exists(file)
-  [s, t] = system(cmd);
-  if s == 0
-    t = uint64(str2double(t));
-  end
+[s, r] = system(cmd);
+if s == 0
+  t = uint64(str2double(r));
 end
 
 end

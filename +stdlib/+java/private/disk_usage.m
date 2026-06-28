@@ -1,7 +1,7 @@
 function i = disk_usage(file, v)
 
 % JDK 25 started assuming '' is '.', which earlier JDK didn't do.
-if stdlib.has_java() && ~stdlib.strempty(file)
+if stdlib.has_java()
   o = javaObject('java.io.File', file);
   switch v
     case 'available', k = 'getUsableSpace';
