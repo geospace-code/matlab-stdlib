@@ -1,10 +1,10 @@
 function i = get_process_priority()
 
-try
+if stdlib.has_dotnet()
   p = System.Diagnostics.Process.GetCurrentProcess();
   i = double(p.PriorityClass);
-catch e
-  i = dotnetException(e);
+else
+  i = missing;
 end
 
 end

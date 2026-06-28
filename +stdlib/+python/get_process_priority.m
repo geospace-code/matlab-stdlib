@@ -1,14 +1,10 @@
 function i = get_process_priority()
 
-i = missing;
-
-if ~ispc()
-  try
-    pid = py.os.getpid();
-    i = double(py.os.getpriority(py.os.PRIO_PROCESS, pid));
-  catch e
-    pythonException(e);
-  end
+if ~ispc() && stdlib.has_python()
+  pid = py.os.getpid();
+  i = double(py.os.getpriority(py.os.PRIO_PROCESS, pid));
+else
+  i = missing;
 end
 
 end
