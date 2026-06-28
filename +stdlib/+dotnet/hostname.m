@@ -5,10 +5,10 @@ function n = hostname()
 %n = char(System.Environment.MachineName);
 % https://learn.microsoft.com/en-us/dotnet/api/system.environment.machinename
 
-try
+if stdlib.has_dotnet()
   n = char(System.Net.Dns.GetHostName());
-catch e
-  n = dotnetException(e);
+else
+  n = missing;
 end
 
 % https://learn.microsoft.com/en-us/dotnet/api/system.net.dns.gethostname

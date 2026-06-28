@@ -1,9 +1,9 @@
 function n = hostname()
 
-try
+if stdlib.has_python()
   n = char(py.socket.gethostname());
-catch e
-  n = pythonException(e);
+else 
+  n = missing;
 end
 
 end
