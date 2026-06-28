@@ -13,25 +13,14 @@
 
 function [i, b] = hard_link_count(file, backend)
 arguments
-  file {mustBeTextScalar}
-  backend (1,:) string = ["java", "python", "shell"]
+  file (1,1) string {mustBeFileOrFolder}
+  backend (1,:) string {mustBeNonempty} = ["java", "python", "shell"]
 end
 
-i = missing;
 
 for b = backend
-  switch b
-    case 'java'
-      i = stdlib.java.hard_link_count(file);
-    case 'python'
-      if stdlib.has_python()
-        i = stdlib.python.hard_link_count(file);
-      end
-    case 'shell'
-      i = stdlib.shell.hard_link_count(file);
-    otherwise
-      error('stdlib:hard_link_count:ValueError', 'Unknown backend: %s', b)
-  end
+  f = str2func("stdlib." + b + ".hard_link_count");
+  i = f(file);
 
   if ~ismissing(i)
     return

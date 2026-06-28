@@ -129,8 +129,8 @@ else
   tc.assertEqual(i, missing)
 end
 
-i = stdlib.hard_link_count('');
-  tc.verifyEqual(i, missing)
+tc.assertError(@() stdlib.hard_link_count(''), 'MATLAB:validators:mustBeFileOrFolder')
+
 end
 
 
