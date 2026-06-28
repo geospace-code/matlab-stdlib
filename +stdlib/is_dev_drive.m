@@ -9,23 +9,13 @@
 
 function [i, b] = is_dev_drive(file, backend)
 arguments
-  file {mustBeTextScalar, mustBeFileOrFolder}
-  backend (1,:) string = ["python", "shell"]
+  file (1,1) string {mustBeFolder}
+  backend (1,:) string {mustBeNonempty} = ["python", "shell"]
 end
 
-i = missing;
-
 for b = backend
-  switch b
-    case 'python'
-      if stdlib.has_python()
-        i = stdlib.python.is_dev_drive(file);
-      end
-    case 'shell'
-      i = stdlib.shell.is_dev_drive(file);
-    otherwise
-      error('stdlib:is_dev_drive:ValueError', 'Unknown backend: %s', b)
-  end
+  f = str2func("stdlib." + b + ".is_dev_drive");
+  i = f(file);
 
   if ~ismissing(i)
     return
