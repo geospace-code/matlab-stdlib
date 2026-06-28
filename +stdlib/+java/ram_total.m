@@ -1,21 +1,7 @@
 %% JAVA.RAM_TOTAL get the total physical RAM
 
-function bytes = ram_total()
+function u = ram_total()
 
-% https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getTotalMemorySize()
-
-try
-  b = javaMethod('getOperatingSystemMXBean', 'java.lang.management.ManagementFactory');
-
-  if stdlib.java.api() < 14
-    bytes = b.getTotalPhysicalMemorySize();
-  else
-    bytes = b.getTotalMemorySize();
-  end
-  bytes = uint64(bytes);
-catch e
-  bytes = javaException(e);
-end
-
+u = ram_usage('total');
 
 end

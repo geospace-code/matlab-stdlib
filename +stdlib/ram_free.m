@@ -14,24 +14,12 @@
 
 function [i, b] = ram_free(backend)
 arguments
-  backend (1,:) string = ["java", "python", "shell"]
+  backend (1,:) string {mustBeNonempty} = ["java", "python", "shell"]
 end
 
-i = missing;
-
 for b = backend
-  switch b
-    case 'java'
-      i = stdlib.java.ram_free();
-    case 'python'
-      if stdlib.has_python()
-        i = stdlib.python.ram_free();
-      end
-    case 'shell'
-      i = stdlib.shell.ram_free();
-    otherwise
-      error('stdlib:ram_free:ValueError', 'Unknown backend: %s', b)
-  end
+  f = str2func("stdlib." + b + ".ram_free");
+  i = f();
 
   if ~ismissing(i)
     return
