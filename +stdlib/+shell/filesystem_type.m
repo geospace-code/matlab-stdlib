@@ -13,11 +13,9 @@ else
   cmd = sprintf('df --output=fstype "%s" | tail -n 1', file);
 end
 
-if stdlib.exists(file)
-  [s, t] = system(cmd);
-  if s == 0
-    t = deblank(t);
-  end
+[s, r] = system(cmd);
+if s == 0
+  t = deblank(r);
 end
 
 end

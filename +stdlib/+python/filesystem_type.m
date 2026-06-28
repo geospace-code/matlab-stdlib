@@ -2,6 +2,7 @@ function t = filesystem_type(file)
 
 t = missing;
 
+if stdlib.has_python()
 try
 % important for heuristic matching
   p = py.str(file);
@@ -22,6 +23,7 @@ try
   end
 catch e
   pythonException(e);
+end
 end
 
 end
