@@ -2,19 +2,14 @@
 
 function i = disk_available(file)
 
-i = missing;
 % Windows needs exists() not just strempty()
-if ~stdlib.exists(file)
-  return
-end
-
-try
-% absolutizing is necessary for Windows especially
+if stdlib.has_dotnet() && stdlib.exists(file)
+  % absolutizing is necessary for Windows especially
   i = System.IO.DriveInfo(System.IO.Path.GetFullPath(file)).AvailableFreeSpace();
-% https://learn.microsoft.com/en-us/dotnet/api/system.io.driveinfo.availablefreespace
+  % https://learn.microsoft.com/en-us/dotnet/api/system.io.driveinfo.availablefreespace
   i = uint64(i);
-catch e
-  dotnetException(e);
+else
+  i = missing;
 end
 
 end
