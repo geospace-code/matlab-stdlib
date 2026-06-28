@@ -4,26 +4,16 @@
 
 function [omax, b] = get_max_open_files(backend)
 arguments
-  backend (1,:) string = ["python", "shell"]
+  backend (1,:) string {mustBeNonempty} = ["python", "shell"]
 end
 
-omax = missing;
-
 for b = backend
-	switch b
-		case 'python'
-			if stdlib.has_python()
-				omax = stdlib.python.get_max_open_files();
-			end
-		case 'shell'
-			omax = stdlib.shell.get_max_open_files();
-		otherwise
-			error('stdlib:get_max_open_files:ValueError', 'Unknown backend: %s', b)
-	end
+  f = str2func("stdlib." + b + ".get_max_open_files");
+  omax = f();
 
-	if ~ismissing(omax)
-		return
-	end
+  if ~ismissing(omax)
+	return
+  end
 end
 
 end

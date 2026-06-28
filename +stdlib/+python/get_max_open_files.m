@@ -1,18 +1,12 @@
 %% python.get_max_open_files  Get process open-file soft limit via Python
-function omax = get_max_open_files()
+function m = get_max_open_files()
 
-omax = missing;
-
-if ispc()
-  return
-end
-
-try
-	% RLIMIT_NOFILE soft limit is the active per-process descriptor cap.
-	lim = py.resource.getrlimit(py.resource.RLIMIT_NOFILE);
-	omax = uint64(lim(1));
-catch e
-	pythonException(e);
+% RLIMIT_NOFILE soft limit is the active per-process descriptor cap.
+if ~ispc() && stdlib.has_python()
+  lim = py.resource.getrlimit(py.resource.RLIMIT_NOFILE);
+  m = uint64(lim(1));
+else
+  m = missing;
 end
 
 end
