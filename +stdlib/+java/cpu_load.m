@@ -1,6 +1,6 @@
 function L = cpu_load()
 
-try
+if stdlib.has_java()
   b = javaMethod('getOperatingSystemMXBean', 'java.lang.management.ManagementFactory');
 
   L = b.getSystemLoadAverage();
@@ -12,8 +12,8 @@ try
       L = b.getCpuLoad();
     end
   end
-catch e
-  L = javaException(e);
+else
+  L = missing;
 end
 
 end

@@ -1,10 +1,10 @@
 function L = cpu_load()
 
-L = missing;
-
-try %#ok<TRYNC>
+if ~ispc()
   L = py.os.getloadavg();
   L = double(L(1));
+else
+  L = missing;
 end
 
 end
