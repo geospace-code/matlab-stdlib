@@ -8,10 +8,9 @@ else
   c = 'print $< == 0 ? 1 : 0';
 end
 
-y = missing;
-
 exe = stdlib.perl_exe();
 if ismissing(exe)
+  y = missing;
   return
 end
 
