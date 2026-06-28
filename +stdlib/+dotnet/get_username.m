@@ -3,10 +3,10 @@
 function n = get_username()
 % https://learn.microsoft.com/en-us/dotnet/api/system.environment.username
 
-try
+if stdlib.has_dotnet()
   n = char(System.Environment.UserName);
-catch e
-  n = dotnetException(e);
+else
+  n = missing;
 end
 
 end

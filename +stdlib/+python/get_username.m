@@ -1,9 +1,9 @@
 function n = get_username()
 
-try
+if stdlib.has_python()
   n = char(py.getpass.getuser());
-catch e
-  n = pythonException(e);
+else
+  n = missing;
 end
 
 end

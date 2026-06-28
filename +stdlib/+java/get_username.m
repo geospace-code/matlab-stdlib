@@ -1,9 +1,9 @@
 function n = get_username()
 
-try
+if stdlib.has_java()
   n = char(javaMethod('getProperty', 'java.lang.System', 'user.name'));
-catch e
-  n = javaException(e);
+else
+  n = missing;
 end
 
 end
