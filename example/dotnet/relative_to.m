@@ -4,7 +4,7 @@
 
 function rel = relative_to(base, other)
 
-assert(stdlib.dotnet_api() >= 5)
+assert(stdlib.dotnet.api() >= 5)
 
 if stdlib.strempty(other)
   rel = base;

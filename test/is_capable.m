@@ -8,7 +8,7 @@ n = func2str(f);
 
 if contains(n, ".dotnet.")
 
-  dapi = stdlib.dotnet_api();
+  dapi = stdlib.dotnet.api();
   tc.assumeGreaterThan(dapi, 0, ".NET not available")
 
 elseif contains(n, ".java.")

@@ -9,7 +9,7 @@ try
   y = NET.isNETSupported;
 catch
   try
-    y = stdlib.dotnet_api() >= 4;
+    y = stdlib.dotnet.api() >= 4;
   catch
     y = false;
   end

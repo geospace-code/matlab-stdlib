@@ -29,11 +29,12 @@ end
 
 raw.java.vendor = stdlib.java.vendor();
 raw.java.version = stdlib.java.version();
+raw.java.api = stdlib.java.api();
 raw.java.home = stdlib.java.home();
 
-if stdlib.has_dotnet()
-  raw.dotnet.version = stdlib.dotnet_version();
-end
+raw.dotnet.api = stdlib.dotnet.api();
+raw.dotnet.home = stdlib.dotnet.home();
+raw.dotnet.version = stdlib.dotnet.version();
 
 if stdlib.has_perl()
   raw.perl.version = sprintf('%d.%d.%d', stdlib.perl_version());
