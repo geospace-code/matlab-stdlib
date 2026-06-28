@@ -84,7 +84,7 @@ On Windows, obtain OpenJDK with WinGet, which installs under "$Env:ProgramFiles/
 winget search Microsoft.OpenJDK
 ```
 
-Suppose OpenJDK 25 is desired and available like:
+Suppose OpenJDK 25 is desired (Matlab R2026b and newer) and available like:
 
 ```sh
 winget install Microsoft.OpenJDK.25
@@ -93,10 +93,20 @@ winget install Microsoft.OpenJDK.25
 Then tell Matlab to use this JDK from the Matlab console by:
 
 ```matlab
-jp = ls(fullfile(getenv('ProgramFiles'), 'Microsoft/jdk-25*'));
+r = 'jdk-25*';
+jp = ls(fullfile(getenv('ProgramFiles'), 'Microsoft', r));
 mustBeTextScalar(jp)
 jp = fullfile(getenv('ProgramFiles'), 'Microsoft', jp);
 jenv(jp)
+```
+
+NOTE: if using ARM64 CPU with x86_64 Matlab under Microsoft Windows Prism emulation (this is true at least through R2026b), then use the x86_64 version of
+[Microsoft OpenJDK](https://learn.microsoft.com/en-us/java/openjdk/download)
+instead of the ARM64 JDK, otherwise Matlab will not be able to load the JDK.
+Be sure to use "ZIP" download, not the "MSI" or "EXE" installers to avoid interfering with other programs, and extract the ZIP to a folder like "$Env:SystemDrive/openjdk-x86_64" and then use that path in the jenv() call.
+
+> Warning: Unable to load Java Runtime Environment: C:/Program Files/Microsoft/jdk-*-hotspot/bin/server/jvm.dll is not a valid Win32 application.
+> Disabling Java support.
 
 ## Factory Reset JRE
 
