@@ -2,9 +2,7 @@ function y = is_removable(file)
 
 y = false;
 
-if stdlib.has_python()
-% important for heuristic matching
-try
+if stdlib.has_python() && stdlib.python.has_psutil()
   p = py.str(file);
   if ~py.os.path.exists(p)
     return
@@ -21,10 +19,6 @@ try
       return
     end
   end
-catch e
-  y = pythonException(e);
-end
-
 else
   y = missing;
 end
