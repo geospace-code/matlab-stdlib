@@ -101,7 +101,7 @@ srcs = fullfile(test_root, srcs);
 exes = fullfile(test_root, exes);
 
 plan("exe") = matlab.buildtool.Task(Inputs=srcs, Outputs=exes, Actions=@build_exe, ...
-                 Description="build demo executables for testing java_run");
+                 Description="build demo executables for testing subprocess_run");
 
 end
 

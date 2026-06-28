@@ -59,6 +59,8 @@ to a compatible Java library by using the
 [jenv](https://www.mathworks.com/help/matlab/ref/jenv.html)
 Matlab function.
 
+### macOS JVM configuration
+
 For example, to use the
 [JDK 17 on macOS](https://www.oracle.com/java/technologies/downloads/#jdk17-mac)
 download and extract the ARM64 Compressed Archive.
@@ -74,11 +76,29 @@ Or for the Amazon Corretto JDK 11 on macOS:
 jenv("/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home/")
 ```
 
+### Windows JVM configuration
+
 On Windows, obtain OpenJDK with WinGet, which installs under "$Env:ProgramFiles/Microsoft/jdk-*":
 
 ```sh
-winget install Microsoft.OpenJDK.21
+winget search Microsoft.OpenJDK
 ```
+
+Suppose OpenJDK 25 is desired and available like:
+
+```sh
+winget install Microsoft.OpenJDK.25
+```
+
+Then tell Matlab to use this JDK from the Matlab console by:
+
+```matlab
+jp = ls(fullfile(getenv('ProgramFiles'), 'Microsoft/jdk-25*'));
+mustBeTextScalar(jp)
+jp = fullfile(getenv('ProgramFiles'), 'Microsoft', jp);
+jenv(jp)
+
+## Factory Reset JRE
 
 To
 [revert back to the default JRE](https://www.mathworks.com/help/matlab/ref/matlab_jenv.html)
