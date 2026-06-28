@@ -24,7 +24,7 @@ end
 
 
 function test_is_regular_file(tc)
-tc.verifyFalse(stdlib.is_regular_file(stdlib.null_file()), 'null file is not a regular file')
+tc.verifyFalse(stdlib.java.is_regular_file(stdlib.null_file()), 'null file is not a regular file')
 end
 
 

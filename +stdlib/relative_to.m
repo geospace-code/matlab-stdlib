@@ -7,7 +7,7 @@
 % * rel: relative path from base to target
 %
 % Note: Java Path.relativize has an algorithm so different that we choose not to use it.
-% javaPathObject(base).relativize(javaPathObject(target))
+% base.relativize(target)
 % https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html#relativize-java.nio.file.Path-
 
 function rel = relative_to(base, target)
