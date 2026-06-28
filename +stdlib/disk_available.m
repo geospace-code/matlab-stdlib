@@ -12,27 +12,13 @@
 
 function [i, b] = disk_available(file, backend)
 arguments
-  file {mustBeTextScalar}
-  backend (1,:) string = ["java", "dotnet", "python", "shell"]
+  file (1,1) string {mustBeFolder}
+  backend (1,:) string {mustBeNonempty} = ["java", "dotnet", "python", "shell"]
 end
 
-i = missing;
-
 for b = backend
-  switch b
-    case 'dotnet'
-      i = stdlib.dotnet.disk_available(file);
-    case 'java'
-      i = stdlib.java.disk_available(file);
-    case 'python'
-      if stdlib.has_python()
-        i = stdlib.python.disk_available(file);
-      end
-    case 'shell'
-      i = stdlib.shell.disk_available(file);
-    otherwise
-      error('stdlib:disk_available:ValueError', 'Unknown backend: %s', b)
-  end
+  f = str2func("stdlib." + b + ".disk_available");
+  i = f(file);
 
   if ~ismissing(i)
     return

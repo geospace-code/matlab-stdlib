@@ -10,27 +10,13 @@
 
 function [i, b] = disk_capacity(file, backend)
 arguments
-  file {mustBeTextScalar}
-  backend (1,:) string = ["java", "dotnet", "python", "shell"]
+  file (1,1) string {mustBeFolder}
+  backend (1,:) string {mustBeNonempty} = ["java", "dotnet", "python", "shell"]
 end
 
-i = missing;
-
 for b = backend
-  switch b
-    case 'dotnet'
-      i = stdlib.dotnet.disk_capacity(file);
-    case 'java'
-      i = stdlib.java.disk_capacity(file);
-    case 'python'
-      if stdlib.has_python()
-        i = stdlib.python.disk_capacity(file);
-      end
-    case 'shell'
-      i = stdlib.shell.disk_capacity(file);
-    otherwise
-      error('stdlib:disk_capacity:ValueError', 'Unknown backend: %s', b)
-  end
+  f = str2func("stdlib." + b + ".disk_capacity");
+  i = f(file);
 
   if ~ismissing(i)
     return

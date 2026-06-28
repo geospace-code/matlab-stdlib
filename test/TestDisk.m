@@ -22,16 +22,23 @@ end
 methods (Test)
 
 function test_disk_available(tc, Ps, B_jdps)
+
+if ~isfolder(Ps)
+  if ~strlength(Ps)
+    e = 'MATLAB:validators:mustBeNonzeroLengthText';
+  else
+    e = 'MATLAB:validators:mustBeFolder';
+  end
+  tc.assertError(@() stdlib.disk_available(Ps, B_jdps), e)
+  return
+end
+
 [r, b] = stdlib.disk_available(Ps, B_jdps);
 tc.assertMatches(b, B_jdps)
 
 if ismember(B_jdps, stdlib.Backend().select('disk_available'))
-  if stdlib.exists(Ps)
-    tc.verifyClass(r, 'uint64')
-    tc.verifyGreaterThanOrEqual(r, 0)
-  else
-    tc.verifyEqual(r, missing)
-  end
+  tc.verifyClass(r, 'uint64')
+  tc.verifyGreaterThanOrEqual(r, 0)
 else
   tc.verifyEqual(r, missing)
 end
@@ -40,17 +47,24 @@ end
 
 
 function test_disk_capacity(tc, Ps, B_jdps)
+
+if ~isfolder(Ps)
+  if ~strlength(Ps)
+    e = 'MATLAB:validators:mustBeNonzeroLengthText';
+  else
+    e = 'MATLAB:validators:mustBeFolder';
+  end
+  tc.assertError(@() stdlib.disk_capacity(Ps, B_jdps), e)
+  return
+end
+
 [r, b] = stdlib.disk_capacity(Ps, B_jdps);
 tc.assertMatches(b, B_jdps)
 
 
 if ismember(B_jdps, stdlib.Backend().select('disk_capacity'))
-  if stdlib.exists(Ps)
-   tc.verifyClass(r, 'uint64')
-    tc.verifyGreaterThanOrEqual(r, 0)
-  else
-    tc.verifyEqual(r, missing)
-  end
+  tc.verifyClass(r, 'uint64')
+  tc.verifyGreaterThanOrEqual(r, 0)
 else
   tc.verifyEqual(r, missing)
 end
@@ -203,12 +217,8 @@ else
 tc.assertMatches(b, B_jdps)
 
 if ismember(B_jdps, stdlib.Backend().select('get_owner'))
-  if ~stdlib.exists(Ps)
-    tc.verifyEqual(o, missing)
-  else
   tc.verifyClass(o, 'char')
-    tc.verifyGreaterThan(strlength(o), 0)
-  end
+  tc.verifyGreaterThan(strlength(o), 0)
 else
   tc.verifyEqual(o, missing)
 end

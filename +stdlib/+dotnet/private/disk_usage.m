@@ -1,7 +1,7 @@
 function i = disk_usage(file, v)
 
 % Windows needs exists() not just strempty()
-if stdlib.has_dotnet() && stdlib.exists(file)
+if stdlib.has_dotnet()
   % absolutizing is necessary for Windows especially
   di = System.IO.DriveInfo(System.IO.Path.GetFullPath(file));
 
