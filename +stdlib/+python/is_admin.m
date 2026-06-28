@@ -3,6 +3,7 @@ function y = is_admin()
 
 y = missing;
 
+if stdlib.has_python()
 try
 
 if isunix()
@@ -18,6 +19,7 @@ end
 
 catch e
   pythonException(e);
+end
 end
 
 end

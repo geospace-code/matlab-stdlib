@@ -2,19 +2,13 @@
 
 function y = is_admin()
 
-
-y = missing;
-if ~ispc()
-  return
-end
-
 % Use .NET System.Security.Principal to check for admin privileges
-try
+if ispc()
   identity = System.Security.Principal.WindowsIdentity.GetCurrent();
   principal = System.Security.Principal.WindowsPrincipal(identity);
   y = principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
-catch e
-  dotnetException(e);
+else
+  y = missing;
 end
 
 end
