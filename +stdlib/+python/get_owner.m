@@ -1,15 +1,9 @@
 function n = get_owner(file)
 
-n = missing;
-
-if stdlib.strempty(file)
-  return
-end
-
-try
+if isunix() && stdlib.has_python()
   n = char(py.pathlib.Path(file).owner());
-catch e
-  pythonException(e);
+else
+  n = missing;
 end
 
 end

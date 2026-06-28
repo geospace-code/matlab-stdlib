@@ -1,15 +1,9 @@
 %% JAVA.GET_OWNER get owner of file
 
-
 function n = get_owner(file)
 
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/Files.html#getOwner(java.nio.file.Path,java.nio.file.LinkOption...)
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/nio/file/LinkOption.html
-
-n = missing;
-if stdlib.strempty(file)
-  return
-end
 
 % Java 1.8 benefits from absolute.
 % We only saw this issue with R2025a on windows-2025 GA runner image.
@@ -18,12 +12,12 @@ end
 % stdlib.exists() was true, the Java function threw java.nio.file.NoSuchFileException.
 %
 % this try-catch is faster and more robust
-try
+if stdlib.has_java()
   p = javaAbsolutePath(file);
   opt = javaMethod('values', 'java.nio.file.LinkOption');
   n = char(javaMethod('getOwner', 'java.nio.file.Files', p, opt));
-catch e
-  javaException(e);
+else
+  n = missing;
 end
 
 end

@@ -11,11 +11,9 @@ else
 end
 
 % Windows needs exists() rather than just ~strempty()
-if stdlib.exists(file)
-  [s, m] = system(cmd);
-  if s == 0
-    o = deblank(m);
-  end
+[s, m] = system(cmd);
+if s == 0
+  o = deblank(m);
 end
 
 end

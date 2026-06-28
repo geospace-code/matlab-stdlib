@@ -5,7 +5,7 @@ function o = get_owner(file)
 % This is not yet possible with .NET on Unix, even with .NET 10.
 % It would require Pinvoke or external Mono.Unix
 
-try
+if ispc() && stdlib.has_dotnet()
   ntAccountType = System.Type.GetType('System.Security.Principal.NTAccount');
 
   if isfolder(file)
@@ -20,8 +20,8 @@ try
   owner = fsec.GetOwner(ntAccountType);
 
   o = char(owner.ToString());
-catch e
-  o = dotnetException(e);
+else
+  o = missing;
 end
 
 end
