@@ -1,10 +1,9 @@
 function [os, vers] = os_version()
 
-try
+if stdlib.has_python()
   os = char(py.platform.system());
   vers = char(py.platform.version());
-catch e
-  pythonException(e);
+else
   os = missing;
   vers = missing;
 end

@@ -12,27 +12,12 @@
 
 function [os, version, b] = os_version(backend)
 arguments
-  backend (1,:) string = ["shell", "python", "dotnet", "java"];
+  backend (1,:) string {mustBeNonempty} = ["shell", "python", "dotnet", "java"];
 end
 
-os = missing;
-version = missing;
-
 for b = backend
-  switch b
-    case 'java'
-      [os, version] = stdlib.java.os_version();
-    case 'dotnet'
-      [os, version] = stdlib.dotnet.os_version();
-    case 'python'
-      if stdlib.has_python()
-        [os, version] = stdlib.python.os_version();
-      end
-    case 'shell'
-      [os, version] = stdlib.shell.os_version();
-    otherwise
-      error('stdlib:os_version:ValueError', 'Unknown backend: %s', b)
-  end
+  f = str2func("stdlib." + b + ".os_version");
+  [os, version] = f();
 
   if ~any(ismissing(os)) && ~any(ismissing(version))
     return
