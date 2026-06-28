@@ -9,7 +9,7 @@ switch e.identifier
     % pass GNU Octave
   case 'MATLAB:Java:GenericException'
     switch class(e.ExceptionObject)
-      case {'java.nio.file.NoSuchFileException', 'java.nio.file.NotLinkException', 'java.lang.UnsupportedOperationException'}
+      case {'java.nio.file.NoSuchFileException', 'java.lang.UnsatisfiedLinkError', 'java.nio.file.NotLinkException', 'java.lang.UnsupportedOperationException'}
         % pass
       case 'java.lang.NullPointerException'
         % empty input
