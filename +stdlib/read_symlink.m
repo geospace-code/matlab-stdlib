@@ -12,29 +12,14 @@
 
 function [r, b] = read_symlink(file, backend)
 arguments
-  file {mustBeTextScalar}
-  backend (1,:) string = ["native", "java", "python", "dotnet", "shell"]
+  file (1,1) string {mustBeFileOrFolder}
+  backend (1,:) string {mustBeNonempty} = ["native", "java", "python", "dotnet", "shell"]
 end
 
-r = missing;
 
 for b = backend
-  switch b
-    case 'java'
-      r = stdlib.java.read_symlink(file);
-    case 'native'
-      r = stdlib.native.read_symlink(file);
-    case 'dotnet'
-      r = stdlib.dotnet.read_symlink(file);
-    case 'python'
-      if stdlib.has_python()
-        r = stdlib.python.read_symlink(file);
-      end
-    case 'shell'
-      r = stdlib.shell.read_symlink(file);
-    otherwise
-      error('stdlib:read_symlink:ValueError', 'Unknown backend: %s', b)
-  end
+  f = str2func("stdlib." + b  + ".read_symlink");
+  r = f(file);
 
   if ~ismissing(r)
     return
