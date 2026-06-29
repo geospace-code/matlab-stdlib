@@ -2,12 +2,8 @@
 
 function y = is_symlink(file)
 
-if ~stdlib.exists(file)
-  % necessary to avoid having to catch 'MATLAB:NET:CLRException:MethodInvoke' on Windows
-  y = false;
-  return
-end
-try
+
+if stdlib.has_dotnet()
   if stdlib.dotnet.api() >= 6
     y = ~isempty(System.IO.FileInfo(file).LinkTarget);
   else
@@ -16,8 +12,8 @@ try
     % ReparsePoint is for Linux, macOS, and Windows
     y = contains(attr, 'ReparsePoint');
   end
-catch e
-  y = dotnetException(e);
+else
+  y = missing;
 end
 
 end

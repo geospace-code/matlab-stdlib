@@ -1,15 +1,10 @@
 function y = is_symlink(file)
 
-if stdlib.strempty(file)
-  y = false;
-  return
-end
-
-try
+if stdlib.has_java()
   p = javaAbsolutePath(file);
   y = javaMethod('isSymbolicLink', 'java.nio.file.Files', p);
-catch e
-  y = javaException(e);
+else
+  y = missing;
 end
 
 end
