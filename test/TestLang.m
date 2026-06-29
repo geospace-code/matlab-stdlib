@@ -13,7 +13,7 @@ end
 function test_python_home(tc)
 tc.assumeTrue(stdlib.has_python(), 'Python not available')
 
-r = stdlib.python.home();
+r = stdlib.python_home();
 tc.verifyClass(r, 'string')
 end
 
