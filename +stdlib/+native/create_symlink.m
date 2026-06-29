@@ -1,8 +1,7 @@
 function i = create_symlink(target, link)
 
-i = missing;
-
 if stdlib.matlabOlderThan('R2024b')
+  i = missing;
   return
 end
 
@@ -12,7 +11,7 @@ try
 catch e
   switch e.identifier
     case {'MATLAB:io:filesystem:symlink:NeedsAdminPerms'}
-      if ispc
+      if ispc()
         error('MATLAB:io:filesystem:symlink:NeedsAdminPerms', ...
             'Consider enabling Windows Developer Mode to allow non-priviliged symlinks https://learn.microsoft.com/en-us/windows/advanced-settings/developer-mode#enable-developer-mode')
       else

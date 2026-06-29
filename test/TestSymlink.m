@@ -81,7 +81,7 @@ end
 
 
 function test_create_symlink_empty(tc, B_create_symlink)
-tc.verifyError(@() stdlib.create_symlink('', '', B_create_symlink), 'MATLAB:validators:mustBeNonzeroLengthText')
+tc.verifyError(@() stdlib.create_symlink('', '', B_create_symlink), 'MATLAB:validators:mustBeFileOrFolder')
 end
 
 

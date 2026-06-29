@@ -1,9 +1,5 @@
 
 function [ok, cmd, m] = create_symlink(target, link)
-arguments
-  target {mustBeTextScalar,mustBeNonzeroLengthText}
-  link {mustBeTextScalar,mustBeNonzeroLengthText}
-end
 
 ok = false;
 m = '';

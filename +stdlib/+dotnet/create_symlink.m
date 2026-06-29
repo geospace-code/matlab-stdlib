@@ -2,17 +2,17 @@
 
 function ok = create_symlink(target, link)
 
-if ~stdlib.exists(target) || stdlib.strempty(link) || stdlib.exists(link)
+if stdlib.exists(link)
   ok = false;
   return
 end
 
 % https://learn.microsoft.com/en-us/dotnet/api/system.io.file.createsymboliclink
-try
+if stdlib.has_dotnet() && stdlib.dotnet.api() >= 6
   System.IO.File.CreateSymbolicLink(link, target);
   ok = true;
-catch e
-  ok = dotnetException(e);
+else
+  ok = missing;
 end
 
 end
