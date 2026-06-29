@@ -8,7 +8,7 @@
 
 function y = has_python(enable_check)
 arguments
-  enable_check (1,1) logical = false
+  enable_check (1,1) logical = true
 end
 % ~stdlib.matlabOlderThan('R2022a')
 
