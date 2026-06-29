@@ -35,13 +35,15 @@ end
 methods (Test)
 
 function test_is_symlink(tc, B_is_symlink)
+
+tc.assertError(@() stdlib.is_symlink('', B_is_symlink), 'MATLAB:validators:mustBeFileOrFolder')
+
 [i, b] = stdlib.is_symlink(tc.link, B_is_symlink);
 tc.assertMatches(b, B_is_symlink)
 
 if ismember(B_is_symlink, stdlib.Backend().select('is_symlink'))
   tc.assertTrue(i, 'failed to detect own link')
 
-  tc.verifyFalse(stdlib.is_symlink('', B_is_symlink))
   tc.verifyFalse(stdlib.is_symlink(tc.target, B_is_symlink))
 else
   tc.verifyEqual(i, missing)
@@ -66,7 +68,7 @@ tc.applyFixture(matlab.unittest.fixtures.SuppressedWarningsFixture(...
   {'MATLAB:io:filesystem:symlink:TargetNotFound','MATLAB:io:filesystem:symlink:FileExists'}));
 
 ano = fullfile(pwd(), 'another.lnk');
-tc.assertFalse(stdlib.is_symlink(ano))
+tc.assertFalse(stdlib.exists(ano) && stdlib.is_symlink(ano))
 
 r = stdlib.create_symlink(tc.target, ano, B_create_symlink);
 

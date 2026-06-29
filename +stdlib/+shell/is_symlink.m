@@ -1,10 +1,5 @@
 function [y, cmd] = is_symlink(file)
 
-if stdlib.strempty(file)
-  y = false;
-  return
-end
-
 if ispc()
   cmd = sprintf('fsutil reparsepoint query "%s"', file);
   % cmd = sprintf('pwsh -command "(Get-Item -Path ''%s'').Attributes"', file);
