@@ -18,31 +18,15 @@
 
 function [i, b] = samepath(path1, path2, backend)
 arguments
-  path1 {mustBeTextScalar, mustBeFileOrFolder}
-  path2 {mustBeTextScalar, mustBeFileOrFolder}
-  backend (1,:) string = ["python", "java", "perl", "shell", "native"]
+  path1 (1,1) string {mustBeFileOrFolder}
+  path2 (1,1) string {mustBeFileOrFolder}
+  backend (1,:) string {mustBeNonempty} = ["python", "java", "perl", "shell", "native"]
 end
 
 
-i = missing;
-
 for b = backend
-  switch b
-    case 'java'
-      i = stdlib.java.samepath(path1, path2);
-    case 'native'
-      i = stdlib.native.samepath(path1, path2);
-    case 'perl'
-      i = stdlib.perl.samepath(path1, path2);
-    case 'python'
-      if stdlib.has_python()
-        i = stdlib.python.samepath(path1, path2);
-      end
-    case 'shell'
-      i = stdlib.shell.samepath(path1, path2);
-    otherwise
-      error('stdlib:samepath:ValueError', 'Unknown backend: %s', b)
-  end
+  f = str2func("stdlib." + b + ".samepath");
+  i = f(path1, path2);
 
   if ~ismissing(i)
     return
