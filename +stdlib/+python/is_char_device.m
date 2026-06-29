@@ -1,9 +1,9 @@
 function y = is_char_device(file)
 
-try
+if stdlib.has_python()
   y = py.pathlib.Path(file).is_char_device();
-catch e
-  y = pythonException(e);
+else
+  y = missing;
 end
 
 end

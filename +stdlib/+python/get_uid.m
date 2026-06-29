@@ -1,13 +1,9 @@
 function u = get_uid()
 
-u = missing;
-
-if isunix()
-  try
-    u = double(py.os.geteuid());
-  catch e
-    pythonException(e);
-  end
+if isunix() && stdlib.has_python()
+  u = double(py.os.geteuid());
+else
+  u = missing;
 end
 
 end

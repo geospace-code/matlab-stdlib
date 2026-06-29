@@ -4,9 +4,7 @@
 
 function y = is_mount(filepath)
 
-
 if stdlib.has_python()
-try
   y = false;
 
   p = py.pathlib.Path(filepath);
@@ -20,9 +18,6 @@ try
   end
 
   y = py.os.path.ismount(p);
-catch e
-  y = pythonException(e);
-end
 else
   y = missing;
 end

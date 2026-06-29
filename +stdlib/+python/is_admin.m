@@ -1,10 +1,8 @@
 function y = is_admin()
 
 
-y = missing;
 
 if stdlib.has_python()
-try
 
 if isunix()
   y = py.os.getuid() == 0;
@@ -17,9 +15,8 @@ elseif ~stdlib.matlabOlderThan('R2024a')
   y = logical(f());
 end
 
-catch e
-  pythonException(e);
-end
+else
+  y = missing;
 end
 
 end

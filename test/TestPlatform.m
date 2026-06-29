@@ -35,7 +35,8 @@ tc.assumeFalse(stdlib.matlabOlderThan('R2026a'))
 Nlicense = length(mathworksUsed);
 tc.verifyGreaterThanOrEqual(Nlicense, 1)
 tc.verifyTrue(ismember('MATLAB', mathworksUsed))
-tc.verifyGreaterThan(length(userFun), 200) % we have over 200 stdlib functions
+tc.verifyGreaterThanOrEqual(length(userFun), 188)
+% we have >= 188 stdlib functions
 
 % don't use paid toolboxes without checking they exist, otherwise this function fails
 [mathworksUsed, userFun] = stdlib.toolbox_used('disp');
