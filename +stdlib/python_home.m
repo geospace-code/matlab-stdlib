@@ -1,6 +1,6 @@
-%% PYTHON.HOME tell the home directory of Python install
+%% PYTHON_HOME tell the home directory of Python install
 
-function h = home()
+function h = python_home()
 
 if stdlib.has_python()
   pe = pyenv();

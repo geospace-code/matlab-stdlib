@@ -1,5 +1,3 @@
-%% DOTNET.VERSION version string
-
 function v = version()
 
 if stdlib.has_dotnet()
