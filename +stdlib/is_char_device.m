@@ -21,23 +21,13 @@
 function [i, b] = is_char_device(file, backend)
 arguments
   file {mustBeTextScalar}
-  backend (1,:) string = ["python", "shell"]
+  backend (1,:) string {mustBeNonempty} = ["python", "shell"]
 end
 
 
-i = missing;
-
 for b = backend
-  switch b
-    case 'python'
-      if stdlib.has_python()
-        i = stdlib.python.is_char_device(file);
-      end
-    case 'shell'
-      i = stdlib.shell.is_char_device(file);
-    otherwise
-      error('stdlib:is_char_device:ValueError', 'Unknown backend: %s', b)
-  end
+  f = str2func("stdlib." + b + ".is_char_device");
+  i = f(file);
 
   if ~ismissing(i)
     return
