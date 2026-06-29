@@ -14,24 +14,15 @@
 
 function [r, b] = file_checksum(file, hash_method, backend)
 arguments
-  file {mustBeTextScalar}
+  file (1,1) string {mustBeFile}
   hash_method {mustBeTextScalar}
-  backend (1,:) string = ["java", "dotnet", "shell"]
+  backend (1,:) string {mustBeNonempty} = ["java", "dotnet", "shell"]
 end
 
-r = missing;
 
 for b = backend
-  switch b
-    case 'java'
-      r = stdlib.java.file_checksum(file, hash_method);
-    case 'dotnet'
-      r = stdlib.dotnet.file_checksum(file, hash_method);
-    case 'shell'
-      r = stdlib.shell.file_checksum(file, hash_method);
-    otherwise
-      error('stdlib:file_checksum:ValueError', 'Unknown backend: %s', b)
-  end
+  f = str2func("stdlib." + b + ".file_checksum");
+  r = f(file, hash_method);
 
   if ~ismissing(r)
     return
