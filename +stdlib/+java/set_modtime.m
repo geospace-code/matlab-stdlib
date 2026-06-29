@@ -2,20 +2,12 @@
 
 function ok = set_modtime(file, time)
 
-try
+if stdlib.has_java()
   utc = posixtime(datetime(time, 'TimeZone', 'UTC'));
-catch e
-  if ~strcmp(e.identifier, 'Octave:undefined-function')
-    rethrow(e)
-  end
-  utc = time;
-end
-
-try
   o = javaObject('java.io.File', file);
   ok = javaMethod('setLastModified', o, int64(utc) * 1000);
-catch e
-  ok = javaException(e);
+else
+  ok = missing;
 end
 
 end

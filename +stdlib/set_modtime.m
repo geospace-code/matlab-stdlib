@@ -12,24 +12,13 @@ function [i, b] = set_modtime(file, time, backend)
 arguments
   file {mustBeTextScalar, mustBeFile}
   time (1,1) datetime
-  backend (1,:) string = ["java", "python", "shell"]
+  backend (1,:) string {mustBeNonempty} = ["java", "python", "shell"]
 end
 
-i = missing;
 
 for b = backend
-  switch b
-    case 'java'
-      i = stdlib.java.set_modtime(file, time);
-    case 'python'
-      if stdlib.has_python()
-        i = stdlib.python.set_modtime(file, time);
-      end
-    case 'shell'
-      i = stdlib.shell.set_modtime(file, time);
-    otherwise
-      error('stdlib:set_modtime:ValueError', 'Unknown backend: %s', b)
-  end
+  f = str2func("stdlib." + b + ".set_modtime");
+  i = f(file, time);
 
   if ~ismissing(i)
     return
