@@ -2,11 +2,11 @@
 
 function v = version()
 
-try
+if stdlib.has_dotnet()
   vs = System.Environment.Version;
   v = sprintf('%d.%d.%d', vs.Major, vs.Minor, vs.Build);
-catch e
-  v = dotnetException(e);
+else
+  v = missing;
 end
 
 end
