@@ -2,7 +2,7 @@
 
 function h = home()
 
-if stdlib.has_python
+if stdlib.has_python()
   pe = pyenv();
   h = pe.Home;
 else
