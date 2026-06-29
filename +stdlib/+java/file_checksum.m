@@ -12,22 +12,21 @@ file_chunk = 10e6;  % arbitrary (bytes) didn't seem to be very sensitive for spe
 fid = fopen(file, 'r');
 assert(fid > 1, 'could not open file %s', file)
 
-try
-
-  inst = javaMethod('getInstance', 'java.security.MessageDigest', hash_method);
-  while ~feof(fid)
-    % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#update(byte)
-    [bytes, count] = fread(fid, file_chunk, '*uint8');
-    if count
-      inst.update(bytes);
-    end
-  end
-  % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#digest()
-  hash = sprintf('%.2x', typecast(inst.digest, 'uint8'));
-
-catch e
-  hash = javaException(e);
+if ~stdlib.has_java()
+  hash = missing;
+  return
 end
+
+inst = javaMethod('getInstance', 'java.security.MessageDigest', hash_method);
+while ~feof(fid)
+  % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#update(byte)
+  [bytes, count] = fread(fid, file_chunk, '*uint8');
+  if count
+    inst.update(bytes);
+  end
+end
+% https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#digest()
+hash = sprintf('%.2x', typecast(inst.digest, 'uint8'));
 
 fclose(fid);
 

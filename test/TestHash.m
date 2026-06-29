@@ -39,6 +39,11 @@ methods (Test)
 
 function test_hash_text(tc, Ph, backend)
 
+if ~isfile(tc.file)
+  tc.assertError(@() stdlib.file_checksum(tc.file, Ph{1}, backend), 'MATLAB:validators:mustBeFile')
+  return
+end
+
 [r, b] = stdlib.file_checksum(tc.file, Ph{1}, backend);
 tc.assertMatches(b, backend)
 
@@ -52,6 +57,11 @@ end
 
 
 function test_hash_empty(tc, Pe, backend)
+
+if ~isfile(tc.file)
+  tc.assertError(@() stdlib.file_checksum(tc.file, Pe, backend), 'MATLAB:validators:mustBeFile')
+  return
+end
 
 r = stdlib.file_checksum(tc.empty, Pe{1}, backend);
 
