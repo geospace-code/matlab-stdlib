@@ -3,7 +3,10 @@ function build_exe(context)
 for i = 1:length(context.Task.Inputs)
   src = context.Task.Inputs(i);
   exe = context.Task.Outputs(i).paths;
-  exe = exe(1);
+
+  % need this for paths with spaces
+  source_file = '"' + src.paths + '"';
+  exe = '"' + exe(1) + '"';
 
   ext = stdlib.suffix(src.paths);
   switch ext
@@ -21,7 +24,9 @@ for i = 1:length(context.Task.Inputs)
     disp("Shell: " + shell)
   end
 
-  cmd = join([comp, src.paths, outFlag + exe]);
+
+
+  cmd = join([comp, source_file, outFlag + exe]);
   if ~isempty(shell)
     cmd = join([shell, stdlib.cmdsep(), cmd]);
   end
