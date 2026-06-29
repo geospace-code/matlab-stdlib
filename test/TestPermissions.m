@@ -23,13 +23,10 @@ methods (Test, TestTags={'R2016a'})
 
 function test_not_exist(tc, Pe)
 
-e = 'MATLAB:io:filesystem:filePermissions:CannotFindLocation';
+e = 'MATLAB:validators:mustBeFileOrFolder';
 tc.verifyError(@() stdlib.get_permissions(Pe), e)
 
-if stdlib.matlabOlderThan('R2025a')
-  e = 'MATLAB:FILEATTRIB:CannotFindFile';
-end
-tc.verifyError(@() stdlib.set_permissions(Pe, 0, 0, 0), e)
+tc.verifyError(@() stdlib.set_permissions(Pe), e)
 
 end
 
@@ -72,7 +69,7 @@ import matlab.unittest.constraints.StartsWithSubstring
 nw = [pwd(), '/no-write'];
 
 tc.assertTrue(stdlib.touch(nw))
-r = stdlib.set_permissions(nw, 0, -1, 0);
+r = stdlib.set_permissions(nw, [], false, []);
 
 tc.assertTrue(r)
 
@@ -105,7 +102,7 @@ tc.assumeFalse(stdlib.matlabOlderThan('R2025a'))
 nr = [pwd(), '/no-read'];
 
 tc.assertTrue(stdlib.touch(nr))
-tc.assertTrue(stdlib.set_permissions(nr, -1, 0, 0))
+tc.assertTrue(stdlib.set_permissions(nr, false))
 p = stdlib.get_permissions(nr);
 
 if ~ispc()

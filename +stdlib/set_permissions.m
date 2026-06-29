@@ -2,9 +2,9 @@
 %
 %%% Inputs
 % * file
-% * readable   (-1 remove read permission,    0 no change, 1 add read permission)
-% * writable   (-1 remove write permission,   0 no change, 1 add write permission)
-% * executable (-1 remove execute permission, 0 no change, 1 add execute permission)
+% * readable   (false remove read permission, true add read permission, empty no change)
+% * writable   (false remove write permission, true add write permission, empty no change)
+% * executable (false remove execute permission, true add execute permission, empty no change)
 %%% Outputs
 % * ok (1,1) logical
 % * b: backend used
@@ -13,10 +13,10 @@
 
 function [ok, b] = set_permissions(file, readable, writable, executable)
 arguments
-  file {mustBeTextScalar}
-  readable (1,1) {mustBeInteger, mustBeMember(readable, [-1, 0, 1])}
-  writable (1,1) {mustBeInteger, mustBeMember(writable, [-1, 0, 1])}
-  executable (1,1) {mustBeInteger, mustBeMember(executable, [-1, 0, 1])}
+  file {mustBeTextScalar,mustBeFileOrFolder}
+  readable logical {mustBeScalarOrEmpty} = []
+  writable logical {mustBeScalarOrEmpty} = []
+  executable logical {mustBeScalarOrEmpty} = []
 end
 
 if stdlib.matlabOlderThan('R2025a')

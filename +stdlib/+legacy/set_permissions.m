@@ -6,32 +6,36 @@ function ok = set_permissions(file, readable, writable, executable)
 
 mode = '';
 % mode is space-delimited
-if ~ispc()
-  if readable == 1
+if ~ispc() && ~isempty(readable)
+  if readable
     mode = [mode ' +r'];
-  elseif readable == -1
+  else
     mode = [mode ' -r'];
   end
 end
 
-if writable == 1
-  mode = [mode ' +w'];
-elseif writable == -1
-  mode = [mode ' -w'];
+if ~isempty(writable)
+  if writable
+    mode = [mode ' +w'];
+  else
+    mode = [mode ' -w'];
+  end
 end
 
-if executable == 1
-  mode = [mode ' +x'];
-elseif executable == -1
-  mode = [mode ' -x'];
+if ~isempty(executable)
+  if executable
+    mode = [mode ' +x'];
+  else
+    mode = [mode ' -x'];
+  end
 end
 
-if isempty(mode) && stdlib.exists(file)
+if isempty(mode)
   ok = true;
   return
 end
 
-[s, msg, id] = fileattrib(char(file), mode);
+[s, msg, id] = fileattrib(file, mode);
 ok = s == 1;
 if ~ok
   error(id, 'Failed to set permissions %s for %s: %s', mode, file, msg)
