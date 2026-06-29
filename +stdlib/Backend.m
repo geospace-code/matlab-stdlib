@@ -105,11 +105,9 @@ for m = backendReq
         case 'is_dev_drive'
           if ~ispc(), continue, end
 
-          if stdlib.has_python()
-            pyv = stdlib.python.version();
-            if any(ismissing(pyv)) || any(pyv(1:2) < [3, 12])
-              continue
-            end
+          pyv = stdlib.python_version();
+          if any(ismissing(pyv)) || any(pyv(1:2) < [3, 12])
+            continue
           end
       end
     case 'native'
