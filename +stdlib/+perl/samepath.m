@@ -2,7 +2,7 @@ function [r, cmd] = samepath(file1, file2)
 
 r = missing;
 
-try %#ok<TRYNC>
+if stdlib.has_perl()
   exe = stdlib.perl_exe();
   if ismissing(exe)
     return
