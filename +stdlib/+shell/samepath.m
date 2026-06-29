@@ -22,14 +22,12 @@ end
 cmd1 = sprintf('stat %s %%d:%%i "%s"', flag, path1);
 cmd2 = sprintf('stat %s %%d:%%i "%s"', flag, path2);
 
+% execute faster than two separate calls to system()
 cmd = stdlib.append(cmd1, stdlib.cmdsep(), cmd2);
 
 [s, m] = system(cmd);
 if s == 0
-
-  % m = splitlines(m);
-  % to allow older Matlab / Octave compatibility
-  m = strsplit(m, {'\n', '\r'});
+  m = splitlines(m);
   assert(length(m) >= 2, "samepath(%s, %s) failed: unexpected output", path1, path2);
 
   y = strcmp(m{1}, m{2});
