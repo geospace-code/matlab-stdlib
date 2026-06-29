@@ -9,10 +9,10 @@
 
 function v = version()
 
-try
+if stdlib.has_java()
   v = char(javaMethod('getProperty', 'java.lang.System', 'java.version'));
-catch e
-  v = javaException(e);
+else
+  v = missing;
 end
 
 end

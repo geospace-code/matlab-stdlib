@@ -8,6 +8,7 @@ function y = has_parallel_toolbox()
 try
   y = canUseParallelPool();
 catch e
+  % need this for Matlab without Parallel Computing Toolbox installed.
   if ~strcmp(e.identifier, 'MATLAB:UndefinedFunction')
     rethrow(e)
   end

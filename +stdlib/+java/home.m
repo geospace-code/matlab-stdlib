@@ -2,10 +2,10 @@
 
 function h = home()
 
-try
+if stdlib.has_java()
   h = char(javaMethod('getProperty', 'java.lang.System', 'java.home'));
-catch e
-  h = javaException(e);
+else
+  h = missing;
 end
 
 end
