@@ -1,5 +1,3 @@
-%% JAVA.VENDOR get vendor of Java Virtual Machine
-
 function v = vendor()
 
 if stdlib.has_java()

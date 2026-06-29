@@ -1,5 +1,3 @@
-%% JAVA.HOME get the JAVA_HOME environment variable
-
 function h = home()
 
 if stdlib.has_java()
