@@ -38,6 +38,10 @@ err = string.empty;
 % for compatibility with implementations that return stderr separately.
 % Matlab system() returns combined stdout and stderr in msg, and leaves err empty.
 
+% if the path to the executable has spaces and isn't quoted, we need to quote it
+if contains(cmd(1), ' ') && ~startsWith(cmd(1), ['"', "'"])
+  cmd(1) = '"' + cmd(1) + '"';
+end
 
 if ~stdlib.strempty(opt.cwd)
   mustBeFolder(opt.cwd)
@@ -77,14 +81,14 @@ end
 %% Gfortran streams
 % https://www.mathworks.com/matlabcentral/answers/91919-why-does-the-output-of-my-fortran-script-not-show-up-in-the-matlab-command-window-when-i-execute-it#answer_101270
 % Matlab grabs the stdout, stderr, stdin handles of a Gfortran program, even when it's using Java.
-% We must disable this behavior for the duration the running process.
+% We must disable this behavior for the duration of the running process.
 
 outold = getenv('GFORTRAN_STDOUT_UNIT');
-setenv('GFORTRAN_STDOUT_UNIT', '6');
+setenv('GFORTRAN_STDOUT_UNIT', '6')
 errold = getenv('GFORTRAN_STDERR_UNIT');
-setenv('GFORTRAN_STDERR_UNIT', '0');
+setenv('GFORTRAN_STDERR_UNIT', '0')
 inold = getenv('GFORTRAN_STDIN_UNIT');
-setenv('GFORTRAN_STDIN_UNIT', '5');
+setenv('GFORTRAN_STDIN_UNIT', '5')
 
 if opt.echo
   disp(cmd)
@@ -92,9 +96,9 @@ end
 
 [status, msg] = system(join(cmd), env_pairs{:});
 
-setenv('GFORTRAN_STDOUT_UNIT', outold);
-setenv('GFORTRAN_STDERR_UNIT', errold);
-setenv('GFORTRAN_STDIN_UNIT', inold);
+setenv('GFORTRAN_STDOUT_UNIT', outold)
+setenv('GFORTRAN_STDERR_UNIT', errold)
+setenv('GFORTRAN_STDIN_UNIT', inold)
 
 msg = deblank(msg);
 

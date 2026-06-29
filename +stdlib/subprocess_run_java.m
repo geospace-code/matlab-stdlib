@@ -70,14 +70,14 @@ end
 %% Gfortran streams
 % https://www.mathworks.com/matlabcentral/answers/91919-why-does-the-output-of-my-fortran-script-not-show-up-in-the-matlab-command-window-when-i-execute-it#answer_101270
 % Matlab grabs the stdout, stderr, stdin handles of a Gfortran program, even when it's using Java.
-% We must disable this behavior for the duration the running process.
+% We must disable this behavior for the duration of the running process.
 
 outold = getenv('GFORTRAN_STDOUT_UNIT');
-setenv('GFORTRAN_STDOUT_UNIT', '6');
+setenv('GFORTRAN_STDOUT_UNIT', '6')
 errold = getenv('GFORTRAN_STDERR_UNIT');
-setenv('GFORTRAN_STDERR_UNIT', '0');
+setenv('GFORTRAN_STDERR_UNIT', '0')
 inold = getenv('GFORTRAN_STDIN_UNIT');
-setenv('GFORTRAN_STDIN_UNIT', '5');
+setenv('GFORTRAN_STDIN_UNIT', '5')
 %% start process
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html#start()
 h = proc.start();
@@ -129,9 +129,9 @@ end
 %% close process and restore Gfortran streams
 h.destroy()
 
-setenv('GFORTRAN_STDOUT_UNIT', outold);
-setenv('GFORTRAN_STDERR_UNIT', errold);
-setenv('GFORTRAN_STDIN_UNIT', inold);
+setenv('GFORTRAN_STDOUT_UNIT', outold)
+setenv('GFORTRAN_STDERR_UNIT', errold)
+setenv('GFORTRAN_STDIN_UNIT', inold)
 
 if nargout < 2 && opt.stdout && ~stdlib.strempty(stdout)
   disp(stdout)
