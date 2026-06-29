@@ -20,13 +20,7 @@ if ~isempty(py_enable) && nargin == 0
 end
 
 
-% FIXME: update whenever a Windows Matlab ARM64 release is made
-windows_arm_mismatch = ispc() && stdlib.shell.cpu_arch() == "ARM64" && computer('arch') == "win64";
-
-if ~enable_check || windows_arm_mismatch
-  if windows_arm_mismatch
-    disp('stdlib.has_python: Python check is disabled on Windows ARM64 when Matlab is not ARM64.');
-  end
+if ~enable_check
   y = false;
   py_enable = false;
   return
