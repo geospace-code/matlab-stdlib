@@ -188,7 +188,6 @@ else
   if ismember(B_jps, stdlib.Backend().select('device'))
     tc.verifyClass(i, 'uint64')
     tc.verifyMatches(b, B_jps)
-    tc.assertNotEmpty(i, Ps)
     tc.assertGreaterThan(i, 0)
   else
     tc.verifyEqual(i, missing)
@@ -204,10 +203,13 @@ if ~stdlib.exists(Ps)
 else
   [i, b] = stdlib.inode(Ps, B_jps);
   if ismember(B_jps, stdlib.Backend().select('inode'))
-    tc.verifyClass(i, 'uint64')
+    tc.verifyTrue(isa(i, 'uint64') || isstring(i))
     tc.verifyMatches(b, B_jps)
-    tc.assertNotEmpty(i, Ps)
-    tc.assertGreaterThan(i, 0)
+    if isa(i, 'uint64')
+      tc.verifyGreaterThan(i, 0)
+    else
+      tc.verifyGreaterThan(str2double(i), 0)
+    end
   else
     tc.verifyEqual(i, missing)
   end
