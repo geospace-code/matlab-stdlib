@@ -8,24 +8,13 @@
 
 function [i, b] = get_uid(backend)
 arguments
-  backend (1,:) string = ["dotnet", "python", "perl"]
+  backend (1,:) string {mustBeNonempty} = ["dotnet", "python", "perl"]
 end
 
-i = missing;
 
 for b = backend
-  switch b
-    case 'dotnet'
-      i = stdlib.dotnet.get_uid();
-    case 'python'
-      if stdlib.has_python()
-        i = stdlib.python.get_uid();
-      end
-    case 'perl'
-      i = stdlib.perl.get_uid();
-    otherwise
-      error('stdlib:get_uid:ValueError', 'Unknown backend: %s', b)
-  end
+  f = str2func("stdlib." + b + ".get_uid");
+  i = f();
 
   if ~ismissing(i)
     return
