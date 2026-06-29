@@ -2,10 +2,10 @@
 
 function v = vendor()
 
-try
+if stdlib.has_java()
   v = char(javaMethod('getProperty', 'java.lang.System', 'java.vendor'));
-catch e
-  v = javaException(e);
+else
+  v = missing;
 end
 
 end

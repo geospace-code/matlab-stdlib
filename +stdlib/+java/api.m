@@ -2,11 +2,11 @@
 
 function a = api()
 
-try
+if stdlib.has_java()
   a = javaMethod('getProperty', 'java.lang.System', 'java.specification.version');
   a = str2double(a);
-catch e
-  a = javaException(e);
+else
+  a = missing;
 end
 
 end

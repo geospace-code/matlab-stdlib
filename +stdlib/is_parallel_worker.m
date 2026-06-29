@@ -20,6 +20,7 @@ function ispar = is_parallel_worker()
 try
   ispar = ~isempty(getCurrentWorker());
 catch e
+  % need this for Matlab without Parallel Computing Toolbox installed.
   if ~strcmp(e.identifier, 'MATLAB:UndefinedFunction')
      rethrow(e)
   end
