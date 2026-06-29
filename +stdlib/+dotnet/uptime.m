@@ -2,12 +2,12 @@
 
 function t = uptime()
 
-try
+if stdlib.has_dotnet() && stdlib.dotnet.api() >= 5
   tms = System.Environment.TickCount64;
   ts = System.TimeSpan.FromMilliseconds(tms);
   t = ts.TotalSeconds;
-catch e
-  t = dotnetException(e);
+else
+  t = missing;
 end
 
 end
