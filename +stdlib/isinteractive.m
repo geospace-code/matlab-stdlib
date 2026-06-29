@@ -2,7 +2,7 @@
 %
 % 'matlab -nodesktop' mode outputs false.
 %
-% * get(0,'ScreenSize') often isn't relable anymore, it will show a display
+% * get(0,'ScreenSize') often isn't reliable anymore, it will show a display
 % size on HPC for example, maybe due to Xvfb or such.
 % Nowadays (R2025a+) one can make plots without Java enabled -nojvm too.
 
