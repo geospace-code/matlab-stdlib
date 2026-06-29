@@ -10,13 +10,10 @@
 
 function [perm, b] = get_permissions(file)
 arguments
-  file {mustBeTextScalar}
+  file (1,1) string {mustBeFileOrFolder}
 end
 
 if stdlib.matlabOlderThan('R2025a')
-  if ~stdlib.exists(file)
-    error('MATLAB:io:filesystem:filePermissions:CannotFindLocation', '%s', file)
-  end
   perm = perm2char(file_attributes(file));
   b = 'legacy';
 else

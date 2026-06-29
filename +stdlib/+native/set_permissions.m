@@ -7,25 +7,25 @@ assert(isscalar(p), "set_permissions: one file only")
 k = string.empty;
 v = logical([]);
 
-if readable ~= 0
+if ~isempty(readable)
   k(end+1) = "Readable";
-  v(end+1) = readable > 0;
+  v(end+1) = readable;
 end
 
-if writable ~= 0
+if ~isempty(writable)
   k(end+1) = "Writable";
-  v(end+1) = writable > 0;
+  v(end+1) = writable;
 end
 
-if executable ~= 0
+if ~isempty(executable)
   if ispc()
-    if executable > 0 && ~ismember("Readable", k)
+    if executable && ~ismember("Readable", k)
       k(end+1) = "Readable";
       v(end+1) = true;
     end
   else
     k(end+1) = "UserExecute";
-    v(end+1) = executable > 0;
+    v(end+1) = executable;
   end
 end
 
