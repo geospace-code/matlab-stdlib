@@ -1,13 +1,9 @@
 function y = samepath(path1, path2)
 
-try
+if stdlib.has_python()
    y = py.os.path.samefile(path1, path2);
-catch e
-  if strcmp(e.identifier, 'MATLAB:Python:PyException') && contains(e.message, 'FileNotFoundError')
-    y = false;
-  else
-    y = pythonException(e);
-  end
+else
+   y = missing;
 end
 
 end

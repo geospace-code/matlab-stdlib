@@ -2,11 +2,11 @@
 
 function h = home()
 
-try
+if stdlib.has_python
   pe = pyenv();
   h = pe.Home;
-catch e
-  h = pythonException(e);
+else
+  h = missing;
 end
 
 end

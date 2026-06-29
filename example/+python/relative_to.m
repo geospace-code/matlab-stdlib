@@ -10,10 +10,10 @@ if stdlib.strempty(base) || stdlib.strempty(target)
   return
 end
 
-try
+if stdlib.has_python()
   rel = string(py.str(py.pathlib.Path(target).relative_to(base)));
-catch e
-  pythonException(e);
+else
+  rel = missing;
 end
 
 end

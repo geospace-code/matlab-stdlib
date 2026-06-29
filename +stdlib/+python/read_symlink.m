@@ -2,7 +2,7 @@ function r = read_symlink(file)
 
 r = missing;
 
-try
+if stdlib.has_python()
   p = py.pathlib.Path(file);
   if ~p.is_symlink()
     return
@@ -14,8 +14,6 @@ try
   if ispc() && startsWith(r, '\\?\')
     r = extractAfter(r, '\\?\');
   end
-catch e
-  pythonException(e);
 end
 
 end
