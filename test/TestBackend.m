@@ -88,7 +88,7 @@ tc.verifyClass(i, 'char')
 
 [i, b] = stdlib.inode(readme);
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('inode').backends))
-tc.verifyGreaterThan(i, 0)
+tc.verifyThat(string(class(i)), IsSubsetOf(["uint64", "string"]))
 
 [i,b] = stdlib.is_admin();
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('is_admin').backends))

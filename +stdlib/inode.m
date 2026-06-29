@@ -4,7 +4,7 @@
 % * file: path to check
 % * backend: backend to use
 %%% Outputs
-% * i: inode number
+% * i: inode number - may be uint64 or string if larger than 64 bits
 % * b: backend used
 
 function [i, b] = inode(file, backend)

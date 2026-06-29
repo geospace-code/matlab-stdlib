@@ -2,9 +2,12 @@ function i = inode(file)
 
 if stdlib.has_python()
   i = py.os.stat(file).st_ino;
-  % Matlab <= R2022a wants int64 before uint64, but this can make OverflowError on Windows within Python
-  % because on Windows st_dev is a 64-bit unsigned integer
-  i = uint64(i);
+  if i.bit_length() <= 64
+    i = uint64(i);
+  else
+    % use string instead of char for equality checks like in samepath()
+    i = string(py.str(i));
+  end
 else
   i = missing;
 end

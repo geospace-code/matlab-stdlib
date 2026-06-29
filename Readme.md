@@ -36,7 +36,7 @@ Matlab external backends include:
 
 * [Java](./Readme_java.md): all supported Matlab releases
 * [Perl](https://www.mathworks.com/help/matlab/ref/perl.html):  This uses a system() call to Perl.
-* [Python](https://www.mathworks.com/help/matlab/call-python-libraries.html): Matlab R2022b and newer. `stdlib.has_python` checks that the Python version set by `pyenv()` is compatible with the Matlab release. If there is a problem with Python on a particular Matlab install, `stdlib.has_python(false)` disables the Python backend for that Matlab session.
+* [Python](./Readme_python.md): all supported Matlab releases with CPU-arch matching Python.
 * System shell calls: all supported Matlab releases. As a backup when the platform doesn't have the primary (faster) methods available, the system shell can be called for some functions.
 * .NET as described below.
 
