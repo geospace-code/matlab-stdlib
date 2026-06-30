@@ -10,7 +10,7 @@
 
 function names = h5variables(file, group)
 arguments
-  file {mustBeTextScalar}
+  file {mustBeTextScalar,mustBeFile}
   group {mustBeTextScalar} = '/'
 end
 

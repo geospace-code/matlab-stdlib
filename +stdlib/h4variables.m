@@ -10,7 +10,7 @@
 
 function names = h4variables(file)
 arguments (Input)
-  file {mustBeTextScalar}
+  file {mustBeTextScalar,mustBeFile}
 end
 arguments (Output)
   names (1,:) string

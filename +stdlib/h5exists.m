@@ -8,7 +8,7 @@
 
 function exists = h5exists(file, variable)
 arguments
-  file {mustBeTextScalar}
+  file {mustBeTextScalar,mustBeFile}
   variable {mustBeTextScalar}
 end
 

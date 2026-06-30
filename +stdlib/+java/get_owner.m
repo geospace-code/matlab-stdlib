@@ -10,8 +10,7 @@ function n = get_owner(file)
 %
 % if stdlib.exists() was not adequate here, as on some CI systems, despite the same setup on a laptop working.
 % stdlib.exists() was true, the Java function threw java.nio.file.NoSuchFileException.
-%
-% this try-catch is faster and more robust
+
 if stdlib.has_java()
   p = javaAbsolutePath(file);
   opt = javaMethod('values', 'java.nio.file.LinkOption');

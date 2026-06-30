@@ -8,7 +8,7 @@
 
 function exists = h4exists(file, variable)
 arguments (Input)
-  file {mustBeTextScalar}
+  file {mustBeTextScalar,mustBeFile}
   variable {mustBeTextScalar}
 end
 arguments (Output)
