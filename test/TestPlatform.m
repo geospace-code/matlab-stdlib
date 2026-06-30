@@ -46,6 +46,15 @@ end
 end
 
 
+methods (Test, TestTags={'R2022b'})
+function test_get_shell(tc)
+tc.assumeFalse(tc.CI, 'get_shell is not tested in CI due to platform differences')
+tc.verifyClass(stdlib.get_shell(), 'string')
+tc.verifyGreaterThan(strlength(stdlib.get_shell()), 0)
+end
+end
+
+
 methods (Test, TestTags={'R2018a'})
 function test_perl(tc)
 tc.verifyClass(stdlib.perl_exe(), 'char')
@@ -85,12 +94,6 @@ tc.verifyClass(stdlib.has_java(), 'logical')
 tc.verifyClass(stdlib.has_python(), 'logical')
 end
 
-
-function test_get_shell(tc)
-tc.assumeFalse(tc.CI, 'get_shell is not tested in CI due to platform differences')
-tc.verifyClass(stdlib.get_shell(), 'char')
-tc.verifyGreaterThan(strlength(stdlib.get_shell()), 0)
-end
 
 function test_is_interactive(tc)
 if tc.CI
