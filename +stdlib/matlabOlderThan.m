@@ -22,7 +22,7 @@ end
 if strcmp(curr(1:4), r(2:5))
   isOlder = curr(5) < r(6);
 else
-  % string() lessThan comparison about same speed as str2double()
+  % string() < comparison about same speed as str2double()
   nc = str2double(curr(1:4));
   nv = str2double(r(2:5));
   isOlder = nc < nv;

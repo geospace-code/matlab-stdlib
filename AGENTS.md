@@ -2,7 +2,8 @@
 
 ## Project Overview
 
-This is a standard library project for Matlab, designed to provide a collection of commonly used functions and utilities to enhance productivity and streamline development in Matlab.
+This is a standard library project for Matlab, designed to provide a collection of commonly used functions and utilities.
+The minimum Matlab release is R2020b.
 The project has a strong emphasis on cross-platform compatibility, performance, and ease of use.
 The namespace of the project is "stdlib" as indicated by all the project functions being under directory "+stdlib/"
 
