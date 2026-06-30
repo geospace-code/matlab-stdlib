@@ -8,7 +8,7 @@
 
 function fsize = h4size(file, variable)
 arguments (Input)
-  file {mustBeTextScalar}
+  file {mustBeTextScalar,mustBeFile}
   variable {mustBeTextScalar}
 end
 arguments (Output)
