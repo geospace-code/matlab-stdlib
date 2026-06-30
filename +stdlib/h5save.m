@@ -38,15 +38,10 @@ filename = stdlib.expanduser(filename);
 % coerce if needed
 A = coerce_ds(A, opts.type);
 
-try
+if isfile(filename) && stdlib.h5exists(filename, varname)
   h5save_exist(filename, varname, A, opts.size)
-catch e
-  switch e.identifier
-      case {'MATLAB:validators:mustBeFile', 'MATLAB:imagesci:hdf5io:resourceNotFound', 'MATLAB:imagesci:h5info:unableToFind', 'MATLAB:imagesci:h5info:fileOpenErr', 'MATLAB:imagesci:h5info:libraryError'}
-      h5save_new(filename, varname, A, opts.size, opts.compressLevel)
-    otherwise
-      rethrow(e)
-  end
+else
+  h5save_new(filename, varname, A, opts.size, opts.compressLevel)
 end
 
 end
