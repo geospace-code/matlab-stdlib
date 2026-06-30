@@ -9,14 +9,17 @@
 % * names: variable names
 
 function names = h4variables(file)
-arguments
+arguments (Input)
   file {mustBeTextScalar}
+end
+arguments (Output)
+  names (1,:) string
 end
 
 finf = hdfinfo(file);
 
 ds = finf.SDS;
 
-names = string({ds.Name});
+names = {ds.Name};
 
 end

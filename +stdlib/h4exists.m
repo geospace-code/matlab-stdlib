@@ -7,9 +7,12 @@
 % * exists: boolean
 
 function exists = h4exists(file, variable)
-arguments
+arguments (Input)
   file {mustBeTextScalar}
   variable {mustBeTextScalar}
+end
+arguments (Output)
+  exists (1,1) logical
 end
 
 finf = hdfinfo(file);

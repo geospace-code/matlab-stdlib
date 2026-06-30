@@ -1,5 +1,5 @@
 classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2017a', 'hdf4'}) ...
+          TestTags = {'R2022b', 'hdf4'}) ...
     TestHDF4 < matlab.unittest.TestCase
 
 properties
@@ -15,7 +15,6 @@ end
 methods (Test)
 
 function test_exists(tc)
-
 e = stdlib.h4exists(tc.file, 'Example SDS');
 
 tc.verifyThat(e, matlab.unittest.constraints.IsScalar)
@@ -36,6 +35,7 @@ import matlab.unittest.constraints.AnyElementOf
 import matlab.unittest.constraints.IsEqualTo
 
 v = stdlib.h4variables(tc.file);
+tc.verifyClass(v, "string")
 tc.verifyThat(AnyElementOf(v), IsEqualTo("Example SDS"))
 end
 

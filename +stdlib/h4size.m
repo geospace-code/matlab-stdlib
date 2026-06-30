@@ -7,9 +7,12 @@
 % fsize: vector of variable size per dimension. Empty if scalar variable.
 
 function fsize = h4size(file, variable)
-arguments
+arguments (Input)
   file {mustBeTextScalar}
   variable {mustBeTextScalar}
+end
+arguments (Output)
+  fsize (1,:) {mustBeNonnegative,mustBeInteger}
 end
 
 finf = hdfinfo(file);
