@@ -2,10 +2,10 @@
 
 function v = api()
 
-try
+if stdlib.has_dotnet()
   v = System.Environment.Version.Major;
-catch
-  % not empty because that breaks less-than logic
+else
+  % not empty or missing because that breaks less-than logic
   v = -1;
 end
 

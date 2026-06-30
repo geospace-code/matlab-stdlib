@@ -4,15 +4,11 @@
 % Ref: % https://www.mathworks.com/help/releases/R2024b/matlab/matlab_external/system-requirements-for-using-matlab-interface-to-net.html
 
 function y = has_dotnet()
-
+% The try-catch is for Matlab < R2022b as older Matlab can throw an error on unsupported .NET platforms.
 try
   y = NET.isNETSupported;
 catch
-  try
-    y = stdlib.dotnet.api() >= 4;
-  catch
-    y = false;
-  end
+  y = false;
 end
 
 end
