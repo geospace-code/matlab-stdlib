@@ -2,9 +2,11 @@
 %
 %%% Outputs
 % * s: full path to currently running shell
-% * b: backend used
 
 function s = get_shell()
+arguments (Output)
+  s (1,1) string
+end
 
 if ispc()
 % https://stackoverflow.com/a/61469226
@@ -19,7 +21,10 @@ end
 if r == 0
   s = deblank(msg);
 else
-  s = getenv('SHELL');
+  s = getenv('MATLAB_SHELL');
+  if isempty(s)
+    s = getenv('SHELL');
+  end
 end
 
 end
