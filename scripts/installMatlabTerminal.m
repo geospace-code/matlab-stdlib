@@ -2,6 +2,6 @@ url = 'https://github.com/matlab/terminal-in-matlab/releases/latest/download/Ter
 tbx = 'Terminal.mltbx';
 
 websave(tbx, url);
-matlab.addons.install(tbx)
+installed = mpminstall(tbx);
 
-disp('Terminal installed. start with   terminal()')
+disp(installed.Name + " " + installed.Summary + " installed. start with   terminal()")
