@@ -36,7 +36,7 @@ methods (Test)
 
 function test_is_symlink(tc, B_is_symlink)
 
-tc.assertError(@() stdlib.is_symlink('', B_is_symlink), 'MATLAB:validators:mustBeFileOrFolder')
+tc.verifyError(@() stdlib.is_symlink('', B_is_symlink), 'MATLAB:validators:mustBeFileOrFolder')
 
 [i, b] = stdlib.is_symlink(tc.link, B_is_symlink);
 tc.assertMatches(b, B_is_symlink)
@@ -52,6 +52,11 @@ end
 
 
 function test_read_symlink(tc, B_is_symlink)
+
+if ~stdlib.matlabOlderThan('R2024b')
+tc.verifyError(@() stdlib.read_symlink('', B_is_symlink), 'MATLAB:validators:mustBeSymbolicLink')
+end
+
 r = stdlib.read_symlink(tc.link, B_is_symlink);
 
 if ismember(B_is_symlink, stdlib.Backend().select('read_symlink'))

@@ -12,7 +12,7 @@
 
 function [r, b] = read_symlink(file, backend)
 arguments
-  file (1,1) string {mustBeFileOrFolder}
+  file (1,1) string {mustBeSymbolicLink}
   backend (1,:) string {mustBeNonempty} = ["native", "java", "python", "dotnet", "shell"]
 end
 
