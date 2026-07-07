@@ -23,10 +23,13 @@ end
 methods (Test, TestTags = {'R2022b', 'dotnet'})
 
 function test_dotnet_home(tc)
-tc.assumeTrue(stdlib.has_dotnet(), '.NET not available')
 h = stdlib.dotnet.home();
-
-tc.verifyGreaterThan(strlength(h), 0)
+if stdlib.has_dotnet()
+  tc.verifyClass(h, 'string')
+  tc.verifyThat(h, matlab.unittest.constraints.IsFolder, '.NET home folder does not exist')
+else
+  tc.verifyEqual(h, missing)
+end
 end
 
 
