@@ -27,8 +27,9 @@ try
 catch e
   msg = e.message;
 end
-setenv('KMP_DUPLICATE_LIB_OK', old)
-
+if ~isempty(old)
+  setenv('KMP_DUPLICATE_LIB_OK', old)
+end
 % cache the result - even if empty -- because the check takes up to 1000 ms say on HPC
 stdlib_py_version = v;
 pyv_cached = true;

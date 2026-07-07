@@ -37,13 +37,13 @@ end
 try
   [user, mathworks] = matlab.codetools.requiredFilesAndProducts(n);
 catch e
-  if ispc()
+  if ispc() && ~isempty(old)
     setenv('KMP_DUPLICATE_LIB_OK', old)
   end
   rethrow(e)
 end
 
-if ispc()
+if ispc() && ~isempty(old)
   setenv('KMP_DUPLICATE_LIB_OK', old)
 end
 
