@@ -28,7 +28,7 @@ end
 
 methods (Test, TestTags={'R2026a'})
 function test_toolbox_used(tc)
-tc.assumeFalse(stdlib.matlabOlderThan('R2026a'))
+tc.assumeFalse(stdlib.matlabOlderThan('R2026a'), "toolbox_used requires Matlab >= R2026a")
 
 [mathworksUsed, userFun] = stdlib.toolbox_used('stdlib');
 
