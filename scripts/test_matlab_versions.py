@@ -35,8 +35,8 @@ def test_matlab_version(version):
     lcmd = f"module load matlab/{version} && "
 
     if version >= "2022b":
-        cmd = lcmd + "matlab -batch 'buildtool test'"
+        cmd = lcmd + f"matlab -sd {R} -batch 'buildtool test'"
     else:
-        cmd = lcmd + "matlab -batch 'test_main'"
+        cmd = lcmd + f"matlab -sd {R} -batch 'test_main'"
 
-    subprocess.check_call(cmd, shell=True, cwd=R)
+    subprocess.check_call(cmd, shell=True)
