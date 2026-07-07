@@ -20,15 +20,11 @@ jobs:
 
   linux-2024a-newer:
     timeout-minutes: 15
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
         release: [R2024a, R2025b, R2026a]
-
-# Linux:
-#   R2022b..R2025b needs GCC 10.x and hence Github Actions runner ubuntu-22.04.
-#   if using ubuntu-latest the java_exe tests fail.
 
     steps:
     - &matlab-install
@@ -142,7 +138,6 @@ jobs:
 
 # just saving CI resources
 #   matlab-older-R2022a:
-#   R2021a..R2022a officially need Ubuntu 20.04, which is no longer available on Github Actions
 #     needs: linux-2024a-newer
 
 #     timeout-minutes: 15
@@ -150,7 +145,7 @@ jobs:
 
 #     strategy:
 #       matrix:
-#         os: [ubuntu-22.04]
+#         os: [ubuntu-latest]
 #         release: [R2021a]
 # # , R2021b  works, saving CI resources
 
