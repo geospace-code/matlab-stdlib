@@ -8,7 +8,7 @@ mexe = {[matlabroot '/bin/matlab'], ...
 end
 
 
-methods (Test, TestTags = {'R2017a'})
+methods (Test)
 
 function test_which_name(tc)
 

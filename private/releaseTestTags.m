@@ -1,27 +1,20 @@
 %% RELEASETESTTAGS generate test tags based on MATLAB release version
 % this avoids cluttering test results with Incomplete due to assumeFalse(isMATLABReleaseOlderThan)
 
-function tags = releaseTestTags()
+function sel = releaseTestTags(sel)
+import matlab.unittest.selectors.HasTag
 
-try
-  r = matlabRelease().Release;
-catch
-  r = "R" + version('-release');
-end
+r = matlabRelease().Release;
 
-releasesKnown = [
-"R2017a", "R2017b", "R2018a", "R2018b", ...
-"R2019a", "R2019b", "R2020a", "R2020b", ...
+releasesKnown = ["R2020b", ...
 "R2021a", "R2021b", "R2022a", "R2022b", ...
 "R2023a", "R2023b", "R2024a", "R2024b", ...
-"R2025a", "R2025b", "R2026a"];
+"R2025a", "R2025b", "R2026a", "R2026b"];
 
 % takes releases not newer than this release
 idx = find(releasesKnown >= r, 1, 'first');
-if isempty(idx)
-  tags = releasesKnown;
-else
-  tags = releasesKnown(1:idx);
+for i = idx:length(releasesKnown)
+  sel = sel & ~HasTag(releasesKnown(i));
 end
 
 end

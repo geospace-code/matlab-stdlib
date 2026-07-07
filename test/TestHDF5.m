@@ -1,5 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'hdf5'}) ...
+classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}) ...
     TestHDF5 < matlab.unittest.TestCase
 
 properties
@@ -62,7 +61,7 @@ end
 end
 
 
-methods (Test, TestTags = {'R2017a'})
+methods (Test)
 
 function test_auto_chunk_size(tc)
 
@@ -190,10 +189,6 @@ end
 
 function test_coerce(tc, type)
 
-if ismember(type, ["string", "char"])
-  tc.assumeFalse(stdlib.matlabOlderThan("R2020b"))
-end
-
 stdlib.h5save(tc.file, ['/', type], 0, "type", type)
 
 switch type
@@ -243,11 +238,9 @@ end
 end
 
 
-methods (Test, TestTags={'R2020b'})
+methods (Test)
 
 function test_string(tc, str)
-tc.assumeFalse(stdlib.matlabOlderThan("R2020b"))
-
 stdlib.h5save(tc.file, "/"+str, str)
 
 a = h5read(tc.file, "/"+str);

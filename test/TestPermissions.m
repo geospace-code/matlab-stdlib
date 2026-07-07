@@ -19,7 +19,7 @@ end
 end
 
 
-methods (Test, TestTags={'R2016a'})
+methods (Test)
 
 function test_not_exist(tc, Pe)
 

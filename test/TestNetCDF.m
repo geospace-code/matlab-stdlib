@@ -56,7 +56,7 @@ end
 end
 
 
-methods (Test, TestTags={'R2017a'})
+methods (Test)
 
 function test_netcdf_version(tc)
 tc.verifyTrue(stdlib.version_atleast(stdlib.nc_get_version(), '4.3'), "version unexpected")

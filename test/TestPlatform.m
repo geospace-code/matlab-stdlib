@@ -6,7 +6,7 @@ CI = strcmp(getenv('CI'), 'true') || strcmp(getenv('GITHUB_ACTIONS'), 'true');
 end
 
 
-methods (Test, TestTags = {'R2018a', 'java', 'toolbox'})
+methods (Test, TestTags = {'java', 'toolbox'})
 function test_all_toolboxes(tc)
 tc.assumeTrue(stdlib.has_java())
 tbx = stdlib.allToolboxes();
@@ -15,7 +15,7 @@ end
 end
 
 
-methods (Test, TestTags={'R2017a', 'toolbox'})
+methods (Test, TestTags={'toolbox'})
 
 function test_has_parallel_toolbox(tc)
 y = stdlib.has_parallel_toolbox();
@@ -55,17 +55,13 @@ end
 end
 
 
-methods (Test, TestTags={'R2018a'})
+methods (Test)
 function test_perl(tc)
 tc.verifyClass(stdlib.perl_exe(), 'char')
 tc.verifyClass(stdlib.perl_version(), 'double')
 tc.verifyNotEmpty(stdlib.perl_version())
 tc.verifyTrue(stdlib.has_perl(), 'Matlab docs indicate that Perl should always be available')
 end
-end
-
-
-methods (Test, TestTags={'R2017a'})
 
 function test_doctor(tc)
 r = stdlib.doctor();

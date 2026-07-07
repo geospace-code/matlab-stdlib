@@ -14,7 +14,24 @@ end
 end
 
 
-methods (Test, TestTags={'R2016a'})
+methods (Test, TestTags = {'R2025a'})
+
+function test_is_readable_not_exist(tc)
+e = 'MATLAB:io:filesystem:filePermissions:CannotFindLocation';
+tc.verifyError(@() stdlib.is_readable(''), e)
+tc.verifyError(@() stdlib.is_readable('not-here'), e)
+end
+
+function test_is_writable_not_exist(tc)
+e = 'MATLAB:io:filesystem:filePermissions:CannotFindLocation';
+tc.verifyError(@() stdlib.is_writable(''), e)
+tc.verifyError(@() stdlib.is_writable('not-here'), e)
+end
+
+end
+
+
+methods (Test)
 
 function test_exists(tc, Ps)
 r = stdlib.exists(Ps{1});
@@ -37,12 +54,6 @@ r = stdlib.is_readable(string(Ps{1}));
 tc.verifyEqual(r, Ps{2});
 end
 
-function test_is_readable_not_exist(tc)
-e = 'MATLAB:io:filesystem:filePermissions:CannotFindLocation';
-tc.verifyError(@() stdlib.is_readable(''), e)
-tc.verifyError(@() stdlib.is_readable('not-here'), e)
-end
-
 function test_is_writable(tc, Ps)
 r = stdlib.is_writable(Ps{1});
 tc.verifyEqual(r, Ps{2})
@@ -51,15 +62,6 @@ r = stdlib.is_writable(string(Ps{1}));
 tc.verifyEqual(r, Ps{2});
 end
 
-function test_is_writable_not_exist(tc)
-e = 'MATLAB:io:filesystem:filePermissions:CannotFindLocation';
-tc.verifyError(@() stdlib.is_writable(''), e)
-tc.verifyError(@() stdlib.is_writable('not-here'), e)
-end
-end
-
-
-methods (Test, TestTags={'R2019b'})
 function test_is_char_device(tc, B_is_char_device)
 % /dev/stdin may not be available on CI systems
 n = stdlib.null_file();

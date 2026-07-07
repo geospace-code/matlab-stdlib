@@ -2,7 +2,7 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
     TestLang < matlab.unittest.TestCase
 
 
-methods (Test, TestTags = {'R2020b', 'python'})
+methods (Test, TestTags = {'python'})
 
 function test_has_python(tc)
 tc.assumeTrue(stdlib.has_python())

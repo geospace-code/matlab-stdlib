@@ -44,17 +44,17 @@ end
 function suite = define_suite(test_root, sel)
 import matlab.unittest.selectors.HasTag
 
-rtags = releaseTestTags();
-
 if isMATLABReleaseOlderThan("R2022b")
   eact = {};
 else
   eact = {'InvalidFileFoundAction', 'error'};
 end
 
-suite = testsuite(test_root, 'Tag', rtags, eact{:});
+suite = testsuite(test_root, eact{:});
 
 % selectIf takes the subset of suite tests that meet 'sel' conditions
+sel = releaseTestTags(sel);
+
 suite = suite.selectIf(sel);
 
 end
