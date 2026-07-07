@@ -5,6 +5,7 @@ from pathlib import Path
 
 # these are HPC system specific
 version_keys = [
+    "2026a",
     "2025b",
     "2025a",
     "2024b",
@@ -35,8 +36,6 @@ def test_matlab_version(version):
 
     if version >= "2022b":
         cmd = lcmd + "matlab -batch 'buildtool test'"
-    elif version >= "2019a":
-        cmd = lcmd + "matlab -batch test_main"
     else:
         cmd = lcmd + "matlab -batch 'test_main'"
 
