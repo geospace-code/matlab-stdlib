@@ -24,5 +24,5 @@ fprintf('installed MPM %s\n', pexe);
 if isunix()
   root = fileparts(fileparts(mfilename('fullpath')));
   addpath(root)
-  assert(stdlib.set_permissions(pexe, 0, 0, 1), sprintf('chmod +x %s', pexe))
+  assert(stdlib.set_permissions(pexe, [], [], true), sprintf('chmod +x %s', pexe))
 end
