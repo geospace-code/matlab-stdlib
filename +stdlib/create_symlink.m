@@ -14,7 +14,9 @@ arguments
   backend (1,:) string {mustBeNonempty} = ["native", "dotnet", "python", "shell"]
 end
 
-for b = backend
+i = missing;
+
+for b = filterBackend(backend)
   f = str2func("stdlib." + b + ".create_symlink");
   i = f(target, link);
 

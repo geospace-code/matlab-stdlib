@@ -25,7 +25,9 @@ arguments
 end
 
 
-for b = backend
+i = missing;
+
+for b = filterBackend(backend)
   f = str2func("stdlib." + b + ".is_char_device");
   i = f(file);
 

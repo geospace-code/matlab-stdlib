@@ -14,7 +14,9 @@ arguments
   backend (1,:) string {mustBeNonempty} = ["java", "python", "shell"]
 end
 
-for b = backend
+i = missing;
+
+for b = filterBackend(backend)
   f = str2func("stdlib." + b + ".cpu_load");
   i = f();
 

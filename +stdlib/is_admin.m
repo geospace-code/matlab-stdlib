@@ -9,7 +9,9 @@ arguments
   backend (1,:) string {mustBeNonempty} = ["java", "dotnet", "perl", "python", "shell"]
 end
 
-for b = backend
+i = missing;
+
+for b = filterBackend(backend)
   f = str2func("stdlib." + b + ".is_admin");
   i = f();
 

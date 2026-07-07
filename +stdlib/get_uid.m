@@ -3,7 +3,7 @@
 %%% Inputs
 % * backend: preferred backend(s)
 %%% Outputs
-% * n: UID of current user
+% * i: UID of current user
 % * b: backend used
 
 function [i, b] = get_uid(backend)
@@ -11,8 +11,9 @@ arguments
   backend (1,:) string {mustBeNonempty} = ["dotnet", "python", "perl"]
 end
 
+i = missing;
 
-for b = backend
+for b = filterBackend(backend)
   f = str2func("stdlib." + b + ".get_uid");
   i = f();
 

@@ -16,7 +16,9 @@ arguments
 end
 
 
-for b = backend
+i = missing;
+
+for b = filterBackend(backend)
   f = str2func("stdlib." + b + ".set_modtime");
   i = f(file, time);
 

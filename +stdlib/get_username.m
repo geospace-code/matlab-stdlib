@@ -11,7 +11,9 @@ arguments
   backend (1,:) string {mustBeNonempty} = ["java", "dotnet", "python", "shell"]
 end
 
-for b = backend
+r = missing;
+
+for b = filterBackend(backend)
   f = str2func("stdlib." + b + ".get_username");
   r = f();
 

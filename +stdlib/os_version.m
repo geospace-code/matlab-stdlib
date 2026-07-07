@@ -15,7 +15,10 @@ arguments
   backend (1,:) string {mustBeNonempty} = ["shell", "python", "dotnet", "java"];
 end
 
-for b = backend
+os = missing;
+version = missing;
+
+for b = filterBackend(backend)
   f = str2func("stdlib." + b + ".os_version");
   [os, version] = f();
 

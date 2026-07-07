@@ -16,7 +16,9 @@ arguments
   backend (1,:) string {mustBeNonempty} = ["java", "dotnet", "python", "shell"]
 end
 
-for b = backend
+i = missing;
+
+for b = filterBackend(backend)
   f = str2func("stdlib." + b + ".disk_available");
   i = f(file);
 

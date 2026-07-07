@@ -20,7 +20,9 @@ arguments
 end
 
 
-for b = backend
+r = missing;
+
+for b = filterBackend(backend)
   f = str2func("stdlib." + b + ".file_checksum");
   r = f(file, hash_method);
 

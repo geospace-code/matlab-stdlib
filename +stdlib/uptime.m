@@ -9,7 +9,9 @@ arguments
   backend (1,:) string {mustBeNonempty} = ["dotnet", "python", "shell"]
 end
 
-for b = backend
+r = missing;
+
+for b = filterBackend(backend)
   f = str2func("stdlib." + b + ".uptime");
   r = f();
 
