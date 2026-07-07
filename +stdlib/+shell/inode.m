@@ -18,15 +18,13 @@ if s == 0
   if ispc()
     m = strrep(m, 'File ID is ', '');
     % https://www.mathworks.com/help/matlab/ref/hex2dec.html
-    i = sscanf(m, '%lx', 1);
-    if i == intmax('uint64')
-      L = strlength(m);
-      i = [sscanf(m(1:L-1), '%lx', 1), sscanf(m(L:end), '%lx', 1)];
-    end
-  else
-    i = str2double(m);
   end
-  i = uint64(i);
+  i = sscanf(m, '%lx', 1);
+  if i == intmax('uint64')
+    i = string(m);  % like Python interface
+  else
+    i = uint64(i);
+  end
 end
 
 end
