@@ -2,16 +2,10 @@
 
 function h = home()
 
-h = string.empty;
-
-try %#ok<TRYNC>
-
-  if NET.isNETSupported
-    % need to call this at least once or dotnetenv() is empty
-
-    h = dotnetenv().RuntimeLocation;
-  end
-
+if stdlib.has_dotnet()
+  h = dotnetenv().RuntimeLocation;
+else
+  h = missing;
 end
 
 end
