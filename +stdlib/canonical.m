@@ -31,7 +31,7 @@ elseif stdlib.matlabOlderThan('R2025a')
 elseif stdlib.matlabOlderThan('R2026b')
   c = filePermissions(file).AbsolutePath;
 else
-  c = resolveFilePath(file, ResolveSymbolicLinks=true);
+  c = resolveFilePath(file, 'ResolveSymbolicLinks', true);
 end
 
 c = string(c);
