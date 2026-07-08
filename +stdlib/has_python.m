@@ -10,7 +10,6 @@ function y = has_python(enable_check)
 arguments
   enable_check (1,1) logical = true
 end
-% ~stdlib.matlabOlderThan('R2022a')
 
 persistent py_enable
 
@@ -20,7 +19,7 @@ if ~isempty(py_enable) && nargin == 0
 end
 
 
-if ~enable_check
+if ~enable_check || stdlib.matlabOlderThan('R2022a')
   y = false;
   py_enable = false;
   return

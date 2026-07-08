@@ -2,7 +2,7 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
     TestLang < matlab.unittest.TestCase
 
 
-methods (Test, TestTags = {'python'})
+methods (Test, TestTags = {'R2022a', 'python'})
 
 function test_has_python(tc)
 v = stdlib.python.version();
