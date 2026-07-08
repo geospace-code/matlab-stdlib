@@ -28,10 +28,11 @@ fn = 'touch.txt';
 tc.assertTrue(stdlib.touch(fn))
 t0 = stdlib.get_modtime(fn);
 
-ok = stdlib.set_modtime(fn, datetime('tomorrow'), B_jps);
+[ok, b] = stdlib.set_modtime(fn, datetime('tomorrow'), B_jps);
 
 if ismember(B_jps, stdlib.Backend().select('set_modtime'))
   tc.assertTrue(ok)
+  tc.assertMatches(b, B_jps)
   t1 = stdlib.get_modtime(fn);
   tc.verifyGreaterThanOrEqual(t1, t0)
 else
@@ -41,13 +42,13 @@ end
 
 
 function test_uptime(tc, B_dps)
+[t1, b] = stdlib.uptime(B_dps);
 
 if ismember(B_dps, stdlib.Backend().select('uptime'))
-  t1 = stdlib.uptime(B_dps);
+  tc.assertMatches(b, B_dps)
   tc.verifyGreaterThanOrEqual(t1, 0);
   tc.verifyClass(t1, 'double')
 else
-  t1 = stdlib.uptime(B_dps);
   tc.verifyEqual(t1, missing)
 end
 end

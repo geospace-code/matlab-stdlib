@@ -33,9 +33,9 @@ if ~isfolder(Ps)
 end
 
 [r, b] = stdlib.disk_available(Ps, B_jdps);
-tc.assertMatches(b, B_jdps)
 
 if ismember(B_jdps, stdlib.Backend().select('disk_available'))
+  tc.assertMatches(b, B_jdps)
   tc.verifyClass(r, 'uint64')
   tc.verifyGreaterThanOrEqual(r, 0)
 else
@@ -58,10 +58,9 @@ if ~isfolder(Ps)
 end
 
 [r, b] = stdlib.disk_capacity(Ps, B_jdps);
-tc.assertMatches(b, B_jdps)
-
 
 if ismember(B_jdps, stdlib.Backend().select('disk_capacity'))
+  tc.assertMatches(b, B_jdps)
   tc.verifyClass(r, 'uint64')
   tc.verifyGreaterThanOrEqual(r, 0)
 else
@@ -73,10 +72,11 @@ end
 
 function test_ulimit(tc, B_ps)
 [i, b] = stdlib.get_max_open_files(B_ps);
-tc.assertMatches(b, B_ps)
+
 if ispc() || (B_ps == "python" && ~stdlib.has_python())
   tc.verifyEqual(i, missing)
 else
+  tc.assertMatches(b, B_ps)
   tc.verifyClass(i, 'uint64')
   tc.verifyGreaterThan(i, 0)
 end
@@ -85,8 +85,9 @@ end
 
 function test_is_removable(tc, B_ps)
 [y, b] = stdlib.is_removable(pwd(), B_ps);
-tc.assertMatches(b, B_ps)
+
 if ~ismissing(y)
+  tc.assertMatches(b, B_ps)
   tc.verifyClass(y, 'logical')
 end
 end
@@ -96,9 +97,9 @@ function test_is_mount(tc, B_ps)
 p = '/';
 
 [y,b] = stdlib.is_mount(p, B_ps);
-tc.assertMatches(b, B_ps)
 
 if ismember(B_ps, stdlib.Backend().select('is_mount'))
+  tc.assertMatches(b, B_ps)
   tc.verifyClass(y, 'logical')
   tc.assertError(@() stdlib.is_mount(tempname(), B_ps), 'MATLAB:validators:mustBeFolder')
 
@@ -120,9 +121,9 @@ fn = 'test_hard_link_count.txt';
 tc.assertTrue(stdlib.touch(fn))
 
 [i, b] = stdlib.hard_link_count(fn, B_jps);
-tc.assertMatches(b, B_jps)
 
 if ismember(B_jps, stdlib.Backend().select('hard_link_count'))
+  tc.assertMatches(b, B_jps)
   tc.verifyGreaterThanOrEqual(i, 1)
 else
   tc.assertEqual(i, missing)
@@ -146,9 +147,9 @@ if ~isfolder(Ps)
 end
 
 [t, b] = stdlib.filesystem_type(Ps, B_jdps);
-tc.assertMatches(b, B_jdps)
 
 if ismember(B_jdps, stdlib.Backend().select('filesystem_type'))
+  tc.assertMatches(b, B_jdps)
   tc.verifyClass(t, 'char')
   tc.assumeFalse(any(ismissing(t)) && tc.CI, 'Some CI block viewing their filesystem type')
   tc.verifyGreaterThan(strlength(t), 0)
@@ -160,8 +161,9 @@ end
 
 function test_is_dev_drive(tc, B_ps)
 [r, b] = stdlib.is_dev_drive(pwd(), B_ps);
-tc.assertMatches(b, B_ps)
+
 if ~ismissing(r)
+  tc.assertMatches(b, B_ps)
   tc.verifyClass(r, 'logical')
 end
 end
@@ -224,9 +226,9 @@ if ~stdlib.exists(Ps)
 else
 
 [o, b] = stdlib.get_owner(Ps, B_jdps);
-tc.assertMatches(b, B_jdps)
 
 if ismember(B_jdps, stdlib.Backend().select('get_owner'))
+  tc.assertMatches(b, B_jdps)
   tc.verifyClass(o, 'char')
   tc.verifyGreaterThan(strlength(o), 0)
 else

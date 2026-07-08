@@ -15,7 +15,7 @@ end
 % for any py.* command.
 % We use a separate private function to workaround that.
 
-v = [];
+v = missing;
 
 % glitchy Python load can error on shell.version_info
 % if pyenv() hasn't ever been configured, may get uncatchable error

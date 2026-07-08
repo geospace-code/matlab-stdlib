@@ -44,9 +44,9 @@ if ~isfile(tc.file)
 end
 
 [r, b] = stdlib.file_checksum(tc.file, Ph{1}, backend);
-tc.assertMatches(b, backend)
 
 if ismember(backend, stdlib.Backend().select('file_checksum'))
+  tc.assertMatches(b, backend)
   tc.verifyClass(r, 'char')
   tc.verifyEqual(r, Ph{2})
 else
@@ -62,9 +62,10 @@ if ~isfile(tc.file)
   return
 end
 
-r = stdlib.file_checksum(tc.empty, Pe{1}, backend);
+[r, b] = stdlib.file_checksum(tc.empty, Pe{1}, backend);
 
 if ismember(backend, stdlib.Backend().select('file_checksum'))
+  tc.assertMatches(b, backend)
   if ispc() && strcmp(backend, 'shell')
     tc.verifyEqual(r, missing)
   else

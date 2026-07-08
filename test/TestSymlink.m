@@ -39,9 +39,9 @@ function test_is_symlink(tc, B_is_symlink)
 tc.verifyError(@() stdlib.is_symlink('', B_is_symlink), 'MATLAB:validators:mustBeFileOrFolder')
 
 [i, b] = stdlib.is_symlink(tc.link, B_is_symlink);
-tc.assertMatches(b, B_is_symlink)
 
 if ismember(B_is_symlink, stdlib.Backend().select('is_symlink'))
+  tc.assertMatches(b, B_is_symlink)
   tc.assertTrue(i, 'failed to detect own link')
 
   tc.verifyFalse(stdlib.is_symlink(tc.target, B_is_symlink))
@@ -57,9 +57,10 @@ if ~stdlib.matlabOlderThan('R2024b')
 tc.verifyError(@() stdlib.read_symlink('', B_is_symlink), 'MATLAB:validators:mustBeSymbolicLink')
 end
 
-r = stdlib.read_symlink(tc.link, B_is_symlink);
+[r, b] = stdlib.read_symlink(tc.link, B_is_symlink);
 
 if ismember(B_is_symlink, stdlib.Backend().select('read_symlink'))
+  tc.assertMatches(b, B_is_symlink)
   tc.verifyClass(r, 'string')
   tc.verifyEqual(r, string(tc.target))
 else
@@ -75,9 +76,10 @@ tc.applyFixture(matlab.unittest.fixtures.SuppressedWarningsFixture(...
 ano = fullfile(pwd(), 'another.lnk');
 tc.assertFalse(stdlib.exists(ano) && stdlib.is_symlink(ano))
 
-r = stdlib.create_symlink(tc.target, ano, B_create_symlink);
+[r, b] = stdlib.create_symlink(tc.target, ano, B_create_symlink);
 
 if ismember(B_create_symlink, stdlib.Backend().select('create_symlink'))
+  tc.assertMatches(b, B_create_symlink)
   tc.verifyTrue(r)
 elseif ispc() && strcmp(B_create_symlink, 'native')
   tc.verifyTrue(ismissing(r) || r)

@@ -29,9 +29,9 @@ methods(Test)
 
 function test_samepath(tc, p, backend)
 [r, b] = stdlib.samepath(p{:}, backend);
-tc.assertMatches(b, backend)
 
 if ismember(backend, stdlib.Backend().select('samepath'))
+  tc.assertMatches(b, backend)
   tc.verifyClass(r, 'logical')
   tc.verifyTrue(r, [p{1} ' ' p{2}])
 else

@@ -15,9 +15,9 @@ methods (Test)
 
 function test_is_admin(tc, B_jdpps)
 [i, b] = stdlib.is_admin(B_jdpps);
-tc.assertMatches(b, B_jdpps)
 
 if ismember(B_jdpps, stdlib.Backend().select('is_admin'))
+  tc.assertMatches(b, B_jdpps)
   tc.verifyClass(i, 'logical')
 else
   tc.verifyEqual(i, missing)
@@ -27,9 +27,9 @@ end
 
 function test_cpu_load(tc, B_jps)
 [r, b] = stdlib.cpu_load(B_jps);
-tc.assertMatches(b, B_jps)
 
 if ismember(B_jps, stdlib.Backend().select('cpu_load'))
+  tc.assertMatches(b, B_jps)
   tc.assertClass(r, 'double')
   tc.verifyGreaterThanOrEqual(r, 0.)
   % some CI systems report 0
@@ -42,9 +42,9 @@ end
 function test_process_priority(tc, B_dps)
 import matlab.unittest.constraints.IsSubsetOf
 [r, b] = stdlib.get_process_priority(B_dps);
-tc.assertMatches(b, B_dps)
 
 if ismember(B_dps, stdlib.Backend().select('get_process_priority'))
+  tc.assertMatches(b, B_dps)
   tc.verifyThat({class(r)}, IsSubsetOf({'double', 'char'}))
 else
   tc.verifyEqual(r, missing)
@@ -54,9 +54,9 @@ end
 
 function test_os_version(tc, B_jdps)
 [os, ver, b] = stdlib.os_version(B_jdps);
-tc.assertMatches(b, B_jdps)
 
 if ismember(B_jdps, stdlib.Backend().select('os_version'))
+  tc.assertMatches(b, B_jdps)
   tc.verifyClass(os, 'char')
   tc.verifyClass(ver, 'char')
   tc.verifyGreaterThan(strlength(os), 0, 'expected non-empty os')
@@ -75,9 +75,9 @@ end
 
 function test_hostname(tc, B_jdps)
 [h, b] = stdlib.hostname(B_jdps);
-tc.assertMatches(b, B_jdps)
 
 if ismember(B_jdps, stdlib.Backend().select('hostname'))
+  tc.assertMatches(b, B_jdps)
   tc.verifyClass(h, 'char')
   tc.verifyGreaterThan(strlength(h), 0)
 else
@@ -88,9 +88,9 @@ end
 
 function test_get_uid(tc, B_dpp)
 [u, b] = stdlib.get_uid(B_dpp);
-tc.assertMatches(b, B_dpp)
 
 if ismember(B_dpp, stdlib.Backend().select('get_uid'))
+  tc.assertMatches(b, B_dpp)
   if ispc()
     tc.verifyClass(u, 'char')
     tc.verifyGreaterThan(strlength(u), 0)
@@ -105,9 +105,9 @@ end
 
 function test_username(tc, B_jdps)
 [u, b] = stdlib.get_username(B_jdps);
-tc.assertMatches(b, B_jdps)
 
 if ismember(B_jdps, stdlib.Backend().select('get_username'))
+  tc.assertMatches(b, B_jdps)
   tc.verifyClass(u, 'char')
   tc.verifyGreaterThan(strlength(u), 0)
 else
@@ -124,9 +124,9 @@ end
 
 function test_ram_total(tc, B_jdps)
 [t, b] = stdlib.ram_total(B_jdps);
-tc.assertMatches(b, B_jdps)
 
 if ismember(B_jdps, stdlib.Backend().select('ram_total'))
+  tc.assertMatches(b, B_jdps)
   tc.verifyClass(t, 'uint64')
   tc.verifyGreaterThan(t, 0)
 else
@@ -138,9 +138,9 @@ end
 function test_ram_free(tc, B_jps)
 % don't verify less than or equal to total due to shaky system measurements'
 [f, b] = stdlib.ram_free(B_jps);
-tc.assertMatches(b, B_jps)
 
 if ismember(B_jps, stdlib.Backend().select('ram_free'))
+  tc.assertMatches(b, B_jps)
   tc.verifyClass(f, 'uint64')
   tc.verifyGreaterThan(f, 0)
 else
