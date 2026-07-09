@@ -18,9 +18,10 @@ concurrency:
 
 jobs:
 
-  linux-2024a-newer:
+  linux-newer:
+    # For Matlab >= R2024a
     timeout-minutes: 15
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     strategy:
       matrix:
@@ -71,7 +72,8 @@ jobs:
         path: stdlib.mltbx
 
 
-  macos-2024a-newer:
+  macos:
+    needs: linux-newer
     timeout-minutes: 15
     runs-on: macos-latest
 
@@ -98,7 +100,7 @@ jobs:
     - *test-main
 
 
-  windows-2024a-newer:
+  windows:
     timeout-minutes: 15
     runs-on: windows-latest
 
@@ -114,8 +116,9 @@ jobs:
     - *test-main
 
 
-  matlab-2022a-2023b:
-    needs: linux-2024a-newer
+  matlab-older:
+    # For R2022a < Matlab < R2024a
+    needs: linux-newer
 
     timeout-minutes: 15
     runs-on: ${{ matrix.os }}
@@ -137,8 +140,9 @@ jobs:
     - *test-main
 
 # just saving CI resources
-#   matlab-older-R2022a:
-#     needs: linux-2024a-newer
+#   matlab-oldest:
+#     # for Matlab < R2022a
+#     needs: linux-newer
 
 #     timeout-minutes: 15
 #     runs-on: ${{ matrix.os }}
@@ -155,29 +159,3 @@ jobs:
 #     - *tell-ext
 
 #     - *test-main
-
-# just saving CI resources
-  # matlab-nojvm:
-  #   needs: matlab-at-least-r2024a
-  #   timeout-minutes: 15
-  #   runs-on: ubuntu-latest
-
-  #   strategy:
-  #     matrix:
-  #       release: [R2024a]
-
-  #   steps:
-  #   - *matlab-install
-  #   - *checkout
-
-  #   - name: Matlab tell External Language Interface versions
-  #     uses: matlab-actions/run-command@v3
-  #     with:
-  #       command: stdlib.doctor()
-  #       startup-options: -nojvm
-
-  #   - name: Main Tests NoJVM
-  #     uses: matlab-actions/run-build@v3
-  #     with:
-  #       tasks: test_main
-  #       startup-options: -nojvm
