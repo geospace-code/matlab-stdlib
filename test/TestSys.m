@@ -1,5 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}) ...
-    TestSys < matlab.unittest.TestCase
+classdef TestSys < StdlibPath
 
 
 properties (TestParameter)

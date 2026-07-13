@@ -1,5 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}) ...
-  TestDisk < matlab.unittest.TestCase
+classdef  TestDisk < WorkingClassDir
 
 properties
 CI = is_ci()
@@ -10,12 +9,6 @@ Ps = {'.', '', '/', pwd(), getenv('SystemDrive'), 'not-exist'}
 B_ps = {'python', 'shell'}
 B_jps = {'java', 'python', 'shell'}
 B_jdps = {'java', 'dotnet', 'python', 'shell'}
-end
-
-methods(TestClassSetup)
-function test_dirs(tc)
-  tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture());
-end
 end
 
 methods (Test)

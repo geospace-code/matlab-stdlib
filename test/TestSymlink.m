@@ -1,6 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'symlink'}) ...
-    TestSymlink < matlab.unittest.TestCase
+classdef (TestTags = {'symlink'}) TestSymlink < StdlibPath
 
 properties
 target

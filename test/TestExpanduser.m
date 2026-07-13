@@ -1,6 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'impure'}) ...
-    TestExpanduser < matlab.unittest.TestCase
+classdef (TestTags = {'impure'}) TestExpanduser < StdlibPath
 
 properties (TestParameter)
 p = init_exp()

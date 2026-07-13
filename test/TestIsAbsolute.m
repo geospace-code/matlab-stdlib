@@ -1,6 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'pure'}) ...
-    TestIsAbsolute < matlab.unittest.TestCase
+classdef TestIsAbsolute < WorkingClassDir
 
 properties (TestParameter)
 p = init_p()

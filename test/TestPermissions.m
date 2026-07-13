@@ -1,5 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}) ...
-    TestPermissions < matlab.unittest.TestCase
+classdef TestPermissions < StdlibPath
 
 properties
 file = 'perm.txt'

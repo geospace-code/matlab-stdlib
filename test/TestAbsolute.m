@@ -1,17 +1,8 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'impure'}) ...
-    TestAbsolute < matlab.unittest.TestCase
+classdef (TestTags = {'impure'}) TestAbsolute < WorkingClassDir
 
 properties (TestParameter)
 p1 = {'', "", "hi", './hi', "../hi"};
 p2 = {{'', ''}, {'', 'hi'}, {"hi", ""}, {'there', 'hi'}};
-end
-
-
-methods(TestClassSetup)
-function test_dirs(tc)
-tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture());
-end
 end
 
 

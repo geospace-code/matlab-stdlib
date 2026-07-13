@@ -5,9 +5,7 @@
 % * python: seems one needs a Matlab install that never had Python setup.
 % *   Alternative: install a temporary Python environment, set pyenv to that, then delete that Python install
 
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'impure'}) ...
-    TestBackend < matlab.unittest.TestCase
+classdef (TestTags = {'impure'}) TestBackend < StdlibPath
 
 properties
 root = fileparts(fileparts(mfilename('fullpath')))

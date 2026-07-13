@@ -1,4 +1,4 @@
-classdef (Abstract) SubprocessRunAbstract < matlab.unittest.TestCase
+classdef (Abstract) SubprocessRunAbstract < WorkingClassDir
 % Abstract base class for testing subprocess_run* functions
 
 properties (Abstract, Constant)
@@ -13,12 +13,6 @@ end
 properties (TestParameter)
 lang_out = {"c", "fortran"}
 lang_in = {"cpp", "fortran"}
-end
-
-methods(TestClassSetup)
-function test_dirs(tc)
-tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
-end
 end
 
 

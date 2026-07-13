@@ -1,6 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'pure'}) ...
-    TestIsSubdir < matlab.unittest.TestCase
+classdef (TestTags = {'pure'})TestIsSubdir < StdlibPath
 
 properties (TestParameter)
 p_is_prefix = init_is_prefix()

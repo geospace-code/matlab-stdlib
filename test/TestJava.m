@@ -1,9 +1,6 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'java'}) ...
-    TestJava < matlab.unittest.TestCase
+classdef (TestTags = {'java'}) TestJava < StdlibPath
 
-
-methods(Test)
+methods (Test)
 
 function test_java_vendor(tc)
 v = stdlib.java.vendor();

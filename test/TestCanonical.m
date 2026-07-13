@@ -1,5 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}) ...
-  TestCanonical < matlab.unittest.TestCase
+classdef TestCanonical < WorkingClassDir
 
 properties (TestParameter)
 p = {
@@ -9,13 +8,6 @@ p = {
 {'./not-exist', "not-exist"}
 };
 end
-
-methods (TestClassSetup)
-function test_dirs(tc)
-tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture());
-end
-end
-
 
 methods (Test)
 function test_canonical(tc, p)

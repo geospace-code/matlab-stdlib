@@ -1,6 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'pure'}) ...
-    TestIsExe < matlab.unittest.TestCase
+classdef (TestTags = {'pure'}) TestIsExe < WorkingClassDir
 
 properties (TestParameter)
 % we don't test plain files like Readme.md b/c some systems like Matlab Online
@@ -12,13 +10,6 @@ p = {
 {matlab_path(), true}
 }
 peb = init_exe_bin()
-end
-
-
-methods(TestClassSetup)
-function test_dirs(tc)
-tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture());
-end
 end
 
 

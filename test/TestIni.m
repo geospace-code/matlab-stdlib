@@ -1,6 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'impure'}) ...
-    TestIni < matlab.unittest.TestCase
+classdef (TestTags = {'impure'}) TestIni < StdlibPath
 
 
 methods (Test)

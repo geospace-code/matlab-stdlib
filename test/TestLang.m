@@ -1,5 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}) ...
-    TestLang < matlab.unittest.TestCase
+classdef TestLang < StdlibPath
 
 
 methods (Test, TestTags = {'R2022a', 'python'})

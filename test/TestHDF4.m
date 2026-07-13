@@ -1,6 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}, ...
-          TestTags = {'R2022b', 'hdf4'}) ...
-    TestHDF4 < matlab.unittest.TestCase
+classdef (TestTags = {'R2022b', 'hdf4'}) TestHDF4 < StdlibPath
 
 properties
 file = fullfile(matlabroot, 'toolbox/matlab/demos/example.hdf')

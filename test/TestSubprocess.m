@@ -1,5 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}) ...
-    TestSubprocess < SubprocessRunAbstract
+classdef TestSubprocess < SubprocessRunAbstract
 
 properties (Constant)
   runFcn = @stdlib.subprocess_run

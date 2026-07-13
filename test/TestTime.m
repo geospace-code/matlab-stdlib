@@ -1,16 +1,8 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}) ...
-    TestTime < matlab.unittest.TestCase
+classdef TestTime < WorkingClassDir
 
 properties (TestParameter)
 B_jps = {'java', 'python', 'shell'}
 B_dps = {'dotnet', 'python', 'shell'}
-end
-
-
-methods(TestClassSetup)
-function test_path(tc)
-tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture());
-end
 end
 
 

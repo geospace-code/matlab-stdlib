@@ -1,5 +1,4 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}) ...
-    TestPlatform < matlab.unittest.TestCase
+classdef TestPlatform < StdlibPath
 
 properties
 CI = strcmp(getenv('CI'), 'true') || strcmp(getenv('GITHUB_ACTIONS'), 'true');
