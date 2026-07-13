@@ -18,7 +18,6 @@ end
 if s == 0
   a = deblank(r);
 else
-  warning('stdlib:shell:cpu_arch:RuntimeError', 'Failed to execute command "%s": %s', cmd, r);
   a = missing;
 end
 
