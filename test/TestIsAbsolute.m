@@ -1,7 +1,7 @@
 classdef TestIsAbsolute < WorkingClassDir
 
 properties (TestParameter)
-p = init_p()
+p = {{'', false}, {'x', false}, {'x:', false}, {'x:/foo', ispc()}, {'/foo', ~ispc()}}
 end
 
 
@@ -13,16 +13,4 @@ tc.verifyEqual(ok, p{2}, p{1})
 end
 
 end
-end
-
-
-function p = init_p()
-p = {{'', false}, {'x', false}, {'x:', false}};
-
-if ispc()
-  p = [p, {{'x:/foo', true}, {'/foo', false}}];
-else
-  p = [p, {{'x:/foo', false}, {'/foo', true}}];
-end
-
 end

@@ -5,19 +5,10 @@
 % * python: seems one needs a Matlab install that never had Python setup.
 % *   Alternative: install a temporary Python environment, set pyenv to that, then delete that Python install
 
-classdef (TestTags = {'impure'}) TestBackend < StdlibPath
+classdef (TestTags = {'impure'}) TestBackend < WorkingClassDir
 
 properties
 root = fileparts(fileparts(mfilename('fullpath')))
-wd
-end
-
-methods(TestClassSetup)
-function test_dirs(tc)
-  fx = matlab.unittest.fixtures.WorkingFolderFixture();
-  tc.wd = fx.Folder;
-  tc.applyFixture(fx)
-end
 end
 
 methods (Test)
@@ -35,7 +26,7 @@ tc.verifyGreaterThanOrEqual(i, 0)
 % some CI systems report 0
 
 % best to use full path to avoid issues on HPC etc.
-sym_fn = fullfile(tc.wd, 'Readme.lnk');
+sym_fn = fullfile(pwd(), 'Readme.lnk');
 [i, b] = stdlib.create_symlink(readme, sym_fn);
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('create_symlink').backends))
 tc.verifyTrue(i,  "could not create_symlink " + sym_fn)
