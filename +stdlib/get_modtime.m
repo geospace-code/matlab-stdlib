@@ -8,25 +8,17 @@
 
 function t = get_modtime(file)
 arguments
-  file {mustBeTextScalar}
+  file {mustBeFileOrFolder,mustBeTextScalar}
 end
 
 finf = dir(file);
 
-if ~isempty(finf) && finf.isdir
+if isfolder(file)
   % find which index of the struct array has member name == '.'
   i = find(strcmp({finf.name}, '.'), 1);
   finf = finf(i);
 end
 
-if isempty(finf)
-  t = datetime.empty;
-else
-  t = finf.datenum;
-end
-
-try %#ok<TRYNC>
-  t = datetime(finf.datenum, 'ConvertFrom', 'datenum');
-end
+t = datetime(finf.datenum, 'ConvertFrom', 'datenum');
 
 end
