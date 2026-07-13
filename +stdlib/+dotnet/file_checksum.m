@@ -13,11 +13,6 @@ file_chunk = 10e6;  % arbitrary (bytes) didn't seem to be very sensitive for spe
 fid = fopen(file, 'r');
 assert(fid > 1, 'could not open file %s', file)
 
-if ~stdlib.has_dotnet()
-  hash = missing;
-  return
-end
-
 inst = System.Security.Cryptography.HashAlgorithm.Create(hash_method);
 while ~feof(fid)
   % https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.hashalgorithm.computehash

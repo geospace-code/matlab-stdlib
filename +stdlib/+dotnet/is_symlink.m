@@ -2,18 +2,13 @@
 
 function y = is_symlink(file)
 
-
-if stdlib.has_dotnet()
-  if stdlib.dotnet.api() >= 6
-    y = ~isempty(System.IO.FileInfo(file).LinkTarget);
-  else
-    attr = char(System.IO.File.GetAttributes(file).ToString());
-    % https://learn.microsoft.com/en-us/dotnet/api/system.io.fileattributes
-    % ReparsePoint is for Linux, macOS, and Windows
-    y = contains(attr, 'ReparsePoint');
-  end
+if stdlib.dotnet.api() >= 6
+  y = ~isempty(System.IO.FileInfo(file).LinkTarget);
 else
-  y = missing;
+  attr = char(System.IO.File.GetAttributes(file).ToString());
+  % https://learn.microsoft.com/en-us/dotnet/api/system.io.fileattributes
+  % ReparsePoint is for Linux, macOS, and Windows
+  y = contains(attr, 'ReparsePoint');
 end
 
 end

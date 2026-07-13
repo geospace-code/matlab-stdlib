@@ -3,7 +3,7 @@
 
 function r = read_symlink(file)
 
-if stdlib.has_dotnet() && stdlib.dotnet.api() >= 6
+if stdlib.dotnet.api() >= 6
   h = System.IO.FileInfo(file);
   r = string(h.LinkTarget);
   % on Unix, this can be empty if the file is not a symlink

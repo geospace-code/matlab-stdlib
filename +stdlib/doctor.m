@@ -36,9 +36,13 @@ else
   raw.java = missing;
 end
 
-raw.dotnet.api = stdlib.dotnet.api();
-raw.dotnet.home = stdlib.dotnet.home();
-raw.dotnet.version = stdlib.dotnet.version();
+if stdlib.has_dotnet()
+  raw.dotnet.api = stdlib.dotnet.api();
+  raw.dotnet.home = stdlib.dotnet.home();
+  raw.dotnet.version = stdlib.dotnet.version();
+else
+  raw.dotnet = missing;
+end
 
 if stdlib.has_perl()
   raw.perl.version = sprintf('%d.%d.%d', stdlib.perl_version());

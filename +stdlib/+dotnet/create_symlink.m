@@ -8,7 +8,7 @@ if stdlib.exists(link)
 end
 
 % https://learn.microsoft.com/en-us/dotnet/api/system.io.file.createsymboliclink
-if stdlib.has_dotnet() && stdlib.dotnet.api() >= 6
+if stdlib.dotnet.api() >= 6
   System.IO.File.CreateSymbolicLink(link, target);
   ok = true;
 else
