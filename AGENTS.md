@@ -13,7 +13,6 @@ The specific external languages supported (if available on the user system) are
 
 * Python: namespace stdlib.python under +stdlib/+python/, availability check stdlib.has_python()
 * Java: namespace stdlib.java under +stdlib/+java/, availability check stdlib.has_java()
-* Perl: namespace stdlib.perl under +stdlib/+perl/, availability check stdlib.has_perl()
 * .NET: namespace stdlib.dotnet under +stdlib/+dotnet/, availability check stdlib.has_dotnet()
 
 There are a few other namespaces that are not external language interfaces:
@@ -37,8 +36,6 @@ Key limitations driving minimum Matlab version include:
 * R2019b: function argument validation block "arguments"
 * R2020b: `mustBeTextScalar()`, `mustBeText()` functions for function argument validation, used in many places in the code.
 
-Numerous functions are also compatible with GNU Octave.
-
 ## Dev Rules
 
 These rules apply under the namespace "stdlib" (directory +stdlib/) and all its sub-namespaces (subdirectories +stdlib/+*).
@@ -53,7 +50,7 @@ These rules apply under the namespace "stdlib" (directory +stdlib/) and all its 
 ## Dev notes
 
 - The code in stdlib.python.version, stdlib.has_python has distinct use of persistent variables, we have carefully reviewed it and are satified with its performance and correctness regarding persistent variables.
-- I do not wish to implement cache reset in stdlib.python.version() or stdlib.perl.version().
+- I do not wish to implement cache reset in stdlib.python.version().
 
 The code in the following list of stdlib.* functions is of the highest priority to be correct and efficient, as it's fundamental to correct filesystem operations. These functions are used by many other functions in this and other projects.
 

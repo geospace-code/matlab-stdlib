@@ -56,12 +56,6 @@ end
 
 
 methods (Test)
-function test_perl(tc)
-tc.verifyClass(stdlib.perl_exe(), 'char')
-tc.verifyClass(stdlib.perl_version(), 'double')
-tc.verifyNotEmpty(stdlib.perl_version())
-tc.verifyTrue(stdlib.has_perl(), 'Matlab docs indicate that Perl should always be available')
-end
 
 function test_doctor(tc)
 r = stdlib.doctor();

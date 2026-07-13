@@ -35,10 +35,11 @@ By default, when the "backend" is not specified to a function having selectable 
 Matlab external backends include:
 
 * [Java](./Readme_java.md): all supported Matlab releases
-* [Perl](https://www.mathworks.com/help/matlab/ref/perl.html):  This uses a system() call to Perl.
 * [Python](./Readme_python.md): all supported Matlab releases with CPU-arch matching Python.
 * System shell calls: all supported Matlab releases. As a backup when the platform doesn't have the primary (faster) methods available, the system shell can be called for some functions.
 * .NET as described below.
+
+While we created Perl examples, we omitted these from the main library as they are simply a system() call to "perl.exe".
 
 ### .NET from Matlab
 
@@ -57,35 +58,6 @@ setenv('HOMEBREW_PREFIX', '/opt/homebrew')
 setenv('DOTNET_ROOT', [getenv('HOMEBREW_PREFIX') '/opt/dotnet/libexec'])
 ```
 
-## GNU Octave
-
-Many matlab-stdlib functions work in GNU Octave.
-
-To use matlab-stdlib **HDF5** functions in GNU Octave requires the
-[hdf5oct package](https://gnu-octave.github.io/packages/hdf5oct/).
-
-```octave
-pkg install hdf5oct
-```
-
-Then when wanting to use HDF5 functions, first do:
-
-```octave
-pkg load hdf5oct
-```
-
-To use matlab-stdlib **NetCDF** functions in GNU Octave requires the
-[netcdf package](https://gnu-octave.github.io/packages/netcdf/).
-
-```octave
-pkg install netcdf
-```
-
-Then when wanting to use NetCDF functions, first do:
-
-```octave
-pkg load netcdf
-```
 
 ## Acknowledgments
 

@@ -11,7 +11,7 @@ p = {...
 {'..', './..'}, ...
 {'same.txt', './same.txt'}}
 
-backend = {'python', 'java', 'perl', 'shell', 'native'}
+backend = {'python', 'java', 'shell', 'native'}
 end
 
 

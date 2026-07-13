@@ -79,7 +79,7 @@ relpath = "";
 fprintf(fid, newline + "<table>" + newline);
 fprintf(fid, "<tr><th>Function</th> <th>Description</th> <th>Backends</th></tr>" + newline);
 
-Nbe = struct(dotnet=0, java=0, perl=0, python=0, shell=0, native=0, legacy=0, top_level=0);
+Nbe = struct(dotnet=0, java=0, python=0, shell=0, native=0, legacy=0, top_level=0);
 
 for fun = pkg.m.'
 

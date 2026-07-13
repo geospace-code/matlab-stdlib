@@ -44,11 +44,6 @@ else
   raw.dotnet = missing;
 end
 
-if stdlib.has_perl()
-  raw.perl.version = sprintf('%d.%d.%d', stdlib.perl_version());
-  raw.perl.exe = stdlib.perl_exe();
-end
-
 if stdlib.has_python()
   raw.python.version = sprintf('%d.%d.%d', stdlib.python.version());
   raw.python.home = stdlib.python.home();

@@ -4,14 +4,14 @@
 %
 % * 'shell' is usually the slowest, but most compatible.
 % * 'python' or 'dotnet' are among the fastest, but not always available
-% * 'java' and 'perl' may be available and medium speed
+% * 'java' may be available and medium speed
 % * 'native' uses the latest Matlab syntax available
 % * 'legacy' is Matlab syntax for older Matlab versions. Sometimes legacy is faster than native, but native is more robust/general.
 
 classdef Backend < matlab.mixin.SetGet
 
 properties (Constant)
-optionalBackends = ["java", "perl", "python", "dotnet"]
+optionalBackends = ["java", "python", "dotnet"]
 namespace = "stdlib"
 end
 

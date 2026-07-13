@@ -1,6 +1,6 @@
 % JAVA.CPU_ARCH
 % diagnostic to see what Java says its arch is
-% useful for diagnosing Java issues vis-a-vis Matlab or Octave
+% useful for diagnosing Java issues vis-a-vis Matlab
 
 function a = cpu_arch()
 
