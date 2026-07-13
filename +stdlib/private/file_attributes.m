@@ -2,7 +2,7 @@ function r = file_attributes(file)
 
 [s, r] = fileattrib(file);
 
-if s ~= 1
+if ~s
   error('stdlib:file_attributes', 'Error executing fileattrib(%s): %s', file, r);
 end
 

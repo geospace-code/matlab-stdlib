@@ -35,8 +35,7 @@ if isempty(mode)
   return
 end
 
-[s, msg, id] = fileattrib(file, mode);
-ok = s == 1;
+[ok, msg, id] = fileattrib(file, mode);
 if ~ok
   error(id, 'Failed to set permissions %s for %s: %s', mode, file, msg)
 end

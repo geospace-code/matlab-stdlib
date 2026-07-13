@@ -27,7 +27,9 @@ elseif ~stdlib.exists(file)
   end
   c = stdlib.normalize(file);
 elseif stdlib.matlabOlderThan('R2025a')
-  c = stdlib.legacy.canonical(file);
+  [s, r] = fileattrib(file);
+  assert(s, 'stdlib:canonical', 'Error executing fileattrib(%s): %s', file, r);
+  c = r.Name;
 elseif stdlib.matlabOlderThan('R2026b')
   c = filePermissions(file).AbsolutePath;
 else
