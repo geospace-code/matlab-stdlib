@@ -9,12 +9,12 @@ n = func2str(f);
 if contains(n, ".dotnet.")
 
   dapi = stdlib.dotnet.api();
-  tc.assumeGreaterThan(dapi, 0, ".NET not available")
+  tc.assumeGreaterThanOrEqual(dapi, 4, ".NET >= 4 not available")
 
 elseif contains(n, ".java.")
 
   japi = stdlib.java.api();
-  tc.assumeGreaterThan(japi, 0, "Java not available")
+  tc.assumeGreaterThanOrEqual(japi, 8, "Java >= 1.8 not available")
 
 elseif contains(n, 'python')
 

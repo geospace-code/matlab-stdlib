@@ -27,10 +27,14 @@ if ~isempty(ncv)
   raw.netcdf = ncv;
 end
 
-raw.java.vendor = stdlib.java.vendor();
-raw.java.version = stdlib.java.version();
-raw.java.api = stdlib.java.api();
-raw.java.home = stdlib.java.home();
+if stdlib.has_java()
+  raw.java.vendor = stdlib.java.vendor();
+  raw.java.version = stdlib.java.version();
+  raw.java.api = stdlib.java.api();
+  raw.java.home = stdlib.java.home();
+else
+  raw.java = missing;
+end
 
 raw.dotnet.api = stdlib.dotnet.api();
 raw.dotnet.home = stdlib.dotnet.home();

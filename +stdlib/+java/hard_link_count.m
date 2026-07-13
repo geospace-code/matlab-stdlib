@@ -1,9 +1,9 @@
 function i = hard_link_count(file)
 
-if ~ispc() && stdlib.has_java()
+if ~ispc() 
   opt = javaMethod('values', 'java.nio.file.LinkOption');
-  p = javaAbsolutePath(file);
-  i = javaMethod('getAttribute', 'java.nio.file.Files', p, 'unix:nlink', opt);
+  i = java.nio.file.Files.getAttribute(javaAbsolutePath(file), ...
+        'unix:nlink', opt);
   % i = java.nio.file.Files.getAttribute(javaAbsolutePath(file), "unix:nlink", java.nio.file.LinkOption.values());
 else
   i = missing;

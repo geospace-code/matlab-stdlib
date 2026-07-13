@@ -2,12 +2,8 @@ function u = ram_usage(v)
 
 % https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getTotalMemorySize()
 
-if ~stdlib.has_java()
-  u = missing;
-  return
-end
 
-b = javaMethod('getOperatingSystemMXBean', 'java.lang.management.ManagementFactory');
+b = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
 
 switch v
   case 'total'

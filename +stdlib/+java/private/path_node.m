@@ -1,7 +1,7 @@
 function i = path_node(file, ntype)
 
 
-if ~ispc() && stdlib.has_java()
+if ~ispc()
   opt = javaMethod('values', 'java.nio.file.LinkOption');
 
   switch ntype

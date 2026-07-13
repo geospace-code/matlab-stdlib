@@ -1,19 +1,16 @@
 function L = cpu_load()
 
-if stdlib.has_java()
-  b = javaMethod('getOperatingSystemMXBean', 'java.lang.management.ManagementFactory');
+b = javaMethod('getOperatingSystemMXBean', 'java.lang.management.ManagementFactory');
 
-  L = b.getSystemLoadAverage();
-  if L < 0
-    if stdlib.java.api() < 14
-      L = b.getSystemCpuLoad();
-    else
-      % https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getCpuLoad()
-      L = b.getCpuLoad();
-    end
+L = b.getSystemLoadAverage();
+if L < 0
+  if stdlib.java.api() < 14
+    L = b.getSystemCpuLoad();
+  else
+    % https://docs.oracle.com/en/java/javase/21/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html#getCpuLoad()
+    L = b.getCpuLoad();
   end
-else
-  L = missing;
 end
+
 
 end
