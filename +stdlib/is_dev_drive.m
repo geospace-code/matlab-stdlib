@@ -10,7 +10,7 @@
 function [i, b] = is_dev_drive(file, backend)
 arguments
   file {mustBeTextScalar,mustBeFolder}
-  backend (1,:) string = ["python", "shell"]
+  backend (1,:) string = string.empty
 end
 
 [i, b] = getUsingBackend(backend, mfilename, file);

@@ -20,7 +20,7 @@ function [i, b] = samepath(path1, path2, backend)
 arguments
   path1 {mustBeTextScalar,mustBeFileOrFolder}
   path2 {mustBeTextScalar,mustBeFileOrFolder}
-  backend (1,:) string = ["python", "java", "shell", "native"]
+  backend (1,:) string = string.empty
 end
 
 [i, b] = getUsingBackend(backend, mfilename, path1, path2);

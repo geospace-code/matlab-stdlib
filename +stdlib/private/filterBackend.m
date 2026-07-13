@@ -8,6 +8,10 @@ end
 %   backends that are not supported. If the input
 %   backend list is empty, the output will also be empty.
 
+if isempty(backend)
+  backend = functionBackends(funcName);
+end
+
 if any(contains(backend, "native"))
   switch funcName
     case {'create_symlink', 'is_symlink', 'read_symlink'}

@@ -16,7 +16,7 @@ function [i, b] = file_checksum(file, hash_method, backend)
 arguments
   file {mustBeTextScalar,mustBeFile}
   hash_method {mustBeTextScalar}
-  backend (1,:) string = ["java", "dotnet", "shell"]
+  backend (1,:) string = string.empty
 end
 
 [i, b] = getUsingBackend(backend, mfilename, file, hash_method);

@@ -4,7 +4,7 @@
 
 function [i, b] = get_max_open_files(backend)
 arguments
-  backend (1,:) string = ["python", "shell"]
+  backend (1,:) string = string.empty
 end
 
 [i, b] = getUsingBackend(backend, mfilename);

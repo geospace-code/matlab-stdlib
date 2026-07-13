@@ -10,7 +10,7 @@
 function [i, b] = is_symlink(file, backend)
 arguments
   file {mustBeTextScalar,mustBeFileOrFolder}
-  backend (1,:) string = ["native", "java", "python", "dotnet", "shell"]
+  backend (1,:) string = string.empty
 end
 
 [i, b] = getUsingBackend(backend, mfilename, file);

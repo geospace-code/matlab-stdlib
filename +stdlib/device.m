@@ -10,7 +10,7 @@
 function [i, b] = device(file, backend)
 arguments
   file {mustBeTextScalar,mustBeFileOrFolder}
-  backend (1,:) string = ["java", "python", "shell"]
+  backend (1,:) string = string.empty
 end
 
 [i, b] = getUsingBackend(backend, mfilename, file);

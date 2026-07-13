@@ -12,7 +12,7 @@ function [i, b] = set_modtime(file, time, backend)
 arguments
   file {mustBeTextScalar, mustBeFile}
   time (1,1) datetime
-  backend (1,:) string = ["java", "python", "shell"]
+  backend (1,:) string = string.empty
 end
 
 [i, b] = getUsingBackend(backend, mfilename, file, time);

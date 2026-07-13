@@ -49,6 +49,7 @@ These rules apply under the namespace "stdlib" (directory +stdlib/) and all its 
 
 ## Dev notes
 
+- the backends for each function are stored in +stdlib/private/functionBackends.m, and the function +stdlib/private/filterBackend() is used to filter the backends based on availability.
 - The code in stdlib.python.version, stdlib.has_python has distinct use of persistent variables, we have carefully reviewed it and are satified with its performance and correctness regarding persistent variables.
 - I do not wish to implement cache reset in stdlib.python.version().
 

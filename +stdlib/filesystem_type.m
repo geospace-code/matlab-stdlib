@@ -12,7 +12,7 @@
 function [i, b] = filesystem_type(file, backend)
 arguments
   file {mustBeTextScalar,mustBeFolder}
-  backend (1,:) string = ["java", "dotnet", "python", "shell"]
+  backend (1,:) string = string.empty
 end
 
 [i, b] = getUsingBackend(backend, mfilename, file);

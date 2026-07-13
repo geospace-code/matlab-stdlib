@@ -13,7 +13,7 @@
 function [i, b] = read_symlink(file, backend)
 arguments
   file {mustBeTextScalar,mustBeSymbolicLink}
-  backend (1,:) string = ["native", "java", "python", "dotnet", "shell"]
+  backend (1,:) string = string.empty
 end
 
 [i, b] = getUsingBackend(backend, mfilename, file);

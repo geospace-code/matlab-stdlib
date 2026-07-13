@@ -21,7 +21,7 @@
 function [i, b] = is_char_device(file, backend)
 arguments
   file {mustBeTextScalar}
-  backend (1,:) string = ["python", "shell"]
+  backend (1,:) string = string.empty
 end
 
 [i, b] = getUsingBackend(backend, mfilename, file);

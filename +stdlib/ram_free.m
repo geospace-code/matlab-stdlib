@@ -14,7 +14,7 @@
 
 function [i, b] = ram_free(backend)
 arguments
-  backend (1,:) string = ["java", "python", "shell"]
+  backend (1,:) string = string.empty
 end
 
 [i, b] = getUsingBackend(backend, mfilename);
