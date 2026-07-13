@@ -9,20 +9,11 @@
 
 function [i, b] = create_symlink(target, link, backend)
 arguments
-  target (1,1) string {mustBeFileOrFolder}
+  target {mustBeTextScalar,mustBeFileOrFolder}
   link {mustBeTextScalar,mustBeNonzeroLengthText}
-  backend (1,:) string {mustBeNonempty} = ["native", "dotnet", "python", "shell"]
+  backend (1,:) string = ["native", "dotnet", "python", "shell"]
 end
 
-i = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".create_symlink");
-  i = f(target, link);
-
-  if ~ismissing(i)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename, target, link);
 
 end

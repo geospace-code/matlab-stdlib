@@ -6,24 +6,15 @@
 % * file: path to check
 % * backend: backend to use
 %%% Outputs
-% * r: filesystem type
+% * i: filesystem type
 % * b: backend used
 
-function [r, b] = filesystem_type(file, backend)
+function [i, b] = filesystem_type(file, backend)
 arguments
-  file (1,1) string {mustBeFolder}
-  backend (1,:) string {mustBeNonempty} = ["java", "dotnet", "python", "shell"]
+  file {mustBeTextScalar,mustBeFolder}
+  backend (1,:) string = ["java", "dotnet", "python", "shell"]
 end
 
-r = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".filesystem_type");
-  r = f(file);
-
-  if ~ismissing(r)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename, file);
 
 end

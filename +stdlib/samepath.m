@@ -18,21 +18,11 @@
 
 function [i, b] = samepath(path1, path2, backend)
 arguments
-  path1 (1,1) string {mustBeFileOrFolder}
-  path2 (1,1) string {mustBeFileOrFolder}
-  backend (1,:) string {mustBeNonempty} = ["python", "java", "perl", "shell", "native"]
+  path1 {mustBeTextScalar,mustBeFileOrFolder}
+  path2 {mustBeTextScalar,mustBeFileOrFolder}
+  backend (1,:) string = ["python", "java", "perl", "shell", "native"]
 end
 
-
-i = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".samepath");
-  i = f(path1, path2);
-
-  if ~ismissing(i)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename, path1, path2);
 
 end

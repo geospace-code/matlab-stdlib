@@ -2,25 +2,16 @@ function y = is_removable(file)
 
 y = false;
 
-if stdlib.python.has_psutil()
-  p = py.str(file);
-  if ~py.os.path.exists(p)
-    return
-  end
-
-  p = py.os.path.abspath(p);
+p = py.os.path.abspath(file);
 
 % https://psutil.readthedocs.io/en/stable/index.html?highlight=disk_partitions#psutil.disk_partitions
 
-  for part = py.psutil.disk_partitions()
-    prt = part{1};
-    if p.startswith(prt.mountpoint)
-      y = contains(string(prt.opts), ["cdrom", "removable"]);
-      return
-    end
+for part = py.psutil.disk_partitions()
+  prt = part{1};
+  if p.startswith(prt.mountpoint)
+    y = contains(string(prt.opts), ["cdrom", "removable"]);
+    return
   end
-else
-  y = missing;
 end
 
 end

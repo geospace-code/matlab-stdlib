@@ -2,12 +2,8 @@
 
 function t = uptime()
 
-if stdlib.dotnet.api() >= 5
-  tms = System.Environment.TickCount64;
-  ts = System.TimeSpan.FromMilliseconds(tms);
-  t = ts.TotalSeconds;
-else
-  t = missing;
-end
+tms = System.Environment.TickCount64;
+ts = System.TimeSpan.FromMilliseconds(tms);
+t = ts.TotalSeconds;
 
 end

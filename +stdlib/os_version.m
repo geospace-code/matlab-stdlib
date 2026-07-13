@@ -12,14 +12,14 @@
 
 function [os, version, b] = os_version(backend)
 arguments
-  backend (1,:) string {mustBeNonempty} = ["shell", "python", "dotnet", "java"];
+  backend (1,:) string = ["shell", "python", "dotnet", "java"];
 end
 
 os = missing;
 version = missing;
 
 for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".os_version");
+  f = str2func(join(["stdlib", b, mfilename], "."));
   [os, version] = f();
 
   if ~any(ismissing(os)) && ~any(ismissing(version))

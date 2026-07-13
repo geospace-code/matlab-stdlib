@@ -10,19 +10,10 @@
 
 function [i, b] = is_removable(file, backend)
 arguments
-  file (1,1) string {mustBeFolder}
-  backend (1,:) string {mustBeNonempty} = ["python", "shell"]
+  file {mustBeTextScalar,mustBeFolder}
+  backend (1,:) string = ["python", "shell"]
 end
 
-i = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".is_removable");
-  i = f(file);
-
-  if ~ismissing(i)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename, file);
 
 end

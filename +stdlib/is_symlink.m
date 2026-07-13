@@ -9,20 +9,10 @@
 
 function [i, b] = is_symlink(file, backend)
 arguments
-  file (1,1) string {mustBeFileOrFolder}
-  backend (1,:) string {mustBeNonempty} = ["native", "java", "python", "dotnet", "shell"]
+  file {mustBeTextScalar,mustBeFileOrFolder}
+  backend (1,:) string = ["native", "java", "python", "dotnet", "shell"]
 end
 
-
-i = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".is_symlink");
-  i = f(file);
-
-  if ~ismissing(i)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename, file);
 
 end

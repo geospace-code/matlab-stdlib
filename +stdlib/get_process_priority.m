@@ -11,18 +11,9 @@
 
 function [i, b] = get_process_priority(backend)
 arguments
-  backend (1,:) string {mustBeNonempty} = ["dotnet", "python", "shell"]
+  backend (1,:) string = ["dotnet", "python", "shell"]
 end
 
-i = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".get_process_priority");
-  i = f();
-
-  if ~ismissing(i)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename);
 
 end

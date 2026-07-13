@@ -13,20 +13,10 @@
 
 function [i, b] = hard_link_count(file, backend)
 arguments
-  file (1,1) string {mustBeFileOrFolder}
-  backend (1,:) string {mustBeNonempty} = ["java", "python", "shell"]
+  file {mustBeTextScalar,mustBeFileOrFolder}
+  backend (1,:) string = ["java", "python", "shell"]
 end
 
-
-i = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".hard_link_count");
-  i = f(file);
-
-  if ~ismissing(i)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename, file);
 
 end

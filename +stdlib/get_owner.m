@@ -4,24 +4,15 @@
 % * file: path to examine
 % * backend: backend to use
 %%% Outputs
-% * r: owner of file
+% * i: owner of file
 % * b: backend used
 
-function [r, b] = get_owner(file, backend)
+function [i, b] = get_owner(file, backend)
 arguments
   file {mustBeTextScalar,mustBeFileOrFolder}
-  backend (1,:) string {mustBeNonempty} = ["java", "dotnet", "python", "shell"]
+  backend (1,:) string = ["java", "dotnet", "python", "shell"]
 end
 
-r = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".get_owner");
-  r = f(file);
-
-  if ~ismissing(r)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename, file);
 
 end

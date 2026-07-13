@@ -4,7 +4,7 @@
 
 function y = windows_long_paths_enabled()
 
-if ispc
+if ispc()
   s = winqueryreg('HKEY_LOCAL_MACHINE', ...
         'SYSTEM\CurrentControlSet\Control\FileSystem', 'LongPathsEnabled');
 

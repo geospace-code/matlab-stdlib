@@ -1,10 +1,5 @@
 function i = create_symlink(target, link)
 
-if stdlib.matlabOlderThan('R2024b')
-  i = missing;
-  return
-end
-
 try
   createSymbolicLink(link, target);
   i = true;

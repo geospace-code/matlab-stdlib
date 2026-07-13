@@ -102,8 +102,6 @@ tc.verifyClass(i, 'logical')
 tc.assertThat(b, IsSubsetOf(stdlib.Backend('is_dev_drive').backends))
 if ~ispc() || stdlib.is_admin()
   tc.verifyClass(i, 'logical')
-else
-  tc.verifyEqual(i, missing)
 end
 
 

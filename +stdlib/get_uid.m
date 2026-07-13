@@ -8,18 +8,9 @@
 
 function [i, b] = get_uid(backend)
 arguments
-  backend (1,:) string {mustBeNonempty} = ["dotnet", "python", "perl"]
+  backend (1,:) string = ["dotnet", "python", "perl"]
 end
 
-i = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".get_uid");
-  i = f();
-
-  if ~ismissing(i)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename);
 
 end

@@ -3,25 +3,16 @@
 %%% Inputs
 % * backend: preferred backend(s)
 %%% Outputs
-% * n: hostname of local machine
+% * i: hostname of local machine
 % * b: backend used
 %
 % Ref: https://docs.oracle.com/javase/8/docs/api/java/net/InetAddress.html#getHostName--
 
-function [r, b] = hostname(backend)
+function [i, b] = hostname(backend)
 arguments
-  backend (1,:) string {mustBeNonempty} = ["java", "dotnet", "python", "shell"]
+  backend (1,:) string = ["java", "dotnet", "python", "shell"]
 end
 
-r = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".hostname");
-  r = f();
-
-  if ~ismissing(r)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename);
 
 end

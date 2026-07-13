@@ -9,19 +9,10 @@
 
 function [i, b] = is_dev_drive(file, backend)
 arguments
-  file (1,1) string {mustBeFolder}
-  backend (1,:) string {mustBeNonempty} = ["python", "shell"]
+  file {mustBeTextScalar,mustBeFolder}
+  backend (1,:) string = ["python", "shell"]
 end
 
-i = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".is_dev_drive");
-  i = f(file);
-
-  if ~ismissing(i)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename, file);
 
 end

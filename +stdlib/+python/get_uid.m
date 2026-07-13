@@ -1,9 +1,5 @@
 function u = get_uid()
 
-if isunix()
-  u = double(py.os.geteuid());
-else
-  u = missing;
-end
+u = double(py.os.geteuid());
 
 end

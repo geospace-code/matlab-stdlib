@@ -7,28 +7,18 @@
 % * hash_method:  'MD5', 'SHA-1', 'SHA-256', etc.
 % * backend: backend to use
 %%% Outputs
-% * hash: string hash
+% * i: string hash
 % * b: backend used
 %
 % Ref: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#getInstance(java.lang.String)
 
-function [r, b] = file_checksum(file, hash_method, backend)
+function [i, b] = file_checksum(file, hash_method, backend)
 arguments
-  file (1,1) string {mustBeFile}
+  file {mustBeTextScalar,mustBeFile}
   hash_method {mustBeTextScalar}
-  backend (1,:) string {mustBeNonempty} = ["java", "dotnet", "shell"]
+  backend (1,:) string = ["java", "dotnet", "shell"]
 end
 
-
-r = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".file_checksum");
-  r = f(file, hash_method);
-
-  if ~ismissing(r)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename, file, hash_method);
 
 end

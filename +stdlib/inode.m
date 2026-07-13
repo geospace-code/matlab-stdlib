@@ -9,19 +9,10 @@
 
 function [i, b] = inode(file, backend)
 arguments
-  file (1,1) string {mustBeFileOrFolder}
-  backend (1,:) string {mustBeNonempty} = ["java", "python", "shell"]
+  file {mustBeTextScalar,mustBeFileOrFolder}
+  backend (1,:) string = ["java", "python", "shell"]
 end
 
-i = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".inode");
-  i = f(file);
-
-  if ~ismissing(i)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename, file);
 
 end

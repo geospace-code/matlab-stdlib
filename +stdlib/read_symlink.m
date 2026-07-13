@@ -7,25 +7,15 @@
 % * file: path to symbolic link
 % * backend: backend to use
 %%% Outputs
-% * r: target of symbolic link
+% * i: target of symbolic link
 % * b: backend used
 
-function [r, b] = read_symlink(file, backend)
+function [i, b] = read_symlink(file, backend)
 arguments
-  file (1,1) string {mustBeSymbolicLink}
-  backend (1,:) string {mustBeNonempty} = ["native", "java", "python", "dotnet", "shell"]
+  file {mustBeTextScalar,mustBeSymbolicLink}
+  backend (1,:) string = ["native", "java", "python", "dotnet", "shell"]
 end
 
-
-r = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b  + ".read_symlink");
-  r = f(file);
-
-  if ~ismissing(r)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename, file);
 
 end

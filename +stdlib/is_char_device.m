@@ -21,19 +21,9 @@
 function [i, b] = is_char_device(file, backend)
 arguments
   file {mustBeTextScalar}
-  backend (1,:) string {mustBeNonempty} = ["python", "shell"]
+  backend (1,:) string = ["python", "shell"]
 end
 
-
-i = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".is_char_device");
-  i = f(file);
-
-  if ~ismissing(i)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename, file);
 
 end

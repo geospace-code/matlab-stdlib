@@ -11,18 +11,9 @@
 
 function [i, b] = cpu_load(backend)
 arguments
-  backend (1,:) string {mustBeNonempty} = ["java", "python", "shell"]
+  backend (1,:) string = ["java", "python", "shell"]
 end
 
-i = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".cpu_load");
-  i = f();
-
-  if ~ismissing(i)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename);
 
 end

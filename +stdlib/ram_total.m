@@ -11,18 +11,9 @@
 
 function [i, b] = ram_total(backend)
 arguments
-  backend (1,:) string {mustBeNonempty} = ["java", "dotnet", "python", "shell"]
+  backend (1,:) string = ["java", "dotnet", "python", "shell"]
 end
 
-i = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".ram_total");
-  i = f();
-
-  if ~ismissing(i)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename);
 
 end

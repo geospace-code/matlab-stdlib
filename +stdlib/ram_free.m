@@ -14,19 +14,10 @@
 
 function [i, b] = ram_free(backend)
 arguments
-  backend (1,:) string {mustBeNonempty} = ["java", "python", "shell"]
+  backend (1,:) string = ["java", "python", "shell"]
 end
 
-i = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".ram_free");
-  i = f();
-
-  if ~ismissing(i)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename);
 
 % * VisualBasic (needs Windows) is needed to do this with .NET.
 % * builtin memory() on Windows includes swap. The user could do that themselves.

@@ -1,23 +1,14 @@
 %% UPTIME get system uptime in seconds
 %
 %%% Outputs
-% * t: system uptime
+% * i: system uptime
 % * b: backend used
 
-function [r, b] = uptime(backend)
+function [i, b] = uptime(backend)
 arguments
-  backend (1,:) string {mustBeNonempty} = ["dotnet", "python", "shell"]
+  backend (1,:) string = ["dotnet", "python", "shell"]
 end
 
-r = missing;
-
-for b = filterBackend(backend)
-  f = str2func("stdlib." + b + ".uptime");
-  r = f();
-
-  if ~ismissing(r)
-    return
-  end
-end
+[i, b] = getUsingBackend(backend, mfilename);
 
 end
