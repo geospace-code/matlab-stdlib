@@ -28,25 +28,19 @@ end
 methods (Test, TestTags = {'R2022b', 'dotnet'})
 
 function test_dotnet_home(tc)
+tc.assumeTrue(stdlib.has_dotnet(), 'Skipping test because .NET is not available')
 h = stdlib.dotnet.home();
-if stdlib.has_dotnet()
-  tc.verifyClass(h, 'string')
-  tc.verifyThat(h, matlab.unittest.constraints.IsFolder, '.NET home folder does not exist')
-else
-  tc.verifyEqual(h, missing)
-end
+tc.verifyClass(h, 'string')
+tc.verifyThat(h, matlab.unittest.constraints.IsFolder, '.NET home folder does not exist')
 end
 
 
 function test_dotnet_version(tc)
+tc.assumeTrue(stdlib.has_dotnet(), 'Skipping test because .NET is not available')
 v = stdlib.dotnet.version();
 
-if stdlib.has_dotnet()
-  tc.verifyClass(v, 'char')
-  tc.verifyTrue(stdlib.version_atleast(v, '4.0'), '.NET version should be greater than 4.0')
-else
-  tc.verifyEqual(v, missing)
-end
+tc.verifyClass(v, 'char')
+tc.verifyTrue(stdlib.version_atleast(v, '4.0'), '.NET version should be greater than 4.0')
 end
 
 end

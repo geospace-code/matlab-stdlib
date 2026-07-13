@@ -3,11 +3,17 @@ import matlab.unittest.selectors.HasTag
 
 plan = buildplan(localfunctions);
 
-sel = HasTag('native_exe') | (~HasTag("exe") & ~HasTag("java") & ~HasTag("java_exe") & ~HasTag("python"));
+sel = HasTag('native_exe') | (~HasTag("exe") & ~HasTag("java_exe") & ~HasTag("python"));
 if ispc()
   sel = sel & ~HasTag("unix");
 else
   sel = sel & ~HasTag("windows");
+end
+if ~stdlib.has_dotnet()
+  sel = sel & ~HasTag("dotnet");
+end
+if ~stdlib.has_java()
+  sel = sel & ~HasTag("java");
 end
 
 reportDir = fullfile(plan.RootFolder, 'reports');
@@ -24,9 +30,7 @@ end
 if isMATLABReleaseOlderThan("R2024b")
 
   plan("test_main") = matlab.buildtool.Task(Actions=@(context) test_main(context, sel));
-  plan("test_java") = matlab.buildtool.Task(Actions=@(context) test_main(context, HasTag("java")));
-
-  plan("test") = matlab.buildtool.Task(Dependencies=["test_main", "test_java"]);
+  plan("test") = matlab.buildtool.Task(Dependencies="test_main");
 
   if isMATLABReleaseOlderThan('R2023b')
     return
@@ -64,10 +68,6 @@ if ~isMATLABReleaseOlderThan('R2024b')
   plan("test:python") = matlab.buildtool.tasks.TestTask(...
     test_root, Description="test Python targets", ...
     Tag = "python", Strict=true);
-
-  plan("test:java") = matlab.buildtool.tasks.TestTask(...
-    test_root, Description="test Java targets", ...
-    Tag = "java", Strict=true);
 
   plan("test:java_exe") = matlab.buildtool.tasks.TestTask(...
     test_root, Description="test Java exe targets", ...

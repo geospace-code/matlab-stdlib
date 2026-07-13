@@ -11,14 +11,14 @@ runs:
     if: ${{ matrix.release >= 'R2024b' || matrix.release == 'latest-including-prerelease' }}
     uses: matlab-actions/run-build@v3
     with:
-      tasks: test:main test:java test:java_exe test:exe
+      tasks: test:main test:java_exe test:exe
 
 
   - name: Main and Java Tests (< R2024b)
     if: ${{ matrix.release >= 'R2022b' && matrix.release < 'R2024b' }}
     uses: matlab-actions/run-build@v3
     with:
-      tasks: test_main test_java
+      tasks: test_main
       startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test-main.log
 
 
