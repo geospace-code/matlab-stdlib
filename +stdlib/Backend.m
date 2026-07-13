@@ -4,7 +4,7 @@
 %
 % * 'shell' is usually the slowest, but most compatible.
 % * 'python' or 'dotnet' are among the fastest, but not always available
-% * 'java' and 'perl' are usually available and medium speed
+% * 'java' and 'perl' may be available and medium speed
 % * 'native' uses the latest Matlab syntax available
 % * 'legacy' is Matlab syntax for older Matlab versions. Sometimes legacy is faster than native, but native is more robust/general.
 
@@ -81,11 +81,6 @@ for m = backendReq
 
       switch functionName
         case {'device', 'hard_link_count' , 'inode', 'is_admin'}
-          if ispc(), continue, end
-      end
-    case 'perl'
-      switch functionName
-        case {'get_uid'}
           if ispc(), continue, end
       end
     case 'python'

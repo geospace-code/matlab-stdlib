@@ -8,15 +8,12 @@ else
   cmd = 'cat /proc/loadavg | awk ''{print $1}''';
 end
 
-[status, m] = system(cmd);
-if status == 0
-  i = str2double(m);
+[s, m] = system(cmd);
+assert(s==0, "stdlib:shell:cpu_load", "Failed to get CPU load using %s: %s ", cmd, m);
 
-  if ispc()
-    i = i / 100.;
-  end
-else
-  i = missing;
+i = str2double(m);
+if ispc()
+  i = i / 100.;
 end
 
 end

@@ -1,6 +1,4 @@
-function [t, cmd] = filesystem_type(file)
-
-t = missing;
+function [r, cmd] = filesystem_type(file)
 
 if ispc()
   cmd = sprintf('pwsh -c ([System.IO.DriveInfo][System.IO.Path]::GetFullPath(''%s'')).DriveFormat', file);
@@ -14,8 +12,8 @@ else
 end
 
 [s, r] = system(cmd);
-if s == 0
-  t = deblank(r);
-end
+assert(s==0, "stdlib:shell:filesystem_type", "Failed to get filesystem type for %s using %s: %s ", file, cmd, r);
+
+r = deblank(r);
 
 end

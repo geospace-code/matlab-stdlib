@@ -14,11 +14,8 @@ else
 end
 
 [s, r] = system(cmd);
+assert(s == 0, 'stdlib:shell:cpu_arch', 'Error executing cpu_arch command %s: %s', cmd, r);
 
-if s == 0
-  a = deblank(r);
-else
-  a = missing;
-end
+a = deblank(r);
 
 end

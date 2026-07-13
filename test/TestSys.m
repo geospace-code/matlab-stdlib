@@ -5,19 +5,18 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
 properties (TestParameter)
 B_jps = {'java', 'python', 'shell'}
 B_jdps = {'java', 'dotnet', 'python', 'shell'}
-B_jdpps = {'java', 'dotnet', 'perl', 'python', 'shell'}
-B_dpp = {'dotnet', 'perl', 'python'}
+B_dp = {'dotnet', 'python'}
 B_dps = {'dotnet', 'python', 'shell'}
 end
 
 
 methods (Test)
 
-function test_is_admin(tc, B_jdpps)
-[i, b] = stdlib.is_admin(B_jdpps);
+function test_is_admin(tc, B_jdps)
+[i, b] = stdlib.is_admin(B_jdps);
 
-if ismember(B_jdpps, stdlib.Backend().select('is_admin'))
-  tc.assertMatches(b, B_jdpps)
+if ismember(B_jdps, stdlib.Backend().select('is_admin'))
+  tc.assertMatches(b, B_jdps)
   tc.verifyClass(i, 'logical')
 else
   tc.verifyEqual(i, missing)
@@ -86,17 +85,12 @@ end
 end
 
 
-function test_get_uid(tc, B_dpp)
-[u, b] = stdlib.get_uid(B_dpp);
+function test_get_uid(tc, B_dp)
+[u, b] = stdlib.get_uid(B_dp);
 
-if ismember(B_dpp, stdlib.Backend().select('get_uid'))
-  tc.assertMatches(b, B_dpp)
-  if ispc()
-    tc.verifyClass(u, 'char')
-    tc.verifyGreaterThan(strlength(u), 0)
-  else
-    tc.verifyNotEqual(u, missing)
-  end
+if ismember(B_dp, stdlib.Backend().select('get_uid'))
+  tc.assertMatches(b, B_dp)
+  tc.verifyClass(u, 'double')
 else
   tc.verifyEqual(u, missing)
 end

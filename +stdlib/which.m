@@ -22,8 +22,7 @@ if ispc() && stdlib.strempty(stdlib.suffix(cmd))
   cmd = cmd + ".exe";
 end
 %% full filename was given
-if stdlib.is_exe(cmd)
-  % is_exe implies isfile
+if isfile(cmd) && stdlib.is_exe(cmd)
   exe = cmd;
   return
 end
@@ -56,7 +55,7 @@ for p = fpath
   else
     e = p.append('/', cmd);
   end
-  if stdlib.is_exe(e)
+  if isfile(e) && stdlib.is_exe(e)
     if find_all
       exe(end+1) = e; %#ok<AGROW>
     else

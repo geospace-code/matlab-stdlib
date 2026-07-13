@@ -4,12 +4,6 @@ arguments
   target (1,1) string
 end
 
-rel = missing;
-
-if stdlib.strempty(base) || stdlib.strempty(target)
-  return
-end
-
 rel = string(py.str(py.pathlib.Path(target).relative_to(base)));
 
 end

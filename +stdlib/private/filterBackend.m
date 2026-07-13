@@ -81,4 +81,18 @@ if any(contains(backend, "java"))
   end
 end
 
+
+if(any(contains(backend, "shell")))
+  switch funcName
+    case 'is_dev_drive'
+      no = ispc() && ~stdlib.is_admin();
+    otherwise
+      no = false;
+  end
+
+  if no
+    backend = backend(backend ~= "shell");
+  end
+end
+
 end

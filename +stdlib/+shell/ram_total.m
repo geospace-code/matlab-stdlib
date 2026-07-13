@@ -1,7 +1,5 @@
 function [bytes, cmd] = ram_total()
 
-bytes = missing;
-
 if ispc()
   cmd = 'pwsh -c "(Get-CimInstance -ClassName Win32_ComputerSystem).TotalPhysicalMemory"';
 elseif ismac()
@@ -11,8 +9,7 @@ else
 end
 
 [s, m] = system(cmd);
-if s == 0
-  bytes = uint64(str2double(m));
-end
+assert(s == 0, 'stdlib:shell:ram_total', 'Error executing ram_total command %s: %s', cmd, m);
+bytes = uint64(str2double(m));
 
 end

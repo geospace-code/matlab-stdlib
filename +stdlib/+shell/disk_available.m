@@ -1,7 +1,5 @@
 function [t, cmd] = disk_available(file)
 
-t = missing;
-
 if ispc()
   cmd = sprintf('pwsh -c ([System.IO.DriveInfo][System.IO.Path]::GetFullPath(''%s'')).AvailableFreeSpace', file);
   % r = stdlib.root_name(stdlib.absolute(file));
@@ -17,8 +15,8 @@ else
 end
 
 [s, r] = system(cmd);
-if s == 0
-  t = uint64(str2double(r));
-end
+assert(s==0, "stdlib:shell:disk_available", "Failed to get available disk space for %s using %s: %s ", file, cmd, r);
+
+t = uint64(str2double(r));
 
 end

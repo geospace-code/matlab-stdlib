@@ -1,7 +1,5 @@
 function [r, cmd] = read_symlink(file)
 
-r = missing;
-
 if isunix()
   cmd = sprintf('readlink -fn "%s"', file);
 else
@@ -11,14 +9,9 @@ else
   % worried if searching for "Tag value: Symbolic Link" might be locale dependent
 end
 
-if stdlib.shell.is_symlink(file)
-  [s, m] = system(cmd);
-  if s == 0
-    m = deblank(m);
-    if strlength(m) > 0
-      r = string(m);
-    end
-  end
-end
+[s, m] = system(cmd);
+assert(s == 0, 'stdlib:shell:read_symlink', 'Error executing read_symlink(%s) command %s: %s', file, cmd, m);
+
+r = string(deblank(m));
 
 end

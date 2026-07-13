@@ -33,14 +33,8 @@ end
 function test_get_permissions(tc, Ps)
 import matlab.unittest.constraints.StartsWithSubstring
 
-[p, b] = stdlib.get_permissions(Ps);
+p = stdlib.get_permissions(Ps);
 tc.verifyClass(p, 'char')
-
-if stdlib.matlabOlderThan('R2025a')
-  tc.assertEqual(b, 'legacy')
-else
-  tc.assertEqual(b, 'native')
-end
 
 tc.verifyThat(p, StartsWithSubstring('r'))
 if ~ispc() && strcmp(Ps, tc.file)
@@ -73,15 +67,9 @@ r = stdlib.set_permissions(nw, [], false, []);
 
 tc.assertTrue(r)
 
-[p, b] = stdlib.get_permissions(nw);
+p = stdlib.get_permissions(nw);
 
-if stdlib.matlabOlderThan('R2025a')
-  tc.assertEqual(b, 'legacy')
-else
-  tc.assertEqual(b, 'native')
-end
-
-if ~ispc() || ~strcmp(b, 'legacy')
+if ~ispc() || ~stdlib.matlabOlderThan('R2025a')
   tc.verifyThat(p, StartsWithSubstring('r-'), 'no-write permission failed to set')
 end
 

@@ -25,10 +25,18 @@ end
 methods(Test)
 
 function test_is_exe(tc, p)
-r = stdlib.is_exe(p{1});
-tc.verifyEqual(r, p{2})
+if isfile(p{1})
+  r = stdlib.is_exe(p{1});
+  tc.verifyEqual(r, p{2})
+else
+  if ~strlength(p{1})
+    e = 'MATLAB:validators:mustBeNonzeroLengthText';
+  else
+    e = 'MATLAB:validators:mustBeFile';
+  end
+  tc.verifyError(@() stdlib.is_exe(p{1}), e)
 end
-
+end
 
 function test_is_executable_binary(tc, peb)
 b = stdlib.is_executable_binary(peb{1});

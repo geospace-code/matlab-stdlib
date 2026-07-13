@@ -3,8 +3,7 @@ function r = file_attributes(file)
 [s, r] = fileattrib(file);
 
 if s ~= 1
-  r = missing;
-  return
+  error('stdlib:file_attributes', 'Error executing fileattrib(%s): %s', file, r);
 end
 
 pv = {'GroupRead', 'GroupWrite', 'GroupExecute', 'OtherRead', 'OtherWrite', 'OtherExecute'};

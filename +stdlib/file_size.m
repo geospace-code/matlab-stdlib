@@ -7,15 +7,11 @@
 
 function s = file_size(file)
 arguments
-  file {mustBeTextScalar}
+  file {mustBeTextScalar,mustBeFile}
 end
-
-s = missing;
 
 d = dir(file);
 
-if isscalar(d) && ~d.isdir
-  s = d.bytes;
-end
+s = d.bytes;
 
 end

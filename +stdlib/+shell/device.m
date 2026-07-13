@@ -9,8 +9,6 @@
 
 function [i, cmd] = device(p)
 
-i = missing;
-
 if ispc()
   rn = stdlib.root_name(stdlib.absolute(p));
 
@@ -27,16 +25,15 @@ else
 end
 
 [s, m] = system(cmd);
-if s == 0
-  if ispc()
-    r = regexp(m, '[A-F0-9]{4}-[A-F0-9]{4}', 'match', 'once');
-    if strlength(r) == 9
-      r = [r(1:4) r(6:9)];
-      i = uint64(hex2dec(r));
-    end
-  else
-    i = uint64(str2double(m));
-  end
+assert(s==0, "stdlib:shell:device", "Failed to get device index for %s using %s: %s ", p, cmd, m);
+
+if ispc()
+  r = regexp(m, '[A-F0-9]{4}-[A-F0-9]{4}', 'match', 'once');
+  assert(strlength(r) == 9, "stdlib:shell:device", "Failed to get device index for %s using %s: %s ", p, cmd, m);
+  r = [r(1:4) r(6:9)];
+  i = uint64(hex2dec(r));
+else
+  i = uint64(str2double(m));
 end
 
 end

@@ -7,10 +7,9 @@ else
 end
 
 [s, r] = system(cmd);
-if s ~= 0
-  warning('stdlib:is_admin:RuntimeError', 'Failed to execute command "%s": %s', cmd, r);
-  y = missing;
-elseif ispc()
+assert(s == 0, 'stdlib:shell:is_admin', 'Failed to determine if user is admin %s: %s', cmd, r);
+
+if ispc()
   y = startsWith(r, 'True');
 else
   y = startsWith(r, '0');

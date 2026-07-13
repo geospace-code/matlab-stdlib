@@ -9,14 +9,13 @@ else  % Linux, macOS
 end
 
 [s, m] = system(cmd);
-if s == 0
-  if ispc()
-    i = deblank(m);
-  else
-    i = str2double(m);
-  end
+assert(s==0, "stdlib:shell:get_process_priority", "Failed to get process priority for PID %d using %s: %s ", pid, cmd, m);
+
+if ispc()
+  i = deblank(m);
 else
-  i = missing;
+  i = str2double(m);
 end
+
 
 end

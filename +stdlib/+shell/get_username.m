@@ -5,12 +5,10 @@ if ispc()
 else
   cmd = 'id -un';
 end
-[s, n] = system(cmd);
 
-if s == 0
-  n = deblank(n);
-else
-  n = missing;
-end
+[s, n] = system(cmd);
+assert(s==0, "stdlib:shell:get_username", "Failed to get username using %s: %s ", cmd, n);
+
+n = deblank(n);
 
 end

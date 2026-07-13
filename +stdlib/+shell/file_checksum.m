@@ -21,17 +21,19 @@ switch lower(hash_method)
   otherwise, error('unhandled hash method %s', hash_method)
 end
 
-[s, m] = system(cmd);
-
-if s == 0
-  switch lower(hash_method)
-  case {'sha-256', 'sha256'}
-    hash = regexp(m, '^\w{64}','match','once','lineanchors');
-  case 'md5'
-    hash = regexp(m, '^\w{32}','match','once','lineanchors');
-  end
-else
+if ispc() && stdlib.file_size(file) == 0
   hash = missing;
+  return
+end
+
+[s, m] = system(cmd);
+assert(s == 0, 'stdlib:shell:file_checksum', 'Error executing file_checksum(%s, %s) command %s: %s', file, hash_method, cmd, m);
+
+switch lower(hash_method)
+case {'sha-256', 'sha256'}
+  hash = regexp(m, '^\w{64}','match','once','lineanchors');
+case 'md5'
+  hash = regexp(m, '^\w{32}','match','once','lineanchors');
 end
 
 end

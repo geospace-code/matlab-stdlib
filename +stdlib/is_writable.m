@@ -7,7 +7,7 @@
 
 function y = is_writable(file)
 arguments
-  file {mustBeTextScalar}
+  file {mustBeTextScalar,mustBeFileOrFolder}
 end
 
 if stdlib.matlabOlderThan('R2025a')

@@ -8,7 +8,7 @@
 
 function y = is_exe(file)
 arguments
-  file {mustBeTextScalar}
+  file {mustBeFile,mustBeTextScalar}
 end
 
 y = false;
@@ -16,17 +16,14 @@ y = false;
 if ispc() && ~has_windows_executable_suffix(file)
   return
 end
-if ~stdlib.exists(file)
-  return
-end
 
 if stdlib.matlabOlderThan('R2025a')
   a = file_attributes(file);
-  y = ~a.directory && (a.UserExecute || a.GroupExecute || a.OtherExecute);
+  y = a.UserExecute || a.GroupExecute || a.OtherExecute;
 else
   a = filePermissions(file);
   if a.Type == matlab.io.FileSystemEntryType.File
-    if ispc
+    if ispc()
       y = a.Readable;
     else
       y = a.UserExecute || a.GroupExecute || a.OtherExecute;

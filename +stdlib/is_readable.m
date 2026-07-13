@@ -7,7 +7,7 @@
 
 function y = is_readable(file)
 arguments
-  file {mustBeTextScalar}
+  file {mustBeTextScalar,mustBeFileOrFolder}
 end
 
 if stdlib.matlabOlderThan('R2025a')
@@ -15,11 +15,7 @@ if stdlib.matlabOlderThan('R2025a')
   y = a.UserRead || a.GroupRead || a.OtherRead;
 else
   a = filePermissions(file);
-  if ismissing(a)
-    y = missing;
-  else
-    y = a.Readable;
-  end
+  y = a.Readable;
 end
 
 end

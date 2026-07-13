@@ -8,7 +8,7 @@
 
 function [i, b] = get_uid(backend)
 arguments
-  backend (1,:) string = ["dotnet", "python", "perl"]
+  backend (1,:) string = ["dotnet", "python", "shell"]
 end
 
 [i, b] = getUsingBackend(backend, mfilename);

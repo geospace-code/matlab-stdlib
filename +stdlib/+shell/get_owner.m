@@ -1,7 +1,5 @@
 function [o, cmd] = get_owner(file)
 
-o = missing;
-
 if ispc()
   cmd = sprintf('pwsh -c "if($x=Get-Acl -Path ''%s'') {$x.Owner}"', file);
 elseif ismac()
@@ -12,8 +10,8 @@ end
 
 % Windows needs exists() rather than just ~strempty()
 [s, m] = system(cmd);
-if s == 0
-  o = deblank(m);
-end
+assert(s == 0, 'stdlib:shell:get_owner', 'Failed to get owner of file "%s": %s', file, m);
+
+o = deblank(m);
 
 end

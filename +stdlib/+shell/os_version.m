@@ -9,17 +9,13 @@ else
 end
 
 [s, os] = system(cmd1);
-if s == 0
-  os = deblank(os);
-else
-  os = missing;
-end
+assert(s == 0, 'stdlib:shell:os_version', 'Failed to run command: %s: %s', cmd1, os);
 
 [s, vers] = system(cmd2);
-if s == 0
-  vers = deblank(vers);
-else
-  vers = missing;
-end
+assert(s == 0, 'stdlib:shell:os_version', 'Failed to run command: %s: %s', cmd2, vers);
+
+os = deblank(os);
+vers = deblank(vers);
+
 
 end

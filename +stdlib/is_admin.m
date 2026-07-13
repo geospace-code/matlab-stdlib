@@ -6,7 +6,7 @@
 
 function [i, b] = is_admin(backend)
 arguments
-  backend (1,:) string = ["java", "dotnet", "perl", "python", "shell"]
+  backend (1,:) string = ["java", "dotnet", "python", "shell"]
 end
 
 [i, b] = getUsingBackend(backend, mfilename);

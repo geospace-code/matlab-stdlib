@@ -14,24 +14,19 @@ end
 end
 
 
-methods (Test, TestTags = {'R2025a'})
+methods (Test)
 
 function test_is_readable_not_exist(tc)
-e = 'MATLAB:io:filesystem:filePermissions:CannotFindLocation';
+e = 'MATLAB:validators:mustBeFileOrFolder';
 tc.verifyError(@() stdlib.is_readable(''), e)
 tc.verifyError(@() stdlib.is_readable('not-here'), e)
 end
 
 function test_is_writable_not_exist(tc)
-e = 'MATLAB:io:filesystem:filePermissions:CannotFindLocation';
+e = 'MATLAB:validators:mustBeFileOrFolder';
 tc.verifyError(@() stdlib.is_writable(''), e)
 tc.verifyError(@() stdlib.is_writable('not-here'), e)
 end
-
-end
-
-
-methods (Test)
 
 function test_exists(tc, Ps)
 r = stdlib.exists(Ps{1});

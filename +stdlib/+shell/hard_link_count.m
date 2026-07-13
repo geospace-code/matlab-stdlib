@@ -4,8 +4,6 @@
 
 function [n, cmd] = hard_link_count(file)
 
-n = missing;
-
 if ispc()
   cmd = sprintf('pwsh -c "(Get-Item ''%s'').LinkType"', file);
 elseif ismac()
@@ -15,12 +13,12 @@ else
 end
 
 [s, r] = system(cmd);
-if s == 0
-  if ispc()
-    n = 1 + startsWith(r, "HardLink");
-  else
-    n = str2double(r);
-  end
+assert(s == 0, 'stdlib:shell:hard_link_count', 'Error executing hard_link_count(%s) command %s: %s', file, cmd, r);
+
+if ispc()
+  n = 1 + startsWith(r, "HardLink");
+else
+  n = str2double(r);
 end
 
 end
