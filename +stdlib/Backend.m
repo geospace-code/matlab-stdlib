@@ -62,60 +62,23 @@ end
 for m = backendReq
   switch m
     case 'dotnet'
-      if ~ismember('dotnet', self.backends)
+      if ~ismember('dotnet', self.backends) || isempty(filterBackend("dotnet", functionName))
         continue
       end
 
-      switch functionName
-        case {'create_symlink', 'ram_total', 'read_symlink'}
-          if stdlib.dotnet.api() < 6, continue, end
-        case {'uptime'}
-          if stdlib.dotnet.api() < 5, continue, end
-        case {'get_owner', 'get_uid', 'is_admin'}
-          if isunix(), continue, end
-      end
     case 'java'
-      if ~ismember('java', self.backends)
+      if ~ismember('java', self.backends) || isempty(filterBackend("java", functionName))
         continue
       end
 
-      switch functionName
-        case {'device', 'hard_link_count' , 'inode', 'is_admin'}
-          if ispc(), continue, end
-      end
     case 'python'
-      if ~ismember('python', self.backends)
+      if ~ismember('python', self.backends) || isempty(filterBackend("python", functionName))
         continue
       end
 
-      switch functionName
-        case {'filesystem_type', 'is_removable', 'ram_total', 'ram_free', 'uptime'}
-          if ~stdlib.has_python() || ~stdlib.python.has_psutil()
-            continue
-          end
-        case {'cpu_load', 'get_owner', 'get_process_priority', 'get_uid'}
-          if ispc(), continue, end
-        case 'is_admin'
-          if ispc() && stdlib.matlabOlderThan('R2024a'), continue, end
-        case 'is_dev_drive'
-          if ~ispc(), continue, end
-
-          pyv = stdlib.python_version();
-          if any(ismissing(pyv)) || any(pyv(1:2) < [3, 12])
-            continue
-          end
-      end
     case 'native'
-
-      switch functionName
-        case 'create_symlink'
-          % Some Windows R2025a give error 'MATLAB:io:filesystem:symlink:NeedsAdminPerms'
-          % 25.1.0.2973910 (R2025a) Update 1 gave this error for example.
-          if stdlib.matlabOlderThan('R2024b') || ispc()
-            continue
-          end
-        case {'is_symlink', 'read_symlink'}
-          if stdlib.matlabOlderThan('R2024b'), continue, end
+      if isempty(filterBackend("native", functionName))
+        continue
       end
   end
 
