@@ -9,7 +9,10 @@ p = {
 {'.', false}, ...
 {matlab_path(), true}
 }
-peb = init_exe_bin()
+peb = {{matlab_path(), ispc()}; ...
+{'/bin/ls', ~ispc()}; ...
+{tempname(), false}
+};
 end
 
 
@@ -43,19 +46,5 @@ function f = matlab_path()
 f = fullfile(matlabroot, 'bin/matlab');
 if ispc()
   f = [f, '.exe'];
-end
-end
-
-
-function peb = init_exe_bin()
-peb = {
-{matlab_path(), false}; ...
-{'/bin/ls', true}; ...
-{tempname(), false}
-};
-
-if ispc
-  peb{1}{2} = true;
-  peb{2}{2} = false;
 end
 end

@@ -2,7 +2,6 @@ classdef TestSame < StdlibPath
 
 properties
 file = 'same.txt'
-cwd
 end
 
 properties (TestParameter)
@@ -16,10 +15,8 @@ end
 
 methods(TestClassSetup)
 function w_dirs(tc)
-  f = matlab.unittest.fixtures.WorkingFolderFixture();
-  tc.applyFixture(f);
-  tc.cwd = f.Folder;
-  tc.assertTrue(stdlib.touch(tc.file))
+tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture())
+tc.assertTrue(stdlib.touch(tc.file))
 end
 end
 
@@ -40,7 +37,7 @@ end
 
 
 function test_samepath_cwd(tc, backend)
-r = stdlib.samepath('.', tc.cwd, backend);
+r = stdlib.samepath('.', pwd(), backend);
 if ismember(backend, stdlib.Backend().select('samepath'))
   tc.verifyTrue(r)
 else

@@ -1,7 +1,10 @@
 classdef TestExists < WorkingClassDir
 
 properties (TestParameter)
-Ps = init_val()
+Ps = {{pwd(), true}, ...
+  {[mfilename('fullpath'), '.m'], true}, ...
+  {[fileparts(mfilename('fullpath')), '/../Readme.md'], true}, ...
+  }
 B_is_char_device = {'python', 'shell'}
 end
 
@@ -40,11 +43,13 @@ s = string(Ps{1});
 r = stdlib.is_readable(s);
 tc.verifyEqual(r, Ps{2});
 
+if ~isMATLABReleaseOlderThan('R2025a')
 r = stdlib.is_readable([s, s]);
 tc.verifyEqual(r, [Ps{2}, Ps{2}]);
 
 r = stdlib.is_readable([s; s]);
 tc.verifyEqual(r, [Ps{2}; Ps{2}]);
+end
 end
 
 function test_is_writable(tc, Ps)
@@ -55,11 +60,13 @@ s = string(Ps{1});
 r = stdlib.is_writable(s);
 tc.verifyEqual(r, Ps{2});
 
+if ~isMATLABReleaseOlderThan('R2025a')
 r = stdlib.is_writable([s, s]);
 tc.verifyEqual(r, [Ps{2}, Ps{2}]);
 
 r = stdlib.is_writable([s; s]);
 tc.verifyEqual(r, [Ps{2}; Ps{2}]);
+end
 end
 
 function test_is_char_device(tc, B_is_char_device)
@@ -78,31 +85,22 @@ else
   tc.verifyEqual(r, missing)
 end
 end
-end
 
 end
 
 
-function Ps = init_val()
+methods (Test, TestTags = {'windows'})
 
-
-Ps = {{pwd(), true}};
-
-o = mfilename('fullpath');
-if ~isempty(o)
-  o = [o, '.m'];
-  Ps = [Ps, {
-    {o, true}, ...
-    {[fileparts(o), '/../Readme.md'], true}
-    }
-  ];
+function test_is_readable_windows(tc)
+tc.assumeTrue(ispc())
+tc.verifyTrue(stdlib.is_readable(getenv('SystemDrive')))
 end
 
-if ispc()
-  % On Windows, the root of the system drive is considered to exist
-  systemDrive = getenv('SystemDrive');
-  if ~isempty(systemDrive)
-    Ps{end+1} = {systemDrive, true};
-  end
+function test_is_writable_windows(tc)
+tc.assumeTrue(ispc())
+tc.verifyTrue(stdlib.is_writable(getenv('SystemDrive')))
 end
+
+end
+
 end
