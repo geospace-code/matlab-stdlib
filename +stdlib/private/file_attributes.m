@@ -1,4 +1,7 @@
 function r = file_attributes(file)
+arguments
+  file {mustBeTextScalar}
+end
 
 [s, r] = fileattrib(file);
 

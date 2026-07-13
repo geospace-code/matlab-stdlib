@@ -1,18 +1,9 @@
-classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fileparts(mfilename('fullpath'))))}) ...
-    TestExists < matlab.unittest.TestCase
+classdef TestExists < WorkingClassDir
 
 properties (TestParameter)
 Ps = init_val()
 B_is_char_device = {'python', 'shell'}
 end
-
-
-methods(TestClassSetup)
-function test_dirs(tc)
-tc.applyFixture(matlab.unittest.fixtures.WorkingFolderFixture());
-end
-end
-
 
 methods (Test)
 
@@ -45,16 +36,30 @@ function test_is_readable(tc, Ps)
 r = stdlib.is_readable(Ps{1});
 tc.verifyEqual(r, Ps{2})
 
-r = stdlib.is_readable(string(Ps{1}));
+s = string(Ps{1});
+r = stdlib.is_readable(s);
 tc.verifyEqual(r, Ps{2});
+
+r = stdlib.is_readable([s, s]);
+tc.verifyEqual(r, [Ps{2}, Ps{2}]);
+
+r = stdlib.is_readable([s; s]);
+tc.verifyEqual(r, [Ps{2}; Ps{2}]);
 end
 
 function test_is_writable(tc, Ps)
 r = stdlib.is_writable(Ps{1});
 tc.verifyEqual(r, Ps{2})
 
-r = stdlib.is_writable(string(Ps{1}));
+s = string(Ps{1});
+r = stdlib.is_writable(s);
 tc.verifyEqual(r, Ps{2});
+
+r = stdlib.is_writable([s, s]);
+tc.verifyEqual(r, [Ps{2}, Ps{2}]);
+
+r = stdlib.is_writable([s; s]);
+tc.verifyEqual(r, [Ps{2}; Ps{2}]);
 end
 
 function test_is_char_device(tc, B_is_char_device)

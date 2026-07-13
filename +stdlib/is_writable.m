@@ -1,21 +1,21 @@
 %% IS_WRITABLE is path writable
 %
 %%% Inputs
-% * file: path to file or folder
+% * p: path to file or folder
 %%% Outputs
 % * y: true if file is writable
 
-function y = is_writable(file)
+function y = is_writable(p)
 arguments
-  file {mustBeTextScalar,mustBeFileOrFolder}
+  p string {mustBeFileOrFolder}
 end
 
 if stdlib.matlabOlderThan('R2025a')
-  a = file_attributes(file);
+  a = file_attributes(p);
   y = a.UserWrite || a.GroupWrite || a.OtherWrite;
 else
-  a = filePermissions(file);
-  y = a.Writable;
+  a = filePermissions(p);
+  y = reshape([a.Writable], size(p));
 end
 
 end

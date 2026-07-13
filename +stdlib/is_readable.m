@@ -1,21 +1,21 @@
 %% IS_READABLE is file readable
 %
 %%% Inputs
-% * file: single path string
+% * p: single path string
 %%% Outputs
 % * y: true if file is readable
 
-function y = is_readable(file)
+function y = is_readable(p)
 arguments
-  file {mustBeTextScalar,mustBeFileOrFolder}
+  p string {mustBeFileOrFolder}
 end
 
 if stdlib.matlabOlderThan('R2025a')
-  a = file_attributes(file);
+  a = file_attributes(p);
   y = a.UserRead || a.GroupRead || a.OtherRead;
 else
-  a = filePermissions(file);
-  y = a.Readable;
+  a = filePermissions(p);
+  y = reshape([a.Readable], size(p));
 end
 
 end
