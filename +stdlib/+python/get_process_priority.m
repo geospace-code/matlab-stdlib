@@ -1,6 +1,6 @@
 function i = get_process_priority()
 
-if ~ispc() && stdlib.has_python()
+if ~ispc()
   pid = py.os.getpid();
   i = double(py.os.getpriority(py.os.PRIO_PROCESS, pid));
 else

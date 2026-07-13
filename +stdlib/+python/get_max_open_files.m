@@ -2,7 +2,7 @@
 function m = get_max_open_files()
 
 % RLIMIT_NOFILE soft limit is the active per-process descriptor cap.
-if ~ispc() && stdlib.has_python()
+if ~ispc()
   lim = py.resource.getrlimit(py.resource.RLIMIT_NOFILE);
   m = uint64(lim(1));
 else

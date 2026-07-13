@@ -1,6 +1,6 @@
 function n = get_owner(file)
 
-if isunix() && stdlib.has_python()
+if isunix()
   n = char(py.pathlib.Path(file).owner());
 else
   n = missing;

@@ -6,12 +6,8 @@
 
 function y = is_removable(filepath)
 
-if stdlib.has_dotnet()
-  fmt = System.IO.DriveInfo(filepath).DriveType;
-  y = any(isequal(fmt, {System.IO.DriveType.Removable, ...
-                        System.IO.DriveType.CDRom}));
-else
-  y = missing;
-end
+fmt = System.IO.DriveInfo(filepath).DriveType;
+y = any(isequal(fmt, {System.IO.DriveType.Removable, ...
+                      System.IO.DriveType.CDRom}));
 
 end

@@ -4,22 +4,18 @@
 
 function y = is_mount(filepath)
 
-if stdlib.has_python()
-  y = false;
+y = false;
 
-  p = py.pathlib.Path(filepath);
-  if ~p.exists()
-    return
-  end
-
-  % some Python on CI needs this. Didn't replicate on local Windows PC.
-  if ispc() && strcmp(filepath, string(p.drive)) && ~endsWith(filepath, ["/", filesep])
-    return
-  end
-
-  y = py.os.path.ismount(p);
-else
-  y = missing;
+p = py.pathlib.Path(filepath);
+if ~p.exists()
+  return
 end
+
+% some Python on CI needs this. Didn't replicate on local Windows PC.
+if ispc() && strcmp(filepath, string(p.drive)) && ~endsWith(filepath, ["/", filesep])
+  return
+end
+
+y = py.os.path.ismount(p);
 
 end

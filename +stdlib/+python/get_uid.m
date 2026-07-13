@@ -1,6 +1,6 @@
 function u = get_uid()
 
-if isunix() && stdlib.has_python()
+if isunix()
   u = double(py.os.geteuid());
 else
   u = missing;

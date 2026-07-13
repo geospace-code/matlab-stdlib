@@ -2,7 +2,7 @@ function t = filesystem_type(file)
 
 t = missing;
 
-if stdlib.has_python() && stdlib.python.has_psutil()
+if stdlib.python.has_psutil()
 % important for heuristic matching
   p = py.str(file);
   if ~py.os.path.exists(p)

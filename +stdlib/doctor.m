@@ -51,8 +51,10 @@ end
 
 if stdlib.has_python()
   raw.python.version = sprintf('%d.%d.%d', stdlib.python.version());
+  raw.python.home = stdlib.python.home();
+else
+  raw.python = missing;
 end
-raw.python.home = stdlib.python_home();
 
 if ismac()
   raw.xcode.version = stdlib.xcode_version();

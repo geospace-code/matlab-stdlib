@@ -3,7 +3,7 @@ function y = is_dev_drive(fpath)
 
 y = missing;
 
-if ~ispc() && stdlib.has_python()
+if ~ispc()
   pyv = stdlib.python.version();
   if all(pyv(1:2) > [3, 12])
     y = py.os.path.isdevdrive(fpath);

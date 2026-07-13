@@ -13,10 +13,6 @@
 
 function v = python_version()
 
-if stdlib.has_python()
-  v = stdlib.python.version();
-else
-  v = missing;
-end
+v = stdlib.python.version();
 
 end

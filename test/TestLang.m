@@ -5,22 +5,16 @@ classdef (SharedTestFixtures={ matlab.unittest.fixtures.PathFixture(fileparts(fi
 methods (Test, TestTags = {'R2022a', 'python'})
 
 function test_has_python(tc)
+tc.assumeTrue(stdlib.has_python(), 'Skipping test because Python is not available')
 v = stdlib.python.version();
-if stdlib.has_python()
-  tc.verifyGreaterThanOrEqual(v, [3, 8, 0], 'expected Python >= 3.8')
-else
-  tc.verifyEqual(v, missing)
-end
+tc.verifyGreaterThanOrEqual(v, [3, 8, 0], 'expected Python >= 3.8')
 end
 
 function test_python_home(tc)
-r = stdlib.python_home();
-if stdlib.has_python()
-  tc.verifyClass(r, 'string')
-  tc.verifyThat(r, matlab.unittest.constraints.IsFolder, 'Python home folder does not exist')
-else
-  tc.verifyEqual(r, missing)
-end
+tc.assumeTrue(stdlib.has_python(), 'Skipping test because Python is not available')
+r = stdlib.python.home();
+tc.verifyClass(r, 'string')
+tc.verifyThat(r, matlab.unittest.constraints.IsFolder, 'Python home folder does not exist')
 end
 end
 
