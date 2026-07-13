@@ -22,12 +22,10 @@ end
 methods (Test)
 
 function test_not_exist(tc, Pe)
-
 e = 'MATLAB:validators:mustBeFileOrFolder';
 tc.verifyError(@() stdlib.get_permissions(Pe), e)
 
 tc.verifyError(@() stdlib.set_permissions(Pe), e)
-
 end
 
 function test_get_permissions(tc, Ps)
@@ -53,12 +51,17 @@ p = stdlib.get_permissions(matlab_exe);
 
 tc.assertNotEmpty(p)
 tc.verifyEqual(p(3), 'x')
+end
 
 end
 
 
+methods (Test, TestTags={'R2025a'})
+
 function test_set_permissions_nowrite(tc)
 import matlab.unittest.constraints.StartsWithSubstring
+
+tc.assumeFalse(stdlib.matlabOlderThan('R2025a'), "set_permissions requires Matlab >= R2025a")
 
 nw = [pwd(), '/no-write'];
 
@@ -69,16 +72,10 @@ tc.assertTrue(r)
 
 p = stdlib.get_permissions(nw);
 
-if ~ispc() || ~stdlib.matlabOlderThan('R2025a')
+if ~ispc()
   tc.verifyThat(p, StartsWithSubstring('r-'), 'no-write permission failed to set')
 end
-
 end
-
-end
-
-
-methods (Test, TestTags={'R2025a'})
 
 function test_set_permissions_noread(tc)
 import matlab.unittest.constraints.StartsWithSubstring

@@ -21,8 +21,7 @@ pexe = websave(pexe, url);
 fprintf('installed MPM %s\n', pexe);
 
 % make the program executable
-if isunix()
-  root = fileparts(fileparts(mfilename('fullpath')));
-  addpath(root)
-  assert(stdlib.set_permissions(pexe, [], [], true), sprintf('chmod +x %s', pexe))
+if isunix() && ~isMatlabReleaseOlderThan('R2025a')
+  setPermissions(filePermissions(pexe), "UserExecute", true);
+  fprintf('chmod +x %s\n', pexe);
 end

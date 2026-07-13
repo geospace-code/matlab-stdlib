@@ -7,11 +7,8 @@
 % * executable (false remove execute permission, true add execute permission, empty no change)
 %%% Outputs
 % * ok (1,1) logical
-% * b: backend used
-%
-% native backend is much more robust, if available
 
-function [ok, b] = set_permissions(file, readable, writable, executable)
+function ok = set_permissions(file, readable, writable, executable)
 arguments
   file {mustBeTextScalar,mustBeFileOrFolder}
   readable logical {mustBeScalarOrEmpty} = []
@@ -19,12 +16,37 @@ arguments
   executable logical {mustBeScalarOrEmpty} = []
 end
 
-if stdlib.matlabOlderThan('R2025a')
-  ok = stdlib.legacy.set_permissions(file, readable, writable, executable);
-  b = 'legacy';
-else
-  ok = stdlib.native.set_permissions(file, readable, writable, executable);
-  b = 'native';
+p = filePermissions(file);
+
+k = string.empty;
+v = logical([]);
+
+if ~isempty(readable)
+  k(end+1) = "Readable";
+  v(end+1) = readable;
+end
+
+if ~isempty(writable)
+  k(end+1) = "Writable";
+  v(end+1) = writable;
+end
+
+if ~isempty(executable)
+  if ispc()
+    if executable && ~ismember("Readable", k)
+      k(end+1) = "Readable";
+      v(end+1) = true;
+    end
+  else
+    k(end+1) = "UserExecute";
+    v(end+1) = executable;
+  end
+end
+
+ok = true;
+
+if ~isempty(k)
+  setPermissions(p, k, v)
 end
 
 end
