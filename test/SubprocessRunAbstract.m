@@ -41,10 +41,8 @@ tc.verifyGreaterThan(strlength(m), 0, "empty directory not expected")
 [s, mc, ec] = tc.runFcn(c, 'cwd', matlabroot, 'echo', debug);
 tc.assertEqual(s, 0, "status non-zero")
 
-if isequal(tc.runFcn, @stdlib.subprocess_run_java)
-  tc.verifyEqual(strlength(e), 0, e)
-  tc.verifyEqual(strlength(e), 0, ec)
-end
+tc.verifyEqual(strlength(e), 0, e)
+tc.verifyEqual(strlength(e), 0, ec)
 
 tc.assumeFalse(strcmp(m, mc) && tc.CI, "Some CI block cwd changes")
 tc.verifyNotEqual(m, mc, "expected different directory to have different contents")
@@ -93,20 +91,12 @@ end
 
 tc.assertEqual(status, 0, err)
 
-tc.verifySubstring(msg, 'stdout')
-if isequal(tc.runFcn, @stdlib.subprocess_run_java)
-  tc.verifyEqual(err, "stderr")
-else
-  tc.verifySubstring(msg, 'stderr')
-end
+tc.verifySubstring(msg, "stdout")
+tc.verifySubstring(err, "stderr")
 
 [status, msg] = tc.runFcn(exe, 'stdout', false);
 tc.assertEqual(status, 0)
-if isequal(tc.runFcn, @stdlib.subprocess_run_java)
-  tc.verifyTrue(stdlib.strempty(msg))
-elseif isequal(tc.runFcn, @stdlib.subprocess_run)
-  tc.verifyEqual(msg, 'stderr')
-end
+tc.verifyTrue(stdlib.strempty(msg))
 
 [status, msg] = tc.runFcn(exe, 'stderr', false);
 tc.assertEqual(status, 0)

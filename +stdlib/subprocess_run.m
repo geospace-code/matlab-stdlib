@@ -34,10 +34,6 @@ arguments
   opt.echo (1,1) logical = false
 end
 
-err = string.empty;
-% for compatibility with implementations that return stderr separately.
-% Matlab system() returns combined stdout and stderr in msg, and leaves err empty.
-
 % if the path to the executable has spaces and isn't quoted, we need to quote it
 if contains(cmd(1), ' ') && ~startsWith(cmd(1), ['"', "'"])
   cmd(1) = '"' + cmd(1) + '"';
@@ -54,7 +50,11 @@ if ~stdlib.strempty(opt.stdin)
 end
 
 
-if ~opt.stderr
+if opt.stderr
+  errfile = tempname();
+  cmd = join([cmd, "2>", errfile]);
+  % use file as pipe not available
+else
   if ispc()
     cmd = join([cmd, "2> NUL"]);
   else
@@ -100,6 +100,24 @@ setenv('GFORTRAN_STDOUT_UNIT', outold)
 setenv('GFORTRAN_STDERR_UNIT', errold)
 setenv('GFORTRAN_STDIN_UNIT', inold)
 
-msg = deblank(msg);
+if isempty(msg)
+  msg = string.empty;
+else
+  msg = string(deblank(msg));
+end
+
+if opt.stderr
+  err = deblank(string(fileread(errfile)));
+  delete(errfile)
+else
+  err = string.empty;
+end
+
+if nargout < 2 && opt.stdout && strlength(msg)
+  disp(msg)
+end
+if nargout < 3 && opt.stderr && strlength(err)
+  warning(err)
+end
 
 end
