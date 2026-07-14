@@ -51,7 +51,7 @@ end
 
 function test_read_symlink(tc, B_is_symlink)
 
-if ~stdlib.matlabOlderThan('R2024b')
+if ~isMATLABReleaseOlderThan('R2024b')
 tc.verifyError(@() stdlib.read_symlink('', B_is_symlink), 'MATLAB:validators:mustBeSymbolicLink')
 end
 

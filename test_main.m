@@ -42,7 +42,7 @@ end
 function suite = define_suite(test_root, sel)
 import matlab.unittest.selectors.HasTag
 
-if isMATLABReleaseOlderThan("R2022b")
+if isMATLABReleaseOlderThan('R2022b')
   eact = {};
 else
   eact = {'InvalidFileFoundAction', 'error'};

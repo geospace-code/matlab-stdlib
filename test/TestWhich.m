@@ -63,7 +63,7 @@ end
 
 methods(Test, TestTags={'R2023a'})
 function testWhichNoPath(tc)
-tc.assumeFalse(stdlib.matlabOlderThan('R2023a'), "which() with no path requires Matlab >= R2023a")
+tc.assumeFalse(isMATLABReleaseOlderThan('R2023a'), "which() with no path requires Matlab >= R2023a")
 fx = matlab.unittest.fixtures.EnvironmentVariableFixture('PATH', '');
 tc.applyFixture(fx)
 

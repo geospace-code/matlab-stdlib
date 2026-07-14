@@ -17,7 +17,7 @@ if ispc() && ~has_windows_executable_suffix(file)
   return
 end
 
-if stdlib.matlabOlderThan('R2025a')
+if isMATLABReleaseOlderThan('R2025a')
   a = file_attributes(file);
   y = a.UserExecute || a.GroupExecute || a.OtherExecute;
 else

@@ -19,7 +19,7 @@ if ~isempty(py_enable) && nargin == 0
 end
 
 
-if ~enable_check || stdlib.matlabOlderThan('R2022a')
+if ~enable_check || isMATLABReleaseOlderThan('R2022a')
   y = false;
   py_enable = false;
   return

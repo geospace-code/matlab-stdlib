@@ -6,7 +6,7 @@
 
 function s = cmdsep()
 
-if stdlib.matlabOlderThan("R2023b")
+if isMATLABReleaseOlderThan('R2023b')
   s = '&&';
 else
   s = cmdsep();

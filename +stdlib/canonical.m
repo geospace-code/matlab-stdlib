@@ -26,11 +26,11 @@ elseif ~stdlib.exists(file)
     return
   end
   c = stdlib.normalize(file);
-elseif stdlib.matlabOlderThan('R2025a')
+elseif isMATLABReleaseOlderThan('R2025a')
   [s, r] = fileattrib(file);
   assert(s, 'stdlib:canonical', 'Error executing fileattrib(%s): %s', file, r);
   c = r.Name;
-elseif stdlib.matlabOlderThan('R2026b')
+elseif isMATLABReleaseOlderThan('R2026b')
   c = filePermissions(file).AbsolutePath;
 else
   c = resolveFilePath(file, 'ResolveSymbolicLinks', true);

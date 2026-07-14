@@ -12,7 +12,7 @@ arguments
   file (1,1) string {mustBeFileOrFolder}
 end
 
-if stdlib.matlabOlderThan('R2025a')
+if isMATLABReleaseOlderThan('R2025a')
   perm = perm2char(file_attributes(file));
 else
   perm = perm2char(filePermissions(file));

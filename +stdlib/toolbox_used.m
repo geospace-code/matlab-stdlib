@@ -13,7 +13,7 @@ end
 
 n = name;
 
-if ~stdlib.matlabOlderThan('R2026a')
+if ~isMATLABReleaseOlderThan('R2026a')
   f = namespaceFunctions(name);
   if ~isempty(f)
     n = f(1).NamespaceName + "." + string({f.Name});

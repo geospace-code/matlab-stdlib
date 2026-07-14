@@ -60,7 +60,7 @@ methods (Test, TestTags={'R2025a'})
 function test_set_permissions_nowrite(tc)
 import matlab.unittest.constraints.StartsWithSubstring
 
-tc.assumeFalse(stdlib.matlabOlderThan('R2025a'), "set_permissions requires Matlab >= R2025a")
+tc.assumeFalse(isMATLABReleaseOlderThan('R2025a'), "set_permissions requires Matlab >= R2025a")
 
 nw = [pwd(), '/no-write'];
 
@@ -81,7 +81,7 @@ import matlab.unittest.constraints.StartsWithSubstring
 
 % This ONLY works with the new setPermissions.
 % fileattrib can not even set the permissions on Linux.
-tc.assumeFalse(stdlib.matlabOlderThan('R2025a'), "set_permissions no-read requires Matlab >= R2025a")
+tc.assumeFalse(isMATLABReleaseOlderThan('R2025a'), "set_permissions no-read requires Matlab >= R2025a")
 
 nr = [pwd(), '/no-read'];
 

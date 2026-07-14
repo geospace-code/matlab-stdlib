@@ -46,10 +46,8 @@ stdlib.h5save(tc.file, '/A2', tc.A2)
 stdlib.h5save(tc.file, '/A3', tc.A3, 'size', size(tc.A3))
 stdlib.h5save(tc.file, '/A4', tc.A4)
 
-if ~stdlib.matlabOlderThan("R2020b")
 stdlib.h5save(tc.file, "/utf", tc.utf)
 stdlib.h5save(tc.file, "/utf2", tc.utf2)
-end
 
 stdlib.h5save(tc.file, '/t/x', 12)
 stdlib.h5save(tc.file, '/t/y', 13)
@@ -79,9 +77,7 @@ function test_get_variables(tc)
 v = stdlib.h5variables(tc.file);
 k = ["A0", "A1", "A2", "A3", "A4"];
 
-if ~stdlib.matlabOlderThan("R2020b")
-  k = [k, "utf", "utf2"];
-end
+k = [k, "utf", "utf2"];
 
 tc.verifyEqual(sort(v), k)
 
@@ -127,13 +123,11 @@ s = stdlib.h5size(tc.file, '/A4');
 tc.verifyTrue(isvector(s))
 tc.verifyEqual(s, [4,3,2,5])
 
-if ~stdlib.matlabOlderThan("R2020b")
 s = stdlib.h5size(tc.file, '/utf');
 tc.verifyEmpty(s)
 
 s = stdlib.h5size(tc.file, '/utf2');
 tc.verifyEqual(s, 2)
-end
 
 end
 
@@ -160,7 +154,6 @@ s = h5read(tc.file, '/A4');
 tc.verifyEqual(ndims(s), 4)
 tc.verifyEqual(s, tc.A4)
 
-if ~stdlib.matlabOlderThan("R2020b")
 s = h5read(tc.file, '/utf');
 tc.verifyTrue(ischar(s))
 tc.verifyEqual(s, tc.utf)
@@ -168,7 +161,6 @@ tc.verifyEqual(s, tc.utf)
 s = h5read(tc.file, '/utf2');
 tc.verifyClass(s, 'string')
 tc.verifyEqual(s, tc.utf2)
-end
 
 end
 

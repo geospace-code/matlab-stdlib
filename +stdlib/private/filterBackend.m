@@ -15,7 +15,7 @@ end
 if any(contains(backend, "native"))
   switch funcName
     case {'create_symlink', 'is_symlink', 'read_symlink'}
-      no = stdlib.matlabOlderThan('R2024b');
+      no = isMATLABReleaseOlderThan('R2024b');
     otherwise
       no = false;
   end
@@ -36,7 +36,7 @@ if any(contains(backend, "python"))
         no = ~stdlib.python.has_psutil();
       case 'is_admin'
         if ispc()
-          no = stdlib.matlabOlderThan('R2024a');
+          no = isMATLABReleaseOlderThan('R2024a');
         end
       case 'is_dev_drive'
         pyv = stdlib.python.version();

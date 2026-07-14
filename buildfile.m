@@ -23,11 +23,11 @@ end
 pkg_root = fullfile(plan.RootFolder, '+stdlib');
 test_root = fullfile(plan.RootFolder, 'test');
 
-if ~isMATLABReleaseOlderThan("R2023b")
+if ~isMATLABReleaseOlderThan('R2023b')
   plan("clean") = matlab.buildtool.tasks.CleanTask();
 end
 
-if isMATLABReleaseOlderThan("R2024b")
+if isMATLABReleaseOlderThan('R2024b')
 
   plan("test_main") = matlab.buildtool.Task(Actions=@(context) test_main(context, sel));
   plan("test") = matlab.buildtool.Task(Dependencies="test_main");
@@ -41,7 +41,7 @@ if isMATLABReleaseOlderThan("R2024b")
 
   plan("test").Dependencies = [plan("test").Dependencies, "test_java_exe", "test_exe"];
 
-elseif isMATLABReleaseOlderThan("R2025a")
+elseif isMATLABReleaseOlderThan('R2025a')
   % Matlab == R2024b
   plan("test:main") = matlab.buildtool.Task(Actions=@(context) test_main(context, sel));
 

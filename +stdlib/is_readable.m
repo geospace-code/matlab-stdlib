@@ -10,7 +10,7 @@ arguments
   p string {mustBeFileOrFolder}
 end
 
-if stdlib.matlabOlderThan('R2025a')
+if isMATLABReleaseOlderThan('R2025a')
   a = file_attributes(p);
   y = a.UserRead || a.GroupRead || a.OtherRead;
 else
