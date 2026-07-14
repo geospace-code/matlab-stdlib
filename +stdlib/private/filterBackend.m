@@ -27,7 +27,7 @@ end
 
 if any(contains(backend, "python"))
 
-  no = stdlib.matlabOlderThan('R2022a') || ~stdlib.has_python();
+  no = ~stdlib.has_python();
   if ~no
     switch funcName
       case {'cpu_load', 'get_max_open_files', 'get_owner', 'get_process_priority', 'get_uid'}
