@@ -1,15 +1,13 @@
 %% TEST_MAIN Run all tests
 
 function test_main(context, sel)
+arguments
+  context = []
+  sel = (~HasTag('exe') & ~HasTag('java_exe')) | HasTag('native_exe')
+end
+
 import matlab.unittest.TestRunner
 import matlab.unittest.selectors.HasTag
-
-if nargin < 1
-  context = [];
-end
-if nargin < 2
-  sel = (~HasTag('exe') & ~HasTag('java_exe')) | HasTag('native_exe');
-end
 
 
 if isempty(context)
