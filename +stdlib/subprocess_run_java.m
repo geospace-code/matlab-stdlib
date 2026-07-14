@@ -80,54 +80,44 @@ inold = getenv('GFORTRAN_STDIN_UNIT');
 setenv('GFORTRAN_STDIN_UNIT', '5')
 %% start process
 % https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ProcessBuilder.html#start()
-h = proc.start();
-
+try
+  h = proc.start();
 %% stdin pipe
-if ~stdlib.strempty(opt.stdin)
-  writer = java.io.BufferedWriter(java.io.OutputStreamWriter(h.getOutputStream()));
-  stdin_text = opt.stdin;
-  if ~endsWith(stdin_text, newline)
-    % Fortran (across compilers) needs a \n at the end of stdin.
-    stdin_text = stdin_text + newline;
+  if strlength(opt.stdin)
+    stdin_pipe(h, opt.stdin)
   end
-  writer.write(stdin_text);
-  writer.flush()
-  writer.close()
-end
 
 %% read stdout, stderr pipes
 % like Python subprocess.run, this may block or deadlock if the process writes
 % large amounts of data to stdout or stderr.
 % A better approach is to read each of the streams in a separate thread.
+  stdout = string.empty;
+  stderr = string.empty;
 
-stdout = "";
-stderr = "";
-if opt.stdout && nargout > 1
-  stdout = read_stream(h.getInputStream());
-end
-if opt.stderr && nargout > 2
-  stderr = read_stream(h.getErrorStream());
-end
+  if opt.stdout && nargout > 1
+    stdout = read_stream(h.getInputStream());
+  end
+
+  if opt.stderr && nargout > 2
+    stderr = read_stream(h.getErrorStream());
+  end
 %% wait for process to complete
 % https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Process.html#waitFor()
-
-if opt.timeout > 0
-  % returns true if process completed successfully
-  % returns false if process did not complete within timeout
-  b = h.waitFor(opt.timeout, java.util.concurrent.TimeUnit.SECONDS);
-  if b
-    status = 0;
-  else
+  status = waitTimeout(h, opt.timeout);
+  if status == -1
     stderr = "Subprocess timeout";
-    status = -1;
   end
-else
-  % returns 0 if process completed successfully
-  status = h.waitFor();
-end
-
 %% close process and restore Gfortran streams
-h.destroy()
+  h.destroy()
+catch ME
+  stdout = string.empty;
+  stderr = ME.message;
+  if contains(ME.message, 'system cannot find the file')
+    status = 2;
+  else
+    status = 1;
+  end
+end
 
 setenv('GFORTRAN_STDOUT_UNIT', outold)
 setenv('GFORTRAN_STDERR_UNIT', errold)
@@ -141,6 +131,20 @@ if nargout < 3 && opt.stderr && ~stdlib.strempty(stderr)
 end
 
 end % function subprocess_run
+
+
+function stdin_pipe(h, stdin)
+sw = java.io.OutputStreamWriter(h.getOutputStream());
+writer = java.io.BufferedWriter(sw);
+stdin_text = stdin;
+if ~endsWith(stdin_text, newline)
+  % Fortran (across compilers) needs a \n at the end of stdin.
+  stdin_text = stdin_text + newline;
+end
+writer.write(stdin_text);
+writer.flush()
+writer.close()
+end
 
 
 function msg = read_stream(stream)
@@ -161,5 +165,24 @@ end
 msg = strip(msg);
 reader.close()
 stream.close()
+
+end
+
+
+function status = waitTimeout(h, timeout)
+
+if timeout > 0
+  % returns true if process completed successfully
+  % returns false if process did not complete within timeout
+  b = h.waitFor(timeout, java.util.concurrent.TimeUnit.SECONDS);
+  if b
+    status = 0;
+  else
+    status = -1;
+  end
+else
+  % returns 0 if process completed successfully
+  status = h.waitFor();
+end
 
 end

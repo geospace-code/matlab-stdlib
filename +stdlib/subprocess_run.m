@@ -113,10 +113,10 @@ else
   err = string.empty;
 end
 
-if nargout < 2 && opt.stdout && strlength(msg)
+if nargout < 2 && opt.stdout && ~stdlib.strempty(msg)
   disp(msg)
 end
-if nargout < 3 && opt.stderr && strlength(err)
+if nargout < 3 && opt.stderr && ~stdlib.strempty(err)
   warning(err)
 end
 
