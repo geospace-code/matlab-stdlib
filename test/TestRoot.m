@@ -13,18 +13,21 @@ function test_root(tc, p)
 r = stdlib.root(p{1});
 tc.assertClass(r, class(p{1}))
 tc.verifyEqual(r, p{2}, p{1})
+tc.verifyEqual(string(r), string(p{2}), p{1})
 end
 
 function test_root_dir(tc, rd)
 r = stdlib.root_dir(rd{1});
 tc.assertClass(r, class(rd{1}))
 tc.verifyEqual(r, rd{2}, rd{1})
+tc.verifyEqual(string(r), string(rd{2}), rd{1})
 end
 
 function test_root_name(tc, rn)
 r = stdlib.root_name(rn{1});
 tc.assertClass(r, class(rn{1}))
 tc.verifyEqual(r, rn{2})
+tc.verifyEqual(string(r), string(rn{2}))
 end
 
 end
