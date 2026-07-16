@@ -1,18 +1,14 @@
 %% shell.get_max_open_files  Get process open-file soft limit via shell
-function m = get_max_open_files()
-
-m = missing;
-
-if ~ispc()
+function i = get_max_open_files()
 
 [s, m] = system('ulimit -n');
 assert(s == 0, 'stdlib:shell:get_max_open_files', 'Error executing get_max_open_files command: %s', m);
-o = str2double(strtrim(m));
+i = str2double(strtrim(m));
 
-if isfinite(o) && o > 0
-  m = uint64(o);
-end
-
+if isfinite(i) && i > 0
+  i = uint64(i);
+else
+  i = missing;
 end
 
 end

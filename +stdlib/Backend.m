@@ -80,6 +80,11 @@ for m = backendReq
       if isempty(filterBackend("native", functionName))
         continue
       end
+
+    case 'shell'
+      if isempty(filterBackend('shell', functionName))
+        continue
+      end
   end
 
   if ~isempty(which(sprintf('%s.%s.%s', self.namespace, m, functionName)))

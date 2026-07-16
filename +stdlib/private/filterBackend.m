@@ -30,7 +30,7 @@ if any(contains(backend, "python"))
   no = ~stdlib.has_python();
   if ~no
     switch funcName
-      case {'cpu_load', 'get_max_open_files', 'get_owner', 'get_process_priority', 'get_uid'}
+      case {'cpu_load', 'get_owner', 'get_process_priority', 'get_uid'}
         no = ispc();
       case {'filesystem_type', 'is_removable', 'ram_free', 'ram_total', 'uptime'}
         no = ~stdlib.python.has_psutil();
@@ -90,6 +90,8 @@ if(any(contains(backend, "shell")))
   switch funcName
     case 'is_dev_drive'
       no = ispc() && ~stdlib.is_admin();
+    case 'get_max_open_files'
+      no = ispc();
     otherwise
       no = false;
   end
