@@ -8,23 +8,19 @@
 
 function ok = makedir(direc)
 arguments
-  direc {mustBeTextScalar}
+  direc {mustBeTextScalar,mustBeNonzeroLengthText}
 end
 
 %% to avoid confusing making ./~/mydir
 direc = stdlib.expanduser(direc);
 
-ok = false;
-
-if ~stdlib.strempty(direc)
-  [s, ~] = mkdir(direc);
-  ok = s == 1;
-end
+[ok, err] = mkdir(direc);
 
 ok = ok && isfolder(direc);
 
 if nargout == 0
-  assert(ok, 'Failed to create directory: %s', direc)
+  assert(ok, 'Failed to create directory: %s  %s', direc, err)
+  clear('ok')
 end
 
 end
