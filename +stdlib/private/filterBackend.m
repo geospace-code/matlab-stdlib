@@ -32,8 +32,6 @@ if any(contains(backend, "python"))
     switch funcName
       case {'cpu_load', 'get_owner', 'get_process_priority', 'get_uid'}
         no = ispc();
-      case {'filesystem_type', 'is_removable', 'ram_free', 'ram_total', 'uptime'}
-        no = ~stdlib.python.has_psutil();
       case 'is_admin'
         if ispc()
           no = isMATLABReleaseOlderThan('R2024a');

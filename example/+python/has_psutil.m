@@ -1,4 +1,4 @@
-%% PYTHON.HAS_PSUTIL is Python psutil module availble
+%% PYTHON.HAS_PSUTIL is Python psutil module available
 
 function y = has_psutil()
 
