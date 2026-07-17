@@ -7,27 +7,19 @@ runs:
 
   steps:
 
-  - name: All Tests (>= R2024b)
+  - name: Main Tests (>= R2024b)
     if: ${{ matrix.release >= 'R2024b' || matrix.release == 'latest-including-prerelease' }}
     uses: matlab-actions/run-build@v3
     with:
-      tasks: test:main test:java_exe test:exe
+      tasks: test:main
 
 
-  - name: Main and Java Tests (< R2024b)
+  - name: Main Tests (< R2024b)
     if: ${{ matrix.release >= 'R2022b' && matrix.release < 'R2024b' }}
     uses: matlab-actions/run-build@v3
     with:
       tasks: test_main
       startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test-main.log
-
-
-  - name: JavaExe Test (R2023b..R2024a)
-    if: ${{ matrix.release >= 'R2023b' && matrix.release < 'R2024b' }}
-    uses: matlab-actions/run-build@v3
-    with:
-      tasks: test_java_exe test_exe
-      startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test-exe.log
 
 
 # note: "source-folder" adds all subfolders to Matlab path
@@ -41,9 +33,8 @@ runs:
 
 
   - name: upload logfile
-    if: ${{ hashFiles(matrix.release-runner.os-test-main.log) != '' }}
+    if: ${{ failure() && hashFiles(matrix.release-runner.os-test-main.log) != '' }}
     uses: actions/upload-artifact@v7
     with:
       name: ${{ matrix.release }}-${{ runner.os }}-test-log
       path: ${{ matrix.release }}-${{ runner.os }}-test*.log
-      retention-days: 1

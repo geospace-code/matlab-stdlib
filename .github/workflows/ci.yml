@@ -57,6 +57,10 @@ jobs:
       name: Main Tests
       uses: ./.github/workflows/composite-nomex
 
+    - &test-exe
+      name: Exe Tests
+      uses: ./.github/workflows/composite-exe
+
     - name: package
       if: ${{ matrix.release == 'R2026a' }}
       uses: matlab-actions/run-command@v3
@@ -98,6 +102,7 @@ jobs:
     - *tell-ext
 
     - *test-main
+    - *test-exe
 
 
   windows:
@@ -114,6 +119,7 @@ jobs:
     - *tell-ext
 
     - *test-main
+    - *test-exe
 
 
   matlab-older:

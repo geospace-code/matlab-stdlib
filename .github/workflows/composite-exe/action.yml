@@ -1,0 +1,21 @@
+name: "composite-exe"
+description: "Run Matlab tests for subprocess_run"
+
+runs:
+
+  using: "composite"
+
+  steps:
+
+  - name: Exe Tests (>= R2024b)
+    if: ${{ matrix.release >= 'R2024b' || matrix.release == 'latest-including-prerelease' }}
+    uses: matlab-actions/run-build@v3
+    with:
+      tasks: test:java_exe test:exe
+
+  - name: Exe Tests (R2023b..R2024a)
+    if: ${{ matrix.release >= 'R2023b' && matrix.release < 'R2024b' }}
+    uses: matlab-actions/run-build@v3
+    with:
+      tasks: test_java_exe test_exe
+      startup-options: -logfile ${{ matrix.release }}-${{ runner.os }}-test-exe.log
