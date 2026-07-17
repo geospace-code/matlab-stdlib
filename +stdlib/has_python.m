@@ -5,10 +5,14 @@
 % The check can be per-session persistently enabled by `stdlib.has_python(true)`.
 %
 % https://www.mathworks.com/support/requirements/python-compatibility.html
+%
+% default is enable_check=false because if Python hasn't even been setup with "pyenv", even with
+% Matlab R2026a, can get uncatchable error like
+%   bad lexical cast: source type value could not be interpreted as target
 
 function y = has_python(enable_check)
 arguments
-  enable_check (1,1) logical = true
+  enable_check (1,1) logical = false
 end
 
 persistent py_enable
