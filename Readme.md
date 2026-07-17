@@ -31,33 +31,18 @@ The
 [API listing](https://geospace-code.github.io/matlab-stdlib/)
 "backend" column tells which functions have selectable backend implementations.
 By default, when the "backend" is not specified to a function having selectable backend, the algorithm searches for the first available backend and uses that.
+See [functionBackends.m](./+stdlib/private/functionBackends.m) for the list of backends available for each function.
 
 Matlab external backends include:
 
 * [Java](./Readme_java.md): all supported Matlab releases
 * [Python](./Readme_python.md): all supported Matlab releases with CPU-arch matching Python.
 * System shell calls: all supported Matlab releases. As a backup when the platform doesn't have the primary (faster) methods available, the system shell can be called for some functions.
-* .NET as described below.
+* [.NET](./Readme_dotnet.md): see the Readme_dotnet.md for details on supported Matlab releases and .NET SDK versions.
 
-While we created Perl examples, we omitted these from the main library as they are simply a system() call to "perl.exe".
-
-### .NET from Matlab
-
-[.NET](https://www.mathworks.com/help/matlab/call-net-from-matlab.html)
-support in MATLAB when a compatible
-[.NET SDK is installed](https://www.scivision.dev/matlab-dotnet-linux-macos)
-includes:
-
-* Windows: all supported Matlab releases, installed from `winget search Microsoft.DotNet.SDK`
-* Linux or macOS: R2024b and newer
-
-For macOS, `brew install dotnet` and then in Matlab `edit(fullfile(userpath, 'startup.m'))` and add the lines
-
-```matlab
-setenv('HOMEBREW_PREFIX', '/opt/homebrew')
-setenv('DOTNET_ROOT', [getenv('HOMEBREW_PREFIX') '/opt/dotnet/libexec'])
-```
-
+While we created
+[Perl examples](./example/+perl/),
+we omitted these from the main library as they are simply a system() call to "perl.exe".
 
 ## Acknowledgments
 

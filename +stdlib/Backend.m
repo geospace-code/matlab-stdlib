@@ -113,7 +113,7 @@ else
 end
 
 if isempty(self.backend)
-  error('No backend found for %s.%s', self.namespace, functionName);
+  func = missing;
 else
   func = str2func(sprintf('%s.%s.%s', self.namespace, self.backend, functionName));
 end
