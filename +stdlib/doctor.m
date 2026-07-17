@@ -15,6 +15,10 @@ if ~stdlib.isoctave()
   raw.matlab.root = m.root;
   raw.matlab.arch_bin = m.arch_bin;
   raw.matlab.bin = m.bin;
+
+  try %#ok<TRYNC>
+    raw.matlab.git_version = stdlib.matlab_git_version();
+  end
 end
 
 h5v = stdlib.h5get_version();
