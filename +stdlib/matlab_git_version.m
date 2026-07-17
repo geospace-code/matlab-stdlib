@@ -20,21 +20,43 @@ if ispc()
 elseif ismac()
   cmd = ['otool -L "' char(libPath) '"'];
   pat = '(?<=current version\s+)[0-9][0-9.]+';
+  v = shell_regex(cmd, pat);
 else
   % Linux
-  cmd = ['strings "' char(libPath) '"'];
-  pat = '[0-9]+\.[0-9]+\.[0-9]+';
+  % Filter at shell level so MATLAB regex runs on a tiny string, not full megabyte of strings() output.
+  % works but decided to use loadlibrary() instead
+  % cmd = ['strings "' char(libPath) '" | grep -m 1 -E "^libgit2[[:space:]]+[0-9]+\.[0-9]+\.[0-9]+$"'];
+  % pat = '(?<=libgit2\s)[0-9]+\.[0-9]+\.[0-9]+';
+  % v = shell_regex(cmd, pat);
+
+  cwd = fileparts(mfilename("fullpath"));
+
+  hdr = fullfile(cwd, 'private/git2dummy.h');
+
+  if ~libisloaded('git2')
+    loadlibrary(libPath, hdr, alias='git2');
+  end
+
+  maj = libpointer('int32Ptr', 0);
+  min = libpointer('int32Ptr', 0);
+  rev = libpointer('int32Ptr', 0);
+
+  calllib('git2', 'git_libgit2_version', maj, min, rev);
+  v = sprintf('%d.%d.%d', maj.Value, min.Value, rev.Value);
 end
 
-[status, output] = system(cmd);
-assert(status == 0, 'Failed to get library version from %s\nOutput: %s', cmd, output);
 
-v = regexp(output, pat, 'match', 'once');
+end
+
+function v = shell_regex(cmd, pat)
+[status, o] = system(cmd);
+assert(status == 0, 'Failed to get library version from %s\nOutput: %s', cmd, o);
+
+v = regexp(o, pat, 'match', 'once');
 if iscell(v)
   v = v{1};
 end
 v = char(strtrim(v));
-
 end
 
 
