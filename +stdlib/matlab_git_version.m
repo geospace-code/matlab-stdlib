@@ -17,11 +17,12 @@ if ispc()
   fileInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(libPath);
   v = char(fileInfo.FileVersion);
   return
-elseif ismac()
-  cmd = ['otool -L "' char(libPath) '"'];
-  pat = '(?<=current version\s+)[0-9][0-9.]+';
-  v = shell_regex(cmd, pat);
 else
+% elseif ismac()
+%   cmd = ['otool -L "' char(libPath) '"'];
+%   pat = '(?<=current version\s+)[0-9][0-9.]+';
+%   v = shell_regex(cmd, pat);
+% else
   % Linux
   % Filter at shell level so MATLAB regex runs on a tiny string, not full megabyte of strings() output.
   % works but decided to use loadlibrary() instead
@@ -48,16 +49,16 @@ end
 
 end
 
-function v = shell_regex(cmd, pat)
-[status, o] = system(cmd);
-assert(status == 0, 'Failed to get library version from %s\nOutput: %s', cmd, o);
-
-v = regexp(o, pat, 'match', 'once');
-if iscell(v)
-  v = v{1};
-end
-v = char(strtrim(v));
-end
+% function v = shell_regex(cmd, pat)
+% [status, o] = system(cmd);
+% assert(status == 0, 'Failed to get library version from %s\nOutput: %s', cmd, o);
+%
+% v = regexp(o, pat, 'match', 'once');
+% if iscell(v)
+%   v = v{1};
+% end
+% v = char(strtrim(v));
+% end
 
 
 function p = getMatlabGit2libPath()
