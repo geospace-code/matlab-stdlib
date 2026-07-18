@@ -1,5 +1,7 @@
 %% MATLAB_GIT_VERSION version of the Git2 library used by Matlab
 % general example of access shared library version info from Matlab
+% for Linux and macOS, it's also an example of using loadlibrary() in a straightforward way
+% to call a function in a shared library, without needing to write a MEX file.
 %
 % Input:
 %   libPath - Full path to the library (optional)
