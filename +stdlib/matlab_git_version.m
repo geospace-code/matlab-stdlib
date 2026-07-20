@@ -1,7 +1,6 @@
 %% MATLAB_GIT_VERSION version of the Git2 library used by Matlab
 % general example of access shared library version info from Matlab
-% for Linux and macOS, it's also an example of using loadlibrary() in a straightforward way
-% to call a function in a shared library, without needing to write a MEX file.
+% using loadlibrary() to call a function in a shared library without a MEX file.
 %
 % Input:
 %   libPath - Full path to the library (optional)
@@ -18,26 +17,22 @@ if ispc()
   % Windows .NET
   fileInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(libPath);
   v = char(fileInfo.FileVersion);
-  return
 else
 % elseif ismac()
 %   cmd = ['otool -L "' char(libPath) '"'];
 %   pat = '(?<=current version\s+)[0-9][0-9.]+';
 %   v = shell_regex(cmd, pat);
-% else
-  % Linux
-  % Filter at shell level so MATLAB regex runs on a tiny string, not full megabyte of strings() output.
-  % works but decided to use loadlibrary() instead
-  % cmd = ['strings "' char(libPath) '" | grep -m 1 -E "^libgit2[[:space:]]+[0-9]+\.[0-9]+\.[0-9]+$"'];
-  % pat = '(?<=libgit2\s)[0-9]+\.[0-9]+\.[0-9]+';
-  % v = shell_regex(cmd, pat);
 
   cwd = fileparts(mfilename("fullpath"));
-
   hdr = fullfile(cwd, 'private/git2dummy.h');
 
   if ~libisloaded('git2')
-    loadlibrary(libPath, hdr, alias='git2');
+    if isfile(libPath)
+      loadlibrary(libPath, hdr, alias='git2');
+    else
+      v = missing;
+      return
+    end
   end
 
   maj = libpointer('int32Ptr', 0);
