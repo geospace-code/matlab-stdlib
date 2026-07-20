@@ -1,0 +1,45 @@
+name: Upload stdlib.mltbx to GitHub Release
+
+on:
+  release:
+
+  push:
+    paths:
+    - ".github/workflows/package.yml"
+
+  # Allows running this workflow manually from the Actions tab
+  workflow_dispatch:
+
+concurrency:
+  group: "package"
+  cancel-in-progress: false
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        release: [R2026a]
+
+    steps:
+    - name: Install MATLAB
+      timeout-minutes: 5
+      uses: matlab-actions/setup-matlab@v3
+      with:
+        release: ${{ matrix.release }}
+        cache: true
+
+    - uses: actions/checkout@v7
+
+    - name: generate package
+      if: github.ref_type == 'tag'
+      uses: matlab-actions/run-build@v3
+      with:
+        tasks: package
+
+    - name: Release artifact users will see
+      uses: softprops/action-gh-release@v3
+      if: github.ref_type == 'tag'
+      with:
+        files: stdlib.mltbx
