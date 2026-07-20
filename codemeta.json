@@ -1,16 +1,18 @@
 {
-    "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
-    "@type": "SoftwareSourceCode",
+    "@context": "https://w3id.org/codemeta/3.0",
+    "type": "SoftwareSourceCode",
+    "version": "5.9.2",
     "license": "https://spdx.org/licenses/MIT",
     "codeRepository": "https://github.com/geospace-code/matlab-stdlib",
-    "contIntegration": "https://github.com/geospace-code/matlab-stdlib/actions",
+    "continuousIntegration": "https://github.com/geospace-code/matlab-stdlib/actions",
     "downloadUrl": "https://github.com/geospace-code/matlab-stdlib/releases",
     "issueTracker": "https://github.com/geospace-code/matlab-stdlib/issues",
-    "name": "matlab-stdlib",
+    "name": "Stdlib for MATLAB",
     "identifier": "10.5281/zenodo.3964541",
-    "description": "Matlab unofficial standard library, including HDF5 / NetCDF4 functions that should be included in Matlab.",
+    "description": "unofficial standard library for MATLAB, including HDF5 / NetCDF4 functions",
     "applicationCategory": "computation",
     "developmentStatus": "active",
+    "funding": "NASA HDEE Grant 80NSSC20K0176",
     "keywords": [
         "hdf5", "netcdf4"
     ],
@@ -19,10 +21,8 @@
     ],
     "author": [
         {
-            "@type": "Person",
-            "@id": "https://orcid.org/0000-0002-1637-6526",
-            "givenName": "Michael",
-            "familyName": "Hirsch"
+            "@type": "Organization",
+            "name": "SciVision"
         }
     ]
 }

@@ -115,7 +115,11 @@ uuid = "stdlib";
 opts = matlab.addons.toolbox.ToolboxOptions(context.Plan.RootFolder, uuid);
 opts.OutputFile = fullfile(context.Plan.RootFolder, uuid + ".mltbx");
 
-opts.ToolboxName = "stdlib for Matlab";
+meta = fileread(fullfile(context.Plan.RootFolder, "codemeta.json"));
+meta = jsondecode(meta);
+
+opts.ToolboxName = meta.name;
+opts.ToolboxVersion = meta.version;
 opts.ToolboxFiles = fullfile(context.Plan.RootFolder, "+" + uuid);
 
 opts.SupportedPlatforms.Win64 = true;
