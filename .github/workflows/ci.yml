@@ -62,17 +62,23 @@ jobs:
       uses: ./.github/workflows/composite-exe
 
     - name: package
-      if: ${{ matrix.release == 'R2026a' }}
+      if: ${{ github.ref_type == 'tag' && matrix.release == 'R2026a' }}
       uses: matlab-actions/run-build@v3
       with:
         tasks: package
 
-    - name: upload .mltbx
-      if: ${{ hashFiles('stdlib.mltbx') != '' }}
-      uses: actions/upload-artifact@v7
+    # - name: upload .mltbx
+    #   if: ${{ hashFiles('stdlib.mltbx') != '' }}
+    #   uses: actions/upload-artifact@v7
+    #   with:
+    #     name: stdlib.mltbx
+    #     path: stdlib.mltbx
+
+    - name: Release artifact users will see
+      uses: softprops/action-gh-release@v3
+      if: ${{ github.ref_type == 'tag' && matrix.release == 'R2026a' }}
       with:
-        name: stdlib.mltbx
-        path: stdlib.mltbx
+        files: stdlib.mltbx
 
 
   macos:
