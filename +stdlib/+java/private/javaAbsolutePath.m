@@ -4,7 +4,6 @@ function javaPath = javaAbsolutePath(file)
 javaPath = javaPathObject(file);
 
 if ~javaPath.isAbsolute()
-  % auxiliary variable for Matlab < R2019b
   b = javaPathObject(pwd());
   javaPath = b.resolve(javaPath);
 end

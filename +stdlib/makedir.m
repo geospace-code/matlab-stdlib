@@ -3,8 +3,6 @@
 % malformed paths can be 'created' but are not accessible.
 % This function works around that bug in Matlab mkdir().
 % ok is true even if direc already exists.
-%
-% Matlab < R2018a needs char input
 
 function ok = makedir(direc)
 arguments
