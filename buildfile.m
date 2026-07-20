@@ -9,10 +9,10 @@ if ispc()
 else
   sel = sel & ~HasTag("windows");
 end
-if ~stdlib.has_dotnet()
+if ~NET.isNETSupported
   sel = sel & ~HasTag("dotnet");
 end
-if ~stdlib.has_java()
+if ~usejava('jvm')
   sel = sel & ~HasTag("java");
 end
 
@@ -105,6 +105,28 @@ exes = fullfile(test_root, exes);
 plan("exe") = matlab.buildtool.Task(Inputs=srcs, Outputs=exes, Actions=@build_exe, ...
                  Description="build demo executables for testing subprocess_run");
 
+end
+
+
+function packageTask(context)
+
+uuid = "stdlib";
+
+opts = matlab.addons.toolbox.ToolboxOptions(context.Plan.RootFolder, uuid);
+opts.OutputFile = fullfile(context.Plan.RootFolder, uuid + ".mltbx");
+
+opts.ToolboxName = "stdlib for Matlab";
+opts.ToolboxFiles = fullfile(context.Plan.RootFolder, "+" + uuid);
+
+opts.SupportedPlatforms.Win64 = true;
+opts.SupportedPlatforms.Mac = true;
+opts.SupportedPlatforms.Glnxa64 = true;
+opts.SupportedPlatforms.MatlabOnline = true;
+
+opts.MinimumMatlabRelease = "R2020b";
+opts.MaximumMatlabRelease = "";
+
+matlab.addons.toolbox.packageToolbox(opts);
 end
 
 

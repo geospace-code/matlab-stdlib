@@ -37,7 +37,7 @@ jobs:
         cache: true
 
     - &checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
 
     - &tell-ext
       name: Matlab tell External Language Interface versions
@@ -63,13 +63,12 @@ jobs:
 
     - name: package
       if: ${{ matrix.release == 'R2026a' }}
-      uses: matlab-actions/run-command@v3
+      uses: matlab-actions/run-build@v3
       with:
-        startup-options: -sd ${{ github.workspace }}/scripts
-        command: packageToolbox()
+        tasks: package
 
     - name: upload .mltbx
-      if: ${{ hashFiles('stdlib.mltbx') != '' && matrix.release == 'R2026a' }}
+      if: ${{ hashFiles('stdlib.mltbx') != '' }}
       uses: actions/upload-artifact@v7
       with:
         name: stdlib.mltbx
