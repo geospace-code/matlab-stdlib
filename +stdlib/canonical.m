@@ -14,28 +14,30 @@
 
 function c = canonical(file, strict)
 arguments
-  file {mustBeTextScalar}
+  file (1,1) string
   strict (1,1) logical = false
 end
 
-if stdlib.strempty(file)
-  c = pwd();
+if strlength(file) == 0
+  c = string(pwd());
 elseif ~stdlib.exists(file)
   if strict
     c = missing;
     return
   end
   c = stdlib.normalize(file);
-elseif isMATLABReleaseOlderThan('R2025a')
-  [s, r] = fileattrib(file);
-  assert(s, 'stdlib:canonical', 'Error executing fileattrib(%s): %s', file, r);
-  c = r.Name;
-elseif isMATLABReleaseOlderThan('R2026b')
-  c = filePermissions(file).AbsolutePath;
+else
+
+if stdlib.matlabOlderThan('R2026b')
+  if stdlib.matlabOlderThan('R2025a')
+    [s, r] = fileattrib(file);
+    assert(s, 'stdlib:canonical', 'Error executing fileattrib(%s): %s', file, r);
+    c = string(r.Name);
+  else
+    c = filePermissions(file).AbsolutePath;
+  end
 else
   c = resolveFilePath(file, 'ResolveSymbolicLinks', true);
 end
-
-c = string(c);
 
 end
