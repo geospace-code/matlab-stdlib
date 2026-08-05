@@ -25,12 +25,10 @@ end
 
 if ~enable_check || isMATLABReleaseOlderThan('R2022a')
   y = false;
-  py_enable = false;
-  return
+else
+  v = stdlib.python.version();
+  y = ~any(ismissing(v)) & ~isempty(v);
 end
-
-v = stdlib.python.version();
-y = ~any(ismissing(v)) & ~isempty(v);
 
 py_enable = y;
 
