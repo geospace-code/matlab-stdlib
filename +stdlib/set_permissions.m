@@ -11,9 +11,9 @@
 function ok = set_permissions(file, readable, writable, executable)
 arguments
   file {mustBeTextScalar,mustBeFileOrFolder}
-  readable logical {mustBeScalarOrEmpty} = []
-  writable logical {mustBeScalarOrEmpty} = []
-  executable logical {mustBeScalarOrEmpty} = []
+  readable logical {mustBeScalarOrEmpty} = logical.empty
+  writable logical {mustBeScalarOrEmpty} = logical.empty
+  executable logical {mustBeScalarOrEmpty} = logical.empty
 end
 
 p = filePermissions(file);
