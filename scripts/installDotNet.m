@@ -15,12 +15,7 @@ if ispc()
 else
 
 if ~strlength(installDir)
-  if ispc()
-    installDir = getenv('USERPROFILE');
-  else
-    installDir = getenv('HOME');
-  end
-  installDir = fullfile(installDir, '.dotnet');
+  installDir = default_installdir();
 end
 if ~isfolder(installDir)
   mkdir(installDir);
@@ -32,9 +27,7 @@ scr = websave(fullfile(installDir, 'dotnet-install.sh'), url);
 
 cmd = sprintf('sh -c "%s --install-dir %s"', scr, installDir);
 
-if isunix()
-  setPermissions(filePermissions(scr), "UserExecute", true);
-end
+setPermissions(filePermissions(scr), "UserExecute", true);
 
 end
 
@@ -62,5 +55,17 @@ end
 assert(NET.isNETSupported)
 
 dotnetenv()
+
+end
+
+
+function d = default_installdir()
+
+if ispc()
+  h = getenv('USERPROFILE');
+else
+  h = getenv('HOME');
+end
+d = fullfile(h, '.dotnet');
 
 end
