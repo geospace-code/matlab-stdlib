@@ -60,6 +60,8 @@ jobs:
     - &test-exe
       name: Exe Tests
       uses: ./.github/workflows/composite-exe
+      env:
+        LD_PRELOAD: /usr/lib/x86_64-linux-gnu/libstdc++.so.6
 
 
   macos:
