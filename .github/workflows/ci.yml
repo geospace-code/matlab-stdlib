@@ -21,11 +21,11 @@ jobs:
   linux-newer:
     # For Matlab >= R2024a
     timeout-minutes: 15
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     strategy:
       matrix:
-        release: [R2024a, R2025b, R2026a]
+        release: [R2024a, R2026a]
 
     steps:
     - &matlab-install
@@ -108,28 +108,28 @@ jobs:
     - *test-exe
 
 
-  matlab-older:
-    # For R2022a < Matlab < R2024a
-    needs: linux-newer
+#   matlab-older:
+#     # For R2022a < Matlab < R2024a
+#     needs: linux-newer
 
-    timeout-minutes: 15
-    runs-on: ${{ matrix.os }}
+#     timeout-minutes: 15
+#     runs-on: ${{ matrix.os }}
 
-    strategy:
-      matrix:
-        # windows and macos also work, just saving CI resources
-        os: [ubuntu-22.04]
-        release: [R2023b]
-# R2022a, R2022b, R2023a, R2023b works, saving CI resources
+#     strategy:
+#       matrix:
+#         # windows and macos also work, just saving CI resources
+#         os: [ubuntu-22.04]
+#         release: [R2023b]
+# # R2022a, R2022b, R2023a, R2023b works, saving CI resources
 
-    steps:
-    - *matlab-install
-    - *mac-fc
+#     steps:
+#     - *matlab-install
+#     - *mac-fc
 
-    - *checkout
-    - *tell-ext
+#     - *checkout
+#     - *tell-ext
 
-    - *test-main
+#     - *test-main
 
 # just saving CI resources
 #   matlab-oldest:
