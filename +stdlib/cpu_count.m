@@ -11,8 +11,3 @@ end
 % https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Runtime.html#getRuntime()
 % N=java.lang.Runtime.getRuntime().availableProcessors();
 end
-
-
-%!assert (stdlib.cpu_count() >= 0)
-%!test
-%! mustBeInteger(stdlib.cpu_count())

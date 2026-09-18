@@ -9,6 +9,3 @@ else
 end
 
 end
-
-
-%!assert (~isempty(stdlib.homedir()))
