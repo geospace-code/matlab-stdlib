@@ -1,23 +1,11 @@
 classdef TestParent < StdlibPath
 
 properties (TestParameter)
-p = init_parent()
+p
 end
 
 
-methods (Test)
-
-function test_parent(tc, p)
-pr = stdlib.parent(p{1});
-tc.verifyEqual(pr, p{2}, sprintf('parent(%s)', p{1}))
-
-tc.verifyEqual(stdlib.parent(string(p{1})), string(p{2}))
-
-end
-
-end
-end
-
+methods (TestParameterDefinition, Static)
 
 function p = init_parent()
 
@@ -32,16 +20,32 @@ p = {
 {'ab/.parent.txt', 'ab'}, ...
 {'a/b/../.parent.txt', 'a/b/..'}};
 
-if ispc
-p{end+1} = {'c:/', 'c:/'};
-p{end+1} = {'c:\', 'c:/'};
-p{end+1} = {'c:/a/b', 'c:/a'};
-p{end+1} = {'c:\a/b', 'c:/a'};
-p{end+1} = {'c:/a', 'c:/'};
-p{end+1} = {'c:', 'c:/'};
+if ispc()
+	p{end+1} = {'c:/', 'c:/'};
+	p{end+1} = {'c:\', 'c:/'};
+	p{end+1} = {'c:/a/b', 'c:/a'};
+	p{end+1} = {'c:\a/b', 'c:/a'};
+	p{end+1} = {'c:/a', 'c:/'};
+	p{end+1} = {'c:', 'c:/'};
 end
 
 p{end+1} = {'a/b/', 'a'};
 p{end+1} = {'a//b', 'a'};
 
+end
+
+end
+
+
+methods (Test)
+
+function test_parent(tc, p)
+pr = stdlib.parent(p{1});
+tc.verifyEqual(pr, p{2}, sprintf('parent(%s)', p{1}))
+
+tc.verifyEqual(stdlib.parent(string(p{1})), string(p{2}))
+
+end
+
+end
 end

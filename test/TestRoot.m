@@ -1,9 +1,62 @@
 classdef (TestTags = {'pure'}) TestRoot < StdlibPath
 
 properties (TestParameter)
-p = init_root()
-rn = init_rn()
-rd = init_rd()
+p
+rn
+rd
+end
+
+
+methods (TestParameterDefinition, Static)
+
+function p = init_root()
+
+p = {{'', ''}, ...
+{'a/b', ''}, ...
+{'./a/b', ''}, ...
+{'/etc', '/'}, ...
+{'/etc', '/'}, ...
+{'c:', ''}, ...
+{'c:/etc', ''}, ...
+{'c:\etc', ''}};
+
+if ispc()
+  p{6}{2} = 'c:';
+  p{7}{2} = 'c:/';
+  p{8}{2} = 'c:\';
+end
+
+end
+
+
+function rn = init_rn()
+
+rn = TestRoot.init_root();
+
+rn{4}{2} = '';
+rn{5}{2} = '';
+
+if ispc()
+  rn{6}{2} = 'c:';
+  rn{7}{2} = 'c:';
+  rn{8}{2} = 'c:';
+end
+
+end
+
+
+function rd = init_rd()
+
+rd = TestRoot.init_root();
+
+if ispc()
+  rd{6}{2} = '';
+  rd{7}{2} = '/';
+  rd{8}{2} = '\';
+end
+
+end
+
 end
 
 
@@ -30,55 +83,6 @@ tc.verifyEqual(r, rn{2})
 tc.verifyEqual(string(r), string(rn{2}))
 end
 
-end
-
-end
-
-
-function p = init_root()
-
-p = {{'', ''}, ...
-{'a/b', ''}, ...
-{'./a/b', ''}, ...
-{'/etc', '/'}, ...
-{'/etc', '/'}, ...
-{'c:', ''}, ...
-{'c:/etc', ''}, ...
-{'c:\etc', ''}};
-
-if ispc()
-  p{6}{2} = 'c:';
-  p{7}{2} = 'c:/';
-  p{8}{2} = 'c:\';
-end
-
-end
-
-
-function p = init_rn()
-
-p = init_root();
-
-p{4}{2} = '';
-p{5}{2} = '';
-
-if ispc()
-  p{6}{2} = 'c:';
-  p{7}{2} = 'c:';
-  p{8}{2} = 'c:';
-end
-
-end
-
-
-function p = init_rd()
-
-p = init_root();
-
-if ispc()
-  p{6}{2} = '';
-  p{7}{2} = '/';
-  p{8}{2} = '\';
 end
 
 end

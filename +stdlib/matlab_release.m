@@ -5,10 +5,6 @@
 
 function r = matlab_release()
 
-if ~isMATLABReleaseOlderThan('R2020b')
-  r = matlabRelease().Release;
-else
-  r = "R" + version('-release');
-end
+r = matlabRelease().Release;
 
 end

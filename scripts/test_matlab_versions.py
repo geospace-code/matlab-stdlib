@@ -15,8 +15,7 @@ version_keys = [
     "2022b",
     "2022a",
     "2021b",
-    "2021a",
-    "2020b"
+    "2021a"
 ]
 
 R = Path(__file__).parents[1]

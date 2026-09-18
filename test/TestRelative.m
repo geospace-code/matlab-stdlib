@@ -2,43 +2,25 @@ classdef (TestTags = {'pure'}) TestRelative < StdlibPath
 
 
 properties (TestParameter)
-pr = init_rel();
+pr
 end
 
 
-methods (Test)
-
-function test_relative_to(tc, pr)
-r = stdlib.relative_to(pr{1}, pr{2});
-tc.verifyEqual(r, pr{3}, [pr{1} ' ' pr{2}])
-
-r = stdlib.relative_to(string(pr{1}), pr{2});
-tc.verifyEqual(r, string(pr{3}))
-end
-
-function test_proximate_to(tc, pr)
-r = stdlib.proximate_to(pr{1}, pr{2});
-tc.verifyEqual(r, pr{3}, [pr{1} ' ' pr{2}])
-
-r = stdlib.proximate_to(string(pr{1}), pr{2});
-tc.verifyEqual(r, string(pr{3}))
-end
-
-end
-end
-
+methods (TestParameterDefinition, Static)
 
 function pr = init_rel()
 
+testdir = fileparts(mfilename('fullpath'));
+root = fileparts(testdir);
+
 pr = {{'', '', ''}, ...
-{pwd(), pwd(), '.'}, ...
-{fileparts(pwd()), pwd(), 'test'}
+{root, root, '.'}, ...
+{fileparts(root), root, 'matlab-stdlib'}
 };
 
 
-root = fileparts(fileparts(mfilename('fullpath')));
-if ~isempty(root)
-  pr{end+1} = {root, fullfile(root, 'test', [mfilename(), '.m']), ...
+if ~isempty(testdir)
+  pr{end+1} = {root, fullfile(testdir, [mfilename(), '.m']), ...
                      fullfile('test', [mfilename, '.m'])};
 end
 
@@ -78,5 +60,29 @@ pr = [pr, {
 {'/', '/', '.'}, ...
 {'/dev/null', '/dev/null', '.'}, ...
 }];
+end
+end
+
+end
+
+
+methods (Test)
+
+function test_relative_to(tc, pr)
+r = stdlib.relative_to(pr{1}, pr{2});
+tc.verifyEqual(r, pr{3}, [pr{1} ' ' pr{2}])
+
+r = stdlib.relative_to(string(pr{1}), pr{2});
+tc.verifyEqual(r, string(pr{3}))
+end
+
+function test_proximate_to(tc, pr)
+r = stdlib.proximate_to(pr{1}, pr{2});
+tc.verifyEqual(r, pr{3}, [pr{1} ' ' pr{2}])
+
+r = stdlib.proximate_to(string(pr{1}), pr{2});
+tc.verifyEqual(r, string(pr{3}))
+end
+
 end
 end

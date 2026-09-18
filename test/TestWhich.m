@@ -12,7 +12,7 @@ function test_which_name(tc)
 
 tc.verifyEmpty(stdlib.which(tempname()))
 
-if ispc
+if ispc()
   names = ["pwsh", "pwsh.exe"];
 else
   names = "ls";

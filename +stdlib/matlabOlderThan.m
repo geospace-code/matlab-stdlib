@@ -1,5 +1,4 @@
 %% MATLABOLDERTHAN compare Matlab release name only e.g. R2025a
-% works for Matlab >= R2020b
 %
 % our implementation is about 10x faster than isMATLABReleaseOlderThan(release)
 % it takes about twice as long as using char() manipulations, but much

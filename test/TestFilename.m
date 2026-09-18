@@ -1,22 +1,12 @@
 classdef (TestTags = {'pure'}) TestFilename < StdlibPath
 
 properties (TestParameter)
-p = init_p()
+p
 backend = {'regexp'}
 end
 
 
-methods (Test)
-
-function test_filename(tc, p, backend)
-fn = stdlib.filename(p{1}, backend);
-tc.verifyEqual(fn, p{2})
-end
-
-end
-
-end
-
+methods (TestParameterDefinition, Static)
 
 function p = init_p()
 p = {
@@ -32,4 +22,18 @@ p = {
 if ispc()
   p{end+1} = {'c:/df\df.txt', 'df.txt'};
 end
+end
+
+end
+
+
+methods (Test)
+
+function test_filename(tc, p, backend)
+fn = stdlib.filename(p{1}, backend);
+tc.verifyEqual(fn, p{2})
+end
+
+end
+
 end

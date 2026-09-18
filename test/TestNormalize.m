@@ -14,28 +14,11 @@ p = {
   {"./a/.", "a"}, ...
   {"../a", "../a"}
 };
-d = init_drop_slash()
+d
 end
 
 
-methods (Test)
-
-function test_normalize(tc, p)
-c = stdlib.normalize(p{1});
-
-tc.verifyEqual(c, p{2}, ...
-  sprintf('normalize(%s)', p{1}))
-end
-
-function test_drop_slash(tc, d)
-tc.verifyEqual(stdlib.drop_slash(d{1}), d{2}, ...
-  sprintf('drop_slash(%s)', d{1}))
-end
-
-end
-
-end
-
+methods (TestParameterDefinition, Static)
 
 function d = init_drop_slash()
 d = {...
@@ -57,6 +40,26 @@ if ispc()
     {"c:/a/b//", "c:/a/b"}
   };
   d = [d, dd];
+end
+end
+
+end
+
+
+methods (Test)
+
+function test_normalize(tc, p)
+c = stdlib.normalize(p{1});
+
+tc.verifyEqual(c, p{2}, ...
+  sprintf('normalize(%s)', p{1}))
+end
+
+function test_drop_slash(tc, d)
+tc.verifyEqual(stdlib.drop_slash(d{1}), d{2}, ...
+  sprintf('drop_slash(%s)', d{1}))
+end
+
 end
 
 end

@@ -128,7 +128,7 @@ opts.SupportedPlatforms.Mac = true;
 opts.SupportedPlatforms.Glnxa64 = true;
 opts.SupportedPlatforms.MatlabOnline = true;
 
-opts.MinimumMatlabRelease = "R2020b";
+opts.MinimumMatlabRelease = "R2021a";
 opts.MaximumMatlabRelease = "";
 
 matlab.addons.toolbox.packageToolbox(opts);

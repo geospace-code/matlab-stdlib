@@ -1,26 +1,15 @@
 classdef (TestTags = {'impure'}) TestExpanduser < StdlibPath
 
 properties (TestParameter)
-p = init_exp()
+p
 end
 
 
-methods (Test)
-
-function test_expanduser(tc, p)
-tc.verifyEqual(stdlib.expanduser(p{1}), p{2})
-
-tc.verifyEqual(stdlib.expanduser(string(p{1})), string(p{2}))
-end
-
-end
-
-end
-
+methods (TestParameterDefinition, Static)
 
 function p = init_exp()
 
-if ispc
+if ispc()
   h = getenv('USERPROFILE');
 else
   h = getenv('HOME');
@@ -35,5 +24,20 @@ p = {
 {'~/c', fullfile(h, 'c')}, ...
 {'~//c', fullfile(h, 'c')}, ...
 {fullfile('~', 'c'), fullfile(h, 'c')}};
+
+end
+
+end
+
+
+methods (Test)
+
+function test_expanduser(tc, p)
+tc.verifyEqual(stdlib.expanduser(p{1}), p{2})
+
+tc.verifyEqual(stdlib.expanduser(string(p{1})), string(p{2}))
+end
+
+end
 
 end

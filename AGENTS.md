@@ -3,7 +3,7 @@
 ## Project Overview
 
 This is a standard library project for Matlab, designed to provide a collection of commonly used functions and utilities.
-The minimum Matlab release is R2020b.
+The minimum Matlab release is R2021a.
 The project has a strong emphasis on cross-platform compatibility, performance, and ease of use.
 The namespace of the project is "stdlib" as indicated by all the project functions being under directory "+stdlib/"
 
@@ -24,7 +24,7 @@ There are a few other namespaces that are not external language interfaces:
 Not every language interface may be available on every system, and the availability of specific language interfaces may depend on the installation and configuration of the Matlab environment.
 These stdlib.has_*() functions are intended to run very quickly, caching the result using Matlab "persistent" variables as needed to make them efficient to call multiple times.
 
-The self-test functions under "test/" directory can be used by Matlab >= R2020b as invoked by "test_main.m" at the top level of the project directory.
+The self-test functions under "test/" directory can be used by Matlab >= R2021a as invoked by "test_main.m" at the top level of the project directory.
 Matlab >= R2022b should use "buildtool test" to run the self-tests.
 
 Key limitations driving minimum Matlab version include:
@@ -35,12 +35,13 @@ Key limitations driving minimum Matlab version include:
 * R2018a: mfilename('fullpath') tells the full path to the matlab .m file currently running (empty for older Matlab)
 * R2019b: function argument validation block "arguments"
 * R2020b: `mustBeTextScalar()`, `mustBeText()` functions for function argument validation, used in many places in the code.
+* [R2021a](https://www.mathworks.com/help/matlab/release-notes-R2021a.html): key=value argument syntax for function calls; TestParameterDefinition in matlab.unittest framework
 
 ## Dev Rules
 
 These rules apply under the namespace "stdlib" (directory +stdlib/) and all its sub-namespaces (subdirectories +stdlib/+*).
 
-- The code syntax must work for Matlab >= R2020b
+- The code syntax must work for Matlab >= R2021a
 - The code must not require any Matlab toolboxes, only base Matlab functionality
 - When an exception is encountered, we generally desire that the code return "missing". In certain cases we may throw or rethrow an error.
 - When a backend is not available, we require that the code return "missing". The previous behavior of returning empty array or empty char or empty string is deprecated and being transitioned.

@@ -17,7 +17,7 @@ Matlab R2022b and newer:
 buildtool test
 ```
 
-Matlab R2020b and newer:
+Matlab R2021a and newer:
 
 ```matlab
 test_main
