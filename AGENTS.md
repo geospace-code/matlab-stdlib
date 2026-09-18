@@ -18,8 +18,7 @@ The specific external languages supported (if available on the user system) are
 There are a few other namespaces that are not external language interfaces:
 
 * stdlib.shell under +stdlib/+shell/ uses system() calls to the system shell as a last-resort fallback. The speed of these calls is generally much slower than the other language interfaces.
-* stdlib.native under +stdlib/+native/ uses plain Matlab code to implement functions.
-* stdlib.legacy under +stdlib/+legacy/ uses plain Matlab code to implement functions for older Matlab versions that don't have the specific stdlib.native implementation for that function.
+* stdlib.native under +stdlib/+native/ uses plain Matlab code to implement functions - typically for newer Matlab versions that have the necessary built-in functionality.
 
 Not every language interface may be available on every system, and the availability of specific language interfaces may depend on the installation and configuration of the Matlab environment.
 These stdlib.has_*() functions are intended to run very quickly, caching the result using Matlab "persistent" variables as needed to make them efficient to call multiple times.

@@ -44,6 +44,11 @@ While we created
 [Perl examples](./example/+perl/),
 we omitted these from the main library as they are simply a system() call to "perl.exe".
 
+## Additional resources
+
+We have a Zstd archive extract utility for Matlab that uses compiled C++ code and libzstd included with Matlab as a separate
+[standalone project](https://gist.github.com/scivision/45ae4550b782b6d53c9342f7a376e559).
+
 ## Acknowledgments
 
 Stdlib for Matlab was partly funded by NASA NNH19ZDA001N-HDEE grant 80NSSC20K0176.
