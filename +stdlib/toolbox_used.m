@@ -20,16 +20,17 @@ if ~isMATLABReleaseOlderThan('R2026a')
   end
 end
 
-if ispc()
+if ispc() || ismac()
   old = getenv('KMP_DUPLICATE_LIB_OK');
   setenv('KMP_DUPLICATE_LIB_OK', 'TRUE')
 
-  % otherwise,
+  % these setenv() are used to avoid:
   %   matlab -batch "buildtool test"
   % or
   %   matlab -batch "stdlib.toolbox_used('stdlib')"
   % crash Matlab with:
-  %   OMP: Error #15: Initializing libiomp5md.dll, but found libiomp5md.dll already initialized.
+  % * Windows: OMP: Error #15: Initializing libiomp5md.dll, but found libiomp5md.dll already initialized.
+  % * macOS: OMP: Error #15: Initializing libomp.dylib, but found libomp.dylib already initialized.
   %
   % calling toolbox_used on any one function doesn't fail.
 end
