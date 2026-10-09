@@ -5,6 +5,7 @@ from pathlib import Path
 
 # these are HPC system specific
 version_keys = [
+    "2026b",
     "2026a",
     "2025b",
     "2025a",

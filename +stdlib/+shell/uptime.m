@@ -16,7 +16,7 @@ assert(s == 0, 'stdlib:shell:uptime', 'Error executing uptime command %s: %s', c
 t = str2double(m);
 
 if ismac()
-  t = posixtime(datetime('now', 'TimeZone', 'UTC')) - t;
+  t = posixtime(datetime('now', TimeZone='UTC')) - t;
 end
 
 end

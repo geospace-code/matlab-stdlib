@@ -19,6 +19,6 @@ if isfolder(file)
   finf = finf(i);
 end
 
-t = datetime(finf.datenum, 'ConvertFrom', 'datenum');
+t = datetime(finf.datenum, ConvertFrom='datenum');
 
 end
