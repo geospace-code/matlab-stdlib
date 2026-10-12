@@ -21,11 +21,11 @@ jobs:
   linux-newer:
     # For Matlab >= R2024a
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        release: [R2024a, R2026a]
+        release: [R2024a, latest]
 
     steps:
     - &matlab-install
@@ -47,7 +47,7 @@ jobs:
 
     - &code-issues
       name: Check codeIssues
-      if: ${{ matrix.release >= 'R2024a' || matrix.release == 'latest-including-prerelease' }}
+      if: ${{ matrix.release >= 'R2024a' || startsWith(matrix.release, 'latest') }}
       uses: matlab-actions/run-build@v3
       with:
         tasks: check
@@ -71,7 +71,7 @@ jobs:
 
     strategy:
       matrix:
-        release: [R2025b, R2026a]
+        release: [R2025b, latest]
 
 # macOS:
 #   Matlab >= R2023b compatible with Xcode 15
@@ -99,7 +99,8 @@ jobs:
 
     strategy:
       matrix:
-        release: [R2025b, R2026a]
+        release: [R2025b, latest]
+# R2024b on GHA isn't setup with compilers, but R2025b is on GHA
 
     steps:
     - *matlab-install
@@ -110,46 +111,4 @@ jobs:
     - *test-exe
 
 
-#   matlab-older:
-#     # For R2022a < Matlab < R2024a
-#     needs: linux-newer
-
-#     timeout-minutes: 15
-#     runs-on: ${{ matrix.os }}
-
-#     strategy:
-#       matrix:
-#         # windows and macos also work, just saving CI resources
-#         os: [ubuntu-22.04]
-#         release: [R2023b]
-# # R2022a, R2022b, R2023a, R2023b works, saving CI resources
-
-#     steps:
-#     - *matlab-install
-#     - *mac-fc
-
-#     - *checkout
-#     - *tell-ext
-
-#     - *test-main
-
-# just saving CI resources
-#   matlab-oldest:
-#     # for Matlab < R2022a
-#     needs: linux-newer
-
-#     timeout-minutes: 15
-#     runs-on: ${{ matrix.os }}
-
-#     strategy:
-#       matrix:
-#         os: [ubuntu-latest]
-#         release: [R2021a]
-# # , R2021b  works, saving CI resources
-
-#     steps:
-#     - *matlab-install
-#     - *checkout
-#     - *tell-ext
-
-#     - *test-main
+# R2021a, R2022a, R2022b, R2023a, R2023b works, saving CI resources
