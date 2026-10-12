@@ -7,7 +7,7 @@ on:
     - "**.h"
     - "**.cpp"
     - ".github/workflows/ci.yml"
-    - ".github/workflows/*/action.yml"
+    - ".github/actions/**.yml"
     - "!scripts/**"
     - "!example/**"
 
@@ -55,11 +55,11 @@ jobs:
 
     - &test-main
       name: Main Tests
-      uses: ./.github/workflows/composite-nomex
+      uses: ./.github/actions/composite-nomex
 
     - &test-exe
       name: Exe Tests
-      uses: ./.github/workflows/composite-exe
+      uses: ./.github/actions/composite-exe
       env:
         LD_PRELOAD: /usr/lib/x86_64-linux-gnu/libstdc++.so.6
 
