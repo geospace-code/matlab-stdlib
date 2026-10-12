@@ -1,7 +1,7 @@
 {
     "@context": "https://w3id.org/codemeta/3.0",
     "type": "SoftwareSourceCode",
-    "version": "5.9.2",
+    "version": "5.9.4",
     "license": "https://spdx.org/licenses/MIT",
     "codeRepository": "https://github.com/geospace-code/matlab-stdlib",
     "continuousIntegration": "https://github.com/geospace-code/matlab-stdlib/actions",

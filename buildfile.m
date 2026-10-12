@@ -122,6 +122,7 @@ meta = jsondecode(meta);
 opts.ToolboxName = meta.name;
 opts.ToolboxVersion = meta.version;
 opts.ToolboxFiles = fullfile(context.Plan.RootFolder, "+" + name);
+opts.ToolboxMatlabPath = context.Plan.RootFolder;
 
 opts.SupportedPlatforms.Win64 = true;
 opts.SupportedPlatforms.Mac = true;
